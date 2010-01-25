@@ -1330,7 +1330,6 @@ pro-ctcae/software/web/src/main/webapp/images/blue/logout_tab.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/mailbox.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/blue/maximize-left.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/maximize-right.png -text
-pro-ctcae/software/web/src/main/webapp/images/blue/mega-huge-background.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/minimize-left.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/minimize-right.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/new_form_btn.png -text
@@ -1375,6 +1374,7 @@ pro-ctcae/software/web/src/main/webapp/images/blue/thirdlevelarrow_grey.png -tex
 pro-ctcae/software/web/src/main/webapp/images/blue/thirdlevelnav_grey_gradient.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/undo.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/up.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/wide_header_bg.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/blue_btn_bg.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue_btn_bg_active.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue_btn_bg_hover.png -text

@@ -20,6 +20,7 @@
     <decorator:head/>
 </head>
 <body>
+<div id="proctcae-background"></div>
 <div id="all">
     <standard:header/>
     <div class="tabpane">
