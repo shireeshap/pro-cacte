@@ -89,8 +89,9 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     }
 
     public static int daysBetweenDates(Date first, Date second) {
-        long time = first.getTime();
-        long time1 = second.getTime();
+
+        long time = getCalendarForDate(first).getTimeInMillis();
+        long time1 = getCalendarForDate(second).getTimeInMillis();
         long diff = time - time1;
         return new Long(diff / (1000 * 60 * 60 * 24)).intValue();
     }
@@ -101,6 +102,25 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 
     public static int monthsBetweenDates(Date first, Date second) {
         return (daysBetweenDates(first, second) / 30) + 1;
+    }
+
+    public static Calendar getCalendarForDate(Date date) {
+        SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
+        SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
+        SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
+
+        int month = Integer.parseInt(sdfMonth.format(date));
+        int day = Integer.parseInt(sdfDay.format(date));
+        int year = Integer.parseInt(sdfYear.format(date));
+
+        Calendar c1 = Calendar.getInstance();
+        c1.set(year, month - 1, day);
+        c1.set(Calendar.AM_PM, 0);
+        c1.set(Calendar.HOUR, 0);
+        c1.set(Calendar.MINUTE, 0);
+        c1.set(Calendar.SECOND, 0);
+        c1.set(Calendar.MILLISECOND, 0);
+        return c1;
     }
 
 }
