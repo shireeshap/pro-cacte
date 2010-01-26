@@ -195,11 +195,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-        Date baselineDate = new Date();
-        StudyParticipantCrfSchedule crfSchedule = studyParticipantCrf.getBaseLineSchedule();
-        if (crfSchedule != null) {
-            baselineDate = crfSchedule.getStartDate();
-        }
+        Date baselineDate = studyParticipantCrf.getStartDate();
         setWeekInStudy(DateUtils.weeksBetweenDates(startDate, baselineDate));
         setMonthInStudy(DateUtils.monthsBetweenDates(startDate, baselineDate));
     }
