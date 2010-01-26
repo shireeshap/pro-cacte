@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Vinay Kumar
  * @since Mar 11, 2009
  */
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 
 public class StudyParticipantCrfRepository implements Repository<StudyParticipantCrf, Query> {
     private GenericRepository genericRepository;

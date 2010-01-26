@@ -350,6 +350,12 @@
     <bean name="/participant/moveFormSchedule" id="moveFormSchedule"
           class="gov.nih.nci.ctcae.web.participant.MoveFormController">
     </bean>
+    <bean name="/participant/updateStudyParticipantCrfStartDate" id="updateStudyParticipantCrfStartDate"
+          class="gov.nih.nci.ctcae.web.participant.UpdateStudyParticipantCrfStartDateController "
+          parent="ctcaeSimpleFormController">
+        <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">

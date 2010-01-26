@@ -39,6 +39,18 @@
             var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate,
                 onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 180);
+                    AE.registerCalendarPopups();
+                },
+                method:'get'
+            })
+
+        }
+
+        function showUpdateStartDateWindow(spcrfid) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/updateStudyParticipantCrfStartDate"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&spcrfid=" + spcrfid,
+                onComplete:function(transport) {
                     showConfirmationWindow(transport, 650, 280);
                     AE.registerCalendarPopups();
                 },
@@ -122,8 +134,10 @@
                         <tr>
                             <td>
                                 <b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>
-                                <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>
-
+                                <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;
+                                <%--<a href="javascript:showUpdateStartDateWindow('${participantCrf.id}')">--%>
+                                    <%--Update Start Date--%>
+                                <%--</a>--%>
                             </td>
                         </tr>
                         <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"

@@ -76,17 +76,17 @@
                         <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
                                value="${crfCycleDefinition.repeatTimes}"
                                name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                               <%--class="validate-NUMERIC"--%>
+                            <%--class="validate-NUMERIC"--%>
                                title="Planned Repetitions"/>
                     </td>
                     <td>
                         &nbsp;&nbsp;<b>Due after</b><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
-                               value="${crfCycleDefinition.dueDateValue}"
-                               name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"
-                               <%--class="validate-NUMERIC"--%>
-                               /> <b>Day(s)</b>
-                        <%--<tags:renderText propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"--%>
-                                     <%--displayName="form.calendar.dueAfter" size="2"/>--%>
+                                                           value="${crfCycleDefinition.dueDateValue}"
+                                                           name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"
+                        <%--class="validate-NUMERIC"--%>
+                            /> <b>Day(s)</b>
+                            <%--<tags:renderText propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"--%>
+                            <%--displayName="form.calendar.dueAfter" size="2"/>--%>
                     </td>
                     <td>
                         <tags:button value="Generate" color="blue" size="small"
@@ -107,9 +107,9 @@
                 </table>
             </div>
         </chrome:division>
+        <script type="text/javascript">
+            changePlannedRep('${cycleDefinitionIndex}', '${crfCycleDefinition.repeatTimes}');
+        </script>
     </c:otherwise>
 </c:choose>
 <br/>
-<script type="text/javascript">
-    changePlannedRep('${cycleDefinitionIndex}','${crfCycleDefinition.repeatTimes}');
-</script>

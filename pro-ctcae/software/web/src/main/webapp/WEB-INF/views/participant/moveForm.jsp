@@ -7,32 +7,35 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<style type="text/css">
-    div.row div.label {
-        float: left;
-        font-weight: bold;
-        margin-left: 0.1em;
-        text-align: right;
-        width: 25em;
-    }
-
-    div.row div.value {
-        font-weight: normal;
-        margin-left: 26em;
-        text-align: left;
-    }
-</style>
 <div id="releaseForm">
-    <tags:renderDate propertyName="effectiveStartDate"
-                     displayName="participant.schedule.newdate" required="true" noForm="true"
-                     dateValue="${newdate}"/>
     <table width="100%">
         <tr>
-            <td align="center"><b>Would you like to move only this form, all forms, or this and all following forms?<br></b>
+            <td align="center">
+                <div class="row validate-NOTEMPTY&&DATE" id="effectiveStartDate-row" style="margin-left:5em">
+                    <div class="label" style="width:21em;">
+                        <span class="required-indicator">*</span>&nbsp;
+                        Please provide a new date for this form&nbsp;
+                    </div>
+                    <div class="value">
+                        <input id="effectiveStartDate" class="date validate-NOTEMPTY&&DATE"
+                               name="effectiveStartDate"
+                               title="Please provide a new date for this form"
+                               value="<tags:formatDate value='${newdate}'/>" size="20" enabled=""
+                               type="text">
+                        <a href="#" id="effectiveStartDate-calbutton">
+                            <img src="/proctcae/images/chrome/b-calendar.gif" alt="Calendar" width="17"
+                                 align="absmiddle" border="0"
+                                 height="16">
+                        </a>
+                        <i>(mm/dd/yyyy)</i>
+                    </div>
+                </div>
+
             </td>
         </tr>
         <tr>
-            <td>&nbsp;</td>
+            <td align="center"><b>Would you like to move only this form, all forms, or this and all following forms?<br><br></b>
+            </td>
         </tr>
         <tr>
             <td align="center">
