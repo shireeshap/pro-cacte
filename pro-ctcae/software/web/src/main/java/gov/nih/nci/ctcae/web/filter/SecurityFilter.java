@@ -4,6 +4,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,9 +34,19 @@ public class SecurityFilter implements Filter {
         disableCaching(response);
         //Disable WebDAV, or disallow unneeded HTTP methods
         disallowUnneededHttpMethods(response);
-
+        if (uriContainsIllegalCahracters(request)) {
+            response.sendError(403);
+            return;
+        }
 
         chain.doFilter(new SecurityRequestWrapper(request), new SecurityResponseWrapper(response));
+    }
+
+    private boolean uriContainsIllegalCahracters(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        Pattern p = Pattern.compile("[^a-zA-Z0-9?/=\\.\\-_]");
+        Matcher m = p.matcher(uri);
+        return m.find();
     }
 
 
