@@ -80,7 +80,7 @@
                                title="Planned Repetitions"/>
                     </td>
                     <td>
-                        &nbsp;&nbsp;<b>Due after</b><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
+                        &nbsp;&nbsp;<b>Form expires after </b><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
                                                            value="${crfCycleDefinition.dueDateValue}"
                                                            name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"
                         <%--class="validate-NUMERIC"--%>

@@ -128,11 +128,11 @@ public class CRF extends BaseVersionable {
     private Date activityDate;
 
     @Column(name = "is_baseline", nullable = true)
-    private Boolean createBaseline = false;
+    private Boolean createBaseline = true;
 
     public Boolean isCreateBaseline() {
         if (createBaseline == null) {
-            return false;
+            return true;
         }
         return createBaseline;
     }

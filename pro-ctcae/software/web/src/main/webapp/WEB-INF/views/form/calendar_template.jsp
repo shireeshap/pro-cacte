@@ -468,6 +468,14 @@ function unique(arrayName)
     return newArray;
 }
 
+function baselinCheck(obj) {
+    if (obj.checked) {
+        $('crf.createBaseline').value = true;
+    } else {
+        $('crf.createBaseline').value = false;
+    }
+}
+
 </script>
 </head>
 <body>
@@ -500,6 +508,16 @@ function unique(arrayName)
                     </c:forEach>
                 </table>
             </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;font-weight:bold;vertical-align:top">
+                <c:if test="${command.crf.createBaseline}">
+                    <c:set var="checked" value="checked='true'"/>
+                </c:if>
+                <input type="checkbox" name="baselineCheck" ${checked} onclick="javascript:baselinCheck(this);" checked/>
+                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}" id="crf.createBaseline"/>
+            </td>
+            <td style="text-align:right;font-weight:bold;padding-left:10px;"><tags:message code='form.tab.baseline'/></td>
         </tr>
     </c:if>
     </tr>
