@@ -71,15 +71,15 @@ public class NotificationsEvaluationService {
                     if (notificationRuleCondition.getProCtcQuestionType().equals(proCtcQuestionType)) {
                         switch (notificationRuleCondition.getNotificationRuleOperator()) {
                             case GREATER_EQUAL:
-                                return threshold >= notificationRuleCondition.getThreshold();
+                                return threshold >= notificationRuleCondition.getThreshold().intValue();
                             case EQUAL:
-                                return threshold == notificationRuleCondition.getThreshold();
+                                return threshold == notificationRuleCondition.getThreshold().intValue();
                             case GREATER:
-                                return threshold > notificationRuleCondition.getThreshold();
+                                return threshold > notificationRuleCondition.getThreshold().intValue();
                             case LESS:
-                                return threshold < notificationRuleCondition.getThreshold();
+                                return threshold < notificationRuleCondition.getThreshold().intValue();
                             case LESS_EQUAL:
-                                return threshold <= notificationRuleCondition.getThreshold();
+                                return threshold <= notificationRuleCondition.getThreshold().intValue();
                             default:
                                 return false;
                         }
