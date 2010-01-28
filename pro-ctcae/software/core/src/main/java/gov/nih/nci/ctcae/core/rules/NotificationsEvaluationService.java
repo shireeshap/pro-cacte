@@ -1,11 +1,8 @@
 package gov.nih.nci.ctcae.core.rules;
 
-import com.semanticbits.rules.brxml.RuleSet;
-import com.semanticbits.rules.exception.RuleSetNotFoundException;
-import com.semanticbits.rules.impl.RuleEvaluationResult;
-import com.semanticbits.rules.objectgraph.FactResolver;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -26,76 +23,27 @@ public class NotificationsEvaluationService {
     private static JavaMailSender javaMailSender;
     protected static final Log logger = LogFactory.getLog(NotificationsEvaluationService.class);
     private GenericRepository genericRepository;
-    private ProCtcAERulesService proCtcAERulesService;
 
     public boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) throws Exception {
+        List<NotificationRule> notificationRules = studySite.getNotificationRules();
+        if (notificationRules.size() == 0) {
+            notificationRules = crf.getNotificationRules();
+        }
         ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
         HashSet<User> users = new HashSet<User>();
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(crf, studySite, false);
-        if (ruleSet == null) {
-            return false;
-        }
-        TreeMap<Integer, ArrayList<StudyParticipantCrfItem>> distinctPageNumbers = new TreeMap<Integer, ArrayList<StudyParticipantCrfItem>>();
-        Notification notification = new Notification();
-
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            Integer myPageNumber = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber();
-            ArrayList<StudyParticipantCrfItem> myItems;
-            myItems = distinctPageNumbers.get(myPageNumber);
-            if (myItems == null) {
-                myItems = new ArrayList<StudyParticipantCrfItem>();
-                distinctPageNumbers.put(myPageNumber, myItems);
-            }
-            myItems.add(studyParticipantCrfItem);
-        }
+            for (NotificationRule notificationRule : notificationRules) {
+                if (responseSatisfiesRule(studyParticipantCrfItem, notificationRule)) {
+                    getRecipients(users, emails, notificationRule.getNotificationRuleRoles(), studyParticipantCrfSchedule);
+                    ProCtcQuestion question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                    criticalSymptoms.add(new String[]{question.getProCtcTerm().getTerm(), question.getProCtcQuestionType().getDisplayName()});
 
-        for (Integer pageNumber : distinctPageNumbers.keySet()) {
-            List<StudyParticipantCrfItem> studyParticipantCrfItems = distinctPageNumbers.get(pageNumber);
-
-            if (studyParticipantCrfItems != null && studyParticipantCrfItems.size() > 0) {
-                List<Object> inputObjects = new ArrayList<Object>();
-
-                ArrayList<String[]> temp = new ArrayList<String[]>();
-                for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
-                    if (studyParticipantCrfItem.getProCtcValidValue() != null) {
-                        String[] tempArr = new String[2];
-                        inputObjects.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
-                        tempArr[0] = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
-                        inputObjects.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType());
-                        tempArr[1] = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getDisplayName();
-                        inputObjects.add(studyParticipantCrfItem.getProCtcValidValue());
-                        temp.add(tempArr);
-                    }
-                }
-
-                FactResolver f = new FactResolver();
-                inputObjects.add(f);
-                ProCtcAEFactResolver proCtcAEFactResolver = new ProCtcAEFactResolver();
-                inputObjects.add(proCtcAEFactResolver);
-                inputObjects.add(crf);
-
-                try {
-                    List<Object> outputObjects = proCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
-
-                    for (Object o : outputObjects) {
-                        if (o instanceof RuleEvaluationResult) {
-                            RuleEvaluationResult result = (RuleEvaluationResult) o;
-                            if (!StringUtils.isBlank(result.getMessage())) {
-                                String recipients = result.getMessage();
-                                logger.info("Send email to " + recipients);
-                                getRecipients(users, emails, recipients, studyParticipantCrfSchedule);
-                                criticalSymptoms.addAll(temp);
-                            }
-                        }
-                    }
-                } catch (RuleSetNotFoundException e) {
-                    logger.error("RuleSet not found - " + e.getMessage());
-                    return false;
                 }
             }
         }
-
+        logger.info("Send email to " + users);
+        Notification notification = new Notification();
         if (criticalSymptoms.size() > 0) {
             try {
                 String emailMessage = getEmaiContent(studyParticipantCrfSchedule, criticalSymptoms);
@@ -113,20 +61,47 @@ public class NotificationsEvaluationService {
         return false;
     }
 
+    private boolean responseSatisfiesRule(StudyParticipantCrfItem studyParticipantCrfItem, NotificationRule notificationRule) {
+        ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
+        ProCtcQuestionType proCtcQuestionType = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType();
+        int threshold = studyParticipantCrfItem.getProCtcValidValue().getDisplayOrder();
+        for (NotificationRuleSymptom notificationRuleSymptom : notificationRule.getNotificationRuleSymptoms()) {
+            if (notificationRuleSymptom.getProCtcTerm().equals(proCtcTerm)) {
+                for (NotificationRuleCondition notificationRuleCondition : notificationRule.getNotificationRuleConditions()) {
+                    if (notificationRuleCondition.getProCtcQuestionType().equals(proCtcQuestionType)) {
+                        switch (notificationRuleCondition.getNotificationRuleOperator()) {
+                            case GREATER_EQUAL:
+                                return threshold >= notificationRuleCondition.getThreshold();
+                            case EQUAL:
+                                return threshold == notificationRuleCondition.getThreshold();
+                            case GREATER:
+                                return threshold > notificationRuleCondition.getThreshold();
+                            case LESS:
+                                return threshold < notificationRuleCondition.getThreshold();
+                            case LESS_EQUAL:
+                                return threshold <= notificationRuleCondition.getThreshold();
+                            default:
+                                return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     private static void addEmail(String email, HashSet<String> emails) {
         if (!StringUtils.isBlank(email)) {
             emails.add(email);
         }
     }
 
-    private static void getRecipients(HashSet<User> users, HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private static void getRecipients(HashSet<User> users, HashSet<String> emails, List<NotificationRuleRole> notificationRuleRoles, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
-        StringTokenizer st = new StringTokenizer(message, "||");
-        while (st.hasMoreTokens()) {
-            String token = st.nextToken();
+        for (NotificationRuleRole notificationRuleRole : notificationRuleRoles) {
             ClinicalStaff cs = null;
-            if (token.equals("PrimaryNurse")) {
+            if (notificationRuleRole.getRole().equals(Role.NURSE)) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getResearchNurse();
                 if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                     if (studyParticipantClinicalStaff.isNotify()) {
@@ -134,7 +109,7 @@ public class NotificationsEvaluationService {
                     }
                 }
             }
-            if (token.equals("PrimaryPhysician")) {
+            if (notificationRuleRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getTreatingPhysician();
                 if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                     if (studyParticipantClinicalStaff.isNotify()) {
@@ -142,7 +117,7 @@ public class NotificationsEvaluationService {
                     }
                 }
             }
-            if (token.equals("SiteCRA")) {
+            if (notificationRuleRole.getRole().equals(Role.SITE_CRA)) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                         if (studyParticipantClinicalStaff.isNotify()) {
@@ -151,7 +126,7 @@ public class NotificationsEvaluationService {
                     }
                 }
             }
-            if (token.equals("SitePI")) {
+            if (notificationRuleRole.getRole().equals(Role.SITE_PI)) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                         if (studyParticipantClinicalStaff.isNotify()) {
@@ -160,10 +135,10 @@ public class NotificationsEvaluationService {
                     }
                 }
             }
-            if (token.equals("LeadCRA")) {
+            if (notificationRuleRole.getRole().equals(Role.LEAD_CRA)) {
                 cs = studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff();
             }
-            if (token.equals("PI")) {
+            if (notificationRuleRole.getRole().equals(Role.PI)) {
                 cs = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff();
             }
             if (cs != null) {
@@ -325,7 +300,4 @@ public class NotificationsEvaluationService {
         genericRepository = inGenericRepository;
     }
 
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
 }

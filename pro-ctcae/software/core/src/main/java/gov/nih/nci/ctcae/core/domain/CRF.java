@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
+import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -98,6 +100,10 @@ public class CRF extends BaseVersionable {
     @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
+
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<CRFNotificationRule> crfNotificationRules = new LinkedList<CRFNotificationRule>();
 
 
     /**
@@ -780,25 +786,25 @@ public class CRF extends BaseVersionable {
         this.parentCrf = parentCrf;
     }
 
-    public Set<String> getAllProCtcTermsInCrf() {
-        Set<String> proCtcTerms = new LinkedHashSet<String>();
+    public Set<ProCtcTerm> getAllProCtcTermsInCrf() {
+        Set<ProCtcTerm> proCtcTerms = new LinkedHashSet<ProCtcTerm>();
         for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm().getTerm());
+                proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm());
             }
         }
         return proCtcTerms;
     }
 
-    public Set<String> getAllQuestionTypes() {
-        Set<String> questionTypes = new LinkedHashSet<String>();
+    public Set<ProCtcQuestionType> getAllQuestionTypes() {
+        Set<ProCtcQuestionType> questionTypes = new LinkedHashSet<ProCtcQuestionType>();
         for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                 ProCtcQuestionType questionType = crfPageItem.getProCtcQuestion().getProCtcQuestionType();
                 if (questionType.equals(ProCtcQuestionType.SEVERITY)
                         || questionType.equals(ProCtcQuestionType.INTERFERENCE)
                         || questionType.equals(ProCtcQuestionType.FREQUENCY))
-                    questionTypes.add(questionType.getDisplayName());
+                    questionTypes.add(questionType);
             }
         }
         return questionTypes;
@@ -810,5 +816,37 @@ public class CRF extends BaseVersionable {
 
     public void setActivityDate(Date activityDate) {
         this.activityDate = activityDate;
+    }
+
+    public List<CRFPage> getCrfPages() {
+        return crfPages;
+    }
+
+    public void setCrfPages(List<CRFPage> crfPages) {
+        this.crfPages = crfPages;
+    }
+
+    public List<CRFNotificationRule> getCrfNotificationRules() {
+        return crfNotificationRules;
+    }
+
+    public void setCrfNotificationRules(List<CRFNotificationRule> crfNotificationRules) {
+        this.crfNotificationRules = crfNotificationRules;
+    }
+
+    public void addCrfNotificationRule(CRFNotificationRule crfNotificationRule) {
+        if (crfNotificationRule != null) {
+            crfNotificationRule.setCrf(this);
+            crfNotificationRules.add(crfNotificationRule);
+        }
+    }
+
+    public List<NotificationRule> getNotificationRules() {
+        List<NotificationRule> notificationRules = new ArrayList<NotificationRule>();
+        for (CRFNotificationRule crfNotificationRule : getCrfNotificationRules()) {
+            notificationRules.add(crfNotificationRule.getNotificationRule());
+        }
+        return notificationRules;
+
     }
 }

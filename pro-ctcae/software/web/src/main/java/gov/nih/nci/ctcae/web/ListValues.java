@@ -266,17 +266,16 @@ public class ListValues {
     }
 
 
-    public static List<String> getSymptomsForCRF(CRF crf) {
-        List<String> allSymptoms = new ArrayList<String>();
-        HashSet proCtcTerms = new HashSet();
+    public static List<ProCtcTerm> getSymptomsForCRF(CRF crf) {
+        List<ProCtcTerm> allSymptoms = new ArrayList<ProCtcTerm>();
+        HashSet<ProCtcTerm> proCtcTerms = new HashSet<ProCtcTerm>();
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm());
         }
-        for (Object proCtcTerm1 : proCtcTerms) {
-            ProCtcTerm proCtcTerm = (ProCtcTerm) proCtcTerm1;
-            allSymptoms.add(proCtcTerm.getTerm());
+        for (ProCtcTerm proCtcTerm : proCtcTerms) {
+            allSymptoms.add(proCtcTerm);
         }
-        Collections.sort(allSymptoms);
+        Collections.sort(allSymptoms, new ProCtcTermComparator());
         return allSymptoms;
     }
 
@@ -314,12 +313,12 @@ public class ListValues {
 
     public static List<ListValues> getNotificationOptions() {
         List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov1 = new ListValues("PrimaryPhysician", "Treating physician");
-        ListValues lov2 = new ListValues("PrimaryNurse", "Nurse");
-        ListValues lov3 = new ListValues("SiteCRA", "Site CRA");
-        ListValues lov4 = new ListValues("SitePI", "Site PI");
-        ListValues lov5 = new ListValues("LeadCRA", "Lead CRA");
-        ListValues lov6 = new ListValues("PI", "Overall PI");
+        ListValues lov1 = new ListValues(Role.TREATING_PHYSICIAN.getCode(), Role.TREATING_PHYSICIAN.getScreenText());
+        ListValues lov2 = new ListValues(Role.NURSE.getCode(), Role.NURSE.getScreenText());
+        ListValues lov3 = new ListValues(Role.SITE_CRA.getCode(), Role.SITE_CRA.getScreenText());
+        ListValues lov4 = new ListValues(Role.SITE_PI.getCode(), Role.SITE_PI.getScreenText());
+        ListValues lov5 = new ListValues(Role.LEAD_CRA.getCode(), Role.LEAD_CRA.getScreenText());
+        ListValues lov6 = new ListValues(Role.PI.getCode(), Role.PI.getScreenText());
         col.add(lov1);
         col.add(lov2);
         col.add(lov3);

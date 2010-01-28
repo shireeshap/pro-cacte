@@ -469,6 +469,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/016_update_privile
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/017_update_odc_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/018_update_crf_cycle_definition.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/019_update_crf.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/020_create_notification_rules.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -555,6 +556,13 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/HighL
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/LowLevelTerm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/PreferredTerm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/SystemOrganClass.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/CRFNotificationRule.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRule.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleCondition.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleOperator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleRole.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleSymptom.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/SiteCRFNotificationRule.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
@@ -614,8 +622,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/JavaMailSender.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/NotificationsEvaluationService.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAEFactResolver.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAERule.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAERulesService.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/QuestionTypeAndValueBeanForRules.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectAuthorizationCheck.java -text
@@ -658,8 +664,6 @@ pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationCon
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.xml -text
-pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml -text
-pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-services.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-setup.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
@@ -736,7 +740,6 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticip
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
-pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/rules/ProCtcAERulesServiceTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRASecurityTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
@@ -822,6 +825,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormContro
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDateComparator.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthenticationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text

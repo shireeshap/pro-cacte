@@ -9,7 +9,6 @@ import gov.nih.nci.ctcae.core.repository.secured.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
@@ -44,7 +43,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCrfRepository studyParticipantCrfRepository;
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
-    public static ProCtcAERulesService proCtcAERulesService;
     public static UserNameAndPasswordValidator userNameAndPasswordValidator;
 
     protected String codeBase;
@@ -54,9 +52,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-services.xml"
     };
     protected final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "password";
@@ -277,7 +273,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
-        proCtcAERulesService.logout();
         DataAuditInfo.setLocal(null);
         super.onTearDownInTransaction();
     }
@@ -372,10 +367,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
     }
 
-    @Required
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        TestDataManager.proCtcAERulesService = proCtcAERulesService;
-    }
 
     @Required
     public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {

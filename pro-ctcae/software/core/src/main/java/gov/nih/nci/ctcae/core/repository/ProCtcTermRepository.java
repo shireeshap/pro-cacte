@@ -19,7 +19,7 @@ import java.util.Collection;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQuery> {
 
     private GenericRepository genericRepository;

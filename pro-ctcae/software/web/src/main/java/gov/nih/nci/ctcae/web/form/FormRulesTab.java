@@ -1,12 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -21,7 +22,8 @@ import java.util.Map;
 public class FormRulesTab extends SecuredTab<CreateFormCommand> {
 
     private CRFRepository crfRepository;
-    private ProCtcAERulesService proCtcAERulesService;
+    private ProCtcTermRepository proCtcTermRepository;
+    private GenericRepository genericRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -39,24 +41,20 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        command.setProCtcAERulesService(proCtcAERulesService);
         if (command.getCrf().getTitle() == null) {
             command.getCrf().setTitle(command.getUniqueTitleForCrf());
         }
         if (!command.getCrf().isPersisted()) {
             crfRepository.save(command.getCrf());
         }
-        command.initializeRulesForForm();
         command.setReadonlyview("false");
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = super.referenceData(command);
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
-        map.put("questionTypes", ListValues.getQuestionTypes(command.getCrf()));
-        map.put("comparisonOptions", ListValues.getComparisonOptions());
-        map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
+        map.put("notificationRules", command.getFormRules());
         map.put("isSite", "false");
         return map;
     }
@@ -69,7 +67,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRulesForForm(request);
+            command.processRulesForForm(request, proCtcTermRepository,genericRepository);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +78,12 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         this.crfRepository = crfRepository;
     }
 
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
+    @Required
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

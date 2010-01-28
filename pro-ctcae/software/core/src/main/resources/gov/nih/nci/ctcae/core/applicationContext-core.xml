@@ -68,6 +68,12 @@
         <value>gov.nih.nci.ctcae.core.domain.UserNotification</value>
         <value>gov.nih.nci.ctcae.core.domain.FormArmSchedule</value>
         <value>gov.nih.nci.ctcae.core.domain.Arm</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRuleCondition</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRuleRole</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRuleSymptom</value>
+        <value>gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule</value>
 
 
     </util:list>

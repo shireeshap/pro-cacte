@@ -3,14 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
-import gov.nih.nci.ctcae.web.participant.ParticipantReviewTab;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -94,12 +87,12 @@ public class EditFormController extends FormController {
         if (myOrgStudyLevel != null) {
             FormRulesTab formRulesTab = new FormRulesTab();
             formRulesTab.setCrfRepository(crfRepository);
-            formRulesTab.setProCtcAERulesService(proCtcAERulesService);
+            formRulesTab.setProCtcTermRepository(proCtcTermRepository);
+            formRulesTab.setGenericRepository(genericRepository);
             flow.addTab(formRulesTab);
         } else {
             if (myOrgSiteLevel != null) {
                 SiteRulesTab siteRulesTab = new SiteRulesTab();
-                siteRulesTab.setProCtcAERulesService(proCtcAERulesService);
                 flow.addTab(siteRulesTab);
 
             }

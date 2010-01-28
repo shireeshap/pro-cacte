@@ -12,21 +12,21 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
  */
 public enum Role implements CodedEnum<String> {
 
-    PI("PI", RoleType.STUDY_LEVEL),
-    ADMIN("ADMIN", RoleType.ADMIN),
-    LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL),
-    ODC("ODC", RoleType.STUDY_LEVEL),
-    CCA("CCA", RoleType.STUDY_LEVEL),
+    PI("PI", RoleType.STUDY_LEVEL,"Overall PI"),
+    ADMIN("ADMIN", RoleType.ADMIN, "Admin"),
+    LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL,"Lead CRA"),
+    ODC("ODC", RoleType.STUDY_LEVEL,"Overall Data Coordinator"),
+    CCA("CCA", RoleType.STUDY_LEVEL,"Coordinating Centre Administrator"),
 
 
-    SITE_PI("SITE_PI", RoleType.STUDY_SITE_LEVEL),
-    SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL),
+    SITE_PI("SITE_PI", RoleType.STUDY_SITE_LEVEL, "Site PI"),
+    SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL,"Site CRA"),
 
-    TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL),
-    NURSE("NURSE", RoleType.STUDY_SITE_LEVEL),
+    TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL,"Treating Physician"),
+    NURSE("NURSE", RoleType.STUDY_SITE_LEVEL,"Nurse"),
 
 
-    PARTICIPANT("PARTICIPANT", RoleType.PARTICIPANT_LEVEL);
+    PARTICIPANT("PARTICIPANT", RoleType.PARTICIPANT_LEVEL,"Participant");
 
 
     /**
@@ -34,6 +34,7 @@ public enum Role implements CodedEnum<String> {
      */
     private final String displayText;
     private final RoleType roleType;
+    private final String screenText;
 
     /**
      * Instantiates a new ROLE.
@@ -41,9 +42,10 @@ public enum Role implements CodedEnum<String> {
      * @param displayText the display text
      */
 
-    Role(String displayText, RoleType roleType) {
+    Role(String displayText, RoleType roleType,String screenText) {
         this.displayText = displayText;
         this.roleType = roleType;
+        this.screenText = screenText;
 
         CodedEnumHelper.register(this);
 
@@ -107,5 +109,9 @@ public enum Role implements CodedEnum<String> {
 
     public RoleType getRoleType() {
         return roleType;
+    }
+
+    public String getScreenText() {
+        return screenText;
     }
 }

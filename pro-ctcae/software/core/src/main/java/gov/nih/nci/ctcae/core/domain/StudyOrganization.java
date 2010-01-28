@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -54,6 +56,10 @@ public abstract class StudyOrganization extends BasePersistable {
     @OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+
+    @OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<SiteCRFNotificationRule> siteCRFNotificationRules = new ArrayList<SiteCRFNotificationRule>();
 
 
     @OneToMany(mappedBy = "studyOrganization", fetch = FetchType.LAZY)
@@ -210,5 +216,29 @@ public abstract class StudyOrganization extends BasePersistable {
 
     public List<StudyOrganizationClinicalStaff> getTreatingPhysicians() {
         return getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN);
+    }
+
+    public List<SiteCRFNotificationRule> getSiteCRFNotificationRules() {
+        return siteCRFNotificationRules;
+    }
+
+    public void setSiteCRFNotificationRules(List<SiteCRFNotificationRule> siteCRFNotificationRules) {
+        this.siteCRFNotificationRules = siteCRFNotificationRules;
+    }
+
+    public void addSiteCRFNotificationRules(SiteCRFNotificationRule siteCRFNotificationRule) {
+        if (siteCRFNotificationRule != null) {
+            siteCRFNotificationRule.setStudySite((StudySite) this);
+            siteCRFNotificationRules.add(siteCRFNotificationRule);
+        }
+    }
+
+    public List<NotificationRule> getNotificationRules() {
+        List<NotificationRule> notificationRules = new ArrayList<NotificationRule>();
+        for (SiteCRFNotificationRule siteCRFNotificationRule : getSiteCRFNotificationRules()) {
+            notificationRules.add(siteCRFNotificationRule.getNotificationRule());
+        }
+        return notificationRules;
+
     }
 }

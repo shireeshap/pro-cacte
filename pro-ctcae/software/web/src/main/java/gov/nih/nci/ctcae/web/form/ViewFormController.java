@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 
 /**
  * @author Mehul Gulati
@@ -18,7 +17,6 @@ import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 public class ViewFormController extends AbstractController {
 
     private CRFRepository crfRepository;
-    private ProCtcAERulesService proCtcAERulesService;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -26,11 +24,11 @@ public class ViewFormController extends AbstractController {
         CRF crf = crfRepository.findById(Integer.parseInt(crfId));
         CreateFormCommand command = new CreateFormCommand();
         command.setCrf(crf);
-        command.setProCtcAERulesService(proCtcAERulesService);
-        command.initializeRulesForForm();
+//        command.setProCtcAERulesService(proCtcAERulesService);
+//        command.initializeRulesForForm();
         ModelAndView modelAndView = new ModelAndView("form/viewForm");
         modelAndView.addObject("crf", crf);
-        modelAndView.addObject("rules", command.getFormOrStudySiteRules());
+//        modelAndView.addObject("rules", command.getFormOrStudySiteRules());
         return modelAndView;
     }
 
@@ -38,8 +36,5 @@ public class ViewFormController extends AbstractController {
         this.crfRepository = crfRepository;
     }
 
-    @Required
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
+
 }

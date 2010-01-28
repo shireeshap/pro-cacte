@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
@@ -67,15 +66,10 @@ public class DeleteFormControllerTest extends WebTestCase {
     }
 
     public void testPostRequest() throws Exception {
-        ProCtcAERulesService proCtcAERulesService = new ProCtcAERulesService();
-        controller.setProCtcAERulesService(proCtcAERulesService);
         RuleAuthoringServiceImpl ruleAuthoringService = registerMockFor(RuleAuthoringServiceImpl.class);
         RulesEngineServiceImpl rulesEngineService = registerMockFor(RulesEngineServiceImpl.class);
         RepositoryServiceImpl repositoryService = registerMockFor(RepositoryServiceImpl.class);
 
-        proCtcAERulesService.setRuleAuthoringService(ruleAuthoringService);
-        proCtcAERulesService.setRulesEngineService(rulesEngineService);
-        proCtcAERulesService.setRepositoryService(repositoryService);
         RuleSet ruleSet = new RuleSet();
         Rule rule = new Rule();
         ArrayList<Rule> rules = new ArrayList<Rule>();

@@ -7,7 +7,7 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import org.apache.commons.lang.StringUtils;
@@ -34,10 +34,10 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      * The crf repository.
      */
     protected CRFRepository crfRepository;
-    protected ProCtcAERulesService proCtcAERulesService;
     protected ProCtcTermRepository proCtcTermRepository;
     protected UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
     protected NotEmptyValidator notEmptyValidator;
+    protected GenericRepository genericRepository;
 
     /**
      * /**
@@ -128,7 +128,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.processRulesForForm(request);
+//        createFormCommand.processRulesForForm(request);
         save(createFormCommand);
 
         Map model = new HashMap();
@@ -175,10 +175,6 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         this.crfRepository = crfRepository;
     }
 
-    @Required
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
 
     @Required
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
@@ -193,6 +189,11 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Required
     public void setNotEmptyValidator(NotEmptyValidator notEmptyValidator) {
         this.notEmptyValidator = notEmptyValidator;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 
     @Override

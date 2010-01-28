@@ -29,7 +29,6 @@ public class ParticipantTestHelper {
         genericRepository = TestDataManager.genericRepository;
         notificationsEvaluationService = new NotificationsEvaluationService();
         notificationsEvaluationService.setGenericRepository(genericRepository);
-        notificationsEvaluationService.setProCtcAERulesService(TestDataManager.proCtcAERulesService);
     }
 
     public static void createDefaultParticipants() throws Exception {

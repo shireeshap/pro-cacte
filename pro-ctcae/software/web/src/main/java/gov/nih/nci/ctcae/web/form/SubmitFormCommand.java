@@ -5,10 +5,7 @@ import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
-import gov.nih.nci.ctcae.core.query.CtcQuery;
 
 import java.io.Serializable;
 import java.util.*;
@@ -35,15 +32,13 @@ public class SubmitFormCommand implements Serializable {
     private int currentPageIndex = 1;
     private String direction = "";
     private GenericRepository genericRepository;
-    private ProCtcAERulesService proCtcAERulesService;
     private String flashMessage;
     private List<ProCtcTerm> sortedSymptoms = new ArrayList<ProCtcTerm>();
     private Map<String, List<DisplayQuestion>> symptomQuestionMap = new HashMap<String, List<DisplayQuestion>>();
     private ProCtcTermRepository proCtcTermRepository;
 
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcAERulesService proCtcAERulesService, ProCtcTermRepository proCtcTermRepository) {
+    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcTermRepository proCtcTermRepository) {
         this.genericRepository = genericRepository;
-        this.proCtcAERulesService = proCtcAERulesService;
         this.proCtcTermRepository = proCtcTermRepository;
         schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
         lazyInitializeSchedule();
@@ -165,7 +160,6 @@ public class SubmitFormCommand implements Serializable {
             schedule.setStatus(CrfStatus.COMPLETED);
             NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
             notificationsEvaluationService.setGenericRepository(genericRepository);
-            notificationsEvaluationService.setProCtcAERulesService(proCtcAERulesService);
             notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
             setFlashMessage("You have successfully submitted the form.");
             submit = true;

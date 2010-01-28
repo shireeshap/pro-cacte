@@ -1,17 +1,14 @@
 package gov.nih.nci.ctcae.web.form;
 
-import com.semanticbits.rules.brxml.Rule;
 import com.semanticbits.rules.brxml.RuleSet;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERule;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.Errors;
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -61,14 +58,11 @@ public class CreateFormCommand implements Serializable {
 
     private String crfCycleDefinitionIndexToRemove = "";
 
-    private List<ProCtcAERule> formOrStudySiteRules;
     private String readonlyview = "true";
     private FormArmSchedule selectedFormArmSchedule;
     private FormArmSchedule newSelectedFormArmSchedule;
-    private RuleSet ruleSet;
     private boolean allArms;
     private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
-    private ProCtcAERulesService proCtcAERulesService;
 
     public boolean isAllArms() {
         return allArms;
@@ -82,13 +76,6 @@ public class CreateFormCommand implements Serializable {
         return allArms;
     }
 
-    public RuleSet getRuleSet() {
-        return ruleSet;
-    }
-
-    public void setRuleSet(RuleSet ruleSet) {
-        this.ruleSet = ruleSet;
-    }
 
     public FormArmSchedule getSelectedFormArmSchedule() {
         return selectedFormArmSchedule;
@@ -372,132 +359,57 @@ public class CreateFormCommand implements Serializable {
     }
 
 
-    private List<String> getListForRule(String ruleIndex, HttpServletRequest request, String listType) {
-        List<String> list = new ArrayList<String>();
-        if (listType.equals("notifications") || listType.equals("symptoms")) {
-            String[] strings = request.getParameterValues(listType + "_" + ruleIndex);
-            if (strings != null) {
-                list = Arrays.asList(strings);
-            }
-            return list;
-        } else {
-            int index = 0;
-            while (true) {
-                String parameterName = listType + "_" + ruleIndex + "_" + index;
-                String parameterValue = request.getParameter(parameterName);
-                if (!StringUtils.isBlank(parameterValue)) {
-                    list.add(parameterValue);
-                    index++;
-                } else {
-                    return list;
-                }
+    public List<NotificationRule> getFormRules() {
+        if (crf.getCrfNotificationRules().size() == 0) {
+            addRuleToCrf();
+        }
+        return crf.getNotificationRules();
+    }
+
+    public List<NotificationRule> getSiteRules() {
+        if (myOrg.getSiteCRFNotificationRules().size() == 0) {
+            for (CRFNotificationRule crfNotificationRule : crf.getCrfNotificationRules()) {
+                SiteCRFNotificationRule siteCRFNotificationRule = new SiteCRFNotificationRule();
+                siteCRFNotificationRule.setCrf(crf);
+                siteCRFNotificationRule.setNotificationRule(crfNotificationRule.getNotificationRule().getCopy());
+                myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
             }
         }
+        return myOrg.getNotificationRules();
     }
 
-    public void initializeRules(RuleSet ruleSet) {
-        setRuleSet(ruleSet);
-        formOrStudySiteRules = new ArrayList<ProCtcAERule>();
-        if (ruleSet != null) {
-            for (Rule rule : ruleSet.getRule()) {
-                ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-                formOrStudySiteRules.add(proCtcAERule);
-            }
+    public CRFNotificationRule addRuleToCrf() {
+        NotificationRule notificationRule = new NotificationRule();
+        notificationRule.setTitle("Rule");
+        Set<ProCtcTerm> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
+        ArrayList<ProCtcTerm> symptoms = new ArrayList(allProCtcTermsInCrf);
+        for (ProCtcTerm proCtcTerm : symptoms) {
+            NotificationRuleSymptom notificationRuleSymptom = new NotificationRuleSymptom(proCtcTerm);
+            notificationRule.addNotificationRuleSymptom(notificationRuleSymptom);
         }
-    }
-
-    public List<ProCtcAERule> getFormOrStudySiteRules() {
-        return formOrStudySiteRules;
-    }
-
-
-    public void initializeRulesForForm() {
-        boolean firstTimeRuleCreation = !proCtcAERulesService.ruleSetExists(crf);
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, true);
-
-        createDefaultRule(crf, ruleSet, firstTimeRuleCreation);
-        ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, true);
-        initializeRules(ruleSet);
-    }
-
-    private void createDefaultRule(CRF crf, RuleSet ruleSet, boolean firstTimeRuleCreation) {
-
-        List<String> notifications = new ArrayList<String>();
-        notifications.add("PrimaryNurse");
-        notifications.add("SiteCRA");
-        notifications.add("PrimaryPhysician");
-        notifications.add("LeadCRA");
-        String overwrite = "Y";
-        if (firstTimeRuleCreation) {
-            createDefaultRule(crf, ruleSet, notifications, overwrite);
+        List<ProCtcQuestionType> questiontypes = new ArrayList<ProCtcQuestionType>(crf.getAllQuestionTypes());
+        for (ProCtcQuestionType questionType : questiontypes) {
+            NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
+            notificationRuleCondition.setProCtcQuestionType(questionType);
+            notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
+            notificationRuleCondition.setThreshold(3);
+            notificationRule.addNotificationRuleCondition(notificationRuleCondition);
         }
-    }
 
-    private void createDefaultRule(CRF crf, RuleSet ruleSet, List<String> notifications, String overwrite) {
-        Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
-        ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
-        ArrayList<String> questiontypes = new ArrayList<String>(crf.getAllQuestionTypes());
-        ArrayList<String> operators = new ArrayList<String>();
-        ArrayList<String> values = new ArrayList<String>();
-
-        for (String questionType : questiontypes) {
-            operators.add(">=");
-            values.add("3");
-        }
-        proCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, overwrite, true);
+        notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.NURSE));
+        notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.SITE_CRA));
+        notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.TREATING_PHYSICIAN));
+        notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.LEAD_CRA));
+        CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
+        crfNotificationRule.setDisplayOrder(1);
+        crfNotificationRule.setNotificationRule(notificationRule);
+        crf.addCrfNotificationRule(crfNotificationRule);
+        return crfNotificationRule;
     }
 
 
     public void processRulesForSite(HttpServletRequest request) throws Exception {
-        processRules(request, ruleSet);
-    }
-
-    public void processRulesForForm(HttpServletRequest request) throws Exception {
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, false);
-        processRules(request, ruleSet);
-    }
-
-
-    private void processRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
-        proCtcAERulesService.deployRuleSet(ruleSet);
-        updateExistingRules(request);
-        deleteRules(request, ruleSet);
-        proCtcAERulesService.deployRuleSet(ruleSet);
-    }
-
-    private void deleteRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
-        String rulesToDelete = request.getParameter("rulesToDelete");
-        StringTokenizer st = new StringTokenizer(rulesToDelete, ",");
-        while (st.hasMoreTokens()) {
-            String ruleId = st.nextToken();
-            if (!StringUtils.isBlank(ruleId)) {
-                proCtcAERulesService.deleteRule(ruleId, ruleSet);
-            }
-        }
-    }
-
-    private void updateExistingRules(HttpServletRequest request) {
-        String[] rules = request.getParameterValues("rule");
-        if (rules != null) {
-            for (String ruleId : rules) {
-                String updateRule = request.getParameter("update_" + ruleId);
-                if ("N".equals(updateRule)) {
-                    continue;
-                }
-                List<String> symptoms = getListForRule(ruleId, request, "symptoms");
-                List<String> questiontypes = getListForRule(ruleId, request, "questiontypes");
-                List<String> operators = getListForRule(ruleId, request, "operators");
-                List<String> values = getListForRule(ruleId, request, "values");
-                List<String> notifications = getListForRule(ruleId, request, "notifications");
-                String override = request.getParameter("override_" + ruleId);
-                proCtcAERulesService.updateRule(ruleId, symptoms, questiontypes, operators, values, notifications, override);
-            }
-        }
-    }
-
-    public void initializeRulesForSite() {
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
-        initializeRules(ruleSet);
+//        processRules(request, ruleSet);
     }
 
     public List<CRFCycleDefinition> getInvalidCycleDefinitions() {
@@ -508,9 +420,6 @@ public class CreateFormCommand implements Serializable {
         return "Untitled_" + UUID.randomUUID();
     }
 
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
 
     public StudyOrganization getOrganizationForUser(User loggedInUser, List<Role> roles) {
         StudyOrganization myOrg = null;
@@ -525,5 +434,71 @@ public class CreateFormCommand implements Serializable {
             }
         }
         return myOrg;
+    }
+
+    public void processRulesForForm(HttpServletRequest request, ProCtcTermRepository proCtcTermRepository, GenericRepository genericRepository) {
+
+        List<CRFNotificationRule> crfNotificationRules = new ArrayList<CRFNotificationRule>();
+        for (CRFNotificationRule crfNotificationRule : crf.getCrfNotificationRules()) {
+            crfNotificationRules.add(crfNotificationRule);
+        }
+        for (CRFNotificationRule crfNotificationRule : crfNotificationRules) {
+            crf.getCrfNotificationRules().remove(crfNotificationRule);
+            genericRepository.delete(crfNotificationRule);
+        }
+        crf = genericRepository.save(crf);
+        String[] ruleIds = request.getParameterValues("ruleIds");
+        String rulesToDelete = "," + request.getParameter("rulesToDelete");
+        int displayOrder = 1;
+        if (ruleIds != null) {
+            for (String ruleId : ruleIds) {
+                if (rulesToDelete.indexOf("," + ruleId + ",") == -1) {
+                    CRFNotificationRule crfNotificationRule = createCrfNotificationRule(request, ruleId, displayOrder, proCtcTermRepository);
+                    crf.addCrfNotificationRule(crfNotificationRule);
+                    displayOrder++;
+                }
+            }
+        }
+    }
+
+    private CRFNotificationRule createCrfNotificationRule(HttpServletRequest request, String ruleId, int displayOrder, ProCtcTermRepository proCtcTermRepository) {
+        CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
+        crfNotificationRule.setDisplayOrder(displayOrder);
+
+        NotificationRule notificationRule = new NotificationRule();
+        notificationRule.setTitle("Rule");
+        crfNotificationRule.setNotificationRule(notificationRule);
+
+        String[] notifications = request.getParameterValues("notifications_" + ruleId);
+        if (notifications != null) {
+            for (String notification : notifications) {
+                notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.getByCode(notification)));
+            }
+        }
+        String[] symptoms = request.getParameterValues("symptoms_" + ruleId);
+        if (symptoms != null) {
+            for (String proCtcTermId : symptoms) {
+                notificationRule.addNotificationRuleSymptom(new NotificationRuleSymptom(proCtcTermRepository.findById(Integer.parseInt(proCtcTermId))));
+            }
+        }
+
+        String[] conditions = request.getParameterValues("conditions_" + ruleId);
+        String conditionsToDelete = "," + request.getParameter("delete_conditions_" + ruleId);
+        if (conditions != null) {
+            for (String conditionId : conditions) {
+                if (conditionsToDelete.indexOf(conditionId) == -1) {
+                    String questionType = request.getParameter("questiontype_" + ruleId + "_" + conditionId);
+                    String operator = request.getParameter("operator_" + ruleId + "_" + conditionId);
+                    String threshold = request.getParameter("threshold_" + ruleId + "_" + conditionId);
+                    NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
+                    notificationRuleCondition.setProCtcQuestionType(ProCtcQuestionType.getByCode(questionType));
+                    notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.getByCode(operator));
+                    notificationRuleCondition.setThreshold(Integer.parseInt(threshold));
+                    notificationRule.addNotificationRuleCondition(notificationRuleCondition);
+                }
+            }
+        }
+
+        return crfNotificationRule;
     }
 }

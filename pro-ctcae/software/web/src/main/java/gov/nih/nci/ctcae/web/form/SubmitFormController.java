@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SubmitFormController extends SimpleFormController {
     private GenericRepository genericRepository;
-    private ProCtcAERulesService proCtcAERulesService;
     private ProCtcTermRepository proCtcTermRepository;
 
     public SubmitFormController() {
@@ -60,7 +58,7 @@ public class SubmitFormController extends SimpleFormController {
             command.lazyInitializeSchedule();
             return command;
         }
-        command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcAERulesService, proCtcTermRepository);
+        command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository);
         return command;
     }
 
@@ -90,10 +88,6 @@ public class SubmitFormController extends SimpleFormController {
         this.genericRepository = genericRepository;
     }
 
-    @Required
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
 
     @Required
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {

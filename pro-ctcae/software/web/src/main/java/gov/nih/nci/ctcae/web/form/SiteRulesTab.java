@@ -2,9 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.security.Authentication;
@@ -26,7 +24,6 @@ import com.semanticbits.rules.brxml.RuleSet;
  * @since Nov 3, 2008
  */
 public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
-    private ProCtcAERulesService proCtcAERulesService;
 
     /**
      * Instantiates a new calendar template tab.
@@ -44,10 +41,9 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        command.setProCtcAERulesService(proCtcAERulesService);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) auth.getPrincipal();
-        List<Role> roles= new ArrayList<Role>();
+        List<Role> roles = new ArrayList<Role>();
         roles.add(Role.SITE_CRA);
         roles.add(Role.SITE_PI);
         StudyOrganization myOrg = command.getOrganizationForUser(loggedInUser, roles);
@@ -55,17 +51,14 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
             throw new CtcAeSystemException(String.format("Unable to locate study site for user - %s", loggedInUser.getUsername()));
         }
         command.setMyOrg(myOrg);
-        command.initializeRulesForSite();
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = super.referenceData(command);
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
-        map.put("questionTypes", ListValues.getQuestionTypes(command.getCrf()));
-        map.put("comparisonOptions", ListValues.getComparisonOptions());
-        map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
-        map.put("isSite", "true");
+        map.put("notificationRules", command.getSiteRules());
+        map.put("isSite", "false");
         return map;
     }
 
@@ -76,23 +69,20 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-        try {
-            if ("true".equals(command.getReadonlyview())) {
-                RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
-                command.setRuleSet(ruleSet);
-                command.setReadonlyview("false");
-            } else {
-                command.processRulesForSite(request);
-                command.setReadonlyview("true");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            errors.reject(e.getMessage());
-        }
+//        try {
+//            if ("true".equals(command.getReadonlyview())) {
+//                RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
+////                command.setRuleSet(ruleSet);
+//                command.setReadonlyview("false");
+//            } else {
+//                command.processRulesForSite(request);
+//                command.setReadonlyview("true");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            errors.reject(e.getMessage());
+//        }
         super.postProcess(request, command, errors);
     }
 
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
 }
