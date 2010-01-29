@@ -420,8 +420,30 @@ public class CreateFormCommand implements Serializable {
     }
 
 
-    public void processRulesForSite(HttpServletRequest request) throws Exception {
-//        processRules(request, ruleSet);
+    public void processRulesForSite(HttpServletRequest request, GenericRepository genericRepository) throws Exception {
+        List<SiteCRFNotificationRule> siteCRFNotificationRules = new ArrayList<SiteCRFNotificationRule>();
+        for (SiteCRFNotificationRule siteCRFNotificationRule : myOrg.getSiteCRFNotificationRules()) {
+            siteCRFNotificationRules.add(siteCRFNotificationRule);
+        }
+        for (SiteCRFNotificationRule siteCRFNotificationRule : siteCRFNotificationRules) {
+            myOrg.getSiteCRFNotificationRules().remove(siteCRFNotificationRule);
+            genericRepository.delete(siteCRFNotificationRule);
+        }
+        myOrg = genericRepository.save(myOrg);
+        String[] ruleIds = request.getParameterValues("ruleIds");
+        String rulesToDelete = "," + request.getParameter("rulesToDelete");
+        int displayOrder = 1;
+        if (ruleIds != null) {
+            for (String ruleId : ruleIds) {
+                if (rulesToDelete.indexOf("," + ruleId + ",") == -1) {
+                    SiteCRFNotificationRule siteCRFNotificationRule = createSiteCrfNotificationRule(request, ruleId, displayOrder, genericRepository);
+                    myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
+                    displayOrder++;
+                }
+            }
+        }
+
+
     }
 
     public List<CRFCycleDefinition> getInvalidCycleDefinitions() {
@@ -448,7 +470,7 @@ public class CreateFormCommand implements Serializable {
         return myOrg;
     }
 
-    public void processRulesForForm(HttpServletRequest request, ProCtcTermRepository proCtcTermRepository, GenericRepository genericRepository) {
+    public void processRulesForForm(HttpServletRequest request,  GenericRepository genericRepository) {
 
         List<CRFNotificationRule> crfNotificationRules = new ArrayList<CRFNotificationRule>();
         for (CRFNotificationRule crfNotificationRule : crf.getCrfNotificationRules()) {
@@ -465,7 +487,7 @@ public class CreateFormCommand implements Serializable {
         if (ruleIds != null) {
             for (String ruleId : ruleIds) {
                 if (rulesToDelete.indexOf("," + ruleId + ",") == -1) {
-                    CRFNotificationRule crfNotificationRule = createCrfNotificationRule(request, ruleId, displayOrder, proCtcTermRepository);
+                    CRFNotificationRule crfNotificationRule = createCrfNotificationRule(request, ruleId, displayOrder, genericRepository);
                     crf.addCrfNotificationRule(crfNotificationRule);
                     displayOrder++;
                 }
@@ -473,13 +495,28 @@ public class CreateFormCommand implements Serializable {
         }
     }
 
-    private CRFNotificationRule createCrfNotificationRule(HttpServletRequest request, String ruleId, int displayOrder, ProCtcTermRepository proCtcTermRepository) {
+    private CRFNotificationRule createCrfNotificationRule(HttpServletRequest request, String ruleId, int displayOrder, GenericRepository genericRepository) {
         CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
         crfNotificationRule.setDisplayOrder(displayOrder);
 
+        NotificationRule notificationRule = createNotificationRule(request, ruleId, genericRepository);
+        crfNotificationRule.setNotificationRule(notificationRule);
+        return crfNotificationRule;
+    }
+
+    private SiteCRFNotificationRule createSiteCrfNotificationRule(HttpServletRequest request, String ruleId, int displayOrder, GenericRepository genericRepository) {
+        SiteCRFNotificationRule siteCRFNotificationRule = new SiteCRFNotificationRule();
+        siteCRFNotificationRule.setDisplayOrder(displayOrder);
+        siteCRFNotificationRule.setCrf(crf);
+
+        NotificationRule notificationRule = createNotificationRule(request, ruleId, genericRepository);
+        siteCRFNotificationRule.setNotificationRule(notificationRule);
+        return siteCRFNotificationRule;
+    }
+
+    private NotificationRule createNotificationRule(HttpServletRequest request, String ruleId, GenericRepository genericRepository) {
         NotificationRule notificationRule = new NotificationRule();
         notificationRule.setTitle("Rule");
-        crfNotificationRule.setNotificationRule(notificationRule);
 
         String[] notifications = request.getParameterValues("notifications_" + ruleId);
         if (notifications != null) {
@@ -490,7 +527,7 @@ public class CreateFormCommand implements Serializable {
         String[] symptoms = request.getParameterValues("symptoms_" + ruleId);
         if (symptoms != null) {
             for (String proCtcTermId : symptoms) {
-                notificationRule.addNotificationRuleSymptom(new NotificationRuleSymptom(proCtcTermRepository.findById(Integer.parseInt(proCtcTermId))));
+                notificationRule.addNotificationRuleSymptom(new NotificationRuleSymptom(genericRepository.findById(ProCtcTerm.class, Integer.parseInt(proCtcTermId))));
             }
         }
 
@@ -511,7 +548,9 @@ public class CreateFormCommand implements Serializable {
             }
         }
 
-        return crfNotificationRule;
+        String override = request.getParameter("override_" + ruleId);
+        notificationRule.setSiteOverRide(new Boolean(override));
+        return notificationRule;
     }
 
     public SiteCRFNotificationRule addRuleToSite() {

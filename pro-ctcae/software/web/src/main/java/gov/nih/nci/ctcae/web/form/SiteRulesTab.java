@@ -71,19 +71,11 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-//        try {
-//            if ("true".equals(command.getReadonlyview())) {
-//                RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
-////                command.setRuleSet(ruleSet);
-//                command.setReadonlyview("false");
-//            } else {
-//                command.processRulesForSite(request);
-//                command.setReadonlyview("true");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            errors.reject(e.getMessage());
-//        }
+        try {
+            command.processRulesForSite(request,genericRepository);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.postProcess(request, command, errors);
     }
 

@@ -36,7 +36,7 @@ public class NotificationRule extends BasePersistable {
     private String title;
 
     @Column(name = "site_override", nullable = false)
-    private boolean siteOverRide = false;
+    private boolean siteOverRide = true;
 
     @OneToMany(mappedBy = "notificationRule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
@@ -150,6 +150,7 @@ public class NotificationRule extends BasePersistable {
         for (NotificationRuleRole notificationRuleRole : notificationRuleRoles) {
             notificationRule.addNotificationRuleRole(notificationRuleRole.getCopy());
         }
+        notificationRule.setSiteOverRide(siteOverRide);
         return notificationRule;
     }
 

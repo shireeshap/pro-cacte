@@ -67,7 +67,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRulesForForm(request, proCtcTermRepository, genericRepository);
+            command.processRulesForForm(request, genericRepository);
         } catch (Exception e) {
             e.printStackTrace();
         }

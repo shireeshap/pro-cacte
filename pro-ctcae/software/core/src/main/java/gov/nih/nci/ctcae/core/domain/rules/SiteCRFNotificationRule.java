@@ -40,7 +40,7 @@ public class SiteCRFNotificationRule extends BasePersistable {
 
     @JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    @Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @Cascade(value = {org.hibernate.annotations.CascadeType.PERSIST})
     private CRF crf;
 
     public CRF getCrf() {
