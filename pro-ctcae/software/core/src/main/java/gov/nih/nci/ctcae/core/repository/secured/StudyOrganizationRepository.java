@@ -37,7 +37,7 @@ public class StudyOrganizationRepository implements Repository<StudyOrganization
     }
 
     public StudyOrganization save(StudyOrganization studyOrganization) {
-        return null;
+        return genericRepository.save(studyOrganization);
 
 
     }
