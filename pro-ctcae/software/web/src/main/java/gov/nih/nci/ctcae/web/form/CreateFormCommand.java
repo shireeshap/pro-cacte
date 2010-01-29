@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -359,26 +360,41 @@ public class CreateFormCommand implements Serializable {
     }
 
 
-    public List<NotificationRule> getFormRules() {
+    public List<NotificationRule> getFormRules(CRFRepository crfRepository) {
         if (crf.getCrfNotificationRules().size() == 0) {
             addRuleToCrf();
         }
+        crf = crfRepository.save(crf);
         return crf.getNotificationRules();
     }
 
-    public List<NotificationRule> getSiteRules() {
+    public List<NotificationRule> getSiteRules(GenericRepository genericRepository) {
+
         if (myOrg.getSiteCRFNotificationRules().size() == 0) {
+            int displayOrder = 1;
             for (CRFNotificationRule crfNotificationRule : crf.getCrfNotificationRules()) {
                 SiteCRFNotificationRule siteCRFNotificationRule = new SiteCRFNotificationRule();
                 siteCRFNotificationRule.setCrf(crf);
                 siteCRFNotificationRule.setNotificationRule(crfNotificationRule.getNotificationRule().getCopy());
+                siteCRFNotificationRule.setDisplayOrder(displayOrder);
                 myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
+                displayOrder++;
             }
         }
+        myOrg = genericRepository.save(myOrg);
         return myOrg.getNotificationRules();
     }
 
     public CRFNotificationRule addRuleToCrf() {
+        NotificationRule notificationRule = createNotificationRule();
+        CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
+        crfNotificationRule.setDisplayOrder(crf.getCrfNotificationRules().size());
+        crfNotificationRule.setNotificationRule(notificationRule);
+        crf.addCrfNotificationRule(crfNotificationRule);
+        return crfNotificationRule;
+    }
+
+    private NotificationRule createNotificationRule() {
         NotificationRule notificationRule = new NotificationRule();
         notificationRule.setTitle("Rule");
         Set<ProCtcTerm> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
@@ -400,11 +416,7 @@ public class CreateFormCommand implements Serializable {
         notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.SITE_CRA));
         notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.TREATING_PHYSICIAN));
         notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.LEAD_CRA));
-        CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
-        crfNotificationRule.setDisplayOrder(1);
-        crfNotificationRule.setNotificationRule(notificationRule);
-        crf.addCrfNotificationRule(crfNotificationRule);
-        return crfNotificationRule;
+        return notificationRule;
     }
 
 
@@ -500,5 +512,14 @@ public class CreateFormCommand implements Serializable {
         }
 
         return crfNotificationRule;
+    }
+
+    public SiteCRFNotificationRule addRuleToSite() {
+        NotificationRule notificationRule = createNotificationRule();
+        SiteCRFNotificationRule siteCRFNotificationRule = new SiteCRFNotificationRule();
+        siteCRFNotificationRule.setDisplayOrder(myOrg.getSiteCRFNotificationRules().size());
+        siteCRFNotificationRule.setNotificationRule(notificationRule);
+        myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
+        return siteCRFNotificationRule;
     }
 }

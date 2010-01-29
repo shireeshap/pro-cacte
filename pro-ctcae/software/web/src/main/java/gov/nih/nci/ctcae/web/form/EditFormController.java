@@ -93,6 +93,7 @@ public class EditFormController extends FormController {
         } else {
             if (myOrgSiteLevel != null) {
                 SiteRulesTab siteRulesTab = new SiteRulesTab();
+                siteRulesTab.setGenericRepository(genericRepository);
                 flow.addTab(siteRulesTab);
 
             }

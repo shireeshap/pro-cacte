@@ -2,6 +2,7 @@ class CreateNotificationRulesTable extends edu.northwestern.bioinformatics.berin
     void up() {
         createTable("NOTIFICATION_RULES") { t ->
             t.addColumn("title", "string", nullable: false)
+            t.addColumn("site_override", "boolean", nullable: false)
         }
 
         createTable("SITE_CRF_NOTIFICATION_RULES") { t ->

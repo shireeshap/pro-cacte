@@ -54,7 +54,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         Map<String, Object> map = super.referenceData(command);
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
-        map.put("notificationRules", command.getFormRules());
+        map.put("notificationRules", command.getFormRules(crfRepository));
         map.put("isSite", "false");
         return map;
     }
@@ -67,7 +67,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRulesForForm(request, proCtcTermRepository,genericRepository);
+            command.processRulesForForm(request, proCtcTermRepository, genericRepository);
         } catch (Exception e) {
             e.printStackTrace();
         }

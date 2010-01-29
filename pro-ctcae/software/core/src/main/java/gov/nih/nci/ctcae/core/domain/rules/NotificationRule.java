@@ -34,6 +34,10 @@ public class NotificationRule extends BasePersistable {
 
     @Column(name = "title", nullable = true)
     private String title;
+
+    @Column(name = "site_override", nullable = false)
+    private boolean siteOverRide = false;
+
     @OneToMany(mappedBy = "notificationRule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<NotificationRuleCondition> notificationRuleConditions = new LinkedList<NotificationRuleCondition>();
@@ -136,6 +140,7 @@ public class NotificationRule extends BasePersistable {
 
     public NotificationRule getCopy() {
         NotificationRule notificationRule = new NotificationRule();
+        notificationRule.setTitle(title);
         for (NotificationRuleSymptom notificationRuleSymptom : notificationRuleSymptoms) {
             notificationRule.addNotificationRuleSymptom(notificationRuleSymptom.getCopy());
         }
@@ -146,5 +151,13 @@ public class NotificationRule extends BasePersistable {
             notificationRule.addNotificationRuleRole(notificationRuleRole.getCopy());
         }
         return notificationRule;
+    }
+
+    public boolean isSiteOverRide() {
+        return siteOverRide;
+    }
+
+    public void setSiteOverRide(boolean siteOverRide) {
+        this.siteOverRide = siteOverRide;
     }
 }

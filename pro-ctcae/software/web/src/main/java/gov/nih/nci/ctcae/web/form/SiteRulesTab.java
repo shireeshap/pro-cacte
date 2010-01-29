@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.security.Authentication;
@@ -24,6 +25,7 @@ import com.semanticbits.rules.brxml.RuleSet;
  * @since Nov 3, 2008
  */
 public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
+    private GenericRepository genericRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -57,8 +59,8 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         Map<String, Object> map = super.referenceData(command);
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
-        map.put("notificationRules", command.getSiteRules());
-        map.put("isSite", "false");
+        map.put("notificationRules", command.getSiteRules(genericRepository));
+        map.put("isSite", "true");
         return map;
     }
 
@@ -85,4 +87,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         super.postProcess(request, command, errors);
     }
 
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
 }
