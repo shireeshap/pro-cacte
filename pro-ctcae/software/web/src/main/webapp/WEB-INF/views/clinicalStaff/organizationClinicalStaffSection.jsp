@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
-    acCreate(new clinicalStaffSiteAutoComplter('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization'))
+    acCreate(new siteAutoComplterWithSecurity('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization'))
     initSearchField()
 </script>
 
