@@ -589,6 +589,8 @@
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
         <property name="proCtcRepository" ref="proCtcRepository"/>
     </bean>
-
+    <bean name="applicationListener" class="gov.nih.nci.ctcae.web.security.ApplicationListener">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
 
 </beans>

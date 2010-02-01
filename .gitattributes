@@ -897,6 +897,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/Sym
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesChartGenerator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryWorstResponsesChartGenerator.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/ApplicationListener.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
