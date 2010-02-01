@@ -44,6 +44,27 @@
             })
 
         }
+        var thresholds = new Array();
+        <c:forEach items="${allQuestionTypes}" var="qType" >
+        thresholds['${qType.displayName}'] = new Array();
+        <c:forEach items="${qType.validValues}" var="vValue" varStatus="vStatus">
+        thresholds['${qType.displayName}'][${vStatus.index}] = '${vValue}';
+        </c:forEach>
+        </c:forEach>
+
+        function changeThresholds(obj, ruleId, ruleConditionIndex) {
+            var thV = thresholds[obj.value];
+            var selectThres = $('threshold_' + ruleId + '_' + ruleConditionIndex);
+            for (i = selectThres.length - 1; i >= 0; i--) {
+                selectThres.remove(i);
+            }
+            for (var j = 0; j < thV.length; j++) {
+                var elOptNew = document.createElement('option');
+                elOptNew.text = thV[j];
+                elOptNew.value = j;
+                selectThres.add(elOptNew);
+            }
+        }
     </script>
 
 </head>

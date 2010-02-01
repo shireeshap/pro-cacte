@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Arrays;
 
 //
 /**
@@ -55,6 +57,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
         map.put("notificationRules", command.getFormRules(crfRepository));
+        map.put("allQuestionTypes", Arrays.asList(ProCtcQuestionType.values()));
         map.put("isSite", "false");
         return map;
     }

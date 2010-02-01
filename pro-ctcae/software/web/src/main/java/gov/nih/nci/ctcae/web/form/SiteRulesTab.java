@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import com.semanticbits.rules.brxml.RuleSet;
 
@@ -60,6 +61,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
         map.put("notificationRules", command.getSiteRules(genericRepository));
+        map.put("allQuestionTypes", Arrays.asList(ProCtcQuestionType.values()));
         map.put("isSite", "true");
         return map;
     }
@@ -72,7 +74,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRulesForSite(request,genericRepository);
+            command.processRulesForSite(request, genericRepository);
         } catch (Exception e) {
             e.printStackTrace();
         }

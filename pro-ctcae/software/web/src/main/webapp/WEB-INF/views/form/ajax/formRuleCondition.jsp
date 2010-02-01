@@ -8,7 +8,8 @@
     </td>
     <td align="left">
         <tags:renderSelect noForm="true" name="questiontype_${ruleId}_${ruleConditionIndex}" options="${questionTypes}"
-                           propertyValue="${condition.proCtcQuestionType.code}" doNotshowLabel="true"/>
+                           propertyValue="${condition.proCtcQuestionType.code}" doNotshowLabel="true"
+                           onchange="javascript:changeThresholds(this,${ruleId},${ruleConditionIndex});"/>
     </td>
     <td align="left">
         <tags:renderSelect noForm="true" name="operator_${ruleId}_${ruleConditionIndex}" options="${operators}"
@@ -32,13 +33,3 @@
                      onclick="deleteCondition('${ruleId}','${ruleConditionIndex}');"/>
     </td>
 </tr>
-<script type="text/javascript">
-
-    var thresholds_${ruleConditionIndex} = new Array();
-    <c:forEach items="${questionTypes}" var="qType" varStatus="status">
-    thresholds_${ruleConditionIndex}[${status.index}] = new Array();
-    <c:forEach items="${qType.validValues}" var="vValue" varStatus="vStatus">
-    thresholds_${ruleConditionIndex}[${status.index}][${vStatus.index}] =
-    </c:forEach>
-    </c:forEach>
-</script>
