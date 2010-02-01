@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import org.apache.commons.lang.StringUtils;
@@ -38,6 +39,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     protected UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
     protected NotEmptyValidator notEmptyValidator;
     protected GenericRepository genericRepository;
+    protected UserRepository userRepository;
 
     /**
      * /**
@@ -194,6 +196,11 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override

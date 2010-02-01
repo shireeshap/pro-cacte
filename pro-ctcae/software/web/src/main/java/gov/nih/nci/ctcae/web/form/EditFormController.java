@@ -59,7 +59,7 @@ public class EditFormController extends FormController {
     @Override
     public Flow<CreateFormCommand> getFlow(CreateFormCommand command) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User loggedInUser = (User) auth.getPrincipal();
+        User loggedInUser = userRepository.findById(((User) auth.getPrincipal()).getId());
         List<Role> roles = new ArrayList<Role>();
         roles.add(Role.PI);
         roles.add(Role.LEAD_CRA);

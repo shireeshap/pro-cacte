@@ -155,11 +155,13 @@
     <bean name="/form/basicForm" id="basicFormController" class="gov.nih.nci.ctcae.web.form.BasicFormController"
           parent="formController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean name="/form/editForm" id="editFormController" class="gov.nih.nci.ctcae.web.form.EditFormController"
           parent="formController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean id="formController" class="gov.nih.nci.ctcae.web.form.FormController" abstract="true"
