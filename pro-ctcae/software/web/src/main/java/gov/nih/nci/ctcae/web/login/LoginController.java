@@ -39,8 +39,11 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        if(!user.isAccountNonLocked()){
-            return new ModelAndView("accountLocked");            
+        if (!user.isAccountNonLocked()) {
+            return new ModelAndView("accountLocked");
+        } else {
+            user.setNumberOfAttempts(0);
+            userRepository.save(user);
         }
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
@@ -80,7 +83,7 @@ public class LoginController extends AbstractController {
                     if (role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)) {
                         nurseLevelRole = true;
                     }
-                    if (role.equals(Role.ODC)){
+                    if (role.equals(Role.ODC)) {
                         odc = true;
                     }
                     if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)) {
