@@ -531,9 +531,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivileg
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleColumnObjectType.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleSetType.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
@@ -622,8 +619,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/JavaMailSender.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/NotificationsEvaluationService.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAEFactResolver.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/QuestionTypeAndValueBeanForRules.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectAuthorizationCheck.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectGroupPrivilegeGenerator.java -text
