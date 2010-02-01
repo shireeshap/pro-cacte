@@ -38,6 +38,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     protected Log logger = LogFactory.getLog(getClass());
     protected Properties proCtcAEProperties;
     private GenericRepository genericRepository;
+    private boolean checkAccountLockout = true;
 
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
@@ -135,23 +136,25 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     private void checkAccountLock(User user) {
-        Integer numOfAttempts = user.getNumberOfAttempts();
-        if (numOfAttempts == null) {
-            numOfAttempts = 0;
+        if (checkAccountLockout) {
+            Integer numOfAttempts = user.getNumberOfAttempts();
+            if (numOfAttempts == null) {
+                numOfAttempts = 0;
+            }
+            int allowedAttempts = 7;
+            String lockout = proCtcAEProperties.getProperty("lockout.attempts");
+            if (!StringUtils.isBlank(lockout)) {
+                allowedAttempts = Integer.parseInt(lockout);
+            }
+            user.setAccountNonLocked(true);
+            if (numOfAttempts >= allowedAttempts) {
+                user.setAccountNonLocked(false);
+            }
+            user.setNumberOfAttempts(numOfAttempts + 1);
+            DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+            DataAuditInfo.setLocal(auditInfo);
+            user = genericRepository.save(user);
         }
-        int allowedAttempts = 7;
-        String lockout = proCtcAEProperties.getProperty("lockout.attempts");
-        if (!StringUtils.isBlank(lockout)) {
-            allowedAttempts = Integer.parseInt(lockout);
-        }
-        user.setAccountNonLocked(true);
-        if (numOfAttempts >= allowedAttempts) {
-            user.setAccountNonLocked(false);
-        }
-        user.setNumberOfAttempts(numOfAttempts + 1);
-        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
-        DataAuditInfo.setLocal(auditInfo);
-        user = genericRepository.save(user);
     }
 
 
@@ -261,6 +264,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     @Required
     public void setProCtcAEProperties(Properties proCtcAEProperties) {
         this.proCtcAEProperties = proCtcAEProperties;
+    }
+
+    public void setCheckAccountLockout(boolean checkAccountLockout) {
+        this.checkAccountLockout = checkAccountLockout;
     }
 }
 

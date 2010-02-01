@@ -26,7 +26,17 @@ public class ApplicationListener implements org.springframework.context.Applicat
             if (!user.isAccountNonLocked()) {
                 auth.setAuthenticated(false);
             } else {
-                user.setNumberOfAttempts(0);
+                if (user.getNumberOfAttempts() > 0) {
+                    user.setNumberOfAttempts(0);
+                    userRepository.save(user);
+                    String password = (String) auth.getCredentials();
+                    userRepository.setCheckAccountLockout(false);
+                    User loadedUser = userRepository.loadUserByUsername(user.getUsername());
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, password, loadedUser.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(token);
+                    userRepository.setCheckAccountLockout(true);
+
+                }
             }
         }
     }
