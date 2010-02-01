@@ -42,6 +42,7 @@ public class ParticipantCommand {
     private List<StudyParticipantClinicalStaff> notificationStaffToRemove = new ArrayList<StudyParticipantClinicalStaff>();
     private Set<Organization> clinicalStaffOrgs = new HashSet<Organization>();
     private boolean readOnly = false;
+    private boolean readOnlyUserName = true;
 
     /**
      * Instantiates a new participant command.
@@ -242,5 +243,9 @@ public class ParticipantCommand {
 
     public boolean isReadOnly() {
         return readOnly;
+    }
+
+    public void setReadOnlyUserName(boolean readOnlyUserName) {
+        this.readOnlyUserName = readOnlyUserName;
     }
 }

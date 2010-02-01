@@ -49,7 +49,6 @@
         });
 
 
-
         function showForms(obj, id) {
             var sites = document.getElementsByName('studySites');
             for (var i = 0; i < sites.length; i++) {
@@ -222,11 +221,10 @@
                <tr>
                    <td>
                        <c:choose>
-                           <c:when test="${not empty command.participant.user.username}">
+                           <c:when test="${command.readOnlyUserName}">
                                <div class="row">
-                                   <div class="label"><spring:message code="participant.label.username"/></div>
-                                   <div class="value">${command.participant.user.username}
-                                       &nbsp;</div>
+                                   <div class="label"><spring:message code="participant.label.username"/>&nbsp;</div>
+                                   <div class="value">${command.participant.user.username}</div>
                                    <input type="hidden" id="participant.user.username"
                                           name="participant.user.username"
                                           value="${command.participant.user.username}">
@@ -240,7 +238,7 @@
                        </c:choose>
                    </td>
                    <td>
-                       <c:if test="${not empty command.participant.user.password}">
+                       <c:if test="${command.readOnlyUserName}">
                            <c:set var="style" value="display:none"/>
                            <div id="resetpass" class="label">
                                &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>

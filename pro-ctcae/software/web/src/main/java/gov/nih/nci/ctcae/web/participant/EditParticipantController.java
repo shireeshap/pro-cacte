@@ -54,6 +54,7 @@ public class EditParticipantController extends ParticipantController {
             userRole.getId();
         }
         command.setReadOnly(false);
+        command.setReadOnlyUserName(true);
         for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
             StudyOrganization studySite = studyParticipantAssignment.getStudySite();
             studySite.getStudy().getCrfs();
