@@ -39,6 +39,7 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
+        user = userRepository.findById(user.getId());
         if (!user.isAccountNonLocked()) {
             return new ModelAndView("accountLocked");
         } else {
@@ -60,7 +61,6 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
-        user = userRepository.findById(user.getId());
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff == null) {
             throw new CtcAeSystemException("User must be one of these - Clinical Staff, Participant, Admin - " + user.getUsername());

@@ -144,7 +144,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         if (!StringUtils.isBlank(lockout)) {
             allowedAttempts = Integer.parseInt(lockout);
         }
-
+        user.setAccountNonLocked(true);
         if (numOfAttempts >= allowedAttempts) {
             user.setAccountNonLocked(false);
         }
