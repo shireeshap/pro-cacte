@@ -39,13 +39,6 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        user = userRepository.findById(user.getId());
-        if (!user.isAccountNonLocked()) {
-            return new ModelAndView("accountLocked");
-        } else {
-            user.setNumberOfAttempts(0);
-            userRepository.save(user);
-        }
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
                 if (ControllersUtils.isRequestComingFromMobile(request)) {
@@ -61,6 +54,7 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
+        user = userRepository.findById(user.getId());
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff == null) {
             throw new CtcAeSystemException("User must be one of these - Clinical Staff, Participant, Admin - " + user.getUsername());
