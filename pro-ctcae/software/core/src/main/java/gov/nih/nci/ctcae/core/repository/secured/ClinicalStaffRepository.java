@@ -30,6 +30,8 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
         if (user != null) {
+            user.setAccountNonLocked(true);
+            user.setNumberOfAttempts(0);
             user = userRepository.save(user);
         }
         clinicalStaff = genericRepository.save(clinicalStaff);

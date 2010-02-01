@@ -56,6 +56,8 @@ public class ParticipantRepository implements Repository<Participant, Participan
             UserRole userRole = new UserRole();
             userRole.setRole(Role.PARTICIPANT);
             user.addUserRole(userRole);
+            user.setNumberOfAttempts(0);
+            user.setAccountNonLocked(true);
             user = userRepository.save(user);
             participant = genericRepository.save(participant);
 
