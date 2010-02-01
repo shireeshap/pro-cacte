@@ -71,6 +71,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         ParticipantCommand command = new ParticipantCommand();
+        command.setReadOnlyUserName(false);
         populateOrganizationsForUser(command);
         String mode = proCtcAEProperties.getProperty("mode.identifier");
         command.setMode(mode);

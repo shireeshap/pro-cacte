@@ -220,6 +220,7 @@
            <table cellpadding="0" cellspacing="0">
                <tr>
                    <td>
+                           ${command.readOnlyUserName}
                        <c:choose>
                            <c:when test="${command.readOnlyUserName}">
                                <div class="row">

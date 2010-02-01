@@ -53,11 +53,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
+        command.setReadOnlyUserName(true);
         if (!userNameAndPasswordValidator.validate(user)) {
             errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
             command.setReadOnlyUserName(false);
         }
-        command.setReadOnlyUserName(true);
 
     }
 

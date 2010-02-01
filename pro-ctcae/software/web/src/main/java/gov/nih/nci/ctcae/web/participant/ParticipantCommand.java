@@ -248,4 +248,8 @@ public class ParticipantCommand {
     public void setReadOnlyUserName(boolean readOnlyUserName) {
         this.readOnlyUserName = readOnlyUserName;
     }
+
+    public boolean isReadOnlyUserName() {
+        return readOnlyUserName;
+    }
 }
