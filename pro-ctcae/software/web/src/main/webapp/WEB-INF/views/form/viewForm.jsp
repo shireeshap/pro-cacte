@@ -108,11 +108,9 @@
     </c:forEach>
 </div>
 <div id="notifications" style="display:none;" class="formpages">
-    <c:forEach items="${rules}" var="proCtcAeRule" varStatus="status">
-        <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
-                       siteReadOnlyView="true"/>
+    <c:forEach items="${crf.crfNotificationRules}" var="notificationRule" varStatus="status">
+        <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}" readOnly="true"/>
     </c:forEach>
-
 </div>
 
 <br>

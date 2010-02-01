@@ -24,11 +24,8 @@ public class ViewFormController extends AbstractController {
         CRF crf = crfRepository.findById(Integer.parseInt(crfId));
         CreateFormCommand command = new CreateFormCommand();
         command.setCrf(crf);
-//        command.setProCtcAERulesService(proCtcAERulesService);
-//        command.initializeRulesForForm();
         ModelAndView modelAndView = new ModelAndView("form/viewForm");
         modelAndView.addObject("crf", crf);
-//        modelAndView.addObject("rules", command.getFormOrStudySiteRules());
         return modelAndView;
     }
 
