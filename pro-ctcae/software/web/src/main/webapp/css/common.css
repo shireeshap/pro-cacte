@@ -367,7 +367,7 @@ a#firstlevelnav_searchStudyController:active {
     background-image: url(../images/blue/studies_btn_selected.png);
 }
 
-a#firstlevelnav_scheduleCrfController {
+a#firstlevelnav_searchParticipantController {
     background-image: url(../images/blue/subjects_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -378,19 +378,19 @@ a#firstlevelnav_scheduleCrfController {
     margin-left: 1px;
 }
 
-a#firstlevelnav_scheduleCrfController:link {
+a#firstlevelnav_searchParticipantController:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_scheduleCrfController:hover, a#firstlevelnav_scheduleCrfController.fthover {
+a#firstlevelnav_searchParticipantController:hover, a#firstlevelnav_searchParticipantController.fthover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_scheduleCrfController:active {
+a#firstlevelnav_searchParticipantController:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_scheduleCrfController {
+.selected a#firstlevelnav_searchParticipantController {
     background-image: url(../images/blue/subjects_btn_selected.png);
 }
 

@@ -97,7 +97,7 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Participants"
-                      p:mainController="scheduleCrfController" p:pathMapping="/participant/**">
+                      p:mainController="searchParticipantController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
