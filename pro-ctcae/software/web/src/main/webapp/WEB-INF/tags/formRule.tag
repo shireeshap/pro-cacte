@@ -51,20 +51,18 @@
                             <tr id="tr_condition_${rule.id}_${status.index}">
                                 <td>
                                     <c:if test="${status.index>0}"><b>OR&nbsp;</b>
-                                    </c:if><input type="hidden" name="conditions_${rule.id}" value="${status.index}"/>
+                                    </c:if><input type="hidden" name="conditions_${rule.id}"
+                                                  value="${status.index}"/>
                                 </td>
-                                <td>
-                                        ${condition.proCtcQuestionType.displayName}
+                                <td>    ${condition.proCtcQuestionType.displayName}
                                     <input type="hidden" name="questiontype_${rule.id}_${status.index}"
                                            value="${condition.proCtcQuestionType.code}"/>
                                 </td>
-                                <td>
-                                        ${condition.notificationRuleOperator.displayName}
+                                <td>    ${condition.notificationRuleOperator.displayName}
                                     <input type="hidden" name="operator_${rule.id}_${status.index}"
                                            value="${condition.notificationRuleOperator.code}"/>
                                 </td>
-                                <td>
-                                        ${condition.proCtcQuestionType.validValues[(condition.threshold)]}
+                                <td>    ${condition.proCtcQuestionType.validValues[(condition.threshold)]}
                                     <input type="hidden" name="threshold_${rule.id}_${status.index}"
                                            value="${condition.threshold}"/>
                                 </td>
@@ -74,7 +72,7 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <div id="hiddenDivCondition_${rule.id}"></div>
+                        <tr id="hiddenDivCondition_${rule.id}"></tr>
                         <tr>
                             <td></td>
                             <td colspan="3"><tags:button icon="add" color="blue" value="Add" size="small"

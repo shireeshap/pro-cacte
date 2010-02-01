@@ -22,8 +22,6 @@
         }
         function addRuleConditionDiv(ruleId, transport) {
             var response = transport.responseText;
-            alert(response);
-            alert($("hiddenDivCondition_" + ruleId));
             new Insertion.Before("hiddenDivCondition_" + ruleId, response);
         }
         function deleteRule(ruleId, ruleIndex) {

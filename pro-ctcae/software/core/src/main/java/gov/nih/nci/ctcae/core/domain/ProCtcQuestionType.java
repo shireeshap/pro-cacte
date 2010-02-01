@@ -121,4 +121,8 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
         return proCtcQuestionTypes;
     }
 
+    public String getDesc() {
+        return getDisplayName();
+    }
+
 }

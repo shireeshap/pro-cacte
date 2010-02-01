@@ -2,10 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
-import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
-import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
-import gov.nih.nci.ctcae.core.domain.rules.NotificationRuleCondition;
+import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
@@ -19,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 //
 /**
@@ -67,6 +65,8 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("ruleConditionIndex", index);
         modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
         modelAndView.addObject("condition", notificationRuleCondition);
+        modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
+        modelAndView.addObject("thresholds", Arrays.asList(notificationRuleCondition.getProCtcQuestionType().getValidValues()));
 
         return modelAndView;
     }

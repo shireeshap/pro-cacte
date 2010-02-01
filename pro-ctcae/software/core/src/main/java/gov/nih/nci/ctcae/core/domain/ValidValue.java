@@ -41,4 +41,12 @@ public abstract class ValidValue extends BasePersistable {
     public void setDisplayOrder(Integer displayOrder) {
         this.displayOrder = displayOrder;
     }
+
+    public Integer getCode() {
+        return displayOrder;
+    }
+
+    public String getDesc() {
+        return value;
+    }
 }

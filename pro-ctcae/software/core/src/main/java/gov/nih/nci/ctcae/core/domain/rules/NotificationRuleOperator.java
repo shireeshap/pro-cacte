@@ -5,6 +5,9 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 
+import java.util.List;
+import java.util.ArrayList;
+
 //
 /**
  * The Enum CrfStatus.
@@ -89,5 +92,9 @@ public enum NotificationRuleOperator implements CodedEnum<String> {
         return displayText;
     }
 
+
+    public String getDesc() {
+        return getDisplayName();
+    }
 
 }
