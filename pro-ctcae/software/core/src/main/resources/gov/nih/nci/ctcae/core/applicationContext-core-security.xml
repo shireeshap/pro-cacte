@@ -51,7 +51,6 @@
         <security:password-encoder ref="passwordEncoder">
             <security:salt-source user-property="username"/>
         </security:password-encoder>
-
     </security:authentication-provider>
 
 

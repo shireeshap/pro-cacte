@@ -74,10 +74,11 @@
                                 </td>
                             </tr>
                         </c:forEach>
+                        <div id="hiddenDivCondition_${rule.id}"></div>
                         <tr>
                             <td></td>
                             <td colspan="3"><tags:button icon="add" color="blue" value="Add" size="small"
-                                                         onclick="addCondition('${ruleId}')"
+                                                         onclick="addCondition('${rule.id}')"
                                                          markupWithTag="a"/>
                             </td>
                             <td></td>

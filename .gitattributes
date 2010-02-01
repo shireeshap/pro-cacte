@@ -470,6 +470,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/017_update_odc_pri
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/018_update_crf_cycle_definition.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/019_update_crf.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/020_create_notification_rules.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/021_alter_users.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -1056,6 +1057,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/view_form_thirdlevelmenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accountLocked.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/effectiveStaff.jsp -text
@@ -1073,6 +1075,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirma
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfCycleConfirmationCheck.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteQuestionConfirmationCheck.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/formRule.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/formRuleCondition.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/formScheduleCycleDefinition.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp -text

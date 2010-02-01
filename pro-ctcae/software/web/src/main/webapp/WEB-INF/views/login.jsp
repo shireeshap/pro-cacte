@@ -47,20 +47,22 @@
 
 
     <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
-
-        <c:if test="${not empty param.error}">
-            <c:choose>
-                <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
-                    <p class="errors">Incorrect username and/or password. Please try again.</p>
-                </c:when>
-                <c:otherwise>
-                    <p class="errors">User is inactive.</p>
-                    <%--<p class="errors">Your login attempt was not successful. Please try again after some time.<br/>--%>
-                        <%--Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>--%>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-
+    <c:set var="showLogin" value="true"/>
+    <c:if test="${not empty param.error}">
+        <c:choose>
+            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
+                <p class="errors">Incorrect username and/or password. Please try again.</p>
+            </c:when>
+            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User account is locked'}">
+                <p class="errors"><jsp:forward page="accountLocked.jsp"/></p>
+                <c:set var="showLogin" value="false"/>
+            </c:when>
+            <c:otherwise>
+                <p class="errors">User is inactive.</p>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+    <c:if test="${showLogin}">
         <div class="row">
             <div class="label">
                 Username
@@ -93,9 +95,11 @@
                 <tags:button type="submit" value="Log in" color="blue"/>
             </div>
         </div>
-    </form>
+        </form>
+    </c:if>
 </chrome:box>
 <div id="keyboardDiv"></div>
+
 </body>
 </html>
 

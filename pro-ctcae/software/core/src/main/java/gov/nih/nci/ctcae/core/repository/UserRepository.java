@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,13 +30,13 @@ import java.util.*;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class UserRepository implements UserDetailsService, Repository<User, UserQuery> {
 
     private SaltSource saltSource;
     private PasswordEncoder passwordEncoder;
     protected Log logger = LogFactory.getLog(getClass());
-
+    protected Properties proCtcAEProperties;
     private GenericRepository genericRepository;
 
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
@@ -50,6 +51,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new UsernameNotFoundException(errorMessage);
         }
         User user = users.get(0);
+        checkAccountLock(user);
 
         Set<Role> roles = new HashSet<Role>();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
@@ -130,6 +132,26 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new MyException("User is inactive");
         }
         return user;
+    }
+
+    private void checkAccountLock(User user) {
+        Integer numOfAttempts = user.getNumberOfAttempts();
+        if (numOfAttempts == null) {
+            numOfAttempts = 0;
+        }
+        int allowedAttempts = 7;
+        String lockout = proCtcAEProperties.getProperty("lockout.attempts");
+        if (!StringUtils.isBlank(lockout)) {
+            allowedAttempts = Integer.parseInt(lockout);
+        }
+
+        if (numOfAttempts >= allowedAttempts) {
+            user.setAccountNonLocked(false);
+        }
+        user.setNumberOfAttempts(numOfAttempts + 1);
+        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+        DataAuditInfo.setLocal(auditInfo);
+        user = genericRepository.save(user);
     }
 
 
@@ -236,10 +258,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         this.genericRepository = genericRepository;
     }
 
-
+    @Required
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+        this.proCtcAEProperties = proCtcAEProperties;
+    }
 }
 
-class MyException extends DataAccessException{
+class MyException extends DataAccessException {
 
     public MyException(String s) {
         super(s);

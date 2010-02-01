@@ -279,37 +279,6 @@ public class ListValues {
         return allSymptoms;
     }
 
-    public static List<ListValues> getQuestionTypes(CRF crf) {
-        List<ListValues> valuesList = new ArrayList<ListValues>();
-
-        HashSet questionTypes = new HashSet();
-        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
-            questionTypes.add(crfPageItem.getProCtcQuestion().getProCtcQuestionType());
-        }
-        for (Object questionType : questionTypes) {
-            ProCtcQuestionType proCtcQuestionType = (ProCtcQuestionType) questionType;
-            ListValues lov = new ListValues(proCtcQuestionType.getDisplayName(), proCtcQuestionType.getDisplayName());
-            valuesList.add(lov);
-        }
-        return valuesList;
-    }
-
-    public static List<ListValues> getComparisonOptions() {
-        List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov0 = new ListValues("", "Please select");
-        ListValues lov1 = new ListValues(">", "is greater than");
-        ListValues lov2 = new ListValues(">=", "is greater than or equal to");
-        ListValues lov3 = new ListValues("==", "is equal to");
-        ListValues lov4 = new ListValues("<=", "is less than or equal to");
-        ListValues lov5 = new ListValues("<", "is less than");
-        col.add(lov0);
-        col.add(lov1);
-        col.add(lov2);
-        col.add(lov3);
-        col.add(lov4);
-        col.add(lov5);
-        return col;
-    }
 
     public static List<ListValues> getNotificationOptions() {
         List<ListValues> col = new ArrayList<ListValues>();

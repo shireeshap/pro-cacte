@@ -52,6 +52,9 @@ public class User extends BaseVersionable implements UserDetails {
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 
+    @Column(name = "number_of_attempts", nullable = false)
+    private Integer numberOfAttempts = 0;
+
     @Transient
     private GrantedAuthority[] grantedAuthorities;
 
@@ -235,5 +238,13 @@ public class User extends BaseVersionable implements UserDetails {
     public boolean isODCOnStudy(Study study) {
         return this.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser());
 
+    }
+
+    public Integer getNumberOfAttempts() {
+        return numberOfAttempts;
+    }
+
+    public void setNumberOfAttempts(Integer numberOfAttempts) {
+        this.numberOfAttempts = numberOfAttempts;
     }
 }

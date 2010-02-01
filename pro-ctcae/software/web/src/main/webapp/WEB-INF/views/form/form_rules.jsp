@@ -12,13 +12,19 @@
         function addRule() {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
                 onComplete:addRuleDiv,
-                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}",
+                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&action=addRule",
                 method:'get'
             })
         }
         function addRuleDiv(transport) {
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
+        }
+        function addRuleConditionDiv(ruleId, transport) {
+            var response = transport.responseText;
+            alert(response);
+            alert($("hiddenDivCondition_" + ruleId));
+            new Insertion.Before("hiddenDivCondition_" + ruleId, response);
         }
         function deleteRule(ruleId, ruleIndex) {
             if (confirm('Are you sure you want to delete Rule ' + ruleIndex + '?')) {
@@ -29,6 +35,16 @@
         function deleteCondition(ruleId, conditionIndex) {
             $('tr_condition_' + ruleId + '_' + conditionIndex).remove();
             $('delete_conditions_' + ruleId).value += conditionIndex + ",";
+        }
+        function addCondition(ruleId) {
+            var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
+                onComplete:function(transport) {
+                    addRuleConditionDiv(ruleId, transport);
+                },
+                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&action=addCondition&ruleId=" + ruleId,
+                method:'get'
+            })
+
         }
     </script>
 

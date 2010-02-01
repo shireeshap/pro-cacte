@@ -39,6 +39,9 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
+        if(!user.isAccountNonLocked()){
+            return new ModelAndView("accountLocked");            
+        }
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
                 if (ControllersUtils.isRequestComingFromMobile(request)) {

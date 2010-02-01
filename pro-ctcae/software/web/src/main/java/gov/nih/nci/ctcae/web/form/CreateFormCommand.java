@@ -470,7 +470,7 @@ public class CreateFormCommand implements Serializable {
         return myOrg;
     }
 
-    public void processRulesForForm(HttpServletRequest request,  GenericRepository genericRepository) {
+    public void processRulesForForm(HttpServletRequest request, GenericRepository genericRepository) {
 
         List<CRFNotificationRule> crfNotificationRules = new ArrayList<CRFNotificationRule>();
         for (CRFNotificationRule crfNotificationRule : crf.getCrfNotificationRules()) {
@@ -560,5 +560,15 @@ public class CreateFormCommand implements Serializable {
         siteCRFNotificationRule.setNotificationRule(notificationRule);
         myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
         return siteCRFNotificationRule;
+    }
+
+    public NotificationRuleCondition addCondition(NotificationRule notificationRule) {
+        NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
+
+        notificationRuleCondition.setProCtcQuestionType((new ArrayList<ProCtcQuestionType>(crf.getAllQuestionTypes())).get(0));
+        notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
+        notificationRuleCondition.setThreshold(3);
+        notificationRule.addNotificationRuleCondition(notificationRuleCondition);
+        return notificationRuleCondition;
     }
 }
