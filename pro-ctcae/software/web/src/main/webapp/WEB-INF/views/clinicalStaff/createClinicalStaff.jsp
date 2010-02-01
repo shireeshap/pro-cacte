@@ -184,8 +184,7 @@
                                 <c:otherwise>
                                     <div class="row">
                                         <div class="label"><spring:message code="participant.label.username"/></div>
-                                        <div class="value">${clinicalStaffCommand.clinicalStaff.user.username}
-                                            &nbsp;</div>
+                                        <div class="value">&nbsp;${clinicalStaffCommand.clinicalStaff.user.username}</div>
                                         <input type="hidden" id="clinicalStaff.user.username"
                                                name="clinicalStaff.user.username"
                                                value="${clinicalStaffCommand.clinicalStaff.user.username}">
