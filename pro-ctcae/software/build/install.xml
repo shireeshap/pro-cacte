@@ -655,6 +655,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 				<copy file="${proctcae-templates.dir.dist}/datasource.properties" tofile="${tomcat.home}/conf/proctcae/datasource.properties" overwrite="true" />
 			</case>
 		</switch>
+		<copy file="${proctcae-templates.dir.dist}/mail.properties" tofile="${tomcat.home}/conf/proctcae/mail.properties" overwrite="true" />
 
 		<antcall target="proctcae:datasource:properties:config"/>
 	</target>
@@ -666,19 +667,16 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@DB_HOST@" value="${database.server}" />
 		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@DB_PORT@" value="${database.port}" />
 		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@DB_NAME@" value="${database.name}" />
-		<condition property="rules.repository" value="${rules.repository.linux}">
-			<or>
-				<os family="unix" />
-				<os family="mac" />
-			</or>
-		</condition>
-	
-		<condition property="rules.repository" value="${rules.repository.windows}">
-			<os family="windows" />
-		</condition>
-		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@URL@" value="${rules.repository}" />		
 		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@NONIDENTIFYING@" value="${mode.nonidentifying}" />		
-		<delete dir="${rules.repository}"/>
+		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@LOCKOUT_ATTEMPTS@" value="${lockout.attempts}" />		
+
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_SERVER@" value="${smtp.address}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_USER@" value="${smtp.user}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_PORT@" value="${smtp.port}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_PASSWORD@" value="${smtp.password}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_SSL_ENABLED@" value="${smtp.ssl_enabled}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_FROM@" value="${smtp.from_email}" />		
+		<replace file="${tomcat.home}/conf/proctcae/mail.properties" token="@SMTP_IS_HTML@" value="${smtp.is_html}" />		
 	</target>
 		
 	<target name="install:tomcat:proctcae-webapp" description="Deploy proctcae-webapp and common libraries to tomcat installation" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
