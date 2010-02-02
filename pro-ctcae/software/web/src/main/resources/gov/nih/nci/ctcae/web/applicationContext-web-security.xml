@@ -34,7 +34,7 @@
         <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/responseReport" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
-
+        
 
 
         <intercept-url pattern="/pages/study/createStudy" access="PRIVILEGE_CREATE_STUDY"/>
@@ -50,7 +50,7 @@
         <intercept-url pattern="/mobile/*" access="PRIVILEGE_PARTICIPANT_INBOX"/>
 
         <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/edit" access="PRIVILEGE_EDIT_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/edit" access="PRIVILEGE_EDIT_PARTICIPANT, PRIVILEGE_VIEW_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>

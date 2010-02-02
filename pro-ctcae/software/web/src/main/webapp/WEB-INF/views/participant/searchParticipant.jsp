@@ -41,7 +41,7 @@
         function showPopUpMenuParticipant(pid) {
             var html = '<div id="search-engines"><ul>';
         <proctcae:urlAuthorize url="/pages/participant/edit">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit participant</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit/View participant</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
