@@ -758,6 +758,7 @@ pro-ctcae/software/pro-ctcae.ipr -text
 pro-ctcae/software/pro-ctcae.iws -text
 pro-ctcae/software/recreate-db-populate-data.bat -text
 pro-ctcae/software/templates/datasource.properties -text
+pro-ctcae/software/templates/mail.properties -text
 pro-ctcae/software/web.bat -text
 pro-ctcae/software/web/ivy-build.xml -text
 pro-ctcae/software/web/ivy.xml -text
