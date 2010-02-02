@@ -8,6 +8,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -15,6 +16,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+
+import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 
 /**
  * @author Rhett Sutphin
@@ -24,8 +27,6 @@ import java.util.Properties;
 public class JavaMailSender extends JavaMailSenderImpl {
 
     public static boolean SUPRESS_MAIL_SEND_EXCEPTION = false;
-    Properties properties = new Properties();
-    ClassPathResource classPathResource = new ClassPathResource("mail.properties");
     private static final String SMTP_ADDRESS = "smtp.address";
     private static final String SMTP_USER = "smtp.user";
     private static final String SMTP_PORT = "smtp.port";
@@ -33,9 +34,15 @@ public class JavaMailSender extends JavaMailSenderImpl {
     private static final String SMTP_SSL_ENABLED = "smtp.ssl_enabled";
     private static final String SYSTEM_FROM_EMAIL = "smtp.from_email";
     private static final String IS_EMAIL_HTML = "smtp.is_html";
+    private Properties properties;
 
     public JavaMailSender() throws IOException {
-        properties.load(classPathResource.getInputStream());
+        DataSourceSelfDiscoveringPropertiesFactoryBean propertiesFactoryBean = new DataSourceSelfDiscoveringPropertiesFactoryBean();
+        propertiesFactoryBean.setApplicationDirectoryName("proctcae");
+        propertiesFactoryBean.setDatabaseConfigurationName("mail");
+        properties = propertiesFactoryBean.getProperties();
+
+
         Properties temp = new Properties();
         if (properties.getProperty(SMTP_SSL_ENABLED) != null && properties.getProperty(SMTP_SSL_ENABLED).equals("Y")) {
             temp.setProperty("mail.smtp.auth", "true");
@@ -148,4 +155,5 @@ public class JavaMailSender extends JavaMailSenderImpl {
         }
         return false;
     }
+
 }

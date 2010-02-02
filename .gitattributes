@@ -666,7 +666,6 @@ pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationCon
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
 pro-ctcae/software/core/src/main/resources/log4j.properties -text
 pro-ctcae/software/core/src/main/resources/log4j.xml -text
-pro-ctcae/software/core/src/main/resources/mail.properties -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
