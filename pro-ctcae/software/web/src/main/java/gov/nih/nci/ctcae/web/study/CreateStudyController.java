@@ -26,9 +26,6 @@ public class CreateStudyController extends StudyController {
         StudyCommand studyCommand = new StudyCommand();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (user.isAdmin()) {
-            studyCommand.setAdmin(true);
-        }
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff != null) {
             if (!clinicalStaff.getUser().isAdmin()) {
@@ -37,13 +34,17 @@ public class CreateStudyController extends StudyController {
                     throw new CtcAeSystemException("Logged in user is not a CCA on any organization.");
                 }
                 if (organizationsWithCCARole.size() == 1) {
-                studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
+                    studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
                 }
                 studyCommand.setOrganizationsWithCCARole(organizationsWithCCARole);
             }
 
         } else {
-            throw new CtcAeSystemException("Logged in user is not a valid clinical staff");
+            if (user.isAdmin()) {
+                studyCommand.setAdmin(true);
+            } else {
+                throw new CtcAeSystemException("Logged in user is not a valid clinical staff");
+            }
         }
 
         return studyCommand;
