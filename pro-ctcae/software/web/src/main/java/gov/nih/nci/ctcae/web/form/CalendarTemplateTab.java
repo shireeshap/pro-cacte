@@ -51,10 +51,16 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             Study study = studyRepository.findById(crf.getStudy().getId());
             List<Arm> arms = study.getArms();
             for (Arm arm : arms) {
-                if (crf.getFormArmScheduleForArm(arm) == null) {
+                FormArmSchedule armScheduleForArm = crf.getFormArmScheduleForArm(arm);
+                if (armScheduleForArm == null) {
                     FormArmSchedule formArmSchedule = crf.addFormArmSchedule(arm);
                     CRFCalendar crfCalendar = new CRFCalendar();
                     formArmSchedule.addCrfCalendar(crfCalendar);
+                } else {
+                    if (armScheduleForArm.getCrfCalendars().size() == 0) {
+                        CRFCalendar crfCalendar = new CRFCalendar();
+                        armScheduleForArm.addCrfCalendar(crfCalendar);
+                    }
                 }
             }
 
