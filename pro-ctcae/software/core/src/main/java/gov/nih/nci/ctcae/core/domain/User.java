@@ -238,6 +238,11 @@ public class User extends BaseVersionable implements UserDetails {
     public boolean isODCOnStudy(Study study) {
         if (study != null) {
             if (study.getOverallDataCoordinator() != null) {
+                System.out.println(study);
+                System.out.println(study.getOverallDataCoordinator());
+                System.out.println(study.getOverallDataCoordinator().getOrganizationClinicalStaff());
+                System.out.println(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff());
+                System.out.println(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser());
                 return this.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser());
             }
         }

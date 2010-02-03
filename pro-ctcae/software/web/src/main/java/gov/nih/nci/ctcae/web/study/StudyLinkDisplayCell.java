@@ -29,10 +29,6 @@ public class StudyLinkDisplayCell extends AbstractCell {
         boolean odcOnStudy = user.isODCOnStudy(bean);
 
         String cellValue = "";
-//        String editLink = String.format("editStudy?studyId=%s", id.toString());
-//
-//        cellValue = String.format(editLink + bean.getAssignedIdentifier() + "</a>");
-//        cellValue = "<a href=\"" + editLink + "\">" + "Edit" + "</a>";
         cellValue = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + id.toString() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + id.toString() + "','" + odcOnStudy + "');</script>";
 
         return cellValue;
