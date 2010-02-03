@@ -71,7 +71,8 @@
         }
 
         function changeStudySite() {
-            $('_target').name = '_target1';
+            $('_target').name = $('_target').name;
+            $('changingStudySite').value = true;
             $('command').submit();
         }
     </script>
@@ -86,8 +87,8 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 
-
     <jsp:attribute name="singleFields">
+        <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
                                               propertyName="selectedStudySite" required="true"
                                               onchange="changeStudySite()" itemLabel="organization.displayName"/>

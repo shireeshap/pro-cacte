@@ -48,16 +48,14 @@
         }
 
         Event.observe(window, "load", function() {
-        <%--<c:if test="${param['studyId'] ne null}">--%>
-        <%--$('_target').name = '_target0';--%>
-        <%--</c:if>--%>
-
+        <c:if test="${command.admin eq true}">
             acCreate(new siteAutoComplter('study.studySponsor.organization'))
+        </c:if>
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
             acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
-            <c:if test="${command.study.studySponsor ne null}">
+        <c:if test="${command.study.studySponsor ne null}">
             initializeAutoCompleter('study.studySponsor.organization',
                     '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
         </c:if>

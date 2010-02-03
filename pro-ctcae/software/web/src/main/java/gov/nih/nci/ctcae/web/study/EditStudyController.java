@@ -67,7 +67,11 @@ public class EditStudyController extends StudyController {
     protected int getTargetPage(HttpServletRequest request, Object command, Errors errors, int currentPage) {
         int targetPage = super.getTargetPage(request, command, errors, currentPage);
         if (currentPage == targetPage) {
-            targetPage = 0;
+            if ("true".equals(request.getParameter("changingStudySite"))) {
+                return targetPage;
+            } else {
+                targetPage = 0;
+            }
         }
         return targetPage;
     }
