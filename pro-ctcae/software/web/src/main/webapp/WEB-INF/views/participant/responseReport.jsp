@@ -11,7 +11,6 @@
 
 </head>
 <body>
-         <div align="right"><a href="../participant/participantInbox">Inbox</a></div>
 <chrome:box
         title="${completedSchedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}">
 
