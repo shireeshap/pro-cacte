@@ -67,7 +67,7 @@
                     </c:when>
                     <c:otherwise><tags:renderLabel displayName="${displayName}" propertyName="${propertyName}"
                                                    propertyType="${categoryName}" required="${required}"
-                                                   noForm="${noForm}"/></c:otherwise>
+                                                   noForm="${noForm}"/>&nbsp;</c:otherwise>
                 </c:choose>
             </div>
             <div class="value"><c:choose><c:when test="${not empty value}">
