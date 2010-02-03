@@ -39,6 +39,15 @@ public class StudyCommand {
 
 
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
+    private boolean odc;
+
+    public boolean isOdc() {
+        return odc;
+    }
+
+    public void setOdc(boolean odc) {
+        this.odc = odc;
+    }
 
     /**
      * Instantiates a new study command.

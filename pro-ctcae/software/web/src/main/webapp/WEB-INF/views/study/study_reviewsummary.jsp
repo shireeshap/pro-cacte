@@ -50,7 +50,7 @@
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}">
     <jsp:attribute name="singleFields">
 
         <chrome:division title="study.tab.study_details" linkontitle="javascript:goTab('1');"
