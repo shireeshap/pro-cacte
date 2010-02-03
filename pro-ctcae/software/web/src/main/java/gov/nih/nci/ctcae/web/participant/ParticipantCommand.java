@@ -44,6 +44,16 @@ public class ParticipantCommand {
     private boolean readOnly = false;
     private boolean readOnlyUserName = true;
 
+    private boolean odc;
+
+    public boolean isOdc() {
+        return odc;
+    }
+
+    public void setOdc(boolean odc) {
+        this.odc = odc;
+    }
+
     /**
      * Instantiates a new participant command.
      */
