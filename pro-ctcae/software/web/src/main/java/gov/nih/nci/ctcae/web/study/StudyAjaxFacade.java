@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -67,15 +68,15 @@ public class StudyAjaxFacade {
      */
     private List<Study> getObjects(String type, String text) {
         StudyQuery studyQuery = new StudyQuery();
-        List<Study> studies = new ArrayList<Study>();
 
-        if ("shortTitle".equals(type)) {
-            studyQuery.filterStudiesByShortTitle(text);
-            studies = (List<Study>) studyRepository.find(studyQuery);
-        } else if ("assignedIdentifier".equals(type)) {
-            studyQuery.filterStudiesByAssignedIdentifier(text);
+        if (!StringUtils.isBlank(text)) {
+            if ("shortTitle".equals(type)) {
+                studyQuery.filterStudiesByShortTitle(text);
+            } else if ("assignedIdentifier".equals(type)) {
+                studyQuery.filterStudiesByAssignedIdentifier(text);
+            }
         }
-        studies = (List<Study>) studyRepository.find(studyQuery);
+        List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
 
         return studies;
     }
