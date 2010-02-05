@@ -140,7 +140,7 @@
 </chrome:box>
 <chrome:box title="Results">
 
-    <table>
+    <table width="100%">
         <tr>
             <c:choose>
                 <c:when test="${totalRecords eq 0}">
