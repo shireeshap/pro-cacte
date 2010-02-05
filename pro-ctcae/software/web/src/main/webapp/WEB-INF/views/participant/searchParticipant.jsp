@@ -133,7 +133,7 @@
 </script>
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">
-    <form method="POST">
+    <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="false" type="hidden"/>
 
         <p><tags:instructions code="participant.search.top"/></p>
@@ -174,6 +174,7 @@
         <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
     </form>
 </chrome:box>
+<a name="searchResults"/>
 <chrome:box title="Results">
 
     <table width="100%">
