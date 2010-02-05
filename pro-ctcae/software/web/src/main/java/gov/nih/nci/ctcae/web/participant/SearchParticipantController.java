@@ -88,6 +88,7 @@ public class SearchParticipantController extends AbstractController {
 
         int pageInt = Integer.parseInt(page);
         if (pageInt > numberOfPages) {
+            page = "1";
             pageInt = 1;
         }
         int begin = ((pageInt - 1) * rowsPerPageInt);
