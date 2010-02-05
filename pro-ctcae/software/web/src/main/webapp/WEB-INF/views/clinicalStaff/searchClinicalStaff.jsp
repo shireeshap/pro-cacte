@@ -21,19 +21,24 @@
     <tags:includePrototypeWindow/>
 
     <script>
-        function showPopUpMenuClinicalStaff(cid, status) {
+        function showPopUpMenuClinicalStaff(cid, status, odc) {
             var firstName = $F('firstName')
             var lastName = $F('lastName')
             var nciIdentifier = $F('nciIdentifier')
-            
+
             var html = '<div id="search-engines"><ul>';
         <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
         </proctcae:urlAuthorize>
-            if (status == 'Active') {
-                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
-            } else {
-                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
+            if (!odc) {
+                if (status == 'Active') {
+                    html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
+                } else {
+                    html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
+                }
+            }
+            else {
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';                
             }
             html += '</ul></div>';
             jQuery('#clinicalStaffActions' + cid).menu({
