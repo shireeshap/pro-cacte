@@ -52,35 +52,6 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
 
     }
 
-    public void testSearchStudiesByShortTitle() {
-        type = "shortTitle";
-        text = "%short%";
-
-        String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
-        assertNotNull(table);
-        assertTrue("must find atleast study matching with short title", table.contains(study.getShortTitle()));
-
-    }
-
-
-    public void testSearchStudiesByIdentifier() {
-        type = "assignedIdentifier";
-        text = "%identifier%";
-
-        String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
-        assertNotNull(table);
-        assertTrue("must find atleast study matching with identifier", table.contains(study.getAssignedIdentifier()));
-
-    }
-
-    public void testSearchStudiesBySite() {
-        type = "site";
-        text = "1";
-
-        String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
-        assertNotNull(table);
-
-    }
 
     public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
         this.studyAjaxFacade = studyAjaxFacade;

@@ -29,7 +29,6 @@ public class StudyAjaxFacade {
     /**
      * The participant repository.
      */
-    private ParticipantRepository participantRepository;
 
     /**
      * Match study.
@@ -49,22 +48,14 @@ public class StudyAjaxFacade {
     /**
      * Search studies.
      *
-     * @param parameterMap the parameter map
-     * @param type         the type
-     * @param text         the text
-     * @param request      the request
+     * @param type the type
+     * @param text the text
      * @return the string
      */
-    public String searchStudies(Map parameterMap, String type, String text,
-                                HttpServletRequest request) {
+    public List<Study> searchStudies(String type, String text) {
         List<Study> studies = getObjects(type, text);
-
-        StudyTableModel studyTableModel = new StudyTableModel();
-        String table = studyTableModel.buildStudyTable(parameterMap, studies,
-                request);
-        return table;
+        return studies;
     }
-
 
 
     /**
@@ -100,14 +91,4 @@ public class StudyAjaxFacade {
     }
 
 
-    /**
-     * Sets the participant repository.
-     *
-     * @param participantRepository the new participant repository
-     */
-    @Required
-    public void setParticipantRepository(
-            ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
-    }
 }

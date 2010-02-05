@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @since Nov 24, 2008
  */
 public class SearchParticipantControllerTest extends WebTestCase {
-    private SearchParticipantController searchParticipantController;
+    private SearchStudyController searchParticipantController;
     private ParticipantCommand participantCommand;
     private ModelAndView modelAndView;
 
@@ -16,7 +16,7 @@ public class SearchParticipantControllerTest extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        searchParticipantController = new SearchParticipantController();
+        searchParticipantController = new SearchStudyController();
 
     }
 

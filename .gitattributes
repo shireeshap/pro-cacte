@@ -912,10 +912,9 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyClinicalSt
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayCell.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySearchResultsComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySiteClinicalStaffTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySitesTab.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
@@ -1674,7 +1673,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayCellTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text

@@ -290,6 +290,8 @@
 
     <bean name="/study/searchStudy" id="searchStudyController"
           class="gov.nih.nci.ctcae.web.study.SearchStudyController">
+        <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
@@ -367,10 +369,10 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
-     <bean name="/admin/clinicalStaff/viewClinicalStaff" id="editClinicalStaffController"
+    <bean name="/admin/clinicalStaff/viewClinicalStaff" id="editClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.EditClinicalStaffController" parent="ctcaeSimpleFormController">
-         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
-     </bean>
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+    </bean>
     <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
     </bean>
