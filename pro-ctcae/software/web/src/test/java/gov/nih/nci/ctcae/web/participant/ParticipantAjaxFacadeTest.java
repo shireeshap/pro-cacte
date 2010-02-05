@@ -17,38 +17,7 @@ import java.util.Map;
  */
 public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
 
-    public void testSearchParticipantByNameOrIdentfier() {
-        Map parameterMap = null;
-        Participant p = ParticipantTestHelper.getDefaultParticipant();
-        ParticipantAjaxFacade facade = new ParticipantAjaxFacade();
-        facade.setParticipantRepository(participantRepository);
-
-        String table = facade.searchParticipant(parameterMap, p.getFirstName(), p.getLastName(), p.getAssignedIdentifier(), 1111,  request);
-        assertNotNull(table);
-        assertTrue("must find participant", table.contains(p.getFirstName()));
-        assertTrue("must find participant", table.contains(p.getLastName()));
-
-        table = facade.searchParticipant(parameterMap, "", p.getLastName(), "", 1111, request);
-        assertNotNull(table);
-        assertTrue("must find participant", table.contains(p.getFirstName()));
-        assertTrue("must find participant", table.contains(p.getLastName()));
-
-        table = facade.searchParticipant(parameterMap, p.getFirstName(), "", "", 1111, request);
-        assertNotNull(table);
-        assertTrue("must find participant", table.contains(p.getFirstName()));
-        assertTrue("must find participant", table.contains(p.getLastName()));
-
-        table = facade.searchParticipant(parameterMap, "", "", p.getAssignedIdentifier(), 1111, request);
-        assertNotNull(table);
-        assertTrue("must find participant", table.contains(p.getFirstName()));
-        assertTrue("must find participant", table.contains(p.getLastName()));
-
-        table = facade.searchParticipant(parameterMap, "XXXXXXXXXXXX", "YYYYYYYYYY", "", 1111, request);
-        assertNotNull(table);
-        assertTrue("must not find participant", !table.contains(p.getFirstName()));
-        assertTrue("must not find participant", !table.contains(p.getLastName()));
-
-    }
+   
     public void testMatchParticipantByStudySiteId() {
         Study s = StudyTestHelper.getDefaultStudy();
         StudySite ss = s.getLeadStudySite();
