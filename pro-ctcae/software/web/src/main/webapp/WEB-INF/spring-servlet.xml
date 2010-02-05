@@ -312,6 +312,7 @@
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
         <property name="participantAjaxFacade" ref="participantAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"

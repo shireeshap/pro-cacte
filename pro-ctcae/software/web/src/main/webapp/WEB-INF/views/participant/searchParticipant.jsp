@@ -94,6 +94,42 @@
     function submitForm() {
         document.forms[0].submit();
     }
+
+    function navigate(e) {
+        var mye;
+        if (e) {
+            mye = e;
+        } else {
+            mye = event;
+        }
+        if (mye.keyCode == 13)  //enter pressed
+            doSend();
+    }
+    document.onkeypress = navigate;
+    function doSend() {
+        submitForm();
+    }
+    Event.observe(window, "load", function() {
+        var sac = new studyAutoCompleter('study');
+        acCreateStudy(sac);
+    <c:if test="${study ne null}">
+        initializeAutoCompleter('study',
+                '${study.displayName}', '${study.id}')
+    </c:if>
+        initSearchField();
+    })
+
+    function acCreateStudy(mode) {
+        new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+                mode.populator, {
+            valueSelector: mode.valueSelector,
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+                acPostSelect(mode, selectedChoice);
+            },
+            indicator: mode.basename + "-indicator"
+        })
+
+    }
 </script>
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">

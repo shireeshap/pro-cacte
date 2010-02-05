@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SearchParticipantController extends AbstractController {
 
 
     private ParticipantAjaxFacade participantAjaxFacade;
+    StudyRepository studyRepository;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -37,7 +39,7 @@ public class SearchParticipantController extends AbstractController {
         String firstName = "%";
         String lastName = "";
         String identifier = "";
-        String study = "";
+        String studyId = "";
         Integer rowsPerPageInt = 15;
         String sort = request.getParameter("sort");
         String page = request.getParameter("page");
@@ -68,18 +70,20 @@ public class SearchParticipantController extends AbstractController {
             firstName = request.getParameter("firstName");
             lastName = request.getParameter("lastName");
             identifier = request.getParameter("identifier");
-            study = request.getParameter("study");
+            studyId = request.getParameter("study");
             modelAndView.addObject("firstName", firstName);
             modelAndView.addObject("lastName", lastName);
             modelAndView.addObject("identifier", identifier);
-            modelAndView.addObject("study", study);
+            if (!StringUtils.isBlank(studyId)) {
+                modelAndView.addObject("study", studyRepository.findById(Integer.parseInt(studyId)));
+            }
         }
         if (!StringUtils.isBlank(rowsPerPage)) {
             rowsPerPageInt = Integer.parseInt(rowsPerPage);
         }
 
 
-        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, study);
+        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, studyId);
         int totalRecords = participants.size();
         int numberOfPages = totalRecords / rowsPerPageInt;
         if (totalRecords % rowsPerPageInt > 0) {
@@ -134,5 +138,10 @@ public class SearchParticipantController extends AbstractController {
     @Required
     public void setParticipantAjaxFacade(ParticipantAjaxFacade participantAjaxFacade) {
         this.participantAjaxFacade = participantAjaxFacade;
+    }
+
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 }
