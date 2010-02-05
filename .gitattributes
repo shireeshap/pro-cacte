@@ -847,13 +847,10 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/Participa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxController.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantResponseReportController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSiteDisplayCell.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantStudyDisplayCell.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSearchResultsComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintParticipantScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintSchedulePdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
@@ -995,6 +992,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/imageUrl.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/includePrototypeWindow.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/includeScriptaculous.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/includeVirtualKeyboard.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/includeYUI.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/indicator.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
@@ -1037,6 +1035,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reports/thirdlevelmenu.tag -
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reviewCrfPageItem.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reviewQuestion.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/sortablecolumn.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/splitDateInput.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/ssoForm.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text
@@ -1163,6 +1162,7 @@ pro-ctcae/software/web/src/main/webapp/css/calendar/calendar-blue.css -text
 pro-ctcae/software/web/src/main/webapp/css/common-search.css -text
 pro-ctcae/software/web/src/main/webapp/css/common.css -text
 pro-ctcae/software/web/src/main/webapp/css/cycledefinitions.css -text
+pro-ctcae/software/web/src/main/webapp/css/datatable.css -text
 pro-ctcae/software/web/src/main/webapp/css/debug.css -text
 pro-ctcae/software/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/software/web/src/main/webapp/css/fields.css -text
@@ -1544,6 +1544,7 @@ pro-ctcae/software/web/src/main/webapp/images/table/xls1.gif -text
 pro-ctcae/software/web/src/main/webapp/images/window_icon.png -text
 pro-ctcae/software/web/src/main/webapp/index.jsp -text
 pro-ctcae/software/web/src/main/webapp/js/D2H_ctxt.js -text
+pro-ctcae/software/web/src/main/webapp/js/YUI/datatable-combo.js -text
 pro-ctcae/software/web/src/main/webapp/js/ajax_common.js -text
 pro-ctcae/software/web/src/main/webapp/js/button-pseudoclass-IE-hack.htc -text
 pro-ctcae/software/web/src/main/webapp/js/calendar.js -text

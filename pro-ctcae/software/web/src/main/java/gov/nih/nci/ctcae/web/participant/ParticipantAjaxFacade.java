@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,23 +28,15 @@ public class ParticipantAjaxFacade {
     /**
      * Search participant.
      *
-     * @param parameterMap the parameter map
-     * @param firstName    the first name
-     * @param lastName     the last name
-     * @param identifier   the identifier
-     * @param request      the request
-     * @return the string
+     * @param firstName  the first name
+     * @param lastName   the last name
+     * @param identifier the identifier
      */
-    public String searchParticipant(Map parameterMap, String firstName,
-                                    String lastName, String identifier, Integer studyId, HttpServletRequest request) {
-
+    public List<Participant> searchParticipant(String firstName,
+                                               String lastName, String identifier, String studyId) {
         List<Participant> participants = getObjects(firstName, lastName,
                 identifier, studyId);
-        ParticipantTableModel participantTableModel = new ParticipantTableModel();
-        String table = participantTableModel.buildParticipantTable(
-                parameterMap, participants, request);
-        return table;
-
+        return participants;
     }
 
     /**
@@ -55,20 +48,20 @@ public class ParticipantAjaxFacade {
      * @return the objects
      */
     private List<Participant> getObjects(String firstName, String lastName,
-                                         String identifier, Integer studyId) {
+                                         String identifier, String studyId) {
         ParticipantQuery participantQuery = new ParticipantQuery();
 
-        if (firstName != null && !"".equals(firstName)) {
+        if (!StringUtils.isBlank(firstName)) {
             participantQuery.filterByParticipantFirstName(firstName);
         }
-        if (lastName != null && !"".equals(lastName)) {
+        if (!StringUtils.isBlank(lastName)) {
             participantQuery.filterByParticipantLastName(lastName);
         }
-        if (identifier != null && !"".equals(identifier)) {
+        if (!StringUtils.isBlank(identifier)) {
             participantQuery.filterByParticipantIdentifier(identifier);
         }
-        if (identifier != null && !"".equals(studyId)) {
-            participantQuery.filterByStudy(studyId);
+        if (!StringUtils.isBlank(studyId)) {
+            participantQuery.filterByStudy(Integer.parseInt(studyId));
         }
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
@@ -76,10 +69,10 @@ public class ParticipantAjaxFacade {
     }
 
     public List<Participant> matchParticipantByStudySiteId(final String text, Integer studySiteId, Integer studyId) {
-        if (studySiteId != null){
-        List<Participant> participants = participantRepository.findByStudySiteId(text, studySiteId);
-        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
-        } else{
+        if (studySiteId != null) {
+            List<Participant> participants = participantRepository.findByStudySiteId(text, studySiteId);
+            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
+        } else {
             List<Participant> participants = participantRepository.findByStudyId(text, studyId);
             return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
 
