@@ -135,7 +135,7 @@ public class SearchClinicalStaffController extends AbstractController {
                 }
             }
 
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"clinicalStaffActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuClinicalStaff('" + clinicalStaff.getId() + "','" + clinicalStaff.getStatus() + "','" + odc + "');</script>";
+            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"clinicalStaffActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuClinicalStaff(\"" + clinicalStaff.getId() + "\",\"" + clinicalStaff.getStatus() + "\",\"" + odc + "\");</script>";
             String[] row = new String[]{clinicalStaff.getLastName(), clinicalStaff.getFirstName(), sites, studies, status, actions};
             displayData.add(row);
         }
