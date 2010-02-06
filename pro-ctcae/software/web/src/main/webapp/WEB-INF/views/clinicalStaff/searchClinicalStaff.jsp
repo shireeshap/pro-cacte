@@ -54,13 +54,9 @@
 <script>
 
     function showPopUpMenuClinicalStaff(cid, status, odc) {
-        var firstName = $F('firstName')
-        var lastName = $F('lastName')
-        var nciIdentifier = $F('nciIdentifier')
-
         var html = '<div id="search-engines"><ul>';
-    <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
+    <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
     </proctcae:urlAuthorize>
         if (!odc) {
             if (status == 'Active') {
@@ -70,7 +66,7 @@
             }
         }
         else {
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
         }
         html += '</ul></div>';
         jQuery('#clinicalStaffActions' + cid).menu({
@@ -125,7 +121,7 @@
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+            <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
                 <li id="thirdlevelnav-x" class="tab ">
                     <div>
                         <a href="<c:url value="createClinicalStaff"/>"><tags:message

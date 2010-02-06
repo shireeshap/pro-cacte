@@ -362,14 +362,14 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-    <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
+    <bean name="/admin/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="genericRepository" ref="genericRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
-    <bean name="/admin/clinicalStaff/viewClinicalStaff" id="editClinicalStaffController"
+    <bean name="/admin/viewClinicalStaff" id="editClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.EditClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>

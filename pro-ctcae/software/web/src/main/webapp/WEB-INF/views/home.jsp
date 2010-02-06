@@ -326,9 +326,9 @@
 </div>
 <div class="panel">
     <chrome:box title="Quick Links">
-        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
             <div class="quicklink">
-                <a class="link" href="admin/clinicalStaff/createClinicalStaff"><img
+                <a class="link" href="admin/createClinicalStaff"><img
                         src="<chrome:imageUrl name="../blue/icons/16px/searchClinicalStaffController.png"/>" alt=""/>
                     Add new staff profile </a>
             </div>
