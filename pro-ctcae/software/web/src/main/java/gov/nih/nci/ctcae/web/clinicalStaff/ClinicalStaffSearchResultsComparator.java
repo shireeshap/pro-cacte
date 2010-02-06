@@ -17,10 +17,10 @@ public class ClinicalStaffSearchResultsComparator implements Comparator {
 
     public ClinicalStaffSearchResultsComparator(String sortBy, String sortDir) {
         this.sortDir = sortDir;
-        if ("firstName".equals(sortBy)) {
+        if ("lastName".equals(sortBy)) {
             index = 0;
         }
-        if ("lastName".equals(sortBy)) {
+        if ("firstName".equals(sortBy)) {
             index = 1;
         }
         if ("site".equals(sortBy)) {
