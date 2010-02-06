@@ -146,7 +146,6 @@
     </div>
 </div>
 <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
-    aa
     <form method="POST" action="searchClinicalStaff#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
 
