@@ -761,7 +761,6 @@ pro-ctcae/software/templates/mail.properties -text
 pro-ctcae/software/web.bat -text
 pro-ctcae/software/web/ivy-build.xml -text
 pro-ctcae/software/web/ivy.xml -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
@@ -1669,11 +1668,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyCont
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyControllerTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/AbstractCellTestCase.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
