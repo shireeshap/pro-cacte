@@ -33,7 +33,7 @@ public class SearchClinicalStaffController extends AbstractController {
      */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("participant/searchClinicalStaff");
+        ModelAndView modelAndView = new ModelAndView("clinicalStaff/searchClinicalStaff");
         String useReqParam = request.getParameter("useReqParam");
         String firstName = "%";
         String lastName = "";
