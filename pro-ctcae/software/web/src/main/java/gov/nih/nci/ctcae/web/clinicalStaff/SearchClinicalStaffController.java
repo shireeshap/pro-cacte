@@ -38,7 +38,6 @@ public class SearchClinicalStaffController extends AbstractController {
         String firstName = "%";
         String lastName = "";
         String identifier = "";
-        String studyId = "";
         Integer rowsPerPageInt = 15;
         String sort = request.getParameter("sort");
         String page = request.getParameter("page");
@@ -56,10 +55,13 @@ public class SearchClinicalStaffController extends AbstractController {
         if (StringUtils.isBlank(sortDir)) {
             sortDir = "asc";
         } else {
-            if ("asc".equals(sortDir)) {
-                sortDir = "desc";
-            } else {
-                sortDir = "asc";
+            String doSort = request.getParameter("doSort");
+            if ("true".equals(doSort)) {
+                if ("asc".equals(sortDir)) {
+                    sortDir = "desc";
+                } else {
+                    sortDir = "asc";
+                }
             }
         }
 

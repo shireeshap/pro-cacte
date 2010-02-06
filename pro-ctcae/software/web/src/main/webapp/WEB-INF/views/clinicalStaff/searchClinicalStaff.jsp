@@ -89,6 +89,7 @@
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
         $('sortDir').value = currentSort;
+        $('doSort').value = true;
         submitForm();
 
     }
@@ -180,6 +181,7 @@
         <input type="hidden" name="page" value="${page}" id="page"/>
         <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
         <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
+        <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
 </chrome:box>
 <a name="searchResults"/>

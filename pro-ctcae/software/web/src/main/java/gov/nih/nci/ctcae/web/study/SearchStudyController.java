@@ -61,10 +61,13 @@ public class SearchStudyController extends AbstractController {
         if (StringUtils.isBlank(sortDir)) {
             sortDir = "asc";
         } else {
-            if ("asc".equals(sortDir)) {
-                sortDir = "desc";
-            } else {
-                sortDir = "asc";
+            String doSort = request.getParameter("doSort");
+            if ("true".equals(doSort)) {
+                if ("asc".equals(sortDir)) {
+                    sortDir = "desc";
+                } else {
+                    sortDir = "asc";
+                }
             }
         }
 
