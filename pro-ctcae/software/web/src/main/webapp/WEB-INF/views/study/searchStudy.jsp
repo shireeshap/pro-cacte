@@ -186,7 +186,7 @@
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Funding sponsor" name="fundingSponsor"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Coordinating center"
                                  name="coordinatingCenter"/>
-            <td class="tableHeader">Actions</td>
+            <td class="tableHeader" width="80px">Actions</td>
         </tr>
         <c:forEach items="${searchResults}" var="row" varStatus="status">
             <c:set var="class" value="odd"/>

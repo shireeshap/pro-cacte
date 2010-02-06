@@ -172,7 +172,7 @@
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
         <input type="hidden" name="page" value="${page}" id="page"/>
         <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
-        <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
+        <input type="hidden" name="sortDir" value="${sortDir}" id="sorstDir"/>
         <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
 </chrome:box>
@@ -227,7 +227,7 @@
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Study" name="study"/>
-            <td class="tableHeader">Actions</td>
+            <td class="tableHeader" width="80px">Actions</td>
         </tr>
         <c:forEach items="${searchResults}" var="row" varStatus="status">
             <c:set var="class" value="odd"/>

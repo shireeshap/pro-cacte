@@ -230,7 +230,7 @@
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Study" name="study"/>
             <td class="tableHeader">Status</td>
-            <td class="tableHeader">Actions</td>
+            <td class="tableHeader" width="80px">Actions</td>
         </tr>
         <c:forEach items="${searchResults}" var="row" varStatus="status">
             <c:set var="class" value="odd"/>
