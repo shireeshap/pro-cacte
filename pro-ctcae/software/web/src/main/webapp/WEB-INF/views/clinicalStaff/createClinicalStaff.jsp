@@ -104,7 +104,7 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
+            <proctcae:urlAuthorize url="/pages/admin/searchClinicalStaff">
 
                 <li id="thirdlevelnav-x" class="tab">
                     <div>

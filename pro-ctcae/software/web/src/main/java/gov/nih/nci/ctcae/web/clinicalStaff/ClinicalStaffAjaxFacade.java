@@ -58,26 +58,14 @@ public class ClinicalStaffAjaxFacade {
     /**
      * Search clinical staff.
      *
-     * @param parameterMap  the parameter map
      * @param firstName     the first name
      * @param lastName      the last name
      * @param nciIdentifier the nci identifier
-     * @param request       the request
      * @return the string
      */
-    public String searchClinicalStaff(Map parameterMap, String firstName, String lastName, String nciIdentifier, HttpServletRequest request) {
-
+    public List<ClinicalStaff> searchClinicalStaff(String firstName, String lastName, String nciIdentifier) {
         List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier, true);
-        ClinicalStaffTableModel clinicalStaffTableModel = new ClinicalStaffTableModel();
-        Map<String, String> pMap = new HashMap<String, String>();
-        pMap.put("lastName", lastName);
-        pMap.put("firstName", firstName);
-        pMap.put("nciIdentifier", nciIdentifier);
-        request.getSession().setAttribute("ClinicalStaffSearch", pMap);
-        String table = clinicalStaffTableModel.buildClinicalStaffTable(parameterMap, clinicalStaffs, request);
-        return table;
-
-
+        return clinicalStaffs;
     }
 
     /**

@@ -65,18 +65,25 @@ public class SearchParticipantController extends AbstractController {
         }
 
         if (StringUtils.isBlank(useReqParam)) {
-            //leaving blank for now. Will use session parameters if there is a requirement for that
+            firstName = (String) request.getSession().getAttribute("ParticipantSearchFirstName");
+            lastName = (String) request.getSession().getAttribute("ParticipantSearchLastName");
+            identifier = (String) request.getSession().getAttribute("ParticipantSearchIdentifier");
+            studyId = (String) request.getSession().getAttribute("ParticipantSearchStudyId");
         } else {
             firstName = request.getParameter("firstName");
             lastName = request.getParameter("lastName");
             identifier = request.getParameter("identifier");
             studyId = request.getParameter("study");
-            modelAndView.addObject("firstName", firstName);
-            modelAndView.addObject("lastName", lastName);
-            modelAndView.addObject("identifier", identifier);
-            if (!StringUtils.isBlank(studyId)) {
-                modelAndView.addObject("study", studyRepository.findById(Integer.parseInt(studyId)));
-            }
+            request.getSession().setAttribute("ParticipantSearchFirstName", firstName);
+            request.getSession().setAttribute("ParticipantSearchLastName", lastName);
+            request.getSession().setAttribute("ParticipantSearchIdentifier", identifier);
+            request.getSession().setAttribute("ParticipantSearchStudyId", studyId);
+        }
+        modelAndView.addObject("firstName", firstName);
+        modelAndView.addObject("lastName", lastName);
+        modelAndView.addObject("identifier", identifier);
+        if (!StringUtils.isBlank(studyId)) {
+            modelAndView.addObject("study", studyRepository.findById(Integer.parseInt(studyId)));
         }
         if (!StringUtils.isBlank(rowsPerPage)) {
             rowsPerPageInt = Integer.parseInt(rowsPerPage);
@@ -110,9 +117,9 @@ public class SearchParticipantController extends AbstractController {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 studies += studyParticipantAssignment.getStudySite().getStudy().getShortTitle() + "<br/>";
             }
-            String cellValue = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\");</script>";
+            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\");</script>";
 
-            String[] row = new String[]{participant.getLastName(), participant.getFirstName(), sites, studies, cellValue};
+            String[] row = new String[]{participant.getLastName(), participant.getFirstName(), sites, studies, actions};
             displayData.add(row);
         }
         Collections.sort(displayData, new ParticipantSearchResultsComparator(sort, sortDir));

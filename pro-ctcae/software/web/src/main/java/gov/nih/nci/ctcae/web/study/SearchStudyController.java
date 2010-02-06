@@ -69,13 +69,17 @@ public class SearchStudyController extends AbstractController {
         }
 
         if (StringUtils.isBlank(useReqParam)) {
-            //leaving blank for now. Will use session parameters if there is a requirement for that
+            searchType = (String) request.getSession().getAttribute("StudySearchSearchType");
+            searchText = (String) request.getSession().getAttribute("StudySearchSearchText");
+
         } else {
             searchType = request.getParameter("searchType");
             searchText = request.getParameter("searchText");
-            modelAndView.addObject("searchType", searchType);
-            modelAndView.addObject("searchText", searchText);
+            request.getSession().setAttribute("StudySearchSearchType", searchType);
+            request.getSession().setAttribute("StudySearchSearchText", searchText);
         }
+        modelAndView.addObject("searchType", searchType);
+        modelAndView.addObject("searchText", searchText);
         if (!StringUtils.isBlank(rowsPerPage)) {
             rowsPerPageInt = Integer.parseInt(rowsPerPage);
         }
@@ -101,8 +105,8 @@ public class SearchStudyController extends AbstractController {
         for (int index = 0; index < totalRecords; index++) {
             Study study = studies.get(index);
             boolean odcOnStudy = user.isODCOnStudy(study);
-            String cellValue = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + study.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + study.getId() + "','" + odcOnStudy + "');</script>";
-            String[] row = new String[]{study.getAssignedIdentifier(), study.getShortTitle(), study.getFundingSponsor().getOrganization().getNciInstituteCode(), study.getDataCoordinatingCenter().getOrganization().getNciInstituteCode(), cellValue};
+            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + study.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + study.getId() + "','" + odcOnStudy + "');</script>";
+            String[] row = new String[]{study.getAssignedIdentifier(), study.getShortTitle(), study.getFundingSponsor().getOrganization().getNciInstituteCode(), study.getDataCoordinatingCenter().getOrganization().getNciInstituteCode(), actions};
             displayData.add(row);
         }
         Collections.sort(displayData, new StudySearchResultsComparator(sort, sortDir));

@@ -76,7 +76,7 @@
         <intercept-url pattern="/pages/admin/clinicalStaff/addClinicalStaffComponent"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 
-        <intercept-url pattern="/pages/admin/clinicalStaff/searchClinicalStaff"
+        <intercept-url pattern="/pages/admin/searchClinicalStaff"
                        access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 

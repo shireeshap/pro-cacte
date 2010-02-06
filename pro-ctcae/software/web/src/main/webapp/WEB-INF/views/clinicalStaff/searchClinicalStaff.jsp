@@ -1,129 +1,129 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-
-<link rel="stylesheet" type="text/css"
-      href="<c:url value="/css/extremecomponents.css"/>">
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <tags:javascriptLink name="extremecomponents"/>
-    <tags:dwrJavascriptLink objects="clinicalStaff"/>
-    <tags:includeScriptaculous/>
-    <tags:includePrototypeWindow/>
-
-    <script>
-        function showPopUpMenuClinicalStaff(cid, status, odc) {
-            var firstName = $F('firstName')
-            var lastName = $F('lastName')
-            var nciIdentifier = $F('nciIdentifier')
-
-            var html = '<div id="search-engines"><ul>';
-        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
-        </proctcae:urlAuthorize>
-            if (!odc) {
-                if (status == 'Active') {
-                    html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
-                } else {
-                    html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
-                }
-            }
-            else {
-                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';                
-            }
-            html += '</ul></div>';
-            jQuery('#clinicalStaffActions' + cid).menu({
-                content: html,
-                maxHeight: 180,
-                positionOpts: {
-                    directionV: 'down',
-                    posX: 'left',
-                    posY: 'bottom',
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                showSpeed: 300
-            });
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
         }
 
-        function effectiveStaff(cId, status) {
-            var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 280);
-                    AE.registerCalendarPopups();
-                },
-                method:'get'
-            })
-
-        }
-        function buildTable(form) {
-            $('tableDiv').innerHTML = '';
-            var firstName = $F('firstName')
-            var lastName = $F('lastName')
-            var nciIdentifier = $F('nciIdentifier')
-
-            if (firstName == '' && lastName == '' && nciIdentifier == '') {
-                $('error').innerHTML = "<font color='#FF0000'>Provide at least one value in the search field</font>";
-
-            } else {
-                $('error').innerHTML = ""
-                $('bigSearch').show()
-                //		//showing indicator and hiding pervious results. (#10826)
-                $('indicator').className = '';
-                //	$('assembler_table').hide();  //do not hide the results..becz filter string get disappear
-                var parameterMap = getParameterMap(form);
-                //   clinicalStaff.searchClinicalStaff(parameterMap, showTable);
-                clinicalStaff.searchClinicalStaff(parameterMap, firstName, lastName, nciIdentifier, showTableLocal);
-            }
+        .label {
+            width: 12em;
+            padding: 1px;
+            margin-right: 0.5em;
         }
 
-        function showTableLocal(table) {
-            $('indicator').className = 'indicator';
-            $('tableDiv').insert(table);
+        div.row div.value {
+            white-space: normal;
         }
 
-        function navigate(e) {
-            var mye;
-            if (e) {
-                mye = e;
-            } else {
-                mye = event;
-            }
-            if (mye.keyCode == 13)  //enter pressed
-                doSend();
+        .tableHeader {
+            background-color: #2B4186;
+            background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
+            background-position: center top;
+            background-repeat: repeat-x;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0;
+            padding: 4px 3px;
+            text-align: left;
+            white-space: nowrap;
         }
-        document.onkeypress = navigate;
-        function doSend() {
-            buildTable('assembler');
+
+        .sortable {
+            color: white; /*text-decoration: underline;*/
+            cursor: pointer;
         }
 
-        Event.observe(window, "load", function() {
-            $('firstName').value = '${firstName}';
-            $('lastName').value = '${lastName}';
-            $('nciIdentifier').value = '${nciIdentifier}';
-            buildTable('assembler');
-        })
+        .odd {
+            background-color: #cccccc;
+        }
 
-    </script>
-
-
+        .even {
+            background-color: white;
+        }
+    </style>
 </head>
+
+<script>
+
+    function showPopUpMenuClinicalStaff(cid, status, odc) {
+        var firstName = $F('firstName')
+        var lastName = $F('lastName')
+        var nciIdentifier = $F('nciIdentifier')
+
+        var html = '<div id="search-engines"><ul>';
+    <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
+    </proctcae:urlAuthorize>
+        if (!odc) {
+            if (status == 'Active') {
+                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
+            } else {
+                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
+            }
+        }
+        else {
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
+        }
+        html += '</ul></div>';
+        jQuery('#clinicalStaffActions' + cid).menu({
+            content: html,
+            maxHeight: 180,
+            positionOpts: {
+                directionV: 'down',
+                posX: 'left',
+                posY: 'bottom',
+                offsetX: 0,
+                offsetY: 0
+            },
+            showSpeed: 300
+        });
+    }
+    function sortResults(sort, currentSort) {
+        $('sort').value = sort;
+        $('sortDir').value = currentSort;
+        submitForm();
+
+    }
+    function setPage(page) {
+        $('page').value = page;
+        submitForm();
+    }
+    function setRowsPerPage(rowsPerPage) {
+        $('rowsPerPage').value = rowsPerPage;
+        submitForm();
+    }
+
+    function submitForm() {
+        document.forms[0].submit();
+    }
+
+    function navigate(e) {
+        var mye;
+        if (e) {
+            mye = e;
+        } else {
+            mye = event;
+        }
+        if (mye.keyCode == 13)  //enter pressed
+            doSend();
+    }
+    document.onkeypress = navigate;
+    function doSend() {
+        submitForm();
+    }
+</script>
 <body>
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-
-
             <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
                 <li id="thirdlevelnav-x" class="tab ">
                     <div>
@@ -132,8 +132,7 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
-
+            <proctcae:urlAuthorize url="/pages/admin/searchClinicalStaff">
                 <li id="thirdlevelnav-x" class="tab selected">
                     <div>
                         <a href="<c:url value="searchClinicalStaff"/>"><tags:message
@@ -146,57 +145,112 @@
     </div>
 </div>
 <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
-    <p><tags:instructions code="clinicalStaff.search.top"/></p>
+    aa
+    <form method="POST" action="searchClinicalStaff#searchResults">
+        <input name="useReqParam" value="true" type="hidden"/>
 
-    <!-- <table>
-    <tr><td>First Name</td><td><input type="text" id="firstName" name="firstName" maxlength="30"/></td></tr>
-    <tr><td>Last Name</td><td><input type="text" id="lastName" name="lastName" maxlength="30"/></td></tr>
-    <tr><td>ClinicalStaff Number</td><td><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></td></tr>
-    </table>
-    -->
-    <div class="row">
-        <div class="label"><tags:message code="clinicalStaff.label.first_name"/></div>
-        <div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
-    </div>
-    <div class="row">
-        <div class="label"><tags:message code="clinicalStaff.label.last_name"/></div>
-        <div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
-    </div>
-    <div class="row">
-        <div class="label"><tags:message code="clinicalStaff.label.identifier"/></div>
-        <div class="value"><input type="text" id="nciIdentifier" name="nciIdentifier" maxlength="30"/></div>
-    </div>
+        <p><tags:instructions code="clinicalStaff.search.top"/></p>
 
-    <div id="error"></div>
-    <div class="row">
-        <div class="label"></div>
-        <div class="value">
-            <c:set var="search"><tags:message code="clinicalStaff.button.search"/></c:set>
-            <tags:button color="blue" icon="search" type="button" onclick="buildTable('assembler');" value='${search}'/>
-            <tags:indicator id="indicator"/>
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
+            <div class="value"><input type="text" id="firstName" name="firstName" maxlength="30" value="${firstName}"/>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
+            <div class="value"><input type="text" id="lastName" name="lastName" maxlength="30" value="${lastName}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
+            <div class="value"><input type="text" id="identifier" name="identifier" maxlength="30"
+                                      value="${identifier}"/>
+            </div>
+        </div>
 
-
+        <div id="error"></div>
+        <div class="row">
+            <div class="label"></div>
+            <div class="value">
+                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                <tags:indicator id="indicator"/>
+            </div>
+        </div>
+        <input type="hidden" name="sort" value="${sort}" id="sort"/>
+        <input type="hidden" name="page" value="${page}" id="page"/>
+        <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
+        <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
+    </form>
 </chrome:box>
+<a name="searchResults"/>
+<chrome:box title="Results">
+    <table width="100%">
+        <tr>
+            <c:choose>
+                <c:when test="${totalRecords eq 0}">
+                    <td colspan="5">No results found</td>
+                </c:when>
+                <c:otherwise>
+                    <td style="white-space:nowrap;font-size:10px;">${totalRecords} results found, displaying ${begin}
+                        to ${end}</td>
+                    <td colspan="3" style="text-align:center;font-size:12px;"> Page:
+                        <c:if test="${page > 1}"><a
+                                href="javascript:setPage(${page-1})"><img
+                                src="../../images/table/prevPage.gif" height="12" width="15"></a>&nbsp;&nbsp;</c:if>
+                        <c:forEach var="pageNumber" begin="1" end="${numberOfPages}" step="1">
+                            <c:choose>
+                                <c:when test="${pageNumber eq page}">
+                                    <b>${pageNumber}</b>&nbsp;
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="javascript:setPage(${pageNumber})">${pageNumber}</a>&nbsp;
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <c:if test="${page < numberOfPages}">&nbsp;&nbsp;<a
+                            href="javascript:setPage(${page+1})"><img src="../../images/table/nextPage.gif" height="12" width="15"></a></c:if>
+                    </td>
+                    <td style="white-space:nowrap;vertical-align:top;font-size:10px;">Display
+                        <select name="rowsPerPageDisplay" onchange="setRowsPerPage(this.value)">
+                            <option value="5" <c:if test="${rowsPerPage eq 5}">selected</c:if>>5</option>
+                            <option value="15" <c:if test="${rowsPerPage eq 15}">selected</c:if>>15</option>
+                            <option value="25" <c:if test="${rowsPerPage eq 25}">selected</c:if>>25</option>
+                            <option value="50" <c:if test="${rowsPerPage eq 50}">selected</c:if>>50</option>
+                            <option value="75" <c:if test="${rowsPerPage eq 75}">selected</c:if>>75</option>
+                        </select>
+                        rows per page
+                    </td>
 
-<div id="bigSearch" style="display:none;">
-    <div class="endpanes"/>
-    <chrome:box title="clinicalStaff.box.results">
-        <p><tags:instructions code="study.search.results"/></p>
-        <form:form id="assembler">
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
-                <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Staff Profile"
-                             href="createClinicalStaff"/>
-            </proctcae:urlAuthorize>
-            <chrome:division id="single-fields">
-                <div id="tableDiv">
-                    <c:out value="${assembler}" escapeXml="false"/>
-                </div>
-            </chrome:division>
-        </form:form>
-    </chrome:box>
-</div>
+                </c:otherwise>
+            </c:choose>
+        </tr>
+        <tr>
+            <td colspan="5"/>
+            &nbsp;</tr>
+        <tr>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Last name" name="lastName"/>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Study" name="study"/>
+            <td class="tableHeader">Status</td>
+            <td class="tableHeader">Actions</td>
+        </tr>
+        <c:forEach items="${searchResults}" var="row" varStatus="status">
+            <c:set var="class" value="odd"/>
+            <c:if test="${status.index%2==0}">
+                <c:set var="class" value="even"/>
+            </c:if>
+            <tr class="${class}">
+                <td>${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>${row[2]}</td>
+                <td>${row[3]}</td>
+                <td>${row[4]}</td>
+                <td>${row[5]}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:box>
 
 
 </body>

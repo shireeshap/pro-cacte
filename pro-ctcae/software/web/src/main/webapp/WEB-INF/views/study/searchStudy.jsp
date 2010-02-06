@@ -88,12 +88,22 @@
     function doSend() {
         submitForm();
     }
+    function effectiveStaff(cId, status) {
+        var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 280);
+                AE.registerCalendarPopups();
+            },
+            method:'get'
+        })
 
+    }
 </script>
 <body>
 <chrome:box title="study.label.search" autopad="true">
     <form method="POST" action="searchStudy#searchResults">
-        <input name="useReqParam" value="false" type="hidden"/>
+        <input name="useReqParam" value="true" type="hidden"/>
 
         <p><tags:instructions code="study.search.top"/></p>
 
@@ -134,9 +144,10 @@
                 <c:otherwise>
                     <td style="white-space:nowrap;font-size:10px;">${totalRecords} results found, displaying ${begin}
                         to ${end}</td>
-                    <td colspan="3" style="text-align:center;font-size:11px;"> Page:
+                    <td colspan="3" style="text-align:center;font-size:12px;"> Page:
                         <c:if test="${page > 1}"><a
-                                href="javascript:setPage(${page-1})">&lt;</a>&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
+                                href="javascript:setPage(${page-1})"><img
+                                src="../../images/table/prevPage.gif" height="12" width="15"></a>&nbsp;&nbsp;</c:if>
                         <c:forEach var="pageNumber" begin="1" end="${numberOfPages}" step="1">
                             <c:choose>
                                 <c:when test="${pageNumber eq page}">
@@ -147,8 +158,8 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
-                        <c:if test="${page < numberOfPages}">&nbsp;&nbsp;&nbsp;&nbsp;<a
-                            href="javascript:setPage(${page+1})">&gt;</a></c:if>
+                        <c:if test="${page < numberOfPages}">&nbsp;&nbsp;<a
+                            href="javascript:setPage(${page+1})"><img src="../../images/table/nextPage.gif" height="12" width="15"></a></c:if>
                     </td>
                     <td style="white-space:nowrap;vertical-align:top;font-size:10px;">Display
                         <select name="rowsPerPageDisplay" onchange="setRowsPerPage(this.value)">

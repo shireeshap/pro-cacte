@@ -373,8 +373,10 @@
           class="gov.nih.nci.ctcae.web.clinicalStaff.EditClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
-    <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
+    <bean name="/admin/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
+        <property name="clinicalStaffAjaxFacade" ref="clinicalStaffAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
     <bean name="/participant/monitorForm" id="monitorFormController"
           class="gov.nih.nci.ctcae.web.participant.MonitorFormController">
