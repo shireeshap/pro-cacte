@@ -27,7 +27,7 @@ public class SearchClinicalStaffSeleniumTest extends AbstractSeleniumTestCase {
 		selenium.waitForPageToLoad("30000");
 		assertTrue(selenium.isTextPresent("The Clinical Staff was saved successfully"));
 
-        selenium.open("/proctcae/pages/admin/clinicalStaff/createClinicalStaff");
+        selenium.open("/proctcae/pages/admin/createClinicalStaff");
         selenium.click("link=Search Clinical Staff");
         selenium.waitForPageToLoad("30000");
         selenium.type("firstName", firstName);

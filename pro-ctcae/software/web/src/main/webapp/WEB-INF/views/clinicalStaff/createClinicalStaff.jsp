@@ -96,7 +96,7 @@
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+            <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
 
                 <li id="thirdlevelnav-x" class="tab selected">
                     <div>
