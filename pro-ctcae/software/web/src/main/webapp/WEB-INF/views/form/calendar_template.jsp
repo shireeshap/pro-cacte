@@ -510,14 +510,16 @@ function baselinCheck(obj) {
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;font-weight:bold;vertical-align:top">
+            <td style="text-align:left;font-weight:bold;vertical-align:top" colspan="2">
                 <c:if test="${command.crf.createBaseline}">
                     <c:set var="checked" value="checked='true'"/>
                 </c:if>
-                <input type="checkbox" name="baselineCheck" ${checked} onclick="javascript:baselinCheck(this);" checked/>
-                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}" id="crf.createBaseline"/>
+                <input type="checkbox" name="baselineCheck" ${checked} onclick="javascript:baselinCheck(this);"
+                       checked/>
+                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
+                       id="crf.createBaseline"/>
+                <tags:message code='form.tab.baseline'/>
             </td>
-            <td style="text-align:right;font-weight:bold;padding-left:10px;"><tags:message code='form.tab.baseline'/></td>
         </tr>
     </c:if>
     </tr>
