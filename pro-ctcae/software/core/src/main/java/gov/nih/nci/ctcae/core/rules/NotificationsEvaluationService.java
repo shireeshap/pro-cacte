@@ -64,24 +64,27 @@ public class NotificationsEvaluationService {
     private boolean responseSatisfiesRule(StudyParticipantCrfItem studyParticipantCrfItem, NotificationRule notificationRule) {
         ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
         ProCtcQuestionType proCtcQuestionType = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType();
-        int threshold = studyParticipantCrfItem.getProCtcValidValue().getDisplayOrder();
-        for (NotificationRuleSymptom notificationRuleSymptom : notificationRule.getNotificationRuleSymptoms()) {
-            if (notificationRuleSymptom.getProCtcTerm().equals(proCtcTerm)) {
-                for (NotificationRuleCondition notificationRuleCondition : notificationRule.getNotificationRuleConditions()) {
-                    if (notificationRuleCondition.getProCtcQuestionType().equals(proCtcQuestionType)) {
-                        switch (notificationRuleCondition.getNotificationRuleOperator()) {
-                            case GREATER_EQUAL:
-                                return threshold >= notificationRuleCondition.getThreshold().intValue();
-                            case EQUAL:
-                                return threshold == notificationRuleCondition.getThreshold().intValue();
-                            case GREATER:
-                                return threshold > notificationRuleCondition.getThreshold().intValue();
-                            case LESS:
-                                return threshold < notificationRuleCondition.getThreshold().intValue();
-                            case LESS_EQUAL:
-                                return threshold <= notificationRuleCondition.getThreshold().intValue();
-                            default:
-                                return false;
+        ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+        if (value != null) {
+            int threshold = value.getDisplayOrder();
+            for (NotificationRuleSymptom notificationRuleSymptom : notificationRule.getNotificationRuleSymptoms()) {
+                if (notificationRuleSymptom.getProCtcTerm().equals(proCtcTerm)) {
+                    for (NotificationRuleCondition notificationRuleCondition : notificationRule.getNotificationRuleConditions()) {
+                        if (notificationRuleCondition.getProCtcQuestionType().equals(proCtcQuestionType)) {
+                            switch (notificationRuleCondition.getNotificationRuleOperator()) {
+                                case GREATER_EQUAL:
+                                    return threshold >= notificationRuleCondition.getThreshold().intValue();
+                                case EQUAL:
+                                    return threshold == notificationRuleCondition.getThreshold().intValue();
+                                case GREATER:
+                                    return threshold > notificationRuleCondition.getThreshold().intValue();
+                                case LESS:
+                                    return threshold < notificationRuleCondition.getThreshold().intValue();
+                                case LESS_EQUAL:
+                                    return threshold <= notificationRuleCondition.getThreshold().intValue();
+                                default:
+                                    return false;
+                            }
                         }
                     }
                 }
