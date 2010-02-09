@@ -98,10 +98,10 @@ public class ParticipantSchedule {
         int dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
         while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
-                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, formIds);
+                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, formIds, false);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
-                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), formIds);
+                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), formIds, false);
             }
         }
     }
@@ -113,15 +113,16 @@ public class ParticipantSchedule {
      * @param dueAfterPeriodInMill the due after period in mill
      * @param cycleNumber
      * @param cycleDay
+     * @param baseline
      */
-    public StudyParticipantCrfSchedule createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds) {
+    public StudyParticipantCrfSchedule createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                            return studyParticipantCrfSchedule;
+                            continue;
                         }
                     }
                     StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();

@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -78,13 +75,13 @@ public class AddCrfScheduleController extends AbstractController {
             participantSchedule.removeSchedule(c, formIds);
 
             c.setTime(newDate);
-            participantSchedule.createSchedule(c, duedate, -1, -1, formIds);
+            participantSchedule.createSchedule(c, duedate, -1, -1, formIds, false);
 
         }
 
         if ("add".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.createSchedule(c, duedate, -1, -1, formIds);
+            participantSchedule.createSchedule(c, duedate, -1, -1, formIds, false);
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
