@@ -3,6 +3,7 @@ function applyCalendar(index, direction) {
 }
 var calendarArr = new Array();
 var scheduleArr = new Array();
+var forms = new Array();
 
 
 var checkStatus = true;
@@ -15,63 +16,78 @@ function getDate(item) {
 function getIndex(item) {
     return item.id.substring(0, item.id.indexOf('_'));
 }
-
 function initializeCalendar(index) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
-    for (var i = 0; i < myCalendar.length; i++) {
-        if (isdefined(myCalendar[i])) {
-            var div_id = index + '_schedule_' + i;
-            var myschedule = mySchedules[i];
+    for (var day = 0; day < myCalendar.length; day++) {
+        if (isdefined(myCalendar[day])) {
+            var div_id = index + '_schedule_' + day;
+            var myschedule = mySchedules[day];
+            var showdropdown = false;
             if (isdefined(myschedule)) {
-                var tilda = myschedule.indexOf('~');
-                var status = myschedule.substring(0, tilda);
-                myschedule = myschedule.substring(tilda + 1);
-                tilda = myschedule.indexOf('~');
-                var baseline = myschedule.substring(0, tilda);
-                myschedule = myschedule.substring(tilda + 1);
-                tilda = myschedule.indexOf('~');
-                var holiday = myschedule.substring(0, tilda);
-                var scheduleid = myschedule.substring(tilda + 1);
-
-
+                var scheduleid = '';
                 var item = $(div_id);
                 item.addClassName('blue');
                 item.removeClassName('passive');
-                item.innerHTML = '<br/>' + status;
                 item.style.cursor = 'default';
-                if (baseline == 'true') {
-                    item.innerHTML = item.innerHTML + '<br/>(baseline)';
-                }
-                if (status == 'In-progress') {
-                    item.style.background = '#ff9900';
-                }
-                if (status == 'Completed') {
-                    item.style.background = '#00cc00';
-                }
-                if (status == 'Past-due') {
-                    item.style.background = 'red';
-                }
-                if (status == 'Scheduled' || status == 'Past-due') {
-                    if (holiday == 'true') {
-                        item.style.background = '#666666';
+                if (myschedule.length > 1) {
+                    var baseline = false;
+                    item.style.background = 'green';
+                    var title = '';
+                    for (var a = 0; a < myschedule.length; a++) {
+                        scheduleid += myschedule[a][3] + '_';
+                        title = title + forms[index][myschedule[a][3]];
+                        if (a != myschedule.length - 1) {
+                            title = title + ', '
+                        }
                     }
-                    item.style.cursor = 'pointer';
-                    if (baseline != 'true') {
-                        //                        var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
-                        //                                      'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
-                        var delIcon = '<div style="float:right">' +
-                                      '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + scheduleid + '">' +
-                                      '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
-                                      '</div>';
-                        item.innerHTML = delIcon + item.innerHTML;
-                        showPopUpMenuSchedule(i, index, scheduleid);
+                    item.innerHTML = '<br/>Multiple forms<br/>';
+                    showdropdown = true;
+                    item.title = title;
+                } else {
+                    myschedule = myschedule[0];
+                    var status = myschedule[0];
+                    var baseline = myschedule[1];
+                    var holiday = myschedule[2];
+                    scheduleid = myschedule[3];
+//                    alert(status + ', ' + baseline + ', ' + holiday + ',' + scheduleid);
+                    item.innerHTML = '<br/>' + status;
+                    item.title = forms[index][scheduleid];
+                    if (baseline == 'true') {
+                        item.innerHTML = item.innerHTML + '<br/>(baseline)';
                     }
-                    myCalendar[i] = new YAHOO.example.DDPlayer(div_id, 'date');
+                    if (status == 'In-progress') {
+                        item.style.background = '#ff9900';
+                    }
+                    if (status == 'Completed') {
+                        item.style.background = '#00cc00';
+                    }
+                    if (status == 'Past-due') {
+                        item.style.background = 'red';
+                    }
+
+                    if (status == 'Scheduled' || status == 'Past-due') {
+                        if (holiday == 'true') {
+                            item.style.background = '#666666';
+                        }
+                        item.style.cursor = 'pointer';
+                        if (baseline != 'true') {
+                            showdropdown = true;
+                        }
+                    }
                 }
+                if (showdropdown) {
+                    var delIcon = '<div style="float:right">' +
+                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + scheduleid + '">' +
+                                  '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
+                                  '</div>';
+                    item.innerHTML = delIcon + item.innerHTML;
+                    showPopUpMenuSchedule(day, index, scheduleid);
+                }
+                myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
             } else {
-                myCalendar[i] = new YAHOO.util.DDTarget(div_id, 'date');
+                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
                 Event.observe(div_id, "click", function() {
                     showAddWindow(getDate(this), getIndex(this));
                 })
@@ -141,45 +157,6 @@ function initialize() {
         }
     });
 }
-
-function showWindow(htmlcontent) {
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
-        win.setDestroyOnClose();
-        win.setHTMLContent(htmlcontent);
-        win.show(true)
-
-    } else {
-        win.setHTMLContent(htmlcontent);
-        win.refresh();
-    }
-}
-
-
-function showDeleteWindow(date, index) {
-    date = parseInt(date);
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to delete only this form, all forms, or this and all following forms?<br></b></td></tr>' +
-                      '<tr><td>&nbsp;</td></tr>' +
-                      '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'del\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delall\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delallfuture\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
-                      ')"/></td></tr></table>';
-    showWindow(htmlcontent);
-}
-
-function showAddWindow(date, index) {
-    date = parseInt(date);
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to add a new form date?<br></b></td></tr>' +
-                      '<tr><td>&nbsp;</td></tr>' +
-                      '<tr><td align="center"><input type="button" value="Yes" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'add\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
-                      ')"/></td></tr></table>';
-    showWindow(htmlcontent);
-}
-
 
 function selectDate(obj, text, index) {
     addRemoveSchedule(index, date, 'add');

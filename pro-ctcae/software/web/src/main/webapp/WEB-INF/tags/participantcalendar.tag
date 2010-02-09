@@ -4,14 +4,29 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript">
     calendarArr[${index}] = new Array();
     scheduleArr[${index}] = new Array();
+    forms[${index}] = new Array();
 </script>
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule" varStatus="status">
     <script type="text/javascript">
-        scheduleArr[${index}]['<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>'] = '${studyParticipantCrfSchedule.status}~${studyParticipantCrfSchedule.baseline}~${studyParticipantCrfSchedule.holiday}~${studyParticipantCrfSchedule.id}';
+        var day = '<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>';
+        var index = 0;
+        if (typeof(scheduleArr[${index}][day]) == 'undefined') {
+            scheduleArr[${index}][day] = new Array();
+        } else {
+            index = scheduleArr[${index}][day].length;
+        }
+        scheduleArr[${index}][day][index] = new Array();
+        scheduleArr[${index}][day][index][0] = '${studyParticipantCrfSchedule.status}';
+        scheduleArr[${index}][day][index][1] = '${studyParticipantCrfSchedule.baseline}';
+        scheduleArr[${index}][day][index][2] = '${studyParticipantCrfSchedule.holiday}';
+        scheduleArr[${index}][day][index][3] = '${studyParticipantCrfSchedule.id}';
+        scheduleArr[${index}][day][index][4] = '${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}';
+        forms[${index}][${studyParticipantCrfSchedule.id}] = '${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}';
     </script>
 </c:forEach>
 

@@ -21,6 +21,21 @@
             src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/dragdrop/dragdrop-min.js"></script>
     <script type="text/javascript">
         function addRemoveSchedule(index, date, action) {
+            var forms = document.getElementsByName("selectedForms")
+            var fids = '';
+            if (forms.length == 1) {
+                fids = forms[0].value + ',';
+            } else {
+                for (var i = 0; i < forms.length; i++) {
+                    if (forms[i].checked) {
+                        fids += forms[i].value + ',';
+                    }
+                }
+            }
+            if (fids == '' && action != 'cancel') {
+                alert('Please select at least one form');
+                return;
+            }
             closeWindow();
             if (action == 'cancel') {
                 getCalendar(index, "dir=refresh");
@@ -29,7 +44,7 @@
                     onComplete:function(transport) {
                         getCalendar(index, "dir=refresh");
                     },
-                    parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action,
+                    parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
                     method:'get'
                 })
             }
@@ -45,6 +60,26 @@
                 method:'get'
             })
 
+        }
+
+        function showDeleteWindow(date, index, sid) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 180);
+                },
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sid=" + sid,
+                method:'get'
+            })
+        }
+
+        function showAddWindow(date, index) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 210);
+                },
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date ,
+                method:'get'
+            })
         }
 
         function showUpdateStartDateWindow(spcrfid) {
@@ -82,11 +117,10 @@
 
         function showPopUpMenuSchedule(date, index, sid) {
             var html = '<div id="search-engines"><ul>';
-            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ');">Delete form</a></li>';
-            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ');">Move form to other date</a></li>';
+            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
             html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + sid + '\'">Print form</a></li>';
             html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + sid + '\'">Enter responses</a></li>';
-
             html += '</ul></div>';
             jQuery('#scheduleActions' + sid).menu({
                 content: html,
@@ -135,9 +169,9 @@
                             <td>
                                 <b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>
                                 <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;
-                                <%--<a href="javascript:showUpdateStartDateWindow('${participantCrf.id}')">--%>
+                                    <%--<a href="javascript:showUpdateStartDateWindow('${participantCrf.id}')">--%>
                                     <%--Update Start Date--%>
-                                <%--</a>--%>
+                                    <%--</a>--%>
                             </td>
                         </tr>
                         <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"

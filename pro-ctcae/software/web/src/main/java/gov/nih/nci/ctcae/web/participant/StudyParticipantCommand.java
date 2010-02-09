@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +120,11 @@ public class StudyParticipantCommand {
         return participantSchedules;
     }
 
+    public List<ParticipantSchedule> getParticipantSchedules(boolean force) {
+        participantSchedules = null;
+        return getParticipantSchedules();
+    }
+
     /**
      * Sets the participant schedules.
      *
@@ -146,4 +152,17 @@ public class StudyParticipantCommand {
         this.repeatdropdown = repeatdropdown;
     }
 
+    public void lazyInitializeAssignment(GenericRepository genericRepository) {
+        studyParticipantAssignment = genericRepository.findById(StudyParticipantAssignment.class, studyParticipantAssignment.getId());
+        studyParticipantAssignment.getStudyParticipantCrfs();
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+            studyParticipantCrf.getStudyParticipantCrfSchedules();
+            studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
+            studyParticipantCrf.getCrf().getCrfPages();
+            for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
+                crfPage.getCrfPageItems();
+            }
+        }
+        getParticipantSchedules(true);
+    }
 }

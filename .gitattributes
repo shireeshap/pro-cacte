@@ -691,7 +691,6 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/Notification
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantIntegrationTest.java -text
-pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantScheduleTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableIntegrationTestCase.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableValidatorIntegrationTestCase.java -text
@@ -826,8 +825,10 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNam
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddFormScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddNotificationClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DeleteFormScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
@@ -835,7 +836,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterPart
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormUtils.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantClinicalStaffTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantCommand.java -text
@@ -1095,12 +1096,14 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/inbox.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/login.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/addSchedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/delSchedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/inputParticipantResponses.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text
@@ -1631,7 +1634,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTe
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusControllerTest.java -text

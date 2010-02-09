@@ -346,6 +346,15 @@
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
           class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+    <bean name="/participant/deleteFormSchedule" id="deleteFormSchedule"
+          class="gov.nih.nci.ctcae.web.participant.DeleteFormScheduleController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+    <bean name="/participant/addFormSchedule" id="addFormSchedule"
+          class="gov.nih.nci.ctcae.web.participant.AddFormScheduleController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/participant/addNotificationClinicalStaff" id="addNotificationClinicalStaff"
@@ -353,7 +362,7 @@
     </bean>
 
     <bean name="/participant/moveFormSchedule" id="moveFormSchedule"
-          class="gov.nih.nci.ctcae.web.participant.MoveFormController">
+          class="gov.nih.nci.ctcae.web.participant.MoveFormScheduleController">
     </bean>
     <bean name="/participant/updateStudyParticipantCrfStartDate" id="updateStudyParticipantCrfStartDate"
           class="gov.nih.nci.ctcae.web.participant.UpdateStudyParticipantCrfStartDateController "

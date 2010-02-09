@@ -16,7 +16,7 @@ import java.util.GregorianCalendar;
  * @author Vinay Kumar
  * @since Nov 5, 2008
  */
-public class MoveFormController extends AbstractController {
+public class MoveFormScheduleController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);

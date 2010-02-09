@@ -1,15 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
+import java.util.*;
 
 //
 /**
@@ -21,23 +24,28 @@ import java.util.Date;
  */
 public class AddCrfScheduleController extends AbstractController {
 
+    GenericRepository genericRepository;
 
     /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+    */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
         Integer index = Integer.parseInt(request.getParameter("index"));
         String action = request.getParameter("action");
         String date = request.getParameter("date");
+        String fids = request.getParameter("fids");
+        String[] strings = fids.split(",");
+        List formIds = Arrays.asList(strings);
 
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
-        
+
         Calendar c = new GregorianCalendar();
         int duedate = 24 * 60 * 60 * 1000;
         if ("delall".equals(action)) {
-            participantSchedule.removeAllSchedules();
+            participantSchedule.removeAllSchedules(formIds);
         }
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
 
@@ -46,7 +54,7 @@ public class AddCrfScheduleController extends AbstractController {
             Date newDate = DateUtils.parseDate(strNewdate);
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveAllSchedules(DateUtils.daysBetweenDates(newDate, c.getTime()));
+            participantSchedule.moveAllSchedules(DateUtils.daysBetweenDates(newDate, c.getTime()), formIds);
         }
 
         if ("moveallfuture".equals(action)) {
@@ -54,11 +62,11 @@ public class AddCrfScheduleController extends AbstractController {
             Date newDate = DateUtils.parseDate(strNewdate);
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveFutureSchedules(c, DateUtils.daysBetweenDates(newDate, c.getTime()));
+            participantSchedule.moveFutureSchedules(c, DateUtils.daysBetweenDates(newDate, c.getTime()), formIds);
         }
         if ("delallfuture".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.deleteFutureSchedules(c);
+            participantSchedule.deleteFutureSchedules(c, formIds);
         }
 
         if ("add,del".equals(action)) {
@@ -67,22 +75,23 @@ public class AddCrfScheduleController extends AbstractController {
             String olddate = date.substring(date.indexOf(",") + 1);
 
             c.set(Calendar.DATE, Integer.parseInt(olddate));
-            participantSchedule.removeSchedule(c);
+            participantSchedule.removeSchedule(c, formIds);
 
             c.setTime(newDate);
-            participantSchedule.createSchedule(c, duedate, -1, -1);
+            participantSchedule.createSchedule(c, duedate, -1, -1, formIds);
 
         }
 
         if ("add".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.createSchedule(c, duedate, -1, -1);
+            participantSchedule.createSchedule(c, duedate, -1, -1, formIds);
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.removeSchedule(c);
+            participantSchedule.removeSchedule(c, formIds);
         }
-
+        genericRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
         return null;
     }
 
@@ -94,5 +103,10 @@ public class AddCrfScheduleController extends AbstractController {
         super();
         setSupportedMethods(new String[]{"GET"});
 
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

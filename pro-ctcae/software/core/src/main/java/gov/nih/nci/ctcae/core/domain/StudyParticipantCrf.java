@@ -235,7 +235,9 @@ public class StudyParticipantCrf extends BaseVersionable {
         if (crf.getCreateBaseline()) {
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
             participantSchedule.addStudyParticipantCrf(this);
-            StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1);
+            ArrayList list = new ArrayList();
+            list.add("" + id);
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1, list);
             studyParticipantCrfSchedule.setBaseline(true);
         }
     }
@@ -244,7 +246,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.addStudyParticipantCrf(this);
         participantSchedule.setProCtcAECalendar(proCtcAECalendar);
-        participantSchedule.createSchedules(scheduleType);
+        participantSchedule.createSchedules(scheduleType, id);
     }
 
     public StudyParticipantCrfSchedule getBaseLineSchedule() {
