@@ -122,8 +122,16 @@
             var html = '<div id="search-engines"><ul>';
             html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
             html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
-            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + sid + '\'">Print form</a></li>';
-            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + sid + '\'">Enter responses</a></li>';
+            var split = sid.split('_');
+            for (var a = 0; a < split.length; a++) {
+                var scheduleid = split[a];
+                if (scheduleid != '') {
+                    var formName = forms[index][scheduleid];
+                    html += '<li><hr></li>';
+                    html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+                    html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                }
+            }
             html += '</ul></div>';
             jQuery('#scheduleActions' + sid).menu({
                 content: html,
