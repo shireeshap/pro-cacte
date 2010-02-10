@@ -116,24 +116,28 @@ public class ParticipantSchedule {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                            alreadyExists = true;
                             break;
                         }
                     }
-                    StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-                    studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-                    studyParticipantCrfSchedule.setStartDate(c.getTime());
-                    studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
-                    if (cycleNumber != -1) {
-                        studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
-                        studyParticipantCrfSchedule.setCycleDay(cycleDay);
+                    if (!alreadyExists) {
+                        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+                        studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                        studyParticipantCrfSchedule.setStartDate(c.getTime());
+                        studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
+                        if (cycleNumber != -1) {
+                            studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
+                            studyParticipantCrfSchedule.setCycleDay(cycleDay);
+                        }
+                        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+                            studyParticipantCrfSchedule.setHoliday(true);
+                        }
+                        studyParticipantCrfSchedule.setBaseline(baseline);
                     }
-                    if (c.get(Calendar.DAY_OF_WEEK) == 1) {
-                        studyParticipantCrfSchedule.setHoliday(true);
-                    }
-                    studyParticipantCrfSchedule.setBaseline(baseline);
                 }
             }
         }
