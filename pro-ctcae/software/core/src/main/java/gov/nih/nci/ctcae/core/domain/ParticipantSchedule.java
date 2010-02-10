@@ -92,8 +92,11 @@ public class ParticipantSchedule {
      * @throws ParseException the parse exception
      */
     public void createSchedules(ScheduleType scheduleType, Integer id) throws ParseException {
-        List formIds = new ArrayList();
-        formIds.add("" + id);
+        List<String> formIds = null;
+        if (id != null) {
+            formIds = new ArrayList<String>();
+            formIds.add(id.toString());
+        }
         proCtcAECalendar.prepareSchedules(scheduleType);
         int dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
         while (proCtcAECalendar.hasMoreSchedules()) {
@@ -119,7 +122,7 @@ public class ParticipantSchedule {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-                if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+                if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
                             break;
