@@ -40,7 +40,7 @@ public class DeleteFormScheduleController extends AbstractController {
 
         ModelAndView mv = new ModelAndView("participant/delSchedule");
         Set<CRF> crfs = new HashSet<CRF>();
-        String sids = request.getParameter("sid");
+        String sids = request.getParameter("sids");
         String[] sidArr = sids.split("_");
         for (String sid : sidArr) {
             if (!StringUtils.isBlank(sid)) {

@@ -363,6 +363,7 @@
 
     <bean name="/participant/moveFormSchedule" id="moveFormSchedule"
           class="gov.nih.nci.ctcae.web.participant.MoveFormScheduleController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/participant/updateStudyParticipantCrfStartDate" id="updateStudyParticipantCrfStartDate"
           class="gov.nih.nci.ctcae.web.participant.UpdateStudyParticipantCrfStartDateController "
@@ -449,6 +450,7 @@
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"

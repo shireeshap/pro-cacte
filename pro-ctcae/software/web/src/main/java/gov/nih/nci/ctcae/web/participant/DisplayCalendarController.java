@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DisplayCalendarController extends AbstractController {
 
+    GenericRepository genericRepository;
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -23,6 +26,7 @@ public class DisplayCalendarController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaycalendar");
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
         Integer index = Integer.parseInt(request.getParameter("index"));
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
         String direction = request.getParameter("dir");
@@ -51,5 +55,10 @@ public class DisplayCalendarController extends AbstractController {
         super();
         setSupportedMethods(new String[]{"GET"});
 
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

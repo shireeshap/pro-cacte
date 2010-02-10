@@ -50,11 +50,14 @@
             }
         }
 
-        function showMoveWindow(olddate, newdate, index) {
+        function showMoveWindow(olddate, newdate, index, sids) {
+            if (typeof(sids) == 'undefined') {
+                sids = getScheduleIdsForDay(index, olddate);
+            }
             var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate,
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids,
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 180);
+                    showConfirmationWindow(transport, 650, 210);
                     AE.registerCalendarPopups();
                 },
                 method:'get'
@@ -62,12 +65,12 @@
 
         }
 
-        function showDeleteWindow(date, index, sid) {
+        function showDeleteWindow(date, index, sids) {
             var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 650, 180);
                 },
-                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sid=" + sid,
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
                 method:'get'
             })
         }

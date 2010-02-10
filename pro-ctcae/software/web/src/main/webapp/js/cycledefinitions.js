@@ -16,6 +16,22 @@ function getDate(item) {
 function getIndex(item) {
     return item.id.substring(0, item.id.indexOf('_'));
 }
+function getScheduleIdsForDay(index, day) {
+    var mySchedules = scheduleArr[index];
+    var myschedule = mySchedules[day];
+    var scheduleid = '';
+    if (isdefined(myschedule)) {
+        if (myschedule.length > 1) {
+            for (var a = 0; a < myschedule.length; a++) {
+                scheduleid += myschedule[a][3] + '_';
+            }
+        } else {
+            myschedule = myschedule[0];
+            scheduleid = myschedule[3];
+        }
+        return scheduleid;
+    }
+}
 function initializeCalendar(index) {
     initialize();
     var myCalendar = calendarArr[index];
@@ -51,7 +67,6 @@ function initializeCalendar(index) {
                     var baseline = myschedule[1];
                     var holiday = myschedule[2];
                     scheduleid = myschedule[3];
-//                    alert(status + ', ' + baseline + ', ' + holiday + ',' + scheduleid);
                     item.innerHTML = '<br/>' + status;
                     item.title = forms[index][scheduleid];
                     if (baseline == 'true') {

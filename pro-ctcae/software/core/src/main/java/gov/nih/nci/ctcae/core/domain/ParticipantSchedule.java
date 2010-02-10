@@ -115,14 +115,14 @@ public class ParticipantSchedule {
      * @param cycleDay
      * @param baseline
      */
-    public StudyParticipantCrfSchedule createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
+    public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                            continue;
+                            break;
                         }
                     }
                     StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
@@ -133,17 +133,12 @@ public class ParticipantSchedule {
                         studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                         studyParticipantCrfSchedule.setCycleDay(cycleDay);
                     }
-
                     if (c.get(Calendar.DAY_OF_WEEK) == 1) {
                         studyParticipantCrfSchedule.setHoliday(true);
                     }
-
-                    return studyParticipantCrfSchedule;
                 }
             }
         }
-
-        return null;
     }
 
     /**
