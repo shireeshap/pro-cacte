@@ -50,7 +50,7 @@
                                         <td>
                                             <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
                                                    type="radio"
-                                                   value="${validValue.id}" checked> ${validValue} &nbsp;&nbsp;
+                                                   value="${validValue.id}" checked> ${validValue.value} &nbsp;&nbsp;
                                         </td>
                                     </c:when>
                                     <c:otherwise>
@@ -58,7 +58,7 @@
                                         <td>
                                             <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
                                                    type="radio"
-                                                   value="${validValue.id}"> ${validValue} &nbsp;&nbsp;
+                                                   value="${validValue.id}"> ${validValue.value} &nbsp;&nbsp;
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
