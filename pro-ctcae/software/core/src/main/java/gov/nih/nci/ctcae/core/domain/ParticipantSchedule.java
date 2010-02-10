@@ -114,8 +114,14 @@ public class ParticipantSchedule {
      */
     public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
+                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                        if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                            break;
+                        }
+                    }
                     StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                     studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                     studyParticipantCrfSchedule.setStartDate(c.getTime());
