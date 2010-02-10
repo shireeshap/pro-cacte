@@ -27,11 +27,17 @@
         <property name="interceptors">
             <list>
                 <ref bean="sectionInterceptor"/>
+                <ref bean="openSessionInViewInterceptor"/>
             </list>
         </property>
 
     </bean>
-
+    <bean id="openSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
+        <property name="singleSession" value="true"/>
+        <property name="flushModeName" value="FLUSH_AUTO"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
 
@@ -365,13 +371,6 @@
           class="gov.nih.nci.ctcae.web.participant.MoveFormScheduleController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-    <bean name="/participant/updateStudyParticipantCrfStartDate" id="updateStudyParticipantCrfStartDate"
-          class="gov.nih.nci.ctcae.web.participant.UpdateStudyParticipantCrfStartDateController "
-          parent="ctcaeSimpleFormController">
-        <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
-        <property name="genericRepository" ref="genericRepository"/>
-    </bean>
-
     <bean name="/admin/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>

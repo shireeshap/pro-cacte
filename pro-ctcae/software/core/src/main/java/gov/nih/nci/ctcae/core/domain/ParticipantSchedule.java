@@ -88,23 +88,17 @@ public class ParticipantSchedule {
      * Creates the schedules.
      *
      * @param scheduleType
-     * @param id
      * @throws ParseException the parse exception
      */
-    public void createSchedules(ScheduleType scheduleType, Integer id) throws ParseException {
-        List<String> formIds = null;
-        if (id != null) {
-            formIds = new ArrayList<String>();
-            formIds.add(id.toString());
-        }
+    public void createSchedules(ScheduleType scheduleType) throws ParseException {
         proCtcAECalendar.prepareSchedules(scheduleType);
         int dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
         while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
-                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, formIds, false);
+                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, null, false);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
-                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), formIds, false);
+                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false);
             }
         }
     }
@@ -120,14 +114,8 @@ public class ParticipantSchedule {
      */
     public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
-                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                            break;
-                        }
-                    }
                     StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                     studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                     studyParticipantCrfSchedule.setStartDate(c.getTime());
@@ -139,6 +127,7 @@ public class ParticipantSchedule {
                     if (c.get(Calendar.DAY_OF_WEEK) == 1) {
                         studyParticipantCrfSchedule.setHoliday(true);
                     }
+                    studyParticipantCrfSchedule.setBaseline(baseline);
                 }
             }
         }

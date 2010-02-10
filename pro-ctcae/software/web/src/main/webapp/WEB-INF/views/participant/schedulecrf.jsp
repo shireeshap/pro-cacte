@@ -180,9 +180,6 @@
                             <td>
                                 <b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>
                                 <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;
-                                    <%--<a href="javascript:showUpdateStartDateWindow('${participantCrf.id}')">--%>
-                                    <%--Update Start Date--%>
-                                    <%--</a>--%>
                             </td>
                         </tr>
                         <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"
@@ -203,8 +200,6 @@
                     </table>
                     <br/>
                 </c:forEach>
-                <%--<c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>--%>
-                <%--<chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">--%>
                 <chrome:division title="" message="false">
                     <div align="left">
                         <table class="top-widget" cellspacing="0" align="center">
@@ -215,9 +210,6 @@
                                         <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   index="0"/>
-                                            <%--<tags:participantcalendar schedule="${participantSchedule}"--%>
-                                            <%--index="${status.index}"/>--%>
-
                                     </div>
                                 </td>
                             </tr>
