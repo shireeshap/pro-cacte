@@ -92,7 +92,6 @@
             <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}"/>
         </c:forEach>
         <div id="hiddenDiv"></div>
-        <br/>
         <div align="left" style="margin-left:2em">
             <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
                          value="form.rules.add_rule"
@@ -100,6 +99,5 @@
         </div>
     </jsp:attribute>
 </tags:tabForm>
-
 </body>
 </html>

@@ -74,7 +74,6 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        super.postProcess(request, command, errors);
     }
 
     public void setCrfRepository(CRFRepository crfRepository) {

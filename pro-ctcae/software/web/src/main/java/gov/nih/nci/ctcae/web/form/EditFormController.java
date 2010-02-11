@@ -84,7 +84,7 @@ public class EditFormController extends FormController {
         calendarTemplateTab.setStudyRepository(studyRepository);
         flow.addTab(calendarTemplateTab);
 
-        if (myOrgStudyLevel != null) {
+        if (myOrgStudyLevel != null || loggedInUser.isAdmin()) {
             FormRulesTab formRulesTab = new FormRulesTab();
             formRulesTab.setCrfRepository(crfRepository);
             formRulesTab.setProCtcTermRepository(proCtcTermRepository);
