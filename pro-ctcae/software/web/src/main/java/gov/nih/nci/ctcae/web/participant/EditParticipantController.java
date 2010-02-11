@@ -45,6 +45,8 @@ public class EditParticipantController extends ParticipantController {
     */
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         String id = request.getParameter(PARTICIPANT_ID);
         ParticipantCommand command = new ParticipantCommand();
         populateOrganizationsForUser(command);
@@ -65,8 +67,10 @@ public class EditParticipantController extends ParticipantController {
 
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
-            if (!command.getClinicalStaffOrgs().contains(organization)) {
-                command.setReadOnly(true);
+            if (!user.isAdmin()) {
+                if (!command.getClinicalStaffOrgs().contains(organization)) {
+                    command.setReadOnly(true);
+                }
             }
             String siteName = organization.getName();
             command.setOrganizationId(organization.getId());

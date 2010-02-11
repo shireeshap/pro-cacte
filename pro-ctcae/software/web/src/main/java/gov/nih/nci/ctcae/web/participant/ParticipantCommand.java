@@ -45,6 +45,7 @@ public class ParticipantCommand {
     private boolean readOnlyUserName = true;
 
     private boolean odc;
+    private boolean admin;
 
     public boolean isOdc() {
         return odc;
@@ -262,4 +263,17 @@ public class ParticipantCommand {
     public boolean isReadOnlyUserName() {
         return readOnlyUserName;
     }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public boolean getAdmin() {
+        return admin;
+    }
+
 }

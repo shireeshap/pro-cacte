@@ -10,9 +10,9 @@
     <c:forEach items="${unselectedstudysites}" var="studysite">
     Event.observe($('a_${studysite.id}'), 'click', function() {
     <c:forEach items="${studysite.study.crfs}" var="crf">
-        <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
+    <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
         $('form_date_${crf.id}').value = $('study_date_${studysite.id}').value;
-        </c:if>
+    </c:if>
     </c:forEach>
     })
 
@@ -65,19 +65,21 @@
                 <table class="widget" cellspacing="0">
                     <tr>
                         <td class="data" align="left">
-                            <span class="required-indicator">*</span><b> Participant study identifier </b>
+                            <span class="required-indicator">*</span><b>Participant study identifier&nbsp;</b>
                             <input type="text" name="participantStudyIdentifier_${studysite.id}"
                                    value="${studyParticipantAssignment.studyParticipantIdentifier}"
                                    class="validate-NOTEMPTY">
                         </td>
                         <td class="data" align="left">
-                            <b>&nbsp;&nbsp;<spring:message
-                                    code="study.label.arm"/>: </b> ${studyParticipantAssignment.arm.title}
+                            <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
+                                <b>&nbsp;&nbsp;<spring:message
+                                        code="study.label.arm"/>:&nbsp;</b> ${studyParticipantAssignment.arm.title}
+                            </c:if>
                         </td>
                     </tr>
                     <tr>
                         <td class="data" colspan="2">
-                            <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
+                            <b><spring:message code="participant.label.startdate"/>:</b>&nbsp;<tags:formatDate
                                 value="${studyParticipantAssignment.studyStartDate}"/>
                         </td>
 
@@ -118,7 +120,7 @@
                     <table class="widget" cellspacing="0">
                         <tr>
                             <td class="data">
-                                <span class="required-indicator">*</span><b> Participant study identifier </b>
+                                <span class="required-indicator">*</span><b> Participant study identifier&nbsp;</b>
                                 <input type="text" name="participantStudyIdentifier_${studysite.id}"
                                        value="${studyParticipantAssignment.studyParticipantIdentifier}"
                                        title="identifier"
@@ -157,7 +159,7 @@
                                                     doNotshowLabel="true" required="true"
                                                     noForm="true" dateValue="<%= new Date()%>"/>
                                         </td>
-                                     </tr>
+                                    </tr>
                                 </table>
                             </td>
                         </tr>

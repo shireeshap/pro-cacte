@@ -34,7 +34,7 @@
             var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
-                    $("studysitestable").insert(response);
+                    $("studysitestable").update(response);
                 },
                 parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
                 method:'get'
@@ -42,12 +42,17 @@
         }
 
         Event.observe(window, 'load', function() {
+        <c:if test="${command.admin eq true}">
+            acCreate(new siteAutoComplter('organizationId'))
+        </c:if>
             getStudySites();
             Event.observe('organizationId', 'change', function() {
                 getStudySites();
             })
         });
-
+        function doPostProcessing() {
+            getStudySites();
+        }
 
         function showForms(obj, id) {
             var sites = document.getElementsByName('studySites');
@@ -148,24 +153,34 @@
                               value="${command.organizationId}"/>
 
                        <div class="row">
-                           <div class="label"><spring:message code="participant.label.site"/>:</div>
+                           <div class="label"><spring:message code="participant.label.site"/>:&nbsp;</div>
                            <div class="value">${command.siteName}</div>
                        </div>
                    </c:when>
                    <c:otherwise>
                        <c:choose>
-                           <c:when test="${fn:length(organizationsHavingStudySite) eq 2}">
-                               <div class="row">
-                                   <div class="label"><spring:message code="participant.label.site"/>:</div>
-                                   <div class="value">${organizationsHavingStudySite[1].desc}
-                                       <input type="hidden" name="organizationId" id="organizationId"
-                                              value="${organizationsHavingStudySite[1].code}"/>
-                                   </div>
-                               </div>
+                           <c:when test="${command.admin}">
+                               <tags:renderAutocompleter propertyName="organizationId"
+                                                         displayName="participant.label.site"
+                                                         required="true" size="70"/>
                            </c:when>
                            <c:otherwise>
-                               <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
-                                                  required="true" options="${organizationsHavingStudySite}"/>
+                               <c:choose>
+                                   <c:when test="${fn:length(organizationsHavingStudySite) eq 1}">
+                                       <div class="row">
+                                           <div class="label"><spring:message code="participant.label.site"/>:</div>
+                                           <div class="value">${organizationsHavingStudySite[0].desc}
+                                               <input type="hidden" name="organizationId" id="organizationId"
+                                                      value="${organizationsHavingStudySite[0].code}"/>
+                                           </div>
+                                       </div>
+                                   </c:when>
+                                   <c:otherwise>
+                                       <tags:renderSelect propertyName="organizationId"
+                                                          displayName="participant.label.site"
+                                                          required="true" options="${organizationsHavingStudySite}"/>
+                                   </c:otherwise>
+                               </c:choose>
                            </c:otherwise>
                        </c:choose>
                    </c:otherwise>
@@ -267,11 +282,8 @@
            </div>
        </chrome:division>
     <chrome:division title="participant.label.studies"/>
-
-    <chrome:division id="single-fields">
         <div id="studysitestable"/>
-    </chrome:division>
-</jsp:attribute>
+</jsp:attribute>           
 </tags:tabForm>
 </body>
 </html>

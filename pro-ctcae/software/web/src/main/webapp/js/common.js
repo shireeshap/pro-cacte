@@ -267,6 +267,11 @@ function acPostSelect(mode, selectedChoice) {
     } else {
         $(mode.basename + "-input").value = selectedChoice.displayName;
     }
+    try {
+        doPostProcessing();
+    } catch(err) {
+    }
+
 }
 function acCreate(mode) {
     return new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
@@ -286,7 +291,7 @@ Object.extend(siteAutoComplter.prototype, {
         this.basename = basename;
         this.populator = function(autocompleter, text) {
             organization.matchOrganizationForStudySites(text, showAllSites, function(values) {
-                autocompleter.setChoices(values)
+                autocompleter.setChoices(values);
             })
         },
                 this.valueSelector = function (obj) {

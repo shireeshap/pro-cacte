@@ -189,8 +189,9 @@ public class ListValues {
      */
     public static List<ListValues> getOrganizationsHavingStudySite(Set<Organization> organizations) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
-        valuesList.add(new ListValues("", "Please select"));
-
+        if (organizations.size() > 1) {
+            valuesList.add(new ListValues("", "Please select"));
+        }
         for (Organization organization : organizations) {
             valuesList.add(new ListValues(String.valueOf(organization.getId()), organization.getDisplayName()));
         }
