@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 
 //
@@ -121,8 +122,13 @@ public class StudyParticipantCommand {
     }
 
     public List<ParticipantSchedule> getParticipantSchedules(boolean force) {
-        participantSchedules = null;
-        return getParticipantSchedules();
+        for (ParticipantSchedule participantSchedule : participantSchedules) {
+            participantSchedule.getStudyParticipantCrfs().clear();
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+                participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
+            }
+        }
+        return participantSchedules;
     }
 
     /**
