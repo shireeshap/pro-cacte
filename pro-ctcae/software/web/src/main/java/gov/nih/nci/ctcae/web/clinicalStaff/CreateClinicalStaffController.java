@@ -114,7 +114,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, o, e);
 
         if (command.getClinicalStaff().getOrganizationClinicalStaffs().size() == 0) {
-            e.rejectValue("clinicalStaff.organizationClinicalStaffs", "clinicalStaff.no_organization", "clinicalStaff.no_organization");
+            if (!command.getClinicalStaff().getUser().isAdmin()) {
+                e.rejectValue("clinicalStaff.organizationClinicalStaffs", "clinicalStaff.no_organization", "clinicalStaff.no_organization");
+            }
         }
 
         if (command.getUserAccount()) {

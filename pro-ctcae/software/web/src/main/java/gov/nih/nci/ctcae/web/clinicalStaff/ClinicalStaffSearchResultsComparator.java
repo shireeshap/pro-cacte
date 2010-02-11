@@ -35,10 +35,13 @@ public class ClinicalStaffSearchResultsComparator implements Comparator {
     public int compare(Object o1, Object o2) {
         String[] arr1 = (String[]) o1;
         String[] arr2 = (String[]) o2;
-        if ("asc".equals(sortDir)) {
-            return arr1[index].compareTo(arr2[index]);
-        } else {
-            return arr2[index].compareTo(arr1[index]);
+        if (arr1[index] != null && arr2[index] != null) {
+            if ("asc".equals(sortDir)) {
+                return arr1[index].toLowerCase().compareTo(arr2[index].toLowerCase());
+            } else {
+                return arr2[index].toLowerCase().compareTo(arr1[index].toLowerCase());
+            }
         }
+        return 0;
     }
 }

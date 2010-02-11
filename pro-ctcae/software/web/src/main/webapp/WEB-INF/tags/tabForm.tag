@@ -42,14 +42,9 @@
             <jsp:invoke fragment="singleFields"/>
         </chrome:division>
              <jsp:invoke fragment="repeatingFields"/>
-
             <div class="local-buttons">
-
                 <jsp:invoke fragment="localButtons"/>
-
             </div>
-            
-
     </jsp:attribute>
 
 
@@ -57,7 +52,8 @@
 
     <c:if test="${empty tabControls}">
         <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"
-                          saveButtonLabel="${saveButtonLabel}" txtForSaveButton="${txtForSaveButton}" doNotShowSave="${doNotShowSave}">
+                          saveButtonLabel="${saveButtonLabel}" txtForSaveButton="${txtForSaveButton}"
+                          doNotShowSave="${doNotShowSave}">
         </tags:tabControls>
 
     </c:if>

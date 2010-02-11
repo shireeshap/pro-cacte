@@ -84,9 +84,7 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
-
-        <p><tags:instructions code="study.study_details.top"/></p>
-
+        <tags:instructions code="study.study_details.top"/><br/>
         <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
                          required="true" size="50"/>
 

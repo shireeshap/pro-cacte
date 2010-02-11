@@ -38,12 +38,12 @@
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <li id="thirdlevelnav" class="tab selected">
+            <li id="thirdlevelnav-x" class="tab selected">
                 <div>
                     <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                 </div>
             </li>
-            <li id="thirdlevelnav" class="tab">
+            <li id="thirdlevelnav-x" class="tab">
                 <div>
                     <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                 </div>
@@ -67,29 +67,29 @@
                 <td>
 
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.first_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.first_name"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.firstName} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.middle_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.middle_name"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.middleName} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.last_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.last_name"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.lastName} </div>
                     </div>
                 </td>
                 <td style="vertical-align:top">
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.phone"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.phone"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.phoneNumber} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.email_address"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.email_address"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.identifier"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.identifier"/>:</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
                     </div>
                 </td>
@@ -103,11 +103,11 @@
                     <td>
 
                         <div class="row">
-                            <div class="label"><spring:message code="participant.label.username"/></div>
+                            <div class="label"><spring:message code="participant.label.username"/>:</div>
                             <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} </div>
                         </div>
                         <div class="row">
-                            <div class="label"><spring:message code="participant.label.password"/></div>
+                            <div class="label"><spring:message code="participant.label.password"/>:</div>
                             <div class="value">******</div>
                         </div>
                     </td>
@@ -146,7 +146,7 @@
             <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
                              href="searchClinicalStaff"/></td>
             <td>
-            <td><tags:button value="Add new staff" color="blue" markupWithTag="a"
+            <td><tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
                              href="createClinicalStaff"/></td>
             <td>
             <td><tags:button value="Edit" color="blue" markupWithTag="a"

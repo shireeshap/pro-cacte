@@ -55,19 +55,14 @@
 <body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
-
-    <jsp:attribute name="repeatingFields">
-
-        <chrome:division>
-            <p><tags:instructions code="study.study_sites.top"/></p>
-
+    <jsp:attribute name="singleFields">
+            <tags:instructions code="study.study_sites.top"/>
             <div align="left" style="margin-left: 50px">
                 <table width="75%" class="tablecontent" style="display:none;" id="studySiteTable">
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="95%" class="tableHeader"><spring:message
                                 code='study.label.sites' text=''/></th>
                         <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-
                     </tr>
                     <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
                         <c:if test="${not (studySite eq command.study.leadStudySite)}">
@@ -84,7 +79,6 @@
                 <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
                              value="study.button.add_study_site" icon="add" size="small"/>
             </div>
-        </chrome:division>
     </jsp:attribute>
 </tags:tabForm>
 

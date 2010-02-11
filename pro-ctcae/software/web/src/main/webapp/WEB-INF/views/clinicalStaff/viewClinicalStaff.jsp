@@ -8,6 +8,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
 
 <html>
 <head>
@@ -43,29 +45,29 @@
                 <td>
 
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.first_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.first_name"/>:</div>
                         <div class="value">${command.firstName} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.middle_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.middle_name"/>:</div>
                         <div class="value">${command.middleName} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.last_name"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.last_name"/>:</div>
                         <div class="value">${command.lastName} </div>
                     </div>
                 </td>
                 <td style="vertical-align:top">
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.phone"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.phone"/>:</div>
                         <div class="value">${command.phoneNumber} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.email_address"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.email_address"/>:</div>
                         <div class="value">${command.emailAddress} </div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code="clinicalStaff.label.identifier"/></div>
+                        <div class="label"><spring:message code="clinicalStaff.label.identifier"/>:</div>
                         <div class="value">${command.nciIdentifier} </div>
                     </div>
                 </td>
@@ -79,11 +81,11 @@
                     <td>
 
                         <div class="row">
-                            <div class="label"><spring:message code="participant.label.username"/></div>
+                            <div class="label"><spring:message code="participant.label.username"/>:</div>
                             <div class="value">${command.user.username} </div>
                         </div>
                         <div class="row">
-                            <div class="label"><spring:message code="participant.label.password"/></div>
+                            <div class="label"><spring:message code="participant.label.password"/>:</div>
                             <div class="value">******</div>
                         </div>
                     </td>
@@ -119,6 +121,13 @@
 <div style="float:right">
     <table>
         <tr>
+            <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+            <td>
+                    <tags:button value="Edit Staff" color="blue" markupWithTag="a"
+                                 href="createClinicalStaff?clinicalStaffId=${command.id}"/>
+            <td>
+                </proctcae:urlAuthorize>
+
             <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
                              href="searchClinicalStaff"/></td>
             <td>

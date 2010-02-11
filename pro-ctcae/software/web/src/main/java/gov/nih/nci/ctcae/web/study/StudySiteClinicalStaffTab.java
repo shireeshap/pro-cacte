@@ -36,8 +36,10 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     public void onDisplay(HttpServletRequest request, StudyCommand command) {
         super.onDisplay(request, command);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        command.setDefaultOrganization(clinicalStaff.getOrganizationClinicalStaffs().get(0).getOrganization());
+        if (!user.isAdmin()) {
+            ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+            command.setDefaultOrganization(clinicalStaff.getOrganizationClinicalStaffs().get(0).getOrganization());
+        }
 
     }
 

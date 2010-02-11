@@ -179,18 +179,24 @@
         <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
 </chrome:box>
-<a name="searchResults"/>
 <chrome:box title="Results">
+    <a name="searchResults"/>
     <table width="100%">
         <tr>
             <c:choose>
                 <c:when test="${totalRecords eq 0}">
-                    <td colspan="5">No results found</td>
+                    <td colspan="6" style="font-weight:bold;">No results found
+                        <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
+                                     href="createClinicalStaff" size="small"/>
+                    </td>
                 </c:when>
                 <c:otherwise>
-                    <td style="white-space:nowrap;font-size:10px;">${totalRecords} results found, displaying ${begin}
-                        to ${end}</td>
-                    <td colspan="3" style="text-align:center;font-size:12px;"> Page:
+                    <td style="white-space:nowrap;font-size:10px;">
+                            ${totalRecords} results found, displaying ${begin}to ${end}<br/>
+                        <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
+                                     href="createClinicalStaff" size="small"/>
+                    </td>
+                    <td colspan="4" style="text-align:center;font-size:12px;"> Page:
                         <c:if test="${page > 1}"><a
                                 href="javascript:setPage(${page-1})"><img
                                 src="../../images/table/prevPage.gif" height="12" width="15"></a>&nbsp;&nbsp;</c:if>

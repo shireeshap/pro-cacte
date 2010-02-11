@@ -28,7 +28,7 @@ public class UserQuery extends AbstractQuery {
      * @param username the first name
      */
     public void filterByUserName(final String username) {
-        andWhere("user.username = :" + USER_NAME);
+        andWhere("LOWER(user.username) = :" + USER_NAME);
         setParameter(USER_NAME, username.toLowerCase());
     }
 

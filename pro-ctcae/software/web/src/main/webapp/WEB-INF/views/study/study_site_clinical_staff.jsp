@@ -86,7 +86,6 @@
 <body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
-
     <jsp:attribute name="singleFields">
         <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"

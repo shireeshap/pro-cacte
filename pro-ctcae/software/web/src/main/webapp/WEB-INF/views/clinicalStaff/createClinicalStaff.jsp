@@ -97,7 +97,6 @@
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
             <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-
                 <li id="thirdlevelnav-x" class="tab selected">
                     <div>
                         <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
@@ -105,7 +104,6 @@
                 </li>
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/admin/searchClinicalStaff">
-
                 <li id="thirdlevelnav-x" class="tab">
                     <div>
                         <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
@@ -159,13 +157,14 @@
                 <c:when test="${isEdit && not hasUserAccount}">
                     <input type="checkbox" name="userAccount" value="true"
                            id="hasUserAccount"
-                           onclick="showOrHideUserAccountDetails(this.checked)" /> Create a user account for this clinical staff
+                           onclick="showOrHideUserAccountDetails(this.checked)"/> Create a user account for this clinical staff
                     <c:set var="div_useraccount_details_style" value="display:none"/>
                 </c:when>
                 <c:otherwise>
                     <input type="checkbox" name="userAccount" value="true"
                            id="hasUserAccount"
-                           onclick="showOrHideUserAccountDetails(this.checked)" checked/> Create a user account for this clinical staff
+                           onclick="showOrHideUserAccountDetails(this.checked)"
+                           checked/> Create a user account for this clinical staff
                     <c:set var="div_useraccount_details_style" value=""/>
                 </c:otherwise>
             </c:choose>
@@ -183,8 +182,9 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="row">
-                                        <div class="label"><spring:message code="participant.label.username"/></div>
-                                        <div class="value">&nbsp;${clinicalStaffCommand.clinicalStaff.user.username}</div>
+                                        <div class="label"><spring:message code="participant.label.username"/>:</div>
+                                        <div class="value">
+                                            &nbsp;${clinicalStaffCommand.clinicalStaff.user.username}</div>
                                         <input type="hidden" id="clinicalStaff.user.username"
                                                name="clinicalStaff.user.username"
                                                value="${clinicalStaffCommand.clinicalStaff.user.username}">
@@ -196,7 +196,7 @@
                             <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.username && clinicalStaffCommand.validUser}">
                                 <c:set var="style" value="display:none"/>
                                 <div id="resetpass" class="label">
-                                    <a href="javascript:showpassword(true);">Reset password</a></div>
+                                    &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
                             </c:if>
                         </td>
                     </tr>
