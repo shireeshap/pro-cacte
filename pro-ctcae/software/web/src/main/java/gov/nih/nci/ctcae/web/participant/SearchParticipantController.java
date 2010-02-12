@@ -111,6 +111,7 @@ public class SearchParticipantController extends AbstractController {
         List<String[]> displayData = new ArrayList<String[]>();
         List<String[]> displayDataForPage = new ArrayList<String[]>();
         for (int index = 0; index < totalRecords; index++) {
+            boolean isODC = false;
             Participant participant = participants.get(index);
             String sites = "";
             String studies = "";

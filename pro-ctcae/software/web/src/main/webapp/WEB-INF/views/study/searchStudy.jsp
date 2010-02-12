@@ -89,17 +89,6 @@
     function doSend() {
         submitForm();
     }
-    function effectiveStaff(cId, status) {
-        var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 280);
-                AE.registerCalendarPopups();
-            },
-            method:'get'
-        })
-
-    }
 </script>
 <body>
 <chrome:box title="study.label.search" autopad="true">

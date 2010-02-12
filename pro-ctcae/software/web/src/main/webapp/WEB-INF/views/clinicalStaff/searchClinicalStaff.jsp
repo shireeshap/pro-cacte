@@ -55,18 +55,19 @@
 
     function showPopUpMenuClinicalStaff(cid, status, odc) {
         var html = '<div id="search-engines"><ul>';
-    <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
-    </proctcae:urlAuthorize>
-        if (!odc) {
+        if (odc == true || odc == 'true') {
+        <proctcae:urlAuthorize url="/pages/admin/viewClinicalStaff">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
+        </proctcae:urlAuthorize>
+        } else {
+        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
+        </proctcae:urlAuthorize>
             if (status == 'Active') {
                 html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
             } else {
                 html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
             }
-        }
-        else {
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
         }
         html += '</ul></div>';
         jQuery('#clinicalStaffActions' + cid).menu({
@@ -115,6 +116,17 @@
     document.onkeypress = navigate;
     function doSend() {
         submitForm();
+    }
+    function effectiveStaff(cId, status) {
+        alert(cId + ',' + status);
+        var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 280);
+                AE.registerCalendarPopups();
+            },
+            method:'get'
+        })
     }
 </script>
 <body>

@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Required;
  * @author Mehul Gulati
  *         Date: Feb 5, 2010
  */
-public class EditClinicalStaffController extends CtcAeSimpleFormController {
+public class ViewClinicalStaffController extends CtcAeSimpleFormController {
 
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
@@ -31,7 +31,7 @@ public class EditClinicalStaffController extends CtcAeSimpleFormController {
     /**
      * Instantiates a new creates the clinical staff controller.
      */
-    public EditClinicalStaffController() {
+    public ViewClinicalStaffController() {
         super();
         setCommandClass(ClinicalStaff.class);
         setFormView("clinicalStaff/viewClinicalStaff");
