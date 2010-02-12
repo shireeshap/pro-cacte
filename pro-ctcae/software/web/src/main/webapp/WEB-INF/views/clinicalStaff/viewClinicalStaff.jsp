@@ -121,13 +121,6 @@
 <div style="float:right">
     <table>
         <tr>
-            <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-            <td>
-                    <tags:button value="Edit Staff" color="blue" markupWithTag="a"
-                                 href="createClinicalStaff?clinicalStaffId=${command.id}"/>
-            <td>
-                </proctcae:urlAuthorize>
-
             <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
                              href="searchClinicalStaff"/></td>
             <td>

@@ -118,7 +118,6 @@
         submitForm();
     }
     function effectiveStaff(cId, status) {
-        alert(cId + ',' + status);
         var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
             parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
             onComplete:function(transport) {
