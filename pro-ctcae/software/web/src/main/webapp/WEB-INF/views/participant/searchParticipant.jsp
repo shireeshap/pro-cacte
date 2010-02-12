@@ -55,16 +55,18 @@
 
     function showPopUpMenuParticipant(pid, odc) {
         var html = '<div id="search-engines"><ul>';
-    <proctcae:urlAuthorize url="/pages/participant/edit">
         if (odc == true || odc == 'true') {
+        <proctcae:urlAuthorize url="/pages/participant/edit">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">View participant</a></li>';
+        </proctcae:urlAuthorize>
         } else {
+        <proctcae:urlAuthorize url="/pages/participant/edit">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit participant</a></li>';
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
+        </proctcae:urlAuthorize>
         }
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
-    </proctcae:urlAuthorize>
 
         html += '</ul></div>';
         jQuery('#participantActions' + pid).menu({
