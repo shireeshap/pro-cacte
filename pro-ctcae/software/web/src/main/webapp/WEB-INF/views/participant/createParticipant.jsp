@@ -42,8 +42,11 @@
         }
 
         Event.observe(window, 'load', function() {
-        <c:if test="${command.admin eq true}">
-            acCreate(new siteAutoComplter('organizationId'))
+        <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
+            try {
+                acCreate(new siteAutoComplter('organizationId'))
+            } catch(err) {
+            }
         </c:if>
             getStudySites();
             Event.observe('organizationId', 'change', function() {
@@ -283,7 +286,7 @@
        </chrome:division>
     <chrome:division title="participant.label.studies"/>
         <div id="studysitestable"/>
-</jsp:attribute>           
+</jsp:attribute>
 </tags:tabForm>
 </body>
 </html>
