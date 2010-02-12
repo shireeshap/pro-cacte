@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.context.SecurityContextHolder;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 import java.util.List;
@@ -121,7 +124,14 @@ public class SearchParticipantController extends AbstractController {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 studies += studyParticipantAssignment.getStudySite().getStudy().getShortTitle() + "<br/>";
             }
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\");</script>";
+            boolean odc = false;
+            if (participant.getStudyParticipantAssignments().size() > 0) {
+                Study study = participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                odc = user.isODCOnStudy(study);
+            }
+
+            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\",\"" + odc + "\");</script>";
 
             String[] row = new String[]{participant.getLastName(), participant.getFirstName(), sites, studies, actions};
             displayData.add(row);
