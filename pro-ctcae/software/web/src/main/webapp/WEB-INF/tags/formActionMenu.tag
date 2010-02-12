@@ -74,9 +74,9 @@
     <proctcae:urlAuthorize url="/pages/study/createStudy">
     <c:set var="tabVal" value="3"/>
     </proctcae:urlAuthorize>
-        if (isODC == true) {
+        if (isODC == 'true' || isODC == true) {
         <proctcae:urlAuthorize url="/pages/study/editStudy">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit/View Study</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View Study</a></li>';
         </proctcae:urlAuthorize>
         } else {
         <proctcae:urlAuthorize url="/pages/study/editStudy">
