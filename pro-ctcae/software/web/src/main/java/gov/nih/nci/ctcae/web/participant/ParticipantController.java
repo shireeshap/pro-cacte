@@ -50,7 +50,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     protected void layoutTabs(final Flow<ParticipantCommand> flow) {
         flow.addTab(new ParticipantDetailsTab());
         flow.addTab(new ParticipantClinicalStaffTab());
-
+        flow.addTab(new ParticipantReviewTab());
     }
 
     /* (non-Javadoc)

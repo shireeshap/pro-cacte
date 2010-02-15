@@ -12,6 +12,7 @@ import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -67,6 +68,7 @@ public class EditParticipantController extends ParticipantController {
 
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
+            command.setSelectedStudyParticipantAssignment(participant.getStudyParticipantAssignments().get(0));
             if (!user.isAdmin()) {
                 if (!command.getClinicalStaffOrgs().contains(organization)) {
                     command.setReadOnly(true);
@@ -91,5 +93,13 @@ public class EditParticipantController extends ParticipantController {
             return super.getFlow(command);
         }
     }
-    
+
+    @Override
+    protected int getTargetPage(HttpServletRequest request, Object command, Errors errors, int currentPage) {
+        int targetPage = super.getTargetPage(request, command, errors, currentPage);
+        if (currentPage == targetPage) {
+            targetPage = 0;
+        }
+        return targetPage;
+    }
 }

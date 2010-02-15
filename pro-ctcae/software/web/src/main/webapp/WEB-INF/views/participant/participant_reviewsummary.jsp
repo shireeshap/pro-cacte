@@ -125,22 +125,22 @@
 <chrome:division title="participant.label.assigned_studies"/>
 <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment">
     <div class="row">
-        <div class="label"><spring:message code='participant.label.study' text=''/>:</div>
+        <div class="label" style="width:15em"><spring:message code='participant.label.study' text=''/>:</div>
         <div class="value">${studyParticipantAssignment.studySite.study.displayName}</div>
     </div>
     <div class="row">
-        <div class="label"><spring:message code='participant.study.identifier' text=''/>:</div>
+        <div class="label" style="width:15em"><spring:message code='participant.study.identifier' text=''/>:</div>
         <div class="value">${studyParticipantAssignment.studyParticipantIdentifier}</div>
     </div>
     <c:if test="${studyParticipantAssignment.arm.title ne 'Default Arm'}">
         <div class="row">
-            <div class="label"><spring:message code='study.label.arm' text=''/>:</div>
+            <div class="label" style="width:15em"><spring:message code='study.label.arm' text=''/>:</div>
             <div class="value">${studyParticipantAssignment.arm.title}</div>
         </div>
     </c:if>
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf" varStatus="spacrfstatus">
         <div class="row">
-            <div class="label"><spring:message code="form.tab.form"/>:</div>
+            <div class="label" style="width:15em"><spring:message code="form.tab.form"/>:</div>
             <div class="value">${spacrf.crf.title} (<tags:formatDate value="${spacrf.startDate}"/>)</div>
         </div>
     </c:forEach>
