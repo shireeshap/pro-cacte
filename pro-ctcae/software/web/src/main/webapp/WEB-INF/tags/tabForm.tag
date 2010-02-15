@@ -24,9 +24,11 @@
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
 <%@attribute name="txtForSaveButton" %>
 <%@attribute name="doNotShowSave" %>
+<%@attribute name="showFinish" %>
 <c:if test="${empty willSave}"><c:set var="willSave" value="true"/></c:if>
 <c:if test="${empty txtForSaveButton}"><c:set var="txtForSaveButton" value="Save"/></c:if>
 <c:if test="${empty doNotShowSave}"><c:set var="doNotShowSave" value="false"/></c:if>
+<c:if test="${empty showFinish}"><c:set var="showFinish" value="false"/></c:if>
 <form:form name="${formName}" enctype="${enctype}" id="command">
     <chrome:flashMessage/>
 
@@ -53,7 +55,7 @@
     <c:if test="${empty tabControls}">
         <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"
                           saveButtonLabel="${saveButtonLabel}" txtForSaveButton="${txtForSaveButton}"
-                          doNotShowSave="${doNotShowSave}">
+                          doNotShowSave="${doNotShowSave}" showFinish="${showFinish}">
         </tags:tabControls>
 
     </c:if>

@@ -9,9 +9,11 @@
 <%@attribute name="localButtons" fragment="true" %>
 <%@attribute name="txtForSaveButton" %>
 <%@attribute name="doNotShowSave" %>
+<%@attribute name="showFinish" %>
 <c:set var="tabNumber" value="${empty tabNumber ? tab.number : tabNumber}"/>
 <c:set var="isLast" value="${empty isLast ? not (tab.number < flow.tabCount - 1) : isLast}"/>
 <c:set var="doNotShowSave" value="${empty doNotShowSave ? false : doNotShowSave}"/>
+<c:set var="showFinish" value="${empty showFinish ? false : showFinish}"/>
 <div class="content buttons autoclear">
     <div class="local-buttons">
         <jsp:invoke fragment="localButtons"/>
@@ -42,6 +44,9 @@
 			<c:if test="${!doNotShowSave}">
                 <tags:button type="submit" color="green" id="flow-next" value="${continueLabel}"
                              icon="${continueLabel}"/>
+            </c:if>
+			<c:if test="${showFinish && isLast}">
+                &nbsp;&nbsp;&nbsp;<tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
             </c:if>
         </span>
     </div>

@@ -315,7 +315,9 @@
     <bean name="/participant/create" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="participantController"/>
     <bean name="/participant/edit" id="editParticipantController"
-          class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="participantController"/>
+          class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="participantController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">

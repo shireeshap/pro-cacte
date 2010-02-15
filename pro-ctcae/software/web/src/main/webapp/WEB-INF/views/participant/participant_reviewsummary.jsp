@@ -42,7 +42,7 @@
 
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true">
 <jsp:attribute name="singleFields">
 
 <chrome:division title="participant.label.site">

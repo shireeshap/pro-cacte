@@ -7,6 +7,7 @@ import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBe
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 
 public class EditParticipantController extends ParticipantController {
     private static final String PARTICIPANT_ID = "id";
+    private GenericRepository genericRepository;
 
     protected void layoutTabs(final Flow<ParticipantCommand> flow) {
         flow.addTab(new ParticipantReviewTab());
@@ -87,7 +89,10 @@ public class EditParticipantController extends ParticipantController {
     public Flow<ParticipantCommand> getFlow(ParticipantCommand command) {
         if (command.isReadOnly()) {
             Flow readOnlyFlow = new Flow("Enter Participant");
-            readOnlyFlow.addTab(new ParticipantReviewTab());
+            ParticipantReviewTab participantReviewTab = new ParticipantReviewTab();
+            participantReviewTab.setGenericRepository(genericRepository);
+            readOnlyFlow.addTab(participantReviewTab);
+
             return readOnlyFlow;
         } else {
             return super.getFlow(command);
@@ -101,5 +106,10 @@ public class EditParticipantController extends ParticipantController {
             targetPage = 0;
         }
         return targetPage;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }
