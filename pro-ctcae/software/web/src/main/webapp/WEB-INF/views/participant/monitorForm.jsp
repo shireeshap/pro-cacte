@@ -308,14 +308,15 @@ function hideIndicator() {
                                   required="true"
                                   size="100"
                                   noForm="true"/>
-        <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label"><tags:requiredIndicator/>Form</div>
-            <div class="value" id="formDropDown"></div>
+        <div id="formDropDownDiv" class="row" style="display:none">
+            <div class="label"><tags:requiredIndicator/>&nbsp;Form&nbsp;</div>
+            <div class="value" id="formDropDown">&nbsp;&nbsp;</div>
         </div>
 
-        <div id="statusDiv" style="display:none" class="row">
-            <div class="label">Status</div>
+        <div id="statusDiv" class="row" style="display:none">
+            <div class="label">&nbsp;Status&nbsp;</div>
             <div class="value">
+                &nbsp;
                 <select id="formStatus" name="statusOptions">
                     <option value="all">All</option>
                     <option value="IN-PROGRESS">In-progress</option>
@@ -329,19 +330,18 @@ function hideIndicator() {
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
-                                      size="50"
+                                      size="100"
                                       noForm="true"/>
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"
                                       displayName="Participant"
-                                      size="50"
+                                      size="70"
                                       noForm="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
-
-            <div class="label">Date range</div>
-            <div class="value">
+            <div class="label">&nbsp;Date range&nbsp;</div>
+            <div class="value">&nbsp;
                 <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
                     <option value="thisWeek">This Week</option>
                     <option value="lastWeek">Last Week</option>

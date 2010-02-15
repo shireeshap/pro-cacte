@@ -84,18 +84,17 @@
     </script>
     <style type="text/css">
         div.row div.label {
-            width: 16em;
+            width: 15em;
         }
 
         div.row div.value {
-            margin-left: 17em;
+            margin-left: 0em;
         }
     </style>
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
-<jsp:attribute name="repeatingFields">
-
+<jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true" id="_finish"/>
 <tags:renderSelectForDomainObject displayName="participant.label.study" options="${studyParticipantAssignments}"
                                   propertyName="selectedStudyParticipantAssignment" required="true"
@@ -169,13 +168,14 @@
                         propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff"
                         displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
                         required="true"
-                        propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+                        propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"
+                        size="70"/>
             </td>
             <td>
-                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
-                    propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
-                    displayName="participant.label.notification"
-                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                <tags:renderSelect
+                        propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
+                        displayName="participant.label.notification"
+                        required="true" options="${notifyOptions}"/>
             </td>
         </tr>
         <tr>
@@ -184,13 +184,14 @@
                         propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff"
                         displayName="participant.label.clinical.staff.researchnurse" noForm="true"
                         required="true"
-                        propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+                        propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"
+                        size="70"/>
             </td>
             <td>
-                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
-                    propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
-                    displayName="participant.label.notification"
-                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                <tags:renderSelect
+                        propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
+                        displayName="participant.label.notification"
+                        required="true" options="${notifyOptions}"/>
             </td>
         </tr>
     </table>

@@ -175,7 +175,7 @@
                                            <div class="value">${organizationsHavingStudySite[0].desc}
                                                <input type="hidden" name="organizationId" id="organizationId"
                                                       value="${organizationsHavingStudySite[0].code}"/>
-                                           </div>
+                                           </div>                                              
                                        </div>
                                    </c:when>
                                    <c:otherwise>

@@ -56,14 +56,6 @@ public class EditStudyController extends StudyController {
     }
 
     @Override
-    protected int getInitialPage(HttpServletRequest request, Object command) {
-        if (!StringUtils.isBlank(request.getParameter("tab"))) {
-            return Integer.parseInt(request.getParameter("tab"));
-        }
-        return super.getInitialPage(request, command);
-    }
-
-    @Override
     protected int getTargetPage(HttpServletRequest request, Object command, Errors errors, int currentPage) {
         int targetPage = super.getTargetPage(request, command, errors, currentPage);
         if (currentPage == targetPage) {

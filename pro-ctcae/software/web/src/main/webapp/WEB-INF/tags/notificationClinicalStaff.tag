@@ -19,7 +19,8 @@
                 propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"
                 displayName="participant.label.clinical.staff.notificationclinicalstaff" noForm="true"
                 doNotshowLabel="true"
-                propertyValue="${studyParticipantAssignment.notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}"/>
+                propertyValue="${studyParticipantAssignment.notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}"
+                size="70"/>
 
     </td>
     <td style="border-right:none;">

@@ -32,6 +32,13 @@
             padding: 1px;
         }
     </style>
+    <script type="text/javascript">
+        function goTab(tabnumber) {
+
+            $('_target').name = "_target" + tabnumber;
+            $('command').submit();
+        }
+    </script>
 
 </head>
 <body>
@@ -41,67 +48,71 @@
 <chrome:division title="participant.label.site">
     <b>${command.siteName}</b>
 </chrome:division>
-<chrome:division title="participant.label.demographic_information">
+<chrome:division title="participant.label.demographic_information" linkontitle="javascript:goTab('1');"
+                 linkurl="/pages/participant/create">
 
     <table border="0" style="width:100%">
         <tr>
             <td>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.first_name' text=''/>:</div>
                     <div class="value">${command.participant.firstName}</div>
                 </div>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.middle_name' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.middle_name' text=''/>:</div>
                     <div class="value">${command.participant.middleName}</div>
                 </div>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.last_name' text=''/>:</div>
                     <div class="value">${command.participant.lastName}</div>
                 </div>
             </td>
             <td>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.date_of_birth' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.date_of_birth' text=''/>:</div>
                     <div class="value"><tags:formatDate value="${command.participant.birthDate}"/></div>
                 </div>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.gender' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.gender' text=''/>:</div>
                     <div class="value">${command.participant.gender}</div>
                 </div>
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.participant_identifier'
-                                                       text=''/></div>
+                                                       text=''/>:
+                    </div>
                     <div class="value">${command.participant.assignedIdentifier}</div>
                 </div>
             </td>
         </tr>
     </table>
 </chrome:division>
-<chrome:division title="participant.label.contact_information">
+<chrome:division title="participant.label.contact_information" linkontitle="javascript:goTab('1');"
+                 linkurl="/pages/participant/create">
 
     <table border="0" style="width:100%">
         <tr>
             <td width="50%">
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.email_address' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.email_address' text=''/>:</div>
                     <div class="value">${command.participant.emailAddress}</div>
                 </div>
             </td>
             <td width="50%">
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.phone' text=''/></div>
+                    <div class="label"><spring:message code='participant.label.phone' text=''/>:</div>
                     <div class="value">${command.participant.phoneNumber}</div>
                 </div>
             </td>
         </tr>
     </table>
 </chrome:division>
-<chrome:division title="participant.label.logininfo">
+<chrome:division title="participant.label.logininfo" linkontitle="javascript:goTab('1');"
+                 linkurl="/pages/participant/create">
     <table cellpadding="0" cellspacing="0">
         <tr>
             <td>
                 <div class="row">
-                    <div class="label"><spring:message code='participant.label.username'/></div>
+                    <div class="label"><spring:message code='participant.label.username'/>:</div>
                     <div class="value">${command.participant.user.username}</div>
                 </div>
             </td>
@@ -114,18 +125,22 @@
 <chrome:division title="participant.label.assigned_studies"/>
 <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment">
     <div class="row">
-        <div class="label"><spring:message code='participant.label.study' text=''/></div>
+        <div class="label"><spring:message code='participant.label.study' text=''/>:</div>
         <div class="value">${studyParticipantAssignment.studySite.study.displayName}</div>
     </div>
-    <c:if test="${fn:length(studyParticipantAssignment.arm.title)>0}">
+    <div class="row">
+        <div class="label"><spring:message code='participant.study.identifier' text=''/>:</div>
+        <div class="value">${studyParticipantAssignment.studyParticipantIdentifier}</div>
+    </div>
+    <c:if test="${studyParticipantAssignment.arm.title ne 'Default Arm'}">
         <div class="row">
-            <div class="label"><spring:message code='study.label.arm' text=''/></div>
+            <div class="label"><spring:message code='study.label.arm' text=''/>:</div>
             <div class="value">${studyParticipantAssignment.arm.title}</div>
         </div>
     </c:if>
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf" varStatus="spacrfstatus">
         <div class="row">
-            <div class="label"><spring:message code="form.tab.form"/></div>
+            <div class="label"><spring:message code="form.tab.form"/>:</div>
             <div class="value">${spacrf.crf.title} (<tags:formatDate value="${spacrf.startDate}"/>)</div>
         </div>
     </c:forEach>
@@ -180,42 +195,49 @@
         </table>
     </div>
     <br/>
-    <chrome:division title="participant.primaryclinicalstaff"/>
-    <table>
-        <tr>
-            <td>
-                <div class="row">
-                    <div class="label"><spring:message
-                            code="participant.label.clinical.staff.treatingphysician"/></div>
-                    <div class="value"> ${studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</div>
-                </div>
-            </td>
-            <td>
-                <div class="row">
-                    <div class="label"><spring:message code="participant.label.notification"/></div>
-                    <div class="value">${studyParticipantAssignment.treatingPhysician.notify?'Yes':'No'}</div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="row">
-                    <div class="label"><spring:message code="participant.label.clinical.staff.researchnurse"/></div>
-                    <div class="value">
-                            ${studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+    <chrome:division title="participant.primaryclinicalstaff" linkontitle="javascript:goTab('2');"
+                     linkurl="/pages/participant/create"/>
+    <div align="left" style="margin-left: 100px">
+        <table class="tablecontent" width="100%">
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="label" style="width:15em;"><spring:message
+                                code="participant.label.clinical.staff.treatingphysician"/>:
+                        </div>
+                        <div class="value"> ${studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned': studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <div class="row">
-                    <div class="label"><spring:message code="participant.label.notification"/></div>
-                    <div class="value">
-                            ${studyParticipantAssignment.researchNurse.notify?'Yes':'No'}</div>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <chrome:division title="participant.label.otherstaff"/>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="label"><spring:message code="participant.label.notification"/></div>
+                        <div class="value">${studyParticipantAssignment.treatingPhysician.notify?'Yes':'No'}</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="label" style="width:15em;"><spring:message
+                                code="participant.label.clinical.staff.researchnurse"/>:
+                        </div>
+                        <div class="value">
+                                ${studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned' :studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="label"><spring:message code="participant.label.notification"/>:</div>
+                        <div class="value">
+                                ${studyParticipantAssignment.researchNurse.notify?'Yes':'No'}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <chrome:division title="participant.label.otherstaff" linkontitle="javascript:goTab('2');"
+                     linkurl="/pages/participant/create"/>
     <div align="left" style="margin-left: 100px">
         <table class="tablecontent" width="50%">
             <tr id="ss-table-head" class="amendment-table-head">

@@ -66,37 +66,37 @@ public class OrganizationAjaxFacade {
     }
 
     public List<Organization> matchOrganizationForStudySitesWithSecurity(final String text) {
-        List<Organization> organizations = new ArrayList<Organization>();
+        List<Organization> organizations;
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user.isAdmin()) {
-              return matchOrganization(text);
-        }  else {
-        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        if (clinicalStaff != null) {
-            Set<Organization> orgSet = new HashSet<Organization>();
-            for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
-                Organization organization = organizationClinicalStaff.getOrganization();
-                if ("%".equals(text) || organization.getDisplayName().indexOf(text) > 1) {
-                    orgSet.add(organizationClinicalStaff.getOrganization());
-                }
-                for (StudyOrganizationClinicalStaff socs : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
-                    if ((socs.getRole().equals(Role.LEAD_CRA) || socs.getRole().equals(Role.PI)) &&
-                            socs.getRoleStatus().equals(RoleStatus.ACTIVE) && socs.getStatusDate().before(new Date())) {
-                        for (StudyOrganization studyOrganization : socs.getStudyOrganization().getStudy().getStudyOrganizations()) {
-                            organization = studyOrganization.getOrganization();
-                            if ("%".equals(text) || organization.getDisplayName().indexOf(text) > 1) {
-                                orgSet.add(studyOrganization.getOrganization());
+            return matchOrganization(text);
+        } else {
+            ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+            if (clinicalStaff != null) {
+                Set<Organization> orgSet = new HashSet<Organization>();
+                for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+                    Organization organization = organizationClinicalStaff.getOrganization();
+                    if ("%".equals(text) || organization.getDisplayName().indexOf(text) > 1) {
+                        orgSet.add(organizationClinicalStaff.getOrganization());
+                    }
+                    for (StudyOrganizationClinicalStaff socs : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
+                        if ((socs.getRole().equals(Role.LEAD_CRA) || socs.getRole().equals(Role.PI)) &&
+                                socs.getRoleStatus().equals(RoleStatus.ACTIVE) && socs.getStatusDate().before(new Date())) {
+                            for (StudyOrganization studyOrganization : socs.getStudyOrganization().getStudy().getStudyOrganizations()) {
+                                organization = studyOrganization.getOrganization();
+                                if ("%".equals(text) || organization.getDisplayName().indexOf(text) > 1) {
+                                    orgSet.add(studyOrganization.getOrganization());
+                                }
                             }
                         }
                     }
                 }
+                organizations = new ArrayList(orgSet);
+                return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
+            } else {
+                return matchOrganizationForStudySites(text);
             }
-            organizations = new ArrayList(orgSet);
-            return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
-        } else {
-            return matchOrganizationForStudySites(text);
-        }
 
         }
     }

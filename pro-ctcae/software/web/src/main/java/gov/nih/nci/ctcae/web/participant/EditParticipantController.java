@@ -91,4 +91,5 @@ public class EditParticipantController extends ParticipantController {
             return super.getFlow(command);
         }
     }
+    
 }

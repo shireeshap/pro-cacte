@@ -24,6 +24,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -181,6 +182,14 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         Flow<C> cFlow = super.getFlow();
         return getSecuredFlow(cFlow);
 
+    }
+
+    @Override
+    protected int getInitialPage(HttpServletRequest request, Object command) {
+        if (!StringUtils.isBlank(request.getParameter("tab"))) {
+            return Integer.parseInt(request.getParameter("tab"));
+        }
+        return super.getInitialPage(request, command);
     }
 
     /**

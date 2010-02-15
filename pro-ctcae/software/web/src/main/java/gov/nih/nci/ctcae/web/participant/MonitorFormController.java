@@ -14,6 +14,8 @@ public class MonitorFormController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
+        
+
         ModelAndView modelAndView = new ModelAndView("participant/monitorForm");
         return modelAndView;
     }
