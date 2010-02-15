@@ -97,7 +97,10 @@ function updateSymptomDropDown(symptoms) {
 function displaySites() {
 
     organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-        var siteNum = values.length;
+        var siteNum = 2;
+        if (values != '') {
+            var siteNum = values.length;
+        }
         var myStudySiteAutoComplter = new studySiteAutoComplter
                 ('studySite', $('study').value);
         acCreate(myStudySiteAutoComplter);
