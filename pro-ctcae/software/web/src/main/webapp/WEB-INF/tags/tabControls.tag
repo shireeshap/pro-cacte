@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
 <%@attribute name="tabNumber" %>
@@ -10,6 +11,9 @@
 <%@attribute name="txtForSaveButton" %>
 <%@attribute name="doNotShowSave" %>
 <%@attribute name="showFinish" %>
+<%@attribute name="showCreate" %>
+<%@attribute name="createLink" %>
+<%@attribute name="createText" %>
 <c:set var="tabNumber" value="${empty tabNumber ? tab.number : tabNumber}"/>
 <c:set var="isLast" value="${empty isLast ? not (tab.number < flow.tabCount - 1) : isLast}"/>
 <c:set var="doNotShowSave" value="${empty doNotShowSave ? false : doNotShowSave}"/>
@@ -45,9 +49,16 @@
                 <tags:button type="submit" color="green" id="flow-next" value="${continueLabel}"
                              icon="${continueLabel}"/>
             </c:if>
+            <c:if test="${showCreate && isLast}">
+                <proctcae:urlAuthorize url="${createLink}">
+                    &nbsp;&nbsp;&nbsp;<tags:button color="blue" markupWithTag="a" value="${createText}"
+                                                   href="/proctcae${createLink}"/>
+                </proctcae:urlAuthorize>
+            </c:if>
 			<c:if test="${showFinish && isLast}">
                 &nbsp;&nbsp;&nbsp;<tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
             </c:if>
+
         </span>
     </div>
 </div>

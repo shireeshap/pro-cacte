@@ -42,7 +42,7 @@
 
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true" showCreate="true" createLink="/pages/participant/create" createText="Save & add new participant">
 <jsp:attribute name="singleFields">
 
 <chrome:division title="participant.label.site">
