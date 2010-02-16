@@ -23,9 +23,13 @@ import java.nio.charset.Charset;
 
 public class ProCtcTermsImporterV4 {
 
-    public ProCtc loadProCtcTerms() throws IOException {
-//        File file = new ClassPathResource("ProCtcTerms_V4.xls").getFile();
-        File file = new File("/Users/Harsh/workspace/pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls");
+    public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
+        File file;
+        if (fromTestCase) {
+            file = new File("/Users/Harsh/workspace/pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls");
+        } else {
+            file = new ClassPathResource("ProCtcTerms_V4.xls").getFile();
+        }
         InputStream xls = new FileInputStream(file);
         HSSFWorkbook wb = new HSSFWorkbook(xls);
         HSSFSheet sheet = wb.getSheetAt(0);

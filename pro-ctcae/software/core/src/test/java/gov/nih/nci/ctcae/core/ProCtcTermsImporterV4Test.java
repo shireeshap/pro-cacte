@@ -14,7 +14,7 @@ public class ProCtcTermsImporterV4Test extends AbstractTransactionalDataSourceSp
 
     public void testLoadProCtcTerms() {
         try {
-            new ProCtcTermsImporterV4().loadProCtcTerms();
+            new ProCtcTermsImporterV4().loadProCtcTerms(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
