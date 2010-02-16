@@ -25,8 +25,6 @@ public class ProCtcTermsImporterV4Test extends AbstractTransactionalDataSourceSp
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
     };
 
     //    @Override
