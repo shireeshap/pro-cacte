@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
-import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 
-import java.util.Date;
 import java.io.IOException;
 
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
@@ -15,7 +12,7 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
  */
 public class ProCtcTermsImporterV4Test extends AbstractTransactionalDataSourceSpringContextTests {
 
-    public void testLodProCtcTerms() {
+    public void testLoadProCtcTerms() {
         try {
             new ProCtcTermsImporterV4().loadProCtcTerms();
         } catch (IOException e) {
