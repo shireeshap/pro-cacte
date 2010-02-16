@@ -209,7 +209,7 @@ public class ProCtcQuestion extends Question {
      * @return the display name
      */
     public String getDisplayName() {
-        return questionText + " " + proCtcTerm.getCtcTerm().getCtepTerm();
+        return questionText + " " + proCtcTerm.getCtcTerm().getTerm();
     }
 
     /**

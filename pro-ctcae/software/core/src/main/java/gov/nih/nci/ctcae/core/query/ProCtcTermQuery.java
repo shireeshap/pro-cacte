@@ -14,6 +14,7 @@ public class ProCtcTermQuery extends AbstractQuery {
      */
     private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.id ";
     private static String CTC_CATEGORY_ID = "ctcCategoryId";
+    private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
     private static String PROCTC_TERM = "symptom";
 
@@ -21,8 +22,9 @@ public class ProCtcTermQuery extends AbstractQuery {
      * Instantiates a new pro ctc term query.
      */
     public ProCtcTermQuery() {
-
         super(queryString);
+        andWhere("o.ctcTerm.category.ctc.name = :" + CTC_NAME);
+        setParameter(CTC_NAME, "CTC v4.0");
     }
 
     /**
@@ -46,6 +48,6 @@ public class ProCtcTermQuery extends AbstractQuery {
         String searchString = term.toLowerCase();
         andWhere("lower(o.term) = :" + PROCTC_TERM);
         setParameter(PROCTC_TERM, searchString);
-        
+
     }
 }

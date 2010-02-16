@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
  *         Date: Jan 15, 2009
  */
 
-public class CsvImporter {
+public class ProCtcTermsImporterV3 {
 
     private static final String PRO_CTC_TERM = "ProCtcae Term";
     private static final String CTC_TERM = "Ctcae Term";

@@ -18,8 +18,6 @@ public class CtcQuery extends AbstractQuery {
      * The NAME.
      */
     private static String NAME = "term";
-    private static String CTEP_CODE = "ctepCode";
-
 
     /**
      * Instantiates a new ctc query.
@@ -35,14 +33,8 @@ public class CtcQuery extends AbstractQuery {
      */
     public void filterByName(final String name) {
         String searchString = name.toLowerCase();
-        andWhere("(lower(i.ctepTerm) = :" + NAME + " or lower(i.term) = :" + NAME + ")");
+        andWhere("lower(i.term) = :" + NAME + ")");
         setParameter(NAME, searchString);
 
     }
-
-    public void filterByCtepCode(final String meddraCode) {
-        andWhere("i.ctepCode = :" + CTEP_CODE);
-        setParameter(CTEP_CODE, meddraCode);
-    }
-
 }
