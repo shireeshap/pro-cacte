@@ -12,7 +12,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.id ";
+    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.term ";
     private static String CTC_CATEGORY_ID = "ctcCategoryId";
     private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
