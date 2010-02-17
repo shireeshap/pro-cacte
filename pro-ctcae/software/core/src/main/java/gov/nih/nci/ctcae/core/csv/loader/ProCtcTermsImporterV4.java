@@ -23,7 +23,7 @@ public class ProCtcTermsImporterV4 {
 
     public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
         InputStream xls;
-        xls = new ClassPathResource("gov/nih/nci/ctcae/core/ProCtcTerms_V4.xls").getURL().openStream();
+        xls = new ClassPathResource("ProCtcTerms_V4.xls").getURL().openStream();
         HSSFWorkbook wb = new HSSFWorkbook(xls);
         HSSFSheet sheet = wb.getSheetAt(0);
         int rowIndex = 2;
