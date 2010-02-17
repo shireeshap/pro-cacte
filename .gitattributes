@@ -660,7 +660,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/software/core/src/main/resources/META-INF/log4j.properties -text
-pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls -text
 pro-ctcae/software/core/src/main/resources/ctcae_display_rules.csv -text
 pro-ctcae/software/core/src/main/resources/ehcache.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core-security.xml -text

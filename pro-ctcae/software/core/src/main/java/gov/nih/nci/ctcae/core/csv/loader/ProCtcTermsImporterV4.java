@@ -1,20 +1,16 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
-import com.csvreader.CsvReader;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.util.*;
-import java.nio.charset.Charset;
 
 
 /**
@@ -26,13 +22,8 @@ public class ProCtcTermsImporterV4 {
     private CtcTermRepository ctcTermRepository;
 
     public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
-        File file;
-        if (fromTestCase) {
-            file = new File("/Users/Harsh/workspace/pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls");
-        } else {
-            file = new ClassPathResource("ProCtcTerms_V4.xls").getFile();
-        }
-        InputStream xls = new FileInputStream(file);
+        InputStream xls;
+        xls = new ClassPathResource("gov/nih/nci/ctcae/core/ProCtcTerms_V4.xls").getURL().openStream();
         HSSFWorkbook wb = new HSSFWorkbook(xls);
         HSSFSheet sheet = wb.getSheetAt(0);
         int rowIndex = 2;
