@@ -36,7 +36,7 @@ public class LoadProCtcTermController extends AbstractController {
             ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
             Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
             System.out.println("ProCtcTerms Found = " + proCtcTerms.size());
-            if (proCtcTerms.size() > 0) {
+            if (proCtcTerms.size() == 0) {
                 System.out.println("Loading ProCtcTerms");
                 ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
                 csvImporter.setCtcTermRepository(ctcTermRepository);
