@@ -14,7 +14,9 @@
 <%@attribute name="linkontitle" required="false" %>
 <%@attribute name="linkurl" required="false" %>
 
-<proctcae:urlAuthorize url="${linkurl}"><c:set var="showlink" value="true"/></proctcae:urlAuthorize>
+<c:if test="${linkontitle ne null and linkontitle ne ''}">
+    <proctcae:urlAuthorize url="${linkurl}"><c:set var="showlink" value="true"/></proctcae:urlAuthorize>
+</c:if>
 <div class="division ${cssClass}" <tags:attribute name="id" value="${id}"/> <tags:attribute name="style"
                                                                                             value="${style}"/>>
     <div class="header">

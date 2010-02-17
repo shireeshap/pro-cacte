@@ -36,6 +36,9 @@ public class ProCtcTerm extends BasePersistable {
     @Column(name = "term", nullable = false)
     private String term;
 
+    @Column(name = "core", nullable = true)
+    private Boolean core;
+
 
     /**
      * The pro ctc questions.
@@ -192,5 +195,13 @@ public class ProCtcTerm extends BasePersistable {
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
         return result;
+    }
+
+    public Boolean isCore() {
+        return core;
+    }
+
+    public void setCore(Boolean core) {
+        this.core = core;
     }
 }

@@ -13,6 +13,7 @@ public class CtcQuery extends AbstractQuery {
      * The query string.
      */
     private static String queryString = "select i from CtcTerm i order by i.id";
+    private static String CTC_NAME = "ctcName";
 
     /**
      * The NAME.
@@ -24,6 +25,8 @@ public class CtcQuery extends AbstractQuery {
      */
     public CtcQuery() {
         super(queryString);
+        andWhere("i.category.ctc.name = :" + CTC_NAME);
+        setParameter(CTC_NAME, "CTC v4.0");
     }
 
     /**

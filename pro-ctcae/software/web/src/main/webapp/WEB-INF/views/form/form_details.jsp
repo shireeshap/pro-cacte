@@ -31,7 +31,7 @@
     </c:if>
         jQuery('#displayPrefsMenu').menu({
             content: jQuery('#displayOptionsMenu').html(),
-            width:200,
+            width:250,
             positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
             showSpeed: 300
         });
@@ -792,10 +792,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                                       style="visibility:hidden;"></span>Participant term only</a>
         </li>
         <li>
-            <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE term only')"
+            <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE v4 / Meddra term only')"
                id="a_onlyctcterm"><span
                     class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check"
-                    style="visibility:hidden;"></span>CTCAE term only</a>
+                    style="visibility:hidden;"></span>CTCAE v4 / Meddra term only</a>
         </li>
         <li>
             <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')"
@@ -803,9 +803,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                                    style="visibility:hidden;"></span>Both (participant term first)</a>
         </li>
         <li>
-            <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE term first)')"
+            <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE v4/Meddra term first)')"
                id="a_prepend"><span
-                    class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE term
+                    class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE v4 / Meddra term
                 first)</a>
         </li>
     </ul>

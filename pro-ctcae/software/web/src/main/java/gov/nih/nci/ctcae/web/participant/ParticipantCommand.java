@@ -46,6 +46,7 @@ public class ParticipantCommand {
 
     private boolean odc;
     private boolean admin;
+    private boolean edit = false;
 
     public boolean isOdc() {
         return odc;
@@ -276,4 +277,11 @@ public class ParticipantCommand {
         return admin;
     }
 
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
 }

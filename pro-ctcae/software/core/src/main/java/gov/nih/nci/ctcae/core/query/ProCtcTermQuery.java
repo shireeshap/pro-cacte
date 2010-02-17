@@ -50,4 +50,8 @@ public class ProCtcTermQuery extends AbstractQuery {
         setParameter(PROCTC_TERM, searchString);
 
     }
+
+    public void filterByCoreItemsOnly() {
+        andWhere("o.core = true");
+    }
 }

@@ -59,6 +59,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
 
         ProCtcTermQuery query = new ProCtcTermQuery();
+        query.filterByCoreItemsOnly();
         List l = genericRepository.find(query);
         ArrayList<ProCtcTerm> proCtcTerms = (ArrayList<ProCtcTerm>) l;
         submitFormCommand.computeAdditionalSymptoms(proCtcTerms);

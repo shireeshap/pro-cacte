@@ -14,6 +14,7 @@ import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV3;
+import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
 
 import java.util.Collection;
 
@@ -37,9 +38,9 @@ public class LoadProCtcTermController extends AbstractController {
             System.out.println("ProCtcTerms Found = " + proCtcTerms.size());
             if (proCtcTerms.size() == 0) {
                 System.out.println("Loading ProCtcTerms");
-                ProCtcTermsImporterV3 csvImporter = new ProCtcTermsImporterV3();
+                ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
                 csvImporter.setCtcTermRepository(ctcTermRepository);
-                ProCtc proctc = csvImporter.readCsv();
+                ProCtc proctc = csvImporter.loadProCtcTerms(false);
                 proCtcRepository.save(proctc);
                 System.out.println("ProCtcTerms Loaded");
             }

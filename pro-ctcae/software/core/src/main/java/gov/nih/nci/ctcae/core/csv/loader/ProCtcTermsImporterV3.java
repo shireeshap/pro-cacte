@@ -78,7 +78,7 @@ public class ProCtcTermsImporterV3 {
             List<CsvLine> list = hm.get(hmKey);
             CtcQuery ctcQuery = new CtcQuery();
             ctcQuery.filterByName(list.get(0).getCtcTerm());
-            List<CtcTerm> ctcTerm = (List<CtcTerm>) ctcTermRepository.find(ctcQuery);
+            List<CtcTerm> ctcTerm = ctcTermRepository.find(ctcQuery);
             if (ctcTerm.size() == 0) {
                 System.out.println(list.get(0).getCtcTerm());
                 continue;
@@ -90,8 +90,6 @@ public class ProCtcTermsImporterV3 {
             proCtcTerm.setCtcTerm(ctcTerm.get(0));
 
             for (CsvLine hmValue : list) {
-
-
                 ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
                 String temp = hmValue.getQuestionText();
                 temp = StringUtils.replace(temp, "$", hmValue.getProctcTerm());

@@ -19,7 +19,7 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     /**
      * The PRESENT.
      */
-    PRESENT("Present/Not present", new String[]{"Yes", "No"}),
+    PRESENT("Present/Absent", new String[]{"Yes", "No"}),
 
     /**
      * The AMOUNT.

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -39,7 +40,7 @@ public class CtcTermRepository implements Repository<CtcTerm, CtcQuery> {
         throw new CtcAeSystemException("Delete is not supported for ProCtcQuestion");
     }
 
-    public Collection<CtcTerm> find(CtcQuery query) {
+    public List<CtcTerm> find(CtcQuery query) {
         return genericRepository.find(query);
 
 

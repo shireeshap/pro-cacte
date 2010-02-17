@@ -42,13 +42,18 @@
 
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true" showCreate="true" createLink="/pages/participant/create" createText="Save & add new participant">
+<c:if test="${command.edit}">
+    <c:set var="linkDetails" value="javascript:goTab('1');"/>
+    <c:set var="linkStaff" value="javascript:goTab('2');"/>
+</c:if>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true"
+              showCreate="true" createLink="/pages/participant/create" createText="Save & add new participant">
 <jsp:attribute name="singleFields">
 
 <chrome:division title="participant.label.site">
     <b>${command.siteName}</b>
 </chrome:division>
-<chrome:division title="participant.label.demographic_information" linkontitle="javascript:goTab('1');"
+<chrome:division title="participant.label.demographic_information" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
 
     <table border="0" style="width:100%">
@@ -86,7 +91,7 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division title="participant.label.contact_information" linkontitle="javascript:goTab('1');"
+<chrome:division title="participant.label.contact_information" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
 
     <table border="0" style="width:100%">
@@ -106,7 +111,7 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division title="participant.label.logininfo" linkontitle="javascript:goTab('1');"
+<chrome:division title="participant.label.logininfo" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
     <table cellpadding="0" cellspacing="0">
         <tr>
@@ -195,7 +200,7 @@
         </table>
     </div>
     <br/>
-    <chrome:division title="participant.primaryclinicalstaff" linkontitle="javascript:goTab('2');"
+    <chrome:division title="participant.primaryclinicalstaff" linkontitle="${linkStaff}"
                      linkurl="/pages/participant/create"/>
     <div align="left" style="margin-left: 100px">
         <table class="tablecontent" width="100%">
@@ -236,7 +241,7 @@
             </tr>
         </table>
     </div>
-    <chrome:division title="participant.label.otherstaff" linkontitle="javascript:goTab('2');"
+    <chrome:division title="participant.label.otherstaff" linkontitle="${linkStaff}"
                      linkurl="/pages/participant/create"/>
     <div align="left" style="margin-left: 100px">
         <table class="tablecontent" width="50%">

@@ -12,6 +12,15 @@ public class CsvLine {
     String questionType;
     String questionText;
     String proctcValidValues;
+    Boolean coreItem;
+
+    public Boolean isCoreItem() {
+        return coreItem;
+    }
+
+    public void setCoreItem(Boolean coreItem) {
+        this.coreItem = coreItem;
+    }
 
     public String getProctcTerm() {
         return proctcTerm;
@@ -59,5 +68,10 @@ public class CsvLine {
 
     public void setProctcValidValues(String proctcValidValues) {
         this.proctcValidValues = proctcValidValues;
+    }
+
+    @Override
+    public String toString() {
+        return questionText + " | " + proctcTerm + " | " + coreItem + " | " + displayOrder + " | " + questionType + " | " + proctcValidValues + " | " + ctcTerm;
     }
 }
