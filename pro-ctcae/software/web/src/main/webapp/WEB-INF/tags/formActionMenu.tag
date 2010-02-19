@@ -70,7 +70,7 @@
             isODC = false;
         }
         var html = '<div id="search-engines"><ul>';
-    <c:set var="tabVal" value="0"/>
+    <c:set var="tabVal" value="1"/>
     <proctcae:urlAuthorize url="/study/editoverallstaff">
     <c:set var="tabVal" value="2"/>
     </proctcae:urlAuthorize>
@@ -92,7 +92,7 @@
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/study/editsitestaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal+1}\'">Manage Study Site Staff</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Site Staff</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/reports/report">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
