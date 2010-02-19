@@ -189,15 +189,19 @@
             <c:choose>
                 <c:when test="${totalRecords eq 0}">
                     <td colspan="5" style="font-weight:bold;">No results found
-                        <tags:button value="Create New Participant" color="blue" markupWithTag="a"
-                                     href="create" size="small"/>
+                        <proctcae:urlAuthorize url="/pages/participant/create">
+                            <tags:button value="Create New Participant" color="blue" markupWithTag="a"
+                                         href="create" size="small"/>
+                        </proctcae:urlAuthorize>
                     </td>
                 </c:when>
                 <c:otherwise>
                     <td style="white-space:nowrap;font-size:10px;">${totalRecords} results found, displaying ${begin}
                         to ${end}<br/>
-                        <tags:button value="Create New Participant" color="blue" markupWithTag="a"
-                                     href="create" size="small"/>
+                        <proctcae:urlAuthorize url="/pages/participant/create">
+                            <tags:button value="Create New Participant" color="blue" markupWithTag="a"
+                                         href="create" size="small"/>
+                        </proctcae:urlAuthorize>
                     </td>
                     <td colspan="3" style="text-align:center;font-size:12px;"> Page:
                         <c:if test="${page > 1}"><a

@@ -197,15 +197,19 @@
             <c:choose>
                 <c:when test="${totalRecords eq 0}">
                     <td colspan="6" style="font-weight:bold;">No results found
-                        <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
-                                     href="createClinicalStaff" size="small"/>
+                        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+                            <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
+                                         href="createClinicalStaff" size="small"/>
+                        </proctcae:urlAuthorize>
                     </td>
                 </c:when>
                 <c:otherwise>
                     <td style="white-space:nowrap;font-size:10px;">
                             ${totalRecords} results found, displaying ${begin}to ${end}<br/>
-                        <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
-                                     href="createClinicalStaff" size="small"/>
+                        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+                            <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
+                                         href="createClinicalStaff" size="small"/>
+                        </proctcae:urlAuthorize>
                     </td>
                     <td colspan="4" style="text-align:center;font-size:12px;"> Page:
                         <c:if test="${page > 1}"><a
