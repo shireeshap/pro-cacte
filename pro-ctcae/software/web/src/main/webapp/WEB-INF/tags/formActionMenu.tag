@@ -80,7 +80,7 @@
         </proctcae:urlAuthorize>
         } else {
         <proctcae:urlAuthorize url="/pages/study/editStudy">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit/View Study</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View/Edit Study</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/basicForm">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
