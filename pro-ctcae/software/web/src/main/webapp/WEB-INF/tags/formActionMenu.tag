@@ -70,7 +70,7 @@
             isODC = false;
         }
         var html = '<div id="search-engines"><ul>';
-    <c:set var="tabVal" value="1"/>
+    <c:set var="tabVal" value="0"/>
     <proctcae:urlAuthorize url="/study/editoverallstaff">
     <c:set var="tabVal" value="2"/>
     </proctcae:urlAuthorize>
