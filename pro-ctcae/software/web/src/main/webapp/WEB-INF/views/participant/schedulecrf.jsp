@@ -173,6 +173,29 @@
     <jsp:attribute name="singleFields">
         <input type="hidden" name="_finish" value="true"/>
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
+                <chrome:division title="" message="false">
+                    <div align="left">
+                        <table class="top-widget" cellspacing="0" align="center">
+                            <tr>
+                                <td>
+                                    <chrome:division title=" "/>
+                                    <div id="calendar_${status.index}_outer">
+                                        <div id="calendar_${status.index}_inner"></div>
+                                        <tags:participantcalendar schedule="${participantSchedule}"
+                                                                  index="0"/>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </chrome:division>
                 <c:forEach items="${participantSchedule.studyParticipantCrfs}" var="participantCrf"
                            varStatus="crfIndex">
                     <table class="top-widget" cellspacing="0" align="center">
@@ -200,29 +223,7 @@
                     </table>
                     <br/>
                 </c:forEach>
-                <chrome:division title="" message="false">
-                    <div align="left">
-                        <table class="top-widget" cellspacing="0" align="center">
-                            <tr>
-                                <td>
-                                    <chrome:division title=" "/>
-                                    <div id="calendar_${status.index}_outer">
-                                        <div id="calendar_${status.index}_inner"></div>
-                                        <tags:participantcalendar schedule="${participantSchedule}"
-                                                                  index="0"/>
-                                    </div>
-                                </td>
-                            </tr>
 
-                            <tr>
-                                <td>
-                                    <br/><br/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                </chrome:division>
             </c:forEach>
 </jsp:attribute>
 </tags:tabForm>
