@@ -19,7 +19,7 @@ import java.util.List;
  * @since Oct 7, 2008
  */
 
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 public class StudyOrganizationRepository implements Repository<StudyOrganization, StudyOrganizationQuery> {
     private GenericRepository genericRepository;
 
