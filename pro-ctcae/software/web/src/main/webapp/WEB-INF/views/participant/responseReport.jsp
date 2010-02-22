@@ -11,44 +11,53 @@
 
 </head>
 <body>
-<chrome:box
-        title="${completedSchedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}">
+<chrome:box title="${participant.displayName}">
+    <c:choose>
+        <c:when test="${completedSchedule == null}">
+            No completed form found for the participant.
+        </c:when>
+        <c:otherwise>
+            <table width="100%">
+                <tr>
+                    <td colspan="2">
+                        <tags:instructions code="participant.old.responses"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top">
 
-    <table width="100%">
-        <tr>
-            <td colspan="2">
-                <tags:instructions code="participant.old.responses"/>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align:top">
-
-                <b>Scheduled dates </b>
-                <br/>
-                <c:forEach items="${completedSchedule.studyParticipantCrf.studyParticipantCrfSchedules}"
-                           var="studyParticipantCrfSchedule">
-                    <c:if test="${studyParticipantCrfSchedule.status eq 'Completed'}">
-                        <c:choose>
-                            <c:when test="${studyParticipantCrfSchedule.id eq param['id']}">
-                                <b><tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/></b>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="../participant/responseReport?id=${studyParticipantCrfSchedule.id}">
-                                    <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
+                        <b>Scheduled dates </b>
                         <br/>
-                    </c:if>
-                </c:forEach>
-            </td>
-            <td>
-                <tags:completedSchedule completedSchedule="${completedSchedule}"/>
-            </td>
-        </tr>
-    </table>
-
-
+                        <c:forEach items="${participant.studyParticipantAssignments}" var="studyParticipantAssignment">
+                            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"
+                                       var="studyParticipantCrf">
+                                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                                           var="studyParticipantCrfSchedule">
+                                    <c:if test="${studyParticipantCrfSchedule.status eq 'Completed'}">
+                                        <c:choose>
+                                            <c:when test="${studyParticipantCrfSchedule.id eq completedSchedule.id}">
+                                                <b><tags:formatDate
+                                                        value="${studyParticipantCrfSchedule.startDate}"/></b>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="../participant/responseReport?id=${studyParticipantCrfSchedule.id}">
+                                                    <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <br/>
+                                    </c:if>
+                                </c:forEach>
+                            </c:forEach>
+                        </c:forEach>
+                    </td>
+                    <td>
+                        <tags:completedSchedule completedSchedule="${completedSchedule}"/>
+                    </td>
+                </tr>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </chrome:box>
 </body>
 </html>

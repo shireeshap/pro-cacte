@@ -39,28 +39,28 @@
         </c:forEach>
     </table>
 </span>
+<c:if test="${fn:length(table)==0}">
+    No results found
+</c:if>
 <c:forEach items="${table}" var="organizationTable">
     <chrome:box title="${organizationTable.key.displayName}">
 
-        <%--<a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img--%>
-        <%--src="/proctcae/images/table/pdf.gif"--%>
-        <%--alt="pdf"/></a> | --%>
         <div align="right">
             <a href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank">
                 <img src="/proctcae/images/table/xls.gif" alt="xls"/>
             </a>
         </div>
-        
-            <c:forEach items="${organizationTable.value}" var="participantTable">
-                <chrome:division
-                        title="Participant: ${participantTable.key.displayName}"/>
-				<div id="careResultsTable">		
-                ${participantTable.value}
-                <br/>
-				</div>
-            </c:forEach>
 
-        
+        <c:forEach items="${organizationTable.value}" var="participantTable">
+            <chrome:division
+                    title="Participant: ${participantTable.key.displayName}"/>
+            <div id="careResultsTable">
+                    ${participantTable.value}
+                <br/>
+            </div>
+        </c:forEach>
+
+
     </chrome:box>
 </c:forEach>
 </body>

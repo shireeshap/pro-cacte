@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 
@@ -36,10 +37,12 @@ public class SubmitFormCommand implements Serializable {
     private List<ProCtcTerm> sortedSymptoms = new ArrayList<ProCtcTerm>();
     private Map<String, List<DisplayQuestion>> symptomQuestionMap = new HashMap<String, List<DisplayQuestion>>();
     private ProCtcTermRepository proCtcTermRepository;
+    private MeddraRepository meddraRepository;
 
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcTermRepository proCtcTermRepository) {
+    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcTermRepository proCtcTermRepository, MeddraRepository meddraRepository) {
         this.genericRepository = genericRepository;
         this.proCtcTermRepository = proCtcTermRepository;
+        this.meddraRepository = meddraRepository;
         schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
         lazyInitializeSchedule();
         schedule.addParticipantAddedQuestions();
@@ -274,7 +277,7 @@ public class SubmitFormCommand implements Serializable {
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
                     addMeddraQuestion(term, firstTime, newlyAddedQuestions);
                 } else {
-                    CtcTerm ctcTerm = lowLevelTerm.getCtcTerm();
+                    CtcTerm ctcTerm = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm());
                     if (ctcTerm == null) {
                         addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                     } else {
@@ -303,13 +306,23 @@ public class SubmitFormCommand implements Serializable {
     public boolean ctcTermAlreadyExistsInForm(CtcTerm ctcTerm) {
         if (ctcTerm != null) {
             for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
-                if (ctcTerm.equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm())) {
+                if (ctcTerm.getTerm().toLowerCase().equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm().getTerm().toLowerCase())) {
                     return true;
                 }
             }
             for (StudyParticipantCrfScheduleAddedQuestion question : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-                if (ctcTerm.equals(question.getProCtcOrMeddraQuestion().getCtcTerm())) {
-                    return true;
+                Question ctcOrMeddraQuestion = question.getProCtcOrMeddraQuestion();
+                CtcTerm ctcTermToCompare = null;
+                if (ctcOrMeddraQuestion instanceof ProCtcQuestion) {
+                    ctcTermToCompare = ((ProCtcQuestion) ctcOrMeddraQuestion).getProCtcTerm().getCtcTerm();
+                }
+                if (ctcOrMeddraQuestion instanceof MeddraQuestion) {
+                    ctcTermToCompare = meddraRepository.findCtcTermForMeddraTerm(((MeddraQuestion) ctcOrMeddraQuestion).getLowLevelTerm().getMeddraTerm());
+                }
+                if (ctcTermToCompare != null) {
+                    if (ctcTerm.getTerm().toLowerCase().equals(ctcTermToCompare.getTerm().toLowerCase())) {
+                        return true;
+                    }
                 }
             }
         }

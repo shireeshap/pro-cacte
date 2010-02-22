@@ -558,6 +558,7 @@ public class CreateFormCommand implements Serializable {
         SiteCRFNotificationRule siteCRFNotificationRule = new SiteCRFNotificationRule();
         siteCRFNotificationRule.setDisplayOrder(myOrg.getSiteCRFNotificationRules().size());
         siteCRFNotificationRule.setNotificationRule(notificationRule);
+        siteCRFNotificationRule.setCrf(crf);
         myOrg.addSiteCRFNotificationRules(siteCRFNotificationRule);
         return siteCRFNotificationRule;
     }

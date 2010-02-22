@@ -31,4 +31,9 @@ public class MeddraQuery extends AbstractQuery {
         setParameter(MEDDRA_TERM, searchString);
 
     }
+
+    public void filterByMeddraPtId(Integer meddraPtId) {
+        andWhere("llt.meddraPtId = :" + MEDDRA_TERM);
+        setParameter(MEDDRA_TERM, meddraPtId);
+    }
 }

@@ -75,7 +75,7 @@ public class AddFormRuleController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("form/ajax/formRule");
         CreateFormCommand command = ControllersUtils.getFormCommand(request);
         String isSite = request.getParameter("isSite");
-        int index = -1;
+        int index;
         if ("true".equals(isSite)) {
             command.addRuleToSite();
             index = command.getMyOrg().getSiteCRFNotificationRules().size() - 1;

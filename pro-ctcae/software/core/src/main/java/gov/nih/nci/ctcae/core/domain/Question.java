@@ -31,18 +31,4 @@ public abstract class Question extends BasePersistable {
         return "";
 
     }
-
-    @Transient
-    public CtcTerm getCtcTerm() {
-        if (this instanceof ProCtcQuestion) {
-            return ((ProCtcQuestion) this).getProCtcTerm().getCtcTerm();
-        } else {
-            if (this instanceof MeddraQuestion) {
-                return ((MeddraQuestion) this).getLowLevelTerm().getCtcTerm();
-            }
-        }
-        return null;
-    }
-
-
 }

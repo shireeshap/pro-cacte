@@ -138,7 +138,7 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${displayQuestion.questionText}<br/>
+                                ${displayQuestion.questionText}:<br/>
                         </div>
                     </td>
                 </tr>

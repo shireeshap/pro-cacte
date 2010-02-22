@@ -98,17 +98,26 @@ public class DomainObjectPrivilegeGenerator {
         return privileges;
     }
 
+    private boolean isStudyLevel(StudyOrganization studyOrganization, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        boolean isStudyLevel = false;
+        if (studyOrganization instanceof LeadStudySite) {
+            isStudyLevel = (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA) || studyOrganizationClinicalStaff.getRole().equals(Role.PI));
+        }
+        if (studyOrganization instanceof DataCoordinatingCenter) {
+            isStudyLevel = studyOrganizationClinicalStaff.getRole().equals(Role.ODC);
+        }
+        return isStudyLevel;
+    }
+
     private Set<String> generatePrivilege(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         Set<String> privileges = new HashSet<String>();
 
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
-        if (studyOrganization instanceof LeadStudySite) {
-            if (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA) || studyOrganizationClinicalStaff.getRole().equals(Role.PI)) {
-                privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
-                privileges.add(generateGroupPrivilegeForOrganizations());
-                for(StudyOrganization so :studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getStudyOrganizations()){
-                    privileges.add(generatePrivilege(so.getOrganization()));    
-                }
+        if (isStudyLevel(studyOrganization, studyOrganizationClinicalStaff)) {
+            privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
+            privileges.add(generateGroupPrivilegeForOrganizations());
+            for (StudyOrganization so : studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getStudyOrganizations()) {
+                privileges.add(generatePrivilege(so.getOrganization()));
             }
         }
         privileges.add(generatePrivilege(studyOrganization.getStudy()));

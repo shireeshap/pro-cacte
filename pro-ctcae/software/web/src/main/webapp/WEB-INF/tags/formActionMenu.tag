@@ -29,13 +29,20 @@
             html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/editForm">
+            var showruleslink = true;
+        <proctcae:urlAuthorize url="/pages/form/editSchedules">
+            showruleslink = false;
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit schedules/notifications</a></li>';
+        </proctcae:urlAuthorize>
+            if (showruleslink) {
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit notifications</a></li>';
+            }
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/viewForm">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/viewForm"/>?crfId=' + cid + '\'">View form</a></li>';
         </proctcae:urlAuthorize>
         }
-    <proctcae:urlAuthorize url="/pages/participant/copyForm">
+    <proctcae:urlAuthorize url="/pages/form/copyForm">
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/copyForm"/>?crfId=' + cid + '\'">Copy form</a></li>';
     </proctcae:urlAuthorize>
         if (status == 'Draft') {

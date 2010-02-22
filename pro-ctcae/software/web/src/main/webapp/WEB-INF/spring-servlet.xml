@@ -215,6 +215,7 @@
           class="gov.nih.nci.ctcae.web.form.SubmitFormController">
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="meddraRepository" ref="meddraRepository"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
@@ -422,6 +423,7 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportPdfController">

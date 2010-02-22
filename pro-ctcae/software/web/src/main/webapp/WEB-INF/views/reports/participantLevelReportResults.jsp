@@ -77,7 +77,7 @@
     </table>
         </c:when>
         <c:otherwise>
-            There's no data for this participant.
+            There is no data for this participant.
         </c:otherwise>
     </c:choose>
 </chrome:box>

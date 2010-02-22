@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SubmitFormController extends SimpleFormController {
     private GenericRepository genericRepository;
     private ProCtcTermRepository proCtcTermRepository;
+    private MeddraRepository meddraRepository;
 
     public SubmitFormController() {
         super();
@@ -58,7 +60,7 @@ public class SubmitFormController extends SimpleFormController {
             command.lazyInitializeSchedule();
             return command;
         }
-        command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository);
+        command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository, meddraRepository);
         return command;
     }
 
@@ -92,6 +94,11 @@ public class SubmitFormController extends SimpleFormController {
     @Required
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    @Required
+    public void setMeddraRepository(MeddraRepository meddraRepository) {
+        this.meddraRepository = meddraRepository;
     }
 
     private String getReviewView() {

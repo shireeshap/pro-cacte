@@ -55,6 +55,8 @@ public class ProCtcTermsImporterV4 {
             csvLine.setCtcTerm(ctcTerm);
             csvLine.setDisplayOrder(displayOrder);
             csvLine.setQuestionType(questionType);
+            String firstLetter = question.substring(0, 1);
+            question = firstLetter.toUpperCase() + question.substring(1);
             csvLine.setQuestionText(question);
             csvLine.setProctcValidValues(validValues);
             csvLine.setCoreItem(!StringUtils.isBlank(core));

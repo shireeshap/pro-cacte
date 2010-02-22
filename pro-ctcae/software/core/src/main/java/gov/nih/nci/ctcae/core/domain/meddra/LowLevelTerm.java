@@ -14,10 +14,10 @@ import java.util.List;
 @Table(name = "meddra_llt")
 public class LowLevelTerm extends AbstractMeddraDomainObject {
 
-
     private List<MeddraQuestion> meddraQuestions = new ArrayList<MeddraQuestion>();
     private Boolean participantAdded = false;
-    private CtcTerm ctcTerm;
+    private Integer meddraPtId;
+    private String meddraCode;
 
     @Transient
     public String getFullName() {
@@ -47,15 +47,21 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
         this.participantAdded = participantAdded;
     }
 
-    @JoinColumn(name = "meddra_code", referencedColumnName = "ctep_code")
-    @ManyToOne
-    public CtcTerm getCtcTerm() {
-        return ctcTerm;
+    @Column(name = "meddra_pt_id")
+    public Integer getMeddraPtId() {
+        return meddraPtId;
     }
 
-    public void setCtcTerm(CtcTerm ctcTerm) {
-        this.ctcTerm = ctcTerm;
+    public void setMeddraPtId(Integer meddraPtId) {
+        this.meddraPtId = meddraPtId;
     }
 
+    @Column(name = "meddra_code")
+    public String getMeddraCode() {
+        return meddraCode;
+    }
 
+    public void setMeddraCode(String meddraCode) {
+        this.meddraCode = meddraCode;
+    }
 }

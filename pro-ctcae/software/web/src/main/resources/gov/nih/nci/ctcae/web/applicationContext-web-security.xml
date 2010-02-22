@@ -24,6 +24,7 @@
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_SEARCH_FORM"/>
         <intercept-url pattern="/pages/form/editForm" access="PRIVILEGE_EDIT_FORM"/>
         <intercept-url pattern="/pages/form/copyForm" access="PRIVILEGE_COPY_FORM"/>
+        <intercept-url pattern="/pages/form/editSchedules" access="PRIVILEGE_CREATE_FORM"/>
 
         <intercept-url pattern="/pages/form/deleteForm" access="PRIVILEGE_DELETE_FORM"/>
         <intercept-url pattern="/pages/form/versionForm" access="PRIVILEGE_VERSION_FORM"/>

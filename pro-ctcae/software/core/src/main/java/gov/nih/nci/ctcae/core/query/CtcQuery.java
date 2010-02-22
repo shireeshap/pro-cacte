@@ -29,6 +29,10 @@ public class CtcQuery extends AbstractQuery {
         setParameter(CTC_NAME, "CTC v4.0");
     }
 
+    public CtcQuery(boolean useAllVersion) {
+        super(queryString);
+    }
+
     /**
      * Filter by name.
      *
@@ -37,6 +41,13 @@ public class CtcQuery extends AbstractQuery {
     public void filterByName(final String name) {
         String searchString = name.toLowerCase();
         andWhere("lower(i.term) = :" + NAME + ")");
+        setParameter(NAME, searchString);
+
+    }
+
+    public void filterByCtepCode(final String ctepCode) {
+        String searchString = ctepCode.toLowerCase();
+        andWhere("lower(i.ctepCode) = :" + NAME + ")");
         setParameter(NAME, searchString);
 
     }

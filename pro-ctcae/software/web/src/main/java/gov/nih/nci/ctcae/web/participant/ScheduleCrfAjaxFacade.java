@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
@@ -41,6 +42,7 @@ public class ScheduleCrfAjaxFacade {
     private StudyRepository studyRepository;
     private GenericRepository genericRepository;
     private ProCtcTermRepository proCtcTermRepository;
+    private MeddraRepository meddraRepository;
 
     /**
      * Match studies.
@@ -113,7 +115,7 @@ public class ScheduleCrfAjaxFacade {
         }
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
-            if (submitFormCommand.ctcTermAlreadyExistsInForm(meddraTerm.getCtcTerm())) {
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm()))) {
                 return meddraTerm.getMeddraTerm();
             }
         }
@@ -158,5 +160,10 @@ public class ScheduleCrfAjaxFacade {
             (ProCtcTermRepository
                     proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    @Required
+    public void setMeddraRepository(MeddraRepository meddraRepository) {
+        this.meddraRepository = meddraRepository;
     }
 }
