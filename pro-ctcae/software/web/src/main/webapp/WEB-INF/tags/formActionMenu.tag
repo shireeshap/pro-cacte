@@ -81,6 +81,9 @@
     <proctcae:urlAuthorize url="/study/editoverallstaff">
     <c:set var="tabVal" value="2"/>
     </proctcae:urlAuthorize>
+    <proctcae:urlAuthorize url="/study/editsites">
+    <c:set var="tabVal" value="2"/>
+    </proctcae:urlAuthorize>
     <proctcae:urlAuthorize url="/pages/study/createStudy">
     <c:set var="tabVal" value="3"/>
     </proctcae:urlAuthorize>
