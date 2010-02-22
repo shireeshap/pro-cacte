@@ -241,15 +241,8 @@ public class SubmitFormCommand implements Serializable {
     public List<String> getDisplaySymptoms() {
         List<ProCtcTerm> sortedList = getSortedSymptoms();
         List<String> displayList = new ArrayList<String>();
-        int i = 0;
         for (ProCtcTerm symptom : sortedList) {
-            if (symptom.getTerm().length() < 35) {
-                displayList.add(symptom.getTerm());
-                i++;
-            }
-            if (i > 20) {
-                break;
-            }
+            displayList.add(symptom.getTerm());
         }
         return displayList;
     }

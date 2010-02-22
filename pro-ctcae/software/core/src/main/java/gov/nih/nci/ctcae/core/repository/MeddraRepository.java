@@ -18,7 +18,7 @@ import java.util.List;
  * @author Mehul Gulati
  *         Date: Jun 2, 2009
  */
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
 
     private GenericRepository genericRepository;

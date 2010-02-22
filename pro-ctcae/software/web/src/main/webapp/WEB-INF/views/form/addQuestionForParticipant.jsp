@@ -1,3 +1,4 @@
+<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -8,7 +9,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-
+<%
+    Object attribute = request.getAttribute("command");
+    int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
+    int numOfRows = 0;
+    if (numOfSymptoms % 3 == 0) {
+        numOfRows = numOfSymptoms / 3;
+    } else {
+        numOfRows = (numOfSymptoms / 3) + 1;
+    }
+    request.setAttribute("numrows", numOfRows - 1);
+%>
 <html>
 <head>
     <tags:includeVirtualKeyboard/>
@@ -43,8 +54,7 @@
             }
         }
 
-        var nextRowIndex = 7;
-        var nextColumnIndex = 21;
+        var nextColumnIndex = ${fn:length(command.displaySymptoms)};
 
         function acPostSelect(mode, selectedChoice) {
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
@@ -84,29 +94,29 @@
             }
             if (nextColumnIndex % 3 == 0) {
                 var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
-                var row = document.createElement("TR")
+                var row = document.createElement("TR");
 
-                var td1 = document.createElement("TD")
+                var td1 = document.createElement("TD");
                 td1.id = 'td_' + nextColumnIndex + '_a';
                 $(td1).addClassName('label');
 
-                var td2 = document.createElement("TD")
+                var td2 = document.createElement("TD");
                 td2.id = 'td_' + nextColumnIndex + '_b';
                 $(td2).addClassName('label');
 
-                var td3 = document.createElement("TD")
+                var td3 = document.createElement("TD");
                 td3.id = 'td_' + (nextColumnIndex + 1) + '_a';
                 $(td3).addClassName('label');
 
-                var td4 = document.createElement("TD")
+                var td4 = document.createElement("TD");
                 td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
                 $(td4).addClassName('label');
 
-                var td5 = document.createElement("TD")
+                var td5 = document.createElement("TD");
                 td5.id = 'td_' + (nextColumnIndex + 2) + '_a';
                 $(td5).addClassName('label');
 
-                var td6 = document.createElement("TD")
+                var td6 = document.createElement("TD");
                 td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
                 $(td6).addClassName('label');
 
@@ -117,7 +127,6 @@
                 row.appendChild(td5);
                 row.appendChild(td6);
                 tbody.appendChild(row);
-                nextRowIndex++;
             }
             var tda = document.getElementById('td_' + nextColumnIndex + '_a');
             var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
@@ -175,6 +184,7 @@
     </script>
 </head>
 <body>
+
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
@@ -183,13 +193,13 @@
         </p>
         <table id="mytable">
             <tbody>
-            <c:set var="numrows" value="6"/>
+            <c:set var="numrows" value="${numrows}"/>
             <c:set var="displaySymptoms" value="${command.displaySymptoms}"/>
             <c:forEach var="i" begin="0" end="${numrows}" varStatus="status">
                 <c:if test="${displaySymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
-                            <td id="td_${i + (numrows+1)*j}_a" class="" width="1%">
+                            <td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
                                            value="${displaySymptoms[i + (numrows+1)*j]}"
@@ -197,7 +207,7 @@
                                            id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
-                            <td id="td_${i + (numrows+1)*j}_b" class="value" width="32%">
+                            <td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}"
                                          class="label">${displaySymptoms[i + (numrows+1)*j]}</div>

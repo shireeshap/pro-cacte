@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
@@ -110,13 +111,14 @@ public class ScheduleCrfAjaxFacade {
         ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(text);
         if (proCtcTerm != null) {
             if (submitFormCommand.ctcTermAlreadyExistsInForm(proCtcTerm.getCtcTerm())) {
-                return proCtcTerm.getTerm();
+                return proCtcTerm.getCtcTerm().getTerm();
             }
         }
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
-            if (submitFormCommand.ctcTermAlreadyExistsInForm(meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm()))) {
-                return meddraTerm.getMeddraTerm();
+            CtcTerm ctcTerm = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm());
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerm)) {
+                return ctcTerm.getTerm();
             }
         }
         return "";
