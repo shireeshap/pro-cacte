@@ -12,6 +12,9 @@ public abstract class Question extends BasePersistable {
     protected String questionText;
 
     public String getQuestionText() {
+        if (questionText.indexOf(":") != -1) {
+            questionText = questionText.substring(0, questionText.indexOf(":"));
+        }
         return questionText;
     }
 
