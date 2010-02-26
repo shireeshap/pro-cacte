@@ -476,6 +476,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/023_add_privilege.
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/024_add_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/025_insert_ctcae_v4.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/026_alter_proctcterm.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/027_add_privilege.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text

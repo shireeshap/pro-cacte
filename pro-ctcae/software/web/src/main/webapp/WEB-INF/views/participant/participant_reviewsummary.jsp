@@ -8,6 +8,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
 
 <html>
 <head>
@@ -46,7 +48,14 @@
     <c:set var="linkDetails" value="javascript:goTab('1');"/>
     <c:set var="linkStaff" value="javascript:goTab('2');"/>
 </c:if>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}" showFinish="true"
+<c:set var="readOnly" value="true"/>
+<proctcae:urlAuthorize url="/pages/participant/trueedit">
+    <c:set var="readOnly" value="false"/>
+</proctcae:urlAuthorize>
+<proctcae:urlAuthorize url="/pages/participant/create">
+    <c:set var="readOnly" value="false"/>
+</proctcae:urlAuthorize>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc || readOnly}" showFinish="true"
               showCreate="true" createLink="/pages/participant/create" createText="Save & add new participant">
 <jsp:attribute name="singleFields">
 
