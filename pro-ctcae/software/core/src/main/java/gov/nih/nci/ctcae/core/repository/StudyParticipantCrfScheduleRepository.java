@@ -15,7 +15,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @since Mar 11, 2009
  */
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class StudyParticipantCrfScheduleRepository implements Repository<StudyParticipantCrfSchedule, Query> {
     private GenericRepository genericRepository;
 
