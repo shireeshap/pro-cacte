@@ -455,6 +455,10 @@
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/form/matchSymptoms" id="MatchSymptomsController"
+          class="gov.nih.nci.ctcae.web.participant.MatchSymptomsController">
+        <property name="scheduleCrfAjaxFacade" ref="scheduleCrfAjaxFacade"/>
+    </bean>
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">

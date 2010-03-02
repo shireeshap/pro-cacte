@@ -22,6 +22,10 @@
 %>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css"
+          href="http://yui.yahooapis.com/combo?2.8.0r4/build/autocomplete/assets/skins/sam/autocomplete.css">
+    <script type="text/javascript"
+            src="http://yui.yahooapis.com/combo?2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js&2.8.0r4/build/animation/animation-min.js&2.8.0r4/build/connection/connection-min.js&2.8.0r4/build/datasource/datasource-min.js&2.8.0r4/build/autocomplete/autocomplete-min.js"></script>
     <tags:includeVirtualKeyboard/>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
@@ -38,25 +42,49 @@
             font-size: 15px;
             vertical-align: top;
         }
+
+        #participantSymptomAutoComplete {
+            width: 25em;
+            padding-bottom: 2em;
+        }
+
+        #participantSymptomAutoComplete .yui-ac-content {
+            max-height: 10em;
+            overflow: auto;
+            overflow-x: hidden; /* set scrolling */
+            _height: 30em; /* ie6 */
+        }
+
     </style>
     <tags:includeScriptaculous/>
     <tags:dwrJavascriptLink objects="scheduleCrf"/>
     <script type="text/javascript">
-        var participantQuestionAutocompleterProps = {
-            basename: "participantquestion",
-            populator: function(autocompleter, text) {
-                scheduleCrf.matchSymptoms(text, function(values) {
-                    autocompleter.setChoices(values);
-                })
-            },
-            valueSelector: function(obj) {
-                return obj
-            }
+
+        function initializeAutoCompleter() {
+            var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
+            oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
+            oDS.responseSchema = {
+                recordDelim: ";",
+                fieldDelim: "\t"
+            };
+            var oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
+            oAC.maxResultsDisplayed = 100;
+
+            var myHandler = function(sType, aArgs) {
+                var myAC = aArgs[0];
+                var elLI = aArgs[1];
+                var oData = aArgs[2];
+                alert(oData);
+            };
+            return {
+                oDS: oDS,
+                oAC: oAC
+            };
         }
 
         var nextColumnIndex = ${fn:length(command.displaySymptoms)};
 
-        function acPostSelect(mode, selectedChoice) {
+        function addNewSymptom(selectedChoice) {
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
                 if (values != '') {
                     var q = 'You have already answered a question for ' + values + ', are you sure that you want to also answer a question for ' + selectedChoice + '?\nPress OK to add ' + selectedChoice + ', otherwise press Cancel.';
@@ -82,13 +110,15 @@
             if (!itemfound) {
                 addCheckbox(selectedChoice);
             }
-            $('participantquestion-input').clear();
+            clearInput();
             initSearchField();
 
         }
-
+        function clearInput() {
+            $('participantSymptomInput').clear();
+        }
         function addCheckbox(selectedChoice) {
-            $('participantquestion-input').clear();
+            clearInput();
             if (selectedChoice == '') {
                 return;
             }
@@ -148,20 +178,9 @@
             nextColumnIndex++;
         }
 
-        function acCreate(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    showVirtualKeyBoard($('usevirtualkeyboard'), 'participantquestion-input');
-                },
-                indicator: mode.basename + "-indicator"
-            })
-        }
 
         Event.observe(window, "load", function() {
-            acCreate(participantQuestionAutocompleterProps)
+            initializeAutoCompleter()
             initSearchField();
         })
 
@@ -184,7 +203,6 @@
     </script>
 </head>
 <body>
-
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
@@ -229,22 +247,46 @@
 
         <div id="keyboardDiv"></div>
         <br/>
-        <input type="text" id="participantquestion-input" value="" class="autocomplete"
-               size="60"/>
-        <input type="hidden" id="participantquestion"/>
-        <img src="/proctcae/images/blue/clear-left-button.png"
-             onclick="javascript:$('participantquestion-input').clear();"
-             style="vertical-align:top;cursor:pointer"/>
-        <tags:indicator id="participantquestion-indicator"/>
-        <div id="participantquestion-add" style="display:none">
-            <tags:button onclick="javascript:acPostSelect(null,$('participantquestion-input').value)" icon="add"
-                         size="small" color="blue" value="add" markupWithTag="a"/>
+        <%--<input type="text" id="participantquestion-input" value="" class="autocomplete"--%>
+        <%--size="60"/>--%>
+        <%--<input type="hidden" id="participantquestion"/>--%>
+        <%--<img src="/proctcae/images/blue/clear-left-button.png"--%>
+        <%--onclick="javascript:$('participantquestion-input').clear();"--%>
+        <%--style="vertical-align:top;cursor:pointer"/>--%>
+        <%--<tags:indicator id="participantquestion-indicator"/>--%>
+        <%--<div id="participantquestion-add" style="display:none">--%>
+        <%--</div>--%>
+
+        <%--<div id="participantquestion-choices" class="autocomplete"></div>--%>
+
+        <div class="yui-skin-sam">
+            <table cellspacing="10px;">
+                <tr>
+                    <td>
+                        <div id="participantSymptomAutoComplete">
+                            <input id="participantSymptomInput" type="text">
+
+                            <div id="participantSymptomContainer"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
+                                     icon="add"
+                                     size="small" color="blue" value="add" markupWithTag="a"/>
+                    </td>
+                    <td>
+                        <tags:button onclick="javascript:clearInput()"
+                                     icon="x"
+                                     size="small" color="blue" value="clear" markupWithTag="a"/>
+                    </td>
+                </tr>
+            </table>
+
         </div>
 
-        <div id="participantquestion-choices" class="autocomplete"></div>
         <div class="row">
             <input id='usevirtualkeyboard' type="checkbox"
-                   onclick="showVirtualKeyBoard(this,'participantquestion-input');">&nbsp;Use virtual
+                   onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual
             keyboard
         </div>
 

@@ -840,6 +840,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MatchSymptomsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormUtils.java -text
