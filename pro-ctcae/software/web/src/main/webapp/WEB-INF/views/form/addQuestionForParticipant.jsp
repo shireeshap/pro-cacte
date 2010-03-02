@@ -59,7 +59,7 @@
     <tags:includeScriptaculous/>
     <tags:dwrJavascriptLink objects="scheduleCrf"/>
     <script type="text/javascript">
-
+        var oAC;
         function initializeAutoCompleter() {
             var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
             oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
@@ -67,19 +67,8 @@
                 recordDelim: ";",
                 fieldDelim: "\t"
             };
-            var oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
+            oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
             oAC.maxResultsDisplayed = 100;
-
-            var myHandler = function(sType, aArgs) {
-                var myAC = aArgs[0];
-                var elLI = aArgs[1];
-                var oData = aArgs[2];
-                alert(oData);
-            };
-            return {
-                oDS: oDS,
-                oAC: oAC
-            };
         }
 
         var nextColumnIndex = ${fn:length(command.displaySymptoms)};
@@ -182,8 +171,9 @@
         Event.observe(window, "load", function() {
             initializeAutoCompleter()
             initSearchField();
-        })
+            var input = document.getElementById('participantSymptomInput');
 
+        })
 
         function changeClass(obj, index) {
             var div = $('div_' + index);

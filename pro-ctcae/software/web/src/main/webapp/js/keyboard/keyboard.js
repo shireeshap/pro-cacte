@@ -2941,7 +2941,7 @@ function VKI_buildKeyboardInputs() {
         } else if (this.VKI_target.createTextRange && this.VKI_target.range)
             this.VKI_target.range.select();
         try {
-            fireEvent(this.VKI_target, 'keydown');
+            fireEvent(this.VKI_target, 'keyup');
         } catch(err) {
         }
 
