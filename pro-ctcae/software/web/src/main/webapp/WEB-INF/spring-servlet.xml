@@ -418,6 +418,7 @@
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
     <bean name="/participant/responseReport" id="participantResponseReportController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">

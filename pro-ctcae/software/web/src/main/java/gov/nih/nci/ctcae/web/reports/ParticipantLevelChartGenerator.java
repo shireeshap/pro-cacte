@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.EmptyBlock;
@@ -61,12 +58,12 @@ public class ParticipantLevelChartGenerator {
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
-    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes, String baselineDate) {
-        ProCtcTerm selectedTerm = null;
-        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart = null;
-        for (ProCtcTerm proCtcTerm : results.keySet()) {
-            if (proCtcTerm.getId().equals(inputSymptomId)) {
-                selectedTerm = proCtcTerm;
+    public JFreeChart getChartForSymptom(TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
+        String selectedTerm = null;
+        HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart = null;
+        for (String term : results.keySet()) {
+            if (term.equals(inputTerm)) {
+                selectedTerm = inputTerm;
                 dataForChart = results.get(selectedTerm);
                 break;
             }
@@ -86,34 +83,40 @@ public class ParticipantLevelChartGenerator {
      * @param baselineDataSet
      * @return the category dataset
      */
-    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes, String baselineDate, DefaultCategoryDataset baselineDataSet) {
+    private CategoryDataset createDataset(HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes, String baselineDate, DefaultCategoryDataset baselineDataSet) {
 
         int i = 0;
         HashMap<String, Integer> baselineValues = new HashMap<String, Integer>();
-        for (String date : dates) {
-            if (date.indexOf(baselineDate) > -1) {
-                for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
-                    ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
-                    ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
-                    String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
-                    baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
+        if (baselineDate != null) {
+            for (String date : dates) {
+                if (date.indexOf(baselineDate) > -1) {
+                    for (Question question : dataForChart.keySet()) {
+                        ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(question);
+                        ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
+                        String questionType = question.getQuestionType().getDisplayName();
+                        baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
+                    }
                 }
+                i++;
             }
-            i++;
         }
-
         i = 0;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String date : dates) {
-            for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
-                ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
-                ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
-                String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
-                if (date.indexOf(baselineDate) > -1) {
+            for (Question question : dataForChart.keySet()) {
+                ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(question);
+                int displayOrder = 0;
+                if (proCtcValidValues.size() > i) {
+                    ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
+                    displayOrder = proCtcValidValue.getDisplayOrder();
+                }
+                String questionType = question.getQuestionType().getDisplayName();
+
+                if (baselineDate != null && date.indexOf(baselineDate) > -1) {
                     date = StringUtils.replace(date, "<br/>", "");
                 }
                 if (arrSelectedTypes == null || arrSelectedTypes.size() == 0 || arrSelectedTypes.contains(questionType)) {
-                    dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
+                    dataset.addValue(displayOrder, questionType, date);
                     if (baselineValues.get(questionType) != null) {
                         baselineDataSet.addValue(baselineValues.get(questionType), questionType, date);
                     }
@@ -138,11 +141,11 @@ public class ParticipantLevelChartGenerator {
      * @return the j free chart
      */
 
-    private JFreeChart createChart(CategoryDataset dataset, ProCtcTerm selectedTerm, DefaultCategoryDataset baselineDataSet) {
+    private JFreeChart createChart(CategoryDataset dataset, String selectedTerm, DefaultCategoryDataset baselineDataSet) {
 
         String title = "";
         if (selectedTerm != null) {
-            title = selectedTerm.getTerm();
+            title = selectedTerm;
         }
         JFreeChart chart = ChartFactory.createBarChart3D(
                 title,

@@ -23,7 +23,7 @@ import java.util.*;
 public class ParticipantLevelReportPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
@@ -80,28 +80,31 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                 table.addCell(cell);
             }
 
-            for (ProCtcTerm proCtcTerm : results.keySet()) {
-                cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
+            for (String term : results.keySet()) {
+                cell = new PdfPCell(new Paragraph(term));
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
                 boolean first = true;
-                HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
-                for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                for (Question question : questionMap.keySet()) {
                     if (!first) {
                         table.addCell("");
                     }
                     first = false;
-                    cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                    cell = new PdfPCell(new Paragraph(question.getQuestionType().getDisplayName()));
                     cell.setBackgroundColor(new Color(161, 218, 215));
                     table.addCell(cell);
-                    ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
+                    ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
                     Object[] validValuesArr = validValues.toArray();
                     for (int k = 0; k < numOfColsInCurrentTable; k++) {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
-                        table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue());
+                        if (validValuesArr.length > absIndex) {
+                            table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue());
+                        } else {
+                            table.addCell("");
+                        }
                     }
                 }
-
             }
             document.add(table);
             document.add(new Paragraph(" "));
@@ -111,7 +114,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
         float height = PageSize.A4.height() / 2;
         float width = PageSize.A4.width();
         int i = 0;
-        for (ProCtcTerm proCtcTerm : results.keySet()) {
+        for (String term : results.keySet()) {
             if (i % 2 == 0) {
                 document.newPage();
                 i = 0;
@@ -120,7 +123,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null, baselineDate);
+            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term, null, baselineDate);
             Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
             chart.draw(g2, r2D);
             g2.dispose();

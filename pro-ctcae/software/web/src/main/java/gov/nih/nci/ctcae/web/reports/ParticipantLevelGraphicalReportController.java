@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.Question;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
@@ -26,11 +27,14 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
      */
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Integer inputSymptomId = Integer.parseInt(request.getParameter("symptomId"));
-        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, inputSymptomId);
+        String inputSymptom = request.getParameter("symptomId");
+        ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(inputSymptom);
+
         HashSet<String> allAttributes = new HashSet<String>();
-        for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
-            allAttributes.add(question.getProCtcQuestionType().getDisplayName());
+        if (proCtcTerm != null) {
+            for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
+                allAttributes.add(question.getProCtcQuestionType().getDisplayName());
+            }
         }
         String selectedTypes = request.getParameter("selectedTypes");
         ArrayList<String> arrSelectedTypes = new ArrayList<String>();
@@ -44,11 +48,11 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
             arrSelectedTypes.addAll(allAttributes);
         }
         ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
 
-        JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, inputSymptomId, arrSelectedTypes, baselineDate);
+        JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, inputSymptom, arrSelectedTypes, baselineDate);
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(chart, 700, 450, info, null);
@@ -57,7 +61,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
         modelAndView.addObject("participantReportChart", chart);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", arrSelectedTypes);
-        modelAndView.addObject("symptom", proCtcTerm);
+        modelAndView.addObject("symptom", inputSymptom);
         return modelAndView;
     }
 

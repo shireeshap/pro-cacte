@@ -18,7 +18,7 @@ import java.util.*;
 public class ParticipantLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
@@ -100,20 +100,20 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
         HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
         style1.setFillForegroundColor(HSSFColor.AQUA.index);
         style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        for (ProCtcTerm proCtcTerm : results.keySet()) {
+        for (String term : results.keySet()) {
             row = hssfSheet.createRow(rownum++);
             cell = row.createCell((short) 0);
-            cell.setCellValue(new HSSFRichTextString(proCtcTerm.getTerm()));
+            cell.setCellValue(new HSSFRichTextString(term));
             cell.setCellStyle(style);
 
 
-            HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
-            for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+            HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+            for (Question question : questionMap.keySet()) {
                 i = 1;
                 cell = row.createCell(i++);
-                cell.setCellValue(new HSSFRichTextString(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                cell.setCellValue(new HSSFRichTextString(question.getQuestionType().getDisplayName()));
                 cell.setCellStyle(style1);
-                ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
+                ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
                 for (ProCtcValidValue proCtcValidValue : validValues) {
                     cell = row.createCell(i++);
                     cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));

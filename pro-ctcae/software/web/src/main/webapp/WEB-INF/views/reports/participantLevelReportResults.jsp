@@ -59,7 +59,8 @@
         <tr>
             <td class="subcategory-name">
                 <c:if test="${flag eq false}">
-                    <a href="javascript:getChart('${symptomMap.key.id}')" class="link">${symptomMap.key.term}</a>
+                    <%--<a href="javascript:getChart('${symptomMap.key.id}')" class="link">${symptomMap.key.term}</a>--%>
+                    <a href="javascript:getChart('${symptomMap.key}')" class="link">${symptomMap.key}</a>
                     <c:set var="flag" value="true"></c:set>
                 </c:if>
             </td>

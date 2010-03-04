@@ -34,4 +34,14 @@ public abstract class Question extends BasePersistable {
         return "";
 
     }
+
+    public ProCtcQuestionType getQuestionType() {
+        if (this instanceof ProCtcQuestion) {
+            return ((ProCtcQuestion) this).getProCtcQuestionType();
+        }
+        if (this instanceof MeddraQuestion) {
+            return ((MeddraQuestion) this).getProCtcQuestionType();
+        }
+        return null;
+    }
 }

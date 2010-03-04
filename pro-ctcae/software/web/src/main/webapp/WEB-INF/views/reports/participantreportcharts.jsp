@@ -10,7 +10,7 @@
         <input type="checkbox"
                <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if> name="attribute"
                value="${attribute}"
-               onclick="updateChart(this,${symptom.id});">${attribute}&nbsp;&nbsp;
+               onclick="updateChart(this,'${symptom}');">${attribute}&nbsp;&nbsp;
     </c:forEach>
         <br/>
         <br/>

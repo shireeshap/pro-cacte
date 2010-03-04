@@ -50,6 +50,9 @@ public class ManageFormController extends AbstractController {
         } else {
             study = studyRepository.findById(Integer.parseInt(studyId));
         }
+        if (study == null) {
+            study = (Study) request.getSession().getAttribute("study");
+        }
         if (study != null) {
             modelAndView.getModel().put("study", study);
             modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(study.getId()));
