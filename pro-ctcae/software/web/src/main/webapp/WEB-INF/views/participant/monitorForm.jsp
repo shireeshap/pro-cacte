@@ -297,8 +297,9 @@ function hideIndicator() {
         text-decoration: none;
         cursor: default;
     }
-    *{
-        zoom:0;
+
+    * {
+        zoom: 0;
     }
 </style>
 </head>
@@ -366,7 +367,7 @@ function hideIndicator() {
             </div>
         </div>
         <div id="searchForm" style="display:none" class="row">
-
+            <div class="label"></div>
             <div class="value"><tags:button color="blue" value="Search" onclick="formStatus('initial')" size="big"
                                             icon="search"/> <tags:indicator id="indicator"/></div>
         </div>
