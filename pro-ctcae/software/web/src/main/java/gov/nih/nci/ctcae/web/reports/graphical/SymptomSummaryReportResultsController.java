@@ -115,6 +115,11 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
                 ProCtcTermQuery query = new ProCtcTermQuery();
                 query.filterByTerm(symptom);
                 ProCtcTerm proCtcTerm = genericRepository.findSingle(query);
+                if (proCtcTerm == null) {
+                    query = new ProCtcTermQuery(true);
+                    query.filterByTerm(symptom);
+                    proCtcTerm = genericRepository.findSingle(query);
+                }
                 TreeMap<String, TreeMap<String, Integer>> map = new TreeMap<String, TreeMap<String, Integer>>();
                 doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, symptomMap.get(symptom), arm, map, false);
                 output.put(proCtcTerm, map);
@@ -192,13 +197,14 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
 
 
     private void addEmptyValues(TreeMap<String, Integer> map, ProCtcTerm proCtcTerm, ProCtcQuestionType qType) {
-        for (ProCtcQuestion q : proCtcTerm.getProCtcQuestions()) {
-            if (q.getProCtcQuestionType().equals(qType)) {
-                for (ProCtcValidValue validValue : q.getValidValues()) {
-                    map.put(validValue.getDisplayOrder().toString(), 0);
+        if (proCtcTerm != null) {
+            for (ProCtcQuestion q : proCtcTerm.getProCtcQuestions()) {
+                if (q.getProCtcQuestionType().equals(qType)) {
+                    for (ProCtcValidValue validValue : q.getValidValues()) {
+                        map.put(validValue.getDisplayOrder().toString(), 0);
+                    }
                 }
             }
         }
     }
-
 }

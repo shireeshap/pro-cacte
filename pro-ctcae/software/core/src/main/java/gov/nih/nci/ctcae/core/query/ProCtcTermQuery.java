@@ -27,6 +27,10 @@ public class ProCtcTermQuery extends AbstractQuery {
         setParameter(CTC_NAME, "CTC v4.0");
     }
 
+    public ProCtcTermQuery(boolean allVersion) {
+        super(queryString);
+    }
+
     /**
      * Filter by ctc term having questions only.
      */

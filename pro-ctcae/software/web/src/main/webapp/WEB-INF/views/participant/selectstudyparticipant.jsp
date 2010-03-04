@@ -20,6 +20,10 @@
             background-color: #CCE6FF;
         }
 
+        * {
+            zoom: 0;
+        }
+
     </style>
     <c:if test="${empty tab}">
         <tags:stylesheetLink name="tabbedflow"/>
@@ -99,7 +103,8 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
-        <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired" autopad="true">
+        <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired"
+                    autopad="true">
             <p><tags:instructions code="participant.schedule_crf.select_participant"/></p>
 
             <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
@@ -109,7 +114,10 @@
             <tags:requiredIndicator/>
             <input type="text" id="participant-input" value="${command.participant.displayName}"
                    class="autocomplete  validate-NOTEMPTY"/>
-            <input id="participant-clear" type="image" style="vertical-align: top;" src="/proctcae/images/blue/clear-left-button.png"  onclick="javascript:$('participant-input').clear();$('participant').clear();return false;" value="Clear" name="C"/>
+            <input id="participant-clear" type="image" style="vertical-align: top;"
+                   src="/proctcae/images/blue/clear-left-button.png"
+                   onclick="javascript:$('participant-input').clear();$('participant').clear();return false;"
+                   value="Clear" name="C"/>
             <%--<tags:button color="blue" id="participant-clear" size="small" type="button" value='Clear'/>--%>
             <!--<input type="button" id="participant-clear" value="Clear"/>-->
             <tags:indicator id="participant-indicator"/>
@@ -127,7 +135,10 @@
 
             <tags:requiredIndicator/>
             <input type="text" id="study-input" value="${command.study.shortTitle}" class="autocomplete"/>
-            <input id="study-clear" type="image" style="vertical-align: top;" src="/proctcae/images/blue/clear-left-button.png"  onclick="javascript:$('study-input').clear();$('study').clear();return false;" value="Clear" name="C"/>
+            <input id="study-clear" type="image" style="vertical-align: top;"
+                   src="/proctcae/images/blue/clear-left-button.png"
+                   onclick="javascript:$('study-input').clear();$('study').clear();return false;" value="Clear"
+                   name="C"/>
             <!--<input type="button" id="study-clear" value="Clear"/>-->
             <tags:indicator id="study-indicator"/>
             <tags:errors path="study"/>
