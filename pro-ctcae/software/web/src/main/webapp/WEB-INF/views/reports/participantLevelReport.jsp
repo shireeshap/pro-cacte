@@ -117,6 +117,11 @@
         }
 
     </script>
+    <style type="text/css">
+        * {
+            zoom: 0;
+        }
+    </style>
 </head>
 <body>
 <tags:instructions code="participantReportInstructions"/>
@@ -128,8 +133,8 @@
                                   size="100"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label"><tags:requiredIndicator/>&nbsp;Form&nbsp;</div>
-            <div class="value" id="formDropDown">&nbsp;&nbsp;</div>
+            <div class="label"><tags:requiredIndicator/>&nbsp;Form&nbsp;&nbsp;</div>
+            <div class="value" id="formDropDown"></div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
@@ -148,8 +153,8 @@
                                       noForm="true" required="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
-            <div class="label">&nbsp;Visits&nbsp;</div>
-            <div class="value">&nbsp;
+            <div class="label">Visits&nbsp;&nbsp;</div>
+            <div class="value">
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
                     <option value="all">All</option>
