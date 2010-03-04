@@ -47,6 +47,11 @@
             text-align: left;
             padding-right: 5px;
         }
+
+        * {
+            zoom: 0;
+        }
+
     </style>
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
@@ -115,7 +120,7 @@
                     <c:choose>
                         <c:when test="${fn:length(crfs)==1}">
                             <div class="row">
-                                <div class="label"><tags:message code="reports.label.form"/></div>
+                                <div class="label"><tags:message code="reports.label.form"/>&nbsp;&nbsp;</div>
                                 <div class="value">${crfs[0].title}</div>
                                 <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
                             </div>
@@ -123,7 +128,7 @@
                         <c:otherwise>
                             <div class="row">
                                 <div class="label"><tags:requiredIndicator/><tags:message
-                                        code="reports.label.form"/></div>
+                                        code="reports.label.form"/>&nbsp;&nbsp;</div>
                                 <div class="value">
                                     <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
                                         <option value="">Please select</option>
@@ -138,7 +143,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none">
-                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/>&nbsp;&nbsp;</div>
                         <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
                     </div>
@@ -168,7 +173,7 @@
             <c:choose>
                 <c:when test="${studySite ne null}">
                     <div class="row">
-                        <div class="label"><tags:message code="reports.label.site"/></div>
+                        <div class="label"><tags:message code="reports.label.site"/>&nbsp;&nbsp;</div>
                         <div class="value">${studySite.displayName}</div>
                     </div>
                     <input type="hidden" id="studySite" name="studySite" value="${studySite.id}"/>
@@ -183,7 +188,7 @@
                                     noForm="true"/>
                         </div>
                         <div class="row" id="divStudySiteRow" style="display:none">
-                            <div class="label"><tags:message code="reports.label.site"/></div>
+                            <div class="label"><tags:message code="reports.label.site"/>&nbsp;&nbsp;</div>
                             <div class="value" id="studySiteDisplayName"></div>
                         </div>
                     </div>
@@ -200,7 +205,7 @@
                 <c:set var="filterstyle" value=""/>
             </c:if>
             <div class="row" id="filterByDiv" style="${filterstyle}">
-                <div class="label"><tags:message code="reports.label.FilterBy"/></div>
+                <div class="label"><tags:message code="reports.label.FilterBy"/>&nbsp;&nbsp;</div>
                 <div class="value">
                     <select id="filterBy" title="Filter By" onchange="showText(this);">
                         <option value="">None</option>
