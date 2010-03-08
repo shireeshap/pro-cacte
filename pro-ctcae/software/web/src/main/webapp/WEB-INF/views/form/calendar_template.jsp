@@ -96,6 +96,10 @@
     div.row div.value {
         margin-left: 8em;
     }
+
+    * {
+        zoom: 0;
+    }
 </style>
 <script type="text/javascript">
 var repeatvalues = new Array();

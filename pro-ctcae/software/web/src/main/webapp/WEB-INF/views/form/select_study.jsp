@@ -31,7 +31,11 @@
 
 
     </script>
-
+    <style type="text/css">
+        * {
+            zoom: 0;
+        }
+    </style>
 </head>
 <body>
 <c:choose>
