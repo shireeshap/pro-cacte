@@ -71,7 +71,7 @@
         }
 
         function changeStudySite() {
-            $('_target').name = $('_target').name;
+            $('_target').name = '_target' + $('_page').value;
             $('changingStudySite').value = true;
             $('command').submit();
         }
@@ -80,6 +80,10 @@
     <style type="text/css">
         div.row div.label {
             width: 20em;
+        }
+
+        * {
+            zoom: 0;
         }
     </style>
 </head>
