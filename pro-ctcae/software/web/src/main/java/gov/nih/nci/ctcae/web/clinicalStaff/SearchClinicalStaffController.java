@@ -123,17 +123,17 @@ public class SearchClinicalStaffController extends AbstractController {
                 status = "Effectively " + clinicalStaff.getStatus().getDisplayName() + " from " + clinicalStaff.getFormattedDate();
             }
 
-            boolean odc = true;
+            boolean odc = false;
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             for (OrganizationClinicalStaff site : clinicalStaff.getOrganizationClinicalStaffs()) {
                 for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : site.getStudyOrganizationClinicalStaff()) {
                     Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
-                    if (!user.isODCOnStudy(study)) {
-                        odc = false;
+                    if (user.isODCOnStudy(study)) {
+                        odc = true;
                         break;
                     }
                 }
-                if (odc == false) {
+                if (odc) {
                     break;
                 }
             }

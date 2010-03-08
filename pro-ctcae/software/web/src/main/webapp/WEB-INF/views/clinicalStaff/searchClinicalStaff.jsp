@@ -60,14 +60,17 @@
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
         </proctcae:urlAuthorize>
         } else {
+        <proctcae:urlAuthorize url="/pages/admin/viewClinicalStaff">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
+        </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
-        </proctcae:urlAuthorize>
             if (status == 'Active') {
                 html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
             } else {
                 html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
             }
+        </proctcae:urlAuthorize>
         }
         html += '</ul></div>';
         jQuery('#clinicalStaffActions' + cid).menu({

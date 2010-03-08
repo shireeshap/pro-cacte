@@ -101,7 +101,7 @@ function clearDiv(divid) {
 function updateFormDropDown(crfs) {
     clearDiv('formDropDown');
     $('displayFormStatusDiv').hide();
-    var formDropDown = new Element('SELECT', {'id':'formSelect'})
+    var formDropDown = new Element('SELECT', {'id':'formSelect', title:'Form'})
 
     if (crfs.length > 1) {
         var option = new Element('OPTION', {'label':'Please select','value':''});
@@ -153,8 +153,10 @@ function formStatus(period) {
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
     var crfSelect = $('formSelect');
-    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
-
+    var crfId = '';
+    if (crfSelect.options.length > 0) {
+        crfId = crfSelect.options[crfSelect.selectedIndex].value;
+    }
     var error = false;
     if (dateRange == 'custom') {
         if (stDate == '') {
