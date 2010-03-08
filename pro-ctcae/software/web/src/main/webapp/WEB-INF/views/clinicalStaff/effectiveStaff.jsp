@@ -10,47 +10,45 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div style="width:650px;">
-<form:form method="post">
+    <form:form method="post">
 
-            <div id="releaseForm">
-                <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
+    <div id="releaseForm">
+        <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
 
-                    <c:choose>
-                        <c:when test="${command.status eq 'Active'}">
-                            Please provide the date on which this Clinical staff will be effectively deactivated.
-                        </c:when>
-                    <c:otherwise>
-                            Please provide the date on which this Clinical staff will be effectively activated.
-                    </c:otherwise>
-                    </c:choose>
-                <tags:renderDate propertyName="effectiveDate"
-                                 displayName="clinicalStaff.label.effective_date" required="true"/>
+            <c:choose>
+                <c:when test="${command.status eq 'Active'}">
+                    Please provide the date on which this Clinical staff will be effectively deactivated.
+                </c:when>
+                <c:otherwise>
+                    Please provide the date on which this Clinical staff will be effectively activated.
+                </c:otherwise>
+            </c:choose>
+            <tags:renderDate propertyName="effectiveDate"
+                             displayName="clinicalStaff.label.effective_date" required="true"/>
+            <%--<input type="hidden" name="status" value="${command.status}"/>--%>
 
+        </div>
+        <br>
 
-            </div>
-            <br>
-
-            <div class="flow-buttons">
-                <c:choose>
-                        <c:when test="${command.status eq 'Active'}">
-                           <tags:button color="orange" type="submit" id="flow-update"
-                             cssClass="next" value="De-activate" icon="check"
-                        />
-                        </c:when>
-                    <c:otherwise>
-                         <tags:button color="orange" type="submit" id="flow-update"
-                             cssClass="next" value="Activate" icon="check"
-                        />
-                    </c:otherwise>
-                    </c:choose>
-
-
+        <div class="flow-buttons">
+            <c:choose>
+                <c:when test="${command.status eq 'Active'}">
+                    <tags:button color="orange" type="submit" id="flow-update"
+                                 cssClass="next" value="De-activate" icon="check"
+                            />
+                </c:when>
+                <c:otherwise>
+                    <tags:button color="orange" type="submit" id="flow-update"
+                                 cssClass="next" value="Activate" icon="check"
+                            />
+                </c:otherwise>
+            </c:choose>
 
 
-                <tags:button color="blue" type="button" id="flow-cancel"
-                             cssClass="previous ibutton" value="Cancel" icon="x"
-                             onclick="closeWindow()"/>
-            </div>
+            <tags:button color="blue" type="button" id="flow-cancel"
+                         cssClass="previous ibutton" value="Cancel" icon="x"
+                         onclick="closeWindow()"/>
+        </div>
 
-</form:form>
-</div>
+        </form:form>
+    </div>

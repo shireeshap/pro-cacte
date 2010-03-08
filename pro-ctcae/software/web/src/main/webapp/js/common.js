@@ -237,7 +237,7 @@ function showConfirmationWindow(transport, width, height, top, left) {
     if (typeof(top) == 'undefined') {
         top = 250;
     }
-    if (typeof(width) == 'undefined') {
+    if (typeof(left) == 'undefined') {
         left = 200;
     }
     var win = Windows.getFocusedWindow();

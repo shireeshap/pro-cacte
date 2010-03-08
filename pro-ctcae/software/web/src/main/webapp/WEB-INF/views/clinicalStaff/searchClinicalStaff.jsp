@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
+    <tags:includePrototypeWindow/>
     <style type="text/css">
         body {
             margin: 0;
@@ -124,7 +125,7 @@
         var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
             parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
             onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 280);
+                showConfirmationWindow(transport, 800, 200);
                 AE.registerCalendarPopups();
             },
             method:'get'

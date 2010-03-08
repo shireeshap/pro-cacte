@@ -42,16 +42,16 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         ClinicalStaff clinicalStaff = (ClinicalStaff) command;
-        String currentStatus = request.getParameter("status");
+        RoleStatus currentStatus = clinicalStaff.getStatus();
 
-        if (currentStatus.equals(RoleStatus.ACTIVE.toString())) {
+        if (currentStatus.equals(RoleStatus.ACTIVE)) {
             clinicalStaff.setStatus(RoleStatus.IN_ACTIVE);
         } else {
             clinicalStaff.setStatus(RoleStatus.ACTIVE);
         }
 
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
-        RedirectView redirectView = new RedirectView("searchClinicalStaff");
+        RedirectView redirectView = new RedirectView("../searchClinicalStaff");
         return new ModelAndView(redirectView);
     }
 
