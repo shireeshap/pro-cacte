@@ -22,7 +22,7 @@
             var request = new Ajax.Request("<c:url value="/pages/study/changeStatus"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status,
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 280);
+                    showConfirmationWindow(transport, 580, 200);
                 },
                 method:'get'
             })

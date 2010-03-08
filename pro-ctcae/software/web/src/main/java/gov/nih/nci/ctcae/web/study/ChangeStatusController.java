@@ -67,7 +67,7 @@ public class ChangeStatusController extends CtcAeSimpleFormController {
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
         }
         studyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.save(studyOrganizationClinicalStaff);
-        RedirectView redirectView = new RedirectView("editStudy?tab=1&studyId=" + studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getId());
+        RedirectView redirectView = new RedirectView("editStudy?tab=0&studyId=" + studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getId());
         return new ModelAndView(redirectView);
     }
 
