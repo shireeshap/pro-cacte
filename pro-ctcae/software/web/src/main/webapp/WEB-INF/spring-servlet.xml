@@ -361,6 +361,10 @@
           class="gov.nih.nci.ctcae.web.participant.DeleteFormScheduleController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/participant/detailsFormSchedule" id="detailsFormSchedule"
+          class="gov.nih.nci.ctcae.web.participant.DetailsFormScheduleController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
     <bean name="/participant/addFormSchedule" id="addFormSchedule"
           class="gov.nih.nci.ctcae.web.participant.AddFormScheduleController">
         <property name="genericRepository" ref="genericRepository"/>

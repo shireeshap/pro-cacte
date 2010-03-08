@@ -51,14 +51,31 @@ function initializeCalendar(index) {
                     var baseline = false;
                     item.style.background = 'green';
                     var title = '';
+                    var allCompleted = true;
+                    var hasPastDue = false;
                     for (var a = 0; a < myschedule.length; a++) {
                         scheduleid += myschedule[a][3] + '_';
                         title = title + forms[index][myschedule[a][3]];
+                        var status = myschedule[a][0];
+                        if (status == 'Past-due') {
+                            hasPastDue = true;
+                        }
+                        if (status != 'Completed') {
+                            allCompleted = false;
+                        }
                         if (a != myschedule.length - 1) {
                             title = title + ', '
                         }
                     }
                     item.innerHTML = '<br/>Multiple forms<br/>';
+                    if (allCompleted) {
+                        item.style.background = '#00cc00';
+                        item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
+                    }
+                    if (hasPastDue) {
+                        item.style.background = 'red';
+                        item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
+                    }
                     showdropdown = true;
                     item.title = title;
                 } else {
@@ -87,9 +104,7 @@ function initializeCalendar(index) {
                             item.style.background = '#666666';
                         }
                         item.style.cursor = 'pointer';
-                        if (baseline != 'true') {
-                            showdropdown = true;
-                        }
+                        showdropdown = true;
                     }
                 }
                 if (showdropdown) {

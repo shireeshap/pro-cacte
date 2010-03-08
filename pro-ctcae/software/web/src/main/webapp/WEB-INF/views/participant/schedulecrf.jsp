@@ -64,11 +64,19 @@
             })
 
         }
-
         function showDeleteWindow(date, index, sids) {
             var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 650, 180);
+                },
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+                method:'get'
+            })
+        }
+        function showDetailsWindow(date, index, sids) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 300);
                 },
                 parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
                 method:'get'
@@ -120,6 +128,7 @@
 
         function showPopUpMenuSchedule(date, index, sid) {
             var html = '<div id="search-engines"><ul>';
+            html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
             html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
             html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
             var split = sid.split('_');

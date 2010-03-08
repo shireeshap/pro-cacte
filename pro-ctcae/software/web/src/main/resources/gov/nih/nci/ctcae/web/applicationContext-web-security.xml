@@ -70,6 +70,7 @@
         <intercept-url pattern="/pages/participant/moveFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/deleteFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/detailsFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/addFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/displaystudysites"
                        access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>

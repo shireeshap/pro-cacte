@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 //
+
 /**
  * The Class ScheduleCrfTab.
  *
@@ -21,6 +22,7 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
      * The finder repository.
      */
     private CRFRepository crfRepository;
+    private GenericRepository genericRepository;
 
     /**
      * Instantiates a new schedule crf tab.
@@ -38,9 +40,17 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
 
     @Override
     public void onDisplay(HttpServletRequest request, StudyParticipantCommand command) {
-        for (StudyParticipantCrf studyParticipantCrf : command.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+        StudyParticipantAssignment studyParticipantAssignment = genericRepository.findById(StudyParticipantAssignment.class, command.getStudyParticipantAssignment().getId());
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             crfRepository.findById(studyParticipantCrf.getCrf().getId());
+            genericRepository.findById(StudyParticipantCrf.class, studyParticipantCrf.getId());
+            studyParticipantCrf.getStudyParticipantCrfSchedules();
+            for (CRFCycleDefinition crfCycleDefinition : studyParticipantCrf.getCrfCycleDefinitions()) {
+                crfCycleDefinition.getCrfCycles();
+            }
         }
+        command.setStudyParticipantAssignment(studyParticipantAssignment);
+        command.getParticipantSchedules(true);
 
     }
 
@@ -56,5 +66,9 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
 
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }
