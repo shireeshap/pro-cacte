@@ -26,7 +26,7 @@ public class DisplayCalendarController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaycalendar");
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository,false);
         Integer index = Integer.parseInt(request.getParameter("index"));
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
         String direction = request.getParameter("dir");
