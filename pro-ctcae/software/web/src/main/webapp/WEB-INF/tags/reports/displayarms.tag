@@ -17,9 +17,9 @@
 
 <c:set var="numOfSelectedArms" value="0"/>
 <td>
-    <div class="row">
-        <div class="label">Arms</div>
-        <div class="value">
+    <c:if test="${fn:length(arms) > 0}">
+        <div class="row">
+            <div class="label">Arms:</div>
             <c:forEach items="${arms}" var="arm">
                 <c:set var="checked" value=""/>
                 <c:forEach items="${selectedArms}" var="selectedArm">
@@ -28,13 +28,13 @@
                         <c:set var="numOfSelectedArms" value="${numOfSelectedArms+1}"/>
                     </c:if>
                 </c:forEach>
-                <div>
+                <div style="margin-left:130px;">
                     <input type="checkbox" name="${name}" value="${arm.id}" ${checked}
                            onclick="${javascript}"/> ${arm.title}
                 </div>
             </c:forEach>
         </div>
-    </div>
+    </c:if>
 </td>
 <c:if test="${showChartType ne 'false'}">
     <td style="vertical-align:top;">
