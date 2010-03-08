@@ -92,6 +92,10 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
 
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserNotification> userNotifications = new ArrayList<UserNotification>();
+
     /**
      * Instantiates a new study participant crf schedule.
      */
@@ -481,4 +485,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         return symptomMap;
     }
 
+    public List<UserNotification> getUserNotifications() {
+        return userNotifications;
+    }
 }

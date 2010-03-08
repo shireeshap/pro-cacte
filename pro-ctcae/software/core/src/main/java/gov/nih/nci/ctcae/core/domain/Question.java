@@ -15,6 +15,7 @@ public abstract class Question extends BasePersistable {
         if (questionText.indexOf(":") != -1) {
             questionText = questionText.substring(0, questionText.indexOf(":"));
         }
+        questionText = questionText.replaceAll("\\?", "");
         return questionText;
     }
 

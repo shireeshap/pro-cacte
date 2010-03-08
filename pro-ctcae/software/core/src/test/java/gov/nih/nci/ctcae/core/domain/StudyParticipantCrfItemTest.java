@@ -14,7 +14,6 @@ public class StudyParticipantCrfItemTest extends TestCase {
 		assertNull(studyParticipantCrfItem.getCrfPageItem());
 		assertNull(studyParticipantCrfItem.getId());
 		assertNull(studyParticipantCrfItem.getProCtcValidValue());
-		assertNull(studyParticipantCrfItem.getStudyParticipantCrfSchedule());
 	}
 
 	public void testGetterAndSetter() {
@@ -31,7 +30,6 @@ public class StudyParticipantCrfItemTest extends TestCase {
 		assertEquals(crfPageItem, studyParticipantCrfItem.getCrfPageItem());
 		assertEquals(new Integer(1), studyParticipantCrfItem.getId());
 		assertEquals(proCtcValidValue, studyParticipantCrfItem.getProCtcValidValue());
-		assertEquals(studyParticipantCrfSchedule, studyParticipantCrfItem.getStudyParticipantCrfSchedule());
 
 
 	}

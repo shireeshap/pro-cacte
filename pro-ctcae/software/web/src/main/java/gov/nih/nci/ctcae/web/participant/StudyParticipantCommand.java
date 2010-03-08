@@ -9,6 +9,7 @@ import java.util.Calendar;
 
 
 //
+
 /**
  * The Class StudyParticipantCommand.
  */
@@ -158,9 +159,16 @@ public class StudyParticipantCommand {
         this.repeatdropdown = repeatdropdown;
     }
 
-    public void lazyInitializeAssignment(GenericRepository genericRepository) {
+    public void lazyInitializeAssignment(GenericRepository genericRepository, boolean save) {
+        if (save) {
+            for (ParticipantSchedule participantSchedule : getParticipantSchedules()) {
+                for (StudyParticipantCrf studyParticipantCrf : participantSchedule.getStudyParticipantCrfs()) {
+                    genericRepository.save(studyParticipantCrf);
+                }
+            }
+            studyParticipantAssignment = genericRepository.save(studyParticipantAssignment);
+        }
         studyParticipantAssignment = genericRepository.findById(StudyParticipantAssignment.class, studyParticipantAssignment.getId());
-        studyParticipantAssignment.getStudyParticipantCrfs();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             studyParticipantCrf.getStudyParticipantCrfSchedules();
             studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
@@ -169,6 +177,8 @@ public class StudyParticipantCommand {
                 crfPage.getCrfPageItems();
             }
         }
+
         getParticipantSchedules(true);
+
     }
 }

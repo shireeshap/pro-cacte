@@ -40,18 +40,7 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
 
     @Override
     public void onDisplay(HttpServletRequest request, StudyParticipantCommand command) {
-        StudyParticipantAssignment studyParticipantAssignment = genericRepository.findById(StudyParticipantAssignment.class, command.getStudyParticipantAssignment().getId());
-        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            crfRepository.findById(studyParticipantCrf.getCrf().getId());
-            genericRepository.findById(StudyParticipantCrf.class, studyParticipantCrf.getId());
-            studyParticipantCrf.getStudyParticipantCrfSchedules();
-            for (CRFCycleDefinition crfCycleDefinition : studyParticipantCrf.getCrfCycleDefinitions()) {
-                crfCycleDefinition.getCrfCycles();
-            }
-        }
-        command.setStudyParticipantAssignment(studyParticipantAssignment);
-        command.getParticipantSchedules(true);
-
+        command.lazyInitializeAssignment(genericRepository, false);
     }
 
     @Override

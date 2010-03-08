@@ -29,7 +29,7 @@ public class AddCrfScheduleController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository, false);
         Integer index = Integer.parseInt(request.getParameter("index"));
         String action = request.getParameter("action");
         String date = request.getParameter("date");
@@ -87,8 +87,8 @@ public class AddCrfScheduleController extends AbstractController {
             c.set(Calendar.DATE, Integer.parseInt(date));
             participantSchedule.removeSchedule(c, formIds);
         }
-        genericRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository);
+
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository,true);
         return null;
     }
 
