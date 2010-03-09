@@ -757,32 +757,38 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-<div style="float:right;"><tags:button type="submit" icon="Save & Continue" color="green" id="flow-next"
-                                       value="Save & Continue"/></div>
-<table>
-    <tr>
-        <td style="text-align:right;font-weight:bold;">&nbsp;&nbsp;<b><spring:message code="form.label.study"/></b></td>
-        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
-    </tr>
-    <tr>
-        <c:choose>
-            <c:when test="${command.crf.crfVersion eq 1.0}">
-                <td style="text-align:right;font-weight:bold;"><tags:requiredIndicator/><b><spring:message code="form.label.title"/></b></td>
-                <td style="padding-left:10px;"><input type="text" name="crf.title" value="${command.crf.title}" size="80"/></td>
-            </c:when>
-            <c:otherwise>
-                <td style="text-align:right;font-weight:bold;">&nbsp;&nbsp;<b><spring:message code="form.label.title"/></b></td>
-                <td style="padding-left:10px;">${command.crf.title}</td>
-            </c:otherwise>
-        </c:choose>
-    </tr>
-    
-    <tr>
-        <tags:formSettings crf="${command.crf}"></tags:formSettings>
-    </tr>
-</table>
-<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
-   style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+<div style="background:#E7EAF3; padding:10px 0; margin:0 9px 10px 0;">
+	<div style="float:right; margin-right:10px;"><tags:button type="submit" icon="Save & Continue" color="green" id="flow-next"
+	                                       value="Save & Continue"/></div>
+	<div class="row">
+		<div class="label" style="margin-top:6px;">
+			<tags:requiredIndicator/><spring:message code="form.label.title"/>
+		</div>
+		<div class="value">
+			<input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
+		</div>
+	</div>
+	
+	<tags:formSettings crf="${command.crf}"></tags:formSettings>
+	
+	<div class="row">
+		<div class="label">
+			<tags:requiredIndicator/><spring:message code="form.label.study"/>
+		</div>
+		<div class="value">
+			${command.crf.study.displayName}
+		</div>
+	</div>
+	<div class="row">
+		<div class="label">
+			
+		</div>
+		<div class="value">
+			<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+		</div>
+	</div>
+</div>
+
 
 <div id="displayOptionsMenu" class="hidden">
     <ul>

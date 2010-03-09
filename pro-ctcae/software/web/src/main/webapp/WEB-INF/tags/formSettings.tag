@@ -28,9 +28,12 @@
         <c:set var="style" value="margin:3px;display:none"/>
     </c:if>
 </c:forEach>
-<td style="text-align:right;font-weight:bold;"><tags:requiredIndicator/><b><tags:message code="recall.period"/></b></td>
-<td style="padding-left:10px;">
-    <select onchange="javascript:selectRecallPeriod(this.value)">
+<div class="row">
+	<div class="label">
+		<tags:message code="recall.period"/>
+	</div>
+	<div class="value">
+		<select onchange="javascript:selectRecallPeriod(this.value)">
         <c:forEach items="${recallPeriods}" var="recallPeriod">
             <c:choose>
                 <c:when test="${(recallPeriod.desc eq crf.recallPeriod) or (recallPeriod.code eq 'other' and isOther eq 'true')}">
@@ -44,4 +47,5 @@
     </select>
     <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}" size="36"
            style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
-</td>
+	</div>
+</div>
