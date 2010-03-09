@@ -164,7 +164,7 @@ public abstract class StudyOrganization extends BasePersistable {
 
             Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
             if (!expectedOrganization.equals(this.getOrganization())) {
-                String errorMessage = String.format(studyOrganizationClinicalStaff.getDisplayName() + " does not belong to %s.", this.getOrganization().getDisplayName());
+                String errorMessage = String.format(studyOrganizationClinicalStaff.getDisplayName() + " does not belong to %s", this.getOrganization().getDisplayName());
                 logger.error(errorMessage);
                 getStudyOrganizationClinicalStaffs().remove(studyOrganizationClinicalStaff);
                 throw new CtcAeSystemException(errorMessage);
