@@ -134,6 +134,9 @@
             border-left: 1px solid #999999;
             padding-left: 5px;
         }
+        *{
+            zoom:0;
+        }
     </style>
 </head>
 <body>

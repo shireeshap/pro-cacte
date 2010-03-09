@@ -91,6 +91,9 @@
         div.row div.value {
             margin-left: 0em;
         }
+        *{
+            zoom:0;
+        }
 
     </style>
 </head>

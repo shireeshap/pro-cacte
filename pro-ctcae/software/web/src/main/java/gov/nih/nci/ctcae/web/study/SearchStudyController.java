@@ -109,7 +109,7 @@ public class SearchStudyController extends AbstractController {
             Study study = studies.get(index);
             boolean odcOnStudy = user.isODCOnStudy(study);
             String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + study.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + study.getId() + "','" + odcOnStudy + "');</script>";
-            String[] row = new String[]{study.getAssignedIdentifier(), study.getShortTitle(), study.getFundingSponsor().getOrganization().getNciInstituteCode(), study.getDataCoordinatingCenter().getOrganization().getNciInstituteCode(), actions};
+            String[] row = new String[]{study.getAssignedIdentifier(), study.getShortTitle(), study.getFundingSponsor().getOrganization().getDisplayName(), study.getDataCoordinatingCenter().getOrganization().getDisplayName(), actions};
             displayData.add(row);
         }
         Collections.sort(displayData, new StudySearchResultsComparator(sort, sortDir));
