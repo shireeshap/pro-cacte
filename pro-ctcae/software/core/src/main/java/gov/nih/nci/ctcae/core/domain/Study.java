@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 //
+
 /**
  * The Class Study.
  *
@@ -163,6 +164,7 @@ public class Study extends BasePersistable {
         for (StudyOrganization studyOrganization : studyOrganizations) {
             if (studyOrganization instanceof LeadStudySite) {
                 leadStudySite = (LeadStudySite) studyOrganization;
+                return leadStudySite;
             }
         }
         return leadStudySite;
@@ -315,6 +317,7 @@ public class Study extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
      */
+
     public Integer getId() {
         return id;
     }
@@ -322,6 +325,7 @@ public class Study extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
      */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -372,6 +376,7 @@ public class Study extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -390,6 +395,7 @@ public class Study extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
+
     @Override
     public int hashCode() {
         int result = shortTitle != null ? shortTitle.hashCode() : 0;

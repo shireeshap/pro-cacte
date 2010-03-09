@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
@@ -28,13 +29,23 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
         super.postProcess(request, command, errors);
 
-        command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(command.getOverallDataCoordinator());
+        try {
+            command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(command.getOverallDataCoordinator());
+        } catch (CtcAeSystemException ex) {
+            errors.reject("error", ex.getMessage());
+        }
 
+        try {
+            command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getLeadCRA());
+        } catch (CtcAeSystemException ex) {
+            errors.reject("error", ex.getMessage());
+        }
 
-        command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getLeadCRA());
-        command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getPrincipalInvestigator());
-
-
+        try {
+            command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getPrincipalInvestigator());
+        } catch (CtcAeSystemException ex) {
+            errors.reject("error", ex.getMessage());
+        }
     }
 
     public String getRequiredPrivilege() {

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Date;
 
 //
+
 /**
  * The Class StudyOrganization.
  *
@@ -39,6 +40,7 @@ public abstract class StudyOrganization extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
      */
+
     public Integer getId() {
         return id;
     }
@@ -46,6 +48,7 @@ public abstract class StudyOrganization extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
      */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -131,6 +134,7 @@ public abstract class StudyOrganization extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,6 +151,7 @@ public abstract class StudyOrganization extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
+
     @Override
     public int hashCode() {
         int result = organization != null ? organization.hashCode() : 0;
@@ -159,9 +164,9 @@ public abstract class StudyOrganization extends BasePersistable {
 
             Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
             if (!expectedOrganization.equals(this.getOrganization())) {
-                String errorMessage = String.format("clinical staff belongs to %s. It does not belong to study orgaization %s %s. So this clinical staff can not be added",
-                        expectedOrganization.getDisplayName(), this.getStudy().getAssignedIdentifier(), this.getOrganization().getDisplayName());
+                String errorMessage = String.format(studyOrganizationClinicalStaff.getDisplayName() + " does not belong to %s.", this.getOrganization().getDisplayName());
                 logger.error(errorMessage);
+                getStudyOrganizationClinicalStaffs().remove(studyOrganizationClinicalStaff);
                 throw new CtcAeSystemException(errorMessage);
 
             }
