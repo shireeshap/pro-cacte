@@ -123,13 +123,8 @@ public class StudyParticipantCommand {
     }
 
     public List<ParticipantSchedule> getParticipantSchedules(boolean force) {
-        for (ParticipantSchedule participantSchedule : participantSchedules) {
-            participantSchedule.getStudyParticipantCrfs().clear();
-            for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-            }
-        }
-        return participantSchedules;
+        participantSchedules = null;
+        return getParticipantSchedules();
     }
 
     /**
