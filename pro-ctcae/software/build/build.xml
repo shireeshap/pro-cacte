@@ -818,7 +818,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<echoproperties prefix="ssh"/>
 		<deploy-files dist.file="${proctcae-webapp.upgrade.zip.file}" />
 		<!-- SSH to machine ant run ant command line to install application -->
-		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${upgrade.target}" />
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true -Ddatabase.password=${database.password} -Dtomcat.ssl.keystore.pass=${tomcat.ssl.keystore.pass} -Dsmtp.password=${smtp.password} ${upgrade.target}" />
 	</target>
 
 	<target name="keygen">
