@@ -142,9 +142,13 @@
                                       size="60"
                                       noForm="true" required="true"/>
         </div>
-        <div id="studySiteDiv" style="display:none" class="row">
-            <div class="label">Study site <input id="studySite" name="studySite" type="hidden"></div>
-            <div id="studySiteName" class="value"></div>
+        <div id="studySiteDiv" style="display:none">
+            <input id="studySite" name="studySite" type="hidden">
+
+            <div class="row">
+                <div class="label">Study site&nbsp;&nbsp;</div>
+                <div id="studySiteName" class="value"></div>
+            </div>
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"

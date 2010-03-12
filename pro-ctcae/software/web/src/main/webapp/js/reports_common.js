@@ -97,6 +97,8 @@ function updateSymptomDropDown(symptoms) {
 function displaySites() {
 
     organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
+        $('studySiteAutoCompleterDiv').hide();
+        $('studySiteDiv').hide();
         var siteNum = 2;
         if (values != '') {
             var siteNum = values.length;
@@ -200,7 +202,7 @@ function hideIndicator() {
 }
 
 function getSelect(id) {
-    var dropDown ;
+    var dropDown;
     if ($(id + 'Select') == null) {
         dropDown = new Element('SELECT', {'id':id + 'Select','title':id})
         $(id + 'DropDown').appendChild(dropDown);
