@@ -40,13 +40,13 @@ public class ProCtcTermsImporterV4 {
         while (reader.readRecord()) {
             CsvLine csvLine = new CsvLine();
 
-            String question = reader.get(QUESTION_TEXT);
-            String proCtcTerm = reader.get(PRO_CTC_TERM);
-            String core = reader.get(CORE_ITEM);
-            String attribute = reader.get(QUESTION_TYPE);
-            String validValues = reader.get(PRO_CTC_VALID_VALUES);
-            String ctcTerm = reader.get(CTC_TERM);
-            String ctcCategory = reader.get(CATEGORY);
+            String question = reader.get(QUESTION_TEXT).trim();
+            String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
+            String core = reader.get(CORE_ITEM).trim();
+            String attribute = reader.get(QUESTION_TYPE).trim();
+            String validValues = reader.get(PRO_CTC_VALID_VALUES).trim();
+            String ctcTerm = reader.get(CTC_TERM).trim();
+            String ctcCategory = reader.get(CATEGORY).trim();
 
             String displayOrder = attribute.substring(0, attribute.indexOf('-'));
             String questionType = attribute.substring(attribute.indexOf('-') + 1);
