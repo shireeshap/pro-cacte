@@ -270,11 +270,11 @@ public class SubmitFormCommand implements Serializable {
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
                     addMeddraQuestion(term, firstTime, newlyAddedQuestions);
                 } else {
-                    CtcTerm ctcTerm = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm());
-                    if (ctcTerm == null) {
+                    List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm());
+                    if (ctcTerms == null || ctcTerms.size() == 0) {
                         addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                     } else {
-                        List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
+                        List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
                         if (proCtcTerms.size() == 0) {
                             addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                         } else {
@@ -296,25 +296,35 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
-    public boolean ctcTermAlreadyExistsInForm(CtcTerm ctcTerm) {
-        if (ctcTerm != null) {
+    public boolean ctcTermAlreadyExistsInForm(List<CtcTerm> ctcTerms) {
+        if (ctcTerms != null && ctcTerms.size() > 0) {
             for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
-                if (ctcTerm.getTerm().toLowerCase().equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm().getTerm().toLowerCase())) {
-                    return true;
+                for (CtcTerm ctcTerm : ctcTerms) {
+                    if (ctcTerm.getTerm().toLowerCase().equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm().getTerm().toLowerCase())) {
+                        return true;
+                    }
                 }
             }
             for (StudyParticipantCrfScheduleAddedQuestion question : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
                 Question ctcOrMeddraQuestion = question.getProCtcOrMeddraQuestion();
-                CtcTerm ctcTermToCompare = null;
+                List<CtcTerm> ctcTermsToCompare = new ArrayList<CtcTerm>();
                 if (ctcOrMeddraQuestion instanceof ProCtcQuestion) {
-                    ctcTermToCompare = ((ProCtcQuestion) ctcOrMeddraQuestion).getProCtcTerm().getCtcTerm();
+                    CtcTerm temp = ((ProCtcQuestion) ctcOrMeddraQuestion).getProCtcTerm().getCtcTerm();
+                    if (temp != null) {
+                        ctcTermsToCompare.add(temp);
+                    }
                 }
                 if (ctcOrMeddraQuestion instanceof MeddraQuestion) {
-                    ctcTermToCompare = meddraRepository.findCtcTermForMeddraTerm(((MeddraQuestion) ctcOrMeddraQuestion).getLowLevelTerm().getMeddraTerm());
+                    ctcTermsToCompare = meddraRepository.findCtcTermForMeddraTerm(((MeddraQuestion) ctcOrMeddraQuestion).getLowLevelTerm().getMeddraTerm());
                 }
-                if (ctcTermToCompare != null) {
-                    if (ctcTerm.getTerm().toLowerCase().equals(ctcTermToCompare.getTerm().toLowerCase())) {
-                        return true;
+
+                if (ctcTermsToCompare != null && ctcTermsToCompare.size() > 0) {
+                    for (CtcTerm ctcTerm : ctcTerms) {
+                        for (CtcTerm ctcTermToCompare : ctcTermsToCompare) {
+                            if (ctcTerm.getTerm().toLowerCase().equals(ctcTermToCompare.getTerm().toLowerCase())) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }

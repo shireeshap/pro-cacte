@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 //
+
 /**
  * The Class ScheduleCrfAjaxFacade.
  *
@@ -110,15 +111,17 @@ public class ScheduleCrfAjaxFacade {
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
         ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(text);
         if (proCtcTerm != null) {
-            if (submitFormCommand.ctcTermAlreadyExistsInForm(proCtcTerm.getCtcTerm())) {
+            List<CtcTerm> ctcTerms = new ArrayList<CtcTerm>();
+            ctcTerms.add(proCtcTerm.getCtcTerm());
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
                 return proCtcTerm.getCtcTerm().getTerm();
             }
         }
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
-            CtcTerm ctcTerm = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm());
-            if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerm)) {
-                return ctcTerm.getTerm();
+            List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm());
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
+                return ctcTerms.get(0).getTerm();
             }
         }
         return "";

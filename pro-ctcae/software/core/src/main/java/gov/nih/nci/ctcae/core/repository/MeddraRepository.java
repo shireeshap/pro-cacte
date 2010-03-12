@@ -47,7 +47,7 @@ public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
         this.genericRepository = genericRepository;
     }
 
-    public CtcTerm findCtcTermForMeddraTerm(String meddraTerm) {
+    public List<CtcTerm> findCtcTermForMeddraTerm(String meddraTerm) {
         MeddraQuery meddraQuery = new MeddraQuery();
         meddraQuery.filterByMeddraTerm(meddraTerm);
         LowLevelTerm lowLevelTerm = genericRepository.findSingle(meddraQuery);
@@ -55,26 +55,26 @@ public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
         if (meddraCode == null) {
             return null;
         }
-        CtcTerm ctcTerm = findCtcTermByMeddraCode(meddraCode);
-        if (ctcTerm == null) {
+        List<CtcTerm> ctcTerms = findCtcTermByMeddraCode(meddraCode);
+        if (ctcTerms == null || ctcTerms.size() == 0) {
             Integer meddraPtId = lowLevelTerm.getMeddraPtId();
             meddraQuery = new MeddraQuery();
             meddraQuery.filterByMeddraPtId(meddraPtId);
             List<LowLevelTerm> lowLevelTerms = genericRepository.find(meddraQuery);
             for (LowLevelTerm llt : lowLevelTerms) {
-                ctcTerm = findCtcTermByMeddraCode(llt.getMeddraCode());
-                if (ctcTerm != null) {
-                    return ctcTerm;
+                ctcTerms = findCtcTermByMeddraCode(llt.getMeddraCode());
+                if (ctcTerms != null && ctcTerms.size() > 0) {
+                    return ctcTerms;
                 }
             }
         }
-        return ctcTerm;
+        return ctcTerms;
     }
 
-    private CtcTerm findCtcTermByMeddraCode(String meddraCode) {
+    private List<CtcTerm> findCtcTermByMeddraCode(String meddraCode) {
         CtcQuery ctcQuery = new CtcQuery(true);
         ctcQuery.filterByCtepCode(meddraCode);
-        CtcTerm ctcTerm = genericRepository.findSingle(ctcQuery);
+        List<CtcTerm> ctcTerm = genericRepository.find(ctcQuery);
         return ctcTerm;
     }
 }
