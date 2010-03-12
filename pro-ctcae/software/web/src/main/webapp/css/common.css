@@ -10,19 +10,19 @@ body {
     position: relative;
     background-image: url(../images/blue/body_bg.png);
     background-position: center top;
-	background-repeat:repeat-y;
+    background-repeat: repeat-y;
     background-color: #006cd7;
 }
 
 #proctcae-background {
-	background:transparent url(../images/blue/wide_header_bg.jpg) no-repeat scroll center center;
-	height:650px;
-	left:0;
-	margin:0;
-	position:absolute;
-	text-align:center;
-	top:0;
-	width:100%;
+    background: transparent url(../images/blue/wide_header_bg.jpg) no-repeat scroll center center;
+    height: 650px;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
 }
 
 #login-action {
@@ -253,6 +253,7 @@ background-position: 0px -200px;
     text-decoration: none;
     font-size: 0.85em;
 }
+
 #home {
     background-image: url(../images/blue/logout_tab.png);
     position: absolute;
@@ -273,6 +274,7 @@ background-position: 0px -200px;
 a#logout:hover {
     text-decoration: underline;
 }
+
 a#home:hover {
     text-decoration: underline;
 }
@@ -328,7 +330,7 @@ a#firstlevelnav_manageFormController:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_manageFormController:hover,a#firstlevelnav_manageFormController.fthover {
+a#firstlevelnav_manageFormController:hover, a#firstlevelnav_manageFormController.fthover {
     background-position: 0px -45px;
 }
 
@@ -436,7 +438,7 @@ a#firstlevelnav_createRuleController:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_createRuleController:hover,a#firstlevelnav_createRuleController.fthover {
+a#firstlevelnav_createRuleController:hover, a#firstlevelnav_createRuleController.fthover {
     background-position: 0px -45px;
 }
 
@@ -501,6 +503,7 @@ a#firstlevelnav_reportSearchCriteriaController:active {
 .selected a#firstlevelnav_reportSearchCriteriaController {
     background-image: url(../images/blue/reports_btn_selected.png);
 }
+
 a#firstlevelnav_participantCareMonitorController {
     background-image: url(../images/blue/reports_btn.png);
     width: 148px;
@@ -596,9 +599,10 @@ ul.tabs li {
     z-index: 1;
     left: 0px;
 }
+
 #floatingTaskbar {
     background: url(../images/blue/floatingTaskbar_BG.png) repeat-x top;
-	color:#494949;
+    color: #494949;
 
 }
 
@@ -611,8 +615,9 @@ ul.tabs li {
     padding-top: 8px;
     font-weight: bold;
 }
+
 #floatingTaskbar a.lte4 {
-	color:#494949;
+    color: #494949;
 }
 
 #taskbar a.gt4, #floatingTaskbar a.gt4 {
@@ -628,8 +633,9 @@ ul.tabs li {
     margin-top: 1px;
     margin-right: 2px;
 }
+
 #floatingTaskbar a.gt4 {
-	color:#494949;
+    color: #494949;
 }
 
 #taskbar a.gt4:hover, #floatingTaskbar a.gt4:hover {
@@ -653,20 +659,24 @@ ul.tabs li {
     background-image: url(../images/blue/secondlevelnav_hover.png);
     background-repeat: no-repeat;
 }
+
 #floatingTaskbar a:hover {
     background-image: url(../images/blue/ftsecondlevelnav_hover.png);
     background-repeat: no-repeat;
 }
+
 #taskbar a:active {
     color: #E4E9F6;
     background-image: url(../images/blue/secondlevelnav_hover.png);
     background-repeat: no-repeat;
 }
+
 #floatingTaskbar a:active {
-	color: #333;
+    color: #333;
     background-image: url(../images/blue/ftsecondlevelnav_hover.png);
     background-repeat: no-repeat;
 }
+
 #taskbar a.lte4 img.imagegt18, #floatingTaskbar a.lte4 img.imagegt18 {
     float: left;
     margin-top: 6px;
@@ -999,17 +1009,19 @@ div.row div.label {
     width: 10em;
 }
 
-div.row div.label_nomargin {
+div.label_nomargin {
     font-weight: bold;
     float: left;
     margin-left: 0.0em;
     text-align: right; /* default width; pages might override */
-/*width: 10em;*/
+    width: 7em;
 }
 
 div.row div.value_nomargin {
     font-weight: normal; /* default; should be changed whenever .label width is changed */
     text-align: left;
+    margin:0;
+    padding:0;
 }
 
 div.row div.value {
@@ -1046,7 +1058,7 @@ img.indicator {
 
 #formbuilderTable #left {
     vertical-align: top;
-	width:540px;
+    width: 540px;
 }
 
 #formbuilderTable #right {

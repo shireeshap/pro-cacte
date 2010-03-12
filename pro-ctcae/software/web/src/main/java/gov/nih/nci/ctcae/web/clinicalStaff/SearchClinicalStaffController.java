@@ -16,6 +16,7 @@ import gov.nih.nci.ctcae.web.participant.ParticipantSearchResultsComparator;
 import java.util.*;
 
 //
+
 /**
  * The Class SearchParticipantController.
  *
@@ -31,6 +32,7 @@ public class SearchClinicalStaffController extends AbstractController {
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/searchClinicalStaff");
@@ -120,7 +122,7 @@ public class SearchClinicalStaffController extends AbstractController {
             }
             String status = "Status not assigned";
             if (clinicalStaff.getStatus() != null) {
-                status = "Effectively " + clinicalStaff.getStatus().getDisplayName() + " from " + clinicalStaff.getFormattedDate();
+                status = "Effectively <span class=\"" + clinicalStaff.getStatus().getDisplayName() + "\">" + clinicalStaff.getStatus().getDisplayName() + "</span> from " + clinicalStaff.getFormattedDate();
             }
 
             boolean odc = false;

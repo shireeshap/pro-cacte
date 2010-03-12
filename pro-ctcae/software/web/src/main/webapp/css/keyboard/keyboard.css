@@ -17,7 +17,7 @@
 #keyboardInputMaster * {
     color: #000000;
     background: transparent;
-    font: normal 14px Arial, sans-serif;
+    font: normal 22px Arial, sans-serif;
     margin: 0px;
     padding: 0px;
     border: 0px none;
@@ -100,7 +100,7 @@
     border-left: 1px solid #e5e5e5;
     background-color: #eeeeee;
     cursor: default;
-    min-width: 4.00em;
+    min-width: 1.00em;
 }
 
 #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.last {
@@ -128,8 +128,8 @@
 }
 
 #keyboardInputMaster thead tr td span.pressed,
-    #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.pressed,
-    #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.dead {
+#keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.pressed,
+#keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.dead {
     border-top: 1px solid #555555;
     border-right: 1px solid #d5d5d5;
     border-bottom: 1px solid #d5d5d5;

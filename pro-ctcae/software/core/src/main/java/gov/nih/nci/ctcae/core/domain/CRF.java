@@ -157,7 +157,7 @@ public class CRF extends BaseVersionable {
      * @return the recall period
      */
     public String getRecallPeriod() {
-        return recallPeriod;
+        return recallPeriod.trim();
     }
 
     /**

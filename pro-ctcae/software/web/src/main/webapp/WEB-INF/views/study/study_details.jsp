@@ -56,8 +56,10 @@
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
         <c:if test="${command.study.studySponsor ne null}">
+        <c:if test="${command.admin eq true}">
             initializeAutoCompleter('study.studySponsor.organization',
                     '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
+        </c:if>
         </c:if>
 
         <c:if test="${command.study.dataCoordinatingCenter ne null}">
@@ -74,11 +76,7 @@
         </c:if>
             initSearchField()
         })
-
-
     </script>
-
-
 </head>
 <body>
 

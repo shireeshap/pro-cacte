@@ -49,6 +49,11 @@
         .even {
             background-color: white;
         }
+        .In-Active{
+            color:red;
+            font-weight:bold;
+            text-decoration:underline;
+        }
     </style>
 </head>
 
@@ -125,7 +130,7 @@
         var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
             parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
             onComplete:function(transport) {
-                showConfirmationWindow(transport, 800, 200);
+                showConfirmationWindow(transport, 500, 200);
                 AE.registerCalendarPopups();
             },
             method:'get'

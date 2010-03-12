@@ -163,7 +163,7 @@
 <table>
     <tr>
         <td>
-            <div class="label_nomargin"><b>Participant:</b>&nbsp;</div>
+            <div class="label_nomargin"><b>Participant:</b></div>
         </td>
         <td>
             <div class="value_nomargin">${command.participant.displayName}</div>
@@ -171,7 +171,7 @@
     </tr>
     <tr>
         <td VALIGN="top">
-            <div class="label_nomargin"><b>Instructions</b></div>
+            <div class="label_nomargin"><b>Instructions:</b></div>
         </td>
         <td>
             <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
