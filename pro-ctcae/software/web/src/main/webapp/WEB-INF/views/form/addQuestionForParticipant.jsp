@@ -27,6 +27,7 @@
     <script type="text/javascript"
             src="http://yui.yahooapis.com/combo?2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js&2.8.0r4/build/animation/animation-min.js&2.8.0r4/build/connection/connection-min.js&2.8.0r4/build/datasource/datasource-min.js&2.8.0r4/build/autocomplete/autocomplete-min.js"></script>
     <tags:includeVirtualKeyboard/>
+    <tags:includePrototypeWindow/>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         body {
@@ -76,10 +77,14 @@
         function addNewSymptom(selectedChoice) {
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
                 if (values != '') {
-                    var q = 'You have already answered a question for ' + values + ', are you sure that you want to also answer a question for ' + selectedChoice + '?\nPress OK to add ' + selectedChoice + ', otherwise press Cancel.';
-                    if (confirm(q)) {
-                        addSymptom(selectedChoice);
-                    }
+                    var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
+                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice,
+                        onComplete:function(transport) {
+                            showConfirmationWindow(transport, 550, 200);
+                        },
+                        method:'get'
+                    })
+
                 } else {
                     addSymptom(selectedChoice);
                 }

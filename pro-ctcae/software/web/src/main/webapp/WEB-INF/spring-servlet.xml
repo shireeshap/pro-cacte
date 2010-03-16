@@ -503,6 +503,9 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/participant/confirmSymptom" id="confirmSymptomController"
+          class="gov.nih.nci.ctcae.web.participant.ConfirmSymptomController">
+    </bean>
 
     <bean name="/reports/report" id="reportSearchCriteriaController"
           class="gov.nih.nci.ctcae.web.reports.ReportSearchCriteriaController">

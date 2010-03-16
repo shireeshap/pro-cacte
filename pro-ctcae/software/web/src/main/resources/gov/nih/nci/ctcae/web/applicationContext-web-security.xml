@@ -35,6 +35,7 @@
         <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/responseReport" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/matchSymptoms" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/participant/confirmSymptom" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
 
 
@@ -70,7 +71,8 @@
         <intercept-url pattern="/pages/participant/moveFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/deleteFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
-        <intercept-url pattern="/pages/participant/detailsFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/detailsFormSchedule"
+                       access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/addFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/displaystudysites"
                        access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>
