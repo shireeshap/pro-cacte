@@ -14,7 +14,7 @@
     <tr>
         <td>
             <div id="confirmSymptom">
-                <div style="border:1px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
+                <div style="border:1px solid #ccc; height:95px; padding:9px; margin-bottom:10px;">
                     <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
