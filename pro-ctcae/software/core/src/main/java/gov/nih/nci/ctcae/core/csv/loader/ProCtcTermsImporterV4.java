@@ -34,21 +34,31 @@ public class ProCtcTermsImporterV4 {
 
     public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
         ClassPathResource classPathResource = new ClassPathResource("ProCtcTerms_V4.csv");
-        HashMap<String, List<CsvLine>> hm = new HashMap<String, List<CsvLine>>();
+        HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
         CsvReader reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
         reader.readHeaders();
+        HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
+        String oldProCtcTerm = "";
+        int displayOrderI = 0;
+
         while (reader.readRecord()) {
             CsvLine csvLine = new CsvLine();
 
             String question = reader.get(QUESTION_TEXT).trim();
             String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
+            if (proCtcTerm.equals(oldProCtcTerm)) {
+                displayOrderI++;
+            } else {
+                displayOrderI = 1;
+            }
+            oldProCtcTerm = proCtcTerm;
             String core = reader.get(CORE_ITEM).trim();
             String attribute = reader.get(QUESTION_TYPE).trim();
             String validValues = reader.get(PRO_CTC_VALID_VALUES).trim();
             String ctcTerm = reader.get(CTC_TERM).trim();
             String ctcCategory = reader.get(CATEGORY).trim();
 
-            String displayOrder = attribute.substring(0, attribute.indexOf('-'));
+            String displayOrder = "" + displayOrderI;
             String questionType = attribute.substring(attribute.indexOf('-') + 1);
 
             csvLine.setProctcTerm(proCtcTerm);
@@ -124,9 +134,26 @@ public class ProCtcTermsImporterV4 {
                         j++;
                         proCtcQuestion.addValidValue(proCtcValidValue);
                     }
+                    if (new Integer(hmValue.getDisplayOrder()) == 1) {
+                        firstQuestions.put(hmValue.getProctcTerm(), proCtcQuestion);
+                    }
+                    if (new Integer(hmValue.getDisplayOrder()) > 1) {
+                        int i = 0;
+                        ProCtcQuestion firstQuestion = firstQuestions.get(hmValue.getProctcTerm());
+                        if (firstQuestion != null) {
+                            for (ProCtcValidValue v : firstQuestion.getValidValues()) {
+                                if (i == 0) {
+                                    i++;
+                                } else {
+                                    ProCtcQuestionDisplayRule rule = new ProCtcQuestionDisplayRule();
+                                    rule.setProCtcValidValue(v);
+                                    proCtcQuestion.addDisplayRules(rule);
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
         }
         return proCtc;
     }
