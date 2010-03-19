@@ -103,7 +103,20 @@
 	#repeatprops input, #repeatprops label {
 		vertical-align:middle;
 	}
+	#repeatprops select {
+		margin-top:2px;
+	}
 </style>
+<!--[if IE]>
+<style>
+	#repeatprops select {
+		margin-top:2px;
+	}
+	#repeatprops label {
+		margin-top:3px;
+	}
+</style>
+<![endif]-->
 <script type="text/javascript">
 var repeatvalues = new Array();
 function changeinput(obj, index, value) {
