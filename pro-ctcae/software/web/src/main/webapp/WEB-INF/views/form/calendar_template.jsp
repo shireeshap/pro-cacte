@@ -100,6 +100,9 @@
     * {
         zoom: 0;
     }
+	#repeatprops input, #repeatprops label {
+		vertical-align:middle;
+	}
 </style>
 <script type="text/javascript">
 var repeatvalues = new Array();
@@ -553,7 +556,7 @@ function baselinCheck(obj) {
                 </c:forEach>
             </select>
             <input type="checkbox" id="allArmsCheck" name="allArmsCheck"
-                   <c:if test="${command.allArms}">checked</c:if>/>Apply this arm's schedule to all the arms
+                   <c:if test="${command.allArms}">checked</c:if>/> Apply this arm's schedule to all the arms
             <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>
         </div>
     </div>
@@ -575,48 +578,34 @@ function baselinCheck(obj) {
      <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
     <chrome:box title="form.calendar.genericschedule">
         <table class="top-widget" width="100%">
-            <tr id="repeatprops">
-                <td width="1%">
-                    <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryValue"
-                                     displayName="form.calendar.repeatEvery" size="2"/>
-                </td>
-                <td width="1%">
-                    <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryUnit"
-                                       options="${repetitionunits}" doNotshowLabel="true"/>
-                </td>
-                <td width="1%">
-                    <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateValue"
-                                     displayName="form.calendar.dueAfter" size="2"/>
-                </td>
-                <td width="1%">
-                    <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateUnit"
-                                       options="${duedateunits}" doNotshowLabel="true"/>
-                </td>
-                <td width="1%">
-                    <tags:renderSelect
-                            propertyName="selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit"
-                            options="${repeatuntilunits}"
-                            onchange="changeinput(this,'0','');"
-                            displayName="form.calendar.repeatUntil"/>
-                </td>
-                <td align="left">
+        <tr id="repeatprops">
+            <td>
+                <div style="float: left; margin-right: 10px;">
+                    <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryValue" displayName="form.calendar.repeatEvery" size="2"/>
+                </div>
+                <div style="float: left; margin-right: 10px;">
+                    <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryUnit" options="${repetitionunits}" doNotshowLabel="true"/>
+                </div>
+                <div style="float: left; margin-right: 10px;">
+                    <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateValue" displayName="form.calendar.dueAfter" size="2"/>
+                </div>
+                <div style="float: left; margin-right: 10px;">
+                    <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateUnit" options="${duedateunits}" doNotshowLabel="true"/>
+                </div>
+                <div style="float: left; margin-right: 10px;">
+                    <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit" options="${repeatuntilunits}" onchange="changeinput(this,'0','');" displayName="form.calendar.repeatUntil"/>
+                </div>
+                <div style="float: left; margin-right: 10px; padding-top:4px;">
                     <div id="div_date_0" style="display:none;">
-                        <tags:renderDate
-                                propertyName="crfCalendar_date_0.repeatUntilValue"
-                                doNotShowFormat="true" noForm="true" doNotshowLabel="true"/>
+                        <tags:renderDate propertyName="crfCalendar_date_0.repeatUntilValue" doNotShowFormat="true" noForm="true" doNotshowLabel="true"/>
                     </div>
+                </div>
+                <div style="float: left; margin-right: 10px; padding-top:4px;">
                     <div id="div_number_0" style="display:none;">
-                        <input size="3" id="crfCalendar_number_0.repeatUntilValue"
-                               name="crfCalendar_number_0.repeatUntilValue"
-                               type="text">
-                    </div>
-                    <input type="hidden"
-                           id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
-                           name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
-                           value="${crfCalendar.repeatUntilValue}"/>
-                </td>
-
-            </tr>
+                        <input size="3" id="crfCalendar_number_0.repeatUntilValue" name="crfCalendar_number_0.repeatUntilValue" type="text">
+                    </div><input type="hidden" id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue" name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue" value="${crfCalendar.repeatUntilValue}"/>
+                    </td>
+                </tr>
         </table>
         <br/>
     </chrome:box>
