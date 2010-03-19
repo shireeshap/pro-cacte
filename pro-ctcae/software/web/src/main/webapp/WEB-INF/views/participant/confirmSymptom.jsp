@@ -18,7 +18,7 @@
                     <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
-                    <div style="font-size:20px; margin-bottom:5px;">
+                    <div style="font-size:25px; margin-bottom:10px;">
                         You have already answered a question for ${values}, are you sure that you want to also answer a
                         question for ${selectedChoice}?
                     </div>
