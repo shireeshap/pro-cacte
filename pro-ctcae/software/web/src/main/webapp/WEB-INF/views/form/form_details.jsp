@@ -742,7 +742,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         padding: 4px 8px 1px;
     }
 </style>
-<!--[if lte IE 7]>
+<!--[if lte IE 8]>
 <style>
     #main {
         top: 95px;
@@ -751,9 +751,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     #questionBank, .questionProperties, #formSettings, .leftBox {
         margin-top: -1px;
     }
-
-    * {
-        zoom "0;
+	div.row div#hackThisForIE {
+	margin-left:12px;
+	}
 </style>
 <![endif]-->
 </head>
@@ -761,10 +761,12 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-<div style="background:#E7EAF3; padding:10px 0; margin:0 9px 10px 0;">
-    <div style="float:right; margin-right:10px;"><tags:button type="submit" icon="Save & Continue" color="green"
+	   <div style="float:right; margin-right:10px;"><tags:button type="submit" icon="Save & Continue" color="green"
                                                               id="flow-next"
                                                               value="Save & Continue"/></div>
+	<chrome:division title="Basic Details">
+
+ 
     <div class="row">
         <div class="label"><spring:message code="form.label.study"/>:</div>
         <div class="value">${command.crf.study.displayName}</div>
@@ -773,22 +775,15 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <div class="label" style="margin-top:6px;">
             <tags:requiredIndicator/><spring:message code="form.label.title"/>
         </div>
-        <div class="value">
+        <div class="value" id="hackThisForIE">
             <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
         </div>
     </div>
     <tags:formSettings crf="${command.crf}"></tags:formSettings>
-    <div class="row">
-        <div class="label">
-        </div>
-        <div class="value">
-            <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-               id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
-        </div>
-    </div>
-</div>
 
 
+</chrome:division>
+<chrome:division title="Questions">
 <div id="displayOptionsMenu" class="hidden">
     <ul>
         <li>
@@ -834,6 +829,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
             <div id="questionBank" class="leftBox">
                 <tags:instructions code="form.label.question_bank.instructions"/>
+				<div>
+					<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+               id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+				</div>
                 <c:if test="${advance}">
                     <a id="newPageBtn" href="javascript:addCrfPage()"><img
                             src="<tags:imageUrl name="blue/new_page_button.png" />"
@@ -963,6 +962,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         </td>
     </tr>
 </table>
+</chrome:division>
 </jsp:attribute>
 </tags:tabForm>
 </body>
