@@ -36,6 +36,7 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
         request.setParameter("direction", "");
         controller = new MonitorFormStatusController();
         controller.setStudyRepository(studyRepository);
+        controller.setStudyOrganizationRepository(studyOrganizationRepository);
     }
 
     public void testControllerNoFilter() throws Exception {

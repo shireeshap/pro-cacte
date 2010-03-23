@@ -78,6 +78,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
 
         ParticipantResponseReportController controller = new ParticipantResponseReportController();
         controller.setUserRepository(userRepository);
+        controller.setParticipantRepository(participantRepository);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
         request.setMethod("GET");
         request.setParameter("id", spcs.getId().toString());
