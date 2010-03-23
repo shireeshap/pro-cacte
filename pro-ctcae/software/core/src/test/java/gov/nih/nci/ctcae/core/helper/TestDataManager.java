@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 //import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
+import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.repository.*;
@@ -45,7 +46,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static GenericRepository genericRepository;
     public static UserNameAndPasswordValidator userNameAndPasswordValidator;
 
-    protected String codeBase;
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
@@ -65,7 +65,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
         ParticipantTestHelper.initialize();
-        codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
     }
 
     @Override
@@ -213,15 +212,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
         System.out.println("  Loading ProctcTerms...");
         long start = System.currentTimeMillis();
-        assertNotNull("please define codebase.directory property in datasource.properties file. " +
-                "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
-                "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
-//        CsvImporter csvImporter = new CsvImporter();
-//        csvImporter.setCtcTermRepository(ctcTermRepository);
-//        String fileLocation = codeBase + "/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv";
-//        System.out.println("Codebase - " + codeBase + "; Reading csv file from  - " + fileLocation);
-//        ProCtc proctc = csvImporter.readCsv();
-//        proCtcRepository.save(proctc);
+        ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
+        csvImporter.setCtcTermRepository(ctcTermRepository);
+        ProCtc proctc = csvImporter.loadProCtcTerms(true);
+        proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
         System.out.println("  ProctcTerms loaded (" + (end - start) / 1000 + " seconds)");

@@ -14,6 +14,7 @@ import java.util.*;
 import java.nio.charset.Charset;
 
 import com.csvreader.CsvReader;
+import org.springframework.core.io.FileSystemResource;
 
 
 /**
@@ -33,9 +34,18 @@ public class ProCtcTermsImporterV4 {
 
 
     public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("ProCtcTerms_V4.csv");
+        CsvReader reader;
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
-        CsvReader reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
+        if (fromTestCase) {
+            FileSystemResource resource = new FileSystemResource("core/src/main/resources");
+            resource.createRelative("ProCtcTerms_V4.csv");
+            File f = resource.getFile();
+            System.out.println(f.getCanonicalPath());
+            reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
+        } else {
+            ClassPathResource classPathResource = new ClassPathResource("ProCtcTerms_V4.csv");
+            reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
+        }
         reader.readHeaders();
         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
         String oldProCtcTerm = "";
