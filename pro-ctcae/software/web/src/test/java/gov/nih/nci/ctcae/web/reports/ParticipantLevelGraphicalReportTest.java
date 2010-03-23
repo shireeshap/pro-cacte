@@ -32,6 +32,7 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
 
         ParticipantLevelGraphicalReportController controller1 = new ParticipantLevelGraphicalReportController();
         controller1.setGenericRepository(genericRepository);
+        controller1.setProCtcTermRepository(proCtcTermRepository);
         modelAndView = controller1.handleRequest(request, response);
         Map m = modelAndView.getModel();
         assertNotNull(m.get("participantReportChartFileName"));
