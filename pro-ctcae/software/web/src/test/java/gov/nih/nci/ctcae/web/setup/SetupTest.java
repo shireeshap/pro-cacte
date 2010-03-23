@@ -19,7 +19,6 @@ public class SetupTest extends AbstractWebIntegrationTestCase {
         ClinicalStaffCommand command = new ClinicalStaffCommand();
 
         assertNotNull(command.getClinicalStaff().getUser());
-        assertEquals(Role.ADMIN, command.getClinicalStaff().getUser().getUserRoles().get(0).getRole());
     }
 
     public void testController() throws Exception {
