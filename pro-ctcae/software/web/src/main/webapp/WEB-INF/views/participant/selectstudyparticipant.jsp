@@ -96,16 +96,13 @@
     </script>
 </head>
 <body>
-<p>
     <tags:instructions code="participant.schedule_crf.enter"/>
-</p>
-
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
         <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired"
                     autopad="true">
-            <p><tags:instructions code="participant.schedule_crf.select_participant"/></p>
+            <tags:instructions code="participant.schedule_crf.select_participant"/>
 
             <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
                         title="Participant"
@@ -128,7 +125,7 @@
             </p>
         </chrome:box>
         <chrome:box title="schedulecrf.label.select_study" id="study-entry" cssClass="paired" autopad="true">
-            <p><tags:instructions code="participant.schedule_crf.select_study"/></p>
+            <tags:instructions code="participant.schedule_crf.select_study"/>
             <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
                         title="Study"
                         cssStyle="display:none;"/>

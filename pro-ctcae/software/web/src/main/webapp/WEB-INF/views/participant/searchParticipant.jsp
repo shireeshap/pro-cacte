@@ -150,21 +150,21 @@
     <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
 
-        <p><tags:instructions code="participant.search.top"/></p>
+        <tags:instructions code="participant.search.top"/>
 
         <div class="row">
             <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
-            <div class="value"><input type="text" id="firstName" name="firstName" maxlength="30" value="${firstName}"/>
+            <div class="value IEdivValueHack"><input type="text" id="firstName" name="firstName" maxlength="30" value="${firstName}"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
-            <div class="value"><input type="text" id="lastName" name="lastName" maxlength="30" value="${lastName}"/>
+            <div class="value IEdivValueHack"><input type="text" id="lastName" name="lastName" maxlength="30" value="${lastName}"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
-            <div class="value"><input type="text" id="identifier" name="identifier" maxlength="30"
+            <div class="value IEdivValueHack"><input type="text" id="identifier" name="identifier" maxlength="30"
                                       value="${identifier}"/>
             </div>
         </div>

@@ -574,14 +574,14 @@ function baselinCheck(obj) {
         </div>
     </div>
     <div class="row">
-        <div class="label"><spring:message code="form.calendar.scheduletype"></spring:message></div>
+        <div class="label" style="margin-top:3px;"><spring:message code="form.calendar.scheduletype"></spring:message></div>
         <div class="value">
             <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
-                   style="margin:3px"
+                   style="margin:3px; vertical-align:middle;"
                    <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">checked</c:if>/>
             <spring:message code="form.calendar.genericschedule"/>
             <input type="radio" name="scheduleType" value="cycleBased" onclick="showSchedule(this.value)"
-                   style="margin:3px"
+                   style="margin:3px; vertical-align:middle;"
                    <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions)gt 0}">checked</c:if>/>
             <spring:message code="form.calendar.cyclebasedschedule"/>
         </div>

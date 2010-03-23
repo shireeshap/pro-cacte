@@ -48,4 +48,9 @@ body #keyboardInputMaster {
 body #keyboardInputMaster tbody tr td div#keyboardInputLayout table {
 	height:50px;
 }
-
+div.row.autocompleter div.value {
+	margin-left:0;
+}
+div.row div.value.IEdivValueHack {
+	margin-left:0;
+}

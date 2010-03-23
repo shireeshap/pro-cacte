@@ -42,22 +42,25 @@
 </head>
 <body>
 <chrome:box title="schedulecrf.label.confirmation">
-
-                 <div class="row">
-                    <div class="label"><spring:message code="schedulecrf.label.study"/></div>
-
-                    <div class="value" style="width:20em">${command.study.shortTitle} </div>
-                      </div>
-                    <div style="float:right; padding-right:5px">
-                        <tags:button color="blue" markupWithTag="a" value="Print"
-                                     onclick="window.print();return false;"/>
-                    </div>
-                <div class="row">
-                    <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
-                    <div class="value">${command.participant.displayName}</div>
-                </div>
-    
-
+	<div style="float:right; padding-right:5px">
+	    <tags:button color="blue" markupWithTag="a" size="small" value="Print" onclick="window.print();return false;"/>
+	</div>
+	<div class="row">
+	    <div class="label">
+	        <spring:message code="schedulecrf.label.study"/>
+	    </div>
+	    <div class="value" style="width:20em">
+	        ${command.study.shortTitle} 
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="label">
+	        <spring:message code="schedulecrf.label.participant"/>
+	    </div>
+	    <div class="value">
+	        ${command.participant.displayName}
+	    </div>
+	</div>
     <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">
         <chrome:division title="schedulecrf.label.scheduled_forms">
             <table class="tablecontent" width="80%">

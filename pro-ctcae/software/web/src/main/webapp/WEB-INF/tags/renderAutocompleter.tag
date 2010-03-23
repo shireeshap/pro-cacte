@@ -16,7 +16,7 @@
 
 
 <tags:renderRow propertyName="${propertyName}" displayName="${displayName}" categoryName="autocompleter"
-                cssClass="${required ? 'validate-NOTEMPTY' : ''}" help="${help}"
+                cssClass="${required ? 'validate-NOTEMPTY' : ''} autocompleter" help="${help}"
                 showAllJavascript="${showAllJavascript}" size="${size}"
                 noForm="${noForm}"
                 required="${required}"
