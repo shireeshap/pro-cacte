@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
 //
+
 /**
  * The Class ParticipantController.
  *
@@ -70,6 +71,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
     */
+
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         ParticipantCommand command = new ParticipantCommand();
@@ -83,10 +85,14 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     }
 
     protected final void populateOrganizationsForUser(ParticipantCommand command) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
-            command.getClinicalStaffOrgs().add(organizationClinicalStaff.getOrganization());
+        if (!command.isAdmin()) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+            if (clinicalStaff != null) {
+                for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+                    command.getClinicalStaffOrgs().add(organizationClinicalStaff.getOrganization());
+                }
+            }
         }
     }
 
