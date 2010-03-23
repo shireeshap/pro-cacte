@@ -1,25 +1,23 @@
 package gov.nih.nci.ctcae.web.batch;
 
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-
-import java.util.*;
-import java.io.IOException;
-
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
 
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.AddressException;
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.*;
 
 public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
 

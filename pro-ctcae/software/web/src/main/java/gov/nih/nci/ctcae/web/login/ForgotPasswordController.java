@@ -1,21 +1,23 @@
 package gov.nih.nci.ctcae.web.login;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import gov.nih.nci.ctcae.core.query.UserQuery;
+import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractFormController;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.validation.BindException;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.acegisecurity.userdetails.UsernameNotFoundException;
-import org.apache.commons.lang.RandomStringUtils;
 
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.InternetAddress;
 
 /**
  * @author Harsh Agarwal

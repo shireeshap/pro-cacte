@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author Harsh Agarwal

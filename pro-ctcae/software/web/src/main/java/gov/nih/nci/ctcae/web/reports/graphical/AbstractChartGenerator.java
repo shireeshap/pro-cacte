@@ -1,25 +1,24 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.JFreeChart;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.urls.CategoryURLGenerator;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.AbstractCategoryItemLabelGenerator;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.urls.CategoryURLGenerator;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.ui.TextAnchor;
 
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
-import gov.nih.nci.ctcae.web.ControllersUtils;
 
 /**
  * User: Harsh

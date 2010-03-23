@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.repository.HibernateGenericRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Persistable;
-import static org.easymock.EasyMock.expect;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar

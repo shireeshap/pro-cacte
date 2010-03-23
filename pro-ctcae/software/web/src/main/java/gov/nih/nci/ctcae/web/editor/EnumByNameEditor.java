@@ -1,10 +1,11 @@
 package gov.nih.nci.ctcae.web.editor;
 
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
-import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 import org.apache.commons.lang.StringUtils;
 
 import java.beans.PropertyEditorSupport;
+
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 //
 /**

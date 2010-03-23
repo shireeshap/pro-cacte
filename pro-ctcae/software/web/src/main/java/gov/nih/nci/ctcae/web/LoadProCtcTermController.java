@@ -1,21 +1,18 @@
 package gov.nih.nci.ctcae.web;
 
-import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
+import gov.nih.nci.ctcae.core.domain.ProCtc;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtc;
-import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV3;
-import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
-
 import java.util.Collection;
 
 /**

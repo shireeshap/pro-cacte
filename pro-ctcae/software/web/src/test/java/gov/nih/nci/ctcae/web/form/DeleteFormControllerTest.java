@@ -7,15 +7,11 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
-import java.util.ArrayList;
+
+import static org.easymock.EasyMock.expect;
 
 
 /**

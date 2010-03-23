@@ -1,16 +1,18 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
-import java.util.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.TreeMap;
 
 /**
  * User: Harsh

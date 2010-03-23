@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.filter;
 
-import javax.servlet.http.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 public final class SecurityResponseWrapper extends HttpServletResponseWrapper {
 

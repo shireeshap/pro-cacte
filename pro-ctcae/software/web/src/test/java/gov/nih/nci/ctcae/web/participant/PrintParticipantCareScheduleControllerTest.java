@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 

@@ -2,16 +2,12 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.AddressException;
-import javax.mail.MessagingException;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
-
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 //
 /**

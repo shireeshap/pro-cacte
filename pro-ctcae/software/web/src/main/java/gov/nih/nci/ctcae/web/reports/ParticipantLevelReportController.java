@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
-import gov.nih.nci.ctcae.core.domain.*;
-
 import java.util.Map;
 
 /**

@@ -2,11 +2,12 @@ package gov.nih.nci.ctcae.web.setup;
 
 import gov.nih.nci.ctcae.core.SetupStatus;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.FilterChain;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar

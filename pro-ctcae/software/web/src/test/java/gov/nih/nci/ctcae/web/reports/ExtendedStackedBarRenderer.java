@@ -7,13 +7,6 @@
 
 package gov.nih.nci.ctcae.web.reports;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
-import java.text.NumberFormat;
-
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.CategoryItemEntity;
@@ -28,6 +21,10 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.text.TextUtilities;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.text.NumberFormat;
 
 /**
  * An extension of the {@link StackedBarRenderer} that can draw positive and

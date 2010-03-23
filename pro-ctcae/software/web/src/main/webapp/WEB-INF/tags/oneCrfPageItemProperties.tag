@@ -1,4 +1,3 @@
-<%@ tag import="gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule" %>
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
 <%@ attribute name="crfPageNumber" required="true" %>
 

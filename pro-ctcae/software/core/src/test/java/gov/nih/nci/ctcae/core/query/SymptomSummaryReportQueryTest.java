@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 

@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.core.query.reports;
 
+import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 
-import java.util.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 //

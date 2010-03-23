@@ -1,25 +1,28 @@
 package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-//import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.*;
+import gov.nih.nci.ctcae.core.domain.ProCtc;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.repository.secured.*;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal

@@ -5,12 +5,13 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import org.springframework.beans.BeanWrapperImpl;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
 /**
  * @author Vinay Kumar

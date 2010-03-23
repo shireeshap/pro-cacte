@@ -6,10 +6,11 @@ import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
+
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
 /**
  * @author Harsh Agarwal

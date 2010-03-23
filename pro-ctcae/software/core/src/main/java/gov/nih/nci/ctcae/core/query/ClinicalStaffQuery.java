@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 
 import java.util.Date;

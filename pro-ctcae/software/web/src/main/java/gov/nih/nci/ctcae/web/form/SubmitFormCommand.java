@@ -2,16 +2,15 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.MeddraRepository;
-import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.MeddraRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
 import java.util.*;
-
-import org.apache.commons.lang.StringUtils;
 
 
 //

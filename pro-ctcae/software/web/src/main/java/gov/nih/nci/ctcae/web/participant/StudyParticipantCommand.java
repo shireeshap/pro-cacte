@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Calendar;
 
 
 //

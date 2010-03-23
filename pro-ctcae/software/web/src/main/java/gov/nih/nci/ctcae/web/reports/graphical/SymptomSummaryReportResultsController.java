@@ -1,22 +1,22 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 import gov.nih.nci.ctcae.web.ControllersUtils;
-import org.springframework.web.servlet.ModelAndView;
-import org.jfree.chart.JFreeChart;
+import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.StandardEntityCollection;
-import org.apache.commons.lang.StringUtils;
+import org.jfree.chart.servlet.ServletUtilities;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.text.ParseException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.*;
 
 
 /**

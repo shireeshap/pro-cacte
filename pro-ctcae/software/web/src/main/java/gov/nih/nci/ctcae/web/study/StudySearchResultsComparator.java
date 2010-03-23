@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.web.study;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Comparator;
 
 /**

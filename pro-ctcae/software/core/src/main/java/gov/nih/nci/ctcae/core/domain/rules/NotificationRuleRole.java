@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain.rules;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.BasePersistable;
+import gov.nih.nci.ctcae.core.domain.Role;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;

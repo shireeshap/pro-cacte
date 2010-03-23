@@ -2,7 +2,10 @@ package gov.nih.nci.ctcae.core.rules;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.domain.rules.*;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRuleCondition;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRuleRole;
+import gov.nih.nci.ctcae.core.domain.rules.NotificationRuleSymptom;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;

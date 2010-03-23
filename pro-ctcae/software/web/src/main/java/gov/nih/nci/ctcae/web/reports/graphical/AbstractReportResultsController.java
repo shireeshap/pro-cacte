@@ -1,15 +1,16 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.domain.*;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
 
 
 /**

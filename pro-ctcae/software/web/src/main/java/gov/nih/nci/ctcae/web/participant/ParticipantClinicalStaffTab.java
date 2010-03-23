@@ -2,10 +2,8 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;

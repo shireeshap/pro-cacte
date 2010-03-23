@@ -4,11 +4,12 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Harsh Agarwal

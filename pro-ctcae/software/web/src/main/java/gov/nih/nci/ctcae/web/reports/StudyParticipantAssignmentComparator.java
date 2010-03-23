@@ -2,9 +2,9 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Calendar;
 
 /**
  * Created by IntelliJ IDEA.

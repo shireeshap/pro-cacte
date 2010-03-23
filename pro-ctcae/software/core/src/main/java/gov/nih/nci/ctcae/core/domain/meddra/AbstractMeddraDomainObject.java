@@ -6,8 +6,6 @@ import gov.nih.nci.ctcae.core.domain.BasePersistable;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 

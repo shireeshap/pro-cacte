@@ -1,21 +1,19 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
+import com.csvreader.CsvReader;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.springframework.core.io.ClassPathResource;
-
-import java.io.*;
-import java.util.*;
-import java.nio.charset.Charset;
-
-import com.csvreader.CsvReader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.*;
 
 
 /**

@@ -1,9 +1,7 @@
 package gov.nih.nci.ctcae.web.setup;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.query.UserNotificationQuery;
-import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
+import gov.nih.nci.ctcae.core.query.UserNotificationQuery;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
 import java.util.List;

@@ -8,10 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.util.*;
 import java.nio.charset.Charset;
+import java.util.*;
 
 
 /**

@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web;
 
-import static org.easymock.EasyMock.*;
 import org.easymock.IArgumentMatcher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
@@ -15,6 +14,8 @@ import org.springframework.web.context.request.WebRequest;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import java.io.IOException;
+
+import static org.easymock.EasyMock.*;
 
 /**
  * @author Vinay Kumar

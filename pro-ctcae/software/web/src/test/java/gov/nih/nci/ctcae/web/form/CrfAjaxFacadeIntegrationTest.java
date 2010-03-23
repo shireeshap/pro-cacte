@@ -1,17 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-
-import java.util.Map;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Required;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mehul Gulati

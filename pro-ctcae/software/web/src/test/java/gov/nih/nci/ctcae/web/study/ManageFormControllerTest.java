@@ -1,14 +1,15 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.form.ManageFormController;
 import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
-import static org.easymock.EasyMock.expect;
+import gov.nih.nci.ctcae.web.form.ManageFormController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar

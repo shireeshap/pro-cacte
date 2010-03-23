@@ -1,14 +1,13 @@
 package gov.nih.nci.ctcae.core.rules;
 
 
+import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -16,8 +15,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-
-import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 
 /**
  * @author Rhett Sutphin

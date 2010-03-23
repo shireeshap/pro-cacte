@@ -4,13 +4,11 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-import org.springframework.security.context.SecurityContextHolder;
-import org.apache.commons.lang.StringUtils;
-
 import java.util.List;
 
 //

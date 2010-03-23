@@ -6,11 +6,12 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Harsh Agarwal

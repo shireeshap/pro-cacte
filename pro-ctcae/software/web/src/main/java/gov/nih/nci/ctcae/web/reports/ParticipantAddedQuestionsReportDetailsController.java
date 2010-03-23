@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.query.ParticipantAddedQuestionsDetailsQuery;
 import org.springframework.web.servlet.ModelAndView;

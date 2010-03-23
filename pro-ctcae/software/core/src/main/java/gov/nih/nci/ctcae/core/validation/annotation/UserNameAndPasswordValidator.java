@@ -3,11 +3,11 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Required;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 //
 /**

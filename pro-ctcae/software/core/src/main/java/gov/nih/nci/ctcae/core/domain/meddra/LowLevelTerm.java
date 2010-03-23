@@ -2,9 +2,7 @@ package gov.nih.nci.ctcae.core.domain.meddra;
 
 
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
-import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.ArrayList;

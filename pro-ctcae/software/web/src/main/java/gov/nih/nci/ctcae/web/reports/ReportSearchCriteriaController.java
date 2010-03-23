@@ -1,27 +1,23 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.beans.factory.annotation.Required;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
+import gov.nih.nci.ctcae.web.organization.OrganizationAjaxFacade;
+import gov.nih.nci.ctcae.web.study.StudyAjaxFacade;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import gov.nih.nci.ctcae.web.study.StudyAjaxFacade;
-import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
-import gov.nih.nci.ctcae.web.organization.OrganizationAjaxFacade;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-
 import java.util.List;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 
 /**

@@ -1,11 +1,11 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
-import gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;

@@ -1,15 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-
-import org.springframework.security.context.SecurityContextHolder;
 
 //
 /**

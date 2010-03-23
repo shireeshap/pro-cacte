@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
+import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;

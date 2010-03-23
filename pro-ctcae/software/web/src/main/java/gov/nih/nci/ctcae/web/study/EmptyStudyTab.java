@@ -3,10 +3,9 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.context.SecurityContextHolder;
 
 //
 /**

@@ -4,8 +4,8 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: Harsh

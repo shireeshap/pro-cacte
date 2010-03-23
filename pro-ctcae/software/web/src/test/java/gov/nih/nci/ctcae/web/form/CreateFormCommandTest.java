@@ -3,9 +3,10 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 
 import java.util.List;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar

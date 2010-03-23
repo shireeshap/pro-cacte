@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.util.List;
-import java.util.ArrayList;
 
 @MappedSuperclass
 public abstract class Question extends BasePersistable {

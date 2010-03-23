@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;

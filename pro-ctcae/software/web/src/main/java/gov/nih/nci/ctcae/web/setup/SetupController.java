@@ -1,19 +1,19 @@
 package gov.nih.nci.ctcae.web.setup;
 
 import gov.nih.nci.ctcae.core.SetupStatus;
-import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.validation.BindException;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.validation.BindException;
 
 import javax.servlet.http.HttpServletRequest;
 

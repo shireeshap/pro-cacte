@@ -1,16 +1,15 @@
 package gov.nih.nci.ctcae.web.setup;
 
-import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.UserNotification;
+import gov.nih.nci.ctcae.core.query.UserNotificationQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.query.UserNotificationQuery;
-import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.domain.UserNotification;
 
 /**
  * User: Harsh

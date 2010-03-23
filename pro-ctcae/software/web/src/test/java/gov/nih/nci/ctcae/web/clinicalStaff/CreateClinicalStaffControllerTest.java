@@ -4,9 +4,9 @@ import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import org.apache.commons.lang.StringUtils;
-import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Mehul Gulati

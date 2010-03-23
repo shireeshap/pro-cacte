@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
+import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,8 +10,8 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 //
 

@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.form;
 
-import org.springframework.web.servlet.mvc.AbstractController;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 
 /**
  * @author Mehul Gulati

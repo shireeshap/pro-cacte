@@ -1,13 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.*;
-
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 //
 

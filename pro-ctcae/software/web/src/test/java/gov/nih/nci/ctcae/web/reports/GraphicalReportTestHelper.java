@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartPanel;
 
-import java.util.ArrayList;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GraphicalReportTestHelper {
 

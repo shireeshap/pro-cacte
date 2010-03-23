@@ -7,10 +7,6 @@
 
 package gov.nih.nci.ctcae.web.reports;
 
-import java.text.NumberFormat;
-
-import javax.swing.JPanel;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -24,6 +20,9 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+
+import javax.swing.*;
+import java.text.NumberFormat;
 
 /**
  * A simple demonstration application showing how to create a stacked bar chart

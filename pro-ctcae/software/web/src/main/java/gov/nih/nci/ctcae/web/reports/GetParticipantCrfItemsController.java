@@ -1,14 +1,17 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.query.StudyParticipantCrfItemQuery;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.query.StudyParticipantCrfItemQuery;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: Harsh

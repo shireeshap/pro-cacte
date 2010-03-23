@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedOutputStream;

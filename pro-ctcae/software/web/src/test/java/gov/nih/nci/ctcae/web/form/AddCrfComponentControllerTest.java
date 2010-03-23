@@ -7,8 +7,9 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
+
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar

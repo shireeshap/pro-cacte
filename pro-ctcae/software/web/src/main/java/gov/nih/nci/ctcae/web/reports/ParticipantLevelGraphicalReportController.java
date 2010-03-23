@@ -5,10 +5,10 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Question;
 import org.apache.commons.lang.StringUtils;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.servlet.ServletUtilities;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
