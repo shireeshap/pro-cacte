@@ -18,6 +18,7 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
 
     public void testController() throws Exception {
         request.setParameter("visitRange", "all");
+        request.setParameter("symptomId", "Pain");
         controller.setProCtcTermRepository(proCtcTermRepository);
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
