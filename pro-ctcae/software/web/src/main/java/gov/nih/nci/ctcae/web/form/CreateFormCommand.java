@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import com.semanticbits.rules.brxml.RuleSet;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
