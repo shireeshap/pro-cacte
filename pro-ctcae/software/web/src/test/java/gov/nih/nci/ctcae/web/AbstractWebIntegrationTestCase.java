@@ -2,10 +2,13 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mock.web.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +53,14 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         XmlWebApplicationContext context = new XmlWebApplicationContext();
         context.setParent(parent);
         context.setServletContext(servletContext);
-        context.setConfigLocations(new String[]{String.format("file:%s/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
+        Resource r = new FileSystemResource("");
+        try {
+            String path = r.getFile().getCanonicalPath();
+            System.out.println(path);
+            context.setConfigLocations(new String[]{String.format("file:" + path + "/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         context.refresh();
         return context;

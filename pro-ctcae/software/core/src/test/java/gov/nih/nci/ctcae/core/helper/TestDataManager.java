@@ -177,6 +177,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             insertAdminUser();
         }
         User loadedUser = userRepository.loadUserByUsername(userName);
+        loadedUser.setNumberOfAttempts(0);
         if (userName.equals(SYSTEM_ADMIN)) {
             ArrayList<GrantedAuthority> list = new ArrayList(Arrays.asList(loadedUser.getAuthorities()));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"));

@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
@@ -28,6 +29,7 @@ public class ControllersUtilsTest extends WebTestCase {
     private StudyController studyController;
     private CRFRepository crfRepository;
     private ProCtcTermRepository proCtcTermRepository;
+    private UserRepository userRepository;
 
 
     private TabConfigurer tabConfigurer;
@@ -39,6 +41,7 @@ public class ControllersUtilsTest extends WebTestCase {
         crfRepository = registerMockFor(CRFRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
+        userRepository = registerMockFor(UserRepository.class);
 
         tabConfigurer = new StaticTabConfigurer(proCtcQuestionRepository, proCtcTermRepository);
 
