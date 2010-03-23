@@ -20,7 +20,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
     ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3;
     ProCtcTerm proCtcTerm;
     ArrayList<ProCtcValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
-    TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results;
+    TreeMap<String, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results;
     ArrayList<String> dates;
 
     public void setUp() throws Exception {
@@ -109,7 +109,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
         proCtcValidValueList3.add(proCtcValidValue32);
         proCtcValidValueList3.add(proCtcValidValue33);
 
-        results = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
+        results = new TreeMap<String, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>();
 
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms = new HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
         proCtcTerm.addProCtcQuestion(proCtcQuestion1);
@@ -121,7 +121,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
         symptoms.put(proCtcQuestion3, proCtcValidValueList3);
 
         Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", Fixture.createOrganization("orgname", "orgcode"));
-        results.put(proCtcTerm, symptoms);
+        results.put(proCtcTerm.getTerm(), symptoms);
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
         request.getSession().setAttribute("participant", Fixture.createParticipant("pf", "pl", "pid"));
