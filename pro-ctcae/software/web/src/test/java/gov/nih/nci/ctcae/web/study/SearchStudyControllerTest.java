@@ -19,10 +19,6 @@ public class SearchStudyControllerTest extends WebTestCase {
 
     }
 
-    public void testSupportedMethod() {
-        assertEqualArrays("only get is supported", new String[]{"GET"}, controller.getSupportedMethods());
-    }
-
     public void testHandleRequest() throws Exception {
 
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);

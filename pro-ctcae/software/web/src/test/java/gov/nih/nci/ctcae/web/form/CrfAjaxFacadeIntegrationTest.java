@@ -35,7 +35,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
         Integer id = proCtcTerms.get(1).getId();
         List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
-        assertEquals(2, attributes.size());
+        assertEquals(3, attributes.size());
         assertEquals("Frequency", attributes.get(0));
 
     }
