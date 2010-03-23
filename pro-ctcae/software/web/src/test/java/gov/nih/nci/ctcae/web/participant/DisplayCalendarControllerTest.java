@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.participant;
+    package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
@@ -16,13 +16,13 @@ public class DisplayCalendarControllerTest extends WebTestCase {
     DisplayCalendarController controller;
     ParticipantSchedule participantSchedule;
     ProCtcAECalendar calendar;
-
+        StudyParticipantCommand studyParticipantCommand;
     public void reset() {
         resetMocks();
         controller = new DisplayCalendarController();
         request.setMethod("GET");
         request.setParameter("index", "0");
-        StudyParticipantCommand studyParticipantCommand = registerMockFor(StudyParticipantCommand.class);
+        studyParticipantCommand = registerMockFor(StudyParticipantCommand.class);
         participantSchedule = registerMockFor(ParticipantSchedule.class);
         calendar = registerMockFor(ProCtcAECalendar.class);
         List l = new ArrayList();
@@ -36,6 +36,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         reset();
         request.setParameter("dir","prev");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
+        studyParticipantCommand.lazyInitializeAssignment(null,false);
         calendar.add(-1);
         replayMocks();
         controller.handleRequest(request, response);
@@ -44,6 +45,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         reset();
         request.setParameter("dir","next");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
+        studyParticipantCommand.lazyInitializeAssignment(null,false);
         calendar.add(1);
         replayMocks();
         controller.handleRequest(request, response);
@@ -52,6 +54,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         reset();
         request.setParameter("dir","refresh");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
+        studyParticipantCommand.lazyInitializeAssignment(null,false);
         calendar.add(0);
         replayMocks();
         controller.handleRequest(request, response);
