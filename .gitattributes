@@ -1,4 +1,5 @@
 * text=auto !eol
+pro-ctcae/docs/DesignDocs/PRO-CTCAE.EAP -text
 pro-ctcae/docs/DesignDocs/PROCTC-AE.eap -text
 pro-ctcae/docs/DesignDocs/PROCTCAE_Navigation_Hierarchy.doc -text
 pro-ctcae/docs/DesignDocs/PROCTCmerge.eap -text
