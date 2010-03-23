@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
@@ -19,11 +20,14 @@ import static org.easymock.EasyMock.expect;
  */
 public class ScheduleCrfTabTest extends WebTestCase {
     private ScheduleCrfTab tab;
+    private GenericRepository genericRepository;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        genericRepository = registerMockFor(GenericRepository.class);
         tab = new ScheduleCrfTab();
+        tab.setGenericRepository(genericRepository);
 
 
     }
@@ -33,6 +37,7 @@ public class ScheduleCrfTabTest extends WebTestCase {
     }
 
     public void testTab() {
+        expect(genericRepository.findById(StudyParticipantAssignment.class, null)).andReturn(new StudyParticipantAssignment()).anyTimes();
         assertEquals(Privilege.PRIVILEGE_PARTICIPANT_SCHEDULE_CRF, tab.getRequiredPrivilege());
         CRFRepository crfRepository = registerMockFor(CRFRepository.class);
         StudyParticipantAssignment a = new StudyParticipantAssignment();
@@ -47,7 +52,6 @@ public class ScheduleCrfTabTest extends WebTestCase {
         command.setStudyParticipantAssignment(a);
 
         tab.setCrfRepository(crfRepository);
-        expect(crfRepository.findById(1)).andReturn(c);
         replayMocks();
         tab.onDisplay(request, command);
         verifyMocks();
