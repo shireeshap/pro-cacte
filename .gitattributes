@@ -1673,7 +1673,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilte
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyControllerTest.java -text

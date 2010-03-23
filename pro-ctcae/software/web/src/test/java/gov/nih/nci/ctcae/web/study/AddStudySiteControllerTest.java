@@ -25,6 +25,7 @@ public class AddStudySiteControllerTest extends AbstractWebTestCase {
         studyController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         controller.setStudyRepository(studyRepository);
         studyController.setUserRepository(userRepository);
+        ((StudyDetailsTab)studyController.getFlow().getTab(0)).setUserRepository(userRepository);
         request.setMethod("GET");
     }
 
