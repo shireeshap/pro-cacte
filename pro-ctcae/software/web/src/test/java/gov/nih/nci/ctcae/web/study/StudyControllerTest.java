@@ -27,7 +27,7 @@ import static org.easymock.EasyMock.isA;
 public class StudyControllerTest extends WebTestCase {
     private StudyController controller;
     private WebControllerValidator validator;
-
+    private UserRepository userRepository;
     private Study study;
 
     @Override
@@ -38,7 +38,7 @@ public class StudyControllerTest extends WebTestCase {
         controller.setStudyRepository(studyRepository);
         controller.setWebControllerValidator(validator);
         controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
-        UserRepository userRepository = registerMockFor(UserRepository.class);
+        userRepository = registerMockFor(UserRepository.class);
         controller.setUserRepository(userRepository);
         UsernamePasswordAuthenticationToken token = registerMockFor(UsernamePasswordAuthenticationToken.class);
         SecurityContextHolder.getContext().setAuthentication(token);
@@ -50,11 +50,14 @@ public class StudyControllerTest extends WebTestCase {
         ArrayList<Organization> organizations = new ArrayList<Organization>();
         organizations.add(new Organization());
         expect(clinicalStaff.getOrganizationsWithCCARole()).andReturn(organizations);
+
+
     }
 
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
         replayMocks();
+        ((StudyDetailsTab) (controller.getFlow().getTab(0))).setUserRepository(userRepository);
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
         Map model = modelAndView.getModel();
@@ -68,6 +71,7 @@ public class StudyControllerTest extends WebTestCase {
         request.setMethod("GET");
 
         replayMocks();
+        ((StudyDetailsTab) (controller.getFlow().getTab(0))).setUserRepository(userRepository);
         controller.handleRequest(request, response);
         verifyMocks();
         resetMocks();
@@ -94,6 +98,8 @@ public class StudyControllerTest extends WebTestCase {
         request.setMethod("GET");
 
         replayMocks();
+        ((StudyDetailsTab) (controller.getFlow().getTab(0))).setUserRepository(userRepository);
+        
         controller.handleRequest(request, response);
         verifyMocks();
         resetMocks();
