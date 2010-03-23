@@ -173,11 +173,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void login(String userName) {
+        userRepository.setCheckAccountLockout(false);
         if (userName.equals(SYSTEM_ADMIN)) {
             insertAdminUser();
         }
         User loadedUser = userRepository.loadUserByUsername(userName);
-        loadedUser.setNumberOfAttempts(0);
         if (userName.equals(SYSTEM_ADMIN)) {
             ArrayList<GrantedAuthority> list = new ArrayList(Arrays.asList(loadedUser.getAuthorities()));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"));
@@ -187,7 +187,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"));
             loadedUser.setGrantedAuthorities(list.toArray(new GrantedAuthority[]{}));
-
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, DEFAULT_PASSWORD, loadedUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
