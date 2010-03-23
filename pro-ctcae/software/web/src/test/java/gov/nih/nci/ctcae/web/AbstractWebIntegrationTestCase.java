@@ -50,7 +50,7 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         XmlWebApplicationContext context = new XmlWebApplicationContext();
         context.setParent(parent);
         context.setServletContext(servletContext);
-        context.setConfigLocations(new String[]{String.format("file:%s/web/src/main/webapp/WEB-INF/%s-servlet.xml", codeBase, servletName)});
+        context.setConfigLocations(new String[]{String.format("file:%s/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
 
         context.refresh();
         return context;
