@@ -1,16 +1,16 @@
 package gov.nih.nci.ctcae.core.helper;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 
 /**

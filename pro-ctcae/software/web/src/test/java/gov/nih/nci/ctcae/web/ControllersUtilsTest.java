@@ -2,22 +2,15 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.EditFormController;
 import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import org.omg.IOP.ServiceContextHolder;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.Authentication;
 
 /**
  * @author Vinay Kumar

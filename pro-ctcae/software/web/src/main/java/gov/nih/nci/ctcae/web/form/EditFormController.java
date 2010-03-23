@@ -2,15 +2,18 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.*;
-import org.springframework.validation.Errors;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.User;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 //
 /**

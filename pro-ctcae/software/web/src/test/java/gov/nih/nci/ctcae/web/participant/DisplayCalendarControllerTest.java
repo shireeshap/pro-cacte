@@ -1,12 +1,13 @@
     package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
-import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
-import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
+    import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+    import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
+    import gov.nih.nci.ctcae.web.WebTestCase;
 
-import java.util.ArrayList;
-import java.util.List;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import static org.easymock.EasyMock.expect;
 
 /**
  * @author Harsh Agarwal

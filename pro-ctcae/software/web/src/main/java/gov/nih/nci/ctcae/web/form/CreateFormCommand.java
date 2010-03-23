@@ -2,9 +2,8 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.rules.*;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -12,7 +11,10 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 //
 /**

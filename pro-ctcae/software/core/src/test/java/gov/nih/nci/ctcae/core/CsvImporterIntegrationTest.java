@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 
 import java.util.Date;
 
