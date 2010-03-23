@@ -90,7 +90,13 @@
             }
         }
     </script>
-
+<!--[if IE]>
+<style>
+	div.row div.value {
+		margin-left:0;
+	}
+</style>
+<![endif]-->
 </head>
 <body>
 <div class="tabpane">

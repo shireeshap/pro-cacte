@@ -89,7 +89,7 @@
         }
 
         div.row div.value {
-            margin-left: 0em;
+            margin-left: 4.5em;
         }
         *{
             zoom:0;

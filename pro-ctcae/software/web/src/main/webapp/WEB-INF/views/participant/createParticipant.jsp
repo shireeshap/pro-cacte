@@ -133,10 +133,15 @@
             border-left: 1px solid #999999;
             padding-left: 5px;
         }
-        *{
-            zoom:0;
-        }
+        
     </style>
+<!--[if IE]>
+	<style>
+		div.row div.value {
+			margin-left:0;
+		}
+	</style>
+<![endif]-->
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
