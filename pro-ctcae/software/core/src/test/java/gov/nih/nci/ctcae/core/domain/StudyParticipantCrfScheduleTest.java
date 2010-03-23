@@ -27,7 +27,9 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         Date d = new Date();
         studyParticipantCrfSchedule.setId(1);
-        studyParticipantCrfSchedule.setStudyParticipantCrf(new StudyParticipantCrf());
+        StudyParticipantCrf crf = new StudyParticipantCrf();
+        crf.setStartDate(new Date());
+        studyParticipantCrfSchedule.setStudyParticipantCrf(crf);
         studyParticipantCrfSchedule.setDueDate(d);
         studyParticipantCrfSchedule.setStartDate(d);
         studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
@@ -52,6 +54,7 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
         Date d = new Date();
         StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+        studyParticipantCrf.setStartDate(new Date());
         studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
         studyParticipantCrfSchedule2.setStudyParticipantCrf(studyParticipantCrf);
 

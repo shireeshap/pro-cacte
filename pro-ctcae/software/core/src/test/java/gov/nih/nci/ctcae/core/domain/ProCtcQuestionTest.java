@@ -17,7 +17,7 @@ public class ProCtcQuestionTest extends TestCase {
         proCtcQuestion = new ProCtcQuestion();
         proCtcQuestion.setQuestionText("How is the pain?");
 
-        assertEquals("How is the pain?", proCtcQuestion.getQuestionText());
+        assertEquals("How is the pain", proCtcQuestion.getQuestionText());
     }
 
 

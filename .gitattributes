@@ -677,7 +677,6 @@ pro-ctcae/software/core/src/main/resources/log4j.properties -text
 pro-ctcae/software/core/src/main/resources/log4j.xml -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrationTest.java -text
-pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/ProCtcTermsImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text

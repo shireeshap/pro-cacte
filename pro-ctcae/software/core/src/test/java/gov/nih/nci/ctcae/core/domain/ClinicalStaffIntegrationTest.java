@@ -34,23 +34,23 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
 
         try {
             inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
-        } catch (CtcAeSystemException e) {
+            fail();
+        } catch (Exception e) {
             logger.info("expecting this");
         }
 
         try {
             inValidClinicalStaff.setFirstName("John");
             clinicalStaffRepository.save(inValidClinicalStaff);
-            fail();
         } catch (CtcAeSystemException e) {
+            fail();
         }
         try {
             inValidClinicalStaff.setFirstName("John");
             inValidClinicalStaff.setLastName("Doe");
             clinicalStaffRepository.save(inValidClinicalStaff);
-            fail();
-
         } catch (CtcAeSystemException e) {
+            fail();
         }
     }
 
@@ -79,7 +79,7 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
         }
     }
 
-    
+
     public void testFindByLastName() {
         saveClinicalStaff();
 
