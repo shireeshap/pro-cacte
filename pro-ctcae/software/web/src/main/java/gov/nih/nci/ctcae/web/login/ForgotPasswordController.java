@@ -66,7 +66,10 @@ public class ForgotPasswordController extends AbstractFormController {
     public void resetPasswordAndSendEmail(ClinicalStaff clinicalStaff) {
         try {
             String newPassword = RandomStringUtils.randomAlphanumeric(7);
-            clinicalStaff.getUser().setPassword(newPassword);
+            User user = clinicalStaff.getUser();
+            user.setPassword(newPassword);
+            user.setAccountNonLocked(true);
+            user.setNumberOfAttempts(0);
             userRepository.saveWithoutCheck(clinicalStaff.getUser());
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
             content += "\nYour account password has been changed as per your request. Your new password is: " + newPassword;
