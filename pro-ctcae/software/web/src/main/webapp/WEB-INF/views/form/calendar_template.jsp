@@ -543,11 +543,10 @@ function checkBaseline(obj) {
         </tr>
         <tr>
             <td style="text-align:left;font-weight:bold;vertical-align:top" colspan="2">
-                <c:if test="${command.crf.createBaseline}">
-                    <c:set var="checked" value="checked='true'"/>
+                <c:if test="${command.crf.createBaseline eq true}">
+                    <c:set var="ischecked" value="checked='true'"/>
                 </c:if>
-                <input type="checkbox" name="baselineCheck" ${checked} onclick="checkBaseline(this);"
-                       checked/>
+                <input type="checkbox" name="baselineCheck" ${ischecked} onclick="checkBaseline(this);"/>
                 <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
                        id="crf.createBaseline"/>
                 <tags:message code='form.tab.baseline'/>
