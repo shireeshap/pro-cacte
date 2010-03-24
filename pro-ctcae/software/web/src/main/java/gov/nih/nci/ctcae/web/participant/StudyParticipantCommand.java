@@ -122,7 +122,9 @@ public class StudyParticipantCommand {
     }
 
     public List<ParticipantSchedule> getParticipantSchedules(boolean force) {
-        participantSchedules = null;
+        if (force) {
+            participantSchedules = null;
+        }
         return getParticipantSchedules();
     }
 
@@ -172,7 +174,7 @@ public class StudyParticipantCommand {
             }
         }
 
-        getParticipantSchedules(true);
+        getParticipantSchedules(save);
 
     }
 }

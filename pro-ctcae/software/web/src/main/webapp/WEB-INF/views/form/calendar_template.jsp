@@ -488,7 +488,7 @@ function unique(arrayName)
     return newArray;
 }
 
-function baselinCheck(obj) {
+function baselineCheck(obj) {
     if (obj.checked) {
         $('crf.createBaseline').value = true;
     } else {
@@ -534,7 +534,7 @@ function baselinCheck(obj) {
                 <c:if test="${command.crf.createBaseline}">
                     <c:set var="checked" value="checked='true'"/>
                 </c:if>
-                <input type="checkbox" name="baselineCheck" ${checked} onclick="javascript:baselinCheck(this);"
+                <input type="checkbox" name="baselineCheck" ${checked} onclick="baselineCheck(this);"
                        checked/>
                 <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
                        id="crf.createBaseline"/>
