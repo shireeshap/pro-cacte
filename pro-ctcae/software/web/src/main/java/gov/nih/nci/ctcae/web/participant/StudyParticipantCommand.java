@@ -114,6 +114,7 @@ public class StudyParticipantCommand {
             participantSchedules.add(participantSchedule);
 
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+                lazyInitializeStudyParticipantCrf(studyParticipantCrf);
                 participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
             }
         }
@@ -166,15 +167,19 @@ public class StudyParticipantCommand {
         }
         studyParticipantAssignment = genericRepository.findById(StudyParticipantAssignment.class, studyParticipantAssignment.getId());
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            studyParticipantCrf.getStudyParticipantCrfSchedules();
-            studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
-            studyParticipantCrf.getCrf().getCrfPages();
-            for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
-                crfPage.getCrfPageItems();
-            }
+            lazyInitializeStudyParticipantCrf(studyParticipantCrf);
         }
 
         getParticipantSchedules(save);
 
+    }
+
+    private void lazyInitializeStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
+        studyParticipantCrf.getStudyParticipantCrfSchedules();
+        studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
+        studyParticipantCrf.getCrf().getCrfPages();
+        for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
+            crfPage.getCrfPageItems();
+        }
     }
 }
