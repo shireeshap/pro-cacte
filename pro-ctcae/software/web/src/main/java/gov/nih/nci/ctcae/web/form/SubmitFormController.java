@@ -128,6 +128,9 @@ public class SubmitFormController extends SimpleFormController {
                             if (index > 0) {
                                 DisplayQuestion mainQuestion = submitFormCommand.getSubmittedPageQuestions().get(0);
                                 String selectedValidValueIdForMainQuestion = request.getParameter("currentPageQuestions[0].selectedValidValueId");
+                                if (StringUtils.isBlank(selectedValidValueIdForMainQuestion)) {
+                                    continue;
+                                }
                                 ValidValue value = null;
                                 if (mainQuestion.isProCtcQuestion()) {
                                     value = genericRepository.findById(ProCtcValidValue.class, new Integer(selectedValidValueIdForMainQuestion));
