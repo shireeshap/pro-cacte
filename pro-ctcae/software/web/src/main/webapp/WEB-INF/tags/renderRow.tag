@@ -70,7 +70,7 @@
                                                    noForm="${noForm}"/>&nbsp;</c:otherwise>
                 </c:choose>
             </div>
-            <div class="value"><c:choose><c:when test="${not empty value}">
+            <div class="value IEdivValueHack"><c:choose><c:when test="${not empty value}">
                 <jsp:invoke fragment="value"/>
             </c:when>
                 <c:otherwise>
