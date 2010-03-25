@@ -112,21 +112,15 @@ public class StudyParticipantCommand {
             participantSchedules = new ArrayList<ParticipantSchedule>();
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
             participantSchedules.add(participantSchedule);
-
+        }
+        for (ParticipantSchedule participantSchedule : participantSchedules) {
+            participantSchedule.getStudyParticipantCrfs().clear();
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                lazyInitializeStudyParticipantCrf(studyParticipantCrf);
                 participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
             }
         }
 
         return participantSchedules;
-    }
-
-    public List<ParticipantSchedule> getParticipantSchedules(boolean force) {
-        if (force) {
-            participantSchedules = null;
-        }
-        return getParticipantSchedules();
     }
 
     /**
@@ -170,7 +164,7 @@ public class StudyParticipantCommand {
             lazyInitializeStudyParticipantCrf(studyParticipantCrf);
         }
 
-        getParticipantSchedules(save);
+        getParticipantSchedules();
 
     }
 
