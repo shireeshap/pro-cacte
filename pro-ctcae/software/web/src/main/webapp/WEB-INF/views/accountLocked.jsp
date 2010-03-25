@@ -19,6 +19,8 @@
         </div>
         <div class="value">
             Your account has been locked due to multiple unsuccessful login attempts.
+            You can unlock your account by generating a new password using 'Forgot Password' link on the <a
+                href="<c:url value="/"/>">login</a> page.
         </div>
     </div>
 </chrome:box>
