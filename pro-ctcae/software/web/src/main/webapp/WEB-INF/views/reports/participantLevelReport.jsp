@@ -134,7 +134,7 @@
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label"><tags:requiredIndicator/>&nbsp;Form&nbsp;&nbsp;</div>
-            <div class="value" id="formDropDown"></div>
+            <div class="value IEdivValueHack" id="formDropDown"></div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
@@ -158,7 +158,7 @@
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
             <div class="label">Visits&nbsp;&nbsp;</div>
-            <div class="value">
+            <div class="value IEdivValueHack">
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
                     <option value="all">All</option>

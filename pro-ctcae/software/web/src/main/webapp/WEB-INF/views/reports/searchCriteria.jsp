@@ -144,7 +144,7 @@
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none">
                         <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/>&nbsp;&nbsp;</div>
-                        <div class="value" id="formTitle"></div>
+                        <div class="value IEdivValueHack" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
                     </div>
                 </c:otherwise>
@@ -165,8 +165,8 @@
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divSymptomsRow" style="display:none">
-                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
-                        <div class="value" id="proCtcTerms"></div>
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/>&nbsp;&nbsp;</div>
+                        <div class="value IEdivValueHack" id="proCtcTerms"></div>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -206,7 +206,7 @@
             </c:if>
             <div class="row" id="filterByDiv" style="${filterstyle}">
                 <div class="label"><tags:message code="reports.label.FilterBy"/>&nbsp;&nbsp;</div>
-                <div class="value">
+                <div class="value IEdivValueHack">
                     <select id="filterBy" title="Filter By" onchange="showText(this);">
                         <option value="">None</option>
                         <option value="cycle">Cycle</option>

@@ -316,12 +316,12 @@ function hideIndicator() {
                                   noForm="true"/>
         <div id="formDropDownDiv" class="row" style="display:none">
             <div class="label"><tags:requiredIndicator/>Form&nbsp;&nbsp;</div>
-            <div class="value" id="formDropDown"></div>
+            <div class="value IEdivValueHack" id="formDropDown"></div>
         </div>
 
         <div id="statusDiv" class="row" style="display:none">
             <div class="label">Status&nbsp;&nbsp;</div>
-            <div class="value">
+            <div class="value IEdivValueHack">
                 <select id="formStatus" name="statusOptions">
                     <option value="all">All</option>
                     <option value="IN-PROGRESS">In-progress</option>
@@ -346,7 +346,7 @@ function hideIndicator() {
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
             <div class="label">Date range&nbsp;&nbsp;</div>
-            <div class="value">
+            <div class="value IEdivValueHack">
                 <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
                     <option value="thisWeek">This Week</option>
                     <option value="lastWeek">Last Week</option>
