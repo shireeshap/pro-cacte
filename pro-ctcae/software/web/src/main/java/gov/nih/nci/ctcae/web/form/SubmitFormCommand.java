@@ -59,6 +59,7 @@ public class SubmitFormCommand implements Serializable {
             DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
             displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
             displayQuestion.setStudyParticipantCrfItem(item);
+            displayQuestion.setMandatory(item.getCrfPageItem().getResponseRequired());
         }
         for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
             addParticipantAddedQuestionToSymptomMap(participantQuestion);
@@ -118,10 +119,14 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public List<DisplayQuestion> getCurrentPageQuestions() {
-        return displayQuestionsMap.get(getCurrentPageIndex());
+        return displayQuestionsMap.get(getNewPageIndex());
     }
 
-    public int getCurrentPageIndex() {
+    public List<DisplayQuestion> getSubmittedPageQuestions() {
+        return displayQuestionsMap.get(currentPageIndex);
+    }
+
+    public int getNewPageIndex() {
         if (direction.equals("back")) {
             currentPageIndex--;
         }
@@ -417,4 +422,5 @@ public class SubmitFormCommand implements Serializable {
         schedule.getStudyParticipantCrf();
         schedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions();
     }
+
 }

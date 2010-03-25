@@ -22,6 +22,7 @@ public class DisplayQuestion {
     private StudyParticipantCrfItem studyParticipantCrfItem;
     private StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion;
     private SubmitFormCommand command;
+    private boolean mandatory = false;
 
     public DisplayQuestion(GenericRepository genericRepository, SubmitFormCommand command) {
         this.genericRepository = genericRepository;
@@ -119,5 +120,19 @@ public class DisplayQuestion {
         return null;
     }
 
+    public boolean isMandatory() {
+        return mandatory;
+    }
 
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public boolean isProCtcQuestion() {
+        return question instanceof ProCtcQuestion;
+    }
+
+    public boolean isMeddraQuestion() {
+        return question instanceof MeddraQuestion;
+    }
 }

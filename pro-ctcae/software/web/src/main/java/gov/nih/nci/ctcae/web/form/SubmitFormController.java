@@ -1,9 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +45,7 @@ public class SubmitFormController extends SimpleFormController {
         if (submit) {
             return showConfirmationPage(sCommand);
         } else {
-            return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getCurrentPageIndex()));
+            return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getNewPageIndex()));
         }
 
     }
@@ -67,12 +71,17 @@ public class SubmitFormController extends SimpleFormController {
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
+        if (errors.hasErrors()) {
+            submitFormCommand.setDirection("");
+            return super.showForm(request, response, errors);
+        }
+
         if (CrfStatus.COMPLETED.equals(submitFormCommand.getSchedule().getStatus())) {
             return showConfirmationPage(submitFormCommand);
         }
         ModelAndView mv;
         submitFormCommand.setCurrentPageIndex(request.getParameter("p"));
-        int currentPageIndex = submitFormCommand.getCurrentPageIndex();
+        int currentPageIndex = submitFormCommand.getNewPageIndex();
         if (currentPageIndex == submitFormCommand.getAddQuestionPageIndex()) {
             mv = showForm(request, errors, "");
             mv.setView(new RedirectView("addquestion?p=" + currentPageIndex));
@@ -103,6 +112,43 @@ public class SubmitFormController extends SimpleFormController {
 
     private String getReviewView() {
         return "form/reviewFormSubmission";
+    }
+
+
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors) throws Exception {
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
+        if ("continue".equals(submitFormCommand.getDirection())) {
+            int index = 0;
+            for (DisplayQuestion displayQuestion : submitFormCommand.getSubmittedPageQuestions()) {
+                try {
+                    if (displayQuestion.isMandatory()) {
+                        String selectedValidValueId = request.getParameter("currentPageQuestions[" + index + "].selectedValidValueId");
+                        if (StringUtils.isBlank(selectedValidValueId)) {
+                            if (index > 0) {
+                                DisplayQuestion mainQuestion = submitFormCommand.getSubmittedPageQuestions().get(0);
+                                String selectedValidValueIdForMainQuestion = request.getParameter("currentPageQuestions[0].selectedValidValueId");
+                                ValidValue value = null;
+                                if (mainQuestion.isProCtcQuestion()) {
+                                    value = genericRepository.findById(ProCtcValidValue.class, new Integer(selectedValidValueIdForMainQuestion));
+                                }
+                                if (mainQuestion.isMeddraQuestion()) {
+                                    value = genericRepository.findById(MeddraValidValue.class, new Integer(selectedValidValueIdForMainQuestion));
+                                }
+                                if (value == null || value.getDisplayOrder() == 0) {
+                                    continue;
+                                }
+                            }
+                            errors.reject("MANDATORY_VALUE_MISSING", "Please provide a response for question " + (index + 1));
+                        }
+                    }
+                } catch (Exception
+                        e) {
+                    e.printStackTrace();
+                }
+                index++;
+            }
+        }
     }
 }
 

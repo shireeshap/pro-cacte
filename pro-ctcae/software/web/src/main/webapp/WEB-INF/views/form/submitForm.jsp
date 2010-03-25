@@ -111,7 +111,7 @@
 <form:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
     <div class='progress-bar-outer'>
-        <div class='progress-bar-inner' style="width: ${(command.currentPageIndex/command.totalPages)*150}px;"></div>
+        <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
     </div>
     <div class="currentPagediv">
         Progress:
@@ -161,13 +161,13 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
-                <c:if test="${command.currentPageIndex gt 1}">
+                <c:if test="${command.newPageIndex gt 1}">
                     <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="Back"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
-                    <c:when test="${command.currentPageIndex le command.totalPages}">
+                    <c:when test="${command.newPageIndex le command.totalPages}">
                         <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')"
                                      value="Continue"/>
                     </c:when>
