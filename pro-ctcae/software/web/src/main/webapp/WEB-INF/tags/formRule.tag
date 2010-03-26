@@ -5,6 +5,7 @@
 <%@attribute name="rule" type="gov.nih.nci.ctcae.core.domain.rules.NotificationRule" required="true" %>
 <%@ attribute name="ruleIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="readOnly" type="java.lang.Boolean" required="false" %>
+<%@ attribute name="isSite" type="java.lang.Boolean" required="false" %>
 
 <c:set var="readOnly" value="${(isSite && !rule.siteOverRide) || readOnly}"/>
 <c:set var="notificationRule" value="${rule}"/>
