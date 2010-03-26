@@ -101,7 +101,14 @@ public class SubmitFormCommand implements Serializable {
         if (!symptomQuestionMap.containsKey(question.getQuestionSymptom())) {
             symptomQuestionMap.put(question.getQuestionSymptom(), new ArrayList<DisplayQuestion>());
         }
-        symptomQuestionMap.get(question.getQuestionSymptom()).add(displayQuestion);
+
+        List<DisplayQuestion> questions = symptomQuestionMap.get(question.getQuestionSymptom());
+        for (DisplayQuestion dQ : questions) {
+            if (dQ.getQuestionText().equals(question.getQuestionText())) {
+                continue;
+            }
+            questions.add(displayQuestion);
+        }
         return displayQuestion;
     }
 
