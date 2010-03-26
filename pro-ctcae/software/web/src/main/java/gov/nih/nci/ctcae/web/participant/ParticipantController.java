@@ -79,7 +79,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         command.setAdmin(user.isAdmin());
         command.setReadOnlyUserName(false);
         populateOrganizationsForUser(command);
-        String mode = proCtcAEProperties.getProperty("mode.identifier");
+        String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
         command.setMode(mode);
         return command;
     }
