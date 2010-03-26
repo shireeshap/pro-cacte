@@ -195,9 +195,9 @@
     </script>
 </head>
 <body>
-<form:form method="post" name="myForm">
-    <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
-                autopad="true" message="false">
+<chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
+            autopad="true" message="false">
+    <form:form method="post" name="myForm">
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>
         </p>
@@ -229,64 +229,64 @@
             </c:forEach>
             </tbody>
         </table>
-
-        <br/>
-
-        <p>
-            <b><tags:message code="participant.form.typesymptom"/></b>
-        </p>
-        <br/>
-
-        <div id="keyboardDiv"></div>
-        <br/>
-
-        <div class="yui-skin-sam">
-            <table cellspacing="10px;">
-                <tr>
-                    <td>
-                        <div id="participantSymptomAutoComplete">
-                            <input id="participantSymptomInput" type="text">
-
-                            <div id="participantSymptomContainer"></div>
-                        </div>
-                    </td>
-                    <td>
-                        <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
-                                     icon="add"
-                                     size="small" color="blue" value="add" markupWithTag="a"/>
-                    </td>
-                    <td>
-                        <tags:button onclick="javascript:clearInput()"
-                                     icon="x"
-                                     size="small" color="blue" value="clear" markupWithTag="a"/>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-
-        <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox"
-                   onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual
-            keyboard
-        </div>
-
-    </chrome:box>
-
-    <table width="100%">
         <input type="hidden" name="direction"/>
-        <tr>
-            <td align="left" width="50%">
-                <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
-                             value="Back" markupWithTag="a"/>
-            </td>
-            <td align="right" width="50%">
-                <tags:button onclick="javascript:submitForm('continue')" icon="continue"
-                             color="green" value="Continue" markupWithTag="a"/>
-            </td>
-        </tr>
-    </table>
+    </form:form>
+    <br/>
 
-</form:form>
+    <p>
+        <b><tags:message code="participant.form.typesymptom"/></b>
+    </p>
+    <br/>
+
+    <div id="keyboardDiv"></div>
+    <br/>
+
+    <div class="yui-skin-sam">
+        <table cellspacing="10px;">
+            <tr>
+                <td>
+                    <div id="participantSymptomAutoComplete">
+                        <input id="participantSymptomInput" type="text">
+
+                        <div id="participantSymptomContainer"></div>
+                    </div>
+                </td>
+                <td>
+                    <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
+                                 icon="add"
+                                 size="small" color="blue" value="add" markupWithTag="a"/>
+                </td>
+                <td>
+                    <tags:button onclick="javascript:clearInput()"
+                                 icon="x"
+                                 size="small" color="blue" value="clear" markupWithTag="a"/>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="row">
+        <input id='usevirtualkeyboard' type="checkbox"
+               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual
+        keyboard
+    </div>
+
+</chrome:box>
+
+<table width="100%">
+    <tr>
+        <td align="left" width="50%">
+            <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
+                         value="Back" markupWithTag="a"/>
+        </td>
+        <td align="right" width="50%">
+            <tags:button onclick="javascript:submitForm('continue')" icon="continue"
+                         color="green" value="Continue" markupWithTag="a"/>
+        </td>
+    </tr>
+</table>
+
+
 </body>
 </html>
