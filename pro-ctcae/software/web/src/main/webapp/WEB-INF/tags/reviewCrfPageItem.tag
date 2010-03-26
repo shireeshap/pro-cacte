@@ -38,7 +38,7 @@
                   <span class="required-indicator">*</span>
               </c:if>
               ${crfPageItem.proCtcQuestion.questionText}
-              <img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
+              <img alt="This is a conditional question which will only be asked if there is a positive response to the above question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
                    id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
                <img alt="Conditional Triggering Question"
