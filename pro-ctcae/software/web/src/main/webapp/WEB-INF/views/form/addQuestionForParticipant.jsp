@@ -242,18 +242,7 @@
 
         <div id="keyboardDiv"></div>
         <br/>
-        <%--<input type="text" id="participantquestion-input" value="" class="autocomplete"--%>
-        <%--size="60"/>--%>
-        <%--<input type="hidden" id="participantquestion"/>--%>
-        <%--<img src="/proctcae/images/blue/clear-left-button.png"--%>
-        <%--onclick="javascript:$('participantquestion-input').clear();"--%>
-        <%--style="vertical-align:top;cursor:pointer"/>--%>
-        <%--<tags:indicator id="participantquestion-indicator"/>--%>
-        <%--<div id="participantquestion-add" style="display:none">--%>
-        <%--</div>--%>
-
-        <%--<div id="participantquestion-choices" class="autocomplete"></div>--%>
-
+   
         <div class="yui-skin-sam">
             <table cellspacing="10px;">
                 <tr>

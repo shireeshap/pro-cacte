@@ -89,9 +89,6 @@
 
     <jsp:attribute name="repeatingFields">
         <input type="hidden" name="rulesToDelete" id="rulesToDelete" value="">
-        <c:if test="${!isSite}">
-            <input type="hidden" name="_finish" value="true" id="_finish">
-        </c:if>
         <c:forEach items="${notificationRules}" var="notificationRule" varStatus="status">
             <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}"/>
         </c:forEach>

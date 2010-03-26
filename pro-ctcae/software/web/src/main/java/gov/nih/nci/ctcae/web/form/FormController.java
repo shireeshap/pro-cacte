@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //
+
 /**
  * The Class FormController.
  *
@@ -50,6 +51,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#getInitialPage(javax.servlet.http.HttpServletRequest)
      */
+
     @Override
     protected int getInitialPage(HttpServletRequest request) {
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
@@ -79,6 +81,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#getFormSessionAttributeName()
      */
+
     protected String getFormSessionAttributeName() {
         return FormController.class.getName() + ".FORM." + getCommandName();
     }
@@ -86,6 +89,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#getPageSessionAttributeName()
      */
+
     @Override
     protected String getPageSessionAttributeName() {
         return FormController.class.getName() + ".PAGE." + getCommandName();
@@ -96,6 +100,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */
+
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         CreateFormCommand command = new CreateFormCommand();
@@ -122,15 +127,15 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         flow.addTab(new FormDetailsTab());
         flow.addTab(new CalendarTemplateTab());
         flow.addTab(new FormRulesTab());
-
+        flow.addTab(new EmptyFormTab("form.tab.overview", "form.tab.overview", "form/confirmForm"));
     }
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
      */
+
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-//        createFormCommand.processRulesForForm(request);
         save(createFormCommand);
 
         Map model = new HashMap();
@@ -160,6 +165,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController#validate()
      */
+
     @Override
     protected boolean validate() {
         return false;

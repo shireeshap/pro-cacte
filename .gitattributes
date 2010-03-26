@@ -812,6 +812,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryCompa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DisplayQuestion.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EmptyFormTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 //
+
 /**
  * The Class EditFormController.
  *
@@ -24,18 +25,11 @@ import java.util.Map;
  */
 public class EditFormController extends FormController {
 
-    @Override
-    protected void layoutTabs(Flow<CreateFormCommand> flow) {
-        flow.addTab(new FormDetailsTab());
-        flow.addTab(new CalendarTemplateTab());
-        flow.addTab(new FormRulesTab());
-        flow.addTab(new SiteRulesTab());
-
-    }
 
     /* (non-Javadoc)
     * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
     */
+
     @Override
     protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
 
@@ -101,8 +95,9 @@ public class EditFormController extends FormController {
 
             }
         }
+        EmptyFormTab emptyFormTab = new EmptyFormTab("form.tab.overview", "form.tab.overview", "form/confirmForm");
+        emptyFormTab.setCrfRepository(crfRepository);
+        flow.addTab(emptyFormTab);
         return getSecuredFlow(flow);
     }
-
-
 }
