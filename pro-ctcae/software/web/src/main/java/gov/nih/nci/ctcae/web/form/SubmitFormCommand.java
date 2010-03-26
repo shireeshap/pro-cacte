@@ -103,10 +103,14 @@ public class SubmitFormCommand implements Serializable {
         }
 
         List<DisplayQuestion> questions = symptomQuestionMap.get(question.getQuestionSymptom());
+        boolean questionAlreadyExists = false;
         for (DisplayQuestion dQ : questions) {
             if (dQ.getQuestionText().equals(question.getQuestionText())) {
-                continue;
+                questionAlreadyExists = true;
+                break;
             }
+        }
+        if (!questionAlreadyExists) {
             questions.add(displayQuestion);
         }
         return displayQuestion;
