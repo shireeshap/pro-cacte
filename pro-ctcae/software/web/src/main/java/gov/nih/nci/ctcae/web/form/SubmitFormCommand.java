@@ -262,8 +262,12 @@ public class SubmitFormCommand implements Serializable {
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int questionPagesBeforeAdd = totalQuestionPages;
-        List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
+        int position = questionPagesBeforeAdd + 2;
+
         for (String symptom : selectedSymptoms) {
+            List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
             ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
             if (proCtcTerm != null) {
                 addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
@@ -289,16 +293,13 @@ public class SubmitFormCommand implements Serializable {
                     }
                 }
             }
-        }
-        totalPages = totalQuestionPages + 1;
-        reviewPageIndex = totalQuestionPages + 2;
-        int position = questionPagesBeforeAdd + 2;
-        for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
-            addParticipantAddedQuestionToSymptomMap(spcsaq);
-        }
-        for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
-            int nextPos = addQuestionToDisplayMap(position, spcsaq.getProCtcOrMeddraQuestion());
-            position = nextPos;
+            for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+                addParticipantAddedQuestionToSymptomMap(spcsaq);
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+                int nextPos = addQuestionToDisplayMap(position, spcsaq.getProCtcOrMeddraQuestion());
+                position = nextPos;
+            }
         }
     }
 
