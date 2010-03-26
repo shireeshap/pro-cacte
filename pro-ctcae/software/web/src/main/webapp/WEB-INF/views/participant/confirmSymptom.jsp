@@ -19,8 +19,8 @@
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
                     <div style="font-size:15px; margin-bottom:10px;">
-                        You have already answered a question for ${values}, are you sure that you want to also answer a
-                        question for ${selectedChoice}?
+                        You have already answered a question for <b>${values}</b>. Are you sure you want to answer an additional
+                        question for <b>${selectedChoice}</b>?
                     </div>
                 </div>
                 <br/>

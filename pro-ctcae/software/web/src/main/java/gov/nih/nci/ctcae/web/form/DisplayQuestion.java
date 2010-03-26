@@ -33,6 +33,10 @@ public class DisplayQuestion {
         return question.getQuestionText();
     }
 
+    public String getQuestionSymptom() {
+        return question.getQuestionSymptom();
+    }
+
     public void setQuestion(Question question) {
         this.question = question;
     }

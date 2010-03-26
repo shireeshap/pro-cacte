@@ -103,16 +103,7 @@ public class SubmitFormCommand implements Serializable {
         }
 
         List<DisplayQuestion> questions = symptomQuestionMap.get(question.getQuestionSymptom());
-        boolean questionAlreadyExists = false;
-//        for (DisplayQuestion dQ : questions) {
-//            if (dQ.getQuestionText().equals(question.getQuestionText())) {
-//                questionAlreadyExists = true;
-//                break;
-//            }
-//        }
-//        if (!questionAlreadyExists) {
-            questions.add(displayQuestion);
-//        }
+        questions.add(displayQuestion);
         return displayQuestion;
     }
 
@@ -349,25 +340,40 @@ public class SubmitFormCommand implements Serializable {
 
 
     private void addProCtcQuestion(ProCtcTerm proCtcTerm, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
-        totalQuestionPages++;
-        for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-            StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(proCtcQuestion, false);
-            newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+        if (symptomDoesNotExistInForm(proCtcTerm.getTerm())) {
+            for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
+                StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(proCtcQuestion, false);
+                newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+            }
+            totalQuestionPages++;
         }
     }
 
-    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, boolean firstTime, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
-
-        totalQuestionPages++;
-        List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
-        MeddraQuestion meddraQuestion;
-        if (meddraQuestions.size() > 0) {
-            meddraQuestion = meddraQuestions.get(0);
-        } else {
-            meddraQuestion = createMeddraQuestion(lowLevelTerm);
+    private boolean symptomDoesNotExistInForm(String term) {
+        for (Integer i : displayQuestionsMap.keySet()) {
+            List<DisplayQuestion> questions = displayQuestionsMap.get(i);
+            for (DisplayQuestion displayQuestion : questions) {
+                if (displayQuestion.getQuestionSymptom().equals(term)) {
+                    return false;
+                }
+            }
         }
-        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(meddraQuestion, firstTime);
-        newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+        return true;
+    }
+
+    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, boolean firstTime, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+        if (symptomDoesNotExistInForm(lowLevelTerm.getMeddraTerm())) {
+            List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
+            MeddraQuestion meddraQuestion;
+            if (meddraQuestions.size() > 0) {
+                meddraQuestion = meddraQuestions.get(0);
+            } else {
+                meddraQuestion = createMeddraQuestion(lowLevelTerm);
+            }
+            StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(meddraQuestion, firstTime);
+            newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+            totalQuestionPages++;
+        }
     }
 
     private StudyParticipantCrfScheduleAddedQuestion AddParticipantSelectedQuestion(Question question, boolean firstTime) {
