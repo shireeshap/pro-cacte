@@ -175,9 +175,6 @@
 
         Event.observe(window, "load", function() {
             initializeAutoCompleter()
-            initSearchField();
-            var input = document.getElementById('participantSymptomInput');
-
         })
 
         function changeClass(obj, index) {
@@ -242,7 +239,7 @@
 
         <div id="keyboardDiv"></div>
         <br/>
-   
+
         <div class="yui-skin-sam">
             <table cellspacing="10px;">
                 <tr>
