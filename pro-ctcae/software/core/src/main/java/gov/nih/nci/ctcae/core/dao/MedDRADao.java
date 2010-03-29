@@ -433,13 +433,13 @@ public class MedDRADao {
      */
     public void createMeddraVersion(String meddra_name){
 
-    	String sql = "INSERT INTO meddra_versions VALUES (nextval('meddra_versions_id_seq'), '" + meddra_name + "')";
+    	String sql = "INSERT INTO meddra_versions VALUES (nextval('meddra_versions_seq'), '" + meddra_name + "')";
     	String dataBase = "";
     	if(properties.getProperty(DB_NAME) != null){
     		dataBase = properties.getProperty(DB_NAME);
     	}
     	if(dataBase.equals(ORACLE_DB))
-    		sql = "INSERT INTO meddra_versions VALUES (meddra_versions_id_seq.NEXTVAL, '" + meddra_name + "')";
+    		sql = "INSERT INTO meddra_versions VALUES (meddra_versions_seq.NEXTVAL, '" + meddra_name + "')";
 
     	jdbcTemplate.execute(sql);
     }

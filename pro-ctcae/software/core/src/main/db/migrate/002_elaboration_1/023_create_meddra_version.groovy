@@ -19,7 +19,7 @@ class AddMeddraVersion extends edu.northwestern.bioinformatics.bering.Migration 
     	execute('update meddra_hlgt_hlt set version_id = 9');
     	execute('update meddra_hlt_pt set version_id = 9');
 
-    	execute('CREATE SEQUENCE meddra_versions_id_seq START WITH 10');
+    	execute('CREATE SEQUENCE meddra_versions_seq START WITH 10');
     	if (databaseMatches('postgresql')){
 
     		execute('ALTER SEQUENCE meddra_soc_id_seq RESTART WITH 10100000');
