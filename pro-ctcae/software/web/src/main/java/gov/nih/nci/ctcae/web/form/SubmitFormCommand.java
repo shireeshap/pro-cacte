@@ -261,10 +261,7 @@ public class SubmitFormCommand implements Serializable {
 
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
-        int questionPagesBeforeAdd = totalQuestionPages;
-        totalPages = totalQuestionPages + 1;
-        reviewPageIndex = totalQuestionPages + 2;
-        int position = questionPagesBeforeAdd + 2;
+        int position = totalQuestionPages + 2;
 
         for (String symptom : selectedSymptoms) {
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
@@ -301,6 +298,9 @@ public class SubmitFormCommand implements Serializable {
                 position = nextPos;
             }
         }
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
+
     }
 
     public boolean ctcTermAlreadyExistsInForm(List<CtcTerm> ctcTerms) {
