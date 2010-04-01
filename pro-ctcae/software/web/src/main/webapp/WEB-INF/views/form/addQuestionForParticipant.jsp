@@ -50,7 +50,7 @@
         }
 
         #participantSymptomAutoComplete .yui-ac-content {
-            max-height: 10em;
+            max-height: 20em;
             overflow: auto;
             overflow-x: hidden; /* set scrolling */
             _height: 30em; /* ie6 */
