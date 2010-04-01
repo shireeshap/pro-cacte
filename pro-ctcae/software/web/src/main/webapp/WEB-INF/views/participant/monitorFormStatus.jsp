@@ -63,7 +63,7 @@
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                    <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date())%>"/>
+                                    <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
                                     <a class="nolink"
                                        title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                         <c:choose>
