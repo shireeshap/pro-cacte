@@ -17,8 +17,7 @@
     <tags:includePrototypeWindow/>
     <tags:stylesheetLink name="cycledefinitions"/>
     <tags:javascriptLink name="cycledefinitions"/>
-    <script type="text/javascript"
-            src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/dragdrop/dragdrop-min.js"></script>
+    <tags:javascriptLink name="yui"/>
     <script type="text/javascript">
         function addRemoveSchedule(index, date, action) {
             var forms = document.getElementsByName("selectedForms")

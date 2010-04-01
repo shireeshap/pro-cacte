@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Mehul Gulati
- * Date: Jun 24, 2009
+ *         Date: Jun 24, 2009
  */
 public class EnterParticipantResponsesController extends CtcAeSimpleFormController {
 
@@ -34,20 +34,24 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         String id = request.getParameter("id");
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         if (!StringUtils.isBlank(id)) {
-        studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
+            studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
         }
         return studyParticipantCrfSchedule;
     }
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = (StudyParticipantCrfSchedule) oCommand;
-        studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+        String submitType = request.getParameter("submitType");
+        if ("save".equals(submitType)) {
+            studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
+        } else {
+            studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+        }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
         ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId()));
-        modelAndView.addObject("successMessage","true");
+        modelAndView.addObject("successMessage", "true");
         return modelAndView;
     }
-
 
 
     @Required

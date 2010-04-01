@@ -99,7 +99,7 @@ function initializeCalendar(index) {
                         item.style.background = 'red';
                     }
 
-                    if (status == 'Scheduled' || status == 'Past-due') {
+                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress') {
                         if (holiday == 'true') {
                             item.style.background = '#666666';
                         }

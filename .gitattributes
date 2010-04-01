@@ -1598,6 +1598,7 @@ pro-ctcae/software/web/src/main/webapp/js/table_menu.js -text
 pro-ctcae/software/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/software/web/src/main/webapp/js/tree.js -text
 pro-ctcae/software/web/src/main/webapp/js/validation.js -text
+pro-ctcae/software/web/src/main/webapp/js/yui.js -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/CreateClinicalStaffSeleniumTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/SearchClinicalStaffSeleniumTest.java -text

@@ -15,14 +15,34 @@
 
 <html>
 <head>
+    <script type="text/javascript">
+        function saveResponse(type) {
+            if (type == 'submit') {
+                if (!confirm("You will not be able to make any changes to these responses after submitting the form. Press 'OK' to submit the form otherwise press 'Cancel'.")) {
+                    return;
+                }
+            }
+            document.forms[0].submitType.value = type;
+            document.forms[0].submit();
+        }
+    </script>
 
 </head>
 <body>
 <c:if test="${param['successMessage']}">
-    <chrome:flashMessage flashMessage="Form has been saved successfully"/>
+    <c:if test="${command.status eq 'In-progress'}">
+        <chrome:flashMessage flashMessage="Form has been saved successfully"/>
+    </c:if>
+    <c:if test="${command.status eq 'Completed'}">
+        <chrome:flashMessage flashMessage="Form has been submitted successfully"/>
+    </c:if>
+</c:if>
+<c:if test="${command.status eq 'Completed'}">
+    <c:set var="disabled" value="disabled"/>
 </c:if>
 <chrome:box>
     <form:form method="post" name="myForm">
+        <input type="hidden" name="submitType" value=""/>
         <tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrf.crf.recallPeriod}"/>
         <div id="inputResponses">
             <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
@@ -44,24 +64,18 @@
                         </tr>
                         <tr>
                             <c:forEach items="${items[0].crfPageItem.proCtcQuestion.validValues}" var="validValue">
-                                <c:choose>
-                                    <c:when test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
-
-                                        <td>
-                                            <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}" checked> ${validValue.value} &nbsp;&nbsp;
-                                        </td>
-                                    </c:when>
-                                    <c:otherwise>
-
-                                        <td>
-                                            <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}"> ${validValue.value} &nbsp;&nbsp;
-                                        </td>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:set var="checked" value=""/>
+                                <c:set var="style" value=""/>
+                                <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
+                                    <c:set var="checked" value="checked "/>
+                                    <c:set var="style" value="background-color:blue;color:white"/>
+                                </c:if>
+                                <td>
+                                    <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
+                                           type="radio"
+                                           value="${validValue.id}" ${checked} ${disabled}> <span
+                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                </td>
                             </c:forEach>
                         </tr>
                         <c:set var="myindex" value="${myindex + 1}"/>
@@ -84,24 +98,18 @@
                         </tr>
                         <tr>
                             <c:forEach items="${items[0].proCtcQuestion.validValues}" var="validValue">
-                                <c:choose>
-                                    <c:when test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
-
-                                        <td>
-                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}" checked> ${validValue} &nbsp;&nbsp;
-                                        </td>
-                                    </c:when>
-                                    <c:otherwise>
-
-                                        <td>
-                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}"> ${validValue} &nbsp;&nbsp;
-                                        </td>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:set var="checked" value=""/>
+                                <c:set var="style" value=""/>
+                                <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
+                                    <c:set var="checked" value="checked"/>
+                                    <c:set var="style" value="background-color:blue;color:white"/>
+                                </c:if>
+                                <td>
+                                    <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
+                                           type="radio"
+                                           value="${validValue.id}" ${checked} ${disabled}> <span
+                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                </td>
                             </c:forEach>
                         </tr>
                         <c:set var="myindex" value="${myindex + 1}"/>
@@ -124,24 +132,18 @@
                         </tr>
                         <tr>
                             <c:forEach items="${items[0].meddraQuestion.validValues}" var="validValue">
-                                <c:choose>
-                                    <c:when test="${items[0].meddraValidValue ne null && items[0].meddraValidValue.displayOrder eq validValue.displayOrder}">
-
-                                        <td>
-                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}" checked> ${validValue} &nbsp;&nbsp;
-                                        </td>
-                                    </c:when>
-                                    <c:otherwise>
-
-                                        <td>
-                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
-                                                   type="radio"
-                                                   value="${validValue.id}"> ${validValue} &nbsp;&nbsp;
-                                        </td>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:set var="checked" value=""/>
+                                <c:set var="style" value=""/>
+                                <c:if test="${items[0].meddraValidValue ne null && items[0].meddraValidValue.displayOrder eq validValue.displayOrder}">
+                                    <c:set var="checked" value="checked"/>
+                                    <c:set var="style" value="background-color:blue;color:white"/>
+                                </c:if>
+                                <td>
+                                    <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
+                                           type="radio"
+                                           value="${validValue.id}" ${checked} ${disabled}> <span
+                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                </td>
                             </c:forEach>
                         </tr>
                         <c:set var="myindex" value="${myindex + 1}"/>
@@ -151,14 +153,19 @@
 
             </table>
         </div>
-        <table width="100%" style="margin-top:10px;">
-            <tr>
-                <td align="right">
-                    <tags:button color="blue" type="submit" id="flow-update"
-                                 cssClass="next" value="Submit" icon="save"/>
-                </td>
-            </tr>
-        </table>
+        <c:if test="${command.status ne 'Completed'}">
+            <table width="100%" style="margin-top:10px;">
+                <tr>
+                    <td align="right">
+                        <tags:button color="green" id="flow-update"
+                                     cssClass="next" value="Save" icon="save" onclick="saveResponse('save');"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <tags:button color="blue" id="flow-update"
+                                     cssClass="next" value="Submit" icon="save" onclick="saveResponse('submit');"/>
+                    </td>
+                </tr>
+            </table>
+        </c:if>
     </form:form>
 </chrome:box>
 
