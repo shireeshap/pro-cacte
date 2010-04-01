@@ -1,4 +1,5 @@
 <%@ page import="java.util.Date" %>
+<%@ page import="gov.nih.nci.ctcae.core.domain.ProCtcAECalendar" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -62,7 +63,7 @@
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                    <c:set var="todaysdate" value="<%= new Date()%>"/>
+                                    <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date())%>"/>
                                     <a class="nolink"
                                        title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                         <c:choose>
