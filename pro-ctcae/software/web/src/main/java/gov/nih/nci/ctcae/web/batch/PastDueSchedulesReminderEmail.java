@@ -32,7 +32,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         tx.begin();
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
-        Date today = new Date();
+        Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
         for (Study study : studies) {
             for (StudySite studySite : study.getStudySites()) {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
