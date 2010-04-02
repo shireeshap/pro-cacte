@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 //
+
 /**
  * The Class CRFRepository.
  *
@@ -38,6 +40,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     protected Properties proCtcAEProperties;
     private GenericRepository genericRepository;
     private boolean checkAccountLockout = true;
+    PasswordPolicyService passwordPolicyService;
 
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
@@ -141,10 +144,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 numOfAttempts = 0;
             }
             int allowedAttempts = 7;
-            String lockout = proCtcAEProperties.getProperty("lockout.attempts");
-            if (!StringUtils.isBlank(lockout)) {
-                allowedAttempts = Integer.parseInt(lockout);
-            }
+            int lockout = passwordPolicyService.getPasswordPolicy().getLoginPolicy().getAllowedFailedLoginAttempts();
+            allowedAttempts = lockout;
             user.setAccountNonLocked(true);
             if (numOfAttempts >= allowedAttempts) {
                 user.setAccountNonLocked(false);
@@ -268,6 +269,11 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     public void setCheckAccountLockout(boolean checkAccountLockout) {
         this.checkAccountLockout = checkAccountLockout;
     }
+
+    @Required
+    public void setPasswordPolicyService(PasswordPolicyService passwordPolicyService) {
+        this.passwordPolicyService = passwordPolicyService;
+    }
 }
 
 class MyException extends DataAccessException {
@@ -275,4 +281,5 @@ class MyException extends DataAccessException {
     public MyException(String s) {
         super(s);
     }
+
 }

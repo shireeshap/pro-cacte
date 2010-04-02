@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.filter;
 
+import org.apache.commons.lang.StringUtils;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,7 @@ public class SecurityFilter implements Filter {
         disableCaching(response);
         //Disable WebDAV, or disallow unneeded HTTP methods
         disallowUnneededHttpMethods(response);
-        if (uriContainsIllegalCahracters(request)) {
+        if (uriContainsIllegalCharacters(request)) {
             response.sendError(403);
             return;
         }
@@ -42,11 +44,19 @@ public class SecurityFilter implements Filter {
         chain.doFilter(new SecurityRequestWrapper(request), new SecurityResponseWrapper(response));
     }
 
-    private boolean uriContainsIllegalCahracters(HttpServletRequest request) {
+    private boolean uriContainsIllegalCharacters(HttpServletRequest request) {
         String uri = request.getRequestURI();
         Pattern p = Pattern.compile("[^a-zA-Z0-9?/=\\.\\-_]");
         Matcher m = p.matcher(uri);
-        return m.find();
+        if (m.find()) {
+            return true;
+        }
+        String queryString = request.getQueryString();
+        if (!StringUtils.isBlank(queryString)) {
+            m = p.matcher(queryString);
+            return m.find();
+        }
+        return false;
     }
 
 
