@@ -574,6 +574,10 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/Notifi
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleRole.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleSymptom.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/rules/SiteCRFNotificationRule.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/CombinationPolicy.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/LoginPolicy.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordCreationPolicy.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordPolicy.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/user/ProctcUser.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
