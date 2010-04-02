@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 //
+
 /**
  * The Class AddCrfScheduleController.
  *
@@ -32,6 +33,7 @@ public class AddFormScheduleController extends AbstractController {
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
     */
+
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
@@ -41,8 +43,11 @@ public class AddFormScheduleController extends AbstractController {
 
         ModelAndView mv = new ModelAndView("participant/addSchedule");
         List<CRF> crfs = new ArrayList<CRF>();
-        for(StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs()){
-            crfs.add(studyParticipantCrf.getCrf());
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+            CRF crf = studyParticipantCrf.getCrf();
+            if (crf.getChildCrf() == null) {
+                crfs.add(crf);
+            }
         }
 
         mv.addObject("crfs", crfs);
