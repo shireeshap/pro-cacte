@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -27,6 +28,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      * The study repository.
      */
     private UserRepository userRepository;
+    PasswordPolicyService passwordPolicyService;
 
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
@@ -37,8 +39,8 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
             if (user.getId() == null) {
                 if (!validateUniqueName(user)) return false;
             }
-            if (!validatePasswordPolicy(user)) return false;
             if (!validatePasswordAndConfirmPassword(user)) return false;
+            if (!validatePasswordPolicy(user)) return false;
         }
         return true;
     }
@@ -56,12 +58,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     }
 
     private boolean validatePasswordPolicy(User user) {
-        String password = user.getPassword();
-        if (password == null || password.length() < 6) {
-            message = "user.password_length";
-            return false;
-        }
-        return true;
+        return passwordPolicyService.validatePasswordAgainstCreationPolicy(user);
     }
 
     private boolean validatePasswordAndConfirmPassword(User user) {
@@ -89,5 +86,10 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setPasswordPolicyService(PasswordPolicyService passwordPolicyService) {
+        this.passwordPolicyService = passwordPolicyService;
     }
 }

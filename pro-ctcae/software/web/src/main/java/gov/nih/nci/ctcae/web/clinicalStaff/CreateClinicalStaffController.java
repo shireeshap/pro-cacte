@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
+import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -120,8 +122,12 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         if (command.getUserAccount()) {
             User user = command.getClinicalStaff().getUser();
             command.setValidUser(true);
-            if (!userNameAndPasswordValidator.validate(user)) {
-                e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+            try {                                           
+                userNameAndPasswordValidator.validate(user);
+            } catch (PasswordCreationPolicyException ex) {
+                for (ValidationError ve : ex.getErrors().getErrors()) {
+                    e.rejectValue("clinicalStaff.user.username", ve.getMessage(), ve.getMessage());
+                }
                 command.setValidUser(false);
             }
         }

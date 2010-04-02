@@ -74,6 +74,7 @@
         <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRuleRole</value>
         <value>gov.nih.nci.ctcae.core.domain.rules.NotificationRuleSymptom</value>
         <value>gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy</value>
 
 
     </util:list>
@@ -273,7 +274,7 @@
 
 
     <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
-          p:genericRepository-ref="genericRepository" >
+          p:genericRepository-ref="genericRepository">
         <property name="passwordEncoder" ref="passwordEncoder"/>
         <property name="saltSource" ref="reflectionSaltSource"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
@@ -290,9 +291,13 @@
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>
+    <bean id="passwordPolicyService" class="gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
     <bean id="userNameAndPasswordValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
         <property name="userRepository" ref="userRepository"/>
+        <property name="passwordPolicyService" ref="passwordPolicyService"/>
     </bean>
 
 

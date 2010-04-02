@@ -128,6 +128,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="clinicalStaff.tab.clinical_staff"
                                   p:linkName="searchClinicalStaffController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="administration.tab.passwordPolicy"
+                                  p:linkName="passwordPolicyConfigurationController"/>
                         </list>
                     </property>
                 </bean>
@@ -217,6 +220,11 @@
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="meddraRepository" ref="meddraRepository"/>
     </bean>
+
+    <bean name="/admin/passwordConfiguration" id="passwordPolicyConfigurationController"
+          class="gov.nih.nci.ctcae.web.PasswordPolicyConfigurationController">
+        <property name="passwordPolicyService" ref="passwordPolicyService"/>
+     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">

@@ -80,7 +80,7 @@
                     var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
                         parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice,
                         onComplete:function(transport) {
-                            showConfirmationWindow(transport, 600, 250);
+                            showConfirmationWindow(transport, 600, 25submitf0);
                         },
                         method:'get'
                     })

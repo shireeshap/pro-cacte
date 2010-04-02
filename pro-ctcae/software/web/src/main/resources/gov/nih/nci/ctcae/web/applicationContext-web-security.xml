@@ -85,6 +85,8 @@
                        access="PRIVILEGE_CREATE_CCA"/>
         <intercept-url pattern="/pages/admin/clinicalStaff/createAdmin"
                        access="PRIVILEGE_CREATE_ADMIN"/>
+        <intercept-url pattern="/pages/admin/passwordConfiguration"
+                       access="PRIVILEGE_CREATE_ADMIN"/>
 
         <intercept-url pattern="/pages/admin/clinicalStaff/addClinicalStaffComponent"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>

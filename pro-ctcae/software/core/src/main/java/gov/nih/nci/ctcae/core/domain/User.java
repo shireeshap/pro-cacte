@@ -9,6 +9,8 @@ import org.springframework.security.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.sql.Timestamp;
 
 //
 /**
@@ -61,6 +63,34 @@ public class User extends BaseVersionable implements UserDetails {
     @Transient
     private String confirmPassword;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserRole> userRoles = new ArrayList<UserRole>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserNotification> userNotifications = new ArrayList<UserNotification>();
+
+    @Column(name = "salt")
+    private String salt;
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "token_time")
+    private Timestamp tokenTime;
+
+    @Column(name = "password_last_set")
+    private Timestamp passwordLastSet = new Timestamp(new Date().getTime());
+
+
+    @Column(name = "num_failed_logins")
+    private Integer failedLoginAttempts;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "last_login")
+    protected Date lastLoginAttemptTime;
+
     public User(final String username, final String password, final boolean enabled,
                 final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
 
@@ -73,13 +103,91 @@ public class User extends BaseVersionable implements UserDetails {
 
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<UserRole> userRoles = new ArrayList<UserRole>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<UserNotification> userNotifications = new ArrayList<UserNotification>();
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Timestamp getTokenTime() {
+        return tokenTime;
+    }
+
+    public void setTokenTime(Timestamp tokenTime) {
+        this.tokenTime = tokenTime;
+    }
+
+    private Timestamp getPasswordLastSet() {
+        return passwordLastSet;
+    }
+
+    private void setPasswordLastSet(Timestamp passwordLastSet) {
+        this.passwordLastSet = passwordLastSet;
+    }
+
+    @Transient
+    public long getPasswordAge() {
+        // current time - last set
+        return new Date().getTime() - getPasswordLastSet().getTime();
+    }
+
+
+    public void addPasswordToHistory(int maxHistorySize) {
+        // expand password history
+        // if >= length -> chop to length - 1
+        // add password
+    }
+
+
+    public Integer getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(Integer numFailedLogins) {
+        this.failedLoginAttempts = numFailedLogins;
+    }
+
+//    public void setPassword(String hashedPassword) {
+//         csm_user
+//        this.setPasswordLastSet(new Timestamp(new Date().getTime()));
+//    }
+
+    public boolean isPassword(String hashedPassword) {
+        // compare to csm_user
+        return false;
+    }
+
+    public Date getLastFailedLoginAttemptTime() {
+        return lastLoginAttemptTime;
+    }
+
+    public void setLastFailedLoginAttemptTime(Date lastLoginAttemptTime) {
+        this.lastLoginAttemptTime = lastLoginAttemptTime;
+    }
+
+
+    /**
+     * Calculates the time past last failed login attempt
+     * This property is used in determining the account lock out
+     *
+     * @return seconds past last failed login attempts
+     */
+    @Transient
+    public long getSecondsPastLastFailedLoginAttempt() {
+        if (getLastFailedLoginAttemptTime() == null) return -1;
+        return (new Date().getTime() - getLastFailedLoginAttemptTime().getTime()) / 1000;
+    }
 
     public User() {
     }

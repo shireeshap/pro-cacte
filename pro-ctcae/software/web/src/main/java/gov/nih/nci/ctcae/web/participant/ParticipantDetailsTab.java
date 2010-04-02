@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
+import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -55,11 +57,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         }
         User user = command.getParticipant().getUser();
         command.setReadOnlyUserName(true);
-        if (!userNameAndPasswordValidator.validate(user)) {
-            errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+        try {
+            userNameAndPasswordValidator.validate(user);
+        } catch (PasswordCreationPolicyException ex) {
+            for (ValidationError ve : ex.getErrors().getErrors()) {
+                errors.rejectValue("participant.user.username", ve.getMessage(), ve.getMessage());
+            }
             command.setReadOnlyUserName(false);
         }
-
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
