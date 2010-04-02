@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,10 +52,19 @@ public class SecurityFilter implements Filter {
         if (m.find()) {
             return true;
         }
-        String queryString = request.getQueryString();
-        if (!StringUtils.isBlank(queryString)) {
-            m = p.matcher(queryString);
-            return m.find();
+
+        if (request.getMethod().toUpperCase().equals("GET")) {
+            Enumeration parameterNames = request.getParameterNames();
+            while (parameterNames.hasMoreElements()) {
+                String param = (String) parameterNames.nextElement();
+                String paramValue = request.getParameter(param);
+                if (!StringUtils.isBlank(paramValue)) {
+                    m = p.matcher(paramValue);
+                    if (m.find()) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
