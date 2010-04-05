@@ -48,7 +48,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
         String selectedTypes = request.getParameter("selectedTypes");
         ArrayList<String> arrSelectedTypes = new ArrayList<String>();
         if (!StringUtils.isBlank(selectedTypes)) {
-            StringTokenizer st = new StringTokenizer(selectedTypes, ",");
+            StringTokenizer st = new StringTokenizer(selectedTypes, "_");
             while (st.hasMoreTokens()) {
                 arrSelectedTypes.add(st.nextToken());
             }

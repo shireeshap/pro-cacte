@@ -101,7 +101,7 @@
             var selectedTypes = '';
             for (var i = 0; i < obj.length; i++) {
                 if (obj[i].checked) {
-                    selectedTypes = selectedTypes + ',' + obj[i].value;
+                    selectedTypes = selectedTypes + '_' + obj[i].value;
                 }
             }
             if (selectedTypes == '') {
