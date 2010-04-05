@@ -67,8 +67,8 @@ public class ParticipantLevelChartGenerator {
         HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart = null;
         for (String[] term : results.keySet()) {
             if (term[0].equals(inputTerm)) {
-                selectedTerm = inputTerm;
-                dataForChart = results.get(selectedTerm);
+                selectedTerm = term[1];
+                dataForChart = results.get(term);
                 break;
             }
         }
