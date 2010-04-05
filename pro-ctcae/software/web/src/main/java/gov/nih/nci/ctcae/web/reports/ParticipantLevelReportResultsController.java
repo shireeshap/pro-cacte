@@ -12,10 +12,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Mehul Gulati
@@ -34,7 +31,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         List<String> dates = new ArrayList<String>();
 
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
-        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules, request);
+        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules, request);
 
 
         modelAndView.addObject("resultsMap", results);
@@ -48,9 +45,9 @@ public class ParticipantLevelReportResultsController extends AbstractController 
     }
 
 
-    private TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
+    private TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
 
-        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>();
+        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>(new MyArraySorter());
         HashMap<Question, ArrayList<ProCtcValidValue>> careResults = new HashMap<Question, ArrayList<ProCtcValidValue>>();
         boolean participantAddedQuestion;
 
@@ -68,31 +65,33 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             Integer arraySize = dates.size();
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                String symptomId = proCtcQuestion.getProCtcTerm().getId().toString();
                 String symptom = proCtcQuestion.getProCtcTerm().getTerm();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 participantAddedQuestion = false;
-                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+                buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize);
             }
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
                 Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
+                String symptomId = question.getStringId();
                 String symptom = question.getQuestionSymptom();
                 ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 participantAddedQuestion = true;
-                buildMap(question, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+                buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize);
             }
         }
 
         return symptomMap;
     }
 
-    private void buildMap(Question question, String symptom, ProCtcValidValue value, TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize) {
+    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize) {
 
         ArrayList<ProCtcValidValue> validValue;
-        if (symptomMap.containsKey(symptom)) {
-            careResults = symptomMap.get(symptom);
+        if (symptomMap.containsKey(symptomArr)) {
+            careResults = symptomMap.get(symptomArr);
         } else {
             careResults = new HashMap();
-            symptomMap.put(symptom, careResults);
+            symptomMap.put(symptomArr, careResults);
         }
 
         if (careResults.containsKey(question)) {
@@ -198,5 +197,16 @@ public class ParticipantLevelReportResultsController extends AbstractController 
     @Required
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    private class MyArraySorter implements Comparator {
+        public int compare(Object o1, Object o2) {
+            if (o1 != null & o2 != null) {
+                String[] o1Arr = (String[]) o1;
+                String[] o2Arr = (String[]) o2;
+                return o1Arr[1].compareTo(o2Arr[1]);
+            }
+            return 0;
+        }
     }
 }

@@ -33,7 +33,7 @@ public class ReportResultsHelper {
         }
         HashSet<Integer> selectedArms = new HashSet<Integer>();
         if (!StringUtils.isBlank(arms)) {
-            String[] armArr = arms.split(",");
+            String[] armArr = arms.split("_");
             for (String arm : armArr) {
                 if (!StringUtils.isBlank(arm)) {
                     selectedArms.add(Integer.parseInt(arm));
@@ -109,7 +109,7 @@ public class ReportResultsHelper {
         }
         HashSet<ProCtcQuestionType> qT = new HashSet<ProCtcQuestionType>();
         if (!StringUtils.isBlank(attributes)) {
-            StringTokenizer st = new StringTokenizer(attributes, ",");
+            StringTokenizer st = new StringTokenizer(attributes, "_");
             while (st.hasMoreTokens()) {
                 String a = st.nextToken();
                 if (!StringUtils.isBlank(a)) {

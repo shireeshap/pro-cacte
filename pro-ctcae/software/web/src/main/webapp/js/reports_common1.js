@@ -256,7 +256,7 @@ function getSelectedAttributes() {
     var selectedAttributes = '';
     for (var i = 0; i < obj.length; i++) {
         if (obj[i].checked) {
-            selectedAttributes = selectedAttributes + ',' + obj[i].value;
+            selectedAttributes = selectedAttributes + '_' + obj[i].value;
         }
     }
     return selectedAttributes;
@@ -302,7 +302,7 @@ function getQueryString(igroup, iarms) {
     if (typeof(iarms) == 'undefined' || iarms == '') {
         var arms = getSelectedArms();
         if ($('chartTypeDiv') != null) {
-            var armsArr = arms.split(',');
+            var armsArr = arms.split('_');
             if (armsArr.size() > 2) {
                 $('chartTypeDiv').show()
                 queryString += "&chartType=" + getCheckedChartType();
@@ -339,7 +339,7 @@ function getSelectedArms() {
     }
     for (var i = 0; i < arms.length; i++) {
         if (arms[i].checked) {
-            c_value = c_value + arms[i].value + ",";
+            c_value = c_value + arms[i].value + "_";
         }
     }
     return c_value;

@@ -18,7 +18,7 @@ import java.util.*;
 public class ParticipantLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
@@ -100,10 +100,10 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
         HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
         style1.setFillForegroundColor(HSSFColor.AQUA.index);
         style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        for (String term : results.keySet()) {
+        for (String[] term : results.keySet()) {
             row = hssfSheet.createRow(rownum++);
             cell = row.createCell((short) 0);
-            cell.setCellValue(new HSSFRichTextString(term));
+            cell.setCellValue(new HSSFRichTextString(term[1]));
             cell.setCellStyle(style);
 
 

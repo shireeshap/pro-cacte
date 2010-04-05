@@ -1,9 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -25,17 +23,28 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String inputSymptom = request.getParameter("symptomId");
-        ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(inputSymptom);
-
         HashSet<String> allAttributes = new HashSet<String>();
-        if (proCtcTerm != null) {
-            for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
-                allAttributes.add(question.getProCtcQuestionType().getDisplayName());
+        if (inputSymptom.startsWith("P_")) {
+            ProCtcTerm proCtcTerm = proCtcTermRepository.findById(Integer.parseInt(inputSymptom.substring(2)));
+            if (proCtcTerm != null) {
+                for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
+                    allAttributes.add(question.getProCtcQuestionType().getDisplayName());
+                }
             }
         }
+        if (inputSymptom.startsWith("M_")) {
+            LowLevelTerm lowLevelterm = genericRepository.findById(LowLevelTerm.class, Integer.parseInt(inputSymptom.substring(2)));
+            if (lowLevelterm != null) {
+                for (MeddraQuestion question : lowLevelterm.getMeddraQuestions()) {
+                    allAttributes.add(question.getProCtcQuestionType().getDisplayName());
+                }
+            }
+        }
+
         String selectedTypes = request.getParameter("selectedTypes");
         ArrayList<String> arrSelectedTypes = new ArrayList<String>();
         if (!StringUtils.isBlank(selectedTypes)) {
@@ -48,7 +57,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
             arrSelectedTypes.addAll(allAttributes);
         }
         ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
-        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
 

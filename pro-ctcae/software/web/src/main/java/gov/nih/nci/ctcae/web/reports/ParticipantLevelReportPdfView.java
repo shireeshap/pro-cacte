@@ -23,7 +23,7 @@ import java.util.*;
 public class ParticipantLevelReportPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
-        TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
@@ -80,8 +80,8 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                 table.addCell(cell);
             }
 
-            for (String term : results.keySet()) {
-                cell = new PdfPCell(new Paragraph(term));
+            for (String[] term : results.keySet()) {
+                cell = new PdfPCell(new Paragraph(term[1]));
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
                 boolean first = true;
@@ -114,7 +114,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
         float height = PageSize.A4.height() / 2;
         float width = PageSize.A4.width();
         int i = 0;
-        for (String term : results.keySet()) {
+        for (String[] term : results.keySet()) {
             if (i % 2 == 0) {
                 document.newPage();
                 i = 0;
@@ -123,7 +123,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term, null, baselineDate);
+            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term[1], null, baselineDate);
             Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
             chart.draw(g2, r2D);
             g2.dispose();

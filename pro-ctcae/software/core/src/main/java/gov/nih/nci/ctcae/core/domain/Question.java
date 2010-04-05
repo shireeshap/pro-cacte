@@ -43,4 +43,16 @@ public abstract class Question extends BasePersistable {
         }
         return null;
     }
+
+    public String getStringId() {
+        if (this instanceof ProCtcQuestion) {
+            return "P_" + ((ProCtcQuestion) this).getProCtcTerm().getId();
+        }
+        if (this instanceof MeddraQuestion) {
+            return "M_" + ((MeddraQuestion) this).getLowLevelTerm().getId();
+        }
+        return null;
+
+    }
+
 }

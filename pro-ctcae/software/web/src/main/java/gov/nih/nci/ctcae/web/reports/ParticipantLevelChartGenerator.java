@@ -62,11 +62,11 @@ public class ParticipantLevelChartGenerator {
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
-    public JFreeChart getChartForSymptom(TreeMap<String, HashMap<Question, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
+    public JFreeChart getChartForSymptom(TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
         String selectedTerm = null;
         HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart = null;
-        for (String term : results.keySet()) {
-            if (term.equals(inputTerm)) {
+        for (String[] term : results.keySet()) {
+            if (term[0].equals(inputTerm)) {
                 selectedTerm = inputTerm;
                 dataForChart = results.get(selectedTerm);
                 break;
