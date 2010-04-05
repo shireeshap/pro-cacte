@@ -54,14 +54,16 @@ public class SecurityFilter implements Filter {
         }
 
         if (request.getMethod().toUpperCase().equals("GET")) {
-            Enumeration parameterNames = request.getParameterNames();
-            while (parameterNames.hasMoreElements()) {
-                String param = (String) parameterNames.nextElement();
-                String paramValue = request.getParameter(param);
-                if (!StringUtils.isBlank(paramValue)) {
-                    m = p.matcher(paramValue);
-                    if (m.find()) {
-                        return true;
+            if (StringUtils.isBlank(request.getParameter("subview"))) {
+                Enumeration parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    String param = (String) parameterNames.nextElement();
+                    String paramValue = request.getParameter(param);
+                    if (!StringUtils.isBlank(paramValue)) {
+                        m = p.matcher(paramValue);
+                        if (m.find()) {
+                            return true;
+                        }
                     }
                 }
             }
