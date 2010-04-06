@@ -35,7 +35,7 @@ function showResponseDetails(symptom) {
 function showPopUpMenu(index, pid, sid, ihtml) {
     var html = '<div id="search-engines"><ul>';
     if (typeof(ihtml) == 'undefined' || ihtml == '') {
-        html += '<li><a href="#" onclick="location.href=\'../participant/create?id=' + pid + '\'">View participant</a></li>';
+        html += '<li><a href="#" onclick="location.href=\'../participant/edit?id=' + pid + '\'">View participant</a></li>';
         html += '<li><a href="#" onclick="javascript:showResponses(' + sid + ')">View all responses</a></li>';
     } else {
         html += ihtml
