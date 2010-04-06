@@ -181,7 +181,7 @@ public abstract class AbstractChartGenerator {
                     url.append("&period=").append(categoryVal);
                     url = new StringBuffer(ControllersUtils.removeParameterFromQueryString(url.toString(), "arms"));
                     String arm = seriesVal.substring(0, seriesVal.indexOf(" - "));
-                    url.append("&arms=").append(arm).append(",");
+                    url.append("&arms=").append(arm).append("_");
                 }
             }
             url.append("')");
