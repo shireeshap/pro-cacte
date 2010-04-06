@@ -47,7 +47,7 @@ public class SecurityFilter implements Filter {
 
     private boolean uriContainsIllegalCharacters(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        Pattern p = Pattern.compile("[^a-zA-Z0-9?/=\\.\\-_]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9?/=\\.\\-_\\[\\] ]");
         Matcher m = p.matcher(uri);
         if (m.find()) {
             return true;
