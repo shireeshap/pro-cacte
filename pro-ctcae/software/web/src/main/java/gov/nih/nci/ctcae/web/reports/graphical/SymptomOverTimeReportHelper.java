@@ -86,7 +86,7 @@ public class SymptomOverTimeReportHelper {
         for (Integer armId : selectedArms) {
             Arm arm = genericRepository.findById(Arm.class, armId);
             queryString = ControllersUtils.removeParameterFromQueryString(queryString, "arms");
-            queryString += "&arms=" + armId + ",";
+            queryString += "&arms=" + armId + "_";
             JFreeChart normalBarChartForArm = getWorstResponseChartForArm(request, queryString, group, arm);
             String armTitle = "";
             if (arm != null) {
