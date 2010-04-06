@@ -123,7 +123,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term[1], null, baselineDate);
+            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term[0], null, baselineDate);
             Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
             chart.draw(g2, r2D);
             g2.dispose();
