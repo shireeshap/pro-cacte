@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.sql.Timestamp;
 
 //
 
@@ -45,9 +46,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
         DomainObjectPrivilegeGenerator privilegeGenerator = new DomainObjectPrivilegeGenerator();
-        UserQuery userQuery = new UserQuery();
-        userQuery.filterByUserName(userName);
-        List<User> users = new ArrayList<User>(find(userQuery));
+        List<User> users = findByUserName(userName);
 
         if (users.isEmpty() || users.size() > 1) {
             String errorMessage = String.format("Could not find user %s", userName);
@@ -55,6 +54,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         }
         User user = users.get(0);
         checkAccountLock(user);
+
+        long passwordAge = user.getPasswordAge();
+        if (passwordAge > passwordPolicyService.getPasswordPolicy().getLoginPolicy().getMaxPasswordAge()) {
+                throw new MyException("Password expired");
+        }
+
 
         Set<Role> roles = new HashSet<Role>();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
@@ -137,6 +142,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return user;
     }
 
+    public List<User> findByUserName(String userName) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserName(userName);
+        List<User> users = new ArrayList<User>(find(userQuery));
+        return users;
+    }
+
     private void checkAccountLock(User user) {
         if (checkAccountLockout) {
             Integer numOfAttempts = user.getNumberOfAttempts();
@@ -171,9 +183,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         }
         user.setUsername(user.getUsername().toLowerCase());
         if (user.getId() == null) {
-            UserQuery userQuery = new UserQuery();
-            userQuery.filterByUserName(user.getUsername());
-            List<User> users = new ArrayList<User>(find(userQuery));
+            List<User> users = findByUserName(user.getUsername());
             if (users.size() > 0) {
                 throw new UsernameAlreadyExistsException(user.getUsername());
             }
@@ -188,6 +198,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             }
         }
 
+        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         return user;
 
@@ -196,6 +207,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User saveWithoutCheck(User user) {
         user.setPassword(getEncodedPassword(user));
+        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         return user;
     }
@@ -205,7 +217,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
 
-    public Collection<User> find(UserQuery query) {
+    public List<User> find(UserQuery query) {
         return genericRepository.find(query);
 
 
@@ -225,7 +237,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     }
 
-    private String getEncodedPassword(final User user) {
+    public String getEncodedPassword(final User user) {
         if (!StringUtils.isBlank(user.getPassword())) {
             Object salt = saltSource.getSalt(user);
             return passwordEncoder.encodePassword(user.getPassword(), salt);

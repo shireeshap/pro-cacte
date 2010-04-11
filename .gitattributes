@@ -853,6 +853,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDate
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthenticationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/PasswordExpiredController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
@@ -1125,6 +1126,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -t
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/viewForm.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forwardToPasswordExpire.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/home.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
@@ -1153,6 +1155,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/searchParticipa
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/updateStudyParticipantCrfStartDate.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordExpired.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/password_policy_configure.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text

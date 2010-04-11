@@ -63,6 +63,9 @@ public class User extends BaseVersionable implements UserDetails {
     @Transient
     private String confirmPassword;
 
+    @Transient
+    private String newPassword;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<UserRole> userRoles = new ArrayList<UserRole>();
@@ -128,17 +131,28 @@ public class User extends BaseVersionable implements UserDetails {
         this.tokenTime = tokenTime;
     }
 
-    private Timestamp getPasswordLastSet() {
+    public Timestamp getPasswordLastSet() {
         return passwordLastSet;
     }
 
-    private void setPasswordLastSet(Timestamp passwordLastSet) {
+    public void setPasswordLastSet(Timestamp passwordLastSet) {
         this.passwordLastSet = passwordLastSet;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     @Transient
     public long getPasswordAge() {
         // current time - last set
+        if(getPasswordLastSet() == null){
+            setPasswordLastSet(new Timestamp(new Date().getTime()));
+        }
         return new Date().getTime() - getPasswordLastSet().getTime();
     }
 

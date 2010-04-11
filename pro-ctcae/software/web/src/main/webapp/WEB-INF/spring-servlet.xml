@@ -224,7 +224,7 @@
     <bean name="/admin/passwordConfiguration" id="passwordPolicyConfigurationController"
           class="gov.nih.nci.ctcae.web.PasswordPolicyConfigurationController">
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
-     </bean>
+    </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">

@@ -58,7 +58,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         User user = command.getParticipant().getUser();
         command.setReadOnlyUserName(true);
         try {
-            userNameAndPasswordValidator.validate(user);
+            boolean validUser = userNameAndPasswordValidator.validate(user);
+            if (!validUser) {
+                errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+            }
         } catch (PasswordCreationPolicyException ex) {
             for (ValidationError ve : ex.getErrors().getErrors()) {
                 errors.rejectValue("participant.user.username", ve.getMessage(), ve.getMessage());

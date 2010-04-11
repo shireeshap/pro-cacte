@@ -52,7 +52,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         if ((users == null || users.isEmpty())) {
             return true;
         } else {
-            message = "user.user_exists";
+            message = "Username already exists. Please choose another username.";
             return false;
         }
     }
@@ -63,7 +63,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
 
     private boolean validatePasswordAndConfirmPassword(User user) {
         if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
-            message = "user.confirm_password";
+            message = "Password does not match confirm password.";
             return false;
         }
         return true;

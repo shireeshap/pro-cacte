@@ -39,6 +39,7 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
+        
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
                 if (ControllersUtils.isRequestComingFromMobile(request)) {

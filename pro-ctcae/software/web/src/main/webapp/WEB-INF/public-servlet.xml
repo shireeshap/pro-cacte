@@ -77,5 +77,10 @@
           class="gov.nih.nci.ctcae.web.login.FailedAuthenticationController">
         <property name="userRepository" ref="userRepository"/>
     </bean>
+    <bean name="/passExpire" id="passwordExpiredController"
+          class="gov.nih.nci.ctcae.web.login.PasswordExpiredController">
+        <property name="userRepository" ref="userRepository"/>
+        <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
+    </bean>
 
 </beans>

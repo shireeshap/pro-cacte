@@ -1,6 +1,7 @@
 <%@page import="gov.nih.nci.ctcae.web.ControllersUtils" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
@@ -57,7 +58,11 @@
                 <p class="errors"><jsp:forward page="accountLocked.jsp"/></p>
                 <c:set var="showLogin" value="false"/>
             </c:when>
+            <c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message,'Password expired')}">
+                <p class="errors"><jsp:forward page="forwardToPasswordExpire.jsp"/></p>
+            </c:when>
             <c:otherwise>
+                ${SPRING_SECURITY_LAST_EXCEPTION.message}
                 <p class="errors">User is inactive.</p>
             </c:otherwise>
         </c:choose>
