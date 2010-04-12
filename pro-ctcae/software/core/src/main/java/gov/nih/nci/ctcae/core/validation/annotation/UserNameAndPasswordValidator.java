@@ -36,6 +36,10 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     public boolean validate(Object value) {
         if (value instanceof User) {
             User user = (User) value;
+            if(StringUtils.isBlank(user.getUsername())){
+                message = "Username cannot be empty.";
+                return false;
+            }
             if (user.getId() == null) {
                 if (!validateUniqueName(user)) return false;
             }
