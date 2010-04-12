@@ -72,7 +72,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         save(clinicalStaffCommand);
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
-        clinicalStaffCommand.sendEmailWithUsernamePasswordDetails();
+        if (clinicalStaffCommand.getUserAccount()) {
+            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails();
+        }
         return modelAndView;
     }
 
@@ -93,15 +95,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         if (clinicalStaffId != null) {
             ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
-            if (clinicalStaff.getUser() == null) {
-                clinicalStaff.setUser(new User());
-            } else {
-                clinicalStaff.getUser().setConfirmPassword(clinicalStaff.getUser().getPassword());
-                if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
-                    clinicalStaffCommand.setCca(true);
-                }
-                clinicalStaffCommand.setAdmin(clinicalStaff.getUser().isAdmin());
-            }
         }
         return clinicalStaffCommand;
     }
@@ -114,24 +107,32 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, o, e);
 
         if (command.getClinicalStaff().getOrganizationClinicalStaffs().size() == 0) {
-            if (!command.getClinicalStaff().getUser().isAdmin()) {
+            if (!command.isAdmin()) {
                 e.rejectValue("clinicalStaff.organizationClinicalStaffs", "clinicalStaff.no_organization", "clinicalStaff.no_organization");
             }
         }
 
         if (command.getUserAccount()) {
             User user = command.getClinicalStaff().getUser();
+            if (user == null) {
+                user = new User();
+                command.getClinicalStaff().setUser(user);
+            }
+            user.setUsername(command.getUsername());
+            user.setPassword(command.getPassword());
+            user.setConfirmPassword(command.getConfirmPassword());
             command.setValidUser(true);
             try {
                 boolean validUser = userNameAndPasswordValidator.validate(user);
                 if (!validUser) {
+                    command.setValidUser(false);
                     e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
                 }
             } catch (PasswordCreationPolicyException ex) {
+                command.setValidUser(false);
                 for (ValidationError ve : ex.getErrors().getErrors()) {
                     e.rejectValue("clinicalStaff.user.username", ve.getMessage(), ve.getMessage());
                 }
-                command.setValidUser(false);
             }
         }
     }

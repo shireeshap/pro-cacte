@@ -65,14 +65,14 @@
         function showOrHideUserAccountDetails(value) {
             if (value) {
                 $('div_useraccount_details').show();
-                $('clinicalStaff.user.username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('clinicalStaff.user.password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('clinicalStaff.user.confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
             } else {
                 $('div_useraccount_details').hide();
-                $('clinicalStaff.user.username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('clinicalStaff.user.password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('clinicalStaff.user.confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
             }
         }
         function disableCCA(obj) {
@@ -90,13 +90,13 @@
             }
         }
     </script>
-<!--[if IE]>
-<style>
-	div.row div.value {
-		margin-left:0;
-	}
-</style>
-<![endif]-->
+    <!--[if IE]>
+    <style>
+        div.row div.value {
+            margin-left:0;
+        }
+    </style>
+    <![endif]-->
 </head>
 <body>
 <div class="tabpane">
@@ -122,7 +122,7 @@
 
 <form:form method="post" commandName="clinicalStaffCommand">
     <c:set var="hasUserAccount"
-           value="${clinicalStaffCommand.clinicalStaff.user.username ne null}"/>
+           value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
     <c:set var="isEdit"
            value="${param['clinicalStaffId'] ne null}"/>
     <chrome:box title="">
@@ -181,8 +181,8 @@
                     <tr>
                         <td>
                             <c:choose>
-                                <c:when test="${empty param['clinicalStaffId']}">
-                                    <tags:renderText propertyName="clinicalStaff.user.username"
+                                <c:when test="${empty param['clinicalStaffId'] or (not hasUserAccount)}">
+                                    <tags:renderText propertyName="username"
                                                      displayName="participant.label.username"
                                                      required="true"/>
                                 </c:when>
@@ -190,16 +190,16 @@
                                     <div class="row">
                                         <div class="label"><spring:message code="participant.label.username"/>:</div>
                                         <div class="value">
-                                            &nbsp;${clinicalStaffCommand.clinicalStaff.user.username}</div>
+                                            &nbsp;${clinicalStaffCommand.username}</div>
                                         <input type="hidden" id="clinicalStaff.user.username"
                                                name="clinicalStaff.user.username"
-                                               value="${clinicalStaffCommand.clinicalStaff.user.username}">
+                                               value="${clinicalStaffCommand.username}">
                                     </div>
                                 </c:otherwise>
                             </c:choose>
                         </td>
                         <td>
-                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.username && clinicalStaffCommand.validUser}">
+                            <c:if test="${not empty clinicalStaffCommand.username && clinicalStaffCommand.validUser}">
                                 <c:set var="style" value="display:none"/>
                                 <div id="resetpass" class="label">
                                     &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
@@ -208,11 +208,11 @@
                     </tr>
                 </table>
                 <div id="passwordfields" style="${style}">
-                    <tags:renderPassword propertyName="clinicalStaff.user.password"
+                    <tags:renderPassword propertyName="password"
                                          displayName="clinicalStaff.label.password"
                                          required="true"/>
 
-                    <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
+                    <tags:renderPassword propertyName="confirmPassword"
                                          displayName="clinicalStaff.label.confirm_password"
                                          required="true"/>
                 </div>
@@ -285,6 +285,11 @@
 <c:if test="${hasUserAccount && isEdit}">
     <script type="text/javascript">
         showOrHideUserAccountDetails(true);
+    </script>
+</c:if>
+<c:if test="${!hasUserAccount && isEdit}">
+    <script type="text/javascript">
+        showOrHideUserAccountDetails(false);
     </script>
 </c:if>
 </body>

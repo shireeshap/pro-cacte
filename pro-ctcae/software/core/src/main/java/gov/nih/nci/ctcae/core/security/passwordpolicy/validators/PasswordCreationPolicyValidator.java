@@ -37,10 +37,10 @@ public class PasswordCreationPolicyValidator implements PasswordPolicyValidator 
      * @return //       * @throws ValidationException - if the user password age is less than one set in passwords creation policy
      */
     public boolean validateMinPasswordAge(PasswordCreationPolicy policy, User user, ValidationErrors validationErrors) {
-        if (user.getPasswordAge() < policy.getMinPasswordAge()) {
-            validationErrors.addValidationError("PCP_001", "Password was changed too recently.");
-            return false;
-        }
+//        if (user.getPasswordAge() < policy.getMinPasswordAge()) {
+//            validationErrors.addValidationError("PCP_001", "Password was changed too recently.");
+//            return false;
+//        }
         return true;
     }
 

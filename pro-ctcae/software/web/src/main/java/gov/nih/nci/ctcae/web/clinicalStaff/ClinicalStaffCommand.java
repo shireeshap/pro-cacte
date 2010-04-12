@@ -30,6 +30,9 @@ public class ClinicalStaffCommand {
     private Boolean userAccount = false;
     private String clearCasePassword;
     private boolean validUser = true;
+    private String username = "";
+    private String password = "";
+    private String confirmPassword = "";
 
     public Boolean isEmail() {
         return email;
@@ -63,7 +66,6 @@ public class ClinicalStaffCommand {
         clinicalStaff = new ClinicalStaff();
         OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
-        clinicalStaff.setUser(new User());
     }
 
     /**
@@ -82,6 +84,16 @@ public class ClinicalStaffCommand {
      */
     public void setClinicalStaff(ClinicalStaff clinicalStaff) {
         this.clinicalStaff = clinicalStaff;
+        if (clinicalStaff.getUser() != null) {
+            username = clinicalStaff.getUser().getUsername();
+            password = clinicalStaff.getUser().getPassword();
+            confirmPassword = clinicalStaff.getUser().getPassword();
+            if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
+                setCca(true);
+                setAdmin(clinicalStaff.getUser().isAdmin());
+            }
+        }
+
     }
 
     private boolean userHasRole(User user, Role role) {
@@ -169,5 +181,29 @@ public class ClinicalStaffCommand {
 
     public boolean isValidUser() {
         return validUser;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
