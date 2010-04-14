@@ -28,7 +28,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("group", "cycle");
         request.setMethod("GET");
 
