@@ -7,6 +7,18 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<tags:javascriptLink name="ga"/>
+
+<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "js/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-15798971-1");
+        pageTracker._trackPageview();
+    } catch(err) {
+    }</script>
 
 <div id="header">
 
@@ -16,8 +28,9 @@
         <div id="login-action">
 
             <proctcae:urlAuthorize url="/pages/home">
-                <a id="logo" href="/proctcae" title="Home">PRO-CTCAE</a>
-
+                <div id="logo">
+                    <a href="/proctcae" title="Home">PRO-CTCAE</a>
+                </div>
                 <div id="welcome-user">Welcome
                     <b><authz:authentication property="name"></authz:authentication></b>
                 </div>
@@ -39,7 +52,7 @@
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section" varStatus="index">
                 <proctcae:urlAuthorize url="${section.mainUrl}">
-                <%--${section.mainUrl}--%>
+                    <%--${section.mainUrl}--%>
                     <li class="${section == currentSection ? 'selected' : ''}">
                         <a id="firstlevelnav_${section.mainController}" index="${index.index}"
                            href="<c:url value="${section.mainUrl}"/>">
