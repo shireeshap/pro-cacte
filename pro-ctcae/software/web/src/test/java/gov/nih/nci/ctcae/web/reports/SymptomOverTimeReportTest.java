@@ -52,7 +52,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("group", "cycle");
         request.setParameter("arms", arms);
         request.setMethod("GET");
@@ -77,7 +77,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("group", "cycle");
         request.setParameter("arms", arms);
         request.setParameter("chartType", "line");
@@ -100,7 +100,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("group", "cycle");
         request.setParameter("arms", arms);
         request.setMethod("GET");
@@ -121,7 +121,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("group", "week");
         request.setParameter("col", "Week 26");
         request.setParameter("ser", "Frequency");
