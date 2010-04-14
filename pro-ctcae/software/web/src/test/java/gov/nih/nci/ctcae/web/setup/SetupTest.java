@@ -18,7 +18,7 @@ public class SetupTest extends AbstractWebIntegrationTestCase {
     public void testCommand() {
         ClinicalStaffCommand command = new ClinicalStaffCommand();
 
-        assertNotNull(command.getClinicalStaff().getUser());
+        assertNull(command.getClinicalStaff().getUser());
     }
 
     public void testController() throws Exception {
