@@ -31,7 +31,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -53,8 +53,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
-        request.setParameter("arms", study.getArms().get(0).getId() + ",");
+        request.setParameter("attributes", "_Severity_Frequency");
+        request.setParameter("arms", study.getArms().get(0).getId() + "_");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -71,13 +71,13 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
         String arms = "";
         for (Arm arm : study.getArms()) {
-            arms += arm.getId() + ",";
+            arms += arm.getId() + "_";
         }
         SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("attributes", "_Severity_Frequency");
         request.setParameter("arms", arms);
         request.setMethod("GET");
 
