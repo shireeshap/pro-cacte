@@ -210,12 +210,13 @@ p {
 }
 */
 
-a#logo {
+#logo {
     background-image: url(/proctcae/images/blue/PRO-CTCAE-logo.png);
     height: 48px;
     width: 220px;
     position: absolute;
     text-indent: -9999px;
+    margin-top: 20px;
 }
 
 /*
@@ -233,7 +234,7 @@ background-position: 0px -200px;
 */
 #welcome-user {
     margin-left: 243px;
-    margin-top: 5px;
+    margin-top: 20px;
     color: white;
 }
 
@@ -1020,8 +1021,8 @@ div.label_nomargin {
 div.row div.value_nomargin {
     font-weight: normal; /* default; should be changed whenever .label width is changed */
     text-align: left;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
 
 div.row div.value {
