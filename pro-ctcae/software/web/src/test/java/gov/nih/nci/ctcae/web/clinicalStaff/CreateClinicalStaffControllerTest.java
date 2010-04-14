@@ -15,7 +15,7 @@ import static org.easymock.EasyMock.expect;
 public class CreateClinicalStaffControllerTest extends WebTestCase {
     private CreateClinicalStaffController createClinicalStaffController;
     private ClinicalStaffCommand clinicalStaffCommand;
-    private ClinicalStaff clinicalStaff;
+    private ClinicalStaff clinicalStaff = new ClinicalStaff();
     private ClinicalStaffRepository clinicalStaffRepository;
 
 
@@ -48,7 +48,7 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
 
     public void testFormBackingObject() throws Exception {
         assertNotNull(clinicalStaffCommand);
-        assertNull(clinicalStaffCommand.getClinicalStaff());
+        assertNotNull(clinicalStaffCommand.getClinicalStaff());
 
     }
 
