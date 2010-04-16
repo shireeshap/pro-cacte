@@ -7,12 +7,8 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%--<tags:javascriptLink name="ga"/>--%>
+<tags:javascriptLink name="ga"/>
 
-<%--<script type="text/javascript">--%>
-    <%--<c:url value='js/ga.js' var="google-analytics"/>--%>
-    <%--document.write(unescape("%3Cscript src='' type='text/javascript'%3E%3C/script%3E"));--%>
-<%--</script>--%>
 <script type="text/javascript">
     try {
         var pageTracker = _gat._getTracker("UA-15798971-1");
@@ -23,23 +19,14 @@
 <div id="header">
 
     <div class="background-R">
-
-
         <div id="login-action">
-
-            <proctcae:urlAuthorize url="/pages/home">
-                <div id="logo">
-                    <a href="/proctcae" title="Home">PRO-CTCAE</a>
-                </div>
-                <div id="welcome-user">Welcome
-                    <b><authz:authentication property="name"></authz:authentication></b>
-                </div>
-            </proctcae:urlAuthorize>
-            <%--
-                   <ctcae:publicAuthorize>
-                       <a href="<c:url value="/public/login"/>">Log in</a>
-                   </ctcae:publicAuthorize>
-               --%>
+            <br/>
+            <table>
+                <tr>
+                    <td><a href="/proctcae" title="Home"><img src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
+                    <td style="color:white;vertical-align:top;">&nbsp;&nbsp;&nbsp;Welcome <b><authz:authentication property="name"></authz:authentication></b></td>
+                </tr>
+            </table>
             <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                 <a id="home" href="<c:url value="/"/>">Home</a>
             </proctcae:urlAuthorize>

@@ -214,7 +214,7 @@ p {
     background-image: url(/proctcae/images/blue/PRO-CTCAE-logo.png);
     height: 48px;
     width: 220px;
-    position: absolute;
+    /*position: absolute;*/
     text-indent: -9999px;
     margin-top: 20px;
 }
