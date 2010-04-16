@@ -7,12 +7,12 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<tags:javascriptLink name="ga"/>
+<%--<tags:javascriptLink name="ga"/>--%>
 
-<script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "js/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
+<%--<script type="text/javascript">--%>
+    <%--<c:url value='js/ga.js' var="google-analytics"/>--%>
+    <%--document.write(unescape("%3Cscript src='' type='text/javascript'%3E%3C/script%3E"));--%>
+<%--</script>--%>
 <script type="text/javascript">
     try {
         var pageTracker = _gat._getTracker("UA-15798971-1");

@@ -149,18 +149,11 @@ public class User extends BaseVersionable implements UserDetails {
 
     @Transient
     public long getPasswordAge() {
-        // current time - last set
-        if(getPasswordLastSet() == null){
+        if (getPasswordLastSet() == null) {
             setPasswordLastSet(new Timestamp(new Date().getTime()));
         }
-        return new Date().getTime() - getPasswordLastSet().getTime();
-    }
-
-
-    public void addPasswordToHistory(int maxHistorySize) {
-        // expand password history
-        // if >= length -> chop to length - 1
-        // add password
+        Timestamp timestamp = getPasswordLastSet();
+        return (new Date().getTime() - timestamp.getTime()) / 1000;
     }
 
 
@@ -170,16 +163,6 @@ public class User extends BaseVersionable implements UserDetails {
 
     public void setFailedLoginAttempts(Integer numFailedLogins) {
         this.failedLoginAttempts = numFailedLogins;
-    }
-
-//    public void setPassword(String hashedPassword) {
-//         csm_user
-//        this.setPasswordLastSet(new Timestamp(new Date().getTime()));
-//    }
-
-    public boolean isPassword(String hashedPassword) {
-        // compare to csm_user
-        return false;
     }
 
     public Date getLastFailedLoginAttemptTime() {
@@ -373,4 +356,15 @@ public class User extends BaseVersionable implements UserDetails {
     public void setNumberOfAttempts(Integer numberOfAttempts) {
         this.numberOfAttempts = numberOfAttempts;
     }
+
+    public Role getRoleForPasswordPolicy() {
+        Role role = null;
+        if (getUserRoles().size() > 0) {
+            role = getUserRoles().get(0).getRole();
+        }
+        return role;
+    }
 }
+
+
+

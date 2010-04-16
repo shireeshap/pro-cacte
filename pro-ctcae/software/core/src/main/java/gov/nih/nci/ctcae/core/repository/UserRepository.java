@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
@@ -21,8 +22,8 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
 import java.sql.Timestamp;
+import java.util.*;
 
 //
 
@@ -53,14 +54,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new UsernameNotFoundException(errorMessage);
         }
         User user = users.get(0);
-        checkAccountLock(user);
-
-        long passwordAge = user.getPasswordAge();
-        if (passwordAge > passwordPolicyService.getPasswordPolicy().getLoginPolicy().getMaxPasswordAge()) {
-                throw new MyException("Password expired");
-        }
-
-
         Set<Role> roles = new HashSet<Role>();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 
@@ -69,6 +62,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         for (UserRole userRole : user.getUserRoles()) {
             roles.add(userRole.getRole());
         }
+
         if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
@@ -76,7 +70,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         ClinicalStaff clinicalStaff = findClinicalStaffForUser(user);
 
         if (clinicalStaff != null) {
-
             List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
             for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
                 Set<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
@@ -117,8 +110,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             }
         }
 
-
+        PasswordPolicy passwordPolicy;
         if (!roles.isEmpty()) {
+            passwordPolicy = passwordPolicyService.getPasswordPolicy(roles.iterator().next());
+
             RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
             if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
                 throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
@@ -132,14 +127,21 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
                 grantedAuthorities.add(grantedAuthority);
             }
+        } else {
+            passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
         }
+        long passwordAge = user.getPasswordAge();
+        if (passwordAge > passwordPolicy.getLoginPolicy().getMaxPasswordAge()) {
+            throw new MyException("Password expired");
+        }
+        checkAccountLock(user, passwordPolicy);
 
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
         if (clinicalStaff == null && participant == null && !user.isAdmin()) {
             throw new MyException("User is inactive");
         }
-        return user;
+        return findByUserName(user.getUsername()).get(0);
     }
 
     public List<User> findByUserName(String userName) {
@@ -149,15 +151,14 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return users;
     }
 
-    private void checkAccountLock(User user) {
+    private void checkAccountLock(User user, PasswordPolicy passwordPolicy) {
         if (checkAccountLockout) {
             Integer numOfAttempts = user.getNumberOfAttempts();
             if (numOfAttempts == null) {
                 numOfAttempts = 0;
             }
-            int allowedAttempts = 7;
-            int lockout = passwordPolicyService.getPasswordPolicy().getLoginPolicy().getAllowedFailedLoginAttempts();
-            allowedAttempts = lockout;
+            int lockout = passwordPolicy.getLoginPolicy().getAllowedFailedLoginAttempts();
+            int allowedAttempts = lockout;
             user.setAccountNonLocked(true);
             if (numOfAttempts >= allowedAttempts) {
                 user.setAccountNonLocked(false);

@@ -20,7 +20,8 @@ public class ParticipantLevelReportTest extends WebTestCase {
     ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3;
     ProCtcTerm proCtcTerm;
     ArrayList<ProCtcValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
-    TreeMap<String, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results;
+    TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results;
+
     ArrayList<String> dates;
 
     public void setUp() throws Exception {
@@ -31,7 +32,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
         calendar.add(Calendar.DATE, 10);
         dates.add(DateUtils.format(calendar.getTime()));
         request.getSession().setAttribute("baselineDate", DateUtils.format(calendar.getTime()));
-        
+
         calendar.add(Calendar.DATE, 10);
         dates.add(DateUtils.format(calendar.getTime()));
         calendar.add(Calendar.DATE, 10);
@@ -109,9 +110,8 @@ public class ParticipantLevelReportTest extends WebTestCase {
         proCtcValidValueList3.add(proCtcValidValue32);
         proCtcValidValueList3.add(proCtcValidValue33);
 
-        results = new TreeMap<String, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>();
-
-        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms = new HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
+        results = new TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>();
+        HashMap<Question, ArrayList<ProCtcValidValue>> symptoms = new HashMap<Question, ArrayList<ProCtcValidValue>>();
         proCtcTerm.addProCtcQuestion(proCtcQuestion1);
         proCtcTerm.addProCtcQuestion(proCtcQuestion2);
         proCtcTerm.addProCtcQuestion(proCtcQuestion3);
@@ -121,7 +121,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
         symptoms.put(proCtcQuestion3, proCtcValidValueList3);
 
         Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", Fixture.createOrganization("orgname", "orgcode"));
-        results.put(proCtcTerm.getTerm(), symptoms);
+        results.put(new String[]{"P_" + proCtcTerm.getId(), proCtcTerm.getTerm()}, symptoms);
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
         request.getSession().setAttribute("participant", Fixture.createParticipant("pf", "pl", "pid"));

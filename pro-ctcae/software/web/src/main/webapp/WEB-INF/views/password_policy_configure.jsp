@@ -55,6 +55,33 @@
         <c:url value="/pages/admin/passwordPolicyConfigure" var="action"/>
         <p><tags:instructions code="passwordconfig"/></p>
 
+
+        <table>
+        <tr>
+        <td style="vertical-align:top;border-right:1px #cccccc solid;padding-right:30px;">
+            <chrome:division title="Roles">
+                <table>
+                    <c:forEach items="${roles}" var="role">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${command.role eq role.displayText}">
+                                        ${role.screenText}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="../admin/passwordConfiguration?role=${role.displayText}" style="font-weight:normal;">${role.screenText}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+
+                    </c:forEach>
+                </table>
+            </chrome:division>
+
+        </td>
+
+        <td style="padding-left:30px;">
         <chrome:division title="Login Policy">
             <div class="nested_section">
                 <div class="row">
@@ -103,12 +130,12 @@
             </div>
 
             <%--<div class="nested_section">--%>
-                <%--<div class="row">--%>
-                    <%--<div class="required_label">Password history size:</div>--%>
-                    <%--<div class="required_value">--%>
-                        <%--<form:input path="passwordCreationPolicy.passwordHistorySize" size="3"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
+            <%--<div class="row">--%>
+            <%--<div class="required_label">Password history size:</div>--%>
+            <%--<div class="required_value">--%>
+            <%--<form:input path="passwordCreationPolicy.passwordHistorySize" size="3"/>--%>
+            <%--</div>--%>
+            <%--</div>--%>
             <%--</div>--%>
 
             <div class="nested_section">
@@ -178,6 +205,10 @@
     </chrome:box>
     <div class="row submit" style="float: right;"><tags:button type="submit" value="Save" color="green"
                                                                icon="save"/></div>
+
+    </td>
+    </tr>
+    </table>
 </form:form>
 </body>
 </html>

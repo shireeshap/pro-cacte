@@ -40,7 +40,6 @@
     </bean>
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
-
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">
             <list>
@@ -224,6 +223,7 @@
     <bean name="/admin/passwordConfiguration" id="passwordPolicyConfigurationController"
           class="gov.nih.nci.ctcae.web.PasswordPolicyConfigurationController">
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"

@@ -19,16 +19,6 @@
 
     <script type="text/javascript">
 
-        Event.observe(window, "load", function() {
-        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
-            var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'
-            acCreate(new siteAutoComplterWithSecurity(siteBaseName));
-            initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');
-        </c:forEach>
-            initSearchField()
-        })
-
-
         function addSiteDiv(transport) {
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
@@ -63,16 +53,19 @@
         }
 
         function showOrHideUserAccountDetails(value) {
-            if (value) {
-                $('div_useraccount_details').show();
-                $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-            } else {
-                $('div_useraccount_details').hide();
-                $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                $('confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+            try {
+                if (value) {
+                    $('div_useraccount_details').show();
+                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                } else {
+                    $('div_useraccount_details').hide();
+                    $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                }
+            } catch(err) {
             }
         }
         function disableCCA(obj) {

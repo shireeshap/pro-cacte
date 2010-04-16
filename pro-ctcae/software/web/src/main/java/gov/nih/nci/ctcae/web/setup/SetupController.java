@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
+import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand;
@@ -33,6 +35,13 @@ public class SetupController extends CtcAeSimpleFormController {
         setCommandClass(ClinicalStaffCommand.class);
         setSuccessView("setup/confirmSetup");
 
+    }
+
+    @Override
+    protected Object formBackingObject(HttpServletRequest httpServletRequest) throws Exception {
+        ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
+        clinicalStaffCommand.getClinicalStaff().setUser(new User());
+        return clinicalStaffCommand;
     }
 
     @Override
@@ -69,8 +78,15 @@ public class SetupController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, command, errors);
         ClinicalStaffCommand setupCommand = (ClinicalStaffCommand) command;
         User user = setupCommand.getClinicalStaff().getUser();
-        if (!userNameAndPasswordValidator.validate(user)) {
-            errors.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+        try {
+            boolean validUser = userNameAndPasswordValidator.validate(user);
+            if (!validUser) {
+                errors.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+            }
+        } catch (PasswordCreationPolicyException ex) {
+            for (ValidationError ve : ex.getErrors().getErrors()) {
+                errors.rejectValue("clinicalStaff.user.username", ve.getMessage(), ve.getMessage());
+            }
         }
     }
 

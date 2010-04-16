@@ -1,15 +1,12 @@
 package gov.nih.nci.ctcae.core.domain.security.passwordpolicy;
 
+import gov.nih.nci.ctcae.core.domain.BasePersistable;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.validation.annotation.Validatable;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-
-import gov.nih.nci.ctcae.core.validation.annotation.Validatable;
-import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.LoginPolicy;
-import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordCreationPolicy;
-import gov.nih.nci.ctcae.core.domain.BasePersistable;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 @Entity
@@ -22,7 +19,6 @@ public class PasswordPolicy extends BasePersistable {
     @Column(name = "id")
     private Integer id;
 
-    
 
     public Integer getId() {
         return id;
@@ -53,6 +49,14 @@ public class PasswordPolicy extends BasePersistable {
             @AttributeOverride(name = "lockOutDuration", column = @Column(name = "ln_lockout_duration")),
             @AttributeOverride(name = "maxPasswordAge", column = @Column(name = "ln_max_age"))})
     private LoginPolicy loginPolicy;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
 
     public PasswordCreationPolicy getPasswordCreationPolicy() {
         return passwordCreationPolicy;

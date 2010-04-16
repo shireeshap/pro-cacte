@@ -5,6 +5,8 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
+import java.util.Comparator;
+
 //
 /**
  * The Enum Role.
@@ -13,21 +15,16 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
  */
 public enum Role implements CodedEnum<String> {
 
-    PI("PI", RoleType.STUDY_LEVEL,"Overall PI"),
     ADMIN("ADMIN", RoleType.ADMIN, "Admin"),
-    LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL,"Lead CRA"),
-    ODC("ODC", RoleType.STUDY_LEVEL,"Overall Data Coordinator"),
-    CCA("CCA", RoleType.STUDY_LEVEL,"Coordinating Centre Administrator"),
-
-
+    CCA("CCA", RoleType.STUDY_LEVEL, "Coordinating Centre Administrator"),
+    LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL, "Lead CRA"),
+    ODC("ODC", RoleType.STUDY_LEVEL, "Overall Data Coordinator"),
+    PI("PI", RoleType.STUDY_LEVEL, "Overall PI"),
+    PARTICIPANT("PARTICIPANT", RoleType.PARTICIPANT_LEVEL, "Participant"),
+    SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL, "Site CRA"),
     SITE_PI("SITE_PI", RoleType.STUDY_SITE_LEVEL, "Site PI"),
-    SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL,"Site CRA"),
-
-    TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL,"Treating Physician"),
-    NURSE("NURSE", RoleType.STUDY_SITE_LEVEL,"Nurse"),
-
-
-    PARTICIPANT("PARTICIPANT", RoleType.PARTICIPANT_LEVEL,"Participant");
+    TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL, "Treating Physician"),
+    NURSE("NURSE", RoleType.STUDY_SITE_LEVEL, "Nurse");
 
 
     /**
@@ -43,7 +40,7 @@ public enum Role implements CodedEnum<String> {
      * @param displayText the display text
      */
 
-    Role(String displayText, RoleType roleType,String screenText) {
+    Role(String displayText, RoleType roleType, String screenText) {
         this.displayText = displayText;
         this.roleType = roleType;
         this.screenText = screenText;
@@ -115,4 +112,6 @@ public enum Role implements CodedEnum<String> {
     public String getScreenText() {
         return screenText;
     }
+
+
 }

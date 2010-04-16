@@ -15,6 +15,7 @@ class CreatePasswordPolicyTable extends edu.northwestern.bioinformatics.bering.M
             t.addColumn("cn_cb_is_base_ten_digit", "boolean")
             t.addColumn("cn_cb_max_substring_length", "integer")
             t.addColumn("allowed_login_time", "integer", defaultValue: 180)
+            t.addColumn("role", "string")
         }
     }
 

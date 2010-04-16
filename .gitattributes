@@ -482,6 +482,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/029_delete_ctcv3.g
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/030_password_policy.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/031_update_user.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/032_update_password_policy.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/033_update_password_policy.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -578,7 +579,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/pas
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/LoginPolicy.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordCreationPolicy.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordPolicy.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/user/ProctcUser.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
@@ -591,6 +591,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQ
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionsDetailsQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionsReportQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/PasswordPolicyQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text

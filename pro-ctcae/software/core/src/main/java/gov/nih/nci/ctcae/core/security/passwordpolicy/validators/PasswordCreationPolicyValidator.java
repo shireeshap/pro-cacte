@@ -9,8 +9,6 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 public class PasswordCreationPolicyValidator implements PasswordPolicyValidator {
     private PasswordPolicyValidator combinationValidator;
-    private GenericRepository genericRepository;
-//      private CSMUserRepository csmUserRepository;
 
     public PasswordCreationPolicyValidator() {
         combinationValidator = new CombinationValidator();
@@ -23,27 +21,11 @@ public class PasswordCreationPolicyValidator implements PasswordPolicyValidator 
             throws ValidationException {
         PasswordCreationPolicy passwordCreationPolicy = policy.getPasswordCreationPolicy();
 
-        if (validateMinPasswordAge(passwordCreationPolicy, user, validationErrors)
-                & validateMinPasswordLength(passwordCreationPolicy, user, validationErrors)
+        if (validateMinPasswordLength(passwordCreationPolicy, user, validationErrors)
                 & combinationValidator.validate(policy, user, validationErrors))
             return true;
         return false;
     }
-
-    /**
-     * Validates the minimum password age
-     *
-     * @param policy
-     * @return //       * @throws ValidationException - if the user password age is less than one set in passwords creation policy
-     */
-    public boolean validateMinPasswordAge(PasswordCreationPolicy policy, User user, ValidationErrors validationErrors) {
-//        if (user.getPasswordAge() < policy.getMinPasswordAge()) {
-//            validationErrors.addValidationError("PCP_001", "Password was changed too recently.");
-//            return false;
-//        }
-        return true;
-    }
-
 
     /**
      * validates minimum password length
@@ -61,10 +43,4 @@ public class PasswordCreationPolicyValidator implements PasswordPolicyValidator 
             return false;
         }
     }
-
-//      public void setCsmUserRepository(final CSMUserRepository csmUserRepository) {
-//          this.csmUserRepository = csmUserRepository;
-//      }
-
-
 }

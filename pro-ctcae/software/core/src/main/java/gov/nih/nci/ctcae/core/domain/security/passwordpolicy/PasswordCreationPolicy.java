@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain.security.passwordpolicy;
 
 import gov.nih.nci.ctcae.core.validation.annotation.NumInRange;
-import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
 
 import javax.persistence.Embeddable;
 
