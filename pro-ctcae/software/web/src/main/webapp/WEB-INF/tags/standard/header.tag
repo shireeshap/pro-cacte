@@ -23,8 +23,11 @@
             <br/>
             <table>
                 <tr>
-                    <td><a href="/proctcae" title="Home"><img src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
-                    <td style="color:white;vertical-align:top;">&nbsp;&nbsp;&nbsp;Welcome <b><authz:authentication property="name"></authz:authentication></b></td>
+                    <td><a href="/proctcae" title="Home"><img
+                            src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
+                    <td style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
+                        <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>
+                    </td>
                 </tr>
             </table>
             <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
