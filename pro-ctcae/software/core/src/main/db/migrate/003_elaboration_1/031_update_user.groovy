@@ -1,13 +1,6 @@
 class UpdateUser extends edu.northwestern.bioinformatics.bering.Migration {
 
      void up() {
-                   dropColumn("USERS", 'last_login')
-                   dropColumn("USERS", 'num_failed_logins')
-                   dropColumn("USERS", 'password_last_set')
-                   dropColumn("USERS", 'token_time')
-                   dropColumn("USERS", 'token')
-                   dropColumn("USERS", 'salt')
-
 
                     addColumn("USERS", 'salt', 'string', nullable: true);
                     addColumn("USERS", 'token', 'string', nullable: true);
