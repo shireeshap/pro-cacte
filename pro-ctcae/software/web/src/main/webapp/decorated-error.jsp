@@ -137,57 +137,57 @@
                                                 </TABLE>
 
                                                 <hr>
-                                                <b> Header List </b>
-                                                <table border=3>
-                                                    <tr>
-                                                        <td>Name</td>
-                                                        <td>Value</td>
-                                                    </tr>
-                                                    <%
-                                                        String name = "";
-                                                        String value = "";
+                                                    <%--<b> Header List </b>--%>
+                                                    <%--<table border=3>--%>
+                                                    <%--<tr>--%>
+                                                    <%--<td>Name</td>--%>
+                                                    <%--<td>Value</td>--%>
+                                                    <%--</tr>--%>
+                                                    <%--<%--%>
+                                                    <%--String name = "";--%>
+                                                    <%--String value = "";--%>
 
-                                                        java.util.Enumeration headers = request.getHeaderNames();
-                                                        while (headers.hasMoreElements()) {
-                                                            name = (String) headers.nextElement();
-                                                            value = request.getHeader(name);
-                                                    %>
-                                                    <tr>
-                                                        <td><%=name%>
-                                                        </td>
-                                                        <td><%=value%>
-                                                        </td>
-                                                    </tr>
-                                                    <%
-                                                        }
-                                                    %>
-                                                </table>
+                                                    <%--java.util.Enumeration headers = request.getHeaderNames();--%>
+                                                    <%--while (headers.hasMoreElements()) {--%>
+                                                    <%--name = (String) headers.nextElement();--%>
+                                                    <%--value = request.getHeader(name);--%>
+                                                    <%--%>--%>
+                                                    <%--<tr>--%>
+                                                    <%--<td><%=name%>--%>
+                                                    <%--</td>--%>
+                                                    <%--<td><%=value%>--%>
+                                                    <%--</td>--%>
+                                                    <%--</tr>--%>
+                                                    <%--<%--%>
+                                                    <%--}--%>
+                                                    <%--%>--%>
+                                                    <%--</table>--%>
 
-                                                <hr>
-                                                <b>Attribute List:</b>
+                                                    <%--<hr>--%>
+                                                    <%--<b>Attribute List:</b>--%>
 
-                                                <table border=3>
-                                                    <%
-                                                        java.util.Enumeration attributes = request.getAttributeNames();
-                                                        while (attributes.hasMoreElements()) {
-                                                            name = (String) attributes.nextElement();
+                                                    <%--<table border=3>--%>
+                                                    <%--<%--%>
+                                                    <%--java.util.Enumeration attributes = request.getAttributeNames();--%>
+                                                    <%--while (attributes.hasMoreElements()) {--%>
+                                                    <%--name = (String) attributes.nextElement();--%>
 
-                                                            if (request.getAttribute(name) == null) {
-                                                                value = "null";
-                                                            } else {
-                                                                value = request.getAttribute(name).toString();
-                                                            }
-                                                    %>
-                                                    <tr>
-                                                        <td><%=name%>
-                                                        </td>
-                                                        <td><%=value%>
-                                                        </td>
-                                                    </tr>
-                                                    <%
-                                                        }
-                                                    %>
-                                                </table>
+                                                    <%--if (request.getAttribute(name) == null) {--%>
+                                                    <%--value = "null";--%>
+                                                    <%--} else {--%>
+                                                    <%--value = request.getAttribute(name).toString();--%>
+                                                    <%--}--%>
+                                                    <%--%>--%>
+                                                    <%--<tr>--%>
+                                                    <%--<td><%=name%>--%>
+                                                    <%--</td>--%>
+                                                    <%--<td><%=value%>--%>
+                                                    <%--</td>--%>
+                                                    <%--</tr>--%>
+                                                    <%--<%--%>
+                                                    <%--}--%>
+                                                    <%--%>--%>
+                                                    <%--</table>--%>
 
                                             </div>
                                         </div>
