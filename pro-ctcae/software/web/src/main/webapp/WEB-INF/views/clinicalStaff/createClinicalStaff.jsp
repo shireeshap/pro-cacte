@@ -19,6 +19,18 @@
 
     <script type="text/javascript">
 
+        Event.observe(window, "load", function() {
+        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
+        <c:if test="${organizationClinicalStaff.id eq null}">
+            var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'
+            acCreate(new siteAutoComplterWithSecurity(siteBaseName));
+            initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');
+        </c:if>
+        </c:forEach>
+            initSearchField()
+        })
+
+
         function addSiteDiv(transport) {
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
