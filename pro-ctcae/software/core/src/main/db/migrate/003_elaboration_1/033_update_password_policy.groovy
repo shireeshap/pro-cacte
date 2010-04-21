@@ -53,6 +53,7 @@ class InsertDefaultPasswordPolicy extends edu.northwestern.bioinformatics.bering
                    cn_cb_is_lower_case_alphabet: '1', cn_cb_is_non_alpha_numeric: '1',
                    cn_cb_is_base_ten_digit: '1', cn_cb_max_substring_length: 3, role: 'PARTICIPANT'],  primaryKey: false)                   
 
+        dropColumn("password_policy", 'version') 
         addColumn("password_policy", "version", "integer", defaultValue: 0, nullable: false)
     }
 
