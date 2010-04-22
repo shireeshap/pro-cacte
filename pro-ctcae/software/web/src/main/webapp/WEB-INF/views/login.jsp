@@ -66,7 +66,7 @@
                 </p>
             </c:when>
             <c:otherwise>
-                ${SPRING_SECURITY_LAST_EXCEPTION.message}
+                <%--${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
                 <p class="errors">User is inactive.</p>
             </c:otherwise>
         </c:choose>
