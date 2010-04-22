@@ -43,7 +43,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         Study study = StudyTestHelper.getDefaultStudy();
         String arms = "";
         for (Arm arm : study.getArms()) {
-            arms += arm.getId() + ",";
+            arms += arm.getId() + "_";
         }
         CRF crf = study.getCrfs().get(0);
         Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
@@ -68,7 +68,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         Study study = StudyTestHelper.getDefaultStudy();
         String arms = "";
         for (Arm arm : study.getArms()) {
-            arms += arm.getId() + ",";
+            arms += arm.getId() + "_";
         }
         CRF crf = study.getCrfs().get(0);
         Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
@@ -92,7 +92,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
     public void testReportControllerSingleArm() throws Exception {
 
         Study study = StudyTestHelper.getDefaultStudy();
-        String arms = study.getArms().get(0).getId() + ",";
+        String arms = study.getArms().get(0).getId() + "_";
         CRF crf = study.getCrfs().get(0);
         Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
 
