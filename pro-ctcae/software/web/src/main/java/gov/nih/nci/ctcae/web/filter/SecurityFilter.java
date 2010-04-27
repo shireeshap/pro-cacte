@@ -1,25 +1,25 @@
-package gov.nih.nci.ctcae.web.filter;
+    package gov.nih.nci.ctcae.web.filter;
 
-import org.apache.commons.lang.StringUtils;
+    import org.apache.commons.lang.StringUtils;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+    import javax.servlet.*;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    import java.util.Enumeration;
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Harsh
- * Date: Jan 15, 2010
- * Time: 9:51:07 AM
- * To change this template use File | Settings | File Templates.
- */
+    /**
+     * Created by IntelliJ IDEA.
+     * User: Harsh
+     * Date: Jan 15, 2010
+     * Time: 9:51:07 AM
+     * To change this template use File | Settings | File Templates.
+     */
 
-public class SecurityFilter implements Filter {
-    private static final String HEADER_PRAGMA = "Pragma";
+    public class SecurityFilter implements Filter {
+        private static final String HEADER_PRAGMA = "Pragma";
 
     private static final String HEADER_EXPIRES = "Expires";
 
