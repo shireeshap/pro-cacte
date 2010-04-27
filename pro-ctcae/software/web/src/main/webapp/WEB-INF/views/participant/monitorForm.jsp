@@ -143,7 +143,14 @@ function customDate(showDate) {
     }
 
 }
+var requestInProcess = false;
 function formStatus(period) {
+    if (requestInProcess) {
+        //        alert('Please wait for the earlier request to complete');
+        hideIndicator();
+        return;
+    }
+
     $('indicator').show();
     var studyId = $('study').value;
 
@@ -194,23 +201,23 @@ function formStatus(period) {
     var direction = '';
     var view = period;
     if (period == 'next') {
-        pgStartDateNext = $('pgStartDateNext').value;
+        pgStartDateNext = trim($('pgStartDateNext').value);
         direction = period;
         view = $('periodButton').value;
     }
     if (period == 'prev') {
-        pgStartDatePrev = $('pgStartDatePrev').value;
+        pgStartDatePrev = trim($('pgStartDatePrev').value);
         direction = period;
         view = $('periodButton').value;
     }
     if (period == 'weekly') {
-        pgStartDatePrev = $('pgStartDatePrev').value;
+        pgStartDatePrev = trim($('pgStartDatePrev').value);
         view = period;
         $('monthlyButton').show();
         $('weeklyButton').hide();
     }
     if (period == 'monthly') {
-        pgStartDatePrev = $('pgStartDatePrev').value;
+        pgStartDatePrev = trim($('pgStartDatePrev').value);
         view = period;
         $('monthlyButton').hide();
         $('weeklyButton').show();
@@ -221,9 +228,11 @@ function formStatus(period) {
     }
 
     showIndicator();
+    requestInProcess = true;
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
         parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view ,
         onComplete:function(transport) {
+            requestInProcess = false;
             showStatusTable(transport);
             hideIndicator();
         },
