@@ -52,8 +52,10 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc}">
     <jsp:attribute name="singleFields">
+        <c:set var="tabnumber" value="0"/>
+        <proctcae:urlAuthorize url="/study/editdetails"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
 
-        <chrome:division title="study.tab.study_details" linkontitle="javascript:goTab('1');"
+        <chrome:division title="study.tab.study_details" linkontitle="javascript:goTab('${tabnumber}');"
                          linkurl="/study/editdetails">
             <div class="row">
                 <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
@@ -89,7 +91,7 @@
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
         </chrome:division>
-    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('1');" linkurl="/study/editdetails">
+    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editdetails">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="sa-table-head" class="amendment-table-head">
@@ -108,9 +110,7 @@
             </table>
         </div>
     </chrome:division>
-        <c:set var="tabnumber" value="1"/>
-        <proctcae:urlAuthorize url="/pages/study/createStudy">
-                <c:set var="tabnumber" value="2"/></proctcae:urlAuthorize>                   
+    <proctcae:urlAuthorize url="/study/editsites"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsites">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
@@ -131,8 +131,8 @@
             </table>
         </div>
     </chrome:division>
-    <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('3');"
-                     linkurl="/study/editoverallstaff">
+    <proctcae:urlAuthorize url="/study/editoverallstaff"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
+    <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editoverallstaff">
         <div class="row">
             <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
             <div class="value">${command.study.overallDataCoordinator.displayName} </div>
@@ -146,11 +146,8 @@
             <div class="value">${command.study.principalInvestigator.displayName} </div>
         </div>
     </chrome:division>
-    <c:set var="tabnumber" value="2"/>
-    <proctcae:urlAuthorize url="/study/editdetails"><c:set var="tabnumber" value="4"/></proctcae:urlAuthorize>
-
-    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');"
-                     linkurl="/study/editsitestaff">
+    <proctcae:urlAuthorize url="/study/editsitestaff"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
+    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff">
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
                 <table width="75%" class="tablecontent">
