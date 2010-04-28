@@ -88,9 +88,9 @@ public class ClinicalStaffCommand {
             username = clinicalStaff.getUser().getUsername();
             password = clinicalStaff.getUser().getPassword();
             confirmPassword = clinicalStaff.getUser().getPassword();
+            setAdmin(clinicalStaff.getUser().isAdmin());
             if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
                 setCca(true);
-                setAdmin(clinicalStaff.getUser().isAdmin());
             }
         }
 
