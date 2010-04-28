@@ -448,7 +448,7 @@ public class HTMLInputFilter {
             m.appendReplacement(buf, one + two.replaceAll("\"", "&quot;") + three);
         }
         m.appendTail(buf);
-
+        s = buf.toString();
         return s;
     }
 
