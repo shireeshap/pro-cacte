@@ -40,7 +40,7 @@ public class PasswordPolicyServiceImpl implements PasswordPolicyService {
 
     public boolean validatePasswordAgainstCreationPolicy(User user)
             throws PasswordCreationPolicyException {
-        user = genericRepository.findById(User.class, user.getId());
+//        user = genericRepository.findById(User.class, user.getId());
         ValidationErrors validationErrors = new ValidationErrors();
         boolean result = passwordCreationPolicyValidator.validate(getPasswordPolicy(user.getRoleForPasswordPolicy()), user, validationErrors);
         if (validationErrors.hasErrors())
