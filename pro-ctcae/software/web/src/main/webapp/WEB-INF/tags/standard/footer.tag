@@ -4,4 +4,4 @@
 <c:if test="${configuration.map.showDebugInformation}">
     <tags:debugInfo/>
 </c:if>
-<div id="build-name">ProCtcAE v1.0 Alpha</div>
+<div id="build-name">version 1.0</div>
