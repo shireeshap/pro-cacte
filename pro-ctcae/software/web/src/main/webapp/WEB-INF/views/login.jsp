@@ -106,6 +106,13 @@
         </div>
         </form>
     </c:if>
+    <%--<p align="left">--%>
+        Please be aware that the information you report while using this software is only for research purposes.
+        We will not give this information to the medical staff that treat you.
+        Therefore, it is <b>very important that you discuss any symptoms you are having with your doctor during your
+        regular clinic visits.</b>
+    <%--</p>--%>
+
 </chrome:box>
 <div id="keyboardDiv"></div>
 <br>
@@ -113,8 +120,9 @@
     <p align="center">
 
     <p align="center"><b>WARNING:</b></p>
-    <ul>
-        <li> You are accessing a U.S. Government information system, which includes (1) this computer, (2) this computer
+    <%--<ul>--%>
+        <%--<li> --%>
+            You are accessing a U.S. Government information system, which includes (1) this computer, (2) this computer
             network, (3) all computers connected to this network, and (4) all devices and storage media attached to this
             network or to a computer on this network. This information system is provided for U.S. Government-authorized
             use
@@ -122,24 +130,19 @@
             criminal
             penalties.
 
-        </li>
-        <li> By using this information system, you understand and consent to the following:
+        <%--</li>--%>
+        <%--<li>--%>
+            By using this information system, you understand and consent to the following:
             You have no reasonable expectation of privacy regarding any communications or data transiting or stored on
             this
             information system. At any time, and for any lawful Government purpose, the government may monitor,
             intercept,
             record and search and seize any communication or data transiting or stored on this information system.
-        </li>
-        <li>
-            Please be aware that the information you report while using this software is only for research purposes.
-            We will not give this information to the medical staff that treat you.
-            Therefore, it is very important that you discuss any symptoms you are having with your doctor during your
-            regular clinic visits.
-        </li>
+        <%--</li>--%>
         Any communication or data transiting or stored on this information system may be disclosed or used for any
         lawful
         Government purpose.
-    </ul>
+    <%--</ul>--%>
 
     </p>
 </chrome:box>
