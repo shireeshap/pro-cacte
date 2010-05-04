@@ -49,7 +49,7 @@
         .even {
             background-color: white;
         }
-        .In-Active{
+        .Inactive{
             color:red;
             font-weight:bold;
             text-decoration:underline;

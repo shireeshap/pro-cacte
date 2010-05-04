@@ -138,7 +138,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
-        if (clinicalStaff == null && participant == null && !user.isAdmin()) {
+        if (clinicalStaff == null && participant == null ) {
             throw new MyException("User is inactive");
         }
         return findByUserName(user.getUsername()).get(0);
