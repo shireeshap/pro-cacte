@@ -400,7 +400,7 @@ public class SubmitFormCommand implements Serializable {
         meddraQuestion.addValidValue(meddraValidValue);
         meddraQuestion.addValidValue(meddraValidValue1);
         if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
-            meddraQuestion.setQuestionText("Please confirm that this is a " + lowLevelTerm.getMeddraTerm() + " that you have experienced " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":");
+            meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm().toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":");
         } else {
             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
         }
