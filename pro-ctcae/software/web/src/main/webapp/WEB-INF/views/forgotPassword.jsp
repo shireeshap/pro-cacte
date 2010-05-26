@@ -11,22 +11,16 @@
 <chrome:box title="Forgot Password" autopad="true">
     <div style="margin-left:0.1em">
         Please enter your username below and press Reset Password.
-        <br/>
-        We will generate a new password and send it to your registered email addess.
-        <br/>
+        We will send a link to your registered email address which can be used to reset the password.
         <br/>
     </div>
-    <c:if test="${not empty Message}">
-        <b><spring:message code="${Message}"/></b>
-    </c:if>
     <form method="POST" action="password">
-        <div class="row">
-            <div class="label">Username</div>
-            <div class="value"><input type="text" name="username" value=""/>
-                <tags:button type="submit" value="Reset Password" color="green"/>
-            </div>
-        </div>
+        <b>Username:</b>&nbsp;&nbsp;<input type="text" name="username" value=""/>
+        <tags:button type="submit" value="Reset Password" color="green"/>
     </form>
+    <c:if test="${not empty Message}">
+        <b><font color="red"> <spring:message code="${Message}"/></font></b>
+    </c:if>
 </chrome:box>
 </body>
 </html>

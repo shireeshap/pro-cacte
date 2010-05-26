@@ -856,6 +856,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthentic
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/PasswordExpiredController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCommand.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
@@ -1174,6 +1176,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportRes
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomovertimecharts.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomsummarycharts.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomsummarytable.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/resetPassword.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text

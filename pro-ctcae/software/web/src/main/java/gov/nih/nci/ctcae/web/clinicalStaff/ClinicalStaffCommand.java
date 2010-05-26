@@ -1,13 +1,19 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 //
 /**
@@ -28,11 +34,9 @@ public class ClinicalStaffCommand {
     private List<Integer> indexesToRemove = new ArrayList<Integer>();
     private Boolean email = false;
     private Boolean userAccount = false;
-    private String clearCasePassword;
     private boolean validUser = true;
     private String username = "";
-    private String password = "";
-    private String confirmPassword = "";
+    private String clearCasePassword = "";
 
     public Boolean isEmail() {
         return email;
@@ -86,8 +90,6 @@ public class ClinicalStaffCommand {
         this.clinicalStaff = clinicalStaff;
         if (clinicalStaff.getUser() != null) {
             username = clinicalStaff.getUser().getUsername();
-            password = clinicalStaff.getUser().getPassword();
-            confirmPassword = clinicalStaff.getUser().getPassword();
             setAdmin(clinicalStaff.getUser().isAdmin());
             if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
                 setCca(true);
@@ -107,7 +109,6 @@ public class ClinicalStaffCommand {
 
     public void apply() {
         if (getUserAccount()) {
-            clearCasePassword = getClinicalStaff().getUser().getPassword();
             if (getCca()) {
                 if (!userHasRole(getClinicalStaff().getUser(), Role.CCA)) {
                     UserRole userRole = new UserRole();
@@ -152,35 +153,30 @@ public class ClinicalStaffCommand {
         return indexesToRemove;
     }
 
-    public void sendEmailWithUsernamePasswordDetails() {
+    public void sendEmailWithUsernamePasswordDetails(UserRepository userRepository, HttpServletRequest request) {
         try {
-            if (getEmail()) {
-                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername() + "<br> Password: " + clearCasePassword;
-                JavaMailSender javaMailSender = new JavaMailSender();
-                MimeMessage message = javaMailSender.createMimeMessage();
-                message.setSubject("PRO-CTCAE Registration");
-                message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-                MimeMessageHelper helper = new MimeMessageHelper(message, true);
-                helper.setTo(clinicalStaff.getEmailAddress());
-                helper.setText(content, javaMailSender.isHtml());
-                javaMailSender.send(message);
+            User user = clinicalStaff.getUser();
+            user.setToken(UUID.randomUUID().toString());
+            user.setTokenTime(new Timestamp(new Date().getTime()));
+            String token = user.getToken();
+            userRepository.saveWithoutCheck(clinicalStaff.getUser());
+            String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
+            content += "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername();
+            content += "\n\nYou can reset your password by clicking on this link ";
+            content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword") + "?token=" + token;
+            JavaMailSender javaMailSender = new JavaMailSender();
+            MimeMessage message = javaMailSender.createMimeMessage();
+            message.setSubject("PRO-CTCAE Registration");
+            message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(clinicalStaff.getEmailAddress());
+            helper.setText(content, javaMailSender.isHtml());
+            javaMailSender.send(message);
 
-            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void setClearCasePassword(String clearCasePassword) {
-        this.clearCasePassword = clearCasePassword;
-    }
-
-    public void setValidUser(boolean validUser) {
-        this.validUser = validUser;
-    }
-
-    public boolean isValidUser() {
-        return validUser;
     }
 
     public String getUsername() {
@@ -191,19 +187,12 @@ public class ClinicalStaffCommand {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public void setClearCasePassword(String clearCasePassword) {
+        this.clearCasePassword = clearCasePassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    public String getClearCasePassword() {
+        return clearCasePassword;
     }
 }
+

@@ -54,7 +54,6 @@ public class SetupController extends CtcAeSimpleFormController {
         User user = saveAndLoadUserAsAdmin(setupCommand);
         setupCommand.getClinicalStaff().setUser(user);
         clinicalStaffRepository.save(setupCommand.getClinicalStaff());
-        setupCommand.sendEmailWithUsernamePasswordDetails();
         setupStatus.recheck();
 
     }

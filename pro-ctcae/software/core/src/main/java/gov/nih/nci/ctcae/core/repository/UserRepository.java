@@ -170,6 +170,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         }
     }
 
+    public User findByUserToken(String token) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserToken(token);
+        return genericRepository.findSingle(userQuery);
+    }
+
 
     public User findById(Integer id) {
         return genericRepository.findById(User.class, id);
@@ -192,10 +198,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             user.setPassword(encoded);
         } else {
             String myPassword = user.getPassword();
-            User temp = findById(user.getId());
-            String currentPassword = temp.getPassword();
-            if (!myPassword.equals(currentPassword)) {
-                user.setPassword(getEncodedPassword(user));
+            if (myPassword != null) {
+                User temp = findById(user.getId());
+                String currentPassword = temp.getPassword();
+                if (!myPassword.equals(currentPassword)) {
+                    user.setPassword(getEncodedPassword(user));
+                }
             }
         }
 

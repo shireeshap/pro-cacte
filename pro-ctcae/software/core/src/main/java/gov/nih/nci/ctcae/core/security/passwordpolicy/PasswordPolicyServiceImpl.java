@@ -26,7 +26,7 @@ public class PasswordPolicyServiceImpl implements PasswordPolicyService {
 
     public PasswordPolicy getPasswordPolicy(Role role) {
         if (role == null) {
-            role = Role.PARTICIPANT;
+            role = Role.PI;
         }
         PasswordPolicyQuery passwordPolicyQuery = new PasswordPolicyQuery();
         passwordPolicyQuery.filterByRole(role);

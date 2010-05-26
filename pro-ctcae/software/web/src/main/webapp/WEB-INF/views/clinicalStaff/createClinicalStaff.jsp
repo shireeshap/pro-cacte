@@ -54,28 +54,15 @@
                 method:'get'
             });
         }
-        function showpassword(show) {
-            if (show) {
-                $('passwordfields').show();
-                $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
-            } else {
-                $('passwordfields').hide();
-                $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
-            }
-        }
 
         function showOrHideUserAccountDetails(value) {
             try {
                 if (value) {
                     $('div_useraccount_details').show();
-                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                    $('password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                    $('confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")                 
                 } else {
                     $('div_useraccount_details').hide();
                     $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                    $('password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
-                    $('confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
                 }
             } catch(err) {
             }
@@ -130,6 +117,7 @@
            value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
     <c:set var="isEdit"
            value="${param['clinicalStaffId'] ne null}"/>
+    <input name="isEdit" value="${isEdit}" type="hidden"/>
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <input type="hidden" id="showForm" name="showForm" value=""/>
@@ -203,29 +191,12 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>
-                            <c:if test="${not empty clinicalStaffCommand.username && clinicalStaffCommand.validUser}">
-                                <c:set var="style" value="display:none"/>
-                                <div id="resetpass" class="label">
-                                    &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
-                            </c:if>
-                        </td>
+
                     </tr>
                 </table>
-                <div id="passwordfields" style="${style}">
-                    <tags:renderPassword propertyName="password"
-                                         displayName="clinicalStaff.label.password"
-                                         required="true"/>
 
-                    <tags:renderPassword propertyName="confirmPassword"
-                                         displayName="clinicalStaff.label.confirm_password"
-                                         required="true"/>
-                </div>
             </chrome:division>
             <chrome:division title="Additional Options">
-                <input type="checkbox" name="email" value="true"
-                       id="email" checked/> Send email to the user with username and password details
-                <br/>
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
                     <input type="checkbox" name="cca" value="true"
                            id="cca"

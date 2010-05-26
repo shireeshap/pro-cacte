@@ -12,9 +12,6 @@
     <c:if test="${not empty Message}">
         <b><spring:message code="${Message}"/></b>
     </c:if>
-    <br/>
-    <br/>
-    Please <a href="<c:url value="/"/>">Click here</a> to go to the login page.
 </chrome:box>
 </body>
 </html>

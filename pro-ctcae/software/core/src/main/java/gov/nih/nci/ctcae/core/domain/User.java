@@ -33,7 +33,7 @@ public class User extends BaseVersionable implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = true)
     private String password;
 
 

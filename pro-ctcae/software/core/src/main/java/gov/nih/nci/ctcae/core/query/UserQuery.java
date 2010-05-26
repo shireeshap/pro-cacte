@@ -16,6 +16,7 @@ public class UserQuery extends AbstractQuery {
 
     private static String USER_NAME = "username";
     private static String ROLE = "role";
+    private static String TOKEN = "token";
 
     public UserQuery() {
 
@@ -36,6 +37,11 @@ public class UserQuery extends AbstractQuery {
         leftJoin("user.userRoles as userRole");
         andWhere("userRole.role = :" + ROLE);
         setParameter(ROLE, role);
+    }
+
+    public void filterByUserToken(final String token) {
+        andWhere("user.token = :" + TOKEN);
+        setParameter(TOKEN, token);
     }
 
 

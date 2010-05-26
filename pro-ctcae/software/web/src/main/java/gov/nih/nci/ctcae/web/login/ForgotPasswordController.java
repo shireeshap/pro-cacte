@@ -7,17 +7,20 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractFormController;
+import org.apache.commons.lang.StringUtils;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
+import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author Harsh Agarwal
@@ -58,22 +61,23 @@ public class ForgotPasswordController extends AbstractFormController {
         }
 
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        resetPasswordAndSendEmail(clinicalStaff);
+        resetPasswordAndSendEmail(clinicalStaff, request);
         mv.addObject("Message", "user.forgotpassword.clinicalstaff");
         return mv;
     }
 
-    public void resetPasswordAndSendEmail(ClinicalStaff clinicalStaff) {
+    public void resetPasswordAndSendEmail(ClinicalStaff clinicalStaff, HttpServletRequest request) {
         try {
-            String newPassword = RandomStringUtils.randomAlphanumeric(7);
             User user = clinicalStaff.getUser();
-            user.setPassword(newPassword);
             user.setAccountNonLocked(true);
             user.setNumberOfAttempts(0);
+            user.setToken(UUID.randomUUID().toString());
+            user.setTokenTime(new Timestamp(new Date().getTime()));
+            String token = user.getToken();
             userRepository.saveWithoutCheck(clinicalStaff.getUser());
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
-            content += "\nYour account password has been changed as per your request. Your new password is: " + newPassword;
-            content += "\n\nPRO-CTCAE System";
+            content += "\nYou can reset your password by clicking on this link ";
+            content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject("PRO-CTCAE Account Password");
@@ -87,6 +91,7 @@ public class ForgotPasswordController extends AbstractFormController {
             ex.printStackTrace();
         }
     }
+
 
     @Required
     public void setUserRepository(UserRepository userRepository) {

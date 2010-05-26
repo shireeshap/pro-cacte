@@ -34,17 +34,20 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
     public boolean validate(Object value) {
+        return validate(value, true, true);
+    }
+
+    public boolean validate(Object value, boolean validateUserName, boolean validatePassword) {
         if (value instanceof User) {
             User user = (User) value;
-            if(StringUtils.isBlank(user.getUsername())){
-                message = "Username cannot be empty.";
-                return false;
-            }
-            if (user.getId() == null) {
+            if (user.getId() == null && validateUserName) {
+                if (!validateUserNameLength(user)) return false;
                 if (!validateUniqueName(user)) return false;
             }
-            if (!validatePasswordAndConfirmPassword(user)) return false;
-            if (!validatePasswordPolicy(user)) return false;
+            if (validatePassword) {
+                if (!validatePasswordAndConfirmPassword(user)) return false;
+                if (!validatePasswordPolicy(user)) return false;
+            }
         }
         return true;
     }
@@ -59,6 +62,18 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
             message = "Username already exists. Please choose another username.";
             return false;
         }
+    }
+
+    private boolean validateUserNameLength(User user) {
+        if (StringUtils.isBlank(user.getUsername())) {
+            message = "Username cannot be empty.";
+            return false;
+        }
+        if (user.getUsername().length() < 6) {
+            message = "Username must be at least six characters long.";
+            return false;
+        }
+        return true;
     }
 
     private boolean validatePasswordPolicy(User user) {

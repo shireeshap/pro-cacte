@@ -4,10 +4,9 @@ import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
-import gov.nih.nci.ctcae.core.validation.ValidationError;
-import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -37,6 +36,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
     private GenericRepository genericRepository;
+    private UserRepository userRepository;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -72,8 +72,8 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         save(clinicalStaffCommand);
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
-        if (clinicalStaffCommand.getUserAccount()) {
-            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails();
+        if (clinicalStaffCommand.getUserAccount() && "false".equals(request.getParameter("isEdit"))) {
+                clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(userRepository, request);
         }
         return modelAndView;
     }
@@ -119,20 +119,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
                 command.getClinicalStaff().setUser(user);
             }
             user.setUsername(command.getUsername());
-            user.setPassword(command.getPassword());
-            user.setConfirmPassword(command.getConfirmPassword());
-            command.setValidUser(true);
-            try {
-                boolean validUser = userNameAndPasswordValidator.validate(user);
-                if (!validUser) {
-                    command.setValidUser(false);
-                    e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
-                }
-            } catch (PasswordCreationPolicyException ex) {
-                command.setValidUser(false);
-                for (ValidationError ve : ex.getErrors().getErrors()) {
-                    e.rejectValue("clinicalStaff.user.username", ve.getMessage(), ve.getMessage());
-                }
+            boolean validUser = userNameAndPasswordValidator.validate(user, true, false);
+            if (!validUser) {
+                e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
             }
         }
     }
@@ -174,5 +163,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

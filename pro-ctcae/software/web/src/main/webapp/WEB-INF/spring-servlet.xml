@@ -392,6 +392,7 @@
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="genericRepository" ref="genericRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
     <bean name="/admin/viewClinicalStaff" id="viewClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ViewClinicalStaffController" parent="ctcaeSimpleFormController">

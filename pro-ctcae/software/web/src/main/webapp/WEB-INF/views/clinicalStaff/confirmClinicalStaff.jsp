@@ -106,10 +106,6 @@
                             <div class="label"><spring:message code="participant.label.username"/>:</div>
                             <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} </div>
                         </div>
-                        <div class="row">
-                            <div class="label"><spring:message code="participant.label.password"/>:</div>
-                            <div class="value">******</div>
-                        </div>
                     </td>
                 </tr>
             </table>
