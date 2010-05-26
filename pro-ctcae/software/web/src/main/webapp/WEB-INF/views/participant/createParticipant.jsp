@@ -214,12 +214,12 @@
                        </td>
                        <td width="50%">
                            <tags:renderDate propertyName="participant.birthDate"
-                                            displayName="participant.label.date_of_birth"/>
+                                            displayName="participant.label.date_of_birth" required="true"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="${required}" options="${genders}"/>
                            <tags:renderText propertyName="participant.assignedIdentifier"
                                             displayName="participant.label.participant_identifier"
-                                            required="false"/>
+                                            required="true"/>
                        </td>
                    </tr>
                </table>
