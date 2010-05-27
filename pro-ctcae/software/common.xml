@@ -4,6 +4,13 @@
     <property environment="env"/>
     <property name="default.datasource" value="datasource"/>
     <property file="build.properties"/>
+
+    <!-- -->
+        <mkdir dir="${ivy.jar.dir}"/>
+        <get src="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/apache/ivy/2.0.0/ivy-2.0.0.jar" dest="${ivy.jar.dir}/ivy.jar"/>
+    <!-- -->
+
+
     <path id="ivy.lib.path">
         <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
     </path>
