@@ -854,6 +854,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormControll
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDateComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthenticationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotUsernameController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/PasswordExpiredController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCommand.java -text
@@ -1099,6 +1100,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/viewClinicalS
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotPassword.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotUsername.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/addquestion.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/allConditions.jsp -text

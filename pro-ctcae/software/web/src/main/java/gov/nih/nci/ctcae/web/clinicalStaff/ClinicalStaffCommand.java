@@ -161,9 +161,9 @@ public class ClinicalStaffCommand {
             String token = user.getToken();
             userRepository.saveWithoutCheck(clinicalStaff.getUser());
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
-            content += "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername();
-            content += "\n\nYou can reset your password by clicking on this link ";
-            content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword") + "?token=" + token;
+            content += "<br>You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername();
+            content += "<br>You can reset your password by clicking on this link ";
+            content += "<br>" + StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword") + "?token=" + token;
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject("PRO-CTCAE Registration");

@@ -45,8 +45,6 @@
 </head>
 <body>
 <chrome:box title="Please log in" autopad="true">
-
-
     <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
     <c:set var="showLogin" value="true"/>
     <c:if test="${not empty param.error}">
@@ -97,14 +95,17 @@
             keyboard
         </div>
         <div class="row">
-            <a href='<c:url value="password"/>'>Forgot password?</a>
-        </div>
-        <div class="row">
             <div class="submit">
                 <tags:button type="submit" value="Log in" color="blue"/>
             </div>
         </div>
         </form>
+        <div class="row">
+            <a href='<c:url value="password"/>'>Forgot password?</a>
+        </div>
+        <div class="row">
+            <a href='<c:url value="forgotusername"/>'>Forgot username?</a>
+        </div>
     </c:if>
     <%--<p align="left">--%>
         Please be aware that the information you report while using this software is only for research purposes.

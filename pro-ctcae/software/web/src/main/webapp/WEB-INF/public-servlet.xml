@@ -53,10 +53,15 @@
           class="gov.nih.nci.ctcae.web.login.ForgotPasswordController">
         <property name="userRepository" ref="userRepository"/>
     </bean>
+    <bean name="/forgotusername" id="forgotUsername"
+          class="gov.nih.nci.ctcae.web.login.ForgotUsernameController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
     <bean name="/resetPassword" id="resetPassword"
           class="gov.nih.nci.ctcae.web.login.ResetPasswordController">
         <property name="userRepository" ref="userRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
+        <property name="passwordPolicyService" ref="passwordPolicyService"/>
     </bean>
 
 

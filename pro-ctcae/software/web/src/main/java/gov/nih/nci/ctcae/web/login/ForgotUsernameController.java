@@ -1,0 +1,90 @@
+package gov.nih.nci.ctcae.web.login;
+
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.rules.JavaMailSender;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractFormController;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+/**
+ * @author mehul gulati
+ *         Date: Jun 2, 2010
+ */
+
+public class ForgotUsernameController extends AbstractFormController {
+
+    GenericRepository genericRepository;
+
+    public ForgotUsernameController() {
+        setCommandClass(ClinicalStaff.class);
+    }
+
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
+        return new ModelAndView("forgotUsername");
+    }
+
+    protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws Exception {
+        String email = request.getParameter("email");
+        String lastName = request.getParameter("lastName");
+
+
+        ModelAndView mv;
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByClinicalStaffLastName(lastName);
+        clinicalStaffQuery.filterByEmail(email);
+        List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
+        if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
+            mv = new ModelAndView("forgotUsername");
+            mv.addObject("Message", "user.forgotusername.usernotfound");
+            return mv;
+        }
+        mv = new ModelAndView("forgotUsername");
+        mv.addObject("showConfirmation", true);
+        sendUsernameEmail(clinicalStaffs, request);
+        return mv;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void sendUsernameEmail(List<ClinicalStaff> clinicalStaffs, HttpServletRequest request) {
+        try {
+
+            String content = "";
+            if (clinicalStaffs.size() == 1) {
+                User user = clinicalStaffs.get(0).getUser();
+                content += "Dear " + clinicalStaffs.get(0).getFirstName() + " " + clinicalStaffs.get(0).getLastName() + ", ";
+                content += "\nFollowing is your username: " + user.getUsername();
+            } else {
+                content += "We have found multiple users with the last name and email address that you provided. Below is the list of all the usernames : ";
+                for (ClinicalStaff clinicalStaff : clinicalStaffs) {
+                    content += "\n\n" + clinicalStaff.getUser().getUsername();
+                }
+            }
+            JavaMailSender javaMailSender = new JavaMailSender();
+            MimeMessage message = javaMailSender.createMimeMessage();
+            message.setSubject("PRO-CTCAE Account Username");
+            message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(clinicalStaffs.get(0).getEmailAddress());
+            helper.setText(content, false);
+            javaMailSender.send(message);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
+}

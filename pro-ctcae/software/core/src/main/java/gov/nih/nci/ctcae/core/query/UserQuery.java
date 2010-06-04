@@ -33,6 +33,7 @@ public class UserQuery extends AbstractQuery {
         setParameter(USER_NAME, username.toLowerCase());
     }
 
+    
     public void filterByUserRole(final Role role) {
         leftJoin("user.userRoles as userRole");
         andWhere("userRole.role = :" + ROLE);

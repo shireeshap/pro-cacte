@@ -15,6 +15,7 @@
 
 </head>
 <body>
+
 <c:choose>
     <c:when test="${expired eq true}">
         <chrome:box title="Link expired" autopad="true">
@@ -23,7 +24,7 @@
     </c:when>
     <c:otherwise>
         <form:form method="post">
-            <chrome:box title="Password expired" autopad="true">
+            <chrome:box title="Set Password" autopad="true">
                 <tags:instructions code="password.expired"/>
                 <tags:hasErrorsMessage hideErrorDetails="false"/>
                 <table width="100%" align="center">
@@ -51,6 +52,8 @@
                         </td>
                     </tr>
                 </table>
+               <%--The minimum password length should be ${passwordPolicy.passwordCreationPolicy.minPasswordLength}--%>
+                <%--<c:if test="${passwordPolicy.}"--%>
             </chrome:box>
 
         </form:form>

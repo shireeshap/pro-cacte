@@ -76,7 +76,7 @@ public class ForgotPasswordController extends AbstractFormController {
             String token = user.getToken();
             userRepository.saveWithoutCheck(clinicalStaff.getUser());
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
-            content += "\nYou can reset your password by clicking on this link ";
+            content += "\nYou must reset your password by clicking on this link ";
             content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();

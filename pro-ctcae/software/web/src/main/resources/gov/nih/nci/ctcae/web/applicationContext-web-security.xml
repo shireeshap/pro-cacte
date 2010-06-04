@@ -10,6 +10,10 @@
 
         <intercept-url pattern="/public/login" filters="none"/>
         <intercept-url pattern="/public/logout" filters="none"/>
+        <!--<intercept-url pattern="/public/forgotusername" filters="none"/>-->
+        <!--<intercept-url pattern="/pages/forgotusername" filters="none"/>-->
+        <!--<intercept-url pattern="/**/forgotusername" filters="none"/>-->
+
         <intercept-url pattern="/mobile/login" filters="none"/>
 
 

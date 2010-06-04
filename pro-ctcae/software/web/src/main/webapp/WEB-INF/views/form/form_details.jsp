@@ -64,6 +64,7 @@
     }
     function showQuestionInQuestionBank(questionId) {
         $('question_' + questionId).show();
+        
     }
 
     function postProcessFormChanges() {
