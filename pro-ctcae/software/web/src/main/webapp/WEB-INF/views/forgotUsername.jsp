@@ -16,8 +16,8 @@
         </c:when>
         <c:otherwise>
             <div style="margin-left:0.1em">
-                Please enter your last name and username below.
-                We will send a link to your registered email address which can be used to reset the password.
+                Please enter your last name and email address below.
+                We will send the username to your registered email address.
                 <br/>
             </div>
             <form method="POST" action="forgotusername">
