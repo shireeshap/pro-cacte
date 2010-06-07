@@ -10,7 +10,7 @@
 <body>
 <chrome:box title="Forgot Password" autopad="true">
     <c:if test="${not empty Message}">
-        <b><spring:message code="${Message}"/></b>
+        <spring:message code="${Message}"/>
     </c:if>
 </chrome:box>
 </body>
