@@ -19,13 +19,28 @@
 <c:choose>
     <c:when test="${expired eq true}">
         <chrome:box title="Link expired" autopad="true">
-            The link has expired. Please use the <a href="/proctcae/public/password">Forgot Password</a> link to generate a new link.
+            The link has expired. Please use the <a href="/proctcae/public/password">Forgot
+            Password</a> link to generate a new link.
         </chrome:box>
     </c:when>
     <c:otherwise>
         <form:form method="post">
             <chrome:box title="Set Password" autopad="true">
-                <tags:instructions code="password.expired"/>
+                <chrome:division title="Password Policy">
+                     The minimum password length should be ${passwordPolicy.passwordCreationPolicy.minPasswordLength}
+                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired}">
+                    The password must contain at least one uppercase letter.
+                </c:if>  <br/>
+                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.lowerCaseAlphabetRequired}">
+                    The password must contain at least one lowercase letter.
+                </c:if>  <br/>
+                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.nonAlphaNumericRequired}">
+                    The password must contain at least one alphanumeric letter.
+                </c:if>  <br/>
+                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.baseTenDigitRequired}">
+                    The password must contain at least one base ten digit.
+                </c:if>
+                </chrome:division>
                 <tags:hasErrorsMessage hideErrorDetails="false"/>
                 <table width="100%" align="center">
                     <tr>
@@ -52,8 +67,7 @@
                         </td>
                     </tr>
                 </table>
-               <%--The minimum password length should be ${passwordPolicy.passwordCreationPolicy.minPasswordLength}--%>
-                <%--<c:if test="${passwordPolicy.}"--%>
+
             </chrome:box>
 
         </form:form>
