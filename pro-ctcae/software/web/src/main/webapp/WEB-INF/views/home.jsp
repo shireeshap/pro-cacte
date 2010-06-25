@@ -510,7 +510,7 @@
                                 Study Title
                             </td>
                             <td class="header-top1" width="40" style="text-align:left">
-                                Title
+                                Form Title
                             </td>
                             <td class="header-top1" width="10" style="text-align:left">
                                 Status

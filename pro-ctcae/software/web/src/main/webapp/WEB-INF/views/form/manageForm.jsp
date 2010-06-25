@@ -92,7 +92,7 @@
                 item.remove();
             });
         }
-       
+
 
     </script>
 
@@ -125,7 +125,7 @@
                     </td>
                 </tr>
             </table>
-          <%--<tags:instructions code="form.manage.instructions"/>--%>
+            <%--<tags:instructions code="form.manage.instructions"/>--%>
         </proctcae:urlAuthorize>
     </div>
     <br/>
@@ -173,7 +173,12 @@
                     <tags:formatDate value="${crf.effectiveStartDate}"/>
                 </td>
                 <td class="data">
-                        ${crf.status}
+                    <c:choose>
+                        <c:when test="${crf.status eq 'Released'}">Final</c:when>
+                        <c:otherwise>
+                            ${crf.status}
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
         </c:forEach>

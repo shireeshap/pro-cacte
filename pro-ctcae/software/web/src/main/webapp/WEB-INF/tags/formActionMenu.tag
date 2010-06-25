@@ -47,7 +47,7 @@
     </proctcae:urlAuthorize>
         if (status == 'Draft') {
         <proctcae:urlAuthorize url="/pages/form/releaseForm">
-            html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
+            html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Finalize form</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/deleteForm">
             html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
