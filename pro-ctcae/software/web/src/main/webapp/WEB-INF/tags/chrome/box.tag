@@ -35,9 +35,19 @@
                                     </td>
                                     <td width="5%">
                                         <c:if test="${enableDelete}">
-                                            <a href="javascript:${deleteParams}"><img
-                                                    src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a>
+                                        <a href="javascript:${deleteParams}"><img
+                                                src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a>
                                         </c:if>
+
+                                        <c:if test="${collapsable}">
+                                    <td align="right">
+                                        <a style="cursor:pointer;"
+                                           onClick="SwitchCollapsableState('contentOf-${id}', '${id}')">
+                                            <img id="image-${id}" src="<tags:imageUrl name="arrow-down.png" />"
+                                                 border="0"
+                                                 height="16"/></a>
+                                    </td>
+                                    </c:if>
 
                                     </td>
                                 </tr>
@@ -63,12 +73,16 @@
                             <div class="border-BL">
                                 <div class="border-BR">
                                     <div class="interior">
-                                        <c:if test="${autopad}">
-                                        <div class="content"></c:if>
-                                            <jsp:doBody/>
-                                            <c:if test="${autopad}"></div>
-                                        </c:if>
+                                        <div id="contentOf-${id}">
+
+                                            <c:if test="${autopad}">
+                                            <div class="content"></c:if>
+                                                <jsp:doBody/>
+                                                <c:if test="${autopad}"></div>
+                                            </c:if>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

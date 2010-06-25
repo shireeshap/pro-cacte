@@ -1366,6 +1366,8 @@ pro-ctcae/software/web/src/main/webapp/images/blue/icons/monitorFormController_i
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/participantCareMonitorController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/participantController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/passwordPolicyConfigurationController_icon.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/icons/quickLinkBGoff.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/icons/quickLinkBGon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/reportController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/reportSearchCriteriaController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/routineReportController_icon.png -text

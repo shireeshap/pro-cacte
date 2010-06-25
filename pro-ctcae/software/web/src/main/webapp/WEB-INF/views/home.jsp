@@ -42,11 +42,11 @@
             zoom: 1;
         }
 
-        #alertsdiv {
-            width: 455px;
-            overflow-y: auto;
-            max-height: 400px;
-        }
+        /*#alertsdiv {*/
+            /*width: 455px;*/
+            /*overflow-y: auto;*/
+            /*max-height: 400px;*/
+        /*}*/
 
         table.widget {
             border: none;
@@ -58,6 +58,65 @@
             margin: 4px;
             display: inline;
         }
+
+        a.quickLink, a.quickLink:visited {
+            color: #518EC2;
+            font-weight: bold;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        img.quickLink {
+            /*
+                    padding-right: 20px;
+                    padding-left: 20px;
+            */
+        }
+
+        div.quickLinkRow {
+            display: block;
+            clear: both;
+        }
+
+        div.quickLinkRow div.quickLinkPicture {
+            float: left;
+            width: 40px;
+            text-align: right;
+        }
+
+        div.quickLinkRow div.quickLinkLabel {
+            margin-left: 50px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        td.quickLinkBGon {
+            background-image: url("../images/blue/icons/quickLinkBGon.png")
+        }
+
+        td.quickLinkBGoff {
+            background-image: url("../images/blue/icons/quickLinkBGoff.png")
+        }
+
+        tr.taskTitleRow th {
+            color: #518EC2;
+            font-weight: bold;
+        }
+
+        td.header-top1 {
+            font-weight: bold;
+        }
+
+        tr.taskTitleRow td, tr.taskTitleRow th {
+            border-bottom: 1px #ccc solid;
+        }
+
+        a.linkHere, a.linkHere:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+
+
     </style>
     <!--[if IE]>
         <style>
@@ -114,6 +173,16 @@
             }
         }
 
+        jQuery("td.quickLinkBGon").mouseover(function() {
+            jQuery(this).removeClass('quickLinkBGon');
+            jQuery(this).addClass('quickLinkBGoff');
+        });
+
+        jQuery("td.quickLinkBGon").mouseout(function() {
+            jQuery(this).removeClass('quickLinkBGoff');
+            jQuery(this).addClass('quickLinkBGon');
+        });
+
     </script>
 </head>
 <body>
@@ -122,395 +191,568 @@
         <c:set var="numberofalerts" scope="page" value="${numberofalerts + 1}"/>
     </c:if>
 </c:forEach><c:set var="dl" value="1200"/>
-<div class="panel">
+<%--<div class="panel">--%>
+<table width="100%" border="0">
+<tr>
+<td width="80%" valign="top">
+
     <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
-    <chrome:box title="Alerts">
-        <c:choose>
-            <c:when test="${empty numberofalerts}">
-                <div style="margin-left:15px;">
-                    You have no alerts.
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div id="alertsdiv">
-                    <table class="widget" cellpadding="3px;">
-                        <tr>
-                            <td class="header-top">
-                                Date
-                            </td>
-                            <td class="header-top">
-                                Participant
-                            </td>
-                            <td class="header-top">
-                                Study
-                            </td>
-                            <td class="header-top">
-                            </td>
-                        </tr>
-                        <c:forEach items="${notifications}" var="usernotification">
-                            <c:if test="${!usernotification.markDelete}">
-                                <tr id="tr_${usernotification.id}"
-                                        <c:if test="${usernotification.new}">
-                                            class="bold"
-                                        </c:if>>
-                                    <td class="data">
-                                        <a class="link"
-                                           href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                                value="${usernotification.notification.date}"/></a>
-                                    </td>
-                                    <td class="data" style="text-align:left">
-                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                        <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                           class="link">
-                                            </proctcae:urlAuthorize>
-                                                ${usernotification.participant.displayName}
-                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                        </a>
-                                        </proctcae:urlAuthorize>
-                                    </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                                <div title="${usernotification.study.shortTitle}">
-                                                        ${fn:substring(usernotification.study.shortTitle,0,dl)}...
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${usernotification.study.shortTitle}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                           id="alertActions${usernotification.id}"><span
-                                                class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                        <script>
-                                            showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
-                                        </script>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
-                </div>
-            </c:otherwise>
-        </c:choose>
-    </chrome:box>
-    </c:if>
-    <c:if test="${studyLevelRole}">
-        <chrome:box title="My Forms">
-            <div id="alertsdiv">
-                <table class="widget">
-                    <tr>
-                        <td class="header-top" style="text-align:left">
-                            Study Title
-                        </td>
-                        <td class="header-top" style="text-align:left">
-                            Title
-                        </td>
-                        <td class="header-top">
-                            Status
-                        </td>
-                        <td class="header-top">
-                        </td>
-                        <td class="header-top">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <c:forEach items="${recentCrfs}" var="crf">
-                        <tr>
-                            <td>
-                                    ${crf.study.displayName}
-                            </td>
-                            <td>
-                                    ${crf.title}
-                            </td>
-                            <td class="data">
-                                    ${crf.status}
-                            </td>
-                            <td>
-                                <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                   id="crfActions${crf.id}"><span
-                                        class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                <script>
-                                    showPopUpMenu('${crf.id}', '${crf.status}');
-                                </script>
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br/>
-            </div>
-        </chrome:box>
-    </c:if>
-    <c:if test="${siteLevelRole}">
-        <chrome:box title="Overdue forms">
+        <chrome:box title="Alerts" collapsable="true" id="alerts">
             <c:choose>
-                <c:when test="${empty overdue}">
+                <c:when test="${empty numberofalerts}">
                     <div style="margin-left:15px;">
-                        You have no overdue forms.
+                        You have no alerts.
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div id="alertsdiv">
-                        <table class="widget" cellpadding="5px;">
+                        <table class="widget" cellpadding="3px;" width="100%">
                             <tr>
-                                <td class="header-top">
+                                <td class="header-top1">
+                                    Date
+                                </td>
+                                <td class="header-top1">
                                     Participant
                                 </td>
-                                <td class="header-top">
+                                <td class="header-top1">
                                     Study
                                 </td>
-                                <td class="header-top">
-                                    Form
-                                </td>
-                                <td class="header-top">
-                                    Start date
-                                </td>
-                                <td class="header-top">
-                                    Due date
+                                <td class="header-top1">
                                 </td>
                             </tr>
-                            <c:forEach items="${overdue}" var="schedule">
-                                <tr>
-                                    <td class="data" style="text-align:left">
-                                        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                                            <a href="participant/schedulecrf?sid=${schedule.id}"
-                                               class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                                        </proctcae:urlAuthorize>
-                                    </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                                <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
-                                                        ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                                <div title="${schedule.studyParticipantCrf.crf.title}">
-                                                        ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${schedule.studyParticipantCrf.crf.title}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td class="data">
-                                        <tags:formatDate value="${schedule.startDate}"/>
-                                    </td>
-                                    <td class="data">
-                                        <tags:formatDate value="${schedule.dueDate}"/>
-                                    </td>
-                                    <td class="data">
-                                    </td>
-                                </tr>
+                            <c:forEach items="${notifications}" var="usernotification">
+                                <c:if test="${!usernotification.markDelete}">
+                                    <tr id="tr_${usernotification.id}"
+                                            <c:if test="${usernotification.new}">
+                                                class="bold"
+                                            </c:if>>
+                                        <td class="data">
+                                            <a class="link"
+                                               href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                                    value="${usernotification.notification.date}"/></a>
+                                        </td>
+                                        <td class="data" style="text-align:left">
+                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                            <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                               class="link">
+                                                </proctcae:urlAuthorize>
+                                                    ${usernotification.participant.displayName}
+                                                <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                            </a>
+                                            </proctcae:urlAuthorize>
+                                        </td>
+                                        <td class="data">
+                                            <c:choose>
+                                                <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
+                                                    <div title="${usernotification.study.shortTitle}">
+                                                            ${fn:substring(usernotification.study.shortTitle,0,dl)}...
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${usernotification.study.shortTitle}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                               id="alertActions${usernotification.id}"><span
+                                                    class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                            <script>
+                                                showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
+                                            </script>
+                                        </td>
+                                    </tr>
+                                </c:if>
                             </c:forEach>
                         </table>
-                        <br/>
                     </div>
                 </c:otherwise>
             </c:choose>
         </chrome:box>
     </c:if>
-</div>
-<div class="panel">
-    <chrome:box title="Quick Links">
-        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-            <div class="quicklink">
-                <a class="link" href="admin/createClinicalStaff"><img
-                        src="<chrome:imageUrl name="../blue/icons/16px/searchClinicalStaffController.png"/>" alt=""/>
-                    Add new staff profile </a>
-            </div>
-        </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/form/basicForm">
-            <div class="quicklink">
-                <a class="link" href="form/basicForm"><img
-                        src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> Create new
-                    form</a>
-            </div>
-        </proctcae:urlAuthorize>
+
+</td>
+
+<td width="20%" valign="top" rowspan="6">
+<%--<chrome:box title="Quick Links">--%>
+<div style="padding-left:2px; padding-right:2px;">
+    <table width="100%" cellpadding="10" cellspacing="0" border="0">
+        <tr>
+            <td id="a1" class="quickLinkBGon"
+                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                <div class="quickLinkRow">
+                    <div class="quickLinkPicture"><img
+                            src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
+                            align="middle"
+                            class="quickLink"></div>
+                    <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
+                                                   class="quickLink">Create New Staff Profile</a></div>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <proctcae:urlAuthorize url="/pages/form/basicForm">
+                <td id="a2" class="quickLinkBGon"
+                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                    <div class="quickLinkRow">
+                        <div class="quickLinkPicture"><img
+                                src="<c:url value="/images/blue/icons/basicFormController_icon.png"/>" align="middle"
+                                class="quickLink"></div>
+                        <div class="quickLinkLabel"><a href="<c:url value='/pages/form/basicForm' />"
+                                                       class="quickLink">Create new form</a></div>
+                    </div>
+                </td>
+            </proctcae:urlAuthorize>
+        </tr>
         <c:if test="${nurseLevelRole}">
-            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                <div class="quicklink">
-                    <a class="link" href="/proctcae/pages/participant/schedulecrf"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> Manage
-                        schedule</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                <div class="quicklink">
-                    <a class="link" href="/proctcae/pages/reports/participantReport"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> View
-                        reports</a>
-                </div>
-            </proctcae:urlAuthorize>
+            <tr>
+                <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                    <td id="a3" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/scheduleCrfController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/schedulecrf' />"
+                                                           class="quickLink">Manage schedule</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
+            <tr>
+                <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                    <td id="a4" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/routineReportController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/participantReport' />"
+                                                           class="quickLink">View reports</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
         </c:if>
         <c:if test="${siteLevelRole}">
-            <proctcae:urlAuthorize url="/pages/participant/create">
-                <div class="quicklink">
-                    <a class="link" href="participant/create"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/participantController.png"/>" alt=""/> Add
-                        new participant</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                <div class="quicklink">
-                    <a class="link" href="study/searchStudy"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/createStudyController.png"/>" alt=""/> My
-                        studies</a>
-                </div>
-            </proctcae:urlAuthorize>
+            <tr>
+                <proctcae:urlAuthorize url="/pages/participant/create">
+                    <td id="a5" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/participantController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/create' />"
+                                                           class="quickLink">Add new participant</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
+            <tr>
+                <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                    <td id="a6" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                           class="quickLink">My studies</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
         </c:if>
         <c:if test="${studyLevelRole || odc}">
+        <tr>
             <proctcae:urlAuthorize url="/pages/form/manageForm">
-                <div class="quicklink">
-                    <a class="link" href="form/manageForm"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/captureAdverseEventController.png"/>"
-                            alt=""/> Manage forms</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/report">
-                <div class="quicklink">
-                    <a class="link" href="reports/report"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/reportSearchCriteriaController.png"/>"
-                            alt=""/> Generate study report</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                <div class="quicklink">
-                    <a class="link" href="study/searchStudy"><img
-                            src="<chrome:imageUrl name="../blue/icons/16px/searchStudyController.png"/>" alt=""/> Search
-                        for existing study</a>
-                </div>
-            </proctcae:urlAuthorize>
-        </c:if>
-        <br/>
-    </chrome:box>
-    <c:if test="${studyLevelRole}">
-        <chrome:box title="My Studies">
-            <div id="alertsdiv">
-                <table class="widget">
-                    <tr>
-                        <td class="header-top" style="text-align:left">
-                            Short Title
-                        </td>
-                        <td class="header-top">
-                        </td>
-                        <td class="header-top">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <c:forEach items="${studyWithoutForm}" var="study">
-                        <tr>
-                            <td style="width:70%">
-                                    ${study.displayName}
-                            </td>
-                            <td>
-                                <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                   id="studyActions${study.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                <script>
-                                    showPopUpMenuStudy('${study.id}');
-                                </script>
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br/>
-            </div>
-        </chrome:box>
-    </c:if>
-    <c:if test="${siteLevelRole}">
-        <chrome:box title="Upcoming Schedule">
-            <c:choose>
-                <c:when test="${empty overdue}">
-                    <div style="margin-left:15px;">
-                        You have no upcoming schedule.
+                <td id="a7" class="quickLinkBGon"
+                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                    <div class="quickLinkRow">
+                        <div class="quickLinkPicture"><img
+                                src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>" align="middle"
+                                class="quickLink"></div>
+                        <div class="quickLinkLabel"><a href="<c:url value='/pages/form/manageForm' />"
+                                                       class="quickLink">Manage forms</a></div>
                     </div>
-                </c:when>
-                <c:otherwise>
-                    <div id="alertsdiv">
-                        <table class="widget" cellpadding="5px;">
+                </td>
+            </proctcae:urlAuthorize>
+        </tr>
+        <tr>
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <td id="a8" class="quickLinkBGon"
+                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                    <div class="quickLinkRow">
+                        <div class="quickLinkPicture"><img
+                                src="<c:url value="/images/blue/icons/reportSearchCriteriaController_icon.png"/>"
+                                align="middle"
+                                class="quickLink"></div>
+                        <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/report' />"
+                                                       class="quickLink">Generate study report</a></div>
+                    </div>
+                </td>
+            </proctcae:urlAuthorize>
+        </tr>
+
+        <tr>
+            <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                <td id="a8" class="quickLinkBGon"
+                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                    <div class="quickLinkRow">
+                        <div class="quickLinkPicture"><img
+                                src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>" align="middle"
+                                class="quickLink"></div>
+                        <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                       class="quickLink">Search for existing study</a></div>
+                    </div>
+                </td>
+            </proctcae:urlAuthorize>
+        </tr>
+        </c:if>
+    </table>
+</div>
+
+
+    <%----%>
+    <%--<proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="admin/createClinicalStaff"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/searchClinicalStaffController.png"/>"--%>
+    <%--alt=""/>--%>
+    <%--Add new staff profile </a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--<proctcae:urlAuthorize url="/pages/form/basicForm">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="form/basicForm"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> Create--%>
+    <%--new--%>
+    <%--form</a>--%>
+    <%--</div>--%>
+    <%--<tags:button value="Create Participant" color="blue" icon="add"></tags:button>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--<c:if test="${nurseLevelRole}">--%>
+    <%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="/proctcae/pages/participant/schedulecrf"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/>--%>
+    <%--Manage--%>
+    <%--schedule</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="/proctcae/pages/reports/participantReport"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> View--%>
+    <%--reports</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--</c:if>--%>
+    <%--<c:if test="${siteLevelRole}">--%>
+    <%--<proctcae:urlAuthorize url="/pages/participant/create">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="participant/create"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/participantController.png"/>" alt=""/>--%>
+    <%--Add--%>
+    <%--new participant</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--<proctcae:urlAuthorize url="/pages/study/searchStudy">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="study/searchStudy"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/createStudyController.png"/>" alt=""/> My--%>
+    <%--studies</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--</c:if>--%>
+    <%--<c:if test="${studyLevelRole || odc}">--%>
+    <%--<proctcae:urlAuthorize url="/pages/form/manageForm">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="form/manageForm"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/captureAdverseEventController.png"/>"--%>
+    <%--alt=""/> Manage forms</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+    <%--<proctcae:urlAuthorize url="/pages/reports/report">--%>
+    <%--<div class="quicklink">--%>
+    <%--<a class="link" href="reports/report"><img--%>
+    <%--src="<chrome:imageUrl name="../blue/icons/16px/reportSearchCriteriaController.png"/>"--%>
+    <%--alt=""/> Generate study report</a>--%>
+    <%--</div>--%>
+    <%--</proctcae:urlAuthorize>--%>
+<%--<proctcae:urlAuthorize url="/pages/study/searchStudy">--%>
+    <%--<div class="quicklink">--%>
+        <%--<a class="link" href="study/searchStudy"><img--%>
+                <%--src="<chrome:imageUrl name="../blue/icons/16px/searchStudyController.png"/>" alt=""/>--%>
+            <%--Search--%>
+            <%--for existing study</a>--%>
+    <%--</div>--%>
+<%--</proctcae:urlAuthorize>--%>
+<%--</c:if>--%>
+<%--<br/>--%>
+<%--</chrome:box>--%>
+</td>
+</tr>
+<tr>
+    <td>
+        <c:if test="${studyLevelRole}">
+            <chrome:box title="My Forms" collapsable="true" id="myforms">
+                <div id="alertsdiv">
+                    <table class="widget" width="100%" border="0">
+                        <tr>
+                            <td class="header-top1" width="50%" style="text-align:left">
+                                Study Title
+                            </td>
+                            <td class="header-top1" width="40" style="text-align:left">
+                                Title
+                            </td>
+                            <td class="header-top1" width="10" style="text-align:left">
+                                Status
+                            </td>
+                            <td class="header-top1" width="10">
+                            </td>
+
+                        </tr>
+                        <c:forEach items="${recentCrfs}" var="crf">
                             <tr>
-                                <td class="header-top">
-                                    Participant
+                                <td style="text-align:left" width="50%">
+                                        ${crf.study.displayName}
                                 </td>
-                                <td class="header-top">
-                                    Study
+                                <td style="text-align:left" width="30%">
+                                        ${crf.title}
                                 </td>
-                                <td class="header-top">
-                                    Form
+                                <td class="data" style="text-align:left" width="10%">
+                                        ${crf.status}
                                 </td>
-                                <td class="header-top">
-                                    Start date
+                                <td>
+                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                       id="crfActions${crf.id}"><span
+                                            class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                    <script>
+                                        showPopUpMenu('${crf.id}', '${crf.status}');
+                                    </script>
                                 </td>
-                                <td class="header-top">
-                                    Due date
-                                </td>
+                               
                             </tr>
-                            <c:forEach items="${upcoming}" var="schedule">
+                        </c:forEach>
+                    </table>
+                    <br/>
+                </div>
+            </chrome:box>
+        </c:if>
+
+    </td>
+</tr>
+<tr>
+    <td>
+        <c:if test="${studyLevelRole}">
+            <chrome:box title="My Studies" collapsable="true" id="mystudies">
+                <div id="alertsdiv">
+                    <table class="widget">
+                        <tr>
+                            <td class="header-top1" width="90%" style="text-align:left">
+                                Short Title
+                            </td>
+                            <td class="header-top1" width="10%">
+                            </td>
+
+                        </tr>
+                        <c:forEach items="${studyWithoutForm}" var="study">
+                            <tr>
+                                <td style="width:90%">
+                                        ${study.displayName}
+                                </td>
+                                <td>
+                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                       id="studyActions${study.id}"><span
+                                            class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                    <script>
+                                        showPopUpMenuStudy('${study.id}');
+                                    </script>
+                                </td>
+
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <br/>
+                </div>
+            </chrome:box>
+        </c:if>
+    </td>
+</tr>
+<tr>
+    <td>
+        <c:if test="${siteLevelRole}">
+            <chrome:box title="Overdue forms" collapsable="true" id="overdueforms">
+                <c:choose>
+                    <c:when test="${empty overdue}">
+                        <div style="margin-left:15px;">
+                            You have no overdue forms.
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div id="alertsdiv">
+                            <table class="widget" cellpadding="5px;">
                                 <tr>
-                                    <td class="data" style="text-align:left">
-                                        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                                            <a href="participant/schedulecrf?sid=${schedule.id}"
-                                               class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                                        </proctcae:urlAuthorize>
+                                    <td class="header-top1" width="10%">
+                                        Participant
                                     </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                                <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
-                                                        ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <td class="header-top1" width="50%">
+                                        Study
                                     </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                                <div title="${schedule.studyParticipantCrf.crf.title}">
-                                                        ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${schedule.studyParticipantCrf.crf.title}
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <td class="header-top1" width="20%">
+                                        Form
                                     </td>
-                                    <td class="data">
-                                        <tags:formatDate value="${schedule.startDate}"/>
+                                    <td class="header-top1" width="10%">
+                                        Start date
                                     </td>
-                                    <td class="data">
-                                        <tags:formatDate value="${schedule.dueDate}"/>
-                                    </td>
-                                    <td class="data">
+                                    <td class="header-top1" width="10%">
+                                        Due date
                                     </td>
                                 </tr>
-                            </c:forEach>
-                        </table>
-                        <br/>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-            <br/>
-        </chrome:box>
-    </c:if>
-</div>
+                                <c:forEach items="${overdue}" var="schedule">
+                                    <tr>
+                                        <td class="data" style="text-align:left" width="10%">
+                                            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                                <a href="participant/schedulecrf?sid=${schedule.id}"
+                                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                            </proctcae:urlAuthorize>
+                                        </td>
+                                        <td class="data" width="50%">
+                                            <c:choose>
+                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
+                                                            ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="data" width="20%">
+                                            <c:choose>
+                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                                    <div title="${schedule.studyParticipantCrf.crf.title}">
+                                                            ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${schedule.studyParticipantCrf.crf.title}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="data" width="10%">
+                                            <tags:formatDate value="${schedule.startDate}"/>
+                                        </td>
+                                        <td class="data" width="10%">
+                                            <tags:formatDate value="${schedule.dueDate}"/>
+                                        </td>
+                                        <td class="data" width="10%">
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <br/>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </chrome:box>
+        </c:if>
+    </td>
+</tr>
+<tr>
+    <td>
+        <c:if test="${siteLevelRole}">
+            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming">
+                <c:choose>
+                    <c:when test="${empty overdue}">
+                        <div style="margin-left:15px;">
+                            You have no upcoming schedule.
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div id="alertsdiv">
+                            <table class="widget" cellpadding="5px;">
+                                <tr>
+                                    <td class="header-top1" width="10%">
+                                        Participant
+                                    </td>
+                                    <td class="header-top1" width="50%">
+                                        Study
+                                    </td>
+                                    <td class="header-top1" width="20%">
+                                        Form
+                                    </td>
+                                    <td class="header-top1" width="10%">
+                                        Start date
+                                    </td>
+                                    <td class="header-top1" width="10%">
+                                        Due date
+                                    </td>
+                                </tr>
+                                <c:forEach items="${upcoming}" var="schedule">
+                                    <tr>
+                                        <td class="data" style="text-align:left" width="10%">
+                                            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                                <a href="participant/schedulecrf?sid=${schedule.id}"
+                                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                            </proctcae:urlAuthorize>
+                                        </td>
+                                        <td class="data" width="50%">
+                                            <c:choose>
+                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
+                                                            ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="data" width="20%">
+                                            <c:choose>
+                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                                    <div title="${schedule.studyParticipantCrf.crf.title}">
+                                                            ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${schedule.studyParticipantCrf.crf.title}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="data" width="10%">
+                                            <tags:formatDate value="${schedule.startDate}"/>
+                                        </td>
+                                        <td class="data" width="10%">
+                                            <tags:formatDate value="${schedule.dueDate}"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <br/>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                <br/>
+            </chrome:box>
+        </c:if>
+    </td>
+</tr>
+</table>
+
+
+<%--</div>--%>
+<%--<div class="panel">--%>
+
+<%--</div>--%>
 </body>
 </html>
