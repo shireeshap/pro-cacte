@@ -484,12 +484,14 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/030_password_polic
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/031_update_user.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/032_update_password_policy.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/033_update_password_policy.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/034_delete_proctc_term.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV3.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
@@ -802,6 +804,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/PasswordPolicyConfigurationController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentController.java -text

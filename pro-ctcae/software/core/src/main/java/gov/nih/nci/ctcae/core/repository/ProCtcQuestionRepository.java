@@ -39,7 +39,7 @@ public class ProCtcQuestionRepository implements Repository<ProCtcQuestion, ProC
 
     public void delete(ProCtcQuestion proCtcQuestion) {
 
-        throw new CtcAeSystemException("method not supported");
+        genericRepository.delete(proCtcQuestion);
     }
 
     public Collection<ProCtcQuestion> find(ProCtcQuestionQuery query) {

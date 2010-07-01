@@ -636,6 +636,10 @@
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
         <property name="proCtcRepository" ref="proCtcRepository"/>
     </bean>
+    <bean name="/updateProCtcTerms" id="updateProCtcTerms" class="gov.nih.nci.ctcae.web.UpdateProCtcTermController">
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+    </bean>
+
     <bean name="applicationListener" class="gov.nih.nci.ctcae.web.security.ApplicationListener">
         <property name="userRepository" ref="userRepository"/>
     </bean>

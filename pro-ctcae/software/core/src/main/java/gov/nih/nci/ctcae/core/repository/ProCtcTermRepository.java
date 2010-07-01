@@ -36,8 +36,7 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
     }
 
     public void delete(ProCtcTerm t) {
-        throw new CtcAeSystemException(
-                "Delete is not supported for ProCtcQuestion");
+        genericRepository.delete(t);
     }
 
 
