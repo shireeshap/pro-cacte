@@ -4,11 +4,12 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
-import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
-import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
+import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     protected CRFRepository crfRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+//    protected Properties proCtcAEProperties;
 
     /**
      * Instantiates a new participant details tab.
@@ -56,7 +58,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
-        command.setReadOnlyUserName(true);
+        command.setReadOnlyUserName(false);
         try {
             boolean validUser = userNameAndPasswordValidator.validate(user);
             if (!validUser) {
@@ -91,7 +93,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 }
             }
         }
-
+//        String mode = proCtcAEProperties.getProperty("mode.identifier");
+//        command.setMode(mode);
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         return referenceData;
@@ -125,5 +128,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
         this.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
+
+//    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+//        this.proCtcAEProperties = proCtcAEProperties;
+//    }
+
 
 }

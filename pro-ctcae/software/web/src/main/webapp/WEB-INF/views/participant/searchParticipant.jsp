@@ -154,26 +154,38 @@
 
         <div class="row">
             <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
-            <div class="value IEdivValueHack"><input type="text" id="firstName" name="firstName" maxlength="30" value="${firstName}"/>
+            <div class="value IEdivValueHack"><input type="text" id="firstName" name="firstName" maxlength="30"
+                                                     value="${firstName}"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
-            <div class="value IEdivValueHack"><input type="text" id="lastName" name="lastName" maxlength="30" value="${lastName}"/>
+            <div class="value IEdivValueHack"><input type="text" id="lastName" name="lastName" maxlength="30"
+                                                     value="${lastName}"/>
             </div>
         </div>
+        <c:if test="${mode eq 'N'}">
         <div class="row">
             <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
             <div class="value IEdivValueHack"><input type="text" id="identifier" name="identifier" maxlength="30"
-                                      value="${identifier}"/>
+                                                     value="${identifier}"/>
             </div>
+            </c:if>
+            <c:if test="${mode eq 'Y'}">
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.participant_spIdentifier' text=''/></div>
+            <div class="value IEdivValueHack"><input type="text" id="spIdentifier" name="spIdentifier" maxlength="30"
+                                                     value="${spIdentifier}"/>
+            </div>
+            </c:if>
         </div>
 
         <tags:renderAutocompleter propertyName="study"
-                                  displayName="Study"
-                                  required="false"
-                                  size="100"
-                                  noForm="true"/>
+                                      displayName="Study"
+                                      required="false"
+                                      size="100"
+                                      noForm="true"/>       
+       
         <div id="error"></div>
         <div class="row">
             <div class="label"></div>

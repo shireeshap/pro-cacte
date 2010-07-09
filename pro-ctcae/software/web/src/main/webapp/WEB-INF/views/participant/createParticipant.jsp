@@ -133,26 +133,26 @@
             border-left: 1px solid #999999;
             padding-left: 5px;
         }
-        
+
     </style>
-<!--[if IE]>
-	<style>
-		div.row div.value {
-			margin-left:0;
-		}
-	</style>
-<![endif]-->
+    <!--[if IE]>
+        <style>
+            div.row div.value {
+                margin-left:0;
+            }
+        </style>
+    <![endif]-->
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
-               <c:set var="required" value="false"/>
+               <c:set var="required" value="true"/>
                <c:set var="maxLength" value="1"/>
            </c:when>
            <c:otherwise>
-               <c:set var="required" value="true"/>
+               <c:set var="required" value="false"/>
                <c:set var="maxLength" value="40"/>
            </c:otherwise>
        </c:choose>
@@ -182,7 +182,7 @@
                                            <div class="value">${organizationsHavingStudySite[0].desc}
                                                <input type="hidden" name="organizationId" id="organizationId"
                                                       value="${organizationsHavingStudySite[0].code}"/>
-                                           </div>                                              
+                                           </div>
                                        </div>
                                    </c:when>
                                    <c:otherwise>
@@ -198,7 +198,9 @@
            </chrome:division>
 
            <chrome:division title="participant.label.demographic_information">
-
+               <c:if test="${command.mode eq 'Y'}">
+                   <tags:instructions code="participant.create.deidentified"/>
+               </c:if>
                <table border="0" style="width:100%">
 
                    <tr>
@@ -206,20 +208,26 @@
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
                                             required="true" maxLength="${maxLength}"/>
-                           <tags:renderText propertyName="participant.middleName"
-                                            displayName="participant.label.middle_name" maxLength="${maxLength}"/>
+                           <c:if test="${command.mode eq 'N'}">
+                               <tags:renderText propertyName="participant.middleName"
+                                                displayName="participant.label.middle_name" maxLength="${maxLength}"/>
+                           </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
                                             required="true" maxLength="${maxLength}"/>
                        </td>
-                       <td width="50%">
-                           <tags:renderDate propertyName="participant.birthDate"
-                                            displayName="participant.label.date_of_birth" required="true"/>
+                       <td width="50%" valign="top">
+                           <c:if test="${command.mode eq 'N'}">
+                               <tags:renderDate propertyName="participant.birthDate"
+                                                displayName="participant.label.date_of_birth" required="true"/>
+                           </c:if>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="${required}" options="${genders}"/>
-                           <tags:renderText propertyName="participant.assignedIdentifier"
-                                            displayName="participant.label.participant_identifier"
-                                            required="true"/>
+                           <c:if test="${command.mode eq 'N'}">
+                               <tags:renderText propertyName="participant.assignedIdentifier"
+                                                displayName="participant.label.participant_identifier"
+                                                required="true"/>
+                           </c:if>
                        </td>
                    </tr>
                </table>

@@ -188,8 +188,15 @@ public class Participant extends Person {
     @Transient
     public String getDisplayName() {
         StringBuilder name = new StringBuilder();
+
         if (!StringUtils.isBlank(assignedIdentifier)) {
             name.append("(").append(assignedIdentifier).append(") ");
+        }
+        if(studyParticipantAssignments !=null && studyParticipantAssignments.size()>0){
+            String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+            if(!StringUtils.isBlank(spid)){
+                name.append("(").append(spid).append(") ");
+            }
         }
         boolean hasLastName = getLastName() != null;
         if (getFirstName() != null) {

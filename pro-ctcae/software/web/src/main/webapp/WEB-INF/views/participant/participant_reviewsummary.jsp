@@ -72,10 +72,12 @@
                     <div class="label"><spring:message code='participant.label.first_name' text=''/>:</div>
                     <div class="value">${command.participant.firstName}</div>
                 </div>
-                <div class="row">
-                    <div class="label"><spring:message code='participant.label.middle_name' text=''/>:</div>
-                    <div class="value">${command.participant.middleName}</div>
-                </div>
+                <c:if test="${command.mode eq 'N'}">
+                    <div class="row">
+                        <div class="label"><spring:message code='participant.label.middle_name' text=''/>:</div>
+                        <div class="value">${command.participant.middleName}</div>
+                    </div>
+                </c:if>
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.last_name' text=''/>:</div>
                     <div class="value">${command.participant.lastName}</div>

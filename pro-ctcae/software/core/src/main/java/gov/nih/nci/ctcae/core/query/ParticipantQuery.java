@@ -35,6 +35,7 @@ public class ParticipantQuery extends AbstractQuery {
     private static final String STUDY_ID = "studyId";
     private static final String STUDY_SITE_ID = "studySiteId";
     private static final String USERNAME = "username";
+    private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
 
     /**
      * Instantiates a new participant query.
@@ -89,10 +90,11 @@ public class ParticipantQuery extends AbstractQuery {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
         andWhere(String.format("(lower(p.firstName) LIKE :%s or lower(p.lastName) LIKE :%s " +
-                "or lower(p.assignedIdentifier) LIKE :%s)", FIRST_NAME, LAST_NAME, IDENTIFIER));
+                "or lower(p.assignedIdentifier) LIKE :%s) or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
         setParameter(IDENTIFIER, searchString);
         setParameter(FIRST_NAME, searchString);
         setParameter(LAST_NAME, searchString);
+        setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
 
     }
 
@@ -123,6 +125,14 @@ public class ParticipantQuery extends AbstractQuery {
         if (username != null) {
             andWhere("p.user.username =:" + USERNAME);
             setParameter(USERNAME, username.toLowerCase());
+        }
+    }
+
+    public void filterByStudyParticipantIdentifier(String spIdentifier) {
+        if (spIdentifier != null) {
+            leftJoin("p.studyParticipantAssignments as spa");
+            andWhere("spa.studyParticipantIdentifier LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
+            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
         }
     }
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 //
 /**
@@ -29,6 +30,7 @@ public class SearchParticipantController extends AbstractController {
 
     private ParticipantAjaxFacade participantAjaxFacade;
     StudyRepository studyRepository;
+    protected Properties proCtcAEProperties;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -41,6 +43,7 @@ public class SearchParticipantController extends AbstractController {
         String lastName = "";
         String identifier = "";
         String studyId = "";
+        String spIdentifier = "";
         Integer rowsPerPageInt = 15;
         String sort = request.getParameter("sort");
         String page = request.getParameter("page");
@@ -73,19 +76,23 @@ public class SearchParticipantController extends AbstractController {
             lastName = (String) request.getSession().getAttribute("ParticipantSearchLastName");
             identifier = (String) request.getSession().getAttribute("ParticipantSearchIdentifier");
             studyId = (String) request.getSession().getAttribute("ParticipantSearchStudyId");
+            spIdentifier = (String) request.getSession().getAttribute("ParticipantSearchSpIdentifier");
         } else {
             firstName = request.getParameter("firstName");
             lastName = request.getParameter("lastName");
             identifier = request.getParameter("identifier");
             studyId = request.getParameter("study");
+            spIdentifier = request.getParameter("spIdentifier");
             request.getSession().setAttribute("ParticipantSearchFirstName", firstName);
             request.getSession().setAttribute("ParticipantSearchLastName", lastName);
             request.getSession().setAttribute("ParticipantSearchIdentifier", identifier);
             request.getSession().setAttribute("ParticipantSearchStudyId", studyId);
+            request.getSession().setAttribute("ParticipantSearchSpIdentifier", spIdentifier);
         }
         modelAndView.addObject("firstName", firstName);
         modelAndView.addObject("lastName", lastName);
         modelAndView.addObject("identifier", identifier);
+        modelAndView.addObject("spIdentifier", spIdentifier);
         if (!StringUtils.isBlank(studyId)) {
             modelAndView.addObject("study", studyRepository.findById(Integer.parseInt(studyId)));
         }
@@ -94,7 +101,7 @@ public class SearchParticipantController extends AbstractController {
         }
 
 
-        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, studyId);
+        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, studyId, spIdentifier);
         int totalRecords = participants.size();
         int numberOfPages = totalRecords / rowsPerPageInt;
         if (totalRecords % rowsPerPageInt > 0) {
@@ -141,6 +148,9 @@ public class SearchParticipantController extends AbstractController {
                 endDisplay++;
             }
         }
+        String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
+
+        modelAndView.addObject("mode", mode);
         modelAndView.addObject("searchResults", displayDataForPage);
         modelAndView.addObject("numberOfPages", numberOfPages);
         modelAndView.addObject("page", page);
@@ -162,5 +172,10 @@ public class SearchParticipantController extends AbstractController {
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+        this.proCtcAEProperties = proCtcAEProperties;
     }
 }
