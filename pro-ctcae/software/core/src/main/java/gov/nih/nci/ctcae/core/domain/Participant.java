@@ -73,7 +73,14 @@ public class Participant extends Person {
      * @return the assigned identifier
      */
     public String getAssignedIdentifier() {
-        return assignedIdentifier;
+        String tempIdentifier = StringUtils.isBlank(assignedIdentifier) ? "" : assignedIdentifier;
+        if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
+            String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+            if (!StringUtils.isBlank(spid)) {
+                tempIdentifier += " (" + spid + ") ";
+            }
+        }
+        return tempIdentifier;
     }
 
     /**
@@ -189,14 +196,8 @@ public class Participant extends Person {
     public String getDisplayName() {
         StringBuilder name = new StringBuilder();
 
-        if (!StringUtils.isBlank(assignedIdentifier)) {
-            name.append("(").append(assignedIdentifier).append(") ");
-        }
-        if(studyParticipantAssignments !=null && studyParticipantAssignments.size()>0){
-            String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
-            if(!StringUtils.isBlank(spid)){
-                name.append("(").append(spid).append(") ");
-            }
+        if (!StringUtils.isBlank(getAssignedIdentifier())) {
+            name.append(getAssignedIdentifier());
         }
         boolean hasLastName = getLastName() != null;
         if (getFirstName() != null) {
