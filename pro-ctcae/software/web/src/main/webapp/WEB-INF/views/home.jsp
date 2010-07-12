@@ -226,12 +226,12 @@
                                             <c:if test="${usernotification.new}">
                                                 class="bold"
                                             </c:if>>
-                                        <td class="data">
+                                        <td>
                                             <a class="link"
                                                href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
                                                     value="${usernotification.notification.date}"/></a>
                                         </td>
-                                        <td class="data" style="text-align:left">
+                                        <td style="text-align:left">
                                             <proctcae:urlAuthorize url="/pages/reports/participantReport">
                                             <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
                                                class="link">
@@ -241,7 +241,7 @@
                                             </a>
                                             </proctcae:urlAuthorize>
                                         </td>
-                                        <td class="data">
+                                        <td>
                                             <c:choose>
                                                 <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
                                                     <div title="${usernotification.study.shortTitle}">
@@ -418,85 +418,6 @@
     </table>
 </div>
 
-
-    <%----%>
-    <%--<proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="admin/createClinicalStaff"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/searchClinicalStaffController.png"/>"--%>
-    <%--alt=""/>--%>
-    <%--Add new staff profile </a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--<proctcae:urlAuthorize url="/pages/form/basicForm">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="form/basicForm"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> Create--%>
-    <%--new--%>
-    <%--form</a>--%>
-    <%--</div>--%>
-    <%--<tags:button value="Create Participant" color="blue" icon="add"></tags:button>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--<c:if test="${nurseLevelRole}">--%>
-    <%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="/proctcae/pages/participant/schedulecrf"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/>--%>
-    <%--Manage--%>
-    <%--schedule</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="/proctcae/pages/reports/participantReport"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> View--%>
-    <%--reports</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${siteLevelRole}">--%>
-    <%--<proctcae:urlAuthorize url="/pages/participant/create">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="participant/create"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/participantController.png"/>" alt=""/>--%>
-    <%--Add--%>
-    <%--new participant</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--<proctcae:urlAuthorize url="/pages/study/searchStudy">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="study/searchStudy"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/createStudyController.png"/>" alt=""/> My--%>
-    <%--studies</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${studyLevelRole || odc}">--%>
-    <%--<proctcae:urlAuthorize url="/pages/form/manageForm">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="form/manageForm"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/captureAdverseEventController.png"/>"--%>
-    <%--alt=""/> Manage forms</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-    <%--<proctcae:urlAuthorize url="/pages/reports/report">--%>
-    <%--<div class="quicklink">--%>
-    <%--<a class="link" href="reports/report"><img--%>
-    <%--src="<chrome:imageUrl name="../blue/icons/16px/reportSearchCriteriaController.png"/>"--%>
-    <%--alt=""/> Generate study report</a>--%>
-    <%--</div>--%>
-    <%--</proctcae:urlAuthorize>--%>
-<%--<proctcae:urlAuthorize url="/pages/study/searchStudy">--%>
-    <%--<div class="quicklink">--%>
-        <%--<a class="link" href="study/searchStudy"><img--%>
-                <%--src="<chrome:imageUrl name="../blue/icons/16px/searchStudyController.png"/>" alt=""/>--%>
-            <%--Search--%>
-            <%--for existing study</a>--%>
-    <%--</div>--%>
-<%--</proctcae:urlAuthorize>--%>
-<%--</c:if>--%>
-<%--<br/>--%>
-<%--</chrome:box>--%>
 </td>
 </tr>
 <tr>

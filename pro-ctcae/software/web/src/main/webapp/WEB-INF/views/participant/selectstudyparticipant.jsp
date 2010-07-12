@@ -100,6 +100,27 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
+        <chrome:box title="schedulecrf.label.select_study" id="study-entry" cssClass="paired" autopad="true">
+            <tags:instructions code="participant.schedule_crf.select_study"/>
+            <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
+                        title="Study"
+                        cssStyle="display:none;"/>
+
+            <tags:requiredIndicator/>
+            <input type="text" id="study-input" value="${command.study.shortTitle}" class="autocomplete"/>
+            <input id="study-clear" type="image" style="vertical-align: top;"
+                   src="/proctcae/images/blue/clear-left-button.png"
+                   onclick="javascript:$('study-input').clear();$('study').clear();return false;" value="Clear"
+                   name="C"/>
+            <!--<input type="button" id="study-clear" value="Clear"/>-->
+            <tags:indicator id="study-indicator"/>
+            <tags:errors path="study"/>
+            <div id="study-choices" class="autocomplete"></div>
+            <p id="study-selected" style="display: none">
+                You have selected the study <span id="study-selected-name"></span>.
+            </p>
+        </chrome:box>
+
         <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired"
                     autopad="true">
             <tags:instructions code="participant.schedule_crf.select_participant"/>
@@ -122,26 +143,6 @@
             <tags:errors path="participant"/>
             <p id="participant-selected" style="display: none">
                 You have selected the subject <span id="participant-selected-name"></span>.
-            </p>
-        </chrome:box>
-        <chrome:box title="schedulecrf.label.select_study" id="study-entry" cssClass="paired" autopad="true">
-            <tags:instructions code="participant.schedule_crf.select_study"/>
-            <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
-                        title="Study"
-                        cssStyle="display:none;"/>
-
-            <tags:requiredIndicator/>
-            <input type="text" id="study-input" value="${command.study.shortTitle}" class="autocomplete"/>
-            <input id="study-clear" type="image" style="vertical-align: top;"
-                   src="/proctcae/images/blue/clear-left-button.png"
-                   onclick="javascript:$('study-input').clear();$('study').clear();return false;" value="Clear"
-                   name="C"/>
-            <!--<input type="button" id="study-clear" value="Clear"/>-->
-            <tags:indicator id="study-indicator"/>
-            <tags:errors path="study"/>
-            <div id="study-choices" class="autocomplete"></div>
-            <p id="study-selected" style="display: none">
-                You have selected the study <span id="study-selected-name"></span>.
             </p>
         </chrome:box>
     </div>
