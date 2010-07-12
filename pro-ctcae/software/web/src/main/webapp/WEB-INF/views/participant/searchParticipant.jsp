@@ -275,6 +275,7 @@
             <td colspan="5"/>
             &nbsp;</tr>
         <tr>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Identifier" name="identifier"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Last name" name="lastName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>
@@ -287,6 +288,7 @@
                 <c:set var="class" value="even"/>
             </c:if>
             <tr class="${class}">
+                <td>${row[5]}</td>
                 <td>${row[0]}</td>
                 <td>${row[1]}</td>
                 <td>${row[2]}</td>

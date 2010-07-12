@@ -171,6 +171,14 @@ public class Participant extends Person {
         }
     }
 
+    public String getStudyParticipantIdentifier() {
+        String spIdentifier = "";
+        if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
+           spIdentifier = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+        }
+        return spIdentifier;
+    }
+
     /**
      * Gets the study participant assignments.
      *

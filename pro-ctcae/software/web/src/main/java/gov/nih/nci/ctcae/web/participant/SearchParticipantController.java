@@ -138,7 +138,7 @@ public class SearchParticipantController extends AbstractController {
 
             String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\",\"" + odc + "\");</script>";
 
-            String[] row = new String[]{participant.getLastName(), participant.getFirstName(), sites, studies, actions};
+            String[] row = new String[]{participant.getLastName(), participant.getFirstName(), sites, studies, actions, participant.getStudyParticipantIdentifier()};
             displayData.add(row);
         }
         Collections.sort(displayData, new ParticipantSearchResultsComparator(sort, sortDir));
