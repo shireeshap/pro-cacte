@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Properties;
 
 //
 
@@ -34,7 +33,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
      */
     protected ParticipantRepository participantRepository;
     protected UserRepository userRepository;
-    protected Properties proCtcAEProperties;
+
 
     /**
      * Instantiates a new participant controller.
@@ -116,11 +115,6 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command, Tab tab) {
         return true;
-    }
-
-    @Required
-    public void setProCtcAEProperties(Properties proCtcAEProperties) {
-        this.proCtcAEProperties = proCtcAEProperties;
     }
 
     @Required

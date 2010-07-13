@@ -317,7 +317,6 @@
           parent="securedTabbedFlowFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
-        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
         <property name="userRepository" ref="userRepository"/>
     </bean>
 
@@ -570,6 +569,7 @@
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
         <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
 

@@ -39,4 +39,5 @@ public class ParticipantReviewTab extends SecuredTab<ParticipantCommand> {
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
 }

@@ -207,14 +207,14 @@
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true" maxLength="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"/>
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
                        </td>
                        <td width="50%" valign="top">
                            <c:if test="${command.mode eq 'N'}">

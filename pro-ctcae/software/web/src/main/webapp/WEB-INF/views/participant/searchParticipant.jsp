@@ -154,69 +154,64 @@
 
         <div class="row">
             <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
+            <c:set var="txtLength" value="30"/>
             <c:if test="${mode eq 'Y'}">
-            <div class="value IEdivValueHack"><input type="text" id="firstName" name="firstName" maxlength="1"
-                                                     value="${firstName}"/>
+                <c:set var="txtLength" value="1"/>
+            </c:if>
 
+            <div class="value IEdivValueHack">
+                <input type="text" id="firstName" name="firstName"
+                       maxlength="${txtLength}" size="${txtLength}"
+                       value="${firstName}"/>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
+            <div class="value IEdivValueHack">
+                <input type="text" id="lastName" name="lastName"
+                       maxlength="${txtLength}" size="${txtLength}"
+                       value="${lastName}"/>
+            </div>
+        </div>
+
+        <tags:renderAutocompleter propertyName="study"
+                                  displayName="Study"
+                                  required="false"
+                                  size="100"
+                                  noForm="true"/>
+
+        <c:if test="${mode eq 'N'}">
+        <div class="row">
+            <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
+            <div class="value IEdivValueHack"><input type="text" id="identifier" name="identifier" maxlength="30"
+                                                     value="${identifier}"/>
             </div>
             </c:if>
-            <c:if test="${mode eq 'N'}">
-            <div class="value IEdivValueHack"><input type="text" id="firstName" name="firstName" maxlength="30"
-                                                     value="${firstName}"/>
-
-            </div>
-            </c:if>
+            <c:if test="${mode eq 'Y'}">
             <div class="row">
-                <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
-                <c:if test="${mode eq 'Y'}">
-                    <div class="value IEdivValueHack"><input type="text" id="lastName" name="lastName" maxlength="1"
-                                                             value="${lastName}"/>
-                    </div>
-                </c:if>
-                <c:if test="${mode eq 'N'}">
-                    <div class="value IEdivValueHack"><input type="text" id="lastName" name="lastName" maxlength="30"
-                                                             value="${lastName}"/>
-                    </div>
+                <div class="label"><spring:message code='participant.label.participant_spIdentifier' text=''/></div>
+                <div class="value IEdivValueHack"><input type="text" id="spIdentifier" name="spIdentifier"
+                                                         maxlength="30"
+                                                         value="${spIdentifier}"/>
+                </div>
                 </c:if>
             </div>
 
-                <tags:renderAutocompleter propertyName="study"
-                                          displayName="Study"
-                                          required="false"
-                                          size="100"
-                                          noForm="true"/>
 
-            <c:if test="${mode eq 'N'}">
+            <div id="error"></div>
             <div class="row">
-                <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
-                <div class="value IEdivValueHack"><input type="text" id="identifier" name="identifier" maxlength="30"
-                                                         value="${identifier}"/>
+                <div class="label"></div>
+                <div class="value">
+                    <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                    <tags:indicator id="indicator"/>
                 </div>
-                </c:if>
-                <c:if test="${mode eq 'Y'}">
-                <div class="row">
-                    <div class="label"><spring:message code='participant.label.participant_spIdentifier' text=''/></div>
-                    <div class="value IEdivValueHack"><input type="text" id="spIdentifier" name="spIdentifier"
-                                                             maxlength="30"
-                                                             value="${spIdentifier}"/>
-                    </div>
-                    </c:if>
-                </div>
-
-
-                <div id="error"></div>
-                <div class="row">
-                    <div class="label"></div>
-                    <div class="value">
-                        <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-                        <tags:indicator id="indicator"/>
-                    </div>
-                </div>
-                <input type="hidden" name="sort" value="${sort}" id="sort"/>
-                <input type="hidden" name="page" value="${page}" id="page"/>
-                <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
-                <input type="hidden" name="sortDir" value="${sortDir}" id="sorstDir"/>
-                <input type="hidden" name="doSort" value="false" id="doSort"/>
+            </div>
+            <input type="hidden" name="sort" value="${sort}" id="sort"/>
+            <input type="hidden" name="page" value="${page}" id="page"/>
+            <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
+            <input type="hidden" name="sortDir" value="${sortDir}" id="sorstDir"/>
+            <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
 </chrome:box>
 <chrome:box title="Results">
@@ -275,7 +270,7 @@
             <td colspan="5"/>
             &nbsp;</tr>
         <tr>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Identifier" name="identifier"/>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Participant Study Identifier" name="identifier"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Last name" name="lastName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>

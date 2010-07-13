@@ -23,6 +23,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Properties;
 
 //
 /**
@@ -41,6 +42,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     protected ParticipantRepository participantRepository;
     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     private StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+    protected Properties proCtcAEProperties;
     /**
      * The organization repository.
      */
@@ -278,4 +280,9 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     public void setMeddraValidValueRepository(MeddraValidValueRepository meddraValidValueRepository) {
         this.meddraValidValueRepository = meddraValidValueRepository;
     }
+
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+        this.proCtcAEProperties = proCtcAEProperties;
+    }
 }
+

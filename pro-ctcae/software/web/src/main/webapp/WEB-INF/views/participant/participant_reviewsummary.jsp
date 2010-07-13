@@ -84,20 +84,24 @@
                 </div>
             </td>
             <td>
+                <c:if test="${command.mode eq 'N'}">
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.date_of_birth' text=''/>:</div>
                     <div class="value"><tags:formatDate value="${command.participant.birthDate}"/></div>
                 </div>
+                </c:if>
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.gender' text=''/>:</div>
                     <div class="value">${command.participant.gender}</div>
                 </div>
+                <c:if test="${command.mode eq 'N'}">
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.participant_identifier'
                                                        text=''/>:
                     </div>
                     <div class="value">${command.participant.assignedIdentifier}</div>
                 </div>
+                </c:if>
             </td>
         </tr>
     </table>
