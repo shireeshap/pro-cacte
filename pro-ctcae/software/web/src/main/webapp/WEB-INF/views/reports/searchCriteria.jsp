@@ -107,11 +107,14 @@
                 <input type="hidden" id="study" name="study" value="${study.id}"/>
             </c:when>
             <c:otherwise>
-                <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
-                                          noForm="true"/>
+                <div id="studyCompleter" style="margin-left:11px;">
+               <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
+                                              noForm="true"/>
+
                 <script type="text/javascript">
                     createStudyAutoCompleter();
                 </script>
+                     </div>
             </c:otherwise>
         </c:choose>
         <c:if test="${not onlyStudy}">
@@ -144,7 +147,7 @@
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none">
                         <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
-                        <div class="value IEdivValueHack" id="formTitle"></div>
+                        <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
                     </div>
                 </c:otherwise>
