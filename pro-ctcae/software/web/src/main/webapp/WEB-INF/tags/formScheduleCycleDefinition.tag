@@ -89,7 +89,7 @@
                             <%--displayName="form.calendar.dueAfter" size="2"/>--%>
                     </td>
                     <td>
-                        <tags:button value="Generate" color="blue" size="small"
+                        <tags:button value="Generate schedule" color="blue" size="small"
                                      onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
                                      markupWithTag="a"/>
                     </td>

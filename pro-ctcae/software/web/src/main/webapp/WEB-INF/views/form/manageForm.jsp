@@ -174,7 +174,7 @@
                 </td>
                 <td class="data">
                     <c:choose>
-                        <c:when test="${crf.status eq 'Released'}">Final</c:when>
+                        <c:when test="${crf.status eq 'Final'}">Final</c:when>
                         <c:otherwise>
                             ${crf.status}
                         </c:otherwise>

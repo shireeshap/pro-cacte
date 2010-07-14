@@ -72,7 +72,7 @@
 
 <div class="flow-buttons">
     <span class="prev">
-        <c:if test="${crf.status ne 'Released'}">
+        <c:if test="${crf.status ne 'Final'}">
             <tags:button color="blue" markupWithTag="a" icon="window" value="Finalize Form"
                          onclick="javascript:releaseForm('${crf.id}')"/>
         </c:if>

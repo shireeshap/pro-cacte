@@ -10,7 +10,7 @@
     <c:forEach items="${unselectedstudysites}" var="studysite">
     Event.observe($('a_${studysite.id}'), 'click', function() {
     <c:forEach items="${studysite.study.crfs}" var="crf">
-    <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
+    <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
         $('form_date_${crf.id}').value = $('study_date_${studysite.id}').value;
     </c:if>
     </c:forEach>
@@ -99,7 +99,7 @@
     <c:if test="${not isEdit}">
         <c:forEach items="${unselectedstudysites}" var="studysite">
             <c:forEach items="${studysite.study.crfs}" var="crf">
-                <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
+                <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
                     <c:set var="hasforms" value="true"/>
                 </c:if>
             </c:forEach>
@@ -166,7 +166,7 @@
                         <c:if test="${hasforms eq 'true'}">
                             <c:set var="hasforms" value="false"/>
                             <c:forEach items="${studysite.study.crfs}" var="crf">
-                                <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
+                                <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
                                     <tr>
                                         <td class="data" colspan="2">
                                             <b><spring:message code="form.tab.form"/>:</b>&nbsp;&nbsp;${crf.title}

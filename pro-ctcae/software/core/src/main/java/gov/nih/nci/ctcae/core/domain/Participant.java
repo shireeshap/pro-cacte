@@ -73,14 +73,15 @@ public class Participant extends Person {
      * @return the assigned identifier
      */
     public String getAssignedIdentifier() {
-        String tempIdentifier = StringUtils.isBlank(assignedIdentifier) ? "" : assignedIdentifier;
+        String tempIdentifier = StringUtils.isBlank(assignedIdentifier) ? "" : "(" + assignedIdentifier + ")";
         if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
             String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
             if (!StringUtils.isBlank(spid)) {
                 tempIdentifier += " (" + spid + ") ";
             }
         }
-        return tempIdentifier;
+        tempIdentifier = StringUtils.replace(tempIdentifier, "((", "(");
+        return StringUtils.replace(tempIdentifier, "))", ")");
     }
 
     /**
@@ -174,7 +175,7 @@ public class Participant extends Person {
     public String getStudyParticipantIdentifier() {
         String spIdentifier = "";
         if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
-           spIdentifier = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+            spIdentifier = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
         }
         return spIdentifier;
     }

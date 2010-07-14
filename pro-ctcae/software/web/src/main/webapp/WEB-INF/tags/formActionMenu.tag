@@ -24,7 +24,7 @@
     }
     function showPopUpMenu(cid, status) {
         var html = '<div id="search-engines"><ul>';
-        if (status == 'Released') {
+        if (status == 'Final') {
         <proctcae:urlAuthorize url="/pages/form/versionForm">
             html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
         </proctcae:urlAuthorize>

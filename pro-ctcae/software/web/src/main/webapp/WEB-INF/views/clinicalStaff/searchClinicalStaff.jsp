@@ -178,7 +178,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
+            <div class="label"><spring:message code='participant.label.staff_identifier' text=''/></div>
             <div class="value IEdivValueHack"><input type="text" id="identifier" name="identifier" maxlength="30"
                                       value="${identifier}"/>
             </div>

@@ -430,13 +430,13 @@
                             <td class="header-top1" width="50%" style="text-align:left">
                                 Study Title
                             </td>
-                            <td class="header-top1" width="40" style="text-align:left">
+                            <td class="header-top1" width="30%" style="text-align:left">
                                 Form Title
                             </td>
-                            <td class="header-top1" width="10" style="text-align:left">
+                            <td class="header-top1" width="10%" style="text-align:left">
                                 Status
                             </td>
-                            <td class="header-top1" width="10">
+                            <td class="header-top1" width="10%">
                             </td>
 
                         </tr>
@@ -521,14 +521,14 @@
                         <div id="alertsdiv">
                             <table class="widget" cellpadding="5px;">
                                 <tr>
-                                    <td class="header-top1" width="10%">
+                                    <td class="header-top1" width="15%">
                                         Participant
                                     </td>
-                                    <td class="header-top1" width="50%">
+                                    <td class="header-top1" width="45%">
                                         Study
                                     </td>
                                     <td class="header-top1" width="20%">
-                                        Form
+                                        Form title
                                     </td>
                                     <td class="header-top1" width="10%">
                                         Start date
@@ -539,13 +539,13 @@
                                 </tr>
                                 <c:forEach items="${overdue}" var="schedule">
                                     <tr>
-                                        <td class="data" style="text-align:left" width="10%">
+                                        <td style="text-align:left" width="15%">
                                             <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
                                                 <a href="participant/schedulecrf?sid=${schedule.id}"
                                                    class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                             </proctcae:urlAuthorize>
                                         </td>
-                                        <td class="data" width="50%">
+                                        <td style="text-align:left" width="45%">
                                             <c:choose>
                                                 <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
                                                     <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
@@ -557,7 +557,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td class="data" width="20%">
+                                        <td style="text-align:left" width="20%">
                                             <c:choose>
                                                 <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
                                                     <div title="${schedule.studyParticipantCrf.crf.title}">
@@ -569,13 +569,13 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td class="data" width="10%">
+                                        <td style="text-align:left" width="10%">
                                             <tags:formatDate value="${schedule.startDate}"/>
                                         </td>
-                                        <td class="data" width="10%">
+                                        <td style="text-align:left" width="10%">
                                             <tags:formatDate value="${schedule.dueDate}"/>
                                         </td>
-                                        <td class="data" width="10%">
+                                        <td style="text-align:left" width="10%">
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -602,31 +602,31 @@
                         <div id="alertsdiv">
                             <table class="widget" cellpadding="5px;">
                                 <tr>
-                                    <td class="header-top1" width="10%">
+                                    <td class="header-top1" width="15%" style="text-align:left">
                                         Participant
                                     </td>
-                                    <td class="header-top1" width="50%">
+                                    <td class="header-top1" width="45%" style="text-align:left">
                                         Study
                                     </td>
-                                    <td class="header-top1" width="20%">
-                                        Form
+                                    <td class="header-top1" width="20%" style="text-align:left">
+                                        Form title
                                     </td>
-                                    <td class="header-top1" width="10%">
+                                    <td class="header-top1" width="10%" style="text-align:left">
                                         Start date
                                     </td>
-                                    <td class="header-top1" width="10%">
+                                    <td class="header-top1" width="10%" style="text-align:left">
                                         Due date
                                     </td>
                                 </tr>
                                 <c:forEach items="${upcoming}" var="schedule">
                                     <tr>
-                                        <td class="data" style="text-align:left" width="10%">
+                                        <td style="text-align:left" width="15%">
                                             <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
                                                 <a href="participant/schedulecrf?sid=${schedule.id}"
                                                    class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                             </proctcae:urlAuthorize>
                                         </td>
-                                        <td class="data" width="50%">
+                                        <td style="text-align:left" width="45%">
                                             <c:choose>
                                                 <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
                                                     <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
@@ -638,7 +638,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td class="data" width="20%">
+                                        <td style="text-align:left" width="20%">
                                             <c:choose>
                                                 <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
                                                     <div title="${schedule.studyParticipantCrf.crf.title}">
@@ -650,10 +650,10 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td class="data" width="10%">
+                                        <td style="text-align:left" width="10%">
                                             <tags:formatDate value="${schedule.startDate}"/>
                                         </td>
-                                        <td class="data" width="10%">
+                                        <td style="text-align:left" width="10%">
                                             <tags:formatDate value="${schedule.dueDate}"/>
                                         </td>
                                     </tr>

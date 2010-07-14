@@ -638,6 +638,7 @@ function checkBaseline(obj) {
                         <input type="hidden" id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
                                name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
                                value="${crfCalendar.repeatUntilValue}"/>
+                        </div>
                 </td>
             </tr>
         </table>
