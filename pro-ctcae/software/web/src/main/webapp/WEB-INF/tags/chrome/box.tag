@@ -30,25 +30,23 @@
                         <c:otherwise>
                             <table cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
+                                    <c:if test="${collapsable}">
+                                        <td align="left" width="5%">
+                                            <a style="cursor:pointer;"
+                                               onClick="SwitchCollapsableState('contentOf-${id}', '${id}')">
+                                                <img id="image-${id}" src="<tags:imageUrl name="arrow-down.png" />"
+                                                     border="0"
+                                                     height="16"/></a>
+                                        </td>
+                                    </c:if>
                                     <td>
                                         <spring:message code='${title}' text='${title}'/>
                                     </td>
                                     <td width="5%">
                                         <c:if test="${enableDelete}">
-                                        <a href="javascript:${deleteParams}"><img
-                                                src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a>
+                                            <a href="javascript:${deleteParams}"><img
+                                                    src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a>
                                         </c:if>
-
-                                        <c:if test="${collapsable}">
-                                    <td align="right">
-                                        <a style="cursor:pointer;"
-                                           onClick="SwitchCollapsableState('contentOf-${id}', '${id}')">
-                                            <img id="image-${id}" src="<tags:imageUrl name="arrow-down.png" />"
-                                                 border="0"
-                                                 height="16"/></a>
-                                    </td>
-                                    </c:if>
-
                                     </td>
                                 </tr>
                             </table>
