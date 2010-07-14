@@ -485,6 +485,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/031_update_user.gr
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/032_update_password_policy.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/033_update_password_policy.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/034_delete_proctc_term.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/035_update_crf_status.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
