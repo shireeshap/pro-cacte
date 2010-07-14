@@ -121,7 +121,7 @@
                     </tr>
                     <tr style="background-color:#cccccc;">
                         <td colspan="5">
-                            <b>${symptom.key.term} </b>
+                            <b>${symptom.key} </b>
                         </td>
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
