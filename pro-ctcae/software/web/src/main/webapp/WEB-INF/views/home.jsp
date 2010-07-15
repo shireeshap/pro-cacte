@@ -427,7 +427,7 @@
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Forms" collapsable="true" id="myforms"  collapsed="false">
+            <chrome:box title="My Forms" collapsable="true" id="myforms" collapsed="false">
                 <div id="alertsdiv">
                     <table class="widget" width="100%" border="0">
                         <tr>
@@ -477,7 +477,7 @@
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Studies" collapsable="true" id="mystudies"  collapsed="false">
+            <chrome:box title="My Studies" collapsable="true" id="mystudies" collapsed="false">
                 <div id="alertsdiv">
                     <table class="widget">
                         <tr>
@@ -595,7 +595,7 @@
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming"  collapsed="false">
+            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">
                 <c:choose>
                     <c:when test="${empty overdue}">
                         <div style="margin-left:15px;">

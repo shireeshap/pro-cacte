@@ -68,7 +68,7 @@
                             <a class="nolink"
                                title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                 <c:choose>
-                                <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (not (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress'))}">
+                                <c:when test="${studyParticipantCrfSchedule.status eq 'Past-due'}">
                                     <img src="../../images/blue/Past-due.png"/>
                                 </c:when>
                                 <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">

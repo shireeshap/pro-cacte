@@ -39,7 +39,7 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        
+
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
                 if (ControllersUtils.isRequestComingFromMobile(request)) {
@@ -142,7 +142,7 @@ public class LoginController extends AbstractController {
             for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
                 for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
                     for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-                        if (today.after(spcs.getDueDate()) && !spcs.getStatus().equals(CrfStatus.COMPLETED)) {
+                        if (spcs.getStatus().equals(CrfStatus.PASTDUE)) {
                             overdue.add(spcs);
                         }
                         if (spcs.getStartDate().after(yesterday) && spcs.getStartDate().before(week)) {

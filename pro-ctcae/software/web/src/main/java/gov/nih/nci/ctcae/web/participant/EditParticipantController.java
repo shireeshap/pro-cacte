@@ -66,7 +66,7 @@ public class EditParticipantController extends ParticipantController {
             command.setOrganizationId(organization.getId());
             command.setSiteName(siteName);
         }
-        String mode = proCtcAEProperties.getProperty("mode.identifier");
+        String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
         command.setMode(mode);
         command.setEdit(true);
         return command;
