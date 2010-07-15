@@ -59,6 +59,9 @@ public class Participant extends Person {
     @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = false)
     private User user;
 
+    @Transient
+    private String displayName;
+
     public User getUser() {
         return user;
     }
@@ -73,15 +76,7 @@ public class Participant extends Person {
      * @return the assigned identifier
      */
     public String getAssignedIdentifier() {
-        String tempIdentifier = StringUtils.isBlank(assignedIdentifier) ? "" : "(" + assignedIdentifier + ")";
-        if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
-            String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
-            if (!StringUtils.isBlank(spid)) {
-                tempIdentifier += " (" + spid + ") ";
-            }
-        }
-        tempIdentifier = StringUtils.replace(tempIdentifier, "((", "(");
-        return StringUtils.replace(tempIdentifier, "))", ")");
+        return assignedIdentifier;
     }
 
     /**
@@ -203,23 +198,31 @@ public class Participant extends Person {
      */
     @Transient
     public String getDisplayName() {
-        StringBuilder name = new StringBuilder();
 
-        if (!StringUtils.isBlank(getAssignedIdentifier())) {
-            name.append(getAssignedIdentifier());
-        }
-        boolean hasLastName = getLastName() != null;
-        if (getFirstName() != null) {
-            name.append(getFirstName());
-            if (hasLastName) {
-                name.append(' ');
+        if (displayName == null) {
+            StringBuilder name = new StringBuilder();
+
+            name.append(StringUtils.isBlank(assignedIdentifier) ? "" : "(" + assignedIdentifier + ")");
+            if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
+                String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+                if (!StringUtils.isBlank(spid)) {
+                    name.append("(" + spid + ") ");
+                }
             }
-        }
-        if (hasLastName) {
-            name.append(getLastName());
-        }
+            boolean hasLastName = getLastName() != null;
+            if (getFirstName() != null) {
+                name.append(getFirstName());
+                if (hasLastName) {
+                    name.append(' ');
+                }
+            }
+            if (hasLastName) {
+                name.append(getLastName());
+            }
 
-        return name.toString();
+            this.displayName = name.toString();
+        }
+        return displayName;
     }
 
     @Override
@@ -277,5 +280,9 @@ public class Participant extends Person {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

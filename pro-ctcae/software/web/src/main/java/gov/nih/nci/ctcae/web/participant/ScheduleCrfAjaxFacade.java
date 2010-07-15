@@ -75,7 +75,7 @@ public class ScheduleCrfAjaxFacade {
         participantQuery.filterParticipantsWithMatchingText(text);
         participantQuery.filterByStudy(studyId);
         List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
-        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier");
+        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
     }
 
     /**

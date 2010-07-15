@@ -43,9 +43,9 @@
         }
 
         /*#alertsdiv {*/
-            /*width: 455px;*/
-            /*overflow-y: auto;*/
-            /*max-height: 400px;*/
+        /*width: 455px;*/
+        /*overflow-y: auto;*/
+        /*max-height: 400px;*/
         /*}*/
 
         table.widget {
@@ -141,6 +141,7 @@
         </style>
     <![endif]-->
     <script type="text/javascript">
+
         function showMessage(id) {
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
@@ -197,7 +198,7 @@
 <td width="80%" valign="top">
 
     <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
-        <chrome:box title="Alerts" collapsable="true" id="alerts">
+        <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="true">
             <c:choose>
                 <c:when test="${empty numberofalerts}">
                     <div style="margin-left:15px;">
@@ -274,156 +275,159 @@
 </td>
 
 <td width="20%" valign="top" rowspan="6">
-<%--<chrome:box title="Quick Links">--%>
-<div style="padding-left:2px; padding-right:2px;">
-    <table width="100%" cellpadding="10" cellspacing="0" border="0">
-        <tr>
-            <td id="a1" class="quickLinkBGon"
-                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                <div class="quickLinkRow">
-                    <div class="quickLinkPicture"><img
-                            src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
-                            align="middle"
-                            class="quickLink"></div>
-                    <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
-                                                   class="quickLink">Create New Staff Profile</a></div>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <proctcae:urlAuthorize url="/pages/form/basicForm">
-                <td id="a2" class="quickLinkBGon"
+    <%--<chrome:box title="Quick Links">--%>
+    <div style="padding-left:2px; padding-right:2px;">
+        <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <td id="a1" class="quickLinkBGon"
                     style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
                     <div class="quickLinkRow">
                         <div class="quickLinkPicture"><img
-                                src="<c:url value="/images/blue/icons/basicFormController_icon.png"/>" align="middle"
-                                class="quickLink"></div>
-                        <div class="quickLinkLabel"><a href="<c:url value='/pages/form/basicForm' />"
-                                                       class="quickLink">Create new form</a></div>
-                    </div>
-                </td>
-            </proctcae:urlAuthorize>
-        </tr>
-        <c:if test="${nurseLevelRole}">
-            <tr>
-                <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                    <td id="a3" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/scheduleCrfController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/schedulecrf' />"
-                                                           class="quickLink">Manage schedule</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-            <tr>
-                <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                    <td id="a4" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/routineReportController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/participantReport' />"
-                                                           class="quickLink">View reports</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-        </c:if>
-        <c:if test="${siteLevelRole}">
-            <tr>
-                <proctcae:urlAuthorize url="/pages/participant/create">
-                    <td id="a5" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/participantController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/create' />"
-                                                           class="quickLink">Add new participant</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-            <tr>
-                <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                    <td id="a6" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
-                                                           class="quickLink">My studies</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-        </c:if>
-        <c:if test="${studyLevelRole || odc}">
-        <tr>
-            <proctcae:urlAuthorize url="/pages/form/manageForm">
-                <td id="a7" class="quickLinkBGon"
-                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                    <div class="quickLinkRow">
-                        <div class="quickLinkPicture"><img
-                                src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>" align="middle"
-                                class="quickLink"></div>
-                        <div class="quickLinkLabel"><a href="<c:url value='/pages/form/manageForm' />"
-                                                       class="quickLink">Manage forms</a></div>
-                    </div>
-                </td>
-            </proctcae:urlAuthorize>
-        </tr>
-        <tr>
-            <proctcae:urlAuthorize url="/pages/reports/report">
-                <td id="a8" class="quickLinkBGon"
-                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                    <div class="quickLinkRow">
-                        <div class="quickLinkPicture"><img
-                                src="<c:url value="/images/blue/icons/reportSearchCriteriaController_icon.png"/>"
+                                src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
                                 align="middle"
                                 class="quickLink"></div>
-                        <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/report' />"
-                                                       class="quickLink">Generate study report</a></div>
+                        <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
+                                                       class="quickLink">Create New Staff Profile</a></div>
                     </div>
                 </td>
-            </proctcae:urlAuthorize>
-        </tr>
+            </tr>
 
-        <tr>
-            <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                <td id="a8" class="quickLinkBGon"
-                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                    <div class="quickLinkRow">
-                        <div class="quickLinkPicture"><img
-                                src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>" align="middle"
-                                class="quickLink"></div>
-                        <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
-                                                       class="quickLink">Search for existing study</a></div>
-                    </div>
-                </td>
-            </proctcae:urlAuthorize>
-        </tr>
-        </c:if>
-    </table>
-</div>
+            <tr>
+                <proctcae:urlAuthorize url="/pages/form/basicForm">
+                    <td id="a2" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/basicFormController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/form/basicForm' />"
+                                                           class="quickLink">Create new form</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
+            <c:if test="${nurseLevelRole}">
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                        <td id="a3" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/scheduleCrfController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/schedulecrf' />"
+                                                               class="quickLink">Manage schedule</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                        <td id="a4" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/routineReportController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/participantReport' />"
+                                                               class="quickLink">View reports</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+            </c:if>
+            <c:if test="${siteLevelRole}">
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/participant/create">
+                        <td id="a5" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/participantController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/create' />"
+                                                               class="quickLink">Add new participant</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                        <td id="a6" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                               class="quickLink">My studies</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+            </c:if>
+            <c:if test="${studyLevelRole || odc}">
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/form/manageForm">
+                        <td id="a7" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/form/manageForm' />"
+                                                               class="quickLink">Manage forms</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/reports/report">
+                        <td id="a8" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/reportSearchCriteriaController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/report' />"
+                                                               class="quickLink">Generate study report</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                        <td id="a8" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                               class="quickLink">Search for existing study</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+            </c:if>
+        </table>
+    </div>
 
 </td>
 </tr>
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Forms" collapsable="true" id="myforms">
+            <chrome:box title="My Forms" collapsable="true" id="myforms"  collapsed="true">
                 <div id="alertsdiv">
                     <table class="widget" width="100%" border="0">
                         <tr>
@@ -459,7 +463,7 @@
                                         showPopUpMenu('${crf.id}', '${crf.status}');
                                     </script>
                                 </td>
-                               
+
                             </tr>
                         </c:forEach>
                     </table>
@@ -473,7 +477,7 @@
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Studies" collapsable="true" id="mystudies">
+            <chrome:box title="My Studies" collapsable="true" id="mystudies"  collapsed="true">
                 <div id="alertsdiv">
                     <table class="widget">
                         <tr>
@@ -510,7 +514,7 @@
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Overdue forms" collapsable="true" id="overdueforms">
+            <chrome:box title="Overdue forms" collapsable="true" id="overdueforms" collapsed="true">
                 <c:choose>
                     <c:when test="${empty overdue}">
                         <div style="margin-left:15px;">
@@ -591,7 +595,7 @@
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming">
+            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming"  collapsed="true">
                 <c:choose>
                     <c:when test="${empty overdue}">
                         <div style="margin-left:15px;">

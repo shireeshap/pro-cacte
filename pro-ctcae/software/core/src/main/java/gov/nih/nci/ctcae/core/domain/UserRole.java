@@ -49,6 +49,12 @@ public class UserRole extends BasePersistable {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    public UserRole() {
+    }
+
+    public UserRole(Role role) {
+        this.role = role;
+    }
 
     public User getUser() {
         return user;

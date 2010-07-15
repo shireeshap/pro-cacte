@@ -15,6 +15,7 @@
 <%@attribute name="collapsable" required="false" %>
 <%@attribute name="enableDelete" required="false" %>
 <%@attribute name="deleteParams" required="false" %>
+<%@attribute name="collapsed" required="false" %>
 <div class="box ${cssClass}"
         <tags:attribute name="id" value="${id}"/> <tags:attribute name="style" value="${style}"/>>
 
@@ -91,4 +92,9 @@
     </div>
     <!-- end inner border -->
 </div>
+<c:if test="${collapsed}">
+    <script type="text/javascript">
+        SwitchCollapsableState('contentOf-${id}', '${id}');
+    </script>
+</c:if>
 <!-- end box -->

@@ -128,7 +128,7 @@
         acCreateStudy(sac);
     <c:if test="${study ne null}">
         initializeAutoCompleter('study',
-                '${study.displayName}', '${study.id}')
+                "${study.displayName}", '${study.id}')
     </c:if>
         initSearchField();
     })
@@ -270,7 +270,8 @@
             <td colspan="5"/>
             &nbsp;</tr>
         <tr>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Participant Study Identifier" name="identifier"/>
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Participant Study Identifier"
+                                 name="identifier"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Last name" name="lastName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Site" name="site"/>

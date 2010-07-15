@@ -25,8 +25,8 @@
         scheduleArr[${index}][day][index][1] = '${studyParticipantCrfSchedule.baseline}';
         scheduleArr[${index}][day][index][2] = '${studyParticipantCrfSchedule.holiday}';
         scheduleArr[${index}][day][index][3] = '${studyParticipantCrfSchedule.id}';
-        scheduleArr[${index}][day][index][4] = '${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}';
-        forms[${index}][${studyParticipantCrfSchedule.id}] = '${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}';
+        scheduleArr[${index}][day][index][4] = "${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}";
+        forms[${index}][${studyParticipantCrfSchedule.id}] = "${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}";
     </script>
 </c:forEach>
 

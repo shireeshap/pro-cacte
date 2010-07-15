@@ -72,10 +72,10 @@ public class ParticipantAjaxFacade {
     public List<Participant> matchParticipantByStudySiteId(final String text, Integer studySiteId, Integer studyId) {
         if (studySiteId != null) {
             List<Participant> participants = participantRepository.findByStudySiteId(text, studySiteId);
-            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName","assignedIdentifier");
+            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
         } else {
             List<Participant> participants = participantRepository.findByStudyId(text, studyId);
-            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName","assignedIdentifier");
+            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
 
         }
     }

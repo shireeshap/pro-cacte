@@ -9,7 +9,6 @@ import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +57,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
+        user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
         try {
             boolean validUser = userNameAndPasswordValidator.validate(user);

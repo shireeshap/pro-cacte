@@ -51,7 +51,7 @@ public class ParticipantQuery extends AbstractQuery {
      * @param firstName the first name
      */
     public void filterByParticipantFirstName(final String firstName) {
-        String searchString = firstName.toLowerCase() ;
+        String searchString = firstName.toLowerCase();
         andWhere("lower(p.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
     }
@@ -73,12 +73,11 @@ public class ParticipantQuery extends AbstractQuery {
      * @param identifier the identifier
      */
     public void filterByParticipantIdentifier(final String identifier) {
-        String searchString = identifier.toLowerCase() ;
+        String searchString = identifier.toLowerCase();
         andWhere("lower(p.assignedIdentifier) LIKE :" + IDENTIFIER);
         setParameter(IDENTIFIER, searchString);
     }
 
-    
 
     /**
      * Filter participants with matching text.
@@ -89,8 +88,10 @@ public class ParticipantQuery extends AbstractQuery {
 
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
-        andWhere(String.format("(lower(p.firstName) LIKE :%s or lower(p.lastName) LIKE :%s " +
-                "or lower(p.assignedIdentifier) LIKE :%s) or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
+        andWhere(String.format("(lower(p.firstName) LIKE :%s " +
+                "or lower(p.lastName) LIKE :%s " +
+                "or lower(p.assignedIdentifier) LIKE :%s " +
+                "or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s)", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
         setParameter(IDENTIFIER, searchString);
         setParameter(FIRST_NAME, searchString);
         setParameter(LAST_NAME, searchString);

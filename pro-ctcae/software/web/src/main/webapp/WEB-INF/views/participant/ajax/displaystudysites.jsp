@@ -39,7 +39,10 @@
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tr>
             <c:if test="${not isEdit}">
-                <td></td>
+                <td>
+                    <input type="radio" name="studySites" value="${studysite.id}"
+                           onclick="javascript:showForms(this, '${studysite.id}')" checked="true"/>
+                </td>
             </c:if>
             <td>
                     ${studysite.study.displayName}
@@ -57,7 +60,7 @@
             </td>
 
         </tr>
-        <tr>
+        <tr id="subform_${studysite.id}">
             <c:if test="${not isEdit}">
                 <td>&nbsp;</td>
             </c:if>
@@ -66,7 +69,7 @@
                     <tr>
                         <td class="data" align="left">
                             <span class="required-indicator">*</span><b>Participant study identifier&nbsp;</b>
-                            <input type="text" name="participantStudyIdentifier_${studysite.id}"
+                            <input type="text" name="participantStudyIdentifier_${studysite.id}" id="participantStudyIdentifier_${studysite.id}"
                                    value="${studyParticipantAssignment.studyParticipantIdentifier}"
                                    class="validate-NOTEMPTY">
                         </td>

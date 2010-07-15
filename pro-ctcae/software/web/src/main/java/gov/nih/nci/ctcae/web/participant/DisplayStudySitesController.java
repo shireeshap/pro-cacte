@@ -40,9 +40,16 @@ public class DisplayStudySitesController extends AbstractController {
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
         String participantId = request.getParameter("id");
+        Participant participant = null;
         if (!StringUtils.isBlank(participantId)) {
+            participant = participantRepository.findById(Integer.parseInt(participantId));
+        } else {
+            ParticipantCommand command = (ParticipantCommand) request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+            participant = command.getParticipant();
+        }
+        if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
-            Participant participant = participantRepository.findById(Integer.parseInt(participantId));
+
 
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 StudyOrganization studySite = studyParticipantAssignment.getStudySite();
@@ -54,10 +61,7 @@ public class DisplayStudySitesController extends AbstractController {
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
         }
 
-
         modelAndView.addObject("unselectedstudysites", studySites);
-
-
         return modelAndView;
     }
 
