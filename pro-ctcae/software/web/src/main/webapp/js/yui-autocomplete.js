@@ -434,7 +434,8 @@ YAHOO.register("yahoo", YAHOO, {version:"2.8.0r4",build:"2446"});
                             x = G.filters("alpha").opacity;
                         } catch(Y) {
                         }
-                    }return x / 100;case"float":y = "styleFloat";default:y = E.Dom._toCamel(y);x = G[a] ? G[a][y] : null;return(G.style[y] || x);}
+                    }return x / 100;case"float":y = "styleFloat";default:y = E.Dom._toCamel(y);x = G[a] ? G[a][y] : null;return(G.style[y] || x);
+                    }
                 };
             }
         }
@@ -450,7 +451,8 @@ YAHOO.register("yahoo", YAHOO, {version:"2.8.0r4",build:"2446"});
                         if (!Y[a] || !Y[a].hasLayout) {
                             Y.style.zoom = 1;
                         }
-                    }break;case"float":x = "styleFloat";default:Y.style[x] = y;}
+                    }break;case"float":x = "styleFloat";default:Y.style[x] = y;
+                    }
                 } else {
                 }
             };
@@ -1089,7 +1091,8 @@ YAHOO.extend(YAHOO.util.Point, YAHOO.util.Region);
         if (!X[T][W]) {
             X[H].zoom = 1;
         }
-        switch (Z) {case G:Y = X[A];break;case V:Y = X.offsetHeight - X.clientHeight - X[A];break;case D:Y = X[F];break;case P:Y = X.offsetWidth - X.clientWidth - X[F];break;}
+        switch (Z) {case G:Y = X[A];break;case V:Y = X.offsetHeight - X.clientHeight - X[A];break;case D:Y = X[F];break;case P:Y = X.offsetWidth - X.clientWidth - X[F];break;
+        }
         return Y + I;
     },getPixel:function(Y, X) {
         var a = null,b = Y[T][K],Z = Y[T][X];
@@ -2777,7 +2780,8 @@ YAHOO.util.Connect = {_msxml_progid:["Microsoft.XMLHTTP","MSXML2.XMLHTTP.3.0","M
             } else {
                 I.failure.apply(I.scope, [A]);
             }
-        }}
+        }
+        }
         this.failureEvent.fire(A);
         if (B.failureEvent) {
             B.failureEvent.fire(A);
@@ -3039,7 +3043,8 @@ YAHOO.util.Connect = {_msxml_progid:["Microsoft.XMLHTTP","MSXML2.XMLHTTP.3.0","M
                         M[V++] = this._submitElementValue;
                     }
                     Q = true;
-                }break;default:M[V++] = R + P;}
+                }break;default:M[V++] = R + P;
+                }
             }
         }
         this._isFormSubmit = true;
@@ -3470,7 +3475,8 @@ YAHOO.register("connection", YAHOO.util.Connect, {version:"2.8.0r4",build:"2446"
             oFullResponse = oRawResponse.responseXML;
         }oFullResponse = this.doBeforeParseData(oRequest, oFullResponse, oCallback);oParsedResponse = this.parseXMLData(oRequest, oFullResponse);break;case DS.TYPE_TEXT:if (xhr && lang.isString(oRawResponse.responseText)) {
             oFullResponse = oRawResponse.responseText;
-        }oFullResponse = this.doBeforeParseData(oRequest, oFullResponse, oCallback);oParsedResponse = this.parseTextData(oRequest, oFullResponse);break;default:oFullResponse = this.doBeforeParseData(oRequest, oFullResponse, oCallback);oParsedResponse = this.parseData(oRequest, oFullResponse);break;}
+        }oFullResponse = this.doBeforeParseData(oRequest, oFullResponse, oCallback);oParsedResponse = this.parseTextData(oRequest, oFullResponse);break;default:oFullResponse = this.doBeforeParseData(oRequest, oFullResponse, oCallback);oParsedResponse = this.parseData(oRequest, oFullResponse);break;
+        }
         oParsedResponse = oParsedResponse || {};
         if (!oParsedResponse.results) {
             oParsedResponse.results = [];
@@ -5297,7 +5303,8 @@ YAHOO.widget.AutoComplete.prototype._onContainerMouseover = function(A, C) {
         }C.itemMouseOverEvent.fire(C, D);break;case"div":if (YAHOO.util.Dom.hasClass(D, "yui-ac-container")) {
             C._bOverContainer = true;
             return;
-        }break;default:break;}
+        }break;default:break;
+        }
         D = D.parentNode;
         if (D) {
             B = D.nodeName.toLowerCase();
@@ -5315,7 +5322,8 @@ YAHOO.widget.AutoComplete.prototype._onContainerMouseout = function(A, C) {
         }C.itemMouseOutEvent.fire(C, D);break;case"ul":C._toggleHighlight(C._elCurListItem, "to");break;case"div":if (YAHOO.util.Dom.hasClass(D, "yui-ac-container")) {
             C._bOverContainer = false;
             return;
-        }break;default:break;}
+        }break;default:break;
+        }
         D = D.parentNode;
         if (D) {
             B = D.nodeName.toLowerCase();
@@ -5326,7 +5334,8 @@ YAHOO.widget.AutoComplete.prototype._onContainerClick = function(A, C) {
     var D = YAHOO.util.Event.getTarget(A);
     var B = D.nodeName.toLowerCase();
     while (D && (B != "table")) {
-        switch (B) {case"body":return;case"li":C._toggleHighlight(D, "to");C._selectItem(D);return;default:break;}
+        switch (B) {case"body":return;case"li":C._toggleHighlight(D, "to");C._selectItem(D);return;default:break;
+        }
         D = D.parentNode;
         if (D) {
             B = D.nodeName.toLowerCase();
@@ -5372,7 +5381,8 @@ YAHOO.widget.AutoComplete.prototype._onTextboxKeyDown = function(A, B) {
     }break;case 40:if (B._bContainerOpen) {
         YAHOO.util.Event.stopEvent(A);
         B._moveSelection(C);
-    }break;default:B._bItemSelected = false;B._toggleHighlight(B._elCurListItem, "from");B.textboxKeyEvent.fire(B, C);break;}
+    }break;default:B._bItemSelected = false;B._toggleHighlight(B._elCurListItem, "from");B.textboxKeyEvent.fire(B, C);break;
+    }
     if (C === 18) {
         B._enableIntervalDetection();
     }
@@ -5397,7 +5407,8 @@ YAHOO.widget.AutoComplete.prototype._onTextboxKeyPress = function(A, B) {
             } else {
                 B._toggleContainer(false);
             }
-        }break;default:break;}
+        }break;default:break;
+        }
     } else {
         if (C == 229) {
             B._enableIntervalDetection();
@@ -5516,7 +5527,9 @@ AutoCompleter.prototype = {
         var txt = '(Begin typing here)';
         $(basename).value = txt;
         Event.observe($(basename), 'click', function() {
-            $(basename).value = '';
+            if ($(basename).value == txt) {
+                $(basename).value = '';
+            }
             $(basename).removeClassName('pending-search');
         })
         Event.observe($(basename), 'blur', function() {
