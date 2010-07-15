@@ -21,7 +21,7 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            scheduleCrf.matchParticipants(sQuery, $('study').value, callMetaData);
+            scheduleCrf.matchParticipants(unescape(sQuery), $('study').value, callMetaData);
             return aResults;
         }
         function getStudies(sQuery) {
@@ -29,7 +29,7 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            scheduleCrf.matchStudies(sQuery, $('participant').value, callMetaData);
+            scheduleCrf.matchStudies(unescape(sQuery), $('participant').value, callMetaData);
             return aResults;
         }
 
@@ -38,18 +38,17 @@
             new YUIAutoCompleter('studyInput', getStudies, handleSelect);
             new YUIAutoCompleter('participantInput', getParticipants, handleSelect);
 
-            $('studyInput').value = '${command.study.shortTitle}';
-            $('participantInput').value = '${command.participant.displayName}';
-            if ($('participantInput').value != '') {
+            if ("${command.study.displayName}" != '') {
+                $('studyInput').value = "${command.study.displayName}";
+                $('studyInput').removeClassName('pending-search');
+            }
+            if ("${command.participant.displayName}" != '') {
+                $('participantInput').value = "${command.participant.displayName}";
                 $('participantInput').removeClassName('pending-search');
             }
 
-            if ($('studyInput').value != '') {
-                $('studyInput').removeClassName('pending-search');
-            }
-
-
-        });
+        })
+                ;
 
         function handleSelect(stype, args) {
             var ele = args[0];
