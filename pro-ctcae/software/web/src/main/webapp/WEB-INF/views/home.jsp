@@ -198,7 +198,7 @@
 <td width="80%" valign="top">
 
     <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
-        <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="true">
+        <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">
             <c:choose>
                 <c:when test="${empty numberofalerts}">
                     <div style="margin-left:15px;">
@@ -427,7 +427,7 @@
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Forms" collapsable="true" id="myforms"  collapsed="true">
+            <chrome:box title="My Forms" collapsable="true" id="myforms"  collapsed="false">
                 <div id="alertsdiv">
                     <table class="widget" width="100%" border="0">
                         <tr>
@@ -477,7 +477,7 @@
 <tr>
     <td>
         <c:if test="${studyLevelRole}">
-            <chrome:box title="My Studies" collapsable="true" id="mystudies"  collapsed="true">
+            <chrome:box title="My Studies" collapsable="true" id="mystudies"  collapsed="false">
                 <div id="alertsdiv">
                     <table class="widget">
                         <tr>
@@ -514,7 +514,7 @@
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Overdue forms" collapsable="true" id="overdueforms" collapsed="true">
+            <chrome:box title="Overdue forms" collapsable="true" id="overdueforms" collapsed="false">
                 <c:choose>
                     <c:when test="${empty overdue}">
                         <div style="margin-left:15px;">
@@ -595,7 +595,7 @@
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming"  collapsed="true">
+            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming"  collapsed="false">
                 <c:choose>
                     <c:when test="${empty overdue}">
                         <div style="margin-left:15px;">
