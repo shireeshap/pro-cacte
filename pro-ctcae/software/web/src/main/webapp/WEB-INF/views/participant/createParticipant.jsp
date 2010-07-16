@@ -210,7 +210,7 @@
                                             required="true" maxLength="${maxLength}" size="${maxLength}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
-                                                displayName="participant.label.middle_name" maxLength="${maxLength}"/>
+                                                displayName="participant.label.middle_name" maxLength="${maxLength}" size="${maxLength}"/>
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
