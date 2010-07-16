@@ -270,7 +270,7 @@
             <td colspan="5"/>
             &nbsp;</tr>
         <tr>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Participant Study Identifier"
+            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Participant study identifier"
                                  name="identifier"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Last name" name="lastName"/>
             <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="First name" name="firstName"/>
