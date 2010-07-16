@@ -36,8 +36,11 @@
 
             var _string = "";
             for (i = 3; i < sz; i++) {
-                var _length = TASKS[index][i][0].length;
-                _string += "<a class='" + ((sz - 3 > 4) ? "gt4" : "lte4") + " " + (_length > 21 ? "gt18" : "") + "' href='" + TASKS[index][i][1] + "'><img class='" + (_length > 21 ? "imagegt18" : "") + "' alt='' src='" + TASKS[index][i][2] + "'/><span class='spangt18'>" + TASKS[index][i][0] + "</span></a>";
+                try {
+                    var _length = TASKS[index][i][0].length;
+                    _string += "<a class='" + ((sz - 3 > 4) ? "gt4" : "lte4") + " " + (_length > 21 ? "gt18" : "") + "' href='" + TASKS[index][i][1] + "'><img class='" + (_length > 21 ? "imagegt18" : "") + "' alt='' src='" + TASKS[index][i][2] + "'/><span class='spangt18'>" + TASKS[index][i][0] + "</span></a>";
+                } catch(err) {
+                } 
             }
             $('floatingTaskbar').innerHTML = _string;
             $('floatingTaskbar').show();
@@ -70,19 +73,19 @@
                 element.addClassName("fthover");
             }, 200);
         });
-                Event.observe(element, "mouseout", function() {
-                    ft.hidden = true;
-                    setTimeout("ft.checkSubmenu()", ft.ms);
-                });
+        Event.observe(element, "mouseout", function() {
+            ft.hidden = true;
+            setTimeout("ft.checkSubmenu()", ft.ms);
+        });
     });
 
     Event.observe($('floatingTaskbar'), "mouseover", function() {
         ft.hidden = false;
         clearTimeout(timer);
     });
-        Event.observe($('floatingTaskbar'), "mouseout", function() {
-            ft.hidden = true;
-            setTimeout("ft.checkSubmenu()", ft.ms);
-        });
+    Event.observe($('floatingTaskbar'), "mouseout", function() {
+        ft.hidden = true;
+        setTimeout("ft.checkSubmenu()", ft.ms);
+    });
 
 </script>
