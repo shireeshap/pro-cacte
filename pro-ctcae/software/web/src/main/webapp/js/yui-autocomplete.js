@@ -5547,7 +5547,7 @@ var YUIAutoCompleter = Class.create();
 YUIAutoCompleter.prototype = {
     initialize: function(inputName, populator, afterSelect) {
         var oDS = new YAHOO.widget.DS_JSFunction(populator);
-        oDS.maxCacheEntries = 50;
+        oDS.maxCacheEntries = 0;
         var formatResult = function(oResultData, sQuery, sResultMatch) {
             var query = sQuery.toLowerCase(),
                     displayName = oResultData.displayName,
