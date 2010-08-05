@@ -780,9 +780,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
         </div>
     </div>
+
     <tags:formSettings crf="${command.crf}"></tags:formSettings>
 
-
+     <tags:instructions code="form.label.title.instruction"/>
 </chrome:division>
 <chrome:division title="Questions">
 <div id="displayOptionsMenu" class="hidden">
