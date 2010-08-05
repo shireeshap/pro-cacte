@@ -222,7 +222,7 @@ public class Participant extends Person {
 
             this.displayName = name.toString();
         }
-        return displayName;
+        return displayName.replace(")(", ", ");
     }
 
     @Override
