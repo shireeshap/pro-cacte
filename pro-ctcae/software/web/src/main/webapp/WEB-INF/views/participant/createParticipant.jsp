@@ -136,11 +136,11 @@
 
     </style>
     <!--[if IE]>
-        <style>
-            div.row div.value {
-                margin-left:0;
-            }
-        </style>
+    <style>
+        div.row div.value {
+            margin-left: 0;
+        }
+    </style>
     <![endif]-->
 </head>
 <body>
@@ -210,7 +210,8 @@
                                             required="true" maxLength="${maxLength}" size="${maxLength}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
-                                                displayName="participant.label.middle_name" maxLength="${maxLength}" size="${maxLength}"/>
+                                                displayName="participant.label.middle_name" maxLength="${maxLength}"
+                                                size="${maxLength}"/>
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
@@ -232,23 +233,25 @@
                    </tr>
                </table>
            </chrome:division>
-           <chrome:division title="participant.label.contact_information">
+        <c:if test="${command.mode eq 'N'}">
+            <chrome:division title="participant.label.contact_information">
 
-               <table border="0" style="width:100%">
-                   <tr>
-                       <td width="50%">
-                           <tags:renderEmail propertyName="participant.emailAddress"
-                                             displayName="participant.label.email_address"
-                                             required="false" size="35"/>
-                       </td>
-                       <td width="50%">
-                           <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
-                                                  displayName="participant.label.phone"
-                                                  required="${required}"/>
-                       </td>
-                   </tr>
-               </table>
-           </chrome:division>
+                <table border="0" style="width:100%">
+                    <tr>
+                        <td width="50%">
+                            <tags:renderEmail propertyName="participant.emailAddress"
+                                              displayName="participant.label.email_address"
+                                              required="false" size="35"/>
+                        </td>
+                        <td width="50%">
+                            <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
+                                                   displayName="participant.label.phone"
+                                                   required="${required}"/>
+                        </td>
+                    </tr>
+                </table>
+            </chrome:division>
+        </c:if>
        <chrome:division title="participant.label.logininfo">
            <table cellpadding="0" cellspacing="0">
                <tr>
