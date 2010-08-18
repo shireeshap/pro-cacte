@@ -37,6 +37,10 @@ public class DisplayQuestion {
         return question.getQuestionSymptom();
     }
 
+    public String getSymptomGender() {
+        return question.getSymptomGender();
+    }
+
     public void setQuestion(Question question) {
         this.question = question;
     }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //
+
 /**
  * The Class ProCtcTerm.
  *
@@ -35,6 +36,9 @@ public class ProCtcTerm extends BasePersistable {
      */
     @Column(name = "term", nullable = false)
     private String term;
+
+    @Column(name = "gender", nullable = false)
+    private String gender;
 
     @Column(name = "core", nullable = true)
     private Boolean core;
@@ -72,6 +76,7 @@ public class ProCtcTerm extends BasePersistable {
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
     */
+
     public Integer getId() {
         return id;
     }
@@ -79,6 +84,7 @@ public class ProCtcTerm extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
      */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -143,10 +149,18 @@ public class ProCtcTerm extends BasePersistable {
         }
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    * @see java.lang.Object#toString()
+    */
+
     @Override
     public String toString() {
         return term;
@@ -173,6 +187,7 @@ public class ProCtcTerm extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProCtcTerm)) return false;
@@ -189,6 +204,7 @@ public class ProCtcTerm extends BasePersistable {
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
+
     public int hashCode() {
         int result;
         result = (term != null ? term.hashCode() : 0);

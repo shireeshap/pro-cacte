@@ -198,6 +198,7 @@
            </chrome:division>
 
            <chrome:division title="participant.label.demographic_information">
+
                <c:if test="${command.mode eq 'Y'}">
                    <tags:instructions code="participant.create.deidentified"/>
                </c:if>
@@ -223,7 +224,7 @@
                                                 displayName="participant.label.date_of_birth" required="true"/>
                            </c:if>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="${required}" options="${genders}"/>
+                                              required="${required}" options="${genders}"/>   
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier"
                                                 displayName="participant.label.participant_identifier"

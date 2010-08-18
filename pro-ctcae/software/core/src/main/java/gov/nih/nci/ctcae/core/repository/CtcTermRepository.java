@@ -26,11 +26,9 @@ public class CtcTermRepository implements Repository<CtcTerm, CtcQuery> {
 
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public CtcTerm save(CtcTerm ctcTerm) {
-
-        throw new CtcAeSystemException("save is not supported for CtcTerm");
-
-
+        return genericRepository.save(ctcTerm);
     }
 
     public void delete(CtcTerm t) {

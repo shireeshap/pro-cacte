@@ -54,15 +54,17 @@ public class SubmitFormCommand implements Serializable {
     }
 
     private void generateDisplayQuestionsMap() {
-
         for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
+            String symptomGender = item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getGender();
+            if(symptomGender!=null && (symptomGender.equals(getParticipantGender()) || symptomGender.equals("both") )) {
             DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
             displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
             displayQuestion.setStudyParticipantCrfItem(item);
             displayQuestion.setMandatory(item.getCrfPageItem().getResponseRequired());
+            }
         }
         for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-            addParticipantAddedQuestionToSymptomMap(participantQuestion);
+            addParticipantAddedQuestionToSymptomMap(participantQuestion);          
         }
 
         int position = 1;
@@ -83,6 +85,10 @@ public class SubmitFormCommand implements Serializable {
         displayQuestion.setParticipantAdded(true);
         displayQuestion.setStudyParticipantCrfScheduleAddedQuestion(participantQuestion);
     }
+
+   public String getParticipantGender() {
+       return getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender().toLowerCase();
+   }
 
     private int addQuestionToDisplayMap(int position, Question question) {
         String symptom;

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,11 +18,13 @@ import gov.nih.nci.ctcae.core.csv.loader.UpdateProCtcTermsImporterV4;
 public class UpdateProCtcTermController extends AbstractController {
 
     ProCtcQuestionRepository proCtcQuestionRepository;
+    CtcTermRepository ctcTermRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         UpdateProCtcTermsImporterV4 updateProCtcTerms = new UpdateProCtcTermsImporterV4();
         updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
+        updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
         updateProCtcTerms.updateProCtcTerms();
         System.out.println("ProCtcTerms Updated");
         
@@ -30,5 +33,9 @@ public class UpdateProCtcTermController extends AbstractController {
 
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
+    }
+
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
     }
 }

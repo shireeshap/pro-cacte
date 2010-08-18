@@ -639,6 +639,7 @@
     </bean>
     <bean name="/updateProCtcTerms" id="updateProCtcTerms" class="gov.nih.nci.ctcae.web.UpdateProCtcTermController">
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
     </bean>
 
     <bean name="applicationListener" class="gov.nih.nci.ctcae.web.security.ApplicationListener">

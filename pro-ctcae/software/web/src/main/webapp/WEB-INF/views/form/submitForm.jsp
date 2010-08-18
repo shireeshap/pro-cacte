@@ -122,6 +122,7 @@
     </div>
     <c:set var="showConditionalQuestions" value="false"/>
     <c:forEach items="${command.currentPageQuestions}" var="displayQuestion" varStatus="varStatus">
+
         <c:if test="${varStatus.index == 0 and displayQuestion.selectedValidValue.displayOrder > 0}">
             <c:set var="showConditionalQuestions" value="true"/>
         </c:if>
@@ -138,7 +139,7 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${displayQuestion.questionText}?<br/>
+                                ${displayQuestion.questionText}?<br/> 
                         </div>
                     </td>
                 </tr>
@@ -156,6 +157,7 @@
                 </tr>
             </table>
         </tags:formbuilderBox>
+
     </c:forEach>
     <table width=" 100%" style="margin-top:10px;">
         <input type="hidden" name="direction"/>

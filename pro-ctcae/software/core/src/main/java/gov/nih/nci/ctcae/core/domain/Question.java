@@ -34,6 +34,13 @@ public abstract class Question extends BasePersistable {
 
     }
 
+    public String getSymptomGender() {
+        if (this instanceof ProCtcQuestion) {
+            return ((ProCtcQuestion) this).getProCtcTerm().getGender();
+        }
+        return null;
+    }
+
     public ProCtcQuestionType getQuestionType() {
         if (this instanceof ProCtcQuestion) {
             return ((ProCtcQuestion) this).getProCtcQuestionType();
