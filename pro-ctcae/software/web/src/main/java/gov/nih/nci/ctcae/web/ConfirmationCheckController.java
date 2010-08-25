@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -10,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //
+
 /**
  * The Class ConfirmationCheckController.
  *
@@ -17,6 +21,8 @@ import java.util.Map;
  * @since Oct 21, 2008
  */
 public class ConfirmationCheckController extends AbstractController {
+
+    protected ProCtcTermRepository proCtcTermRepository;
 
     /**
      * The Constant DELETE_CRF_CONFIRMATION_TYPE.
@@ -33,14 +39,21 @@ public class ConfirmationCheckController extends AbstractController {
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
     */
+
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = null;
         String confirmationType = request.getParameter("confirmationType");
+        Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proTermId");
+        String description = "";
+        if (proCtcTermId != null){
+        ProCtcTerm proCtcTerm = proCtcTermRepository.findById(proCtcTermId);
+            description = proCtcTerm.getTerm();
+        }
         if (StringUtils.equals(confirmationType, DELETE_CRF_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteCrfConfirmationCheck");
             Map map = new HashMap();
             map.put("selectedCrfPageNumber", request.getParameter("selectedCrfPageNumber"));
-            map.put("crfPageDescription", request.getParameter("description"));
+            map.put("crfPageDescription", description);
             modelAndView.addAllObjects(map);
         } else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteQuestionConfirmationCheck");
@@ -61,6 +74,9 @@ public class ConfirmationCheckController extends AbstractController {
 
     }
 
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
 
     /**
      * Instantiates a new confirmation check controller.

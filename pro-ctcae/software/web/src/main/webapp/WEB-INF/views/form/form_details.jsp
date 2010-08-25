@@ -64,7 +64,7 @@
     }
     function showQuestionInQuestionBank(questionId) {
         $('question_' + questionId).show();
-        
+
     }
 
     function postProcessFormChanges() {
@@ -392,9 +392,9 @@ function showCrfItemProperties(selectedQuestionId) {
     //    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
-function deleteCrfPage(selectedCrfPageNumber, crfPageDescription) {
+function deleteCrfPage(selectedCrfPageNumber, proTermId) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber + "&description=" + crfPageDescription,
+        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber + "&proTermId=" + proTermId,
         onComplete:function(transport) {
             var isAnyConditionalTriggeringQuestion = false;
             var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
@@ -752,9 +752,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     #questionBank, .questionProperties, #formSettings, .leftBox {
         margin-top: -1px;
     }
-	div.row div#hackThisForIE {
-	margin-left:12px;
-	}
+
+    div.row div#hackThisForIE {
+        margin-left: 12px;
+    }
 </style>
 <![endif]-->
 </head>
@@ -763,162 +764,164 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 	   <div style="float:right; margin-right:10px;"><tags:button type="submit" icon="Save & Continue" color="green"
-                                                              id="flow-next"
-                                                              value="Save & Continue"/></div>
+                                                                 id="flow-next"
+                                                                 value="Save & Continue"/></div>
 	<chrome:division title="Basic Details">
 
- 
-    <div class="row">
-        <div class="label"><spring:message code="form.label.study"/>:</div>
-        <div class="value">${command.crf.study.displayName}</div>
-    </div>
-    <div class="row">
-        <div class="label" style="margin-top:6px;">
-            <tags:requiredIndicator/><spring:message code="form.label.title"/>
-        </div>
-        <div class="value" id="hackThisForIE">
-            <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
-        </div>
-    </div>
 
-    <tags:formSettings crf="${command.crf}"></tags:formSettings>
+        <div class="row">
+            <div class="label"><spring:message code="form.label.study"/>:</div>
+            <div class="value">${command.crf.study.displayName}</div>
+        </div>
+        <div class="row">
+            <div class="label" style="margin-top:6px;">
+                <tags:requiredIndicator/><spring:message code="form.label.title"/>
+            </div>
+            <div class="value" id="hackThisForIE">
+                <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
+            </div>
+        </div>
 
-     <tags:instructions code="form.label.title.instruction"/>
-</chrome:division>
+        <tags:formSettings crf="${command.crf}"></tags:formSettings>
+
+        <tags:instructions code="form.label.title.instruction"/>
+    </chrome:division>
 <chrome:division title="Questions">
-<div id="displayOptionsMenu" class="hidden">
-    <ul>
-        <li>
-            <a href="#" onclick="showHideCtcTerm('noctcterm','Showing participant term only')"
-               id="a_noctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck participantOnly-check"
-                                      style="visibility:hidden;"></span>Participant term only</a>
-        </li>
-        <li>
-            <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE v4 / MedDRA term only')"
-               id="a_onlyctcterm"><span
-                    class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check"
-                    style="visibility:hidden;"></span>CTCAE v4 / MedDRA term only</a>
-        </li>
-        <li>
-            <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')"
-               id="a_append"><span class="ui-icon ui-icon-check displayPrefsCheck participantFirst-check"
-                                   style="visibility:hidden;"></span>Both (participant term first)</a>
-        </li>
-        <li>
-            <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE v4/MedDRA term first)')"
-               id="a_prepend"><span
-                    class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE v4 / MedDRA term
-                first)</a>
-        </li>
-    </ul>
-</div>
-<table id="formbuilderTable" border="0">
-    <tr>
-        <td id="left">
-            <ul id="form-tabs" class="tabs">
-                <li>
-                    <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
-                        <tags:message code='form.add_question'/>
-                        |</a>
-                </li>
-                <li class="">
-                    <a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
-                        <tags:message code="form.question_settings"/> |</a>
-                </li>
+    <div id="displayOptionsMenu" class="hidden">
+        <ul>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('noctcterm','Showing participant term only')"
+                   id="a_noctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck participantOnly-check"
+                                          style="visibility:hidden;"></span>Participant term only</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE v4 / MedDRA term only')"
+                   id="a_onlyctcterm"><span
+                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check"
+                        style="visibility:hidden;"></span>CTCAE v4 / MedDRA term only</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')"
+                   id="a_append"><span class="ui-icon ui-icon-check displayPrefsCheck participantFirst-check"
+                                       style="visibility:hidden;"></span>Both (participant term first)</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE v4/MedDRA term first)')"
+                   id="a_prepend"><span
+                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE v4 / MedDRA
+                    term
+                    first)</a>
+            </li>
+        </ul>
+    </div>
+    <table id="formbuilderTable" border="0">
+        <tr>
+            <td id="left">
+                <ul id="form-tabs" class="tabs">
+                    <li>
+                        <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
+                            <tags:message code='form.add_question'/>
+                            |</a>
+                    </li>
+                    <li class="">
+                        <a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
+                            <tags:message code="form.question_settings"/> |</a>
+                    </li>
 
-            </ul>
+                </ul>
 
 
-            <div id="questionBank" class="leftBox">
-                <tags:instructions code="form.label.question_bank.instructions"/>
-				<div>
-					<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-               id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
-				</div>
-                <c:if test="${advance}">
-                    <a id="newPageBtn" href="javascript:addCrfPage()"><img
-                            src="<tags:imageUrl name="blue/new_page_button.png" />"
-                            alt="New Page"/></a></c:if>
-                <ul class="tree">
-                    <c:set var="add" value="${advance}"/>
-                    <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
+                <div id="questionBank" class="leftBox">
+                    <tags:instructions code="form.label.question_bank.instructions"/>
+                    <div>
+                        <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                           id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display
+                            Preferences</a>
+                    </div>
+                    <c:if test="${advance}">
+                        <a id="newPageBtn" href="javascript:addCrfPage()"><img
+                                src="<tags:imageUrl name="blue/new_page_button.png" />"
+                                alt="New Page"/></a></c:if>
+                    <ul class="tree">
+                        <c:set var="add" value="${advance}"/>
+                        <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
-                        <li>${ctcCategory.key.name}<a
-                                href="javascript:addCtcCategory(${ctcCategory.key.id})"
-                                id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
-                            <img src="/proctcae/images/blue/select_question_btn.png"
-                                 alt="Add" onclick=""/></a>
-                            <ul>
-                                <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-                                    <li class="closed">
-                                        <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
+                            <li>${ctcCategory.key.name}<a
+                                    href="javascript:addCtcCategory(${ctcCategory.key.id})"
+                                    id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
+                                <img src="/proctcae/images/blue/select_question_btn.png"
+                                     alt="Add" onclick=""/></a>
+                                <ul>
+                                    <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
+                                        <li class="closed">
+                                            <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
                                                 <span class="ctctermmiddle"
                                                       style="display:none">${proCtcTerm.term}</span>
                                                 <span class="ctctermright"
                                                       style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
                                                 <span class="ctctermonly"
                                                       style="display:none">${proCtcTerm.ctcTerm.term}</span>
-                                        <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
+                                            <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
-                                        <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                           id="proCtcTerm_${proCtcTerm.id}"
-                                           class="addallbtn ctcCategory_${ctcCategory.key.id}">
-                                            <img src="/proctcae/images/blue/select_question_btn.png"
-                                                 alt="Add" onclick=""/></a>
+                                            <a href="javascript:addProctcTerm(${proCtcTerm.id})"
+                                               id="proCtcTerm_${proCtcTerm.id}"
+                                               class="addallbtn ctcCategory_${ctcCategory.key.id}">
+                                                <img src="/proctcae/images/blue/select_question_btn.png"
+                                                     alt="Add" onclick=""/></a>
 
 
-                                        <ul>
+                                            <ul>
 
-                                            <c:forEach items="${proCtcTerm.proCtcQuestions}"
-                                                       var="proCtcQuestion">
+                                                <c:forEach items="${proCtcTerm.proCtcQuestions}"
+                                                           var="proCtcQuestion">
 
-                                                <li id="question_${proCtcQuestion.id}"
-                                                    name="question_forterm_${proCtcTerm.id}">
-                                                    <tags:formbuilderBox>
-                                                        <tags:formbuilderBoxControls add="${add}"
-                                                                                     proCtcQuestionId="${proCtcQuestion.id}"
-                                                                                     proCtcTermId="${proCtcTerm.id}"/>
-                                                        ${proCtcQuestion.questionText}
-                                                        <ul>
-                                                            <c:forEach items="${proCtcQuestion.validValues}"
-                                                                       var="proCtcValidValue">
-                                                                <li>${proCtcValidValue.value}</li>
-                                                            </c:forEach>
-                                                        </ul>
-                                                    </tags:formbuilderBox>
-                                                </li>
+                                                    <li id="question_${proCtcQuestion.id}"
+                                                        name="question_forterm_${proCtcTerm.id}">
+                                                        <tags:formbuilderBox>
+                                                            <tags:formbuilderBoxControls add="${add}"
+                                                                                         proCtcQuestionId="${proCtcQuestion.id}"
+                                                                                         proCtcTermId="${proCtcTerm.id}"/>
+                                                            ${proCtcQuestion.questionText}
+                                                            <ul>
+                                                                <c:forEach items="${proCtcQuestion.validValues}"
+                                                                           var="proCtcValidValue">
+                                                                    <li>${proCtcValidValue.value}</li>
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </tags:formbuilderBox>
+                                                    </li>
 
-                                            </c:forEach>
-                                        </ul>
-                                    </li>
-                                </c:forEach>
+                                                </c:forEach>
+                                            </ul>
+                                        </li>
+                                    </c:forEach>
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
 
-                    </c:forEach>
-                </ul>
+                        </c:forEach>
+                    </ul>
 
-            </div>
+                </div>
 
-            <div id="questionProperties">
-                <div id="questionProperties0" style="display:none;"></div>
-            </div>
+                <div id="questionProperties">
+                    <div id="questionProperties0" style="display:none;"></div>
+                </div>
 
-        </td>
-        <td id="right">
-            <table style="border-collapse:collapse; width:100%;">
-                <tr style="height:5px;" height="5">
-                    <td id="formbuilderTable-TL"></td>
-                    <td id="formbuilderTable-T">
-                        <div style="height:31px;visibility:hidden;">spacer</div>
-                    </td>
-                    <td id="formbuilderTable-TR"></td>
-                </tr>
-                <tr style="height:750px;">
-                    <td id="formbuilderTable-L"></td>
-                    <td id="formbuilderTable-M">
-                        <div style="position:relative; top:-20px; left:-20px;">
+            </td>
+            <td id="right">
+                <table style="border-collapse:collapse; width:100%;">
+                    <tr style="height:5px;" height="5">
+                        <td id="formbuilderTable-TL"></td>
+                        <td id="formbuilderTable-T">
+                            <div style="height:31px;visibility:hidden;">spacer</div>
+                        </td>
+                        <td id="formbuilderTable-TR"></td>
+                    </tr>
+                    <tr style="height:750px;">
+                        <td id="formbuilderTable-L"></td>
+                        <td id="formbuilderTable-M">
+                            <div style="position:relative; top:-20px; left:-20px;">
                         <span class="formbuildersubHeader">There <span id="plural1">are</span>
                             <span id="totalQuestionDivision">
                                 <c:choose>
@@ -933,37 +936,37 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                             question<span id="plural2">s</span> in this form.</span>
 
 
-                            <form:hidden path="questionsIds" id="questionsIds"/>
-                            <form:hidden path="questionIdToRemove" id="questionIdToRemove"/>
+                                <form:hidden path="questionsIds" id="questionsIds"/>
+                                <form:hidden path="questionIdToRemove" id="questionIdToRemove"/>
 
-                            <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
-                            <form:hidden path="crfPageNumberToRemove" id="crfPageNumberToRemove"/>
+                                <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
+                                <form:hidden path="crfPageNumberToRemove" id="crfPageNumberToRemove"/>
 
-                            <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                            <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
-                                       var="selectedCrfPage"
-                                       varStatus="status">
-                                <tags:oneCrfPage crfPage="${selectedCrfPage}"
-                                                 crfPageNumber="${status.index}"
-                                                 advance="${command.crf.advance}">
-                                </tags:oneCrfPage>
+                                <input type="hidden" id="totalQuestions" value="${totalQuestions}">
+                                <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
+                                           var="selectedCrfPage"
+                                           varStatus="status">
+                                    <tags:oneCrfPage crfPage="${selectedCrfPage}"
+                                                     crfPageNumber="${status.index}"
+                                                     advance="${command.crf.advance}">
+                                    </tags:oneCrfPage>
 
-                            </c:forEach>
+                                </c:forEach>
 
-                            <div id="hiddenCrfPageDiv"></div>
-                        </div>
-                    </td>
-                    <td id="formbuilderTable-R"></td>
-                </tr>
-                <tr>
-                    <td id="formbuilderTable-BL"></td>
-                    <td id="formbuilderTable-B"></td>
-                    <td id="formbuilderTable-BR"></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+                                <div id="hiddenCrfPageDiv"></div>
+                            </div>
+                        </td>
+                        <td id="formbuilderTable-R"></td>
+                    </tr>
+                    <tr>
+                        <td id="formbuilderTable-BL"></td>
+                        <td id="formbuilderTable-B"></td>
+                        <td id="formbuilderTable-BR"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </chrome:division>
 </jsp:attribute>
 </tags:tabForm>

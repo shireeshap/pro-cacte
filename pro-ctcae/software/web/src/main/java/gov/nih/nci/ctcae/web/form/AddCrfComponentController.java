@@ -48,6 +48,7 @@ public class AddCrfComponentController extends AbstractCrfController {
                     modelAndView = new ModelAndView("form/ajax/oneCrfPageSection");
                     CRFPage crfPage = (CRFPage) object;
                     crfPage.setDescription(proCtcTerm.getTerm());
+                    crfPage.setProCtcTerm(proCtcTerm);
                     modelAndView.addObject("crfPage", crfPage);
 
                 } else {
@@ -87,6 +88,7 @@ public class AddCrfComponentController extends AbstractCrfController {
                     CRFPage crfPage = (CRFPage) object;
                     addedCrfPages.add(crfPage);
                     crfPage.setDescription(proCtcTerm.getTerm());
+                    crfPage.setProCtcTerm(proCtcTerm);
 
                 } else {
                     addedCrfPageItems.addAll((List<CrfPageItem>) object);

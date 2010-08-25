@@ -212,6 +212,7 @@
 
     <bean name="/confirmationCheck" id="confirmationController"
           class="gov.nih.nci.ctcae.web.ConfirmationCheckController">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
     <bean name="/form/submit" id="submitFormController"
           class="gov.nih.nci.ctcae.web.form.SubmitFormController">

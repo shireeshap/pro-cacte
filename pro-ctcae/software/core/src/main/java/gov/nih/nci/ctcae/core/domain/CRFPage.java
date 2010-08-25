@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 //
+
 /**
  * The Class CRFPage.
  *
@@ -56,6 +57,10 @@ public class CRFPage extends BaseVersionable {
      */
     @Column(name = "page_number", nullable = false)
     private Integer pageNumber = 0;
+
+    @JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    ProCtcTerm proCtcTerm;
 
     /**
      * The crf page items.
@@ -102,6 +107,7 @@ public class CRFPage extends BaseVersionable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
      */
+
     public Integer getId() {
         return id;
     }
@@ -109,6 +115,7 @@ public class CRFPage extends BaseVersionable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
      */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -149,6 +156,13 @@ public class CRFPage extends BaseVersionable {
         this.description = description;
     }
 
+    public ProCtcTerm getProCtcTerm() {
+        return proCtcTerm;
+    }
+
+    public void setProCtcTerm(ProCtcTerm proCtcTerm) {
+        this.proCtcTerm = proCtcTerm;
+    }
 
     /**
      * Gets the crf page items.
