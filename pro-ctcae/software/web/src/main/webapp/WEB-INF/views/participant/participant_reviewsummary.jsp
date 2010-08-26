@@ -106,6 +106,7 @@
         </tr>
     </table>
 </chrome:division>
+<c:if test="${command.mode eq 'N'}">
 <chrome:division title="participant.label.contact_information" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
 
@@ -126,6 +127,7 @@
         </tr>
     </table>
 </chrome:division>
+</c:if>
 <chrome:division title="participant.label.logininfo" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
     <table cellpadding="0" cellspacing="0">
