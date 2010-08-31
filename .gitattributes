@@ -488,6 +488,9 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/034_delete_proctc_
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/035_update_crf_status.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/036_update_proctc_terms.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/037_update_crf_page.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/038_insert_ctc_term.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/001_update_valid_values.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/002_delete_pro_ctc_term.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -803,6 +806,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckCont
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/DeleteProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text

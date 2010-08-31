@@ -19,29 +19,21 @@ import java.util.List;
 /**
  * Created by IntelliJ IDEA.
  * User: Harsh
- * Date: Jan 7, 2010
- * Time: 2:45:59 PM
+ * Date: Aug 27, 2010
+ * Time: 4:48:34 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoadProCtcTermController extends AbstractController {
-
+public class DeleteProCtcTermController extends AbstractController {
     ProCtcTermRepository proCtcTermRepository;
-    CtcTermRepository ctcTermRepository;
-    ProCtcRepository proCtcRepository;
 
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+       protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
+            String proCtcTerm = request.getParameter("proCtcTerm");
             ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-            Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
-            System.out.println("ProCtcTerms Found = " + proCtcTerms.size());
-            if (proCtcTerms.size() == 0) {
-                System.out.println("Loading ProCtcTerms");
-                ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
-                csvImporter.setCtcTermRepository(ctcTermRepository);
-                ProCtc proctc = csvImporter.loadProCtcTerms(false);
-                proCtcRepository.save(proctc);
-                System.out.println("ProCtcTerms Loaded");
-
+            proCtcTermQuery.filterByTerm(proCtcTerm);
+            List<ProCtcTerm> proCtcTerms = (List)proCtcTermRepository.find(proCtcTermQuery);
+            if (proCtcTerms.size() > 0) {
+                proCtcTermRepository.delete(proCtcTerms.get(0));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -55,13 +47,7 @@ public class LoadProCtcTermController extends AbstractController {
         this.proCtcTermRepository = proCtcTermRepository;
     }
 
-    @Required
-    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-        this.ctcTermRepository = ctcTermRepository;
-    }
 
-    @Required
-    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-        this.proCtcRepository = proCtcRepository;
-    }
+
+
 }

@@ -28,8 +28,8 @@ public class ProCtcRepository implements Repository<ProCtc, ProCtcQuery> {
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-
     public ProCtc save(ProCtc proCtc) {
+//        System.out.println(proCtc);
         return genericRepository.save(proCtc);
 
 
@@ -56,4 +56,5 @@ public class ProCtcRepository implements Repository<ProCtc, ProCtcQuery> {
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
 }

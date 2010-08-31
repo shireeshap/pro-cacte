@@ -13,6 +13,15 @@ public class CsvLine {
     String questionText;
     String proctcValidValues;
     Boolean coreItem;
+    String gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public Boolean isCoreItem() {
         return coreItem;

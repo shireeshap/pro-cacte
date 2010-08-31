@@ -641,6 +641,12 @@
     <bean name="/updateProCtcTerms" id="updateProCtcTerms" class="gov.nih.nci.ctcae.web.UpdateProCtcTermController">
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcRepository" ref="proCtcRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
+
+    <bean name="/deleteProCtcTerm" id="deleteProCtcTerm" class="gov.nih.nci.ctcae.web.DeleteProCtcTermController">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
 
     <bean name="applicationListener" class="gov.nih.nci.ctcae.web.security.ApplicationListener">

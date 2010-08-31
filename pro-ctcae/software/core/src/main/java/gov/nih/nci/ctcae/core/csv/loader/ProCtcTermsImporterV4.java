@@ -46,7 +46,6 @@ public class ProCtcTermsImporterV4 {
             reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
         }
         reader.readHeaders();
-        HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
         String oldProCtcTerm = "";
         int displayOrderI = 0;
 
@@ -91,10 +90,17 @@ public class ProCtcTermsImporterV4 {
             System.out.println(csvLine);
 
         }
-
         ProCtc proCtc = new ProCtc();
+        loadProCtcHelper(hm, proCtc);
         proCtc.setProCtcVersion("4.0");
         proCtc.setReleaseDate(new Date());
+        return proCtc;
+    }
+
+    public ProCtc loadProCtcHelper(HashMap hm1, ProCtc proCtc) {
+        HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
+        HashMap<String, List<CsvLine>> hm = hm1;
+
 
         for (String hmKey : hm.keySet()) {
             List<CsvLine> list = hm.get(hmKey);
@@ -117,15 +123,21 @@ public class ProCtcTermsImporterV4 {
             if (objCtcTerm != null) {
                 ProCtcTerm objProCtcTerm = new ProCtcTerm();
                 objProCtcTerm.setTerm(proCtcTerm);
-                proCtc.addProCtcTerm(objProCtcTerm);
                 objProCtcTerm.setCtcTerm(objCtcTerm);
+                objProCtcTerm.setProCtc(proCtc);
+                proCtc.addProCtcTerm(objProCtcTerm);
+
                 for (CsvLine hmValue : list) {
                     ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
                     proCtcQuestion.setQuestionText(hmValue.getQuestionText());
                     proCtcQuestion.setDisplayOrder(new Integer(hmValue.getDisplayOrder()));
                     proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.getByDisplayName(hmValue.getQuestionType()));
+                    proCtcQuestion.setProCtcTerm(objProCtcTerm);
                     objProCtcTerm.addProCtcQuestion(proCtcQuestion);
                     objProCtcTerm.setCore(hmValue.isCoreItem());
+                    if (hmValue.getGender() != null) {
+                        objProCtcTerm.setGender(hmValue.getGender());
+                    }
                     StringTokenizer st1 = new StringTokenizer(hmValue.getProctcValidValues(), "/");
                     int j = 0;
                     while (st1.hasMoreTokens()) {

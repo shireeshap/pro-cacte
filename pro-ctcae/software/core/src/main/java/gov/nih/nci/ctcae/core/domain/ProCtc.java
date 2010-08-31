@@ -48,7 +48,6 @@ public class ProCtc extends BasePersistable {
      */
     @OneToMany(mappedBy = "proCtc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
     private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
     /**

@@ -37,7 +37,7 @@ public class ProCtcTerm extends BasePersistable {
     @Column(name = "term", nullable = false)
     private String term;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender", nullable = true)
     private String gender;
 
     @Column(name = "core", nullable = true)
