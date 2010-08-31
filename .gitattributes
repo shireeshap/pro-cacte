@@ -490,7 +490,6 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/036_update_proctc_
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/037_update_crf_page.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/038_insert_ctc_term.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/001_update_valid_values.groovy -text
-pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/002_delete_pro_ctc_term.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
