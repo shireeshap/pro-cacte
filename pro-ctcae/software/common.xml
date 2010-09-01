@@ -205,13 +205,18 @@
               Download ivy if one is not available.
               =======================================================-->
     <target name="download-ivy" unless="ivy.available">
+        <!--<property name="ivy.jar.dir" value="${target.dir}/lib/ivy/"/>-->
+       <!---->
+
         <mkdir dir="${ivy.jar.dir}"/>
         <echo message="Downloading IVY....."/>
-        <get src="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/apache/ivy/2.0.0/ivy-2.0.0.jar" dest="${ivy.jar.dir}/ivy.jar"/>
+        <get src="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/apache/ivy/2.0.0/ivy-2.0.0.jar" dest="${ivy.jar.dir}/ivy-2.0.0.jar"/>
         <path id="ivy.lib.path">
             <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+
+
     </target>
 
     <property name="offline" value="${env.offline}"/>
