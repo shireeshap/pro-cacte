@@ -47,9 +47,9 @@
 
         <!-- CTMS commons dependencies -->
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"
-                    conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)"/>
+                    conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" force="true"/>
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"
-                    conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)"/>
+                    conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" force="true"/>
 
         <!-- CORE commons dependencies -->
 

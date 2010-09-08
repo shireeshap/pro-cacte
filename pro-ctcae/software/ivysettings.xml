@@ -1,6 +1,8 @@
 <ivysettings>
     <settings defaultResolver="proctcae-resolver" validate="false"/>
-
+    <caches default="proCtcAeCache">
+        <cache name="proCtcAeCache" basedir="${user.home}/.ivy2/proCtcAe"/>
+    </caches>
     <resolvers>
         <chain name="proctcae-resolver" returnFirst="true" dual="true">
             <!--  Local Ivy repository -->
@@ -12,9 +14,9 @@
 
             <!-- Local Ivy Cache -->
             <filesystem name="ivy-cache" local="true">
-                <ivy pattern="${user.home}/.ivy2/cache/[organisation]/[module]/ivy-[revision].xml"/>
+                <ivy pattern="${user.home}/.ivy2/proCtcAe/[organisation]/[module]/ivy-[revision].xml"/>
                 <artifact
-                        pattern="${user.home}/.ivy2/cache/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+                        pattern="${user.home}/.ivy2/proCtcAe/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
             </filesystem>
 
 
@@ -23,6 +25,11 @@
                 <ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy.xml"/>
                 <artifact
                         pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+            </url>
+            <url name="semanticbits-repo-http-1">
+                <ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/ivy-[revision].xml"/>
+                <artifact
+                        pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/jars/[artifact]-[revision].[ext]"/>
             </url>
 
             <!--  Semanticbits shared repository [using http] -->
