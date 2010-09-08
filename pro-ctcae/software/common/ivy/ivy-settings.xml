@@ -9,7 +9,12 @@ This file is the is the settings file used by IVY.  It is a good starting point 
 	<property name="ivy.project.repo" value="${target.dir}/local-repo-dir"/>
 	<property name="ivy.system.repo" value="${software.dir}/../../system-ivy-repo"/>
 	<property name="ivy.local-enterprise.repo" value="${commonlibrary.dir}/ivy-repo"/>
+    
 	<settings defaultResolver="ncicb-chain" />
+
+    <caches default="proCtcAeCache">
+        <cache name="proCtcAeCache" basedir="${user.home}/.ivy2/proCtcAe"/>
+    </caches>
 	<!-- defaultCacheDir causes the bda-utils module to use it's own cache directory -->
 	<!-- useOrigin causes avoiding the copy of local artifacts to the cache and use directly their original location -->
 	<caches defaultCacheDir="${user.home}/.ivy2-${ant.project.name}" useOrigin="true"/>
