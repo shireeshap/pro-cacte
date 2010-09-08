@@ -1,8 +1,6 @@
 <ivysettings>
     <settings defaultResolver="proctcae-resolver" validate="false"/>
-     <caches default="proCtcAeCache">
-        <cache name="proCtcAeCache" basedir="${user.home}/.ivy2/proCtcAe"/>
-    </caches>
+
     <resolvers>
         <chain name="proctcae-resolver" returnFirst="true" dual="true">
             <!--  Local Ivy repository -->
