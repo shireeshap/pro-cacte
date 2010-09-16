@@ -275,6 +275,9 @@ public class CRFPage extends BaseVersionable {
 
         CRFPage copiedCrfPage = new CRFPage();
         copiedCrfPage.setDescription(description);
+        copiedCrfPage.setProCtcTerm(proCtcTerm);
+        copiedCrfPage.setInstructions(instructions);
+        copiedCrfPage.setPageNumber(pageNumber);
         for (CrfPageItem crfPageItem : crfPageItems) {
             copiedCrfPage.addCrfPageItem(crfPageItem.copy());
         }
