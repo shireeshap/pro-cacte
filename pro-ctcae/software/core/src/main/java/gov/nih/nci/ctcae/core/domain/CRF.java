@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
+import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.hibernate.annotations.Cascade;
@@ -93,6 +94,10 @@ public class CRF extends BaseVersionable {
     @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
+
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<SiteCRFNotificationRule> siteCRFNotificationRules = new ArrayList();
 
     /**
      * The crf pages.
@@ -304,10 +309,17 @@ public class CRF extends BaseVersionable {
         this.crfVersion = crfVersion;
     }
 
+    public List<SiteCRFNotificationRule> getSiteCRFNotificationRules() {
+        return siteCRFNotificationRules;
+    }
+
+    public void setSiteCRFNotificationRules(List<SiteCRFNotificationRule> siteCRFNotificationRules) {
+        this.siteCRFNotificationRules = siteCRFNotificationRules;
+    }
 
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
