@@ -38,6 +38,7 @@ public class CrfAjaxFacade {
         if (studyId != null) {
             crfQuery.filterByStudyId(studyId);
             crfQuery.filterByNullNextVersionId();
+            crfQuery.filterByHidden(false);
         }
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
@@ -53,11 +54,22 @@ public class CrfAjaxFacade {
         List<CRF> crfs = searchCrf(id);
         List<CRF> releasedCrfs = new ArrayList();
         for (CRF crf : crfs) {
-            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED) && !crf.isHidden()) {
                 releasedCrfs.add(crf);
             }
         }
         return ObjectTools.reduceAll(releasedCrfs, "id", "title");
+    }
+
+    public List<CRF> getHiddenCrfs(Integer studyId) throws Exception {
+        CRFQuery crfQuery = new CRFQuery();
+        if (studyId != null) {
+            crfQuery.filterByStudyId(studyId);
+            crfQuery.filterByNullNextVersionId();
+            crfQuery.filterByHidden(true);           
+        }
+        List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
+        return crfs;
     }
 
     public List<ProCtcTerm> getSymptomsForCrf(Integer id) {

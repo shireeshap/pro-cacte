@@ -491,6 +491,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/037_update_crf_pag
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/038_insert_ctc_term.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/001_update_valid_values.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/002_update_crf_pages.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/003_update_crfs.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -853,13 +854,17 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EmptyFormTab.jav
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HiddenFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HideFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SiteRulesTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ToggleFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDateComparator.java -text
@@ -1137,7 +1142,10 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/form_rules.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/hiddenForms.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/hideForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/moveForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text

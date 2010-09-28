@@ -141,6 +141,20 @@ public class CRF extends BaseVersionable {
     @Column(name = "is_baseline", nullable = true)
     private Boolean createBaseline = true;
 
+    @Column(name = "is_hidden", nullable = false)
+    private Boolean hidden = false;
+
+    public Boolean isHidden() {
+        return hidden;
+    }
+    public Boolean getHidden() {
+          return hidden;
+      }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
+    }
+
     public Boolean isCreateBaseline() {
         if (createBaseline == null) {
             return true;
@@ -861,4 +875,6 @@ public class CRF extends BaseVersionable {
         return notificationRules;
 
     }
+
+
 }

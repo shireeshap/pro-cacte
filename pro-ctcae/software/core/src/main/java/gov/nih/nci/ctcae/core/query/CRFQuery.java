@@ -35,6 +35,8 @@ public class CRFQuery extends AbstractQuery {
 
     private static String CRF_IDS = "ids";
 
+    private static String IS_HIDDEN = "hidden";
+
     /**
      * The Constant CRF_VERSION.
      */
@@ -118,6 +120,11 @@ public class CRFQuery extends AbstractQuery {
     public void filterByCrfVersion(final String crfVersion) {
         andWhere("o.crfVersion =:" + CRF_VERSION);
         setParameter(CRF_VERSION, crfVersion);
+    }
+
+    public void filterByHidden(final Boolean hidden) {
+        andWhere("o.hidden =:" + IS_HIDDEN);
+        setParameter(IS_HIDDEN, hidden);
     }
 
 }
