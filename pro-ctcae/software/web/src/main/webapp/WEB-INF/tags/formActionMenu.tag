@@ -13,7 +13,7 @@
         })
     }
 
-     function hideForm(crfId) {
+    function hideForm(crfId) {
         var request = new Ajax.Request("<c:url value="/pages/form/hideForm"/>", {
             parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
             onComplete:function(transport) {
@@ -51,7 +51,9 @@
         <proctcae:urlAuthorize url="/pages/form/viewForm">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/viewForm"/>?crfId=' + cid + '\'">View form</a></li>';
         </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/form/versionForm">
             html += '<li><a href="#" onclick="javascript:hideForm(' + cid + ')">Hide form</a></li>';
+        </proctcae:urlAuthorize>
         }
     <proctcae:urlAuthorize url="/pages/form/copyForm">
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/copyForm"/>?crfId=' + cid + '\'">Copy form</a></li>';
