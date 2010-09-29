@@ -42,7 +42,7 @@ public class ProCtcTermsImporterV4 {
             System.out.println(f.getCanonicalPath());
             reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
         } else {
-            ClassPathResource classPathResource = new ClassPathResource("Update_ProCtcTerms_V4.csv");
+            ClassPathResource classPathResource = new ClassPathResource("ProCtcTerms_V4.csv");
             reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
         }
         reader.readHeaders();
