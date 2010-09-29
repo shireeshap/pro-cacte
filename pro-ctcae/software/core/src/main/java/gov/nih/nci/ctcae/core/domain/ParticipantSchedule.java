@@ -74,7 +74,7 @@ public class ParticipantSchedule {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 Date startDate = studyParticipantCrfSchedule.getStartDate();
-                if (proCtcAECalendar.isDateWithinMonth(startDate)) {
+                if (proCtcAECalendar.isDateWithinMonth(startDate) && !studyParticipantCrf.getCrf().isHidden()) {
                     currentMonthSchedules.add(studyParticipantCrfSchedule);
                 }
             }
