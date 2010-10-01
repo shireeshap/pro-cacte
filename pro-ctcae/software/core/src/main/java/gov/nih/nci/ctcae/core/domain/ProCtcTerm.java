@@ -48,6 +48,7 @@ public class ProCtcTerm extends BasePersistable {
      * The pro ctc questions.
      */
     @OneToMany(mappedBy = "proCtcTerm")
+    @OrderBy("displayOrder asc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
