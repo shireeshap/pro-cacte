@@ -1145,10 +1145,10 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/form_rules.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/hiddenForms.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/hideForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
-pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/moveForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/showForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text

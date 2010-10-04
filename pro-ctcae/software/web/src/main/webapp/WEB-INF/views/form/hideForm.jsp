@@ -14,9 +14,7 @@
         <chrome:box title="form.label.hide_form">
             <chrome:division>
                 <div id="releaseForm">
-                    <p>
-                        You are about to hide <strong>${command.title}</strong>.
-                    </p>
+                        You are about to hide <strong>${command.title}</strong>.  This will remove access to the form and form data on the system, and the form will be removed from all patient schedules.  If you wish to view this form and the data at a later time, you can choose to unhide the form.
                     <p>
                         Do you want to continue?
                     </p>

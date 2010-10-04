@@ -10,7 +10,7 @@ public class ShowFormController extends ToggleFormController {
 
     protected ShowFormController(){
         super();
-        setFormView("form/moveForm");
+        setFormView("form/showForm");
     }
 
     protected void updateStatusCRF(CRF crf) {

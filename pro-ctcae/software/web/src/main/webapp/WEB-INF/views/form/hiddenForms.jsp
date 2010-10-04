@@ -131,7 +131,7 @@
                     <%--<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"--%>
                        <%--id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>--%>
                     <%--<script>showPopUpMenu('${crf.id}', '${crf.status}');</script>--%>
-                    <tags:button color="blue" id="hiddenForms" value="Move form" size="small" onclick="javascript:showForm('${crf.id}')"
+                    <tags:button color="blue" id="hiddenForms" value="Show form" size="small" onclick="javascript:showForm('${crf.id}')"
                                     />
                 </td>
                 <td class="data">

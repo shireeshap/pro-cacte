@@ -15,7 +15,7 @@
             <chrome:division>
                 <div id="releaseForm">
                     <p>
-                        You are about to move <strong>${command.title}</strong>.
+                        You are about to unhide <strong>${command.title}</strong>.
                     </p>
                     <p>
                         Do you want to continue?
@@ -26,7 +26,7 @@
                 	<tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>
 				</span>
 				<span class="next">
-					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Move"/>
+					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Show"/>
 				</span>
             </chrome:division>
         </chrome:box>
