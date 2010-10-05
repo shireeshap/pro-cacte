@@ -339,6 +339,7 @@
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="passwordPolicyService" ref="passwordPolicyService"/>
     </bean>
 
     <bean name="/participant/create" id="createParticipantController"

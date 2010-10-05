@@ -291,7 +291,7 @@
                            <tags:renderPassword required="true" propertyName="participant.user.password"
                                                 displayName="participant.label.password"/>
                        </td>
-                       <td></td>
+                       <td>(The minimum password length should be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength}) </td>
                    </tr>
                    <tr>
                        <td>

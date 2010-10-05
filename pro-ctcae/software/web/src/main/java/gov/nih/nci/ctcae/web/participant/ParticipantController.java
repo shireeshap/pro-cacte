@@ -5,9 +5,11 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
@@ -33,7 +35,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
      */
     protected ParticipantRepository participantRepository;
     protected UserRepository userRepository;
-
+    protected PasswordPolicyServiceImpl passwordPolicyService;
 
     /**
      * Instantiates a new participant controller.
@@ -75,6 +77,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         ParticipantCommand command = new ParticipantCommand();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        command.setPasswordPolicy(passwordPolicyService.getPasswordPolicy(Role.PARTICIPANT));
         command.setAdmin(user.isAdmin());
         command.setReadOnlyUserName(false);
         populateOrganizationsForUser(command);
@@ -120,5 +123,10 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setPasswordPolicyService(PasswordPolicyServiceImpl passwordPolicyService) {
+        this.passwordPolicyService = passwordPolicyService;
     }
 }

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.lang.StringUtils;
 
@@ -35,7 +36,7 @@ public class ParticipantCommand {
      * The site name.
      */
     private String siteName;
-
+    private PasswordPolicy passwordPolicy;
 
     private String mode;
 
@@ -126,6 +127,14 @@ public class ParticipantCommand {
 
     public void setStudySites(List<StudySite> studySites) {
         this.studySites = studySites;
+    }
+
+    public PasswordPolicy getPasswordPolicy() {
+        return passwordPolicy;
+    }
+
+    public void setPasswordPolicy(PasswordPolicy passwordPolicy) {
+        this.passwordPolicy = passwordPolicy;
     }
 
     public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier, String armId) {
