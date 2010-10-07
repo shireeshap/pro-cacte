@@ -45,6 +45,14 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
         return persistable;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public <T extends Persistable> T create(T persistable) {
+
+        beanValidator.validate(persistable);
+        getHibernateTemplate().saveOrUpdate(persistable);
+        return persistable;
+    }
+
 
     /**
      * {@inheritDoc}

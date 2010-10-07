@@ -16,6 +16,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 //
+
 /**
  * The Class CRFRepository.
  *
@@ -47,8 +48,8 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF updateStatusToReleased(CRF crf) throws ParseException {
-        crf.setStatus(CrfStatus.RELEASED);
         createSchedulesForExistingParticipants(crf);
+        crf.setStatus(CrfStatus.RELEASED);
         return save(crf);
     }
 
@@ -67,11 +68,12 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         newStudyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
         newStudyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
         crf.addStudyParticipantCrf(newStudyParticipantCrf);
+
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             if (isOlderVersionStudyParticipantCrf(crf, studyParticipantCrf)) {
                 studyParticipantCrf.removeCrfSchedules(CrfStatus.SCHEDULED);
                 addParticipantAddedQuestionsToStudyParticipantCrf(crf, studyParticipantCrf, newStudyParticipantCrf);
-                genericRepository.save(studyParticipantCrf);
+                genericRepository.create(studyParticipantCrf);
             }
         }
         return newStudyParticipantCrf;
@@ -92,14 +94,16 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
             }
             if (!isAlreadyPresent) {
                 int myPageNumber;
-                if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
-                    myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
-                } else {
-                    myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
-                    symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
+                if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
+                    if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
+                        myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                    } else {
+                        myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
+                        symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
+                    }
+                    i++;
+                    newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion(), myPageNumber);
                 }
-                i++;
-                newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion(), myPageNumber);
             }
         }
     }
@@ -118,6 +122,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
     */
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
         CRF tmp = crf;
