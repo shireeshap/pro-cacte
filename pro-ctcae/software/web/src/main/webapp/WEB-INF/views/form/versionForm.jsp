@@ -15,7 +15,7 @@
             <chrome:division>
                 <div id="versionForm">
                 	<p>
-                		Versioning a form creates a copy of this form that you can edit.
+                        By versioning a form you will lose access to the old version of this form and will not be able to edit or change administration schedule.
                 	</p>
 					<p>
 						Are you sure you want to version this form?
