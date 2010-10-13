@@ -66,6 +66,7 @@
                                 </td>
                                 <td>    ${condition.proCtcQuestionType.validValues[(condition.threshold)]}
                                     <input type="hidden" name="threshold_${rule.id}_${status.index}"
+                                           id="threshold_${rule.id}_${status.index}"
                                            value="${condition.threshold}"/>
                                 </td>
                                 <td>

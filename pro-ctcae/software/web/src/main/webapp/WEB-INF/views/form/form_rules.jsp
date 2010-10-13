@@ -62,7 +62,8 @@
                 var elOptNew = document.createElement('option');
                 elOptNew.text = thV[j];
                 elOptNew.value = j;
-                selectThres.add(elOptNew);
+                selectThres.options[j]=elOptNew;
+                
             }
         }
     </script>

@@ -16,7 +16,7 @@
                            propertyValue="${condition.notificationRuleOperator.code}" doNotshowLabel="true"/>
     </td>
     <td>
-        <select name="threshold_${ruleId}_${ruleConditionIndex}">
+        <select name="threshold_${ruleId}_${ruleConditionIndex}"  id="threshold_${ruleId}_${ruleConditionIndex}">
             <c:forEach items="${thresholds}" var="item" varStatus="status">
                 <c:choose>
                     <c:when test="${status.index eq condition.threshold}">
