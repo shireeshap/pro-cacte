@@ -41,8 +41,8 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
         cell.setCellValue(new HSSFRichTextString(study.getDisplayName()));
-        Region region = new Region(row.getRowNum(), (short) 1, row.getRowNum(), (short) 20);
-        hssfSheet.addMergedRegion(region);
+//        Region region = new Region(row.getRowNum(), (short) 1, row.getRowNum(), (short) 20);
+//        hssfSheet.addMergedRegion(region);
 
         //CRF
         row = hssfSheet.createRow(rownum++);
@@ -143,12 +143,12 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
                         }
                     }
 
-                    region = new Region();
-                    region.setRowFrom(symptomCellRow);
-                    region.setRowTo(symptomCellRow);
-                    region.setColumnFrom(symptomIndex);
-                    region.setColumnTo((short) (symptomIndex + questionMap.size() - 1));
-                    hssfSheet.addMergedRegion(region);
+//                    region = new Region();
+//                    region.setRowFrom(symptomCellRow);
+//                    region.setRowTo(symptomCellRow);
+//                    region.setColumnFrom(symptomIndex);
+//                    region.setColumnTo((short) (symptomIndex + questionMap.size() - 1));
+//                    hssfSheet.addMergedRegion(region);
                     symptomIndex = (short) (symptomIndex + questionMap.size());
 
                 }
