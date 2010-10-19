@@ -588,7 +588,9 @@
     <!-- ==============================================================
                     target: cobertura-report
             ============================================================== -->
-    <target name="cobertura-report" if="run.test" description="-> Will create the corbetura coverage report">
+    <target name="cobertura-report" if="run.test" description="-> Will create the corbetura coverage report"
+            depends="cobertura-init">
+
         <cobertura-report format="html" destdir="${cobertura.dir}" srcdir="${main.src}"
                           datafile="${cobertura.dir}/cobertura.ser"/>
         <cobertura-report format="xml" destdir="${cobertura.dir}/xmlreport" srcdir="${main.src}"
@@ -599,7 +601,7 @@
                 target: corbetura-init
             ============================================================== -->
     <target name="cobertura-init" if="run.test" depends="clean-cobertura-dir">
-        <ivy:cachepath pathid="cobertura.classpath"/>
+    <ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
         <echo message="${test.lib.dir}/cobertura-1.8.jar"/>
         <mkdir dir="${cobertura.dir}"/>
         <mkdir dir="${cobertura.dir}/xmlreport"/>

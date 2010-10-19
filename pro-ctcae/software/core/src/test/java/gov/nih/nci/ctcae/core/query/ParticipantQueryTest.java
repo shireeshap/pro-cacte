@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import junit.framework.TestCase;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author mehul
@@ -76,6 +77,16 @@ public class ParticipantQueryTest extends TestCase {
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", 1,participantQuery.getParameterMap().size());
 
+    }
+
+    public void testFabc(){
+        String[] strings = StringUtils.split("  Mehul           Gulati   ", null);
+        for(String string:strings){
+            System.out.println(string);
+            System.out.println(String.format("hdjhjd %s%s",StringUtils.lowerCase("L"),"%"));
+            System.out.println(String.format("( lower(p.firstName) = :%s AND lower(p.lastName) like %s) or " +
+                        "(lower(p.lastName) = :%s AND lower(p.firstName) like %s) ", "FIRST_TOKEN","SECOND_TOKEN","THIRD_TOKEN","FOURTH_TOKEN"));
+        }
     }
 
 }

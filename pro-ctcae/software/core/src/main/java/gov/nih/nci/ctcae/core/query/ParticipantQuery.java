@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
+import org.apache.commons.lang.StringUtils;
+
 //
+
 /**
  * The Class ParticipantQuery.
  *
@@ -86,17 +89,40 @@ public class ParticipantQuery extends AbstractQuery {
      */
     public void filterParticipantsWithMatchingText(String text) {
 
-        String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
+        if (text != null) {
 
-        andWhere(String.format("(lower(p.firstName) LIKE :%s " +
-                "or lower(p.lastName) LIKE :%s " +
-                "or lower(p.assignedIdentifier) LIKE :%s " +
-                "or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s)", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
-        setParameter(IDENTIFIER, searchString);
-        setParameter(FIRST_NAME, searchString);
-        setParameter(LAST_NAME, searchString);
-        setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
+            String firstSearchString = null;
+            String secondSearchString = null;
 
+            String[] searchStrings = StringUtils.split(text);
+
+            if (searchStrings.length == 2) {
+                firstSearchString = searchStrings[0];
+                secondSearchString = searchStrings[1];
+                andWhere(String.format("( lower(p.firstName) = :%s AND lower(p.lastName) like :%s) or " +
+                        "(lower(p.lastName) = :%s AND lower(p.firstName) like :%s) ", "FIRST_TOKEN", "SECOND_TOKEN", "THIRD_TOKEN", "FOURTH_TOKEN"));
+                setParameter("FIRST_TOKEN", StringUtils.lowerCase(firstSearchString));
+                setParameter("SECOND_TOKEN", String.format("%s%s", StringUtils.lowerCase(secondSearchString), "%"));
+                setParameter("THIRD_TOKEN", StringUtils.lowerCase(firstSearchString));
+                setParameter("FOURTH_TOKEN", String.format("%s%s", StringUtils.lowerCase(secondSearchString), "%"));
+                return;
+
+//            } else if (searchStrings.length > 2) {
+            } else {
+
+                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+                // (lower(p.firstName) like %s or lower(p.firstName) like %s")
+                andWhere(String.format("(lower(p.firstName) LIKE :%s " +
+                        "or lower(p.lastName) LIKE :%s " +
+                        "or lower(p.assignedIdentifier) LIKE :%s " +
+//                "or x" +
+                        "or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
+                setParameter(IDENTIFIER, searchString);
+                setParameter(FIRST_NAME, searchString);
+                setParameter(LAST_NAME, searchString);
+                setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
+            }
+        }
     }
 
     /**
