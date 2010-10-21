@@ -106,16 +106,12 @@ public class ParticipantQuery extends AbstractQuery {
                 setParameter("THIRD_TOKEN", StringUtils.lowerCase(firstSearchString));
                 setParameter("FOURTH_TOKEN", String.format("%s%s", StringUtils.lowerCase(secondSearchString), "%"));
                 return;
-
-//            } else if (searchStrings.length > 2) {
             } else {
 
                 String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-                // (lower(p.firstName) like %s or lower(p.firstName) like %s")
                 andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                         "or lower(p.lastName) LIKE :%s " +
                         "or lower(p.assignedIdentifier) LIKE :%s " +
-//                "or x" +
                         "or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
                 setParameter(IDENTIFIER, searchString);
                 setParameter(FIRST_NAME, searchString);
