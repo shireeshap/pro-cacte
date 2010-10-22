@@ -53,16 +53,16 @@
 </head>
 
 <script>
-     Event.observe(window, "load", function() {
+    Event.observe(window, "load", function() {
 
-            acCreate(new siteAutoComplter('site'))
+        acCreate(new siteAutoComplter('site'))
 
 
-            initializeAutoCompleter('site',
-                    '${site.displayName}', '${site.id}')
+        initializeAutoCompleter('site',
+                '${site.displayName}', '${site.id}')
 
-            initSearchField()
-        })
+        initSearchField()
+    })
 
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
@@ -108,7 +108,7 @@
 
         <div class="content">
             <div class="row" name="inputs">
-                <div class="label"> Search By:</div>
+                <div class="label"> Search By</div>
                 <div class="value">
                     <select id="searchType" name="searchType">
                         <c:forEach items="${searchCriteria}" var="item">
@@ -120,11 +120,11 @@
 
                     <div id="error"></div>
                 </div>
+                <tags:renderAutocompleter propertyName="site"
+                                          displayName="study.label.study_site"
+                                          required="false" size="70" noForm="true"/>
             </div>
-            <tags:renderAutocompleter propertyName="site"
-                                      displayName="study.label.sites"
-                                      required="false" size="70" noForm="true"/>
-            <div style="padding-left:132px">
+            <div style="padding-left:140px">
                 <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
             </div>
         </div>
