@@ -328,6 +328,7 @@
           class="gov.nih.nci.ctcae.web.study.SearchStudyController">
         <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
 
     <bean name="/study/addStudyComponent" id="addStudyComponentController"

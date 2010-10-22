@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import org.apache.commons.lang.StringUtils;
 
 //
+
 /**
  * The Class StudyQuery.
  *
@@ -46,6 +47,7 @@ public class StudyQuery extends SecuredQuery<Study> {
      * The Constant STUDY_SITE.
      */
     private static final String STUDY_SITE = "studySite";
+    private static final String LEAD_SITE = "leadSite";
 
     /**
      * Instantiates a new study query.
@@ -133,11 +135,13 @@ public class StudyQuery extends SecuredQuery<Study> {
         if (siteId != null) {
             leftJoin("study.studyOrganizations as sso");
             andWhere("sso.organization.id = :" + ORGANIZATION_ID);
-            andWhere("sso.class = :" + STUDY_SITE);
+            andWhere(String.format("(sso.class = :%s or sso.class = :%s )" , STUDY_SITE, LEAD_SITE));
             setParameter(ORGANIZATION_ID, siteId);
             setParameter(STUDY_SITE, "SST");
+            setParameter(LEAD_SITE, "LSS");
         }
     }
+
 
     /**
      * Filter by participant.

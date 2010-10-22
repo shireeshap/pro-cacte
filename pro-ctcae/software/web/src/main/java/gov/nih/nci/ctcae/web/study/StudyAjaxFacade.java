@@ -50,8 +50,8 @@ public class StudyAjaxFacade {
      * @param text the text
      * @return the string
      */
-    public List<Study> searchStudies(String type, String text) {
-        List<Study> studies = getObjects(type, text);
+    public List<Study> searchStudies(String type, String text, String siteId) {
+        List<Study> studies = getObjects(type, text, siteId);
         return studies;
     }
 
@@ -63,7 +63,7 @@ public class StudyAjaxFacade {
      * @param text the text
      * @return the objects
      */
-    private List<Study> getObjects(String type, String text) {
+    private List<Study> getObjects(String type, String text, String siteId) {
         StudyQuery studyQuery = new StudyQuery();
 
         if (!StringUtils.isBlank(text)) {
@@ -72,6 +72,9 @@ public class StudyAjaxFacade {
             } else if ("assignedIdentifier".equals(type)) {
                 studyQuery.filterStudiesByAssignedIdentifier(text);
             }
+        }
+        if (!StringUtils.isBlank(siteId)){
+             studyQuery.filterStudiesForStudySite(Integer.parseInt(siteId));
         }
         List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
 

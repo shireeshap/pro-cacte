@@ -53,7 +53,16 @@
 </head>
 
 <script>
+     Event.observe(window, "load", function() {
 
+            acCreate(new siteAutoComplter('site'))
+
+
+            initializeAutoCompleter('site',
+                    '${site.displayName}', '${site.id}')
+
+            initSearchField()
+        })
 
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
@@ -112,6 +121,9 @@
                     <div id="error"></div>
                 </div>
             </div>
+            <tags:renderAutocompleter propertyName="site"
+                                      displayName="study.label.sites"
+                                      required="false" size="70" noForm="true"/>
             <div style="padding-left:132px">
                 <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
             </div>

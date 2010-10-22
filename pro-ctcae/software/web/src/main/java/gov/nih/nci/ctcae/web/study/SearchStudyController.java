@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 //
+
 /**
  * The Class SearchParticipantController.
  *
@@ -28,22 +31,26 @@ public class SearchStudyController extends AbstractController {
 
     private StudyAjaxFacade studyAjaxFacade;
     StudyRepository studyRepository;
+    OrganizationRepository organizationRepository;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("study/searchStudy");
         String useReqParam = request.getParameter("useReqParam");
         String searchType = "shortTitle";
         String searchText = "%";
+        String siteId = "";
         Integer rowsPerPageInt = 15;
         String sort = request.getParameter("sort");
         String page = request.getParameter("page");
         String rowsPerPage = request.getParameter("rowsPerPage");
         String sortDir = request.getParameter("sortDir");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 
         if (StringUtils.isBlank(sort)) {
             sort = "shortTitle";
@@ -67,15 +74,12 @@ public class SearchStudyController extends AbstractController {
             }
         }
 
-        if (StringUtils.isBlank(useReqParam)) {
-            searchType = (String) request.getSession().getAttribute("StudySearchSearchType");
-            searchText = (String) request.getSession().getAttribute("StudySearchSearchText");
-
-        } else {
-            searchType = request.getParameter("searchType");
-            searchText = request.getParameter("searchText");
-            request.getSession().setAttribute("StudySearchSearchType", searchType);
-            request.getSession().setAttribute("StudySearchSearchText", searchText);
+        searchType = request.getParameter("searchType");
+        searchText = request.getParameter("searchText");
+        siteId = request.getParameter("site");
+        if (StringUtils.isNotBlank(siteId)) {
+            Organization site = organizationRepository.findById(Integer.parseInt(siteId));
+            modelAndView.addObject("site", site);
         }
         modelAndView.addObject("searchType", searchType);
         modelAndView.addObject("searchText", searchText);
@@ -84,7 +88,7 @@ public class SearchStudyController extends AbstractController {
         }
 
 
-        List<Study> studies = studyAjaxFacade.searchStudies(searchType, searchText);
+        List<Study> studies = studyAjaxFacade.searchStudies(searchType, searchText, siteId);
         int totalRecords = studies.size();
         int numberOfPages = totalRecords / rowsPerPageInt;
         if (totalRecords % rowsPerPageInt > 0) {
@@ -139,5 +143,10 @@ public class SearchStudyController extends AbstractController {
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
     }
 }
