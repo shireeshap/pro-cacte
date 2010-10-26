@@ -37,7 +37,7 @@ public class ProCtcTermsImporterV4 {
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
         if (fromTestCase) {
             Resource resource = new FileSystemResource("core/src/main/resources/");
-            Resource resource1 = resource.createRelative("Update_ProCtcTerms_V4.csv");
+            Resource resource1 = resource.createRelative("ProCtcTerms_V4.csv");
             File f = new File(resource1.getFile().getCanonicalPath());
             System.out.println(f.getCanonicalPath());
             reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
