@@ -35,7 +35,7 @@
             <div class="flow-buttons">
 
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="Assign Date" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($(offTreatmentDate).value,document.forms[0])"/>
+                             cssClass="next" value="Assign Date" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('offTreatmentDate').value,document.forms[0])"/>
 
 
                 <tags:button type="button" id="flow-cancel"
