@@ -388,8 +388,8 @@ function showCrfItemProperties(selectedQuestionId) {
 
 
     addEditingDisplayToQuestion(selectedQuestionId);
-    //    var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 71;
-    //    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
+    var yPosition= parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1])-parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1]);
+    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
 function deleteCrfPage(selectedCrfPageNumber, proTermId) {
