@@ -1032,6 +1032,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formActionMenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formBuilder.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formRule.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formRuleCondition.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formScheduleCycleDefinition.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formSettings.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text

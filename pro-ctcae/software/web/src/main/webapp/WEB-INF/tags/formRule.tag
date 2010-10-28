@@ -46,34 +46,17 @@
                 </div>
                 <chrome:division title="Attributes"/>
                 <div style="margin-left:${margin}">
-                    <input type="hidden" name="delete_conditions_${rule.id}" value=""/>
+                    <input type="hidden" name="delete_conditions_${rule.id}" id="delete_conditions_${rule.id}" value=""/>
                     <table>
                         <c:forEach items="${notificationRule.notificationRuleConditions}" var="condition"
                                    varStatus="status">
-                            <tr id="tr_condition_${rule.id}_${status.index}">
-                                <td>
-                                    <c:if test="${status.index>0}"><b>OR&nbsp;</b>
-                                    </c:if><input type="hidden" name="conditions_${rule.id}"
-                                                  value="${status.index}"/>
-                                </td>
-                                <td>    ${condition.proCtcQuestionType.displayName}
-                                    <input type="hidden" name="questiontype_${rule.id}_${status.index}"
-                                           value="${condition.proCtcQuestionType.code}"/>
-                                </td>
-                                <td>    ${condition.notificationRuleOperator.displayName}
-                                    <input type="hidden" name="operator_${rule.id}_${status.index}"
-                                           value="${condition.notificationRuleOperator.code}"/>
-                                </td>
-                                <td>    ${condition.proCtcQuestionType.validValues[(condition.threshold)]}
-                                    <input type="hidden" name="threshold_${rule.id}_${status.index}"
-                                           id="threshold_${rule.id}_${status.index}"
-                                           value="${condition.threshold}"/>
-                                </td>
-                                <td>
-                                    <tags:button icon="x" color="red" size="small" markupWithTag="a" value=""
-                                                 onclick="deleteCondition('${rule.id}','${status.index}');"/>
-                                </td>
-                            </tr>
+                            <tags:formRuleCondition ruleId="${rule.id}"
+                                                    ruleConditionIndex="${status.index}"
+                                                    condition="${condition}"
+                                                    operators="${operators}"
+                                                    questionTypes="${questionTypes}"
+                                    />
+
                         </c:forEach>
                         <tr id="hiddenDivCondition_${rule.id}"></tr>
                         <tr>
