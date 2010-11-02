@@ -3,13 +3,14 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.*;
 
 //
 /**
@@ -35,6 +36,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         return Privilege.PRIVILEGE_CREATE_STUDY;
 
     }
+        
 
     @Override
     public void onDisplay(HttpServletRequest httpServletRequest, StudyCommand studyCommand) {
@@ -57,12 +59,41 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                 throw new CtcAeSystemException("Logged in user is not a valid clinical staff");
             }
         }
+
+        if (!studyCommand.getStudy().getStudyModes().isEmpty()) {
+            List<String> appModes = new ArrayList<String>();
+            for (StudyMode studyMode : studyCommand.getStudy().getStudyModes()) {
+                appModes.add(studyMode.getMode().getDisplayName());
+            }
+            studyCommand.setAppModes(appModes.toArray(new String[]{}));
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> referenceData() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<String> appModes=new ArrayList<String>();
+
+        for(AppMode appMode:AppMode.values()){
+            appModes.add(appMode.getDisplayName());
+        }
+
+        map.put("appModes",appModes);
+        return map;
     }
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, StudyCommand studyCommand, Errors errors) {
         super.postProcess(httpServletRequest, studyCommand, errors);
 
+        studyCommand.getStudy().getStudyModes().clear();
+        for (String string : studyCommand.getAppModes()) {
+            AppMode appMode = AppMode.getByCode(string);
+            StudyMode studyMode = new StudyMode();
+            studyMode.setMode(appMode);
+            studyCommand.getStudy().addStudyMode(studyMode);
+        }
 
         if (!StringUtils.isBlank(studyCommand.getArmIndexToRemove())) {
             Integer armIndex = Integer.valueOf(studyCommand.getArmIndexToRemove());

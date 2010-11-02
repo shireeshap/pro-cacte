@@ -492,6 +492,8 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/038_insert_ctc_ter
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/001_update_valid_values.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/002_update_crf_pages.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/003_update_crfs.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/004_create_study_modes.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/005_update_study_participant_assignment.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -503,6 +505,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/ProCtcDao.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AppMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Arm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -556,6 +559,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.j
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
@@ -901,7 +905,9 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/Participa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffHoldController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOnHoldController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantResponseReportController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSearchResultsComparator.java -text
@@ -1173,7 +1179,9 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/inputParticipan
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/moveForm.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offHoldDate.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offStudyDate.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/onHoldDate.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participantInbox.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participant_clinical_staff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participant_reviewsummary.jsp -text

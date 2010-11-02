@@ -40,7 +40,8 @@ public enum CrfStatus implements CodedEnum<String> {
 
     CANCELLED("Cancelled"),
     OFFSTUDY("OffStudy"),
-    PASTDUE("Past-due");
+    PASTDUE("Past-due"),
+    ONHOLD("On-hold");
 
 
     /**

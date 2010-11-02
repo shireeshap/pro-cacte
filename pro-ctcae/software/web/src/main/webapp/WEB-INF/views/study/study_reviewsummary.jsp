@@ -90,6 +90,8 @@
                 <div class="label"><tags:message code='study.label.study_lead_site'/></div>
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
+        
+
         </chrome:division>
     <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editdetails">
         <div align="left" style="margin-left: 100px">

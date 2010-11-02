@@ -42,7 +42,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Column(name = "study_start_date", nullable = true)
     private Date studyStartDate;
 
+    @Column(name = "on_hold_treatment_date", nullable = true)
+    private Date onHoldTreatmentDate;
 
+    @Column(name = "off_hold_treatment_date", nullable = true)
+    private Date offHoldTreatmentDate;
 
     /**
      * The participant.
@@ -361,5 +365,20 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.arm = arm;
     }
 
+    public Date getOnHoldTreatmentDate() {
+        return onHoldTreatmentDate;
+    }
+
+    public void setOnHoldTreatmentDate(Date onHoldTreatmentDate) {
+        this.onHoldTreatmentDate = onHoldTreatmentDate;
+    }
+
+    public Date getOffHoldTreatmentDate() {
+        return offHoldTreatmentDate;
+    }
+
+    public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
+        this.offHoldTreatmentDate = offHoldTreatmentDate;
+    }
 }
 

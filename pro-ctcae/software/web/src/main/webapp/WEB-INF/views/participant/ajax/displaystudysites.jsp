@@ -14,7 +14,7 @@
         </td>
         <c:if test="${isEdit}">
             <td class="tableHeader">
-                Treatment End Date
+                Treatment End/On-hold Date
             </td>
         </c:if>
     </tr>

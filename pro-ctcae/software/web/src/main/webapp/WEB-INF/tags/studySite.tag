@@ -26,11 +26,23 @@
     <c:if test="${isEdit}">
         <c:choose>
             <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
-                <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/>
+                <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/><br>
             </c:when>
             <c:otherwise>
-                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Set treatment end
-                    date...</a>
+                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a> <br>
+                <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
+                <a href="javascript:participantOnHold(${studyParticipantAssignment.id})">Treatment on hold</a>  <br>
+                </c:if>
+                <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
+                    Treatment on-hold from <tags:formatDate
+                        value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
+                    <a href="javascript:participantOffHold(${studyParticipantAssignment.id})"> Re-assign participant to
+                        treatment </a>
+                </c:if>
+                <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
+                    Treatment hold removed from <tags:formatDate
+                        value="${studyParticipantAssignment.offHoldTreatmentDate}"/> <br>
+                </c:if>
             </c:otherwise>
         </c:choose>
 
@@ -109,6 +121,25 @@
                 </td>
 
             </tr>
+            <%--<tr>--%>
+            <%--<td align="right" class="data">--%>
+            <%--<b> Patient self reporting options </b>--%>
+            <%--</td>--%>
+            <%--<td class="data">--%>
+            <%--<input type="checkbox" id="Web" name="Web" value="Web" onclick="showOrHideEmail(this.checked);">Web <br>--%>
+            <%--<input type="checkbox" id="IVRS" name="IVRS" value="IVRS" onclick="showOrHideEmail(this.checked);">IVRS--%>
+            <%--</td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+            <%--<td align="right" class="data">--%>
+            <%--<b> Patient self reporting reminder options </b>--%>
+            <%--</td>--%>
+            <%--<td class="data">--%>
+            <%--<input type="checkbox" name="email" value="email" >notify via email <br>--%>
+            <%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">notify via text message <br>--%>
+            <%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">notify via phone call  --%>
+            <%--</td>--%>
+            <%--</tr>--%>
             <c:if test="${hasforms eq 'true'}">
                 <c:set var="hasforms" value="false"/>
                 <c:forEach items="${studysite.study.crfs}" var="crf">

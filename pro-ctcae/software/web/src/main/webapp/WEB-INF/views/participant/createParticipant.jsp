@@ -83,8 +83,25 @@
                 },
                 method:'get'
             })
+        }
+        function participantOffHold(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
 
-
+        function participantOnHold(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
         }
 
         function showpassword(show) {
@@ -105,6 +122,47 @@
             form.submit();
         }
 
+        //        function showOrHideEmail(value) {
+        //            var value2 = value2;
+        //            if (value2 == ivrs) {
+        //                var ivrs = value1;
+        //            }
+        //            if (value) {
+        //                jQuery('#div_contact').show();
+        //                jQuery('#div_email').show();
+        //            } else {
+        //                jQuery('#div_email').hide();
+        //            }
+        //            checkMainDiv();
+        <%----%>
+        //        }
+        <%----%>
+        //        function checkMainDiv() {
+        //            if (jQuery('#div_email').is(':visible')) {
+        //                jQuery('#div_contact').show();
+        //            }
+        <%----%>
+        //            else {
+        //                jQuery('#div_contact').hide();
+        //            }
+        //        }
+        //        function phoneRequired(value) {
+        //               if(value) {
+        <%--<c:set var="req" value="true"/>--%>
+        //               }  else {
+        <%--<c:set var="req" value="false"/> --%>
+        //               }
+        //        }
+
+        //        function showOrHideNumber(value) {
+        <%----%>
+        //            jQuery('#div_contact').show();
+        //            jQuery('#div_number').toggle();
+        //            checkMainDiv();
+        <%----%>
+        //        }
+
+
     </script>
     <style type="text/css">
         .tableHeader {
@@ -123,14 +181,14 @@
         table.widget {
             width: 100%;
             background-color: #e9e8e8;
-            border-top: 1px solid #999999;
-            border-right: 1px solid #999999;
+            border-top: 0px solid #999999;
+            border-right: 0px solid #999999;
         }
 
         td.data {
             vertical-align: top;
-            border-bottom: 1px solid #999999;
-            border-left: 1px solid #999999;
+            border-bottom: 0px solid #999999;
+            border-left: 0px solid #999999;
             padding-left: 5px;
         }
 
@@ -224,7 +282,7 @@
                                                 displayName="participant.label.date_of_birth" required="true"/>
                            </c:if>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="${required}" options="${genders}"/>   
+                                              required="${required}" options="${genders}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier"
                                                 displayName="participant.label.participant_identifier"
@@ -253,6 +311,36 @@
                 </table>
             </chrome:division>
         </c:if>
+       <%--<div id="div_contact" style="display:none">--%>
+       <%--<chrome:division title="participant.label.contact_information">--%>
+       <%--<div id="div_email" style="display:none">--%>
+       <%--<table border="0" style="width:100%">--%>
+       <%----%>
+       <%--<tr>--%>
+       <%--<td width="50%">--%>
+       <%--<tags:renderEmail propertyName="participant.emailAddress"--%>
+       <%--displayName="participant.label.email_address"--%>
+       <%--required="false" size="35"/>--%>
+       <%----%>
+       <%--</td>--%>
+       <%----%>
+       <%--</tr>--%>
+       <%--</table>--%>
+
+
+       <%--<table border="0" style="width:100%">--%>
+       <%--<tr>--%>
+       <%--<td width="50%">--%>
+       <%--<tags:renderPhoneOrFax propertyName="participant.phoneNumber"--%>
+       <%--displayName="participant.label.phone"--%>
+       <%--required="${req}"/>--%>
+       <%--</td>--%>
+       <%----%>
+       <%--</tr>--%>
+       <%--</table>--%>
+       <%--</div>--%>
+       <%--</chrome:division>--%>
+       <%--</div>--%>
        <chrome:division title="participant.label.logininfo">
            <table cellpadding="0" cellspacing="0">
                <tr>
@@ -291,7 +379,9 @@
                            <tags:renderPassword required="true" propertyName="participant.user.password"
                                                 displayName="participant.label.password"/>
                        </td>
-                       <td>(The minimum password length should be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength}) </td>
+                       <td>(The minimum password length should
+                           be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
+                       </td>
                    </tr>
                    <tr>
                        <td>

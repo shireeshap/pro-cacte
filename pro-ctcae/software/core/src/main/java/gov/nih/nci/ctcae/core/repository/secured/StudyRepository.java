@@ -91,6 +91,10 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
             }
         }
 
+        for(StudyMode studyMode:savedStudy.getStudyModes()){
+            studyMode.getMode();
+        }
+
 
     }
 

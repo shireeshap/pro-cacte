@@ -139,6 +139,7 @@
                                   displayName="study.label.study_lead_site"
                                   required="true" size="70"/>
          <br>
+
       <c:if test="${not command.activeDefaultArm}">
           <chrome:division title="study.section.study_arms">
               <p><tags:instructions code="study.study_arms.top"/></p>
@@ -163,6 +164,15 @@
                            value="study.button.add_study_arm"/></div>
           <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
       </c:if>
+       <br>
+       <chrome:division title="study.sections.study_modes">
+           <form:checkbox path="appModes"   value="Web" label="Web"  />  <br>
+           <form:checkbox path="appModes"   value="IVRS" label="IVRS"  /> <br>
+           <form:checkbox path="appModes"   value="Booklet" label="Booklet"  /> <br>
+           <form:checkbox path="appModes"   value="Clinic" label="Clinic"  />
+          <%--<tags:renderCheckBox displayName="Display Modes" propertyName="studyModes" />--%>
+       </chrome:division>
+
 </jsp:attribute>
 
 </tags:tabForm>

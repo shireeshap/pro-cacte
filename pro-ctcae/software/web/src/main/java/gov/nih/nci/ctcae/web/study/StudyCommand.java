@@ -19,6 +19,9 @@ public class StudyCommand {
      */
     private Study study;
 
+    private String[] appModes;
+
+    
     private StudySite selectedStudySite;
 
     private StudyOrganizationClinicalStaff leadCRA;
@@ -227,6 +230,13 @@ public class StudyCommand {
         return siteIndexesToRemove;
     }
 
+    public String[] getAppModes() {
+        return appModes;
+    }
+
+    public void setAppModes(String[] appModes) {
+        this.appModes = appModes;
+    }
 }
 
 

@@ -446,6 +446,20 @@
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
+     <bean name="/participant/participantOnHold" id="participantOnHoldController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantOnHoldController" parent="ctcaeSimpleFormController">
+        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+    </bean>
+    
+    <bean name="/participant/participantOffHold" id="participantOffHoldController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantOffHoldController" parent="ctcaeSimpleFormController">
+        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+    </bean>
+
     <bean name="/reports/participantReport" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
