@@ -99,7 +99,7 @@ function initializeCalendar(index) {
                         item.style.background = 'red';
                     }
                     if (status == 'On-hold') {
-                        item.style.background = 'lightyellow';
+                        item.style.background = 'yellow';
                     }
                     if (status == 'Cancelled') {
                         item.style.background = 'lightgrey';
