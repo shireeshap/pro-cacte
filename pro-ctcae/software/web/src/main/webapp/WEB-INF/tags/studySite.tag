@@ -100,87 +100,88 @@
                     </c:choose>
                 </c:if>
             </tr>
-            <tr>
-                <td align="right" class="data">
-                    <b>Patient self reporting option</b>
-                </td>
-                <td>
-                    <table>
-                        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-                            <c:if test="${studyMode.mode.displayName eq 'Clinic'}">
+            <%--<tr>--%>
+                <%--<td align="right" class="data">--%>
+                    <%--<b>Patient self reporting option</b>--%>
+                <%--</td>--%>
+                <%--working checkbox implementation--%>
+                <%--<td>--%>
+                <%--<table>--%>
+                <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
+                <%--<c:if test="${studyMode.mode.displayName eq 'Clinic'}">--%>
+                <%----%>
+                <%--<tr>--%>
+                <%--<td>--%>
+                <%--<tags:renderCheckBox propertyName="participantModes"--%>
+                <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
+                <%--displayName="${studyMode.mode.displayName}"--%>
+                <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
+                <%--useRenderInput="true"/>--%>
+                <%----%>
+                <%--</td>--%>
+                <%--<td>--%>
+                <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)--%>
+                <%--</td>--%>
+                <%--</tr>--%>
+                <%--</c:if>--%>
+                <%--<c:if test="${studyMode.mode.displayName eq 'Booklet'}">--%>
+                <%--<tr>--%>
+                <%--<td>--%>
+                <%--<tags:renderCheckBox propertyName="participantModes"--%>
+                <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
+                <%--displayName="${studyMode.mode.displayName}"--%>
+                <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
+                <%--useRenderInput="true"/>--%>
+                <%--</td>--%>
+                <%--<td>--%>
+                <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)--%>
+                <%--</td>--%>
+                <%--</tr>--%>
+                <%--</c:if>--%>
+                <%----%>
+                <%--<c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}"  >--%>
+                <%--<tr>--%>
+                <%--<td>--%>
+                <%--<tags:renderCheckBox propertyName="participantModes"--%>
+                <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
+                <%--displayName="${studyMode.mode.displayName}"--%>
+                <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
+                <%--useRenderInput="true" onclick="javascript:showOrHideEmail(this.checked);"/>--%>
+                <%--</td>--%>
+                <%--<td>--%>
+                <%--<c:if test="${studyMode.mode.displayName eq 'Web'}">--%>
+                <%--<input type="checkbox" name="email" value="true"--%>
+                <%--id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> notify via email--%>
+                <%--<input type="hidden" name="_${propertyName}" value="on">--%>
+                <%--</c:if>--%>
+                <%--<c:if test="${studyMode.mode.displayName eq 'IVRS'}">--%>
+                <%--<input type="checkbox" name="call" value="true"--%>
+                <%--id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> notify via phone call &nbsp;&nbsp;&nbsp;--%>
+                <%--<input type="hidden" name="_${propertyName}" value="on">--%>
+                <%--<input type="checkbox" name="text" value="true"--%>
+                <%--id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> notify via text--%>
+                <%--<input type="hidden" name="_${propertyName}" value="on">--%>
+                <%--</c:if>--%>
+                <%----%>
+                <%--</td>--%>
+                <%--</tr>--%>
+                <%--</c:if>--%>
+                <%--</c:forEach>--%>
+                <%--</table>--%>
 
-                                <tr>
-                                    <td>
-                                        <tags:renderCheckBox propertyName="participantModes"
-                                                             values="${studyParticipantAssignment.selectedAppModes}"
-                                                             displayName="${studyMode.mode.displayName}"
-                                                             propertyValue="${studyMode.mode.code}" noForm="true"
-                                                             useRenderInput="true"/>
 
-                                    </td>
-                                    <td>
-                                        &nbsp;&nbsp;&nbsp;(no reminder will be sent)
-                                    </td>
-                                </tr>
-                            </c:if>
-                            <c:if test="${studyMode.mode.displayName eq 'Booklet'}">
-                                <tr>
-                                    <td>
-                                        <tags:renderCheckBox propertyName="participantModes"
-                                                             values="${studyParticipantAssignment.selectedAppModes}"
-                                                             displayName="${studyMode.mode.displayName}"
-                                                             propertyValue="${studyMode.mode.code}" noForm="true"
-                                                             useRenderInput="true"/>
-                                    </td>
-                                    <td>
-                                        &nbsp;&nbsp;&nbsp;(no reminder will be sent)
-                                    </td>
-                                </tr>
-                            </c:if>
+                <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
+                <%--<tags:renderCheckBox propertyName="participantModes"--%>
+                <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
+                <%--displayName="${studyMode.mode.displayName}"--%>
+                <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
+                <%--useRenderInput="true"/>--%>
+                <%----%>
+                <%--</c:forEach>--%>
 
-                            <c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}"  >
-                                <tr>
-                                    <td>
-                                        <tags:renderCheckBox propertyName="participantModes"
-                                                             values="${studyParticipantAssignment.selectedAppModes}"
-                                                             displayName="${studyMode.mode.displayName}"
-                                                             propertyValue="${studyMode.mode.code}" noForm="true"
-                                                             useRenderInput="true" onclick="javascript:showOrHideEmail(this.checked);"/>
-                                    </td>
-                                    <td>
-                                        <c:if test="${studyMode.mode.displayName eq 'Web'}">
-                                            <input type="checkbox" name="email" value="true"
-                                                   id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> notify via email
-                                            <input type="hidden" name="_${propertyName}" value="on">
-                                        </c:if>
-                                        <c:if test="${studyMode.mode.displayName eq 'IVRS'}">
-                                            <input type="checkbox" name="call" value="true"
-                                                   id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> notify via phone call &nbsp;&nbsp;&nbsp;
-                                            <input type="hidden" name="_${propertyName}" value="on">
-                                            <input type="checkbox" name="text" value="true"
-                                                   id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> notify via text
-                                            <input type="hidden" name="_${propertyName}" value="on">
-                                        </c:if>
-
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
-
-
-                    <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-                        <%--<tags:renderCheckBox propertyName="participantModes"--%>
-                                             <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
-                                             <%--displayName="${studyMode.mode.displayName}"--%>
-                                             <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
-                                             <%--useRenderInput="true"/>--%>
-<%----%>
-                    <%--</c:forEach>--%>
-
-                    <%--<tags:renderCheckBox propertyName="email" propertyValue="true" noForm="true" useRenderInput="true"/> notify via email --%>
-                </td>
-            </tr>
+                <%--<tags:renderCheckBox propertyName="email" propertyValue="true" noForm="true" useRenderInput="true"/> notify via email --%>
+                <%--</td>--%>
+            <%--</tr>--%>
             <tr>
                 <td align="right" class="data">
                     <b><spring:message code="participant.label.startdate"/></b>
@@ -203,25 +204,33 @@
                 </td>
 
             </tr>
-            <%--<tr>--%>
-            <%--<td align="right" class="data">--%>
-            <%--<b> Patient self reporting options </b>--%>
-            <%--</td>--%>
-            <%--<td class="data">--%>
-            <%--<input type="checkbox" id="Web" name="Web" value="Web" onclick="showOrHideEmail(this.checked);">Web <br>--%>
-            <%--<input type="checkbox" id="IVRS" name="IVRS" value="IVRS" onclick="showOrHideEmail(this.checked);">IVRS--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td align="right" class="data">--%>
-            <%--<b> Patient self reporting reminder options </b>--%>
-            <%--</td>--%>
-            <%--<td class="data">--%>
-            <%--<input type="checkbox" name="email" value="email" >notify via email <br>--%>
-            <%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">notify via text message <br>--%>
-            <%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">notify via phone call  --%>
-            <%--</td>--%>
-            <%--</tr>--%>
+            <!-- for demo -->
+            <tr>
+                <td align="right" class="data">
+                    <b> Patient home reporting options </b>
+                </td>
+                <td width="10%">
+                    <input type="radio" name="Web" value="Web" onclick="showOrHideEmail(this.checked);">Web
+                    <br>
+                    <input type="radio" name="Web" value="IVRS" onclick="showOrHideEmail(this.checked);">IVRS
+                </td>
+                <td>
+                    <input type="checkbox" name="email" value="email">reminder via email <br>
+                    <input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">reminder via
+                    text message &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">reminder via
+                    phone call
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="data">
+                    <b> Patient in-clinic reporting options </b>
+                </td>
+                <td >
+                    <input type="radio" name="clinic" value="Web">In-clinic
+                </td>
+            </tr>
+
             <c:if test="${hasforms eq 'true'}">
                 <c:set var="hasforms" value="false"/>
                 <c:forEach items="${studysite.study.crfs}" var="crf">
