@@ -51,6 +51,10 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                         studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
 //                    }
+                }  else {
+                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                        studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                    }
                 }
             }
         }
