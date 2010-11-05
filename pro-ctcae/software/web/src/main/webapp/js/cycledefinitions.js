@@ -98,6 +98,12 @@ function initializeCalendar(index) {
                     if (status == 'Past-due') {
                         item.style.background = 'red';
                     }
+                    if (status == 'On-hold') {
+                        item.style.background = 'lightyellow';
+                    }
+                    if (status == 'Cancelled') {
+                        item.style.background = 'lightgrey';
+                    }
 
                     if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress') {
                         if (holiday == 'true') {

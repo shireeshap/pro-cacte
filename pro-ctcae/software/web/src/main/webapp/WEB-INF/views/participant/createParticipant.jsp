@@ -121,31 +121,36 @@
             }
             form.submit();
         }
+       
+        var clickCount = ${homeModeCount};
 
-        //        function showOrHideEmail(value) {
-        //            var value2 = value2;
-        //            if (value2 == ivrs) {
-        //                var ivrs = value1;
-        //            }
-        //            if (value) {
-        //                jQuery('#div_contact').show();
-        //                jQuery('#div_email').show();
-        //            } else {
-        //                jQuery('#div_email').hide();
-        //            }
-        //            checkMainDiv();
-        <%----%>
-        //        }
-        <%----%>
-        //        function checkMainDiv() {
-        //            if (jQuery('#div_email').is(':visible')) {
-        //                jQuery('#div_contact').show();
-        //            }
-        <%----%>
-        //            else {
-        //                jQuery('#div_contact').hide();
-        //            }
-        //        }
+        function showOrHideEmail(value) {
+
+            if (value) {
+                jQuery('#div_contact').show();
+                clickCount++;
+//                jQuery('#div_email').show();
+            } else {
+                if (clickCount == 1 ) {
+                    jQuery('#div_contact').hide();
+                }
+                clickCount--;
+//                jQuery('#div_email').hide();
+            }
+
+//            checkMainDiv();
+
+        }
+
+        function checkMainDiv() {
+//            if (jQuery('#div_email').is(':visible')) {
+//                jQuery('#div_contact').show();
+//            }
+<%----%>
+//            else {
+//                jQuery('#div_contact').hide();
+//            }
+        }
         //        function phoneRequired(value) {
         //               if(value) {
         <%--<c:set var="req" value="true"/>--%>
@@ -203,7 +208,7 @@
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
-   <jsp:attribute name="singleFields">
+<jsp:attribute name="singleFields">
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
                <c:set var="required" value="true"/>
@@ -214,6 +219,7 @@
                <c:set var="maxLength" value="40"/>
            </c:otherwise>
        </c:choose>
+       
            <chrome:division title="participant.label.site">
                <c:choose>
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
@@ -292,25 +298,53 @@
                    </tr>
                </table>
            </chrome:division>
-        <c:if test="${command.mode eq 'N'}">
-            <chrome:division title="participant.label.contact_information">
+       <c:choose>
+           <c:when test="${command.mode eq 'N'}">
+               <chrome:division title="participant.label.contact_information">
 
-                <table border="0" style="width:100%">
-                    <tr>
-                        <td width="50%">
-                            <tags:renderEmail propertyName="participant.emailAddress"
-                                              displayName="participant.label.email_address"
-                                              required="false" size="35"/>
-                        </td>
-                        <td width="50%">
-                            <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
-                                                   displayName="participant.label.phone"
-                                                   required="${required}"/>
-                        </td>
-                    </tr>
-                </table>
-            </chrome:division>
-        </c:if>
+                   <table border="0" style="width:100%">
+                       <tr>
+                           <td width="50%">
+                               <tags:renderEmail propertyName="participant.emailAddress"
+                                                 displayName="participant.label.email_address"
+                                                 required="false" size="35"/>
+                           </td>
+                           <td width="50%">
+                               <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
+                                                      displayName="participant.label.phone"
+                                                      required="${required}"/>
+                           </td>
+                       </tr>
+                   </table>
+               </chrome:division>
+           </c:when>
+           <c:otherwise>
+               <div id="div_contact" style="${homeModeCount gt 0 ? ' ' : 'display:none'}">
+                   <chrome:division title="participant.label.contact_information">
+
+                       <table border="0" style="width:100%">
+                           <tr>
+                               <td width="50%">
+                                   <tags:renderEmail propertyName="participant.emailAddress"
+                                                     displayName="participant.label.email_address"
+                                                     required="false" size="35"/>
+                               </td>
+                               <td width="50%">
+                                   <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
+                                                          displayName="participant.label.phone"
+                                                          required="false"/>
+                               </td>
+                           </tr>
+                       </table>
+                   </chrome:division>
+               </div>
+           </c:otherwise>
+       </c:choose>
+       <%--<c:if test="${command.mode eq 'N' || showContact == true}">--%>
+       <%----%>
+       <%--</c:if>--%>
+
+
        <%--<div id="div_contact" style="display:none">--%>
        <%--<chrome:division title="participant.label.contact_information">--%>
        <%--<div id="div_email" style="display:none">--%>

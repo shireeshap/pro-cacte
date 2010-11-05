@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.util.*;
 
 //
+
 /**
  * The Class StudyParticipantAssignment.
  *
@@ -88,6 +90,10 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @JoinColumn(name = "arm_id", nullable = false)
     private Arm arm;
 
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+
 
     /**
      * Instantiates a new study participant assignment.
@@ -99,6 +105,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     /* (non-Javadoc)
       * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
       */
+
     public Integer getId() {
         return id;
     }
@@ -106,6 +113,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     /* (non-Javadoc)
       * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
       */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -379,6 +387,27 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
         this.offHoldTreatmentDate = offHoldTreatmentDate;
+    }
+
+    public List<StudyParticipantMode> getStudyParticipantModes() {
+        return studyParticipantModes;
+    }
+
+
+    public void addStudyParticipantMode(StudyParticipantMode studyParticipantMode) {
+        if(studyParticipantMode != null){
+            studyParticipantMode.setStudyParticipantAssignment(this);
+            studyParticipantModes.add(studyParticipantMode);
+        }
+    }
+
+    @Transient
+    public List<AppMode> getSelectedAppModes() {
+        List<AppMode> appModes = new ArrayList();
+          for(StudyParticipantMode studyParticipantMode : studyParticipantModes) {
+              appModes.add(studyParticipantMode.getMode());
+          }
+        return appModes;
     }
 }
 

@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 //
 
@@ -76,6 +78,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         ParticipantCommand command = new ParticipantCommand();
+        
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         command.setPasswordPolicy(passwordPolicyService.getPasswordPolicy(Role.PARTICIPANT));
         command.setAdmin(user.isAdmin());
@@ -84,6 +87,14 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
         command.setMode(mode);
         return command;
+    }
+
+    @Override
+    protected Map referenceData(HttpServletRequest request, int page) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("homeModeCount", 0);
+        return map;
+
     }
 
     protected final void populateOrganizationsForUser(ParticipantCommand command) {

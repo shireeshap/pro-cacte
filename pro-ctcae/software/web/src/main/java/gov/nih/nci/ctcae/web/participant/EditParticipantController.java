@@ -9,8 +9,12 @@ import org.springframework.validation.Errors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 //
+
 /**
  * The Class ParticipantController.
  *
@@ -32,6 +36,7 @@ public class EditParticipantController extends ParticipantController {
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
     */
+
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -56,7 +61,7 @@ public class EditParticipantController extends ParticipantController {
 
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
-            command.setSelectedStudyParticipantAssignment(participant.getStudyParticipantAssignments().get(0));
+            command.setSelectedStudyParticipantAssignmentId(participant.getStudyParticipantAssignments().get(0).getId());
             if (!user.isAdmin()) {
                 if (!command.getClinicalStaffOrgs().contains(organization)) {
                     command.setReadOnly(true);
@@ -67,9 +72,24 @@ public class EditParticipantController extends ParticipantController {
             command.setSiteName(siteName);
         }
         String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
+
         command.setMode(mode);
         command.setEdit(true);
         return command;
+    }
+
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+        ParticipantCommand participantCommand = (ParticipantCommand) command;
+        Map<String, Object> map = super.referenceData(request, command, errors, page);
+        List<StudyParticipantMode> homeModes = new ArrayList();
+        for (StudyParticipantMode studyParticipantMode : participantCommand.getParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
+            if (studyParticipantMode.getMode().equals(AppMode.WEB) || studyParticipantMode.getMode().equals(AppMode.IVRS)) {
+                homeModes.add(studyParticipantMode);
+            }
+        }
+        map.put("homeModeCount", homeModes.size());
+        return map;
     }
 
     @Override

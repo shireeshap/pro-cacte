@@ -170,7 +170,7 @@
            <form:checkbox path="appModes"   value="IVRS" label="IVRS"  /> <br>
            <form:checkbox path="appModes"   value="Booklet" label="Booklet"  /> <br>
            <form:checkbox path="appModes"   value="Clinic" label="Clinic"  />
-          <%--<tags:renderCheckBox displayName="Display Modes" propertyName="studyModes" />--%>
+          <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
        </chrome:division>
 
 </jsp:attribute>

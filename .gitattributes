@@ -494,6 +494,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/002_update_crf_pag
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/003_update_crfs.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/004_create_study_modes.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/005_update_study_participant_assignment.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/006_create_study_participant_modes.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -570,6 +571,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleDueDateComparator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text

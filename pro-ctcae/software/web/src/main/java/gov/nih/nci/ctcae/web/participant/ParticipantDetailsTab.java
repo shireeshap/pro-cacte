@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.util.*;
 
 //
+
 /**
  * @author Harsh Agarwal
  * @since Feb 19, 2009
@@ -78,6 +79,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         query.filterByStudySiteAndLeadSiteOnly();
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
+
         Set<Organization> organizationsHavingStudySite = new HashSet<Organization>();
         for (StudyOrganization studySite : studySites) {
             Organization o = studySite.getOrganization();
@@ -110,6 +112,18 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             throw new RuntimeException(e);
         }
         super.postProcess(request, command, errors);
+        
+        command.getSelectedStudyParticipantAssignment().getStudyParticipantModes().clear();
+        for (String string : command.getParticipantModes()) {
+            AppMode mode = AppMode.getByCode(string);
+            StudyParticipantMode studyParticipantMode = new StudyParticipantMode();
+            studyParticipantMode.setMode(mode);
+            studyParticipantMode.setEmail(command.getEmail());
+            studyParticipantMode.setCall(command.getCall());
+            studyParticipantMode.setText(command.getText());
+            command.getSelectedStudyParticipantAssignment().addStudyParticipantMode(studyParticipantMode);
+        }
+
     }
 
     /**

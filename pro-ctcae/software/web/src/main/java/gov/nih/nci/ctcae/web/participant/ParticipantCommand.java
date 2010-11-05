@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 //
+
 /**
  * The Class ParticipantCommand.
  */
@@ -27,6 +28,8 @@ public class ParticipantCommand {
     private int organizationId;
 
     private StudyParticipantAssignment selectedStudyParticipantAssignment;
+
+    private Integer selectedStudyParticipantAssignmentId;
     /**
      * The study id.
      */
@@ -48,6 +51,11 @@ public class ParticipantCommand {
     private boolean odc;
     private boolean admin;
     private boolean edit = false;
+    private String[] participantModes;
+
+    private boolean email = false;
+    private boolean call = false;
+    private boolean text = false;
 
     public boolean isOdc() {
         return odc;
@@ -216,16 +224,21 @@ public class ParticipantCommand {
 
 
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
+
         List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
-        if (!studyParticipantAssignments.isEmpty() && selectedStudyParticipantAssignment == null) {
+        if (studyParticipantAssignments.get(0).getId() != null) {
+            for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAssignments) {
+                if (studyParticipantAssignment.getId().equals(selectedStudyParticipantAssignmentId)) {
+                    return studyParticipantAssignment;
+                }
+            }
+        } else {
             selectedStudyParticipantAssignment = studyParticipantAssignments.get(0);
         }
+
         return selectedStudyParticipantAssignment;
     }
 
-    public void setSelectedStudyParticipantAssignment(StudyParticipantAssignment selectedStudyParticipantAssignment) {
-        this.selectedStudyParticipantAssignment = selectedStudyParticipantAssignment;
-    }
 
     public void assignStaff() {
         for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
@@ -292,5 +305,58 @@ public class ParticipantCommand {
 
     public boolean isEdit() {
         return edit;
+    }
+
+    public String[] getParticipantModes() {
+        return participantModes;
+    }
+
+    public void setParticipantModes(String[] participantModes) {
+        this.participantModes = participantModes;
+    }
+
+    public boolean isEmail() {
+        return email;
+    }
+
+    public void setEmail(boolean email) {
+        this.email = email;
+    }
+
+    public boolean getEmail() {
+        return email;
+    }
+
+
+    public boolean isCall() {
+        return call;
+    }
+
+    public boolean getCall() {
+        return call;
+    }
+
+    public void setCall(boolean call) {
+        this.call = call;
+    }
+
+    public boolean isText() {
+        return text;
+    }
+
+    public boolean getText() {
+        return text;
+    }
+
+    public void setText(boolean text) {
+        this.text = text;
+    }
+
+    public Integer getSelectedStudyParticipantAssignmentId() {
+        return selectedStudyParticipantAssignmentId;
+    }
+
+    public void setSelectedStudyParticipantAssignmentId(Integer selectedStudyParticipantAssignmentId) {
+        this.selectedStudyParticipantAssignmentId = selectedStudyParticipantAssignmentId;
     }
 }

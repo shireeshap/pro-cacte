@@ -43,6 +43,12 @@ public class ParticipantRepository implements Repository<Participant, Participan
             studyParticipantAssignment.getParticipant();
             studyParticipantAssignment.getStudyParticipantCrfs();
             studyParticipantAssignment.getStudyParticipantClinicalStaffs();
+            for(StudyParticipantMode studyParticipantMode : studyParticipantAssignment.getStudyParticipantModes()){
+                studyParticipantMode.getMode();
+            }
+            for(StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
+                studyMode.getMode();
+            }
         }
     }
 

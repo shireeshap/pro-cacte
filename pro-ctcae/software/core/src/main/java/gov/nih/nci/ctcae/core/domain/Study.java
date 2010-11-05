@@ -542,9 +542,20 @@ public class Study extends BasePersistable {
     }
 
     public void addStudyMode(StudyMode mode) {
-         if (mode != null) {
+        if (mode != null) {
             mode.setStudy(this);
             studyModes.add(mode);
-         }
+        }
     }
+
+    public List<StudyMode> getHomeModes() {
+        List<StudyMode> homeModes = new ArrayList();
+        for (StudyMode studyMode : studyModes) {
+            if (studyMode.getMode().getDisplayName().equals(AppMode.WEB) || studyMode.getMode().getDisplayName().equals(AppMode.IVRS)) {
+                homeModes.add(studyMode);
+            }
+        }
+        return homeModes;
+    }
+    
 }

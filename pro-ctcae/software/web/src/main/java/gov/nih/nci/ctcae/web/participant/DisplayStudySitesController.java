@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.StudyMode;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 //
+
 /**
  * @author Harsh Agarwal
  * @created Feb 12, 2008
@@ -31,6 +33,7 @@ public class DisplayStudySitesController extends AbstractController {
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaystudysites");
         Integer organizationId = Integer.parseInt(request.getParameter("organizationId"));
@@ -41,15 +44,14 @@ public class DisplayStudySitesController extends AbstractController {
 
         String participantId = request.getParameter("id");
         Participant participant = null;
+        ParticipantCommand command = (ParticipantCommand) request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
         if (!StringUtils.isBlank(participantId)) {
             participant = participantRepository.findById(Integer.parseInt(participantId));
         } else {
-            ParticipantCommand command = (ParticipantCommand) request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
             participant = command.getParticipant();
         }
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
-
 
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 StudyOrganization studySite = studyParticipantAssignment.getStudySite();
@@ -60,6 +62,7 @@ public class DisplayStudySitesController extends AbstractController {
             }
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
         }
+        List<String> participantModes = new ArrayList();
 
         modelAndView.addObject("unselectedstudysites", studySites);
         return modelAndView;

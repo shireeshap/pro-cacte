@@ -6,6 +6,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ attribute name="studysite" type="gov.nih.nci.ctcae.core.domain.StudySite" required="true" %>
 
 <c:forEach items="${studysite.study.crfs}" var="crf">
@@ -31,12 +32,12 @@
             <c:otherwise>
                 <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a> <br>
                 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
-                <a href="javascript:participantOnHold(${studyParticipantAssignment.id})">Treatment on hold</a>  <br>
+                    <a href="javascript:participantOnHold(${studyParticipantAssignment.id})">Treatment on hold</a> <br>
                 </c:if>
                 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                     Treatment on-hold from <tags:formatDate
                         value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                    <a href="javascript:participantOffHold(${studyParticipantAssignment.id})"> Re-assign participant to
+                    <a href="javascript:participantOffHold(${studyParticipantAssignment.id})"> Put participant on
                         treatment </a>
                 </c:if>
                 <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
@@ -98,6 +99,87 @@
                         </c:otherwise>
                     </c:choose>
                 </c:if>
+            </tr>
+            <tr>
+                <td align="right" class="data">
+                    <b>Patient self reporting option</b>
+                </td>
+                <td>
+                    <table>
+                        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+                            <c:if test="${studyMode.mode.displayName eq 'Clinic'}">
+
+                                <tr>
+                                    <td>
+                                        <tags:renderCheckBox propertyName="participantModes"
+                                                             values="${studyParticipantAssignment.selectedAppModes}"
+                                                             displayName="${studyMode.mode.displayName}"
+                                                             propertyValue="${studyMode.mode.code}" noForm="true"
+                                                             useRenderInput="true"/>
+
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;(no reminder will be sent)
+                                    </td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${studyMode.mode.displayName eq 'Booklet'}">
+                                <tr>
+                                    <td>
+                                        <tags:renderCheckBox propertyName="participantModes"
+                                                             values="${studyParticipantAssignment.selectedAppModes}"
+                                                             displayName="${studyMode.mode.displayName}"
+                                                             propertyValue="${studyMode.mode.code}" noForm="true"
+                                                             useRenderInput="true"/>
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;(no reminder will be sent)
+                                    </td>
+                                </tr>
+                            </c:if>
+
+                            <c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}"  >
+                                <tr>
+                                    <td>
+                                        <tags:renderCheckBox propertyName="participantModes"
+                                                             values="${studyParticipantAssignment.selectedAppModes}"
+                                                             displayName="${studyMode.mode.displayName}"
+                                                             propertyValue="${studyMode.mode.code}" noForm="true"
+                                                             useRenderInput="true" onclick="javascript:showOrHideEmail(this.checked);"/>
+                                    </td>
+                                    <td>
+                                        <c:if test="${studyMode.mode.displayName eq 'Web'}">
+                                            <input type="checkbox" name="email" value="true"
+                                                   id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> notify via email
+                                            <input type="hidden" name="_${propertyName}" value="on">
+                                        </c:if>
+                                        <c:if test="${studyMode.mode.displayName eq 'IVRS'}">
+                                            <input type="checkbox" name="call" value="true"
+                                                   id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> notify via phone call &nbsp;&nbsp;&nbsp;
+                                            <input type="hidden" name="_${propertyName}" value="on">
+                                            <input type="checkbox" name="text" value="true"
+                                                   id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> notify via text
+                                            <input type="hidden" name="_${propertyName}" value="on">
+                                        </c:if>
+
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </table>
+
+
+                    <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
+                        <%--<tags:renderCheckBox propertyName="participantModes"--%>
+                                             <%--values="${studyParticipantAssignment.selectedAppModes}"--%>
+                                             <%--displayName="${studyMode.mode.displayName}"--%>
+                                             <%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
+                                             <%--useRenderInput="true"/>--%>
+<%----%>
+                    <%--</c:forEach>--%>
+
+                    <%--<tags:renderCheckBox propertyName="email" propertyValue="true" noForm="true" useRenderInput="true"/> notify via email --%>
+                </td>
             </tr>
             <tr>
                 <td align="right" class="data">
