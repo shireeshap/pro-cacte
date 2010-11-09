@@ -122,50 +122,32 @@
             form.submit();
         }
        
-        var clickCount = ${homeModeCount};
+        <%--var clickCount = ${homeModeCount};--%>
 
-        function showOrHideEmail(value) {
+        function showOrHideEmail(value1, value2) {
+        
 
-            if (value) {
+            if (value1 && value2 == "Web") {
                 jQuery('#div_contact').show();
-                clickCount++;
-//                jQuery('#div_email').show();
+                jQuery('#web').show();
+                jQuery('#email').attr('checked',true);
+                jQuery('#call').attr('checked',false);
             } else {
-                if (clickCount == 1 ) {
-                    jQuery('#div_contact').hide();
-                }
-                clickCount--;
-//                jQuery('#div_email').hide();
+                jQuery('#web').hide();
+
+            }
+            if (value1 && value2 == "IVRS") {
+                jQuery('#div_contact').show();
+                jQuery('#ivrs').show();
+                jQuery('#call').attr('checked',true);
+                jQuery('#email').attr('checked',false);
+            } else {
+                jQuery('#ivrs').hide();
             }
 
-//            checkMainDiv();
-
         }
 
-        function checkMainDiv() {
-//            if (jQuery('#div_email').is(':visible')) {
-//                jQuery('#div_contact').show();
-//            }
-<%----%>
-//            else {
-//                jQuery('#div_contact').hide();
-//            }
-        }
-        //        function phoneRequired(value) {
-        //               if(value) {
-        <%--<c:set var="req" value="true"/>--%>
-        //               }  else {
-        <%--<c:set var="req" value="false"/> --%>
-        //               }
-        //        }
 
-        //        function showOrHideNumber(value) {
-        <%----%>
-        //            jQuery('#div_contact').show();
-        //            jQuery('#div_number').toggle();
-        //            checkMainDiv();
-        <%----%>
-        //        }
 
 
     </script>
@@ -319,7 +301,7 @@
                </chrome:division>
            </c:when>
            <c:otherwise>
-               <div id="div_contact" style="${homeModeCount gt 0 ? ' ' : 'display:none'}">
+               <div id="div_contact" style="display:none">
                    <chrome:division title="participant.label.contact_information">
 
                        <table border="0" style="width:100%">

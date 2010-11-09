@@ -19,7 +19,7 @@
                 <div >
 
                     <div>Are you sure you want to do this?</div>
-                    <div>Making the participant treatment on hold will put all the participant schedules on hold.</div>
+                    <div>Making the participant treatment on hold will put all the future form schedules on hold.</div>
                 </div>
                 <p>
                     Please provide the date on which the treatment of participant <strong>${command.participant.displayName}</strong>

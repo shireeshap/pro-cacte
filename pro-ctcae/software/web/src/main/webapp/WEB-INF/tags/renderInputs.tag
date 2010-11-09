@@ -187,9 +187,39 @@
                                cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
         </c:otherwise>
     </c:choose>
+</c:when>
+
+<c:when test="${categoryName == 'radiobutton'}">
+    <c:choose>
+        <c:when test="${noForm}">
+            <c:if test="${empty values}">
+                <input type="radio" class="longselect-radio" name="${propertyName}" id="${propertyName}"
+                       value="${propertyValue}"
+                       style="margin:3px" onclick="${onclick}"/>
+                <input type="hidden" name="_${propertyName}" value="on">
+            </c:if>
+            <c:if test="${not empty values}">
+                <c:set var="_match" value="false"/>
+                <c:forEach items="${values}" var="item">
+                    <c:if test="${item.code eq propertyValue}">
+                        <c:set var="_match" value="true"/>
+                    </c:if>
+                </c:forEach>
+                <input type="radio" class="longselect-radio" name="${propertyName}" id="${propertyName}"
+                       value="${propertyValue}"
+                       style="margin:3px" onclick="${onclick}" ${_match ? "checked" : " "}/>
+                <input type="hidden" name="_${propertyName}" value="on">
+            </c:if>
+        </c:when>
+        <c:otherwise>
+            <form:radiobuttons path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
+                               cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+        </c:otherwise>
+    </c:choose>
 
 
 </c:when>
+
 <c:when test="${categoryName == 'selectdomainobject'}">
     <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
                  cssClass="${cssClass}" itemValue="id" onchange="${onchange}" itemLabel="${itemLabel}"/>
