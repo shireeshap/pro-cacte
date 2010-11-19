@@ -71,11 +71,12 @@ td.data {
 
 .passive {
     height: 50px;
+    background-color: #DDDDDD;
 }
 
 .passive:hover {
-    background-color: #DDDDDD;
-    cursor: pointer;
+
+    /*cursor: pointer;*/
 }
 
 img.navBack {

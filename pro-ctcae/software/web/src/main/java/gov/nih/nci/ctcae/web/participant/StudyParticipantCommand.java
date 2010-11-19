@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -39,6 +40,10 @@ public class StudyParticipantCommand {
      * The repeatdropdown.
      */
     private String[] repeatdropdown;
+
+    private Date onHoldTreatmentDate;
+
+    private Date offHoldTreatmentDate;
 
     /**
      * Instantiates a new study participant command.
@@ -175,5 +180,21 @@ public class StudyParticipantCommand {
         for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
             crfPage.getCrfPageItems();
         }
+    }
+
+    public Date getOnHoldTreatmentDate() {
+        return onHoldTreatmentDate;
+    }
+
+    public void setOnHoldTreatmentDate(Date onHoldTreatmentDate) {
+        this.onHoldTreatmentDate = onHoldTreatmentDate;
+    }
+
+    public Date getOffHoldTreatmentDate() {
+        return offHoldTreatmentDate;
+    }
+
+    public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
+        this.offHoldTreatmentDate = offHoldTreatmentDate;
     }
 }

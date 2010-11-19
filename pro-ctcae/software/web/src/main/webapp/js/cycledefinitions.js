@@ -36,11 +36,14 @@ function initializeCalendar(index) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
+//    var item = $(div_id);
     for (var day = 0; day < myCalendar.length; day++) {
+//        var item = $(div_id);
         if (isdefined(myCalendar[day])) {
             var div_id = index + '_schedule_' + day;
             var myschedule = mySchedules[day];
             var showdropdown = false;
+            var item = $(div_id);
             if (isdefined(myschedule)) {
                 var scheduleid = '';
                 var item = $(div_id);
@@ -53,6 +56,7 @@ function initializeCalendar(index) {
                     var title = '';
                     var allCompleted = true;
                     var hasPastDue = false;
+                    var onHold = false;
                     for (var a = 0; a < myschedule.length; a++) {
                         scheduleid += myschedule[a][3] + '_';
                         title = title + forms[index][myschedule[a][3]];
@@ -62,6 +66,11 @@ function initializeCalendar(index) {
                         }
                         if (status != 'Completed') {
                             allCompleted = false;
+                        }
+                        if (status == 'On-hold') {
+                            item.style.background = 'yellow';
+                            item.style.color = "black";
+                            onHold = true;
                         }
                         if (a != myschedule.length - 1) {
                             title = title + ', '
@@ -75,6 +84,9 @@ function initializeCalendar(index) {
                     if (hasPastDue) {
                         item.style.background = 'red';
                         item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
+                    }
+                    if (onHold) {
+                        item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
                     }
                     showdropdown = true;
                     item.title = title;
@@ -100,12 +112,13 @@ function initializeCalendar(index) {
                     }
                     if (status == 'On-hold') {
                         item.style.background = 'yellow';
+                        item.style.color = 'black';
                     }
                     if (status == 'Cancelled') {
                         item.style.background = 'lightgrey';
                     }
 
-                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress') {
+                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold') {
                         if (holiday == 'true') {
                             item.style.background = '#666666';
                         }
@@ -123,10 +136,17 @@ function initializeCalendar(index) {
                 }
                 myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
             } else {
-                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
-                Event.observe(div_id, "click", function() {
-                    showAddWindow(getDate(this), getIndex(this));
-                })
+//                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
+                var delIcon = '<div style="float:right">' +
+                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
+                                  '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
+                                  '</div>';
+                    item.innerHTML = delIcon + item.innerHTML;
+                
+                showPopUpMenuSchedule(day, index, null);
+//                Event.observe(div_id, "click", function() {
+//                    showAddWindow(getDate(this), getIndex(this));
+//                })
             }
         }
     }

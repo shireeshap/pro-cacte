@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyMode;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.TimeZone;
 
 //
 
@@ -50,6 +50,14 @@ public class DisplayStudySitesController extends AbstractController {
         } else {
             participant = command.getParticipant();
         }
+        List<Integer> times = new ArrayList();
+            for (int j = 1; j <= 12; j++) {
+                    times.add(j);
+                }
+
+           
+
+
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
@@ -60,7 +68,11 @@ public class DisplayStudySitesController extends AbstractController {
                 studySite.getStudy().getStudySponsor();
                 studyParticipantAssignments.add(studyParticipantAssignment);
             }
+            String[] timeZones = TimeZone.getAvailableIDs();
+
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
+            modelAndView.addObject("times", times);
+            modelAndView.addObject("timezones", timeZones);
         }
         List<String> participantModes = new ArrayList();
 

@@ -32,12 +32,13 @@
             <c:otherwise>
                 <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a> <br>
                 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
-                    <a href="javascript:participantOnHold(${studyParticipantAssignment.id})">Treatment on hold</a> <br>
+                    <a href="javascript:participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
+                        hold</a> <br>
                 </c:if>
                 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                     Treatment on-hold from <tags:formatDate
                         value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                    <a href="javascript:participantOffHold(${studyParticipantAssignment.id})"> Put participant on
+                    <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put participant on
                         treatment </a>
                 </c:if>
                 <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
@@ -108,30 +109,51 @@
     <td>
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}">
-                <tags:renderRadio propertyName="participantModes"
+                <tags:renderRadio propertyName="participantModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}" propertyValue="${studyMode.mode.code}"
                                   noForm="true" useRenderInput="true"
-                                  onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.displayName}');"/>
+                                  onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.displayName}', ${studysite.id});"/>
             </c:if>
         </c:forEach>
     </td>
     <td>
-        <div id="web" style="display:none">
-            <input type="checkbox" name="email" value="true"
+        
+        <div id="web_${studysite.id}" style="display:none">
+            <input type="checkbox" name="email_${studysite.id}" value="true"
                    id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> reminder
             via email <br>
-            <input type="hidden" name="_${propertyName}" value="on">
-        </div>   <br>
-        <div id="ivrs" style="display:none">
-            <input type="checkbox" name="call" value="true"
+        </div>
+        <br> 
+
+        <div id="ivrs_${studysite.id}" style="display:none"> <br><br>
+            <input type="checkbox" name="call_${studysite.id}" value="true"
                    id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> reminder
             via phone call &nbsp;&nbsp;&nbsp;
-            <input type="hidden" name="_${propertyName}" value="on">
-            <input type="checkbox" name="text" value="true"
+            <input type="checkbox" name="text_${studysite.id}" value="true"
                    id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> reminder
-            via text
-            <input type="hidden" name="_${propertyName}" value="on">
+            via text &nbsp;&nbsp;&nbsp;
+            <br>
+            <b>Call time</b>&nbsp;
+            <select id="time" name="time_${studysite.id}">
+                <c:forEach items="${times}" var="time">
+                    <option value="${time}" ${studyParticipantAssignment.time eq time ? "selected='selected'" : " "} >${time}</option>
+                </c:forEach>
+            </select>&nbsp;
+            <select id="hour" name="hour_${studysite.id}">
+                <option value="am" ${studyParticipantAssignment.hour eq "am" ? "selected='selected'" : " "} >am</option>
+                <option value="pm" ${studyParticipantAssignment.hour eq "pm" ? "selected='selected'" : " "} >pm</option>
+            </select>&nbsp;&nbsp;&nbsp;
+            <b>Time zone</b>&nbsp;
+            <select id="timeZone" name="timeZone_${studysite.id}">
+                <option value="America/New_York" ${studyParticipantAssignment.hour eq "America/New_York" ? "selected='selected'" : " "} >Eastern Time</option>
+                <option value="America/Chicago" ${studyParticipantAssignment.hour eq "America/Chicago" ? "selected='selected'" : " "} >Central Time</option>
+                <option value="America/Denver" ${studyParticipantAssignment.hour eq "America/Denver" ? "selected='selected'" : " "} >Mountain Time</option>
+                <option value="America/Los_Angeles" ${studyParticipantAssignment.hour eq "America/Los_Angeles" ? "selected='selected'" : " "} >Pacific Time</option>
+                <option value="America/Anchorage" ${studyParticipantAssignment.hour eq "America/Anchorage" ? "selected='selected'" : " "} >Alaska Time</option>
+                <option value="America/Adak" ${studyParticipantAssignment.hour eq "America/Adak" ? "selected='selected'" : " "} >Hawaii-Aleutian Time</option>
+            </select>
+
         </div>
     </td>
 </tr>
@@ -142,7 +164,7 @@
     <td width="10%">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.displayName eq 'Clinic' || studyMode.mode.displayName eq 'Booklet'}">
-                <tags:renderRadio propertyName="participantModes"
+                <tags:renderRadio propertyName="participantModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}" propertyValue="${studyMode.mode.code}"
                                   noForm="true" useRenderInput="true"/>
@@ -157,81 +179,7 @@
         </c:forEach>
     </td>
 </tr>
-<%--<table>--%>
-<%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-<%--<c:if test="${studyMode.mode.displayName eq 'Clinic'}">--%>
 
-<%--<tr>--%>
-<%--<td>--%>
-<%----%>
-<%--<tags:renderCheckBox propertyName="participantModes"--%>
-<%--values="${studyParticipantAssignment.selectedAppModes}"--%>
-<%--displayName="${studyMode.mode.displayName}"--%>
-<%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
-<%--useRenderInput="true"/>--%>
-
-<%--</td>--%>
-<%--<td>--%>
-<%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</c:if>--%>
-<%--<c:if test="${studyMode.mode.displayName eq 'Booklet'}">--%>
-<%--<tr>--%>
-<%--<td>--%>
-<%--<tags:renderCheckBox propertyName="participantModes"--%>
-<%--values="${studyParticipantAssignment.selectedAppModes}"--%>
-<%--displayName="${studyMode.mode.displayName}"--%>
-<%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
-<%--useRenderInput="true"/>--%>
-<%--</td>--%>
-<%--<td>--%>
-<%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</c:if>--%>
-
-<%--<c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}"  >--%>
-<%--<tr>--%>
-<%--<td>--%>
-<%--<tags:renderCheckBox propertyName="participantModes"--%>
-<%--values="${studyParticipantAssignment.selectedAppModes}"--%>
-<%--displayName="${studyMode.mode.displayName}"--%>
-<%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
-<%--useRenderInput="true" onclick="javascript:showOrHideEmail(this.checked);"/>--%>
-<%--</td>--%>
-<%--<td>--%>
-<%--<c:if test="${studyMode.mode.displayName eq 'Web'}">--%>
-<%--<input type="checkbox" name="email" value="true"--%>
-<%--id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> notify via email--%>
-<%--<input type="hidden" name="_${propertyName}" value="on">--%>
-<%--</c:if>--%>
-<%--<c:if test="${studyMode.mode.displayName eq 'IVRS'}">--%>
-<%--<input type="checkbox" name="call" value="true"--%>
-<%--id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> notify via phone call &nbsp;&nbsp;&nbsp;--%>
-<%--<input type="hidden" name="_${propertyName}" value="on">--%>
-<%--<input type="checkbox" name="text" value="true"--%>
-<%--id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> notify via text--%>
-<%--<input type="hidden" name="_${propertyName}" value="on">--%>
-<%--</c:if>--%>
-
-<%--</td>--%>
-<%--</tr>--%>
-<%--</c:if>--%>
-<%--</c:forEach>--%>
-<%--</table>--%>
-
-
-<%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-<%--<tags:renderCheckBox propertyName="participantModes"--%>
-<%--values="${studyParticipantAssignment.selectedAppModes}"--%>
-<%--displayName="${studyMode.mode.displayName}"--%>
-<%--propertyValue="${studyMode.mode.code}" noForm="true"--%>
-<%--useRenderInput="true"/>--%>
-<%----%>
-<%--</c:forEach>--%>
-
-<%--<tags:renderCheckBox propertyName="email" propertyValue="true" noForm="true" useRenderInput="true"/> notify via email --%>
 </td>
 </tr>
 <tr>

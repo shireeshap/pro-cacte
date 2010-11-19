@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -51,11 +52,15 @@ public class ParticipantCommand {
     private boolean odc;
     private boolean admin;
     private boolean edit = false;
-    private String[] participantModes;
+    private List<String> participantModes = new ArrayList();
 
     private boolean email = false;
     private boolean call = false;
     private boolean text = false;
+
+    private Integer time;
+    private String hour;
+    private String timeZone;
 
     public boolean isOdc() {
         return odc;
@@ -203,8 +208,43 @@ public class ParticipantCommand {
             participant.removeAllStudyParticipantAssignments();
             for (StudySite studySite : getStudySites()) {
                 setSiteName(studySite.getOrganization().getName());
-
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
+                String participantMode = request.getParameter("participantModes_" + studySite.getId());
+                participantModes.add(participantMode);
+                Boolean email = ServletRequestUtils.getBooleanParameter(request, "email_" + studySite.getId(), false);
+                Boolean call = ServletRequestUtils.getBooleanParameter(request, "call_" + studySite.getId(), false);
+                Boolean text = ServletRequestUtils.getBooleanParameter(request, "text_" + studySite.getId(), false);
+                Integer time = ServletRequestUtils.getIntParameter(request, "time_" + studySite.getId(), 1);
+                String hour = request.getParameter("hour_" + studySite.getId());
+                String timeZone = request.getParameter("timeZone_" + studySite.getId());
+                if (participantMode != null) {
+                    if (participantMode.equals("Web")) {
+                        hour = null;
+                        time = null;
+                        timeZone = null;
+                    }
+                } else {
+                    hour = null;
+                    time = null;
+                    timeZone = null;
+                }
+                studyParticipantAssignment.setHour(hour);
+                studyParticipantAssignment.setTime(time);
+                studyParticipantAssignment.setTimeZone(timeZone);
+                studyParticipantAssignment.getStudyParticipantModes().clear();
+                if (getParticipantModes().size() > 0) {
+                    for (String string : getParticipantModes()) {
+                        AppMode mode = AppMode.getByCode(string);
+                        if (mode != null) {
+                            StudyParticipantMode studyParticipantMode = new StudyParticipantMode();
+                            studyParticipantMode.setMode(mode);
+                            studyParticipantMode.setEmail(email);
+                            studyParticipantMode.setCall(call);
+                            studyParticipantMode.setText(text);
+                            studyParticipantAssignment.addStudyParticipantMode(studyParticipantMode);
+                        }
+                    }
+                }
                 String studyStartDate = request.getParameter("study_date_" + studySite.getId());
                 if (!StringUtils.isBlank(studyStartDate)) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -307,11 +347,11 @@ public class ParticipantCommand {
         return edit;
     }
 
-    public String[] getParticipantModes() {
+    public List<String> getParticipantModes() {
         return participantModes;
     }
 
-    public void setParticipantModes(String[] participantModes) {
+    public void setParticipantModes(List<String> participantModes) {
         this.participantModes = participantModes;
     }
 
@@ -358,5 +398,29 @@ public class ParticipantCommand {
 
     public void setSelectedStudyParticipantAssignmentId(Integer selectedStudyParticipantAssignmentId) {
         this.selectedStudyParticipantAssignmentId = selectedStudyParticipantAssignmentId;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 }

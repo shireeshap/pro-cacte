@@ -23,7 +23,7 @@ public class StudyParticipantMode extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "mode", nullable = false)
+    @Column(name = "mode", nullable = true)
     @Enumerated(value = EnumType.STRING)
     private AppMode mode;
 

@@ -20,14 +20,16 @@
                     <%--<img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!"--%>
                          <%--style="float:left; margin-right:30px; margin-left:55px;"/>--%>
 
-                    <div style="font-size:20px; margin-bottom:5px;">Are you sure you want to do this?</div>
+                    <%--<div style="font-size:20px; margin-bottom:5px;">Are you sure you want to do this?</div>--%>
 
                 </div>
                 <p>
                     Participant <strong>${command.participant.displayName}</strong>
-                    will be re-assigned to treatment and all the schedules will be reinstated.
+                    will be re-assigned to treatment and all the schedules will be reinstated. <br><br>
+                    <input type="radio" name="recreate" value="recreate"> Recreate cycles  <br>
+                    <input type="radio" name="recreate" value="move"> Continue cycle from where the treatment was put on hold 
                     <tags:renderDate propertyName="offHoldTreatmentDate"
-                                     displayName="participant.label.on_hold_date" required="true"/>
+                                     displayName="participant.label.remove_hold_date" required="true"/>
 
                 </p>
 

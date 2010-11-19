@@ -125,23 +125,74 @@
             new Insertion.After('calendar_' + index + '_inner', transport.responseText);
         }
 
-        function showPopUpMenuSchedule(date, index, sid) {
-            var html = '<div id="search-engines"><ul>';
-            html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
-            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
-            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
-            var split = sid.split('_');
-            for (var a = 0; a < split.length; a++) {
-                var scheduleid = split[a];
-                if (scheduleid != '') {
-                    var formName = forms[index][scheduleid];
-                    html += '<li><hr></li>';
-                    html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
-                    html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
-                }
+        function participantOnHold(id, date, index) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 250);
+                },
+                method:'get'
+            })
+        }
+
+        function participantOffHold(id, date, index) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
+
+        function validateAndSubmit(date, form) {
+            if (date == '') {
+                alert('Please provide a valid date');
+                return;
             }
-            html += '</ul></div>';
-            jQuery('#scheduleActions' + sid).menu({
+            form.submit();
+        }
+
+        function showPopUpMenuSchedule(date, index, sid) {
+            var html = '';
+            var menuindex = date;
+            var holdDate = date;
+            if (sid == null) {
+                html = '<div id="search-engines"><ul>';
+                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
+                if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                } else {
+                    html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                }
+
+                html += '</ul></div>';
+            } else {
+                menuindex = sid;
+                var html = '<div id="search-engines"><ul>';
+                html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
+                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
+                html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+
+                if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">On hold</a></li>';
+                } else {
+                    html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Off hold</a></li>';
+                }
+                var split = sid.split('_');
+                for (var a = 0; a < split.length; a++) {
+                    var scheduleid = split[a];
+                    if (scheduleid != '') {
+                        var formName = forms[index][scheduleid];
+                        html += '<li><hr></li>';
+                        html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+                        html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                    }
+                }
+                html += '</ul></div>';
+            }
+            jQuery('#scheduleActions' + menuindex).menu({
                 content: html,
                 maxHeight: 180,
                 positionOpts: {

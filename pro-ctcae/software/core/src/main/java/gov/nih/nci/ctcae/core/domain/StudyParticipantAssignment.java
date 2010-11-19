@@ -20,7 +20,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "STUDY_PARTICIPANT_ASSIGNMENTS")
-
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_STUDY_PARTICIPANT_ASSIG_ID")})
 public class StudyParticipantAssignment extends BaseVersionable {
 
@@ -93,6 +92,15 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+
+    @Column(name = "time_zone", nullable = true)
+    private String timeZone;
+
+    @Column(name = "time", nullable = true)
+    private Integer time;
+
+    @Column(name = "hour", nullable = true)
+    private String hour;
 
 
     /**
@@ -399,6 +407,30 @@ public class StudyParticipantAssignment extends BaseVersionable {
             studyParticipantMode.setStudyParticipantAssignment(this);
             studyParticipantModes.add(studyParticipantMode);
         }
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
     }
 
     @Transient

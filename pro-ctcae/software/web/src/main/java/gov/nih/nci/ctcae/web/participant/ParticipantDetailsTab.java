@@ -112,17 +112,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             throw new RuntimeException(e);
         }
         super.postProcess(request, command, errors);
-        
-        command.getSelectedStudyParticipantAssignment().getStudyParticipantModes().clear();
-        for (String string : command.getParticipantModes()) {
-            AppMode mode = AppMode.getByCode(string);
-            StudyParticipantMode studyParticipantMode = new StudyParticipantMode();
-            studyParticipantMode.setMode(mode);
-            studyParticipantMode.setEmail(command.getEmail());
-            studyParticipantMode.setCall(command.getCall());
-            studyParticipantMode.setText(command.getText());
-            command.getSelectedStudyParticipantAssignment().addStudyParticipantMode(studyParticipantMode);
-        }
 
     }
 
