@@ -1,5 +1,6 @@
 <%@ attribute name="schedule" type="gov.nih.nci.ctcae.core.domain.ParticipantSchedule" required="true" %>
 <%@ attribute name="index" type="java.lang.String" required="true" %>
+<%@ attribute name="studyParticipantAssignment" type="gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,7 +32,12 @@
 </c:forEach>
 
 <tags:instructions code="schedulecrf.instructions"/>
-
+<c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
+<div style="margin-left:15px">
+<font color="red" size="2"><b>Treatment of Participant ${studyParticipantAssignment.participant.displayName} has been put on hold from <tags:formatDate
+                        value="${studyParticipantAssignment.onHoldTreatmentDate}"/></b></font>
+</div>
+    </c:if>
 <br/>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr class="header">

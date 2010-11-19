@@ -227,6 +227,7 @@
             <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
         </td>
     </tr>
+
 </table>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
@@ -240,7 +241,7 @@
                                     <chrome:division title=" "/>
                                     <div id="calendar_${status.index}_outer">
                                         <div id="calendar_${status.index}_inner"></div>
-                                        <tags:participantcalendar schedule="${participantSchedule}"
+                                        <tags:participantcalendar schedule="${participantSchedule}" studyParticipantAssignment="${command.studyParticipantAssignment}"
                                                                   index="0"/>
                                     </div>
                                 </td>
