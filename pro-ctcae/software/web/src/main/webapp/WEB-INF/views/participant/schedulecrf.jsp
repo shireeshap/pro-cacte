@@ -147,6 +147,14 @@
 //            })
         }
 
+        function showCycleDay () {
+            jQuery('#cycle_day').show();
+        }
+
+        function hideCycleDay () {
+            jQuery('#cycle_day').hide();
+        }
+
         function validateAndSubmit(date, form) {
             if (date == '') {
                 alert('Please provide a valid date');

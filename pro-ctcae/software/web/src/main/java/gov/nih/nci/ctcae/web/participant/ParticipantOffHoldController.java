@@ -5,14 +5,13 @@ import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * @author mehul gulati
@@ -48,61 +47,100 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     }
 
     @Override
-    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
-        String recreate = request.getParameter("recreate");
-        if(recreate == null) {
-            e.reject("schedule.error","Please select the action on cycles using the radio button");
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+        StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
+        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCommand.getStudyParticipantAssignment();
+        StudyParticipantCrf studyParticipantCrf = studyParticipantAssignment.getStudyParticipantCrfs().get(0);
+        LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+            }
         }
-        super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (onHoldStudyParticipantCrfSchedules.size() > 0 && onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber() != null) {
+            map.put("cycle", onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber());
+            map.put("day", onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay());
+        }
+        return map;
     }
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         String recreateSchedules = request.getParameter("recreate");
+        int cycle = Integer.parseInt(request.getParameter("cycle"));
+        int day = Integer.parseInt(request.getParameter("day"));
         StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
-       
+
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(spCommand.getStudyParticipantAssignment().getId());
         studyParticipantAssignment.setOffHoldTreatmentDate(spCommand.getOffHoldTreatmentDate());
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            if (recreateSchedules.equals("recreate")) {
-                studyParticipantCrf.getStudyParticipantCrfSchedules().clear();
-                studyParticipantCrf.setStartDate(studyParticipantAssignment.getOffHoldTreatmentDate());
-                studyParticipantCrf.createSchedules();
-            }
+            if (recreateSchedules.equals("continue")) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                        } else {
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                        }
+                    }
+                }
 
-            else if (recreateSchedules.equals("move")) {
+//                studyParticipantCrf.getStudyParticipantCrfSchedules().clear();
+//                studyParticipantCrf.setStartDate(studyParticipantAssignment.getOffHoldTreatmentDate());
+//                studyParticipantCrf.createSchedules();
+            } else if (recreateSchedules.equals("move")) {
                 Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        Date newStartDate = new Date(studyParticipantCrfSchedule.getStartDate().getTime() + timeDiff);
-                        Date newDueDate = new Date(studyParticipantCrfSchedule.getDueDate().getTime() + timeDiff);
-                        studyParticipantCrfSchedule.setStartDate(newStartDate);
-                        studyParticipantCrfSchedule.setDueDate(newDueDate);
-                        studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
-//                        studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
+                        setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                    }
+                }
+            } else if (recreateSchedules.equals("cycle")) {
+                Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
+                LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                        if (studyParticipantCrfSchedule.getCycleNumber() != null) {
+                            if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
+                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+
+//                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                            } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
+                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+
+//                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                            } else {
+                                studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                            }
+                        } else {
+                            setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                        }
+                    }
+                }
+                if (offHoldStudyParticipantCrfSchedules.size() > 0) {
+                    Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
+                    for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
+                        setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
                     }
                 }
             }
         }
-//        studyParticipantAssignmentRepository.save(studyParticipantAssignment);
-                   
         studyParticipantAssignment.setOnHoldTreatmentDate(null);
-//        if (recreateSchedules.equals("recreate")) {
-//                   for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-//                       for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-//                           if (studyParticipantCrfSchedule.isBaseline()) {
-//                               studyParticipantCrf.getStudyParticipantCrfSchedules().remove(studyParticipantCrfSchedule);
-//                           }
-//                       }
-//                   }
-//               }
-        
-//         studyParticipantAssignmentRepository.save(studyParticipantAssignment);
+
         spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
 
         RedirectView redirectView = new RedirectView("schedulecrf?pId=" + studyParticipantAssignment.getParticipant().getId());
         return new ModelAndView(redirectView);
 
+    }
+
+    public void setScheduleDateAndStatus(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Long timeDiff) {
+        Date newStartDate = new Date(studyParticipantCrfSchedule.getStartDate().getTime() + timeDiff);
+        Date newDueDate = new Date(studyParticipantCrfSchedule.getDueDate().getTime() + timeDiff);
+        studyParticipantCrfSchedule.setStartDate(newStartDate);
+        studyParticipantCrfSchedule.setDueDate(newDueDate);
+        studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
     }
 
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {

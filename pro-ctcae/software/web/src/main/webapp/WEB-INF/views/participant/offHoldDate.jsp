@@ -24,8 +24,13 @@
                 <p>
                     Participant <strong>${command.participant.displayName}</strong>
                     will be re-assigned to treatment and all the schedules will be reinstated. <br><br>
-                    <input type="radio" name="recreate" value="recreate"> Recreate cycles  <br>
-                    <input type="radio" name="recreate" value="move"> Continue cycle from where the treatment was put on hold 
+                    <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> Continue from the date below, the missed schedules will be cancelled  <br>
+                    <input type="radio" name="recreate" value="move" onclick="javascript:hideCycleDay();"> Continue cycle from where the treatment was put on hold  <br>
+                    <input type="radio" name="recreate" value="cycle" onclick="javascript:showCycleDay();"> Continue from a specific cycle and day
+                    <div id="cycle_day" style="display:none;">
+                      Cycle <input name="cycle" type="text" value="${cycle}" class="validate-NOTEMPTY&&NUMERIC" size="2">
+                      Day   <input name="day" type="text" value="${day}" class="validate-NOTEMPTY&&NUMERIC" size="2">
+                    </div>
                     <tags:renderDate propertyName="offHoldTreatmentDate"
                                      displayName="participant.label.remove_hold_date" required="true"/>
 
