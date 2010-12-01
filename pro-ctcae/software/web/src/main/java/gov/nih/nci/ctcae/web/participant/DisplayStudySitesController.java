@@ -54,9 +54,10 @@ public class DisplayStudySitesController extends AbstractController {
             for (int j = 1; j <= 12; j++) {
                     times.add(j);
                 }
-
-           
-
+        List<Integer> minutes = new ArrayList();
+         for (int i = 0; i<=60; i+=5) {
+             minutes.add(i);
+         }
 
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
@@ -71,8 +72,9 @@ public class DisplayStudySitesController extends AbstractController {
             String[] timeZones = TimeZone.getAvailableIDs();
 
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
-            modelAndView.addObject("times", times);
+            modelAndView.addObject("hours", times);
             modelAndView.addObject("timezones", timeZones);
+            modelAndView.addObject("minutes", minutes);
         }
         List<String> participantModes = new ArrayList();
 

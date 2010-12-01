@@ -38,7 +38,8 @@
                 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                     Treatment on-hold from <tags:formatDate
                         value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                    <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put participant on
+                    <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put participant
+                        on
                         treatment </a>
                 </c:if>
                 <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
@@ -53,7 +54,7 @@
 <tr id="subform_${studysite.id}" <c:if test="${not selected}">style="display:none"</c:if>>
 <td></td>
 <td>
-<table class="widget" cellspacing="0">
+<table  cellspacing="0" border="0">
 <tr>
     <td class="data" width="30%" align="right">
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
@@ -108,80 +109,158 @@
 
     <td>
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.displayName eq 'Web' || studyMode.mode.displayName eq 'IVRS'}">
+            <c:if test="${studyMode.mode.name eq 'HOMEWEB' || studyMode.mode.name eq 'IVRS' || studyMode.mode.name eq 'HOMEBOOKLET'}">
                 <tags:renderRadio propertyName="participantModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
-                                  displayName="${studyMode.mode.displayName}" propertyValue="${studyMode.mode.code}"
+                                  displayName="${studyMode.mode.displayName}"
+                                  propertyValue="${studyMode.mode.code}"
                                   noForm="true" useRenderInput="true"
-                                  onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.displayName}', ${studysite.id});"/>
+                                  onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
             </c:if>
         </c:forEach>
     </td>
-    <td>
-        
-        <div id="web_${studysite.id}" style="display:none">
+    <td id="c_${studysite.id}" style="display:none;" align="right" valign="middle">   <br>
+        <b>Call time</b>&nbsp;
+    </td>
+    <td valign="middle" width="43%">
+         <div id="web_${studysite.id}" style="display:none">  
             <input type="checkbox" name="email_${studysite.id}" value="true"
-                   id="email" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/> reminder
-            via email <br>
-        </div>
-        <br> 
-
-        <div id="ivrs_${studysite.id}" style="display:none"> <br><br>
-            <input type="checkbox" name="call_${studysite.id}" value="true"
-                   id="call" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/> reminder
-            via phone call &nbsp;&nbsp;&nbsp;
-            <input type="checkbox" name="text_${studysite.id}" value="true"
-                   id="text" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/> reminder
-            via text &nbsp;&nbsp;&nbsp;
-            <br>
-            <b>Call time</b>&nbsp;
-            <select id="time" name="time_${studysite.id}">
-                <c:forEach items="${times}" var="time">
-                    <option value="${time}" ${studyParticipantAssignment.time eq time ? "selected='selected'" : " "} >${time}</option>
+                   id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
+            reminder
+            via email
+        </div> <br>
+        <div id="ivrs_${studysite.id}" style="display:none">
+            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
+                <c:forEach items="${hours}" var="hour">
+                    <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hour}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="hour" name="hour_${studysite.id}">
-                <option value="am" ${studyParticipantAssignment.hour eq "am" ? "selected='selected'" : " "} >am</option>
-                <option value="pm" ${studyParticipantAssignment.hour eq "pm" ? "selected='selected'" : " "} >pm</option>
+            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
+                <c:forEach items="${minutes}" var="minute">
+                    <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${minute}</option>
+                </c:forEach>
+            </select>&nbsp;
+            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}">
+                <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
+                    am
+                </option>
+                <option value="pm" ${studyParticipantAssignment.callAmPm eq "pm" ? "selected='selected'" : " "} >
+                    pm
+                </option>
             </select>&nbsp;&nbsp;&nbsp;
             <b>Time zone</b>&nbsp;
-            <select id="timeZone" name="timeZone_${studysite.id}">
-                <option value="America/New_York" ${studyParticipantAssignment.hour eq "America/New_York" ? "selected='selected'" : " "} >Eastern Time</option>
-                <option value="America/Chicago" ${studyParticipantAssignment.hour eq "America/Chicago" ? "selected='selected'" : " "} >Central Time</option>
-                <option value="America/Denver" ${studyParticipantAssignment.hour eq "America/Denver" ? "selected='selected'" : " "} >Mountain Time</option>
-                <option value="America/Los_Angeles" ${studyParticipantAssignment.hour eq "America/Los_Angeles" ? "selected='selected'" : " "} >Pacific Time</option>
-                <option value="America/Anchorage" ${studyParticipantAssignment.hour eq "America/Anchorage" ? "selected='selected'" : " "} >Alaska Time</option>
-                <option value="America/Adak" ${studyParticipantAssignment.hour eq "America/Adak" ? "selected='selected'" : " "} >Hawaii-Aleutian Time</option>
+            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}">
+                <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
+                    Eastern Time
+                </option>
+                <option value="America/Chicago" ${studyParticipantAssignment.callTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
+                    Central Time
+                </option>
+                <option value="America/Denver" ${studyParticipantAssignment.callTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
+                    Mountain Time
+                </option>
+                <option value="America/Los_Angeles" ${studyParticipantAssignment.callTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
+                    Pacific Time
+                </option>
+                <option value="America/Anchorage" ${studyParticipantAssignment.callTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
+                    Alaska Time
+                </option>
+                <option value="America/Adak" ${studyParticipantAssignment.callTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
+                    Hawaii-Aleutian Time
+                </option>
             </select>
-
+            <br>
         </div>
+
     </td>
 </tr>
+
+<tr id="reminder_${studysite.id}" style="display:none">
+
+    <td align="right" class="data">
+        <b>IVRS reminder options</b>&nbsp;
+    </td>
+    <td>
+
+        <input type="checkbox" name="call_${studysite.id}" value="true"
+               id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>reminder via
+        call <br>
+        <input type="checkbox" name="text_${studysite.id}" value="true"
+               id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>reminder via text
+    </td>
+    <td valign="top" align="right" >
+        <b>Reminder time</b>&nbsp;
+    </td>
+    <td valign="top" width="43%">
+        <select id="reminder_hour_${studysite.id}" name="reminder_hour_${studysite.id}">
+            <c:forEach items="${hours}" var="hour">
+                <option value="${hour}" ${studyParticipantAssignment.reminderHour eq hour ? "selected='selected'" : " "} >${hour}</option>
+            </c:forEach>
+        </select>&nbsp;
+        <select id="reminder_minute_${studysite.id}" name="reminder_minute_${studysite.id}">
+            <c:forEach items="${minutes}" var="minute">
+                <option value="${minute}" ${studyParticipantAssignment.reminderMinute eq minute ? "selected='selected'" : " "} >${minute}</option>
+            </c:forEach>
+        </select>&nbsp;
+        <select id="reminder_ampm_${studysite.id}" name="reminder_ampm_${studysite.id}">
+            <option value="am" ${studyParticipantAssignment.reminderAmPm eq "am" ? "selected='selected'" : " "} >
+                am
+            </option>
+            <option value="pm" ${studyParticipantAssignment.reminderAmPm eq "pm" ? "selected='selected'" : " "} >
+                pm
+            </option>
+        </select>&nbsp;&nbsp;&nbsp;
+        <b>Time zone</b>&nbsp;
+        <select id="reminder_timeZone_${studysite.id}" name="reminder_timeZone_${studysite.id}">
+            <option value="America/New_York" ${studyParticipantAssignment.reminderTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
+                Eastern Time
+            </option>
+            <option value="America/Chicago" ${studyParticipantAssignment.reminderTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
+                Central Time
+            </option>
+            <option value="America/Denver" ${studyParticipantAssignment.reminderTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
+                Mountain Time
+            </option>
+            <option value="America/Los_Angeles" ${studyParticipantAssignment.reminderTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
+                Pacific Time
+            </option>
+            <option value="America/Anchorage" ${studyParticipantAssignment.reminderTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
+                Alaska Time
+            </option>
+            <option value="America/Adak" ${studyParticipantAssignment.reminderTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
+                Hawaii-Aleutian Time
+            </option>
+        </select>
+    </td>
+</tr>
+
 <tr>
     <td align="right" class="data">
         <b>In-clinic reporting option</b>
     </td>
     <td width="10%">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.displayName eq 'Clinic' || studyMode.mode.displayName eq 'Booklet'}">
-                <tags:renderRadio propertyName="participantModes_${studysite.id}"
+            <c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">
+                <tags:renderRadio propertyName="participantClinicModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
-                                  displayName="${studyMode.mode.displayName}" propertyValue="${studyMode.mode.code}"
+                                  displayName="${studyMode.mode.displayName}"
+                                  propertyValue="${studyMode.mode.code}"
                                   noForm="true" useRenderInput="true"/>
             </c:if>
         </c:forEach>
     </td>
     <td>
-        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.displayName eq 'Clinic' || studyMode.mode.displayName eq 'Booklet'}">
-                &nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>
-            </c:if>
-        </c:forEach>
+        
+    </td>
+    <td align="left" width="43%">
+        <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
+            <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
+                <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
+            <%--</c:if>--%>
+        <%--</c:forEach>--%>
     </td>
 </tr>
 
-</td>
-</tr>
 <tr>
     <td align="right" class="data">
         <b><spring:message code="participant.label.startdate"/></b>
@@ -204,32 +283,7 @@
     </td>
 
 </tr>
-<!-- for demo -->
-<%--<tr>--%>
-<%--<td align="right" class="data">--%>
-<%--<b> Patient home reporting options </b>--%>
-<%--</td>--%>
-<%--<td width="10%">--%>
-<%--<input type="radio" name="Web" value="Web" onclick="showOrHideEmail(this.checked);">Web--%>
-<%--<br>--%>
-<%--<input type="radio" name="Web" value="IVRS" onclick="showOrHideEmail(this.checked);">IVRS--%>
-<%--</td>--%>
-<%--<td>--%>
-<%--<input type="checkbox" name="email" value="email">reminder via email <br>--%>
-<%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">reminder via--%>
-<%--text message &nbsp;&nbsp;&nbsp;&nbsp;--%>
-<%--<input type="checkbox" name="text" value="text" onclick="phoneRequired(this.checked);">reminder via--%>
-<%--phone call--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--<tr>--%>
-<%--<td align="right" class="data">--%>
-<%--<b> Patient in-clinic reporting options </b>--%>
-<%--</td>--%>
-<%--<td >--%>
-<%--<input type="radio" name="clinic" value="Web">In-clinic--%>
-<%--</td>--%>
-<%--</tr>--%>
+
 
 <c:if test="${hasforms eq 'true'}">
     <c:set var="hasforms" value="false"/>

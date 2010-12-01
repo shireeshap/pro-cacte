@@ -58,9 +58,14 @@ public class ParticipantCommand {
     private boolean call = false;
     private boolean text = false;
 
-    private Integer time;
-    private String hour;
-    private String timeZone;
+    private String callTimeZone;
+    private String callAmPm;
+    private Integer callHour;
+    private Integer callMinute;
+    private String reminderTimeZone;
+    private String reminderAmPm;
+    private Integer reminderHour;
+    private Integer reminderMinute;
 
     public boolean isOdc() {
         return odc;
@@ -211,26 +216,48 @@ public class ParticipantCommand {
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
                 String participantMode = request.getParameter("participantModes_" + studySite.getId());
                 participantModes.add(participantMode);
+                String participantClinicMode = request.getParameter("participantClinicModes_" + studySite.getId());
+                participantModes.add(participantClinicMode);
                 Boolean email = ServletRequestUtils.getBooleanParameter(request, "email_" + studySite.getId(), false);
                 Boolean call = ServletRequestUtils.getBooleanParameter(request, "call_" + studySite.getId(), false);
                 Boolean text = ServletRequestUtils.getBooleanParameter(request, "text_" + studySite.getId(), false);
-                Integer time = ServletRequestUtils.getIntParameter(request, "time_" + studySite.getId(), 1);
-                String hour = request.getParameter("hour_" + studySite.getId());
-                String timeZone = request.getParameter("timeZone_" + studySite.getId());
+                Integer callHour = ServletRequestUtils.getIntParameter(request, "call_hour_" + studySite.getId(), 1);
+                Integer callMinute = ServletRequestUtils.getIntParameter(request, "call_minute_" + studySite.getId(), 5);
+                String callAmPm = request.getParameter("call_ampm_" + studySite.getId());          
+                String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
+                Integer reminderHour = ServletRequestUtils.getIntParameter(request, "reminder_hour_" + studySite.getId(), 1);
+                Integer reminderMinute = ServletRequestUtils.getIntParameter(request, "reminder_minute_" + studySite.getId(), 5);
+                String reminderAmPm = request.getParameter("reminder_ampm_" + studySite.getId());
+                String reminderTimeZone = request.getParameter("reminder_timeZone_" + studySite.getId());
                 if (participantMode != null) {
                     if (participantMode.equals("Web")) {
-                        hour = null;
-                        time = null;
-                        timeZone = null;
+                        callHour = null;
+                        callMinute = null;
+                        callAmPm = null;
+                        callTimeZone = null;
+                        reminderAmPm = null;
+                        reminderHour = null;
+                        reminderMinute = null;
+                        reminderTimeZone = null;
                     }
                 } else {
-                    hour = null;
-                    time = null;
-                    timeZone = null;
+                    callHour = null;
+                    callMinute = null;
+                    callAmPm = null;
+                    callTimeZone = null;
+                    reminderAmPm = null;
+                    reminderHour = null;
+                    reminderMinute = null;
+                    reminderTimeZone = null;
                 }
-                studyParticipantAssignment.setHour(hour);
-                studyParticipantAssignment.setTime(time);
-                studyParticipantAssignment.setTimeZone(timeZone);
+                studyParticipantAssignment.setCallAmPm(callAmPm);
+                studyParticipantAssignment.setCallHour(callHour);
+                studyParticipantAssignment.setCallMinute(callMinute);
+                studyParticipantAssignment.setCallTimeZone(callTimeZone);
+                studyParticipantAssignment.setReminderAmPm(reminderAmPm);
+                studyParticipantAssignment.setReminderHour(reminderHour);
+                studyParticipantAssignment.setReminderMinute(reminderMinute);
+                studyParticipantAssignment.setReminderTimeZone(reminderTimeZone);
                 studyParticipantAssignment.getStudyParticipantModes().clear();
                 if (getParticipantModes().size() > 0) {
                     for (String string : getParticipantModes()) {
@@ -400,27 +427,67 @@ public class ParticipantCommand {
         this.selectedStudyParticipantAssignmentId = selectedStudyParticipantAssignmentId;
     }
 
-    public Integer getTime() {
-        return time;
+    public String getCallTimeZone() {
+        return callTimeZone;
     }
 
-    public void setTime(Integer time) {
-        this.time = time;
+    public void setCallTimeZone(String callTimeZone) {
+        this.callTimeZone = callTimeZone;
     }
 
-    public String getHour() {
-        return hour;
+    public String getCallAmPm() {
+        return callAmPm;
     }
 
-    public void setHour(String hour) {
-        this.hour = hour;
+    public void setCallAmPm(String callAmPm) {
+        this.callAmPm = callAmPm;
     }
 
-    public String getTimeZone() {
-        return timeZone;
+    public Integer getCallHour() {
+        return callHour;
     }
 
-    public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
+    public void setCallHour(Integer callHour) {
+        this.callHour = callHour;
+    }
+
+    public Integer getCallMinute() {
+        return callMinute;
+    }
+
+    public void setCallMinute(Integer callMinute) {
+        this.callMinute = callMinute;
+    }
+
+    public String getReminderTimeZone() {
+        return reminderTimeZone;
+    }
+
+    public void setReminderTimeZone(String reminderTimeZone) {
+        this.reminderTimeZone = reminderTimeZone;
+    }
+
+    public String getReminderAmPm() {
+        return reminderAmPm;
+    }
+
+    public void setReminderAmPm(String reminderAmPm) {
+        this.reminderAmPm = reminderAmPm;
+    }
+
+    public Integer getReminderHour() {
+        return reminderHour;
+    }
+
+    public void setReminderHour(Integer reminderHour) {
+        this.reminderHour = reminderHour;
+    }
+
+    public Integer getReminderMinute() {
+        return reminderMinute;
+    }
+
+    public void setReminderMinute(Integer reminderMinute) {
+        this.reminderMinute = reminderMinute;
     }
 }

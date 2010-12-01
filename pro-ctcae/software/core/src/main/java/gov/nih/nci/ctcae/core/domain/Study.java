@@ -91,6 +91,7 @@ public class Study extends BasePersistable {
     private List<Arm> arms = new LinkedList<Arm>();
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+    @OrderBy("mode asc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyMode> studyModes = new ArrayList();
 
@@ -551,9 +552,9 @@ public class Study extends BasePersistable {
     public List<StudyMode> getHomeModes() {
         List<StudyMode> homeModes = new ArrayList();
         for (StudyMode studyMode : studyModes) {
-            if (studyMode.getMode().getDisplayName().equals(AppMode.WEB) || studyMode.getMode().getDisplayName().equals(AppMode.IVRS)) {
-                homeModes.add(studyMode);
-            }
+//            if (studyMode.getMode().getDisplayName().equals(AppMode.WEB) || studyMode.getMode().getDisplayName().equals(AppMode.IVRS)) {
+//                homeModes.add(studyMode);
+//            }
         }
         return homeModes;
     }

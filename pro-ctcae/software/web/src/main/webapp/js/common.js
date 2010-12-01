@@ -254,6 +254,43 @@ function showConfirmationWindow(transport, width, height, top, left) {
     AE.registerCalendarPopups();
     return win;
 }
+
+function showModalWindow(url, width, height, top, left) {
+    if (typeof(width) == 'undefined') {
+        width = 600;
+    }
+    if (typeof(height) == 'undefined') {
+        height = 300;
+    }
+    if (typeof(top) == 'undefined') {
+        top = 250;
+    }
+    if (typeof(left) == 'undefined') {
+        left = 200;
+    }
+    var win = Windows.getFocusedWindow();
+
+    if (win == null) {
+        win = new Window({ id: '100' ,
+            url:url,
+            className: "alphacube",
+            closable : true,
+            minimizable : false,
+            maximizable : true,
+            title: "",
+            height:height,
+            width: width,
+            top:top,
+            left:left});
+        win.setDestroyOnClose();
+        win.showCenter(true);
+    } else {
+//        win.refresh();
+    }
+    AE.registerCalendarPopups();
+    return win;
+}
+
 function closeWindow() {
     var win = Windows.getFocusedWindow();
     if (win != null) {

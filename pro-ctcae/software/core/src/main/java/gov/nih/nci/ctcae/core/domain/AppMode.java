@@ -11,13 +11,15 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 public enum AppMode implements CodedEnum<String> {
 
-    WEB("Web"),
+    HOMEWEB("Web"),
 
     IVRS("IVRS"),
 
-    BOOKLET("Booklet"),
+    HOMEBOOKLET("Booklet"),
 
-    CLINIC("Clinic");
+    CLINICWEB("Web"),
+
+    CLINICBOOKLET("Booklet");
 
     private final String displayText;
 
@@ -36,6 +38,10 @@ public enum AppMode implements CodedEnum<String> {
 
     public String getDisplayName() {
         return displayText;
+    }
+
+    public String getName() {
+        return this.name();
     }
 
 

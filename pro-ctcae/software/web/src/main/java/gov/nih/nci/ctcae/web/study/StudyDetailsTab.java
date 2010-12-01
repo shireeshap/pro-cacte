@@ -89,7 +89,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
         studyCommand.getStudy().getStudyModes().clear();
         for (String string : studyCommand.getAppModes()) {
-            AppMode appMode = AppMode.getByCode(string);
+            AppMode appMode = AppMode.valueOf(string);
             StudyMode studyMode = new StudyMode();
             studyMode.setMode(appMode);
             studyCommand.getStudy().addStudyMode(studyMode);

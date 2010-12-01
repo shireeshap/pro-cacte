@@ -13,179 +13,185 @@
 
 <html>
 <head>
-<tags:stylesheetLink name="tabbedflow"/>
-<tags:includeScriptaculous/>
-<tags:includePrototypeWindow/>
-<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
+    <tags:dwrJavascriptLink objects="studyParticipantAssignment"/>
 
 
-<script>
+    <script>
 
-    function getStudySites() {
-        var organizationId = $('organizationId').value;
-        if (organizationId == '') {
-            $("studysitestable").innerHTML = '';
-            return;
+        function getStudySites() {
+            var organizationId = $('organizationId').value;
+            if (organizationId == '') {
+                $("studysitestable").innerHTML = '';
+                return;
+            }
+            var id = '${param['id']}';
+            if (id == '') {
+                id = '${command.participant.id}';
+            }
+            var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
+                onComplete:function(transport) {
+                    var response = transport.responseText;
+                    $("studysitestable").update(response);
+                },
+                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
+                method:'get'
+            })
         }
-        var id = '${param['id']}';
-        if (id == '') {
-            id = '${command.participant.id}';
-        }
-        var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
-            onComplete:function(transport) {
-                var response = transport.responseText;
-                $("studysitestable").update(response);
-            },
-            parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
-            method:'get'
-        })
-    }
 
-    Event.observe(window, 'load', function() {
-    <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
-        try {
-            acCreate(new siteAutoComplter('organizationId'))
-        } catch(err) {
-        }
-    </c:if>
-        getStudySites();
-        Event.observe('organizationId', 'change', function() {
-            getStudySites();
-        })
-    });
-    function doPostProcessing() {
-        getStudySites();
-    }
-
-    function showForms(obj, id) {
-        var sites = document.getElementsByName('studySites');
-        for (var i = 0; i < sites.length; i++) {
-            $('subform_' + sites[i].value).hide();
-            $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+        Event.observe(window, 'load', function() {
+        <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
             try {
-                $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+                acCreate(new siteAutoComplter('organizationId'))
+            } catch(err) {
+            }
+        </c:if>
+            getStudySites();
+            Event.observe('organizationId', 'change', function() {
+                getStudySites();
+            })
+        });
+        function doPostProcessing() {
+            getStudySites();
+        }
+
+        function showForms(obj, id) {
+            var sites = document.getElementsByName('studySites');
+            for (var i = 0; i < sites.length; i++) {
+                $('subform_' + sites[i].value).hide();
+                $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+                try {
+                    $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+                } catch(e) {
+                }
+            }
+            $('subform_' + id).show();
+            $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
+            try {
+                $('arm_' + id).addClassName("validate-NOTEMPTY");
             } catch(e) {
             }
-        }
-        $('subform_' + id).show();
-        $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
-        try {
-            $('arm_' + id).addClassName("validate-NOTEMPTY");
-        } catch(e) {
-        }
-        AE.registerCalendarPopups();
-    }
-
-    function participantOffStudy(id) {
-        var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&id=" + id  ,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 600, 350);
-            },
-            method:'get'
-        })
-    }
-    function participantOffHold(id, date) {
-        var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 600, 350);
-            },
-            method:'get'
-        })
-    }
-
-    function participantOnHold(id, date) {
-        var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&id=" + id  + "&date=" + date,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 600, 350);
-            },
-            method:'get'
-        })
-    }
-
-    function showpassword(show) {
-        if (show) {
-            $('passwordfields').show();
-            $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
-        } else {
-            $('passwordfields').hide();
-            $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
-        }
-    }
-
-    function validateAndSubmit(date, form) {
-        if (date == '') {
-            alert('Please provide a valid date');
-            return;
-        }
-        form.submit();
-    }
-
-    <%--var clickCount = ${homeModeCount};--%>
-
-    function showOrHideEmail(value1, value2, id) {
-
-
-        if (value1 && value2 == "Web") {
-            jQuery('#div_contact').show();
-            jQuery('#web_'+id).show();
-            jQuery('#email_'+id).attr('checked', true);
-            jQuery('#call_'+id).attr('checked', false);
-
-        } else {
-            jQuery('#web_'+id).hide();
-        }
-        if (value1 && value2 == "IVRS") {
-            jQuery('#div_contact').show();
-            jQuery('#ivrs_'+id).show();
-            jQuery('#call_'+id).attr('checked', true);
-            jQuery('#email_'+id).attr('checked', false);
-
-        } else {
-            jQuery('#ivrs_'+id).hide();
+            AE.registerCalendarPopups();
         }
 
-    }
+        function participantOffStudy(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id  ,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
+        function participantOffHold(id, date) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
 
-</script>
-<style type="text/css">
-    .tableHeader {
-        background-color: #2B4186;
-        background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
-        background-position: center top;
-        background-repeat: repeat-x;
-        color: white;
-        font-size: 13px;
-        font-weight: bold;
-        margin: 0;
-        padding: 4px 3px;
-        text-align: left;
-    }
+        function participantOnHold(id, date) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
 
-    table.widget {
-        width: 100%;
-        background-color: #e9e8e8;
-        border-top: 0px solid #999999;
-        border-right: 0px solid #999999;
-    }
+        function showpassword(show) {
+            if (show) {
+                $('passwordfields').show();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
+            } else {
+                $('passwordfields').hide();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
+            }
+        }
 
-    td.data {
-        vertical-align: top;
-        border-bottom: 0px solid #999999;
-        border-left: 0px solid #999999;
-        padding-left: 5px;
-    }
+        function validateAndSubmit(date, form) {
+            if (date == '') {
+                alert('Please provide a valid date');
+                return;
+            }
+            form.submit();
+        }
 
-</style>
-<!--[if IE]>
-<style>
-    div.row div.value {
-        margin-left: 0;
-    }
-</style>
-<![endif]-->
+        <%--var clickCount = ${homeModeCount};--%>
+
+        function showOrHideEmail(value1, value2, id) {
+
+
+            if (value1 && value2 == "HOMEWEB") {
+                jQuery('#div_contact').show();
+                jQuery('#web_' + id).show();
+                jQuery('#email_' + id).attr('checked', true);
+                jQuery('#call_' + id).attr('checked', false);
+
+            } else {
+                jQuery('#web_' + id).hide();
+            }
+            if (value1 && value2 == "IVRS") {
+                jQuery('#div_contact').show();
+                jQuery('#ivrs_' + id).show();
+                jQuery('#c_' + id).show();
+                jQuery('#reminder_' + id).show();
+                jQuery('#ivrs_reminder_' + id).show();
+                jQuery('#call_' + id).attr('checked', true);
+                jQuery('#email_' + id).attr('checked', false);
+
+            } else {
+                jQuery('#ivrs_' + id).hide();
+                jQuery('#ivrs_reminder_' + id).hide();
+                jQuery('#reminder_' + id).hide();
+                jQuery('#c_' + id).hide();
+            }
+
+        }
+
+    </script>
+    <style type="text/css">
+        .tableHeader {
+            background-color: #2B4186;
+            background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
+            background-position: center top;
+            background-repeat: repeat-x;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0;
+            padding: 4px 3px;
+            text-align: left;
+        }
+
+        table.widget {
+            width: 100%;
+            background-color: #e9e8e8;
+            border-top: 0px solid #999999;
+            border-right: 0px solid #999999;
+        }
+
+        td.data {
+            vertical-align: top;
+            border-bottom: 0px solid #999999;
+            border-left: 0px solid #999999;
+            padding-left: 5px;
+        }
+
+    </style>
+    <!--[if IE]>
+    <style>
+        div.row div.value {
+            margin-left: 0;
+        }
+    </style>
+    <![endif]-->
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">

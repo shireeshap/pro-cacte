@@ -166,11 +166,38 @@
       </c:if>
        <br>
        <chrome:division title="study.sections.study_modes">
-           <form:checkbox path="appModes"   value="Web" label="Web"  />  <br>
-           <form:checkbox path="appModes"   value="IVRS" label="IVRS"  /> <br>
-           <form:checkbox path="appModes"   value="Booklet" label="Booklet"  /> <br>
-           <form:checkbox path="appModes"   value="Clinic" label="Clinic"  />
-          <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
+           <table>
+               <tr>
+                   <td valign="top" align="right">
+                       <b><tags:message code='study.label.home_reporting'/>:</b>
+                   </td>
+                   <td>
+                       <form:checkbox path="appModes" value="HOMEWEB" label="Web"/> <br>
+                       <form:checkbox path="appModes" value="IVRS" label="IVRS"/> <br>
+                       <form:checkbox path="appModes" value="HOMEBOOKLET" label="Booklet"/> <br>
+                   </td>
+               </tr>
+               <tr>
+                   <td valign="top">
+                       <b><tags:message code='study.label.clinic_reporting'/>:</b>
+                   </td>
+                   <td>
+                       <form:checkbox path="appModes" value="CLINICWEB" label="Web"/> <br>
+                       <form:checkbox path="appModes" value="CLINICBOOKLET" label="Booklet"/> <br>
+                   </td>
+               </tr>
+           </table>
+           <%--<div class="row">--%>
+           <%--<div class="label"><tags:message code='study.label.home_reporting'/></div>--%>
+           <%--<div class="value">--%>
+           <%--<form:checkbox path="appModes" value="Web" label="Web"/> <br>--%>
+           <%--<form:checkbox path="appModes" value="IVRS" label="IVRS"/> <br>--%>
+           <%--<form:checkbox path="appModes" value="Booklet" label="Booklet"/> <br>--%>
+           <%--<form:checkbox path="appModes" value="Clinic" label="Clinic"/>--%>
+           <%--</div>--%>
+           <%--</div>--%>
+
+           <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
        </chrome:division>
 
 </jsp:attribute>

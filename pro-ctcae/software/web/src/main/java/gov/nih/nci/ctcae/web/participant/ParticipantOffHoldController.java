@@ -48,6 +48,15 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     }
 
     @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
+        String recreate = request.getParameter("recreate");
+        if(recreate == null) {
+            e.reject("schedule.error","Please select the action on cycles using the radio button");
+        }
+        super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         String recreateSchedules = request.getParameter("recreate");
         StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
@@ -90,7 +99,6 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         
 //         studyParticipantAssignmentRepository.save(studyParticipantAssignment);
         spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
-//        studyParticipantAssignment = studyParticipantAssignmentRepository.findById(savedStudyParticipantAssignment1.getId());
 
         RedirectView redirectView = new RedirectView("schedulecrf?pId=" + studyParticipantAssignment.getParticipant().getId());
         return new ModelAndView(redirectView);

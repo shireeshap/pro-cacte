@@ -11,16 +11,14 @@
 
 <body>
 
-<form:form method="post">
+<form:form method="post"  >
+    <c:set var="url" value=""<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x""
+   vvvvvvvvvv${pageContext.request.requestURL} ${request.requestURI} ..... ${param.id} ,,,,, ${requestScope.date} ,,${requestScope.index}
     <chrome:box title="participant.label.remove_hold_date">
         <chrome:division>
-
+                  <input type="hidden" name="subview" value="subview" > 
             <div id="offTreatment">
-                <%--<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">--%>
-                    <%--<img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!"--%>
-                         <%--style="float:left; margin-right:30px; margin-left:55px;"/>--%>
-
-                    <%--<div style="font-size:20px; margin-bottom:5px;">Are you sure you want to do this?</div>--%>
+                <tags:errors path="*"/>
 
                 </div>
                 <p>

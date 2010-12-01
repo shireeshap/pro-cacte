@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -93,15 +92,29 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
 
-    @Column(name = "time_zone", nullable = true)
-    private String timeZone;
+    @Column(name = "call_time_zone", nullable = true)
+    private String callTimeZone;
 
-    @Column(name = "time", nullable = true)
-    private Integer time;
+    @Column(name = "call_am_pm", nullable = true)
+    private String callAmPm;
 
-    @Column(name = "hour", nullable = true)
-    private String hour;
+    @Column(name = "call_hour", nullable = true)
+    private Integer callHour;
 
+    @Column(name = "call_minute", nullable = true)
+    private Integer callMinute;
+
+    @Column(name = "reminder_time_zone", nullable = true)
+    private String reminderTimeZone;
+
+    @Column(name = "reminder_am_pm", nullable = true)
+    private String reminderAmPm;
+
+    @Column(name = "reminder_hour", nullable = true)
+    private Integer reminderHour;
+
+    @Column(name = "reminder_minute", nullable = true)
+    private Integer reminderMinute;
 
     /**
      * Instantiates a new study participant assignment.
@@ -403,42 +416,82 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
 
     public void addStudyParticipantMode(StudyParticipantMode studyParticipantMode) {
-        if(studyParticipantMode != null){
+        if (studyParticipantMode != null) {
             studyParticipantMode.setStudyParticipantAssignment(this);
             studyParticipantModes.add(studyParticipantMode);
         }
     }
 
-    public String getTimeZone() {
-        return timeZone;
+    public String getCallTimeZone() {
+        return callTimeZone;
     }
 
-    public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
+    public void setCallTimeZone(String callTimeZone) {
+        this.callTimeZone = callTimeZone;
     }
 
-    public Integer getTime() {
-        return time;
+    public String getCallAmPm() {
+        return callAmPm;
     }
 
-    public void setTime(Integer time) {
-        this.time = time;
+    public void setCallAmPm(String callAmPm) {
+        this.callAmPm = callAmPm;
     }
 
-    public String getHour() {
-        return hour;
+    public Integer getCallHour() {
+        return callHour;
     }
 
-    public void setHour(String hour) {
-        this.hour = hour;
+    public void setCallHour(Integer callHour) {
+        this.callHour = callHour;
+    }
+
+    public Integer getCallMinute() {
+        return callMinute;
+    }
+
+    public void setCallMinute(Integer callMinute) {
+        this.callMinute = callMinute;
+    }
+
+    public String getReminderTimeZone() {
+        return reminderTimeZone;
+    }
+
+    public void setReminderTimeZone(String reminderTimeZone) {
+        this.reminderTimeZone = reminderTimeZone;
+    }
+
+    public String getReminderAmPm() {
+        return reminderAmPm;
+    }
+
+    public void setReminderAmPm(String reminderAmPm) {
+        this.reminderAmPm = reminderAmPm;
+    }
+
+    public Integer getReminderHour() {
+        return reminderHour;
+    }
+
+    public void setReminderHour(Integer reminderHour) {
+        this.reminderHour = reminderHour;
+    }
+
+    public Integer getReminderMinute() {
+        return reminderMinute;
+    }
+
+    public void setReminderMinute(Integer reminderMinute) {
+        this.reminderMinute = reminderMinute;
     }
 
     @Transient
     public List<AppMode> getSelectedAppModes() {
         List<AppMode> appModes = new ArrayList();
-          for(StudyParticipantMode studyParticipantMode : studyParticipantModes) {
-              appModes.add(studyParticipantMode.getMode());
-          }
+        for (StudyParticipantMode studyParticipantMode : studyParticipantModes) {
+            appModes.add(studyParticipantMode.getMode());
+        }
         return appModes;
     }
 }

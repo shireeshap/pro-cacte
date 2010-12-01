@@ -24,7 +24,7 @@ public class StudyMode extends BaseVersionable {
 
     @Column(name = "mode", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private AppMode mode = AppMode.WEB;
+    private AppMode mode = AppMode.HOMEWEB;
 
     @JoinColumn(name = "study_id", referencedColumnName = "id")
     @ManyToOne

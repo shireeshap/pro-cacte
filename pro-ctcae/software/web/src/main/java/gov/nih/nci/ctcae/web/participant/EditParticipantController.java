@@ -84,7 +84,7 @@ public class EditParticipantController extends ParticipantController {
         Map<String, Object> map = super.referenceData(request, command, errors, page);
         List<StudyParticipantMode> homeModes = new ArrayList();
         for (StudyParticipantMode studyParticipantMode : participantCommand.getParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
-            if (studyParticipantMode.getMode().equals(AppMode.WEB) || studyParticipantMode.getMode().equals(AppMode.IVRS)) {
+            if (studyParticipantMode.getMode().equals(AppMode.HOMEWEB) || studyParticipantMode.getMode().equals(AppMode.IVRS)) {
                 homeModes.add(studyParticipantMode);
             }
         }
