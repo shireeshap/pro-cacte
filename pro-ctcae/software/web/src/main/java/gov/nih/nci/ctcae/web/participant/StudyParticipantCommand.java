@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.LinkedList;
 
 
 //
@@ -44,6 +45,8 @@ public class StudyParticipantCommand {
     private Date onHoldTreatmentDate;
 
     private Date offHoldTreatmentDate;
+
+    private LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
 
     /**
      * Instantiates a new study participant command.
@@ -196,5 +199,13 @@ public class StudyParticipantCommand {
 
     public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
         this.offHoldTreatmentDate = offHoldTreatmentDate;
+    }
+
+    public LinkedList<StudyParticipantCrfSchedule> getOnHoldStudyParticipantCrfSchedules() {
+        return onHoldStudyParticipantCrfSchedules;
+    }
+
+    public void setOnHoldStudyParticipantCrfSchedules(LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules) {
+        this.onHoldStudyParticipantCrfSchedules = onHoldStudyParticipantCrfSchedules;
     }
 }

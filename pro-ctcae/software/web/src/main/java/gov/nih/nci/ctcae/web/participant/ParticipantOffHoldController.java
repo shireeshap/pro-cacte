@@ -51,7 +51,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCommand.getStudyParticipantAssignment();
         StudyParticipantCrf studyParticipantCrf = studyParticipantAssignment.getStudyParticipantCrfs().get(0);
-        LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
+        LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = studyParticipantCommand.getOnHoldStudyParticipantCrfSchedules();
+        onHoldStudyParticipantCrfSchedules.clear();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
                 onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
@@ -64,6 +65,22 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         }
         return map;
     }
+
+//    @Override
+//    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
+//        String recreateSchedules = request.getParameter("recreate");
+//        int cycle = Integer.parseInt(request.getParameter("cycle"));
+//        int day = Integer.parseInt(request.getParameter("day"));
+//        StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
+//        if (recreateSchedules.equals("cycle") && spCommand.getOnHoldStudyParticipantCrfSchedules().size() > 0) {
+//            StudyParticipantCrfSchedule spcSchedule = spCommand.getOnHoldStudyParticipantCrfSchedules().getFirst();
+//             if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
+//                 e.reject("ssss", "ssss");
+//             }
+//        }
+//
+//        super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
+//    }
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
@@ -104,12 +121,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                         if (studyParticipantCrfSchedule.getCycleNumber() != null) {
                             if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
                                 offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-
-//                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
                             } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
                                 offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-
-//                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
                             } else {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
                             }

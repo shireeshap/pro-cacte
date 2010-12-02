@@ -39,11 +39,10 @@ public class ForgotUsernameController extends AbstractFormController {
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws Exception {
         String email = request.getParameter("email");
         String lastName = request.getParameter("lastName");
-
         String participantIdentifier = request.getParameter("participantIdentifier");
         String participantEmail =request.getParameter("participantEmail");
         ModelAndView mv;
-        if(!lastName.isEmpty() && !email.isEmpty()){
+        if(lastName.length()>0 && email.length()>0){
             ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
             clinicalStaffQuery.filterByClinicalStaffLastName(lastName);
             clinicalStaffQuery.filterByEmail(email);

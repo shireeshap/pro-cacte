@@ -90,6 +90,7 @@ function initializeCalendar(index) {
                     }
                     showdropdown = true;
                     item.title = title;
+
                 } else {
                     myschedule = myschedule[0];
                     var status = myschedule[0];
