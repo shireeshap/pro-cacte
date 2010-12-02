@@ -39,7 +39,7 @@ public class ParticipantQuery extends AbstractQuery {
     private static final String STUDY_SITE_ID = "studySiteId";
     private static final String USERNAME = "username";
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
-
+    private static String EMAIL = "emailAddress";
     /**
      * Instantiates a new participant query.
      */
@@ -157,6 +157,17 @@ public class ParticipantQuery extends AbstractQuery {
             andWhere("spa.studyParticipantIdentifier LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
             setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
         }
+    }
+
+     /**
+     * Filter by participant email address.
+     *
+     * @param email the email
+     */
+    public void filterByEmail(final String email) {
+        String searchString = email.toLowerCase();
+        andWhere("lower(p.emailAddress) LIKE :" + EMAIL);
+        setParameter(EMAIL, searchString);
     }
 
 }

@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
 import org.springframework.beans.factory.annotation.Required;
@@ -38,21 +40,40 @@ public class ForgotUsernameController extends AbstractFormController {
         String email = request.getParameter("email");
         String lastName = request.getParameter("lastName");
 
-
+        String participantIdentifier = request.getParameter("participantIdentifier");
+        String participantEmail =request.getParameter("participantEmail");
         ModelAndView mv;
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByClinicalStaffLastName(lastName);
-        clinicalStaffQuery.filterByEmail(email);
-        List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
-        if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
+        if(!lastName.isEmpty() && !email.isEmpty()){
+            ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+            clinicalStaffQuery.filterByClinicalStaffLastName(lastName);
+            clinicalStaffQuery.filterByEmail(email);
+            List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
+            if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
+                mv = new ModelAndView("forgotUsername");
+                mv.addObject("Message", "user.forgotusername.usernotfound");
+                return mv;
+            }
             mv = new ModelAndView("forgotUsername");
-            mv.addObject("Message", "user.forgotusername.usernotfound");
+            mv.addObject("showConfirmation", true);
+            sendUsernameEmail(clinicalStaffs, request);
             return mv;
         }
-        mv = new ModelAndView("forgotUsername");
-        mv.addObject("showConfirmation", true);
-        sendUsernameEmail(clinicalStaffs, request);
-        return mv;  //To change body of implemented methods use File | Settings | File Templates.
+        else if(participantIdentifier.length()>0 && participantEmail.length()>0){
+            ParticipantQuery participantQuery = new ParticipantQuery();
+            participantQuery.filterByStudyParticipantIdentifier(participantIdentifier);
+            participantQuery.filterByEmail(participantEmail);
+            List<Participant> participants = genericRepository.find(participantQuery);
+            if(participants == null || participants.size() ==0){
+                mv = new ModelAndView("forgotUsername");
+                mv.addObject("Message", "user.forgotusername.participantUsernotfound");
+                return mv;
+            }
+            mv = new ModelAndView("forgotUsername");
+            mv.addObject("showConfirmation", true);
+            sendUsernameEmailToParticipant(participants, request);
+            return mv;
+        }
+        return  null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void sendUsernameEmail(List<ClinicalStaff> clinicalStaffs, HttpServletRequest request) {
@@ -75,6 +96,35 @@ public class ForgotUsernameController extends AbstractFormController {
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(clinicalStaffs.get(0).getEmailAddress());
+            helper.setText(content, false);
+            javaMailSender.send(message);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // sending user names to participants
+    public void sendUsernameEmailToParticipant(List<Participant> participants, HttpServletRequest request) {
+        try {
+
+            String content = "";
+            if (participants.size() == 1) {
+                User user = participants.get(0).getUser();
+                content += "Dear " + participants.get(0).getFirstName() + " " + participants.get(0).getLastName() + ", ";
+                content += "\nFollowing is your username: " + user.getUsername();
+            } else {
+                content += "We have found multiple users with the participant study identifier and email address that you provided. Below is the list of all the usernames : ";
+                for (Participant participant : participants) {
+                    content += "\n\n" + participant.getUser().getUsername();
+                }
+            }
+            JavaMailSender javaMailSender = new JavaMailSender();
+            MimeMessage message = javaMailSender.createMimeMessage();
+            message.setSubject("PRO-CTCAE Account Username");
+            message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(participants.get(0).getEmailAddress());
             helper.setText(content, false);
             javaMailSender.send(message);
 
