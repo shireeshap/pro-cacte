@@ -21,7 +21,7 @@
                 </div>
 
                     Please enter the date from which the participant <strong>${command.participant.displayName}</strong>
-                    treatment will be held.
+                    surveys will be held.
                     <tags:renderDate propertyName="onHoldTreatmentDate"
                                      displayName="participant.label.on_hold_date" required="true"/>
                 
