@@ -49,6 +49,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
+        int cycleNumber = 0;
+        int dayNumber = 0;
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCommand.getStudyParticipantAssignment();
         StudyParticipantCrf studyParticipantCrf = studyParticipantAssignment.getStudyParticipantCrfs().get(0);
         LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = studyParticipantCommand.getOnHoldStudyParticipantCrfSchedules();
@@ -56,14 +58,21 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
                 onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                if (studyParticipantCrfSchedule.getStartDate().getDate() == studyParticipantCommand.getOffHoldTreatmentDate().getDate()){
+                    cycleNumber = studyParticipantCrfSchedule.getCycleNumber();
+                    dayNumber = studyParticipantCrfSchedule.getCycleDay();
+                }
             }
         }
+
         Map<String, Object> map = new HashMap<String, Object>();
 
         if (onHoldStudyParticipantCrfSchedules.size() > 0 && onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber() != null) {
             map.put("cycle", onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber());
             map.put("day", onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay());
         }
+        map.put("cycleNumber", cycleNumber);
+        map.put("dayNumber", dayNumber);
         return map;
     }
 

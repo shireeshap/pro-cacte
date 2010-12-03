@@ -25,6 +25,9 @@
                 Participant <strong>${command.participant.displayName}</strong>
                 will be re-assigned to treatment and all the held schedules will be reinstated based on the option selected below <br>
                 <i>Participant was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b></i><br>
+                <c:if test="${cycleNumber ne 0}">
+                <i>For the selected date, the cycle number is ${cycleNumber} and day is ${dayNumber}</i> <br>
+                </c:if>
                 <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> Continue from
                 the date below (the missed schedules will be cancelled) <br>
                 <input type="radio" name="recreate" value="move" onclick="javascript:hideCycleDay();"> Continue cycle
