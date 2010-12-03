@@ -23,22 +23,24 @@
             </div>
             <p>
                 Participant <strong>${command.participant.displayName}</strong>
-                will be re-assigned to treatment and all the schedules will be reinstated. <br><br>
+                will be re-assigned to treatment and all the held schedules will be reinstated based on the option selected below <br>
+                <i>Participant was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b></i><br>
                 <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> Continue from
-                the date below, the missed schedules will be cancelled <br>
+                the date below (the missed schedules will be cancelled) <br>
                 <input type="radio" name="recreate" value="move" onclick="javascript:hideCycleDay();"> Continue cycle
-                from where the treatment was put on hold <br>
+                from when the treatment was put on hold <br>
                 <input type="radio" name="recreate" value="cycle" onclick="javascript:showCycleDay();"> Continue from a
                 specific cycle and day
 
-            <div id="cycle_day" style="display:none;">
-                Cycle <input name="cycle" type="text" value="${cycle eq null ? "1" : cycle}"
-                             class="validate-NOTEMPTY&&NUMERIC" size="2">
-                Day <input name="day" type="text" value="${day eq null ? "1" : day}" class="validate-NOTEMPTY&&NUMERIC"
+            <div id="cycle_day" style="display:none; width:251px" align="right">
+               <b> Cycle</b> &nbsp;&nbsp;<input name="cycle" type="text" value="${cycle eq null ? "1" : cycle}"
+                             class="validate-NOTEMPTY&&NUMERIC" size="2">  &nbsp;&nbsp;
+               <b> Day </b> &nbsp;&nbsp;<input name="day" type="text" value="${day eq null ? "1" : day}" class="validate-NOTEMPTY&&NUMERIC"
                            size="2">
             </div>
             <tags:renderDate propertyName="offHoldTreatmentDate"
                              displayName="participant.label.remove_hold_date" required="true"/>
+
 
             </p>
 
@@ -47,7 +49,7 @@
             <div class="flow-buttons">
 
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="Assign" icon="check" color="orange"/>
+                             cssClass="next" value="Remove Hold" icon="check" color="orange"/>
 
 
                 <tags:button type="button" id="flow-cancel"

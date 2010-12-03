@@ -20,18 +20,18 @@
                     <div>Making the participant treatment on hold will put all the future form schedules on hold.</div>
                 </div>
 
-                    Please enter a date from which the participant <strong>${command.participant.displayName}</strong>
-                    will be put on-hold.
+                    Please enter the date from which the participant <strong>${command.participant.displayName}</strong>
+                    treatment will be held.
                     <tags:renderDate propertyName="onHoldTreatmentDate"
                                      displayName="participant.label.on_hold_date" required="true"/>
                 
 
             </div>
-
+                   
             <div class="flow-buttons">
 
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="Assign Date" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('onHoldTreatmentDate').value,document.forms[0])"/>
+                             cssClass="next" value="Begin Hold" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('onHoldTreatmentDate').value,document.forms[0])"/>
 
 
                 <tags:button type="button" id="flow-cancel"

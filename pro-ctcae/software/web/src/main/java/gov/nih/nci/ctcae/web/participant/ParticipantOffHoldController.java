@@ -59,6 +59,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
             }
         }
         Map<String, Object> map = new HashMap<String, Object>();
+
         if (onHoldStudyParticipantCrfSchedules.size() > 0 && onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber() != null) {
             map.put("cycle", onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber());
             map.put("day", onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay());
