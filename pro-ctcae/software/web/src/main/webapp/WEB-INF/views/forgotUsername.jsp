@@ -7,19 +7,32 @@
 <html>
 <head>
     <script type="text/javascript">
-        function participant(){
-            jQuery('#staff').hide();
-            jQuery('#staffInstructions').hide();
-            jQuery('#participantInstructions').show();
-            jQuery('#participantForm').show();
-
-        }
-
-        function staff(){
-           jQuery('#participantInstructions').hide();
-           jQuery('#participantForm').hide();
-           jQuery('#staff').show(); 
-           jQuery('#staffInstructions').show();
+        function changeAccordingToRole(index){
+            if(index ==10)
+                var selectedFilterOption = $('filterOptions').value;
+            else if(index ==20)
+                var selectedFilterOption = $('filterOptionsParticipant').value;
+            switch(selectedFilterOption)
+            {
+                case 'Clinical/Research staff member':
+                                    jQuery('#participantInstructions').hide();
+                                    jQuery('#participantForm').hide();
+                                    var filterValue =$('filterOptionsParticipant').value;
+                                    if(filterValue != 'Please select')  
+                                    $('filterOptions').value= $('filterOptionsParticipant').value;
+                                    jQuery('#filterOptions').show();
+                                    jQuery('#staff').show();
+                                    jQuery('#staffInstructions').show();
+                                    break;
+                case 'Study participant':
+                                    jQuery('#staff').hide();
+                                    jQuery('#staffInstructions').hide();
+                                    $('filterOptionsParticipant').value=$('filterOptions').value;
+                                    jQuery('#filterOptionsParticipant').show();
+                                    jQuery('#participantInstructions').show();
+                                    jQuery('#participantForm').show();
+                                    break;
+            }
         }
 
     </script>
@@ -32,24 +45,27 @@
             <a href='<c:url value="password"/>'>reset</a> the password using that username.
         </c:when>
         <c:otherwise>
-          <div id="staffInstructions">
             <div style="margin-left:0.1em" >
                 Please enter your last name and email address below.
-                We will send the username to your registered email address. If Participant
-                <a href="javascript:participant();"> Click here</a>
+                We will send the username to your registered email address.   
                 <br/>
             </div>
-          </div>
-          <div id="participantInstructions" style="display:none">
-            <div style="margin-left:0.1em">
-                Please enter your last name and email address below.
-                We will send the username to your registered email address. If Staff
-                <a href="javascript:staff();"> Click here</a>
-                <br/>
-            </div>
-          </div>  
+           
             <form method="POST" action="forgotusername">
                 <table id="staff">
+                    <tr>
+                        <td style="text-align:right">
+                            <c:if test="${mode eq 'Y'}"><b>Role</b>
+                        </td>
+                        <td>
+                            <select id="filterOptions" onchange="changeAccordingToRole(10);">
+                                    <option selected="true">Please select</option>
+                                    <option>Clinical/Research staff member</option>
+                                    <option>Study participant</option>
+                            </select>
+                        </td>
+                            </c:if>
+                    </tr>
                     <tr>
                         <td style="text-align:right"><b>Last name</b></td>
                         <td><input type="text" name="lastName" value=""/></td>
@@ -64,8 +80,20 @@
                     </tr>
                 </table>
                 <table id="participantForm" style="display:none">
+                      <tr>
+                          <td style="text-align:right">
+                              <c:if test="${mode eq 'Y'}"><b>Role</b>
+                          </td>
+                          <td>
+                              <select id="filterOptionsParticipant" onchange="changeAccordingToRole(20);">
+                                    <option selected="true">Please select</option>
+                                    <option>Clinical/Research staff member</option>
+                                    <option>Study participant</option>
+                              </select>
+                          </td>
+                              </c:if>
+                      </tr>
                     <tr>
-
                         <td style="text-align:right"><b>Participant study identifier</b></td>
                         <td><input type="text" name="participantIdentifier" value=""/></td>                     
                     </tr>

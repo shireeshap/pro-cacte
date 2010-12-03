@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author mehul gulati
@@ -27,13 +28,17 @@ import java.util.List;
 public class ForgotUsernameController extends AbstractFormController {
 
     GenericRepository genericRepository;
-
+    protected Properties proCtcAEProperties;
+    
     public ForgotUsernameController() {
         setCommandClass(ClinicalStaff.class);
     }
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
-        return new ModelAndView("forgotUsername");
+        ModelAndView mv=new ModelAndView("forgotUsername");
+        String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
+        mv.addObject("mode", mode);
+        return mv;
     }
 
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws Exception {
@@ -67,6 +72,7 @@ public class ForgotUsernameController extends AbstractFormController {
                 mv.addObject("Message", "user.forgotusername.participantUsernotfound");
                 return mv;
             }
+
             mv = new ModelAndView("forgotUsername");
             mv.addObject("showConfirmation", true);
             sendUsernameEmailToParticipant(participants, request);
@@ -135,5 +141,10 @@ public class ForgotUsernameController extends AbstractFormController {
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+        this.proCtcAEProperties = proCtcAEProperties;
     }
 }
