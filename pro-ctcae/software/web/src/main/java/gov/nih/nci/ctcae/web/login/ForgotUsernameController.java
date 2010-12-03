@@ -54,7 +54,9 @@ public class ForgotUsernameController extends AbstractFormController {
             List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
             if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
                 mv = new ModelAndView("forgotUsername");
+                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
                 mv.addObject("Message", "user.forgotusername.usernotfound");
+                mv.addObject("mode", mode);
                 return mv;
             }
             mv = new ModelAndView("forgotUsername");
@@ -69,7 +71,9 @@ public class ForgotUsernameController extends AbstractFormController {
             List<Participant> participants = genericRepository.find(participantQuery);
             if(participants == null || participants.size() ==0){
                 mv = new ModelAndView("forgotUsername");
+                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
                 mv.addObject("Message", "user.forgotusername.participantUsernotfound");
+                mv.addObject("mode", mode);
                 return mv;
             }
 
