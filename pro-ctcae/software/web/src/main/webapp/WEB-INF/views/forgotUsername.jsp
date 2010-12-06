@@ -22,7 +22,7 @@
                                     jQuery('#filterOptions').show();
                                     jQuery('#staff').show();
                                     jQuery('#participantInstructions').hide();
-                                    jQuery('#staffInstructions').show();
+                                    jQuery('#studyInstructions').show();
                                     break;
                 case 'Patient':
                                     jQuery('#staff').hide();
