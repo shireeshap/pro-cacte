@@ -56,7 +56,6 @@
     <bean name="/forgotusername" id="forgotUsername"
           class="gov.nih.nci.ctcae.web.login.ForgotUsernameController">
         <property name="genericRepository" ref="genericRepository"/>
-        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
     <bean name="/resetPassword" id="resetPassword"
           class="gov.nih.nci.ctcae.web.login.ResetPasswordController">

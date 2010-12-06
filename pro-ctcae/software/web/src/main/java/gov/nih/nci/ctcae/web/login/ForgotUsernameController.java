@@ -18,7 +18,6 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * @author mehul gulati
@@ -28,7 +27,6 @@ import java.util.Properties;
 public class ForgotUsernameController extends AbstractFormController {
 
     GenericRepository genericRepository;
-    protected Properties proCtcAEProperties;
     
     public ForgotUsernameController() {
         setCommandClass(ClinicalStaff.class);
@@ -36,15 +34,12 @@ public class ForgotUsernameController extends AbstractFormController {
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         ModelAndView mv=new ModelAndView("forgotUsername");
-        String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
-        mv.addObject("mode", mode);
         return mv;
     }
 
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws Exception {
         String email = request.getParameter("email");
         String lastName = request.getParameter("lastName");
-        String participantIdentifier = request.getParameter("participantIdentifier");
         String participantEmail =request.getParameter("participantEmail");
         ModelAndView mv;
         if(lastName.length()>0 && email.length()>0){
@@ -54,9 +49,7 @@ public class ForgotUsernameController extends AbstractFormController {
             List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
             if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
                 mv = new ModelAndView("forgotUsername");
-                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
                 mv.addObject("Message", "user.forgotusername.usernotfound");
-                mv.addObject("mode", mode);
                 return mv;
             }
             mv = new ModelAndView("forgotUsername");
@@ -64,16 +57,13 @@ public class ForgotUsernameController extends AbstractFormController {
             sendUsernameEmail(clinicalStaffs, request);
             return mv;
         }
-        else if(participantIdentifier.length()>0 && participantEmail.length()>0){
+        else if(participantEmail.length()>0){
             ParticipantQuery participantQuery = new ParticipantQuery();
-            participantQuery.filterByStudyParticipantIdentifier(participantIdentifier);
             participantQuery.filterByEmail(participantEmail);
             List<Participant> participants = genericRepository.find(participantQuery);
             if(participants == null || participants.size() ==0){
                 mv = new ModelAndView("forgotUsername");
-                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
                 mv.addObject("Message", "user.forgotusername.participantUsernotfound");
-                mv.addObject("mode", mode);
                 return mv;
             }
 
@@ -123,7 +113,7 @@ public class ForgotUsernameController extends AbstractFormController {
                 content += "Dear " + participants.get(0).getFirstName() + " " + participants.get(0).getLastName() + ", ";
                 content += "\nFollowing is your username: " + user.getUsername();
             } else {
-                content += "We have found multiple users with the participant study identifier and email address that you provided. Below is the list of all the usernames : ";
+                content += "We have found multiple users with the participant email address that you provided. Below is the list of all the usernames : ";
                 for (Participant participant : participants) {
                     content += "\n\n" + participant.getUser().getUsername();
                 }
@@ -145,10 +135,5 @@ public class ForgotUsernameController extends AbstractFormController {
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
-    }
-
-    @Required
-    public void setProCtcAEProperties(Properties proCtcAEProperties) {
-        this.proCtcAEProperties = proCtcAEProperties;
     }
 }
