@@ -7,31 +7,34 @@
 <html>
 <head>
     <script type="text/javascript">
-        function changeAccordingToRole(index){
-            if(index ==10)
+        function changeAccordingToRole(){
+//            if(index ==10)
+//                var selectedFilterOption = $('filterOptions').value;
+//            else if(index ==20)
                 var selectedFilterOption = $('filterOptions').value;
-            else if(index ==20)
-                var selectedFilterOption = $('filterOptionsParticipant').value;
             switch(selectedFilterOption)
             {
                 case 'Clinical/Research staff member':
                                     jQuery('#participantForm').hide();
-                                    var filterValue =$('filterOptionsParticipant').value;
-                                    if(filterValue != 'Please select')  
-                                    $('filterOptions').value= $('filterOptionsParticipant').value;
-                                    jQuery('#filterOptions').show();
+//                                    var filterValue =$('filterOptionsParticipant').value;
+//                                    if(filterValue != 'Please select')
+//                                    $('filterOptions').value= $('filterOptionsParticipant').value;
+//                                    jQuery('#filterOptions').show();
                                     jQuery('#staff').show();
                                     jQuery('#participantInstructions').hide();
                                     jQuery('#studyInstructions').show();
                                     break;
                 case 'Patient':
                                     jQuery('#staff').hide();
-                                    $('filterOptionsParticipant').value=$('filterOptions').value;
-                                    jQuery('#filterOptionsParticipant').show();
+//                                    $('filterOptionsParticipant').value=$('filterOptions').value;
+//                                    jQuery('#filterOptionsParticipant').show();
                                     jQuery('#participantForm').show();
                                     jQuery('#studyInstructions').hide();
                                     jQuery('#participantInstructions').show();
                                     break;
+                case 'Please select':
+                                     jQuery('#staff').hide();
+                                     jQuery('#participantForm').hide();
             }
         }
 
@@ -60,22 +63,36 @@
                 <br/>
                 </div>
             </div>
-           
-            <form method="POST" action="forgotusername">
-                <table id="staff">
-                    <tr>
-                        <td style="text-align:right">
-                            <b>Role</b>
-                        </td>
-                        <td>
-                            <select id="filterOptions" onchange="changeAccordingToRole(10);">
+            <table>
+                <tr>
+                    <td style="text-align:right" width="62px">
+                        <c:if test="${mode eq 'Y'}"><b>Role</b>
+                    </td>
+                    <td>
+                       <select id="filterOptions" onchange="changeAccordingToRole();">
                                     <option selected="true">Please select</option>
                                     <option>Clinical/Research staff member</option>
                                     <option>Patient</option>
                             </select>
-                        </td>
-
-                    </tr>
+                    </td>
+                       </c:if>
+                </tr>
+            </table>
+            <form method="POST" action="forgotusername">
+                <table id="staff" style="display:none">
+                    <%--<tr>--%>
+                        <%--<td style="text-align:right">--%>
+                             <%--<c:if test="${mode eq 'Y'}"><b>Role</b>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--<select id="filterOptions" onchange="changeAccordingToRole(10);">--%>
+                                    <%--<option selected="true">Please select</option>--%>
+                                    <%--<option>Clinical/Research staff member</option>--%>
+                                    <%--<option>Patient</option>--%>
+                            <%--</select>--%>
+                        <%--</td>--%>
+                             <%--</c:if>--%>
+                    <%--</tr>--%>
                     <tr>
                         <td style="text-align:right"><b>Last name</b></td>
                         <td><input type="text" name="lastName" value=""/></td>
@@ -90,20 +107,21 @@
                     </tr>
                 </table>
                 <table id="participantForm" style="display:none">
+                      <%--<tr>--%>
+                          <%--<td style="text-align:right">--%>
+                             <%--<c:if test="${mode eq 'Y'}"> <b>Role</b>--%>
+                          <%--</td>--%>
+                          <%--<td>--%>
+                              <%--<select id="filterOptionsParticipant" onchange="changeAccordingToRole(20);">--%>
+                                    <%--<option selected="true">Please select</option>--%>
+                                    <%--<option>Clinical/Research staff member</option>--%>
+                                    <%--<option>Patient</option>--%>
+                              <%--</select>--%>
+                          <%--</td>--%>
+                              <%--</c:if>--%>
+                      <%--</tr>--%>
                       <tr>
-                          <td style="text-align:right">
-                              <b>Role</b>
-                          </td>
-                          <td>
-                              <select id="filterOptionsParticipant" onchange="changeAccordingToRole(20);">
-                                    <option selected="true">Please select</option>
-                                    <option>Clinical/Research staff member</option>
-                                    <option>Patient</option>
-                              </select>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td  style="text-align:right"><b>Email</b></td>
+                          <td  style="text-align:right" width="62"><b>Email</b></td>
                           <td><input type="text" name="participantEmail" value="" size="37.9"/></td>
                       </tr>
                     <tr>
