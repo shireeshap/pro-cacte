@@ -42,6 +42,7 @@
         }
 
         Event.observe(window, 'load', function() {
+       
         <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
             try {
                 acCreate(new siteAutoComplter('organizationId'))
@@ -126,8 +127,7 @@
         <%--var clickCount = ${homeModeCount};--%>
 
         function showOrHideEmail(value1, value2, id) {
-
-
+          
             if (value1 && value2 == "HOMEWEB") {
                 jQuery('#div_contact').show();
                 jQuery('#web_' + id).show();
@@ -142,6 +142,7 @@
                 jQuery('#ivrs_' + id).show();
                 jQuery('#c_' + id).show();
                 jQuery('#reminder_' + id).show();
+                jQuery('#reminder_time_' + id).show();
                 jQuery('#ivrs_reminder_' + id).show();
                 jQuery('#call_' + id).attr('checked', true);
                 jQuery('#email_' + id).attr('checked', false);
@@ -150,8 +151,10 @@
                 jQuery('#ivrs_' + id).hide();
                 jQuery('#ivrs_reminder_' + id).hide();
                 jQuery('#reminder_' + id).hide();
+                jQuery('#reminder_time_' + id).hide();                
                 jQuery('#c_' + id).hide();
             }
+            
 
         }
 

@@ -203,6 +203,9 @@
                 <c:forEach items="${values}" var="item">
                     <c:if test="${item.code eq propertyValue}">
                         <c:set var="_match" value="true"/>
+                        <c:if test="${item.code eq 'IVRS'}">
+                            <c:set var="show_time" value="true"/>
+                        </c:if>
                     </c:if>
                 </c:forEach>
                 <input type="radio" class="longselect-radio" name="${propertyName}" id="${propertyName}"

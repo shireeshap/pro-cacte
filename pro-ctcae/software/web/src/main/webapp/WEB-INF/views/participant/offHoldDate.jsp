@@ -22,17 +22,16 @@
                 <tags:errors path="*"/>
             </div>
             <p>
-                Participant <strong>${command.participant.displayName}</strong>
-                will be re-assigned to treatment and all the held schedules will be reinstated based on the option selected below <br>
-                <i>Participant was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b></i><br>
+                <i>Participant <strong>${command.participant.displayName}</strong> was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b>
+                <c:if test="${cycle ne null}">which was cycle ${cycle} and day ${day}.</c:if></i><br>
+                Participant <strong>${command.participant.displayName}</strong> will resume form administration and the held forms will be reinstated based on the option selected below:<br>
+
                 <c:if test="${cycleNumber ne 0}">
                 <i>For the selected date, the cycle number is ${cycleNumber} and day is ${dayNumber}</i> <br>
                 </c:if>
-                <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> Continue from
+                <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> resume from
                 the date below (the missed schedules will be cancelled) <br>
-                <input type="radio" name="recreate" value="move" onclick="javascript:hideCycleDay();"> Continue cycle
-                from when the treatment was put on hold <br>
-                <input type="radio" name="recreate" value="cycle" onclick="javascript:showCycleDay();"> Continue from a
+                <input type="radio" name="recreate" value="cycle" onclick="javascript:showCycleDay();"> resume on a
                 specific cycle and day
 
             <div id="cycle_day" style="display:none; width:251px" align="right">

@@ -25,6 +25,7 @@
         ${studysite.study.displayName}
     </td>
     <c:if test="${isEdit}">
+        <td>
         <c:choose>
             <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
                 <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/><br>
@@ -48,18 +49,18 @@
                 </c:if>
             </c:otherwise>
         </c:choose>
-
+      </td>
     </c:if>
 </tr>
 <tr id="subform_${studysite.id}" <c:if test="${not selected}">style="display:none"</c:if>>
 <td></td>
-<td>
-<table  cellspacing="0" border="0">
+<td >
+<table cellspacing="0" border="0">
 <tr>
-    <td class="data" width="30%" align="right">
+    <td class="data" align="right" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
     </td>
-    <td class="data">
+    <td width="50%">
         <input type="text"
                name="participantStudyIdentifier_${studysite.id}"
                value="${studyParticipantAssignment.studyParticipantIdentifier}"
@@ -72,11 +73,11 @@
     <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
         <c:choose>
             <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
-                <td align="right" class="data">
+                <td class="data" align="right" width="30%">
                     <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
                             code="study.label.arm"/></b>
                 </td>
-                <td class="data">
+                <td width="50%" >
                     <select name="arm_${studysite.id}" title="arm"
                             id="arm_${studysite.id}">
                         <option value="">Please select</option>
@@ -103,11 +104,11 @@
     </c:if>
 </tr>
 <tr>
-    <td align="right" class="data">
+    <td align="right" class="data" width="30%">
         <b>Home reporting option</b>
     </td>
 
-    <td>
+    <td width="50%">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.name eq 'HOMEWEB' || studyMode.mode.name eq 'IVRS' || studyMode.mode.name eq 'HOMEBOOKLET'}">
                 <tags:renderRadio propertyName="participantModes_${studysite.id}"
@@ -119,17 +120,23 @@
             </c:if>
         </c:forEach>
     </td>
-    <td id="c_${studysite.id}" style="display:none;" align="right" valign="middle">   <br>
-        <b>Call time</b>&nbsp;
-    </td>
-    <td valign="middle" width="43%">
-         <div id="web_${studysite.id}" style="display:none">  
+    <td width="10%">
+        <div id="web_${studysite.id}" style="display:none">
             <input type="checkbox" name="email_${studysite.id}" value="true"
                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
             reminder
             via email
-        </div> <br>
-        <div id="ivrs_${studysite.id}" style="display:none">
+        </div>
+        <br>
+    </td>
+</tr>
+<tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
+    <td align="right" class="data" valign="top" width="30%">
+        <b>Call time</b>&nbsp;
+    </td>
+    <td valign="top" width="50%">
+
+        <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
             <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
                 <c:forEach items="${hours}" var="hour">
                     <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hour}</option>
@@ -175,23 +182,27 @@
     </td>
 </tr>
 
-<tr id="reminder_${studysite.id}" style="display:none">
+<tr id="reminder_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
 
-    <td align="right" class="data">
+    <td align="right" class="data" width="30%">
         <b>IVRS reminder options</b>&nbsp;
     </td>
     <td>
 
         <input type="checkbox" name="call_${studysite.id}" value="true"
-               id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>reminder via
+               id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>reminder
+        via
         call <br>
         <input type="checkbox" name="text_${studysite.id}" value="true"
-               id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>reminder via text
+               id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>reminder
+        via text
     </td>
-    <td valign="top" align="right" >
+</tr>
+<tr id="reminder_time_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
+    <td valign="top" align="right" width="30%">
         <b>Reminder time</b>&nbsp;
     </td>
-    <td valign="top" width="43%">
+    <td valign="top" width="50%">
         <select id="reminder_hour_${studysite.id}" name="reminder_hour_${studysite.id}">
             <c:forEach items="${hours}" var="hour">
                 <option value="${hour}" ${studyParticipantAssignment.reminderHour eq hour ? "selected='selected'" : " "} >${hour}</option>
@@ -235,7 +246,7 @@
 </tr>
 
 <tr>
-    <td align="right" class="data">
+    <td align="right" class="data" width="30%">
         <b>In-clinic reporting option</b>
     </td>
     <td width="10%">
@@ -249,20 +260,18 @@
             </c:if>
         </c:forEach>
     </td>
-    <td>
-        
-    </td>
-    <td align="left" width="43%">
+
+    <%--<td align="left" width="43%">--%>
         <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-            <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
-                <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
-            <%--</c:if>--%>
+        <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
+        <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
+        <%--</c:if>--%>
         <%--</c:forEach>--%>
-    </td>
+    <%--</td>--%>
 </tr>
 
 <tr>
-    <td align="right" class="data">
+    <td align="right" class="data" width="30%">
         <b><spring:message code="participant.label.startdate"/></b>
     </td>
     <td class="data">

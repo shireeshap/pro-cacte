@@ -88,7 +88,9 @@ public class EditParticipantController extends ParticipantController {
                 homeModes.add(studyParticipantMode);
             }
         }
+        
         map.put("homeModeCount", homeModes.size());
+       
         return map;
     }
 

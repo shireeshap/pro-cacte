@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="isEdit" value="${param['id'] eq '' ? false : true}"/>
 
-<table cellpadding="0" width="100%">
+<table cellpadding="0" width="100%" border="0">
     <tr>
         <td class="tableHeader" width="5%">
             Select
@@ -13,7 +13,7 @@
             Study
         </td>
         <c:if test="${isEdit}">
-            <td class="tableHeader">
+            <td width="20%" class="tableHeader">
                 Treatment End/On-hold Date
             </td>
         </c:if>

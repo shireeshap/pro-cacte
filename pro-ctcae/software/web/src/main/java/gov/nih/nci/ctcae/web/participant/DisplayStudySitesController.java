@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
@@ -51,13 +52,13 @@ public class DisplayStudySitesController extends AbstractController {
             participant = command.getParticipant();
         }
         List<Integer> times = new ArrayList();
-            for (int j = 1; j <= 12; j++) {
-                    times.add(j);
-                }
+        for (int j = 1; j <= 12; j++) {
+            times.add(j);
+        }
         List<Integer> minutes = new ArrayList();
-         for (int i = 0; i<=60; i+=5) {
-             minutes.add(i);
-         }
+        for (int i = 0; i <= 60; i += 5) {
+            minutes.add(i);
+        }
 
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
@@ -70,11 +71,19 @@ public class DisplayStudySitesController extends AbstractController {
                 studyParticipantAssignments.add(studyParticipantAssignment);
             }
             String[] timeZones = TimeZone.getAvailableIDs();
-
+            boolean showTime = false;
+            if (participant.getStudyParticipantAssignments().size() > 0) {
+                for (AppMode appMode : participant.getStudyParticipantAssignments().get(0).getSelectedAppModes()) {
+                    if (appMode.equals(AppMode.IVRS)) {
+                        showTime = true;
+                    }
+                }
+            }
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
             modelAndView.addObject("hours", times);
             modelAndView.addObject("timezones", timeZones);
             modelAndView.addObject("minutes", minutes);
+            modelAndView.addObject("showTime", showTime);
         }
         List<String> participantModes = new ArrayList();
 

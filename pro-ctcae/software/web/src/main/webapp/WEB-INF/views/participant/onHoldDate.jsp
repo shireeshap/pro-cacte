@@ -17,7 +17,7 @@
 
             <div id="offTreatment">
                 <div >
-                    <div>Putting the participant treatment on hold will put all the future form schedules on hold.</div>
+                    <div>Putting the participant on hold will put all the future scheduled forms on hold.</div>
                 </div>
 
                     Please enter the date from which the participant <strong>${command.participant.displayName}</strong>
