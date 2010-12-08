@@ -6,6 +6,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -25,7 +26,8 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     protected StudyRepository studyRepository;
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
-
+    private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
+    
     public StudyController() {
         super();
         setCommandClass(StudyCommand.class);
@@ -34,7 +36,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         setFlowFactory(new StaticFlowFactory<StudyCommand>(flow));
         setAllowDirtyBack(false);
         setAllowDirtyForward(false);
-
+        setBindOnNewForm(true);
     }
 
     protected void layoutTabs(final Flow<StudyCommand> flow) {
@@ -58,7 +60,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
 
         StudyCommand studyCommand = (StudyCommand) command;
 
-
         studyCommand.setStudy(studyRepository.save(studyCommand.getStudy()));
 
         return new ModelAndView("study/confirmStudy", errors.getModel());
@@ -66,15 +67,16 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
 
     @Override
     protected void save(StudyCommand command) {
-
         command.setStudy(studyRepository.save(command.getStudy()));
-
         command.updateClinicalStaffs();
-
     }
-
-    protected String getFormSessionAttributeName() {
-        return StudyController.class.getName() + ".FORM." + getCommandName();
+    @Override
+     protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
+        StudyCommand studyCommand = (StudyCommand) command;
+        boolean isunique=uniqueIdentifierForStudyValidator.validate(studyCommand.getStudy().getAssignedIdentifier());
+        if(!isunique){
+            errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
+        }
     }
 
     @Required
@@ -85,8 +87,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     @Override
     protected boolean shouldSave(HttpServletRequest request, StudyCommand command, Tab tab) {
         return !(tab instanceof EmptyStudyTab);
-
-
     }
 
     @Required
@@ -97,5 +97,10 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    @Required
+    public void setUniqueIdentifierForStudyValidator(UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator) {
+        this.uniqueIdentifierForStudyValidator = uniqueIdentifierForStudyValidator;
     }
 }

@@ -296,6 +296,7 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="uniqueIdentifierForStudyValidator" ref="uniqueIdentifierForStudyValidator"/>
     </bean>
 
     <bean name="/study/createStudy" id="createStudyController"
