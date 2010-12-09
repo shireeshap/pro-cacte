@@ -6,7 +6,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -26,7 +25,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     protected StudyRepository studyRepository;
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
-    private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
     
     public StudyController() {
         super();
@@ -36,7 +34,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         setFlowFactory(new StaticFlowFactory<StudyCommand>(flow));
         setAllowDirtyBack(false);
         setAllowDirtyForward(false);
-        setBindOnNewForm(true);
     }
 
     protected void layoutTabs(final Flow<StudyCommand> flow) {
@@ -71,6 +68,10 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         command.updateClinicalStaffs();
     }
 
+    protected String getFormSessionAttributeName() {
+        return StudyController.class.getName() + ".FORM." + getCommandName();
+    }
+
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
@@ -90,9 +91,5 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
-    @Required
-    public void setUniqueIdentifierForStudyValidator(UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator) {
-        this.uniqueIdentifierForStudyValidator = uniqueIdentifierForStudyValidator;
-    }
+
 }
