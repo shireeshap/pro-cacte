@@ -70,14 +70,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         command.setStudy(studyRepository.save(command.getStudy()));
         command.updateClinicalStaffs();
     }
-    @Override
-     protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
-        StudyCommand studyCommand = (StudyCommand) command;
-        boolean isunique=uniqueIdentifierForStudyValidator.validate(studyCommand.getStudy().getAssignedIdentifier());
-        if(!isunique){
-            errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
-        }
-    }
 
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {

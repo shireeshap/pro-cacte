@@ -3,14 +3,17 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //
 /**
@@ -23,7 +26,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
 
     UserRepository userRepository;
-
+    private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
     /**
      * Instantiates a new study details tab.
      */
@@ -36,7 +39,15 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         return Privilege.PRIVILEGE_CREATE_STUDY;
 
     }
-        
+
+    @Override
+    public void validate(StudyCommand command, Errors errors) {
+        StudyCommand studyCommand = (StudyCommand) command;
+        boolean isunique=uniqueIdentifierForStudyValidator.validate(studyCommand.getStudy().getAssignedIdentifier());
+        if(!isunique){
+            errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
+        }
+    }
 
     @Override
     public void onDisplay(HttpServletRequest httpServletRequest, StudyCommand studyCommand) {
@@ -122,5 +133,9 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    public void setUniqueIdentifierForStudyValidator(UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator) {
+        this.uniqueIdentifierForStudyValidator = uniqueIdentifierForStudyValidator;
     }
 }
