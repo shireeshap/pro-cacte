@@ -114,13 +114,13 @@
                 <tags:renderRadio propertyName="participantModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}"
-                                  propertyValue="${studyMode.mode.code}"
+                                  propertyValue="${studyMode.mode.name}"
                                   noForm="true" useRenderInput="true"
                                   onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
             </c:if>
         </c:forEach>
     </td>
-    <td width="10%">
+    <td width="${isEdit eq true ? "10%":"40%"}">
         <div id="web_${studysite.id}" style="display:none">
             <input type="checkbox" name="email_${studysite.id}" value="true"
                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
@@ -255,7 +255,7 @@
                 <tags:renderRadio propertyName="participantClinicModes_${studysite.id}"
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}"
-                                  propertyValue="${studyMode.mode.code}"
+                                  propertyValue="${studyMode.mode.name}"
                                   noForm="true" useRenderInput="true"/>
             </c:if>
         </c:forEach>

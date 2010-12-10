@@ -24,7 +24,7 @@
             <p>
                 <i>Participant <strong>${command.participant.displayName}</strong> was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b>
                 <c:if test="${cycle ne null}">which was cycle ${cycle} and day ${day}.</c:if></i><br>
-                Participant <strong>${command.participant.displayName}</strong> will resume form administration and the held forms will be reinstated based on the option selected below:<br>
+                Participant will resume form administration and the held forms will be reinstated based on the option selected below:<br>
 
                 <c:if test="${cycleNumber ne 0}">
                 <i>For the selected date, the cycle number is ${cycleNumber} and day is ${dayNumber}</i> <br>

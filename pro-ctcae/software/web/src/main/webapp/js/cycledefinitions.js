@@ -121,7 +121,8 @@ function initializeCalendar(index) {
 
                     if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold') {
                         if (holiday == 'true') {
-                            item.style.background = '#666666';
+//                            item.style.background = 'blue';
+                            item.addClassName('blue');
                         }
                         item.style.cursor = 'pointer';
                         showdropdown = true;

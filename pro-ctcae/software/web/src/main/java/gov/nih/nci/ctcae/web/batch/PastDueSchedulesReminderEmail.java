@@ -25,6 +25,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     public void generateEmailReports() {
 
         Map<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap = new HashMap<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>>();
+        Map<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>> studyParticipantAndSchedulesMap = new HashMap<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>>();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
         Session session = getHibernateTemplate().getSessionFactory().openSession();
@@ -33,11 +34,19 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+        boolean web = false;
         for (Study study : studies) {
             for (StudySite studySite : study.getStudySites()) {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
+                    for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
+                        if (mode.getMode().equals(AppMode.HOMEWEB)) {
+                            if (mode.getEmail()) {
+                                web = true;
+                            }
+                        }
+                    }
                     for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                             if (today.after(studyParticipantCrfSchedule.getDueDate())) {
@@ -49,8 +58,12 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                                 for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
                                     addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
                                 }
+                            }
 
-
+                            if (web && today.after(studyParticipantCrfSchedule.getStartDate()) && today.before(studyParticipantCrfSchedule.getDueDate())) {
+                                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                                    addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
+                                }
                             }
                         }
                     }
@@ -73,7 +86,24 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                     helper.setText(content, javaMailSender.isHtml());
                     javaMailSender.send(message);
                 }
+            }
 
+            String participantSubject = "List of surveys due";
+            if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
+                for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
+                    String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
+                    String participantEmailContent = getHtmlContentForParticipantEmail(studyParticipantAndSchedulesMap.get(studyParticipantAssignment), studyParticipantAssignment);
+                    if (StringUtils.isNotBlank(participantEmailAddress)) {
+                        System.out.println("Sending email to " + participantEmailAddress);
+                        MimeMessage participantMessage = javaMailSender.createMimeMessage();
+                        participantMessage.setSubject(participantSubject);
+                        participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                        MimeMessageHelper helper = new MimeMessageHelper(participantMessage, true);
+                        helper.setTo(participantEmailAddress);
+                        helper.setText(participantEmailContent, javaMailSender.isHtml());
+                        javaMailSender.send(participantMessage);
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,6 +122,15 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             siteClincalStaffAndParticipantAssignmentMap.put(studyOrganizationClinicalStaff, participantAssignmentSet);
         }
         participantAssignmentSet.add(studyParticipantCrfSchedule);
+    }
+
+    private void addScheduleForParticipant(Map<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>> studyParticipantAndScheduleMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantAssignment studyParticipantAssignment) {
+        Set<StudyParticipantCrfSchedule> studyParticipantCrfScheduleSet = studyParticipantAndScheduleMap.get(studyParticipantAssignment);
+        if (studyParticipantCrfScheduleSet == null) {
+            studyParticipantCrfScheduleSet = new HashSet<StudyParticipantCrfSchedule>();
+            studyParticipantAndScheduleMap.put(studyParticipantAssignment, studyParticipantCrfScheduleSet);
+        }
+        studyParticipantCrfScheduleSet.add(studyParticipantCrfSchedule);
     }
 
     private String getHtmlContent(Set<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
@@ -147,6 +186,39 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
 
         emailContent.append("<br>This is an auto-generated email from PRO-CTCAE system. Please do not reply to it.");
         return emailContent.toString();
+    }
+
+    private String getHtmlContentForParticipantEmail(Set<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyParticipantAssignment studyParticipantAssignment) {
+        Map<CRF, Set<StudyParticipantCrfSchedule>> participantCrfScheduleMap = new LinkedHashMap<CRF, Set<StudyParticipantCrfSchedule>>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+            CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
+            Set<StudyParticipantCrfSchedule> scheduleSet;
+            if (participantCrfScheduleMap.containsKey(crf)) {
+                scheduleSet = participantCrfScheduleMap.get(crf);
+            } else {
+                scheduleSet = new LinkedHashSet<StudyParticipantCrfSchedule>();
+                participantCrfScheduleMap.put(crf, scheduleSet);
+            }
+            scheduleSet.add(studyParticipantCrfSchedule);
+        }
+
+        StringBuilder participantEmailContent = new StringBuilder();
+        participantEmailContent.append("<html><head></head><body>");
+        participantEmailContent.append("Hello " + studyParticipantAssignment.getParticipant().getDisplayName());
+        participantEmailContent.append("<br><b>Study: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
+        participantEmailContent.append("<br><b>Study site: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
+        for (CRF crf : participantCrfScheduleMap.keySet()) {
+            participantEmailContent.append("<br><b>Form: " + crf.getTitle());
+            participantEmailContent.append("<br><br><table border=\"1\">");
+            addRow(participantEmailContent, new String[]{"Schedule start date", "Schedule  due date"});
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+                addRow(participantEmailContent, new String[]{DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
+            }
+            participantEmailContent.append("</table>");
+            participantEmailContent.append("</body></html>");
+        }
+        participantEmailContent.append("<br>This is an auto-generated email from PRO-CTCAE system. Please do not reply to it.");
+        return participantEmailContent.toString();
     }
 
     private void addRow(StringBuilder content, String[] columnValues) {
