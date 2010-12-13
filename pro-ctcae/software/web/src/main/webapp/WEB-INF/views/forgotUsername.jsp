@@ -79,6 +79,22 @@
                 </tr>
             </table>
             <form method="POST" action="forgotusername">
+                <c:if test="${mode eq 'N'}">
+                    <table id="non-deIdentifiedMode">
+                        <tr>
+                            <td style="text-align:right"><b>Last name</b></td>
+                            <td><input type="text" name="lastName" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right"><b>Email</b></td>
+                            <td><input type="text" name="email" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>&nbsp;&nbsp;&nbsp;<tags:button type="submit" value="Submit" color="green"/></td>
+                        </tr>
+                    </table>
+                </c:if>
                 <table id="staff" style="display:none">
                     <%--<tr>--%>
                         <%--<td style="text-align:right">--%>
