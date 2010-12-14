@@ -80,11 +80,17 @@ public class SetupController extends CtcAeSimpleFormController {
         try {
             boolean validUser = userNameAndPasswordValidator.validate(user);
             if (!validUser) {
-                errors.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                if(userNameAndPasswordValidator.message().contains("Username")){
+                    errors.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                }
+                else if(userNameAndPasswordValidator.message().contains("Password")){
+                    errors.rejectValue("clinicalStaff.user.password", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());     
+                }
+
             }
         } catch (PasswordCreationPolicyException ex) {
             for (ValidationError ve : ex.getErrors().getErrors()) {
-                errors.rejectValue("clinicalStaff.user.username", ve.getMessage(), ve.getMessage());
+                errors.rejectValue("clinicalStaff.user.password", ve.getMessage(), ve.getMessage());
             }
         }
     }
