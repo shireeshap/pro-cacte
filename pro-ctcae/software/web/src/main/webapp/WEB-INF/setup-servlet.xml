@@ -67,6 +67,13 @@
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
+    
+     <bean id="uniqueStudyIdentifierForParticipantValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
     <bean id="uniqueTitleForCrfValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
         <property name="crfRepository" ref="crfRepository"/>

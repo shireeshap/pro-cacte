@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
@@ -32,6 +33,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
 //    protected Properties proCtcAEProperties;
+    private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
 
     /**
      * Instantiates a new participant details tab.
@@ -49,6 +51,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     @Override
     public void validate(ParticipantCommand command, Errors errors) {
+
         if (command.getStudySites() == null ||
                 command.getStudySites().size() == 0) {
             if (command.getParticipant().getStudyParticipantAssignments() == null ||
@@ -106,14 +109,32 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         try {
+            for (StudySite studySite : command.getStudySites()) {
+                String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+                if (!studyParticipantIdentifier.equals(null)) {
+                    boolean isunique = uniqueStudyIdentifierForParticipantValidator.validate(studySite.getStudy().getId(), studyParticipantIdentifier);
+                    if (isunique) {
+                        errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
+                    }
+                }
+            }
             command.apply(crfRepository, request);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        super.postProcess(request, command, errors);
-
     }
+
+    catch(
+    ParseException e
+    )
+
+    {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+    }
+
+    super.
+
+    postProcess(request, command, errors);
+
+}
 
     /**
      * Sets the crf repository.
@@ -136,5 +157,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 //        this.proCtcAEProperties = proCtcAEProperties;
 //    }
 
-
+    public void setUniqueStudyIdentifierForParticipantValidator(UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator) {
+        this.uniqueStudyIdentifierForParticipantValidator = uniqueStudyIdentifierForParticipantValidator;
+    }
 }
