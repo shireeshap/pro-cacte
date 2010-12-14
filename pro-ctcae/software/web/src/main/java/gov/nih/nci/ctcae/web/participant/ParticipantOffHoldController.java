@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepos
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -58,7 +59,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
                 onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-                if (studyParticipantCrfSchedule.getStartDate().getDate() == studyParticipantCommand.getOffHoldTreatmentDate().getDate()){
+                if (studyParticipantCrfSchedule.getStartDate().getDate() == studyParticipantCommand.getOffHoldTreatmentDate().getDate()) {
                     cycleNumber = studyParticipantCrfSchedule.getCycleNumber();
                     dayNumber = studyParticipantCrfSchedule.getCycleDay();
                 }
@@ -95,56 +96,48 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         String recreateSchedules = request.getParameter("recreate");
-        int cycle = Integer.parseInt(request.getParameter("cycle"));
-        int day = Integer.parseInt(request.getParameter("day"));
+        int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
+        int day = ServletRequestUtils.getIntParameter(request, "day", 0);
         StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(spCommand.getStudyParticipantAssignment().getId());
         studyParticipantAssignment.setOffHoldTreatmentDate(spCommand.getOffHoldTreatmentDate());
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            if (recreateSchedules.equals("continue")) {
-                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
-                            studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
-                        } else {
-                            studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+
+            if (recreateSchedules.equals("cycle")) {
+                if (cycle != 0 && day != 0) {
+                    Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
+                    LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
+                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                            if (studyParticipantCrfSchedule.getCycleNumber() != null) {
+                                if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
+                                    offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                                } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
+                                    offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                                } else {
+                                    studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                                }
+                            } else {
+                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                            }
                         }
                     }
-                }
-
-//                studyParticipantCrf.getStudyParticipantCrfSchedules().clear();
-//                studyParticipantCrf.setStartDate(studyParticipantAssignment.getOffHoldTreatmentDate());
-//                studyParticipantCrf.createSchedules();
-            } else if (recreateSchedules.equals("move")) {
-                Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
-                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                    if (offHoldStudyParticipantCrfSchedules.size() > 0) {
+                        Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
+                        for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
+                            setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
+                        }
                     }
-                }
-            } else if (recreateSchedules.equals("cycle")) {
-                Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
-                LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
-                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        if (studyParticipantCrfSchedule.getCycleNumber() != null) {
-                            if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
-                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-                            } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
-                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                } else {
+                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                            if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
+                                studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                             } else {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
                             }
-                        } else {
-                            setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
                         }
-                    }
-                }
-                if (offHoldStudyParticipantCrfSchedules.size() > 0) {
-                    Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
-                    for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
-                        setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
                     }
                 }
             }

@@ -29,17 +29,9 @@
                 <c:if test="${cycleNumber ne 0}">
                 <i>For the selected date, the cycle number is ${cycleNumber} and day is ${dayNumber}</i> <br>
                 </c:if>
-                <input type="radio" name="recreate" value="continue" onclick="javascript:hideCycleDay();"> resume from
-                the date below (the missed schedules will be cancelled) <br>
-                <input type="radio" name="recreate" value="cycle" onclick="javascript:showCycleDay();"> resume on a
-                specific cycle and day
 
-            <div id="cycle_day" style="display:none; width:251px" align="right">
-               <b> Cycle</b> &nbsp;&nbsp;<input name="cycle" type="text" value="${cycle eq null ? "1" : cycle}"
-                             class="validate-NOTEMPTY&&NUMERIC" size="2">  &nbsp;&nbsp;
-               <b> Day </b> &nbsp;&nbsp;<input name="day" type="text" value="${day eq null ? "1" : day}" class="validate-NOTEMPTY&&NUMERIC"
-                           size="2">
-            </div>
+                <input type="radio" name="recreate" value="cycle" checked > resume surveys on <b> Cycle</b> &nbsp;&nbsp;<input name="cycle" type="text" size="2"> and <b> Day </b> &nbsp;<input name="day" type="text" size="2">
+            
             <tags:renderDate propertyName="offHoldTreatmentDate"
                              displayName="participant.label.remove_hold_date" required="true"/>
 
