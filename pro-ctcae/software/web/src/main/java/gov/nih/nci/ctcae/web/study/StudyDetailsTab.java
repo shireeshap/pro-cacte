@@ -44,12 +44,14 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     @Override
     public void validate(StudyCommand command, Errors errors) {
         StudyCommand studyCommand = (StudyCommand) command;
-        if(studyCommand.getStudy().getId()==null){
-            boolean isunique=uniqueIdentifierForStudyValidator.validateUniqueIdentifier(studyCommand.getStudy().getAssignedIdentifier());
+            String studyId ="";
+        if(studyCommand.getStudy().getId()!=null){
+             studyId=(studyCommand.getStudy().getId()).toString();
+        }
+            boolean isunique=uniqueIdentifierForStudyValidator.validateUniqueIdentifier(studyId,studyCommand.getStudy().getAssignedIdentifier());
             if(isunique){
                 errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
             }
-        }    
     }
 
     @Override

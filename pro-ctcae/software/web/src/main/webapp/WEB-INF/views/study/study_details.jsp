@@ -62,11 +62,13 @@
         function checkStudyIdentifier(){
             var studyId = "${param['studyId']}";
             var identifier = $('study.assignedIdentifier').value;
-            if(studyId==null){
-                uniqueIdentifier.validateUniqueIdentifier(identifier,postCommentHandler);
+            if(identifier!=""){
+                uniqueIdentifier.validateUniqueIdentifier(studyId,identifier,postCommentHandler);
                 return;
             }
-            alert("pass");
+            else{
+               jQuery('#error1').hide(); 
+            }
         }
         function postCommentHandler(returnvalue) {
             if(returnvalue)

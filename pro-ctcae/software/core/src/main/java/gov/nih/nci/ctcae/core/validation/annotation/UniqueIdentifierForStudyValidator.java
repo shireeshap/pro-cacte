@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import java.util.Collection;
 
 //
+
 /**
  * The Class UniqueIdentifierForStudyValidator.
  *
@@ -30,20 +31,32 @@ public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueI
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
 
-    public boolean validateUniqueIdentifier(String value) {
-            StudyQuery studyQuery = new StudyQuery();
-            studyQuery.filterByAssignedIdentifierExactMatch((String) value);
-            Collection<Study> studies = studyRepository.find(studyQuery);
-            if(studies != null && !studies.isEmpty()){
-                        return true;
+    public boolean validateUniqueIdentifier(String studyId, String studyIdentifier) {
+        StudyQuery studyQuery = new StudyQuery();
+        studyQuery.filterByAssignedIdentifierExactMatch((String) studyIdentifier);
+        Collection<Study> studies = studyRepository.find(studyQuery);
+        boolean flag=false;
+        if (studies != null && !studies.isEmpty()) {
+            if (studyId == null || studyId.equals("")) {
+                return true;
+            } else {
+                for (Study study : studies) {
+                    if (study.getId().equals(Integer.parseInt(studyId))) {
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    return true;
+                }
             }
-            else
-                return false;
+        }
+        return false;
     }
 
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
      */
+
     public void initialize(UniqueIdentifierForStudy parameters) {
         message = parameters.message();
     }
@@ -51,6 +64,7 @@ public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueI
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#message()
      */
+
     public String message() {
         return message;
     }
