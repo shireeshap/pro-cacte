@@ -130,6 +130,7 @@
         <br>
     </td>
 </tr>
+
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <b>Call time</b>&nbsp;
@@ -269,7 +270,14 @@
         <%--</c:forEach>--%>
     <%--</td>--%>
 </tr>
-
+<tr >
+<td align="right">
+<c:if test="${fn:length(studyParticipantAssignment.studyParticipantReportingModeHistoryItems) > 0}">
+<a href="javascript:participantRptModeHistoryDisplay(${studyParticipantAssignment.id})">
+                       <tags:message code="participant.reportmodehist.label.header"/> </a>
+</c:if>                        
+</td>
+</tr>
 <tr>
     <td align="right" class="data" width="30%">
         <b><spring:message code="participant.label.startdate"/></b>

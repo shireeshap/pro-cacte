@@ -78,6 +78,7 @@
         <value>gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyMode</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantMode</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantReportingModeHistory</value>
 
 
     </util:list>

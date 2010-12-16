@@ -49,6 +49,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
             for(StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
                 studyMode.getMode();
             }
+            for(StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
+                studyParticipantReportingModeHistory.getMode();
+            }
         }
     }
 

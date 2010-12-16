@@ -696,4 +696,8 @@
         <property name="userRepository" ref="userRepository"/>
     </bean>
 
+     <bean name="/participant/participantReportingModeHistory" id="participantReportingModeHistory"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantReportingModeHistoryController">
+         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
+    </bean>
 </beans>

@@ -279,6 +279,7 @@
     <div style="padding-left:2px; padding-right:2px;">
         <table width="100%" cellpadding="10" cellspacing="0" border="0">
             <tr>
+                 <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
                 <td id="a1" class="quickLinkBGon"
                     style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
                     <div class="quickLinkRow">
@@ -290,6 +291,7 @@
                                                        class="quickLink">Create New Staff Profile</a></div>
                     </div>
                 </td>
+                </proctcae:urlAuthorize>
             </tr>
 
             <tr>

@@ -499,6 +499,8 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/007_update_study_p
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/008_update_study_participant_assignment.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/009_update_study.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/010_update_study_participant_assignment.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/011_create_study_participant_reporting_mode_history.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/012_update_study_participant_crf.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -576,6 +578,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleDueDateComparator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantMode.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistory.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
@@ -916,6 +919,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/Participa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffHoldController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOnHoldController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReportingModeHistoryController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantResponseReportController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSearchResultsComparator.java -text
@@ -1193,6 +1197,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/onHoldDate.jsp 
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participantInbox.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participant_clinical_staff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participant_reviewsummary.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/reportmodehistory.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/responseReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text

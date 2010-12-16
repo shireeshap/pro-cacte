@@ -116,6 +116,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
 //    @Column(name = "reminder_minute", nullable = true)
 //    private Integer reminderMinute;
 
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    @OrderBy("id desc")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistoryItems = new ArrayList();
+
     /**
      * Instantiates a new study participant assignment.
      */
@@ -493,6 +498,32 @@ public class StudyParticipantAssignment extends BaseVersionable {
             appModes.add(studyParticipantMode.getMode());
         }
         return appModes;
+    }
+
+    @Transient
+    public List<StudyParticipantReportingModeHistory> getEligiblePartcipantModeReportingHistoryItems() {
+        List<StudyParticipantReportingModeHistory> histItems = new ArrayList();
+        for (StudyParticipantReportingModeHistory studyParticipantModeRptHistory : studyParticipantReportingModeHistoryItems) {
+            if(studyParticipantModeRptHistory.getEffectiveEndDate()==null){
+                histItems.add(studyParticipantModeRptHistory);
+            }
+        }
+        return histItems;
+    }
+
+    public void addStudyParticipantModeHistory(StudyParticipantReportingModeHistory studyParticipantModeHistory) {
+        if (studyParticipantModeHistory != null) {
+            studyParticipantModeHistory.setStudyParticipantAssignment(this);
+            studyParticipantReportingModeHistoryItems.add(studyParticipantModeHistory);
+        }
+    }
+
+    public List<StudyParticipantReportingModeHistory> getStudyParticipantReportingModeHistoryItems() {
+        return studyParticipantReportingModeHistoryItems;
+    }
+
+    public void setStudyParticipantReportingModeHistoryItems(List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistory) {
+        this.studyParticipantReportingModeHistoryItems = studyParticipantReportingModeHistory;
     }
 }
 

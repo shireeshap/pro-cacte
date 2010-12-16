@@ -9,10 +9,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //
 
@@ -214,6 +211,7 @@ public class ParticipantCommand {
             for (StudySite studySite : getStudySites()) {
                 setSiteName(studySite.getOrganization().getName());
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
+                setParticipantModeHistory(studySite, studyParticipantAssignment, request);
                 setParticipantModesAndReminders(studySite, studyParticipantAssignment, request);
                 String studyStartDate = request.getParameter("study_date_" + studySite.getId());
                 if (!StringUtils.isBlank(studyStartDate)) {
@@ -224,7 +222,8 @@ public class ParticipantCommand {
             }
         } else {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);                
                 String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studyParticipantAssignment.getStudySite().getId());
                 if (!StringUtils.isBlank(studyParticipantIdentifier)) {
                     studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
@@ -296,6 +295,60 @@ public class ParticipantCommand {
                 }
             }
         }
+
+    }
+
+    public void setParticipantModeHistory(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {       
+        String participantMode = request.getParameter("participantModes_" + studySite.getId());
+        String participantClinicMode = request.getParameter("participantClinicModes_" + studySite.getId());
+        boolean blFlgAddHomeMode = true;
+        boolean blFlgAddClinicMode = true;
+        if (participantMode == null) {
+            blFlgAddHomeMode = false;
+        }
+        if (participantClinicMode == null) {
+            blFlgAddClinicMode = false;
+        }
+        if(blFlgAddHomeMode || blFlgAddClinicMode){
+            for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory: studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
+                if(studyParticipantReportingModeHistory.getEffectiveEndDate()==null){
+                     if(studyParticipantReportingModeHistory.getMode().equals(AppMode.HOMEWEB) || studyParticipantReportingModeHistory.getMode().equals(AppMode.HOMEBOOKLET)|| studyParticipantReportingModeHistory.getMode().equals(AppMode.IVRS)){
+                                  if(blFlgAddHomeMode){
+                                      AppMode mode = AppMode.valueOf(participantMode);
+                                      if(studyParticipantReportingModeHistory.getMode().equals(mode)){
+                                             blFlgAddHomeMode = false;
+                                      }else{
+                                           studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+                                      }
+                                  }
+                              
+                     }else {
+                             if(blFlgAddClinicMode){
+                                          AppMode mode = AppMode.valueOf(participantClinicMode);
+                                          if(studyParticipantReportingModeHistory.getMode().equals(mode)){
+                                                 blFlgAddClinicMode = false;
+                                          }else{
+                                               studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+                                          }
+                             }
+
+
+                     }                     
+                }
+            }
+        }
+        if(blFlgAddClinicMode){
+                 StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
+                 AppMode mode = AppMode.valueOf(participantClinicMode);
+                 hist.setMode(mode);
+                 studyParticipantAssignment.addStudyParticipantModeHistory(hist);
+        }
+        if(blFlgAddHomeMode){
+                 StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
+                 AppMode mode = AppMode.valueOf(participantMode);
+                 hist.setMode(mode);                            
+                 studyParticipantAssignment.addStudyParticipantModeHistory(hist);
+        }       
 
     }
 

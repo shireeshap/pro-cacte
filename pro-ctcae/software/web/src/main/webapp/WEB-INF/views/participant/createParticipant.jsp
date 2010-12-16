@@ -106,6 +106,16 @@
             })
         }
 
+        function participantRptModeHistoryDisplay(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantReportingModeHistory"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id, 
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 350);
+                },
+                method:'get'
+            })
+        }
+
         function showpassword(show) {
             if (show) {
                 $('passwordfields').show();
