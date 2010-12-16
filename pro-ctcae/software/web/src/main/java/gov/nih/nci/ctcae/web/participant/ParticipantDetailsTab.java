@@ -90,16 +90,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 organizationsHavingStudySite.add(o);
             }
         }
-
+        /**
+     * Initializing studyOrganization and studyModes
+     */
         if (command.getParticipant().getStudyParticipantAssignments().size() > 0) {
             for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                 for (StudyOrganization studyOrganization : studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()) {
                     studyOrganization.getDisplayName();
                 }
+                for (StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
+                        studyMode.getMode().getDisplayName();
+                }
             }
         }
-//        String mode = proCtcAEProperties.getProperty("mode.identifier");
-//        command.setMode(mode);
+
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         return referenceData;

@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -97,7 +98,10 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, StudyCommand studyCommand, Errors errors) {
         super.postProcess(httpServletRequest, studyCommand, errors);
-
+        Integer callBackHour = ServletRequestUtils.getIntParameter(httpServletRequest, "call_back_hour", 0);
+        Integer callBackFrequency = ServletRequestUtils.getIntParameter(httpServletRequest, "call_back_frequency", 0);
+        studyCommand.getStudy().setCallBackHour(callBackHour);
+        studyCommand.getStudy().setCallBackFrequency(callBackFrequency);
         studyCommand.getStudy().getStudyModes().clear();
         for (String string : studyCommand.getAppModes()) {
             AppMode appMode = AppMode.valueOf(string);

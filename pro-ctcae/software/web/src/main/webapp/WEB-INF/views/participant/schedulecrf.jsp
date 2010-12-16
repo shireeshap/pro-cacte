@@ -10,186 +10,183 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
-    <jsp:useBean id="today" class="java.util.Date"/>
-    <c:set var="fDate" value='<tags:formatDate value="${today}"/>'/>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
-    <tags:includePrototypeWindow/>
-    <tags:stylesheetLink name="cycledefinitions"/>
-    <tags:javascriptLink name="cycledefinitions"/>
-    <tags:javascriptLink name="yui"/>
-    <script type="text/javascript">
-        function addRemoveSchedule(index, date, action) {
-            var forms = document.getElementsByName("selectedForms")
-            var fids = '';
-            if (forms.length == 1) {
-                fids = forms[0].value + ',';
-            } else {
-                for (var i = 0; i < forms.length; i++) {
-                    if (forms[i].checked) {
-                        fids += forms[i].value + ',';
-                    }
+<jsp:useBean id="today" class="java.util.Date"/>
+<c:set var="fDate" value='<tags:formatDate value="${today}"/>'/>
+<tags:stylesheetLink name="tabbedflow"/>
+<tags:includeScriptaculous/>
+<tags:includePrototypeWindow/>
+<tags:stylesheetLink name="cycledefinitions"/>
+<tags:javascriptLink name="cycledefinitions"/>
+<tags:javascriptLink name="yui"/>
+<script type="text/javascript">
+    function addRemoveSchedule(index, date, action) {
+        var forms = document.getElementsByName("selectedForms")
+        var fids = '';
+        if (forms.length == 1) {
+            fids = forms[0].value + ',';
+        } else {
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i].checked) {
+                    fids += forms[i].value + ',';
                 }
             }
-            if (fids == '' && action != 'cancel') {
-                alert('Please select at least one form');
-                return;
+        }
+        if (fids == '' && action != 'cancel') {
+            alert('Please select at least one form');
+            return;
+        }
+        closeWindow();
+        if (action == 'cancel') {
+            getCalendar(index, "dir=refresh");
+        } else {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+                onComplete:function(transport) {
+                    getCalendar(index, "dir=refresh");
+                },
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
+                method:'get'
+            })
+        }
+    }
+
+    function showMoveWindow(olddate, newdate, index, sids) {
+        if (typeof(sids) == 'undefined') {
+            sids = getScheduleIdsForDay(index, olddate);
+        }
+        var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 210);
+                AE.registerCalendarPopups();
+            },
+            method:'get'
+        })
+
+    }
+    function showDeleteWindow(date, index, sids) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 180);
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+            method:'get'
+        })
+    }
+    function showDetailsWindow(date, index, sids) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 300);
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+            method:'get'
+        })
+    }
+
+    function showAddWindow(date, index) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 210);
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date ,
+            method:'get'
+        })
+    }
+
+    function showUpdateStartDateWindow(spcrfid) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/updateStudyParticipantCrfStartDate"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&spcrfid=" + spcrfid,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 280);
+                AE.registerCalendarPopups();
+            },
+            method:'get'
+        })
+
+    }
+
+    function getCalendar(index, parameters) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
+            onComplete:function(transport) {
+                showCalendar(index, transport);
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&" + parameters,
+            method:'get'
+        })
+    }
+
+    function showCalendar(index, transport) {
+        var items = $('calendar_' + index + '_outer').childElements();
+        var len = items.length;
+        for (var i = 0; i < len; i++) {
+            if (items[i].id != 'calendar_' + index + '_inner') {
+                items[i].remove();
             }
-            closeWindow();
-            if (action == 'cancel') {
-                getCalendar(index, "dir=refresh");
-            } else {
-                var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
-                    onComplete:function(transport) {
-                        getCalendar(index, "dir=refresh");
-                    },
-                    parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
-                    method:'get'
-                })
-            }
         }
+        new Insertion.After('calendar_' + index + '_inner', transport.responseText);
+    }
 
-        function showMoveWindow(olddate, newdate, index, sids) {
-            if (typeof(sids) == 'undefined') {
-                sids = getScheduleIdsForDay(index, olddate);
-            }
-            var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 210);
-                    AE.registerCalendarPopups();
-                },
-                method:'get'
-            })
+    function participantOnHold(id, date, index) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 600, 250);
+            },
+            method:'get'
+        })
+    }
 
-        }
-        function showDeleteWindow(date, index, sids) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 180);
-                },
-                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
-                method:'get'
-            })
-        }
-        function showDetailsWindow(date, index, sids) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 300);
-                },
-                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
-                method:'get'
-            })
-        }
+    function participantOffHold(id, date, index) {
+    <%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x";--%>
+        //             showModalWindow(url, 600, 350);
+        var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 600, 350);
+            },
+            method:'get'
+        })
+    }
 
-        function showAddWindow(date, index) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 210);
-                },
-                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date ,
-                method:'get'
-            })
-        }
-
-        function showUpdateStartDateWindow(spcrfid) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/updateStudyParticipantCrfStartDate"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&spcrfid=" + spcrfid,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 650, 280);
-                    AE.registerCalendarPopups();
-                },
-                method:'get'
-            })
-
-        }
-
-        function getCalendar(index, parameters) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
-                onComplete:function(transport) {
-                    showCalendar(index, transport);
-                },
-                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&" + parameters,
-                method:'get'
-            })
-        }
-
-        function showCalendar(index, transport) {
-            var items = $('calendar_' + index + '_outer').childElements();
-            var len = items.length;
-            for (var i = 0; i < len; i++) {
-                if (items[i].id != 'calendar_' + index + '_inner') {
-                    items[i].remove();
-                }
-            }
-            new Insertion.After('calendar_' + index + '_inner', transport.responseText);
-        }
-
-        function participantOnHold(id, date, index) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 250);
-                },
-                method:'get'
-            })
-        }
-
-        function participantOffHold(id, date, index) {
-            <%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x";--%>
-//             showModalWindow(url, 600, 350);
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 350);
-                },
-                method:'get'
-            })
-        }
-
-        function showCycleDay () {
+    function showHideCycleDay(value) {
+        if (value) {
             jQuery('#cycle_day').show();
-        }
-
-        function hideCycleDay () {
+        } else {
             jQuery('#cycle_day').hide();
         }
+    }
 
-        function validateAndSubmit(date, form) {
-            if (date == '') {
-                alert('Please provide a valid date');
-                return;
-            }
-            form.submit();
+    function validateAndSubmit(date, form) {
+        if (date == '') {
+            alert('Please provide a valid date');
+            return;
         }
+        form.submit();
+    }
 
-        function showPopUpMenuSchedule(date, index, sid) {
-            var html = '';
-            var menuindex = date;
-            var holdDate = date;
-            if (sid == null) {
-                html = '<div id="search-engines"><ul>';
+    function showPopUpMenuSchedule(date, index, sid) {
+        var html = '';
+        var menuindex = date;
+        var holdDate = date;
+        if (sid == null) {
+            html = '<div id="search-engines"><ul>';
+
+            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
-                if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-                } else {
-                    html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
-                }
-
-                html += '</ul></div>';
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
             } else {
-                menuindex = sid;
-                var html = '<div id="search-engines"><ul>';
-                html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+            }
+
+            html += '</ul></div>';
+        } else {
+            menuindex = sid;
+            var html = '<div id="search-engines"><ul>';
+            html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
+            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
                 html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
                 html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
-
-                if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-                } else {
-                    html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
-                }
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 var split = sid.split('_');
                 for (var a = 0; a < split.length; a++) {
                     var scheduleid = split[a];
@@ -200,24 +197,28 @@
                         html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
                     }
                 }
-                html += '</ul></div>';
+            } else {
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
-            jQuery('#scheduleActions' + menuindex).menu({
-                content: html,
-                maxHeight: 180,
-                positionOpts: {
-                    directionV: 'down',
-                    posX: 'left',
-                    posY: 'bottom',
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                showSpeed: 300
-            });
+
+            html += '</ul></div>';
         }
+        jQuery('#scheduleActions' + menuindex).menu({
+            content: html,
+            maxHeight: 180,
+            positionOpts: {
+                directionV: 'down',
+                posX: 'left',
+                posY: 'bottom',
+                offsetX: 0,
+                offsetY: 0
+            },
+            showSpeed: 300
+        });
+    }
 
 
-    </script>
+</script>
 </head>
 <body>
 <table>
@@ -251,7 +252,8 @@
                                     <chrome:division title=" "/>
                                     <div id="calendar_${status.index}_outer">
                                         <div id="calendar_${status.index}_inner"></div>
-                                        <tags:participantcalendar schedule="${participantSchedule}" studyParticipantAssignment="${command.studyParticipantAssignment}"
+                                        <tags:participantcalendar schedule="${participantSchedule}"
+                                                                  studyParticipantAssignment="${command.studyParticipantAssignment}"
                                                                   index="0"/>
                                     </div>
                                 </td>

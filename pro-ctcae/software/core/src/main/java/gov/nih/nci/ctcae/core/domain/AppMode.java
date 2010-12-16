@@ -13,13 +13,13 @@ public enum AppMode implements CodedEnum<String> {
 
     HOMEWEB("Web"),
 
-    IVRS("IVRS"),
+    IVRS("IVRS/Automated Telephone"),
 
-    HOMEBOOKLET("Booklet"),
+    HOMEBOOKLET("Paper Form"),
 
     CLINICWEB("Web"),
 
-    CLINICBOOKLET("Booklet");
+    CLINICBOOKLET("Paper Form");
 
     private final String displayText;
 

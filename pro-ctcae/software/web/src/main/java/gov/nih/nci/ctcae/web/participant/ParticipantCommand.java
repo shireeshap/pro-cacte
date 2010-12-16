@@ -249,39 +249,39 @@ public class ParticipantCommand {
         Integer callMinute = ServletRequestUtils.getIntParameter(request, "call_minute_" + studySite.getId(), 5);
         String callAmPm = request.getParameter("call_ampm_" + studySite.getId());
         String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
-        Integer reminderHour = ServletRequestUtils.getIntParameter(request, "reminder_hour_" + studySite.getId(), 1);
-        Integer reminderMinute = ServletRequestUtils.getIntParameter(request, "reminder_minute_" + studySite.getId(), 5);
-        String reminderAmPm = request.getParameter("reminder_ampm_" + studySite.getId());
-        String reminderTimeZone = request.getParameter("reminder_timeZone_" + studySite.getId());
+//        Integer reminderHour = ServletRequestUtils.getIntParameter(request, "reminder_hour_" + studySite.getId(), 1);
+//        Integer reminderMinute = ServletRequestUtils.getIntParameter(request, "reminder_minute_" + studySite.getId(), 5);
+//        String reminderAmPm = request.getParameter("reminder_ampm_" + studySite.getId());
+//        String reminderTimeZone = request.getParameter("reminder_timeZone_" + studySite.getId());
         if (participantMode != null) {
             if (participantMode.equals("HOMEWEB")) {
                 callHour = null;
                 callMinute = null;
                 callAmPm = null;
                 callTimeZone = null;
-                reminderAmPm = null;
-                reminderHour = null;
-                reminderMinute = null;
-                reminderTimeZone = null;
+//                reminderAmPm = null;
+//                reminderHour = null;
+//                reminderMinute = null;
+//                reminderTimeZone = null;
             }
         } else {
             callHour = null;
             callMinute = null;
             callAmPm = null;
             callTimeZone = null;
-            reminderAmPm = null;
-            reminderHour = null;
-            reminderMinute = null;
-            reminderTimeZone = null;
+//            reminderAmPm = null;
+//            reminderHour = null;
+//            reminderMinute = null;
+//            reminderTimeZone = null;
         }
         studyParticipantAssignment.setCallAmPm(callAmPm);
         studyParticipantAssignment.setCallHour(callHour);
         studyParticipantAssignment.setCallMinute(callMinute);
         studyParticipantAssignment.setCallTimeZone(callTimeZone);
-        studyParticipantAssignment.setReminderAmPm(reminderAmPm);
-        studyParticipantAssignment.setReminderHour(reminderHour);
-        studyParticipantAssignment.setReminderMinute(reminderMinute);
-        studyParticipantAssignment.setReminderTimeZone(reminderTimeZone);
+//        studyParticipantAssignment.setReminderAmPm(reminderAmPm);
+//        studyParticipantAssignment.setReminderHour(reminderHour);
+//        studyParticipantAssignment.setReminderMinute(reminderMinute);
+//        studyParticipantAssignment.setReminderTimeZone(reminderTimeZone);
         studyParticipantAssignment.getStudyParticipantModes().clear();
         if (getParticipantModes().size() > 0) {
             for (String string : getParticipantModes()) {

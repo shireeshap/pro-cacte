@@ -22,18 +22,27 @@
                 <tags:errors path="*"/>
             </div>
             <p>
-                <i>Participant <strong>${command.participant.displayName}</strong> was put on hold from <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b>
-                <c:if test="${cycle ne null}">which was cycle ${cycle} and day ${day}.</c:if></i><br>
-                Participant will resume form administration and the held forms will be reinstated based on the option selected below:<br>
+                <i>Participant <strong>${command.participant.displayName}</strong> was put on hold from
+                    <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b>
+                    <c:if test="${cycle ne null}">which was cycle ${cycle} and day ${day}.</c:if></i><br>
+                Participant will resume form administration and the held forms will be reinstated based on the option
+                selected below:<br>
 
                 <c:if test="${cycleNumber ne 0}">
                 <i>For the selected date, the cycle number is ${cycleNumber} and day is ${dayNumber}</i> <br>
                 </c:if>
+                    <tags:renderDate propertyName="offHoldTreatmentDate"
+                                     displayName="participant.label.remove_hold_date" required="true"/>
 
-                <input type="radio" name="recreate" value="cycle" checked > resume surveys on <b> Cycle</b> &nbsp;&nbsp;<input name="cycle" type="text" size="2"> and <b> Day </b> &nbsp;<input name="day" type="text" size="2">
-            
-            <tags:renderDate propertyName="offHoldTreatmentDate"
-                             displayName="participant.label.remove_hold_date" required="true"/>
+
+                <input type="checkbox" name="recreate" value="cycle"
+                       onclick="javascript:showHideCycleDay(this.checked);"> resume surveys on specific
+                cycle and day <br>
+            <div id="cycle_day" style="display:none;width:258px" align="right">
+                <b> Cycle</b> &nbsp;<input name="cycle" type="text" size="2"> and <b> Day </b> &nbsp;<input name="day"
+                                                                                                      type="text"
+                                                                                                      size="2">
+            </div>
 
 
             </p>

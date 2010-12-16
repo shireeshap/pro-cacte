@@ -142,7 +142,6 @@
                 jQuery('#ivrs_' + id).show();
                 jQuery('#c_' + id).show();
                 jQuery('#reminder_' + id).show();
-                jQuery('#reminder_time_' + id).show();
                 jQuery('#ivrs_reminder_' + id).show();
                 jQuery('#call_' + id).attr('checked', true);
                 jQuery('#email_' + id).attr('checked', false);
@@ -151,7 +150,6 @@
                 jQuery('#ivrs_' + id).hide();
                 jQuery('#ivrs_reminder_' + id).hide();
                 jQuery('#reminder_' + id).hide();
-                jQuery('#reminder_time_' + id).hide();                
                 jQuery('#c_' + id).hide();
             }
             

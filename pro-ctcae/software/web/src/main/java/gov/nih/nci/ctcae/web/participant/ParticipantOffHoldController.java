@@ -95,7 +95,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        String recreateSchedules = request.getParameter("recreate");
+//        String recreateSchedules = request.getParameter("recreate");
+//        String recreateSchedules = ServletRequestUtils.getStringParameter(request, "recreate", "nocycle");
         int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
         int day = ServletRequestUtils.getIntParameter(request, "day", 0);
         StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
@@ -104,7 +105,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         studyParticipantAssignment.setOffHoldTreatmentDate(spCommand.getOffHoldTreatmentDate());
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
 
-            if (recreateSchedules.equals("cycle")) {
+//            if (recreateSchedules.equals("cycle")) {
                 if (cycle != 0 && day != 0) {
                     Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
                     LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
@@ -140,7 +141,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                         }
                     }
                 }
-            }
+//            }
         }
         studyParticipantAssignment.setOnHoldTreatmentDate(null);
 

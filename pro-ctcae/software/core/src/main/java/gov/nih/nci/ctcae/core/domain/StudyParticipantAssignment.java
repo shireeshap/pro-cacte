@@ -104,17 +104,17 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Column(name = "call_minute", nullable = true)
     private Integer callMinute;
 
-    @Column(name = "reminder_time_zone", nullable = true)
-    private String reminderTimeZone;
-
-    @Column(name = "reminder_am_pm", nullable = true)
-    private String reminderAmPm;
-
-    @Column(name = "reminder_hour", nullable = true)
-    private Integer reminderHour;
-
-    @Column(name = "reminder_minute", nullable = true)
-    private Integer reminderMinute;
+//    @Column(name = "reminder_time_zone", nullable = true)
+//    private String reminderTimeZone;
+//
+//    @Column(name = "reminder_am_pm", nullable = true)
+//    private String reminderAmPm;
+//
+//    @Column(name = "reminder_hour", nullable = true)
+//    private Integer reminderHour;
+//
+//    @Column(name = "reminder_minute", nullable = true)
+//    private Integer reminderMinute;
 
     /**
      * Instantiates a new study participant assignment.
@@ -454,37 +454,37 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.callMinute = callMinute;
     }
 
-    public String getReminderTimeZone() {
-        return reminderTimeZone;
-    }
-
-    public void setReminderTimeZone(String reminderTimeZone) {
-        this.reminderTimeZone = reminderTimeZone;
-    }
-
-    public String getReminderAmPm() {
-        return reminderAmPm;
-    }
-
-    public void setReminderAmPm(String reminderAmPm) {
-        this.reminderAmPm = reminderAmPm;
-    }
-
-    public Integer getReminderHour() {
-        return reminderHour;
-    }
-
-    public void setReminderHour(Integer reminderHour) {
-        this.reminderHour = reminderHour;
-    }
-
-    public Integer getReminderMinute() {
-        return reminderMinute;
-    }
-
-    public void setReminderMinute(Integer reminderMinute) {
-        this.reminderMinute = reminderMinute;
-    }
+//    public String getReminderTimeZone() {
+//        return reminderTimeZone;
+//    }
+//
+//    public void setReminderTimeZone(String reminderTimeZone) {
+//        this.reminderTimeZone = reminderTimeZone;
+//    }
+//
+//    public String getReminderAmPm() {
+//        return reminderAmPm;
+//    }
+//
+//    public void setReminderAmPm(String reminderAmPm) {
+//        this.reminderAmPm = reminderAmPm;
+//    }
+//
+//    public Integer getReminderHour() {
+//        return reminderHour;
+//    }
+//
+//    public void setReminderHour(Integer reminderHour) {
+//        this.reminderHour = reminderHour;
+//    }
+//
+//    public Integer getReminderMinute() {
+//        return reminderMinute;
+//    }
+//
+//    public void setReminderMinute(Integer reminderMinute) {
+//        this.reminderMinute = reminderMinute;
+//    }
 
     @Transient
     public List<AppMode> getSelectedAppModes() {

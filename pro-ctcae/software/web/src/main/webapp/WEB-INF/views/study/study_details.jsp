@@ -14,8 +14,14 @@
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
 
+    <style>
+        .specialWidth {
+            width: 10px;
+        }
+    </style>
 
     <script type="text/javascript">
+
 
         function addStudyArmDiv(transport) {
             $('studyArmTable').show()
@@ -47,7 +53,18 @@
             $('command').submit();
         }
 
+        function showHideCallFreq(value) {
+            if (value) {
+                jQuery('#call_freq').show();
+            } else {
+                jQuery('#call_freq').hide();
+            }
+        }
+
         Event.observe(window, "load", function() {
+
+            //            $('study.callBackFrequency-row').addClassName('specialWidth');
+
         <c:if test="${command.admin eq true}">
             acCreate(new siteAutoComplter('study.studySponsor.organization'))
         </c:if>
@@ -166,24 +183,45 @@
       </c:if>
        <br>
        <chrome:division title="study.sections.study_modes">
-           <table>
+           <table border="0">
                <tr>
                    <td valign="top" align="right">
-                       <b><tags:message code='study.label.home_reporting'/>:</b>
+                       <b><tags:message code='study.label.home_reporting'/>&nbsp;</b>
                    </td>
                    <td>
-                       <form:checkbox path="appModes" value="HOMEWEB" label="Web"/> <br>
-                       <form:checkbox path="appModes" value="IVRS" label="IVRS"/> <br>
-                       <form:checkbox path="appModes" value="HOMEBOOKLET" label="Booklet"/> <br>
+                       <form:checkbox path="appModes" value="HOMEWEB" />&nbsp;Web <br>
+                       <form:checkbox path="appModes" value="IVRS"
+                                      onclick="javascript:showHideCallFreq(this.checked);"/>&nbsp;IVRS/Automated Telephone <br>
+
+                       <div id="call_freq" style="display:none;">
+                          <b>Reminder frequency:</b> call back every
+                           <select id="call_back_hour" name="call_back_hour">
+                               <option value=" "></option>
+                               <option value="30" ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>30
+                               </option>
+                               <option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>60
+                               </option>
+                           </select> minutes
+                           <select id="call_back_frequency" name="call_back_frequency">
+                               <option value=" "></option>
+                               <option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>1
+                               <option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>2
+                               <option value="3" ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>3
+                               <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>4
+                               <option value="5" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>5
+                           </select> 
+                           number of times
+                       </div>
+                       <form:checkbox path="appModes" value="HOMEBOOKLET"/>&nbsp;Paper Form <br>
                    </td>
                </tr>
                <tr>
                    <td valign="top">
-                       <b><tags:message code='study.label.clinic_reporting'/>:</b>
+                       <b><tags:message code='study.label.clinic_reporting'/>&nbsp;</b>
                    </td>
                    <td>
-                       <form:checkbox path="appModes" value="CLINICWEB" label="Web"/> <br>
-                       <form:checkbox path="appModes" value="CLINICBOOKLET" label="Booklet"/> <br>
+                       <form:checkbox path="appModes" value="CLINICWEB" />&nbsp;Web <br>
+                       <form:checkbox path="appModes" value="CLINICBOOKLET" />&nbsp;Paper Form <br>
                    </td>
                </tr>
            </table>

@@ -78,6 +78,12 @@ public class Study extends BasePersistable {
     @Transient
     private FundingSponsor fundingSponsor;
 
+    @Column(name = "CALL_BACK_HOUR", nullable = true)
+    private Integer callBackHour;
+
+    @Column(name = "CALL_BACK_FREQUENCY", nullable = true)
+    private Integer callBackFrequency;
+
 
     /**
      * The study organizations.
@@ -558,5 +564,20 @@ public class Study extends BasePersistable {
         }
         return homeModes;
     }
-    
+
+    public Integer getCallBackHour() {
+        return callBackHour;
+    }
+
+    public void setCallBackHour(Integer callBackHour) {
+        this.callBackHour = callBackHour;
+    }
+
+    public Integer getCallBackFrequency() {
+        return callBackFrequency;
+    }
+
+    public void setCallBackFrequency(Integer callBackFrequency) {
+        this.callBackFrequency = callBackFrequency;
+    }
 }
