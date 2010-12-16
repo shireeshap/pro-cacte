@@ -29,24 +29,16 @@ public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueI
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
-    public boolean validate(Integer studyId,Object value) {
-        if (value instanceof String) {
+
+    public boolean validateUniqueIdentifier(String value) {
             StudyQuery studyQuery = new StudyQuery();
             studyQuery.filterByAssignedIdentifierExactMatch((String) value);
-            Collection<Study> studies = studyRepository
-                    .find(studyQuery);
-            if(studies != null || !studies.isEmpty()){
-                for(Study study:studies){
-                    if(study.getId().equals(studyId)){
+            Collection<Study> studies = studyRepository.find(studyQuery);
+            if(studies != null && !studies.isEmpty()){
                         return true;
-                    }
-                    else
-                        return false;
-                }
             }
-//            return (studies == null || studies.isEmpty()) ? true : false;
-        }
-        return true;
+            else
+                return false;
     }
 
     /* (non-Javadoc)

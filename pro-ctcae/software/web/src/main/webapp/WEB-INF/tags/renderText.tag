@@ -6,8 +6,7 @@
 <%@ attribute name="help" %>
 <%@ attribute name="noForm" %>
 <%@ attribute name="maxLength" %>
-
-
+<%@ attribute name="onblur"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 
@@ -18,7 +17,8 @@
                 cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"
                 noForm="${noForm}"
                 maxLength="${maxLength}"
-                propertyValue="${propertyValue}"/>
+                propertyValue="${propertyValue}"
+                onblur="${onblur}"/>
 
 
 

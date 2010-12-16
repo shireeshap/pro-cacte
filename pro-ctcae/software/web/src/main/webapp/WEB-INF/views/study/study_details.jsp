@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
+<tags:dwrJavascriptLink objects="uniqueIdentifier"/>
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
@@ -52,7 +52,6 @@
             $('_target').name = '_target' + currentPage;
             $('command').submit();
         }
-
         function showHideCallFreq(value) {
             if (value) {
                 jQuery('#call_freq').show();
@@ -60,7 +59,24 @@
                 jQuery('#call_freq').hide();
             }
         }
-
+        function checkStudyIdentifier(){
+            var studyId = "${param['studyId']}";
+            var identifier = $('study.assignedIdentifier').value;
+            if(studyId==null){
+                uniqueIdentifier.validateUniqueIdentifier(identifier,postCommentHandler);
+                return;
+            }
+            alert("pass");
+        }
+        function postCommentHandler(returnvalue) {
+            if(returnvalue)
+            {
+                jQuery('#error1').show();
+            }
+            else{
+                jQuery('#error1').hide();
+            }
+        }
         Event.observe(window, "load", function() {
 
             //            $('study.callBackFrequency-row').addClassName('specialWidth');
@@ -101,8 +117,10 @@
    <jsp:attribute name="singleFields">
         <tags:instructions code="study.study_details.top"/><br/>
         <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
-                         required="true" size="50"/>
-
+                         required="true" size="50" onblur="checkStudyIdentifier()"/>
+        <ul id="error1" style="display:none; padding-left:12em " class="errors">
+            <li>Study identifier already exist.</li>
+        </ul>
         <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
                          required="true" size="50"/>
 

@@ -70,7 +70,6 @@
     
      <bean id="uniqueStudyIdentifierForParticipantValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
-        <property name="studyRepository" ref="studyRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
 

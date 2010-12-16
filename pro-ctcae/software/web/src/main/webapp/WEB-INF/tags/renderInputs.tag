@@ -35,6 +35,7 @@
 <%@attribute name="disabled" type="java.lang.Boolean" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
+<%@ attribute name="onblur" %>
 <c:set var="title"><spring:message code='${displayName}' text='${displayName}'/></c:set>
 
 <c:choose>
@@ -47,7 +48,7 @@
         <c:otherwise>
             <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                         title="${title}"
-                        cssClass="${cssClass}" maxlength="${maxLength}"/>
+                        cssClass="${cssClass}" maxlength="${maxLength}" onblur="${onblur}"/>
         </c:otherwise>
 
     </c:choose>

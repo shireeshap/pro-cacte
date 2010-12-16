@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
@@ -25,9 +24,7 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
     /**
      * The study repository.
      */
-    private StudyRepository studyRepository;
     private ParticipantRepository participantRepository;
-
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
@@ -35,7 +32,7 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
             Collection<Participant> participants = participantRepository.find(participantQuery);
-            if(participants != null || !participants.isEmpty()){
+            if(participants != null && !participants.isEmpty() && participants.size()>0){
                 for(Participant participant:participants){
                     if(participant.getStudyParticipantIdentifier().equals(assignedIdentifier)){
                         return true;
@@ -45,7 +42,7 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
                 }
             }
 //            return (studies == null || studies.isEmpty()) ? true : false;
-        return true;
+        return false;
     }
 
     /* (non-Javadoc)
@@ -59,19 +56,10 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
         return message;
     }
 
-    /**
-     * Sets the study repository.
-     *
-     * @param studyRepository the new study repository
-     */
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
-
     @Required
     public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
+
 }
 
