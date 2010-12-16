@@ -198,52 +198,52 @@
         via text if the patient hasn't already completed the form
     </td>
 </tr>
-<tr id="reminder_time_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
-    <td valign="top" align="right" width="30%">
-        <b>Reminder time</b>&nbsp;
-    </td>
-    <td valign="top" width="50%">
-        <select id="reminder_hour_${studysite.id}" name="reminder_hour_${studysite.id}">
-            <c:forEach items="${hours}" var="hour">
-                <option value="${hour}" ${studyParticipantAssignment.reminderHour eq hour ? "selected='selected'" : " "} >${hour}</option>
-            </c:forEach>
-        </select>&nbsp;
-        <select id="reminder_minute_${studysite.id}" name="reminder_minute_${studysite.id}">
-            <c:forEach items="${minutes}" var="minute">
-                <option value="${minute}" ${studyParticipantAssignment.reminderMinute eq minute ? "selected='selected'" : " "} >${minute}</option>
-            </c:forEach>
-        </select>&nbsp;
-        <select id="reminder_ampm_${studysite.id}" name="reminder_ampm_${studysite.id}">
-            <option value="am" ${studyParticipantAssignment.reminderAmPm eq "am" ? "selected='selected'" : " "} >
-                am
-            </option>
-            <option value="pm" ${studyParticipantAssignment.reminderAmPm eq "pm" ? "selected='selected'" : " "} >
-                pm
-            </option>
-        </select>&nbsp;&nbsp;&nbsp;
-        <b>Time zone</b>&nbsp;
-        <select id="reminder_timeZone_${studysite.id}" name="reminder_timeZone_${studysite.id}">
-            <option value="America/New_York" ${studyParticipantAssignment.reminderTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
-                Eastern Time
-            </option>
-            <option value="America/Chicago" ${studyParticipantAssignment.reminderTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
-                Central Time
-            </option>
-            <option value="America/Denver" ${studyParticipantAssignment.reminderTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
-                Mountain Time
-            </option>
-            <option value="America/Los_Angeles" ${studyParticipantAssignment.reminderTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
-                Pacific Time
-            </option>
-            <option value="America/Anchorage" ${studyParticipantAssignment.reminderTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
-                Alaska Time
-            </option>
-            <option value="America/Adak" ${studyParticipantAssignment.reminderTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
-                Hawaii-Aleutian Time
-            </option>
-        </select>
-    </td>
-</tr>
+<%--<tr id="reminder_time_${studysite.id}" style="${showTime eq true ? "":"display:none"}">--%>
+    <%--<td valign="top" align="right" width="30%">--%>
+        <%--<b>Reminder time</b>&nbsp;--%>
+    <%--</td>--%>
+    <%--<td valign="top" width="50%">--%>
+        <%--<select id="reminder_hour_${studysite.id}" name="reminder_hour_${studysite.id}">--%>
+            <%--<c:forEach items="${hours}" var="hour">--%>
+                <%--<option value="${hour}" ${studyParticipantAssignment.reminderHour eq hour ? "selected='selected'" : " "} >${hour}</option>--%>
+            <%--</c:forEach>--%>
+        <%--</select>&nbsp;--%>
+        <%--<select id="reminder_minute_${studysite.id}" name="reminder_minute_${studysite.id}">--%>
+            <%--<c:forEach items="${minutes}" var="minute">--%>
+                <%--<option value="${minute}" ${studyParticipantAssignment.reminderMinute eq minute ? "selected='selected'" : " "} >${minute}</option>--%>
+            <%--</c:forEach>--%>
+        <%--</select>&nbsp;--%>
+        <%--<select id="reminder_ampm_${studysite.id}" name="reminder_ampm_${studysite.id}">--%>
+            <%--<option value="am" ${studyParticipantAssignment.reminderAmPm eq "am" ? "selected='selected'" : " "} >--%>
+                <%--am--%>
+            <%--</option>--%>
+            <%--<option value="pm" ${studyParticipantAssignment.reminderAmPm eq "pm" ? "selected='selected'" : " "} >--%>
+                <%--pm--%>
+            <%--</option>--%>
+        <%--</select>&nbsp;&nbsp;&nbsp;--%>
+        <%--<b>Time zone</b>&nbsp;--%>
+        <%--<select id="reminder_timeZone_${studysite.id}" name="reminder_timeZone_${studysite.id}">--%>
+            <%--<option value="America/New_York" ${studyParticipantAssignment.reminderTimeZone eq "America/New_York" ? "selected='selected'" : " "} >--%>
+                <%--Eastern Time--%>
+            <%--</option>--%>
+            <%--<option value="America/Chicago" ${studyParticipantAssignment.reminderTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >--%>
+                <%--Central Time--%>
+            <%--</option>--%>
+            <%--<option value="America/Denver" ${studyParticipantAssignment.reminderTimeZone eq "America/Denver" ? "selected='selected'" : " "} >--%>
+                <%--Mountain Time--%>
+            <%--</option>--%>
+            <%--<option value="America/Los_Angeles" ${studyParticipantAssignment.reminderTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >--%>
+                <%--Pacific Time--%>
+            <%--</option>--%>
+            <%--<option value="America/Anchorage" ${studyParticipantAssignment.reminderTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >--%>
+                <%--Alaska Time--%>
+            <%--</option>--%>
+            <%--<option value="America/Adak" ${studyParticipantAssignment.reminderTimeZone eq "America/Adak" ? "selected='selected'" : " "} >--%>
+                <%--Hawaii-Aleutian Time--%>
+            <%--</option>--%>
+        <%--</select>--%>
+    <%--</td>--%>
+<%--</tr>--%>
 
 <tr>
     <td align="right" class="data" width="30%">
