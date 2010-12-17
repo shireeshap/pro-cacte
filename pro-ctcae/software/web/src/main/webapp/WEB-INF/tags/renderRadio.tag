@@ -19,7 +19,7 @@
     <c:when test="${useRenderInput}">
         <tags:renderInputs cssClass="${cssClass}" categoryName="radiobutton" propertyName="${propertyName}"
                            displayName="${displayName}" values="${values}" noForm="${noForm}"
-                           propertyValue="${propertyValue}" onclick="${onclick}" onchange="${onchange}"/> ${displayName}<br>
+                           propertyValue="${propertyValue}" onclick="${onclick}" onchange="${onchange}" help="${help}"/> ${displayName}<br>
     </c:when>
     <c:otherwise>
         <tags:renderRow propertyName="${propertyName}"

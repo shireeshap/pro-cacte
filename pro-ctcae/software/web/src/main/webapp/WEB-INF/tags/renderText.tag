@@ -3,7 +3,7 @@
 <%@ attribute name="propertyValue" %>
 <%@ attribute name="displayName" %>
 <%@ attribute name="required" %>
-<%@ attribute name="help" %>
+<%@ attribute name="help"%>
 <%@ attribute name="noForm" %>
 <%@ attribute name="maxLength" %>
 <%@ attribute name="onblur"%>
