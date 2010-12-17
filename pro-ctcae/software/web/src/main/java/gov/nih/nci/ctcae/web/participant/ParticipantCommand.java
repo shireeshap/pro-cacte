@@ -234,6 +234,9 @@ public class ParticipantCommand {
 
     public void setParticipantModesAndReminders(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
         String participantMode = request.getParameter("participantModes_" + studySite.getId());
+        if (participantModes.size()>0){
+            participantModes.clear();
+        }
         if (participantMode != null) {
             participantModes.add(participantMode);
         }

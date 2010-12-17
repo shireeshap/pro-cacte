@@ -34,8 +34,8 @@
 <tags:instructions code="schedulecrf.instructions"/>
 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
 <div style="margin-left:15px">
-<font color="red" size="2"><b>Treatment of Participant ${studyParticipantAssignment.participant.displayName} has been put on hold from <tags:formatDate
-                        value="${studyParticipantAssignment.onHoldTreatmentDate}"/></b></font>
+<font color="red" size="2"><b>Surveys for the participant <i>"${studyParticipantAssignment.participant.displayName}"</i> have been put on hold beginning <tags:formatDate
+                        value="${studyParticipantAssignment.onHoldTreatmentDate}"/></font></b>
 </div>
     </c:if>
 <br/>

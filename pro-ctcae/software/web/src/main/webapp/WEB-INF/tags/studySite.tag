@@ -274,7 +274,7 @@
 <td align="right">
 <c:if test="${fn:length(studyParticipantAssignment.studyParticipantReportingModeHistoryItems) > 0}">
 <a href="javascript:participantRptModeHistoryDisplay(${studyParticipantAssignment.id})">
-                       <tags:message code="participant.reportmodehist.label.header"/> </a>
+                       <tags:message code="participant.reportmodehist.label.link"/> </a>
 </c:if>                        
 </td>
 </tr>

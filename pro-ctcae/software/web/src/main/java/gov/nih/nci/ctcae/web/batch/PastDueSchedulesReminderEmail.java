@@ -205,6 +205,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         StringBuilder participantEmailContent = new StringBuilder();
         participantEmailContent.append("<html><head></head><body>");
         participantEmailContent.append("Hello " + studyParticipantAssignment.getParticipant().getDisplayName());
+//        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
         participantEmailContent.append("<br><b>Study: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
         participantEmailContent.append("<br><b>Study site: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
         for (CRF crf : participantCrfScheduleMap.keySet()) {
