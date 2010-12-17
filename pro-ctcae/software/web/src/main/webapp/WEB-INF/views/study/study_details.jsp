@@ -122,7 +122,7 @@ uniqueIdentifier"/>
         <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
                          required="true" size="50" onblur="checkStudyIdentifier()"/>
         <ul id="error1" style="display:none; padding-left:12em " class="errors">
-            <li>Study identifier already exist.</li>
+            <li>Study identifier must be unique. A Study with this identifier already exists.</li>
         </ul>
         <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
                          required="true" size="50"/>
