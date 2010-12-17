@@ -12,10 +12,21 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+        <!--<property name="basename" value="/WEB-INF/message"/>-->
+        <!--<property name="cacheSeconds" value="1"/>-->
+    <!--</bean>-->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="/WEB-INF/message"/>
-        <property name="cacheSeconds" value="1"/>
-    </bean>
+
+       <property name="basenames" >
+                   <list>
+                       <value>WEB-INF/message</value>
+                       <value>WEB-INF/help</value>
+                   </list>
+               </property>
+       <property name="cacheSeconds" value="1"/>
+
+   </bean>
 
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>

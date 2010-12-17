@@ -272,11 +272,10 @@
     UNIMPLEMENTED FIELD TYPE ${categoryName} for ${propertyName}
 </c:otherwise>
 </c:choose>
-<c:if test="${help}">
-    <tags:hoverHelp path="${propertyName}">
+  <tags:hoverHelp path="${propertyName}">
         <spring:message code="${propertyName}"
                         text="No help available ${propertyName}"/></tags:hoverHelp>
-</c:if>
+
 <c:if test="${not noForm}">
     <tags:errors path="${propertyName}"/>
     <tags:errors path="${propertyName}.*"/>
