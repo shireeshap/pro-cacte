@@ -12,8 +12,8 @@ import java.util.Date;
  * Date: Dec 13, 2010
  */
 @Entity
-@Table(name = "STUDY_PARTICIPANT_REPORTING_MODE_HISTORY")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_participant_reporting_mode_history_id")})
+@Table(name = "SP_REPORTING_MODE_HIST")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_reporting_mode_hist_id")})
 public class StudyParticipantReportingModeHistory extends BaseVersionable {
 
     @Id
