@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
@@ -32,6 +33,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     protected CRFRepository crfRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+    private UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator;
 //    protected Properties proCtcAEProperties;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
 
@@ -60,20 +62,33 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         "studyId", "Please select at least one study.");
             }
         }
+         // checking for unique email address
+        if (command.getParticipant().getId()==null && command.getParticipant().getEmailAddress()!=null) {
+            boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(),command.getParticipant().getId());
+            if (validEmail) {
+                errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");
+            }
+        }
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
         try {
             boolean validUser = userNameAndPasswordValidator.validate(user);
             if (!validUser) {
-                errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                if (userNameAndPasswordValidator.message().contains("Username")) {
+                    errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                } else if (userNameAndPasswordValidator.message().contains("Password")) {
+                    errors.rejectValue("participant.user.password", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                }
             }
         } catch (PasswordCreationPolicyException ex) {
             for (ValidationError ve : ex.getErrors().getErrors()) {
-                errors.rejectValue("participant.user.username", ve.getMessage(), ve.getMessage());
+                errors.rejectValue("participant.user.password", ve.getMessage(), ve.getMessage());
             }
             command.setReadOnlyUserName(false);
         }
+
+
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -91,15 +106,15 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         /**
-     * Initializing studyOrganization and studyModes
-     */
+         * Initializing studyOrganization and studyModes
+         */
         if (command.getParticipant().getStudyParticipantAssignments().size() > 0) {
             for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                 for (StudyOrganization studyOrganization : studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()) {
                     studyOrganization.getDisplayName();
                 }
                 for (StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
-                        studyMode.getMode().getDisplayName();
+                    studyMode.getMode().getDisplayName();
                 }
             }
         }
@@ -116,29 +131,29 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             for (StudySite studySite : command.getStudySites()) {
                 String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
                 if (!studyParticipantIdentifier.equals(null)) {
-                    boolean isunique = uniqueStudyIdentifierForParticipantValidator.validate(studySite.getStudy().getId(), studyParticipantIdentifier);
+                    boolean isunique = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantIdentifier(studySite.getStudy().getId(), studyParticipantIdentifier,command.getParticipant().getId());
                     if (isunique) {
                         errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
                     }
                 }
             }
             command.apply(crfRepository, request);
+        }
+
+        catch (
+                ParseException e
+                )
+
+        {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        super.
+
+                postProcess(request, command, errors);
+
     }
-
-    catch(
-    ParseException e
-    )
-
-    {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-    }
-
-    super.
-
-    postProcess(request, command, errors);
-
-}
 
     /**
      * Sets the crf repository.
@@ -163,5 +178,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     public void setUniqueStudyIdentifierForParticipantValidator(UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator) {
         this.uniqueStudyIdentifierForParticipantValidator = uniqueStudyIdentifierForParticipantValidator;
+    }
+
+    public void setUniqueParticipantEmailAddressValidator(UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator) {
+        this.uniqueParticipantEmailAddressValidator = uniqueParticipantEmailAddressValidator;
     }
 }

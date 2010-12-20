@@ -701,6 +701,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollection.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantEmailAddress.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantEmailAddressValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStudyIdentifierForParticipant.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStudyIdentifierForParticipantValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrf.java -text

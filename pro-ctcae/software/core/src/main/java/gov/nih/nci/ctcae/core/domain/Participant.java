@@ -49,7 +49,7 @@ public class Participant extends Person {
     @Column(name = "mrn_identifier", nullable = true)
     private String assignedIdentifier;
 
-    @Column(name = "email_address", nullable = true)
+    @Column(name = "email_address", nullable = true,unique = true)
     private String emailAddress;
 
     @Column(name = "phone_number", nullable = true)

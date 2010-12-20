@@ -4,25 +4,22 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-//
 /**
- * The Interface UniqueIdentifierForParticipant.
- *
- * @author Reshma Koganti
- * @since Dec 09, 2010
+ * Created by IntelliJ IDEA.
+ * User: Reshma Koganti
+ * Date: Dec 20, 2010
+ * Time: 2:14:43 PM
+ * To change this template use File | Settings | File Templates.
  */
 @Documented
-@ValidatorClass(UniqueStudyIdentifierForParticipantValidator.class)
+@ValidatorClass(UniqueParticipantEmailAddressValidator.class)
 @Target({METHOD, FIELD, ElementType.PARAMETER})
 @Retention(RUNTIME)
-public @interface UniqueStudyIdentifierForParticipant {
-
-    /**
+public @interface UniqueParticipantEmailAddress {
+     /**
      * Max.
      *
      * @return the int
@@ -41,5 +38,6 @@ public @interface UniqueStudyIdentifierForParticipant {
      *
      * @return the string
      */
-    String message() default "Identifier already exists in database";
+    String message() default "Email Address already exists in database";
+    
 }

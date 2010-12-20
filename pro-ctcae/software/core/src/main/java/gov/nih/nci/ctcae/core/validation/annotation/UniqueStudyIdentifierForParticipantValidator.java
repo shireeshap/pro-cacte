@@ -28,20 +28,23 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
-    public boolean validate(Integer studyId,String assignedIdentifier) {
+   public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
             Collection<Participant> participants = participantRepository.find(participantQuery);
             if(participants != null && !participants.isEmpty() && participants.size()>0){
                 for(Participant participant:participants){
                     if(participant.getStudyParticipantIdentifier().equals(assignedIdentifier)){
-                        return true;
+                        if(participantID == null || participantID.equals("")){
+							return true;
+						} else if(participant.getId()==participantID){
+							return false;
+						}
                     }
                     else
                         return false;
                 }
             }
-//            return (studies == null || studies.isEmpty()) ? true : false;
         return false;
     }
 
