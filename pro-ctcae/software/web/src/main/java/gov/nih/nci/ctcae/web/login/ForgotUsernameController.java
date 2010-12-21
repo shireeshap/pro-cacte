@@ -43,44 +43,37 @@ public class ForgotUsernameController extends AbstractFormController {
 
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws Exception {
         String email = request.getParameter("email");
-        String lastName = request.getParameter("lastName");
-        String participantEmail =request.getParameter("participantEmail");
         ModelAndView mv;
-        if(lastName.length()>0 && email.length()>0){
+        if(email.length()>0){
             ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-            clinicalStaffQuery.filterByClinicalStaffLastName(lastName);
             clinicalStaffQuery.filterByEmail(email);
             List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
-            if (clinicalStaffs == null || clinicalStaffs.size() == 0) {
+            if (clinicalStaffs == null || clinicalStaffs.size() == 0){
+                ParticipantQuery participantQuery = new ParticipantQuery();
+                participantQuery.filterByEmail(email);
+                List<Participant> participants = genericRepository.find(participantQuery);
+                if(participants == null || participants.size() ==0){
+                    mv = new ModelAndView("forgotUsername");
+                    String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
+                    mv.addObject("Message", "user.forgotusername.usernotfound");
+                    mv.addObject("mode", mode);
+                    return mv;
+                }
+                else{
+                    mv = new ModelAndView("forgotUsername");
+                    mv.addObject("showConfirmation", true);
+                    sendUsernameEmailToParticipant(participants, request);
+                    return mv;
+                }
+            }
+            else{
                 mv = new ModelAndView("forgotUsername");
-                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
-                mv.addObject("Message", "user.forgotusername.usernotfound");
-                mv.addObject("mode", mode);
+                mv.addObject("showConfirmation", true);
+                sendUsernameEmail(clinicalStaffs, request);
                 return mv;
             }
-            mv = new ModelAndView("forgotUsername");
-            mv.addObject("showConfirmation", true);
-            sendUsernameEmail(clinicalStaffs, request);
-            return mv;
         }
-        else if(participantEmail.length()>0){
-            ParticipantQuery participantQuery = new ParticipantQuery();
-            participantQuery.filterByEmail(participantEmail);
-            List<Participant> participants = genericRepository.find(participantQuery);
-            if(participants == null || participants.size() ==0){
-                mv = new ModelAndView("forgotUsername");
-                String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
-                mv.addObject("Message", "user.forgotusername.participantUsernotfound");
-                mv.addObject("mode", mode);
-                return mv;
-            }
-
-            mv = new ModelAndView("forgotUsername");
-            mv.addObject("showConfirmation", true);
-            sendUsernameEmailToParticipant(participants, request);
-            return mv;
-        }
-        return  null; //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public void sendUsernameEmail(List<ClinicalStaff> clinicalStaffs, HttpServletRequest request) {
@@ -92,7 +85,7 @@ public class ForgotUsernameController extends AbstractFormController {
                 content += "Dear " + clinicalStaffs.get(0).getFirstName() + " " + clinicalStaffs.get(0).getLastName() + ", ";
                 content += "\nFollowing is your username: " + user.getUsername();
             } else {
-                content += "We have found multiple users with the last name and email address that you provided. Below is the list of all the usernames : ";
+                content += "We have found multiple users with the email address that you provided. Below is the list of all the usernames : ";
                 for (ClinicalStaff clinicalStaff : clinicalStaffs) {
                     content += "\n\n" + clinicalStaff.getUser().getUsername();
                 }

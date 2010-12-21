@@ -26,11 +26,19 @@
         }
 
         a.fg-button {
-            float: right;
+            float: left;
         }
 
         * {
             zoom: 1;
+        }
+        td.header-top {
+            background-color: #CCCCCC;
+            font-weight: bold;
+            text-align: left;
+}
+        td.data {
+              text-align: left;
         }
     </style>
     <!--[if IE]>
@@ -133,9 +141,8 @@
         </proctcae:urlAuthorize>
     </div>
     <br/>
-    <table class="widget" cellspacing="0" align="center">
+    <table class="widget" cellspacing="0" align="left">
         <tr>
-            <td class="header-top"></td>
             <td class="header-top"></td>
             <td class="header-top">
                 Title
@@ -149,14 +156,10 @@
             <td class="header-top">
                 Status
             </td>
+            <td class="header-top"></td>
         </tr>
         <c:forEach items="${crfs}" var="crf" varStatus="status">
             <tr id="details_row_${crf.id}">
-                <td align="right">
-                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                       id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                    <script>showPopUpMenu('${crf.id}', '${crf.status}');</script>
-                </td>
                 <td class="data">
                     <c:if test="${crf.parentCrf ne null}">
                         <a href="javascript:showVersionForm('${crf.id}')"><img id="crfVersionShowImage_${crf.id}"
@@ -184,9 +187,14 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
+
+                <td>
+                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                       id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                    <script>showPopUpMenu('${crf.id}', '${crf.status}');</script>
+                </td>
             </tr>
         </c:forEach>
     </table>
 </c:if>
-
 </body>
