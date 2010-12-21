@@ -51,10 +51,13 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/testapplicationContext-util.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
+
+
     };
     protected final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "Password@2";
@@ -413,6 +416,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from crfs");
         jdbcTemplate.execute("delete from study_par_clinical_staffs");
         jdbcTemplate.execute("delete from study_org_clinical_staffs");
+        jdbcTemplate.execute("delete from sp_reporting_mode_hist");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
         jdbcTemplate.execute("delete from arms");

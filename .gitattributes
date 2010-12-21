@@ -727,6 +727,7 @@ pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationCon
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-setup.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
+pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/testapplicationContext-util.xml -text
 pro-ctcae/software/core/src/main/resources/log4j.properties -text
 pro-ctcae/software/core/src/main/resources/log4j.xml -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
@@ -774,6 +775,8 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItemTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistoryIntegrationTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistoryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/UserIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/UserTest.java -text

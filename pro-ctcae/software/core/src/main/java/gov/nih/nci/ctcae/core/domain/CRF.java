@@ -670,6 +670,7 @@ public class CRF extends BaseVersionable {
                 crfPage = new CRFPage();
                 addCrfPage(crfPage);
                 crfPage.addProCtcTerm(proCtcTerm);
+                crfPage.setProCtcTerm(proCtcTerm);
                 return crfPage;
             } else {
                 return crfPage.addProCtcTerm(proCtcTerm);

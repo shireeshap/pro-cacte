@@ -19,7 +19,8 @@ public class ParticipantAddedQuestionReportQueryTest extends AbstractDependencyI
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
-            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
+            "classpath*:gov/nih/nci/ctcae/core/testapplicationContext-util.xml"
     };
 
     @Override

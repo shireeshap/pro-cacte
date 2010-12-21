@@ -44,6 +44,7 @@ public class SetupStatusIntegrationTest extends TestDataManager {
     private String[] getConfigLocationsA() {
         return new String[]{
                 "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
+                , "classpath*:gov/nih/nci/ctcae/core/testapplicationContext-util.xml"
                 , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
                 , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
                 , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
