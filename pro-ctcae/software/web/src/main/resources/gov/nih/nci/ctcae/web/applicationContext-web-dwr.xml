@@ -25,6 +25,11 @@
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
+    <bean id="uniqueStudyIdentifierForParticipantValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
     <bean id="clinicalStaffAjaxFacade"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffAjaxFacade">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>

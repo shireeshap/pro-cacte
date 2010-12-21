@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
@@ -37,6 +38,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
     private GenericRepository genericRepository;
     private UserRepository userRepository;
+    private UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -112,6 +114,13 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             }
         }
 
+        // checking for unique email address
+        if (command.getClinicalStaff().getId()==null && command.getClinicalStaff().getEmailAddress()!=null) {
+            boolean validEmail = uniqueStaffEmailAddressValidator.validateStaffEmail(command.getClinicalStaff().getEmailAddress(),command.getClinicalStaff().getId());
+            if (validEmail) {
+                e.rejectValue("clinicalStaff.emailAddress", "clinicalStaff.unique_emailAddress", "clinicalStaff.unique_emailAddress");
+            }
+        }
         if (command.getUserAccount()) {
             User user = command.getClinicalStaff().getUser();
             if (user == null) {
@@ -168,5 +177,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setUniqueStaffEmailAddressValidator(UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator) {
+        this.uniqueStaffEmailAddressValidator = uniqueStaffEmailAddressValidator;
     }
 }

@@ -427,6 +427,7 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="uniqueStaffEmailAddressValidator" ref="uniqueStaffEmailAddressValidator"/>
     </bean>
     <bean name="/admin/viewClinicalStaff" id="viewClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ViewClinicalStaffController" parent="ctcaeSimpleFormController">
@@ -639,6 +640,11 @@
     <bean id="uniqueParticipantEmailAddressValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
         <property name="participantRepository" ref="participantRepository"/>   
+    </bean>
+
+    <bean id="uniqueStaffEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean id="uniqueTitleForCrfValidator"

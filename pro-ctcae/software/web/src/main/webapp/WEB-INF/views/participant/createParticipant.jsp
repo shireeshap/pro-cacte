@@ -9,6 +9,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier"/>
 
 
 <html>
@@ -20,7 +21,32 @@
 
 
     <script>
+        function checkParticipantStudyIdentifier(id,siteId) {
+            alert(" am here"+id);
+             var participantId = "${param['id']}";
+             var identifier = $('participantStudyIdentifier_'+siteId).value;
+            alert(participantId);
+            alert(identifier);
+            if (identifier != "") {
+                 uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id,identifier,participantId,postCommentHandler);
+                 return;
+            }
+            else {
+                jQuery('#uniqueError').hide();
+            }
 
+        }
+
+         function postCommentHandler(returnvalue) {
+            if (returnvalue)
+            {
+                jQuery('#uniqueError').show();
+
+            }
+             else{
+                 jQuery('#uniqueError').hide();
+            }
+        }
         function getStudySites() {
             var organizationId = $('organizationId').value;
             if (organizationId == '') {

@@ -59,14 +59,16 @@
 <tr>
     <td class="data" align="right" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
-    </td>
+    </td>                                                                                  
     <td width="50%">
         <input type="text"
                name="participantStudyIdentifier_${studysite.id}"
                value="${studyParticipantAssignment.studyParticipantIdentifier}"
                title="identifier"
-               id="participantStudyIdentifier_${studysite.id}"/>
-
+               id="participantStudyIdentifier_${studysite.id}" onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
+        <ul id="uniqueError" style="display:none" class="errors">
+           <li><spring:message code='participant.unique_assignedIdentifier' text='participant.unique_assignedIdentifier'/></li>
+        </ul>
     </td>
 </tr>
 <tr>

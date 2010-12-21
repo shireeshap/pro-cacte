@@ -78,6 +78,11 @@
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
+    <bean id="uniqueStaffEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+    </bean>
+
     <bean id="uniqueTitleForCrfValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
         <property name="crfRepository" ref="crfRepository"/>

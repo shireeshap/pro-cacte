@@ -18,6 +18,9 @@
         <create creator="spring" javascript="uniqueIdentifier">
             <param name="beanName" value="uniqueIdentifierForStudyValidator"/>
         </create>
+        <create creator="spring" javascript="uniqueParticipantIdentifier">
+            <param name="beanName" value="uniqueStudyIdentifierForParticipantValidator"/>
+        </create>
         <create creator="spring" javascript="clinicalStaff">
             <param name="beanName" value="clinicalStaffAjaxFacade"/>
         </create>

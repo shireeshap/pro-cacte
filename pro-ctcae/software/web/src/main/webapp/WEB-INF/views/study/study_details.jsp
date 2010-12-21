@@ -23,7 +23,7 @@ uniqueIdentifier"/>
 
     <script type="text/javascript">
 
-
+        var errorCount=0;
         function addStudyArmDiv(transport) {
             $('studyArmTable').show()
 
@@ -51,6 +51,7 @@ uniqueIdentifier"/>
         function refreshPage() {
             var currentPage = $('_page').value;
             $('_target').name = '_target' + currentPage;
+            alert("hello");
             $('command').submit();
         }
         function showHideCallFreq(value) {
@@ -74,9 +75,11 @@ uniqueIdentifier"/>
         function postCommentHandler(returnvalue) {
             if (returnvalue)
             {
+                errorCount++;
                 jQuery('#error1').show();
             }
             else {
+                errorCount=0;
                 jQuery('#error1').hide();
             }
         }
@@ -122,7 +125,7 @@ uniqueIdentifier"/>
         <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
                          required="true" size="50" onblur="checkStudyIdentifier()"/>
         <ul id="error1" style="display:none; padding-left:12em " class="errors">
-            <li>Study identifier must be unique. A Study with this identifier already exists.</li>
+            <li><spring:message code='study.unique_assignedIdentifier' text='study.unique_assignedIdentifier'/></li>
         </ul>
         <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
                          required="true" size="50"/>
