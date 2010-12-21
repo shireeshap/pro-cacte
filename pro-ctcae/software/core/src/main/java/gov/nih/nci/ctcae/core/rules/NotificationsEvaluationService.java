@@ -153,7 +153,7 @@ public class NotificationsEvaluationService {
                     cs = investigator.getOrganizationClinicalStaff().getClinicalStaff();
                 }
             }
-            if (cs != null) {
+            if (cs != null && cs.getUser() != null) {
                 addEmail(cs.getEmailAddress(), emails);
                 users.add(cs.getUser());
             }
