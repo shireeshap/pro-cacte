@@ -117,7 +117,7 @@
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}"
                                   propertyValue="${studyMode.mode.name}"
-                                  noForm="true" useRenderInput="true" help="true"
+                                  noForm="true" useRenderInput="true"
                                   onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
             </c:if>
         </c:forEach>
@@ -259,7 +259,7 @@
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}"
                                   propertyValue="${studyMode.mode.name}"
-                                  noForm="true" useRenderInput="true" help="true"/>
+                                  noForm="true" useRenderInput="true"/>
             </c:if>
         </c:forEach>
     </td>

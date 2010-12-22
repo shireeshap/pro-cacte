@@ -22,11 +22,8 @@
 
     <script>
         function checkParticipantStudyIdentifier(id,siteId) {
-            alert(" am here"+id);
              var participantId = "${param['id']}";
              var identifier = $('participantStudyIdentifier_'+siteId).value;
-            alert(participantId);
-            alert(identifier);
             if (identifier != "") {
                  uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id,identifier,participantId,postCommentHandler);
                  return;

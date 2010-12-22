@@ -273,7 +273,7 @@
 </c:otherwise>
 </c:choose>
 
-<c:if test="${help ne true}">
+<c:if test="${help eq true}">
   <tags:hoverHelp path="${propertyName}">
         <spring:message code="${propertyName}"
                         text="No help available ${propertyName}"/></tags:hoverHelp>
