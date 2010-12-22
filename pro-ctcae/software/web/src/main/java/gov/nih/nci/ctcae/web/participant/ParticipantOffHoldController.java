@@ -77,21 +77,26 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         return map;
     }
 
-//    @Override
-//    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
-//        String recreateSchedules = request.getParameter("recreate");
-//        int cycle = Integer.parseInt(request.getParameter("cycle"));
-//        int day = Integer.parseInt(request.getParameter("day"));
-//        StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
-//        if (recreateSchedules.equals("cycle") && spCommand.getOnHoldStudyParticipantCrfSchedules().size() > 0) {
-//            StudyParticipantCrfSchedule spcSchedule = spCommand.getOnHoldStudyParticipantCrfSchedules().getFirst();
-//             if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
-//                 e.reject("ssss", "ssss");
-//             }
-//        }
-//
-//        super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
-//    }
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
+        int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
+        int day = ServletRequestUtils.getIntParameter(request, "day", 0);
+        StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
+        if (spCommand.getOnHoldStudyParticipantCrfSchedules().size() > 0) {
+            StudyParticipantCrfSchedule spcSchedule = spCommand.getOnHoldStudyParticipantCrfSchedules().getFirst();
+            if (cycle != 0) {
+                if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
+                    e.reject("Cycle and Day number should be equal to greater that the held survey cycle and day number.", "ssss");
+                }
+            }else {
+                if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()){
+                    e.reject("Selected date should be equal to or greater than the survey held from date. Please select another date.", "Selected date should be equal to or greater than the survey held from date. Please select another date.");
+                }
+            }
+        }
+
+        super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
@@ -106,41 +111,41 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
 
 //            if (recreateSchedules.equals("cycle")) {
-                if (cycle != 0 && day != 0) {
-                    Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
-                    LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
-                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                            if (studyParticipantCrfSchedule.getCycleNumber() != null) {
-                                if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
-                                    offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-                                } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
-                                    offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-                                } else {
-                                    studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
-                                }
-                            } else {
-                                setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
-                            }
-                        }
-                    }
-                    if (offHoldStudyParticipantCrfSchedules.size() > 0) {
-                        Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
-                        for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
-                            setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
-                        }
-                    }
-                } else {
-                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                            if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
-                                studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+            if (cycle != 0 && day != 0) {
+                Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
+                LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                        if (studyParticipantCrfSchedule.getCycleNumber() != null) {
+                            if (studyParticipantCrfSchedule.getCycleNumber() == cycle && studyParticipantCrfSchedule.getCycleDay() >= day) {
+                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                            } else if (studyParticipantCrfSchedule.getCycleNumber() > cycle) {
+                                offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
                             } else {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
                             }
+                        } else {
+                            setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
                         }
                     }
                 }
+                if (offHoldStudyParticipantCrfSchedules.size() > 0) {
+                    Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
+                    for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
+                        setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
+                    }
+                }
+            } else {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                        } else {
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                        }
+                    }
+                }
+            }
 //            }
         }
         studyParticipantAssignment.setOnHoldTreatmentDate(null);

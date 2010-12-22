@@ -9,7 +9,6 @@
 <%@ attribute name="onblur"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-
 <tags:renderRow propertyName="${propertyName}"
                 displayName="${displayName}" categoryName="text"
                 help="${help}" size="${size}"

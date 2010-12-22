@@ -284,6 +284,7 @@ function showModalWindow(url, width, height, top, left) {
             left:left});
         win.setDestroyOnClose();
         win.showCenter(true);
+        
     } else {
 //        win.refresh();
     }

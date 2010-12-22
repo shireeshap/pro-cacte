@@ -1007,6 +1007,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators.xml -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/mobilelite.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/notabbedflow.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/standard-no-header.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/standard.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/dwr.xml -text

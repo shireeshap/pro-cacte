@@ -135,16 +135,17 @@
         })
     }
 
+    var _winOffHold;
     function participantOffHold(id, date, index) {
-    <%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x";--%>
-        //             showModalWindow(url, 600, 350);
-        var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 600, 350);
-            },
-            method:'get'
-        })
+    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x";
+                 _winOffHold = showModalWindow(url, 600, 350);
+        <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
+            <%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
+//            onComplete:function(transport) {
+//                showConfirmationWindow(transport, 600, 350);
+//            },
+//            method:'get'
+//        })
     }
 
     function showHideCycleDay(value) {

@@ -12,6 +12,10 @@
         <pattern>/setup/*</pattern>
     </decorator>
 
+    <decorator name="standardNoHeader" page="standard-no-header.jsp">
+       <pattern>/pages/rule/notification/createReportType</pattern>
+   </decorator>
+
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/editStudy</pattern>
         <pattern>/pages/study/createStudy</pattern>
