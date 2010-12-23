@@ -21,6 +21,7 @@ import java.util.UUID;
  * The Class CreateFormCommand.
  *
  * @author Vinay Kumar
+ * @author Mehul
  * @since Oct 17, 2008
  */
 public class CreateFormCommand implements Serializable {
@@ -464,8 +465,11 @@ public class CreateFormCommand implements Serializable {
             roleUsers.addAll(getCrf().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffsByRole(role));
         }
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : roleUsers) {
-            if (studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getUser().equals(loggedInUser)) {
-                myOrg = studyOrganizationClinicalStaff.getStudyOrganization();
+            User user = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getUser();
+            if (user != null) {
+                if (user.equals(loggedInUser)) {
+                    myOrg = studyOrganizationClinicalStaff.getStudyOrganization();
+                }
             }
         }
         return myOrg;
