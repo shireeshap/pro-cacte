@@ -1201,6 +1201,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/moveForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offHoldDate.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offHoldRedirect.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offStudyDate.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/onHoldDate.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/participantInbox.jsp -text

@@ -8,7 +8,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,8 +87,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                 if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
                     e.reject("Cycle and Day number should be equal to greater that the held survey cycle and day number.", "ssss");
                 }
-            }else {
-                if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()){
+            } else {
+                if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()) {
                     e.reject("Selected date should be equal to or greater than the survey held from date. Please select another date.", "Selected date should be equal to or greater than the survey held from date. Please select another date.");
                 }
             }
@@ -146,14 +145,13 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                     }
                 }
             }
-//            }
         }
         studyParticipantAssignment.setOnHoldTreatmentDate(null);
 
         spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
-
-        RedirectView redirectView = new RedirectView("schedulecrf?pId=" + studyParticipantAssignment.getParticipant().getId());
-        return new ModelAndView(redirectView);
+        ModelAndView mv = new ModelAndView("participant/offHoldRedirect");
+        mv.addObject("pId", studyParticipantAssignment.getParticipant().getId());
+        return mv;
 
     }
 
