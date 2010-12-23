@@ -68,7 +68,7 @@ public class ParticipantOnHoldController extends CtcAeSimpleFormController {
 
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                if (studyParticipantAssignment.getOnHoldTreatmentDate().getTime() < studyParticipantCrfSchedule.getStartDate().getTime()) {
+                if (studyParticipantAssignment.getOnHoldTreatmentDate().getTime() <= studyParticipantCrfSchedule.getStartDate().getTime()) {
                     studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
 //                    studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
                 }
