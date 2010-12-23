@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="conversionPattern" value="%d %-5p %c %x: %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
+        <param name="file" value="${catalina.home}/logs/proctcae.log"/>
+        <param name="maxFileSize" value="2048KB"/>
+        <param name="maxBackupIndex" value="8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="conversionPattern" value="%d [%15t] %-5p %c %x: %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="gov.nih.nci.ctcae">
+        <level value="ERROR"/>
+    </logger>
+    <logger name=" org.springframework.security.ui">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework.security">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="ERROR"/>
+    </logger>
+
+    <root>
+        <priority value="error"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+</log4j:configuration>
