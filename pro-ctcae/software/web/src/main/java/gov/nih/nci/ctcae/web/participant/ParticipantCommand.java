@@ -15,6 +15,8 @@ import java.util.*;
 
 /**
  * The Class ParticipantCommand.
+ * @author Mehul
+ * @author Suneel
  */
 public class ParticipantCommand {
 
