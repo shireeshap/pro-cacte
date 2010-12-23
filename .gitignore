@@ -1,0 +1,8 @@
+commons/build
+commons/reports
+core/build
+core/reports
+/repository
+/target
+web/build
+web/reports

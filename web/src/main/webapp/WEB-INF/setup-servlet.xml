@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.directwebremoting.org/schema/spring-dwr
+        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename">
+            <value>/WEB-INF/message</value>
+        </property>
+        <property name="cacheSeconds" value="1"/>
+    </bean>
+
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+
+    <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver"
+          p:servletName="setup"/>
+
+
+    <bean id="irViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.InternalResourceView"
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" lazy-init="true">
+    </bean>
+
+
+    <bean name="/initial" id="setupController"
+          class="gov.nih.nci.ctcae.web.setup.SetupController"
+          parent="ctcaeSimpleFormController"
+          p:setupStatus-ref="setupStatus">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
+        <property name="userRepository" ref="userRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository" />
+    </bean>
+
+
+    <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
+    </bean>
+
+
+    <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
+          p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
+          p:organizationRepository-ref="organizationRepository"
+          p:controllerTools-ref="controllerTools" p:studyOrganizationRepository-ref="studyOrganizationRepository">
+        <property name="webControllerValidator" ref="webControllerValidator"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+    </bean>
+
+
+    <bean id="webControllerValidator"
+          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"/>
+
+    <bean id="uniqueIdentifierForStudyValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+    
+     <bean id="uniqueStudyIdentifierForParticipantValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+     <bean id="uniqueParticipantEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+    <bean id="uniqueStaffEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+    </bean>
+
+    <bean id="uniqueTitleForCrfValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
+        <property name="crfRepository" ref="crfRepository"/>
+    </bean>
+
+    <bean id="uniqueObjectInCollectionValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator">
+    </bean>
+    <bean id="notEmptyValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator">
+    </bean>
+    <bean id="notNullValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.NotNullValidator">
+    </bean>
+
+
+</beans>
