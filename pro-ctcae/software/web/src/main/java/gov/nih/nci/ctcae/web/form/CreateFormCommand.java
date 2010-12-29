@@ -67,6 +67,16 @@ public class CreateFormCommand implements Serializable {
     private boolean allArms;
     private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
+    private List<FormArmSchedule> copySelectedArmScheduleIds = new ArrayList<FormArmSchedule>();
+
+    public List<FormArmSchedule> getCopySelectedArmScheduleIds() {
+        return copySelectedArmScheduleIds;
+    }
+
+    public void setCopySelectedArmScheduleIds(List<FormArmSchedule> copySelectedArmScheduleIds) {
+        this.copySelectedArmScheduleIds = copySelectedArmScheduleIds;
+    }
+
     public boolean isAllArms() {
         return allArms;
     }

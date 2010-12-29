@@ -97,6 +97,13 @@
         margin-left: 8em;
     }
 
+    div.row table.label1 {
+        margin-left: 8em;
+        text-align: left;
+        vertical-align: top;
+        font-weight: bold;
+    }
+
     * {
         zoom: 0;
     }
@@ -476,11 +483,11 @@ function showSchedule(scheduleType) {
     $(scheduleType + 'Div').show();
 }
 function refreshPageLocal() {
-    if ($('allArmsCheck').checked) {
+    /*if ($('allArmsCheck').checked) {
         $('allArms').value = 'true';
     } else {
         $('allArms').value = 'false';
-    }
+    }*/
     refreshPage();
 }
 function unique(arrayName)
@@ -577,11 +584,37 @@ function checkBaseline(obj) {
                     </c:choose>
                 </c:forEach>
             </select>
-            <input type="checkbox" id="allArmsCheck" name="allArmsCheck"
-                   <c:if test="${command.allArms}">checked</c:if>/> Apply this arm's schedule to all the arms
-            <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>
+
         </div>
+             <c:if test="${fn:length(command.crf.formArmSchedules) gt 1 }">
+             <table class="label1">
+                 <tr>
+                     <td style="vertical-align: top;">
+                     <spring:message code="form.calendar.arm.copy"></spring:message>
+                     </td>
+                     <td style="vertical-align: middle;">
+                          <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple" size="${fn:length(command.crf.formArmSchedules)-1}">
+
+                            <c:forEach items="${command.crf.formArmSchedules}" var="formArmCopySchedule">
+                                <c:choose>
+                                    <c:when test="${command.selectedFormArmSchedule.id ne formArmCopySchedule.id}">
+                                        <option value="${formArmCopySchedule.id}">${formArmCopySchedule.arm.title}</option>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                     </td>
+                </tr>
+             </table>   
+             </c:if>
+            <%--<input type="checkbox" id="allArmsCheck" name="allArmsCheck"
+                   <c:if test="${command.allArms}">checked</c:if>/> Apply this arm's schedule to all the arms
+            <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>  --%>        
     </div>
+
+
+
+
     <div class="row">
         <div class="label" style="margin-top:3px;"><spring:message
                 code="form.calendar.scheduletype"></spring:message></div>

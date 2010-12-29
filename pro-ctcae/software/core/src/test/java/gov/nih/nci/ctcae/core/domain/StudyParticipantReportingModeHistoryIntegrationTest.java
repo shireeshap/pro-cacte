@@ -118,7 +118,13 @@ public class StudyParticipantReportingModeHistoryIntegrationTest extends TestDat
         }
 
         assertEquals(1,clinicModeHistItems.size());
+        assertEquals(AppMode.CLINICWEB,clinicModeHistItems.get(0).getMode());
+        assertNull(clinicModeHistItems.get(0).getEffectiveEndDate());
+        assertNotNull(clinicModeHistItems.get(0).getEffectiveStartDate());
         assertEquals(1,homeModeHistItems.size());
+        assertEquals(AppMode.HOMEBOOKLET,homeModeHistItems.get(0).getMode());
+        assertNull(homeModeHistItems.get(0).getEffectiveEndDate());
+        assertNotNull(homeModeHistItems.get(0).getEffectiveStartDate());
     }
 
     public void testUpdateReportingModeHistory(){
@@ -140,6 +146,23 @@ public class StudyParticipantReportingModeHistoryIntegrationTest extends TestDat
 
         assertEquals(2,clinicModeHistItems.size());
         assertEquals(2,homeModeHistItems.size());
+
+        assertEquals(AppMode.CLINICWEB,clinicModeHistItems.get(0).getMode());
+        assertNotNull(clinicModeHistItems.get(0).getEffectiveEndDate());
+        assertNotNull(clinicModeHistItems.get(0).getEffectiveStartDate());
+
+        assertEquals(AppMode.CLINICBOOKLET,clinicModeHistItems.get(1).getMode());
+        assertNull(clinicModeHistItems.get(1).getEffectiveEndDate());
+        assertNotNull(clinicModeHistItems.get(1).getEffectiveStartDate());
+
+        assertEquals(AppMode.HOMEBOOKLET,homeModeHistItems.get(0).getMode());
+        assertNotNull(homeModeHistItems.get(0).getEffectiveEndDate());
+        assertNotNull(homeModeHistItems.get(0).getEffectiveStartDate());
+
+        assertEquals(AppMode.IVRS,homeModeHistItems.get(1).getMode());
+        assertNull(homeModeHistItems.get(1).getEffectiveEndDate());
+        assertNotNull(homeModeHistItems.get(1).getEffectiveStartDate());
+
         assertNotNull(studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems().get(0).getEffectiveEndDate());
         assertNotNull(studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems().get(1).getEffectiveEndDate());
         assertNull(studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems().get(2).getEffectiveEndDate());
