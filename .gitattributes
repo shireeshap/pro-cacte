@@ -502,6 +502,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/010_update_study_p
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/011_create_study_participant_reporting_mode_history.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/012_update_study_participant_crf.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/013_update_participant.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/014_update_pro_ctc_questions.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
