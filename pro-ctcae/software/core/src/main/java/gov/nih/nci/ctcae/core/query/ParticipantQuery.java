@@ -40,6 +40,7 @@ public class ParticipantQuery extends AbstractQuery {
     private static final String USERNAME = "username";
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
     private static String EMAIL = "emailAddress";
+    private static String USERNUMBER ="userNumber";
     /**
      * Instantiates a new participant query.
      */
@@ -169,5 +170,18 @@ public class ParticipantQuery extends AbstractQuery {
         andWhere("lower(p.emailAddress) LIKE :" + EMAIL);
         setParameter(EMAIL, searchString);
     }
+
+    /**
+     * Filter by participant user number.
+     *
+     * @param userNumber the userNumber
+     */
+    public void filterByUserNumber(final Integer userNumber){
+          if (userNumber != null){
+              andWhere("p.userNumber =:"+USERNUMBER);
+              setParameter(USERNUMBER,userNumber);
+        }
+    }
+
 
 }

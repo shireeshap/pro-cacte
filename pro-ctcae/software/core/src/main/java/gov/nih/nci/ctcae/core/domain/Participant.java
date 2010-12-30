@@ -38,7 +38,7 @@ public class Participant extends Person {
     private Date creationDate;
 
     /**
-     * The gender.
+     * The gender.                                                
      */
     @Column(name = "gender", nullable = true)
     private String gender;
@@ -62,6 +62,12 @@ public class Participant extends Person {
     @Transient
     private String displayName;
 
+    @Column(name = "user_number", nullable = true)
+    private Integer userNumber;
+
+    @Column(name = "pin_number", nullable = true)
+    private Integer pinNumber;
+    
     public User getUser() {
         return user;
     }
@@ -284,5 +290,21 @@ public class Participant extends Person {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Integer getUserNumber() {
+        return userNumber;
+    }
+
+    public void setUserNumber(Integer userNumber) {
+        this.userNumber = userNumber;
+    }
+
+    public Integer getPinNumber() {
+        return pinNumber;
+    }
+
+    public void setPinNumber(Integer pinNumber) {
+        this.pinNumber = pinNumber;
     }
 }

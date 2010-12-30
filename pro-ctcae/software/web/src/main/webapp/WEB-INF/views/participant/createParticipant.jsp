@@ -10,6 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <tags:dwrJavascriptLink objects="uniqueParticipantIdentifier"/>
+<tags:dwrJavascriptLink objects="uniqueParticipantUserNumber"/>
 
 
 <html>
@@ -21,6 +22,28 @@
 
 
     <script>
+        function checkParticipantUserNumber(){
+            var participantId = "${param['id']}";
+            var userNumber = $('participant.userNumber').value;
+            if(userNumber !=""){
+                uniqueParticipantUserNumber.validateUserNumber(userNumber,participantId,returnedValue);
+                return;
+            }
+            else{
+                jQuery('#userNameError').hide();
+            }
+
+        }
+
+        function returnedValue(returnValue){
+            if(returnValue){
+                jQuery('#userNameError').show();
+            }
+            else{
+                jQuery('#userNameError').hide();   
+            }
+
+        }
         function checkParticipantStudyIdentifier(id,siteId) {
              var participantId = "${param['id']}";
              var identifier = $('participantStudyIdentifier_'+siteId).value;
@@ -158,11 +181,10 @@
         }
 
         <%--var clickCount = ${homeModeCount};--%>
-
         function showOrHideEmail(value1, value2, id) {
-          
             if (value1 && value2 == "HOMEWEB") {
                 jQuery('#div_contact').show();
+                jQuery('#div_contact_ivrs').hide();
                 jQuery('#web_' + id).show();
                 jQuery('#email_' + id).attr('checked', true);
                 jQuery('#call_' + id).attr('checked', false);
@@ -171,13 +193,15 @@
                 jQuery('#web_' + id).hide();
             }
             if (value1 && value2 == "IVRS") {
-                jQuery('#div_contact').show();
+                jQuery('#div_contact').hide();
+                jQuery('#div_contact_ivrs').show();
                 jQuery('#ivrs_' + id).show();
                 jQuery('#c_' + id).show();
                 jQuery('#reminder_' + id).show();
                 jQuery('#ivrs_reminder_' + id).show();
                 jQuery('#call_' + id).attr('checked', true);
                 jQuery('#email_' + id).attr('checked', false);
+                jQuery('#web_' + id).hide();
 
             } else {
                 jQuery('#ivrs_' + id).hide();
@@ -185,8 +209,6 @@
                 jQuery('#reminder_' + id).hide();
                 jQuery('#c_' + id).hide();
             }
-            
-
         }
 
     </script>
@@ -359,6 +381,32 @@
                            </tr>
                        </table>
                    </chrome:division>
+               </div>
+               <div id="div_contact_ivrs" style="display:none">
+                   <chrome:division title="participant.label.contact_information">
+                       <table border="0" style="width:100%">
+                           <tr>
+                               <td width="50%">
+                                   <tags:renderText propertyName="participant.userNumber"
+                                                    displayName="participant.label.user_number"
+                                                    onblur="checkParticipantUserNumber();"/>
+                               </td>
+                               <td>
+                                    <tags:renderText propertyName="participant.pinNumber"
+                                                     displayName="participant.label.pin_number"/>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
+                                        <li><spring:message code='participant.unique_userNumber'
+                                                       text='participant.unique_userNumber'/></li>
+                                   </ul>
+                               </td>
+                           </tr>
+                       </table>
+                   </chrome:division>
+
                </div>
            </c:otherwise>
        </c:choose>

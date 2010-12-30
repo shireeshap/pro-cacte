@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
@@ -34,6 +35,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
     private UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator;
+    private UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator;
 //    protected Properties proCtcAEProperties;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
 
@@ -67,6 +69,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(),command.getParticipant().getId());
             if (validEmail) {
                 errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");
+            }
+        }
+        //checking for unique user number
+        if(command.getParticipant().getId()==null && command.getParticipant().getUserNumber()!=null){
+            String userNumber =command.getParticipant().getUserNumber().toString();
+            boolean validUserNumber =uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId().toString());
+            if(validUserNumber){
+                errors.rejectValue("participant.userNumber","participant.unique_userNumber","participant.unique_userNumber");
             }
         }
         User user = command.getParticipant().getUser();
@@ -182,5 +192,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     public void setUniqueParticipantEmailAddressValidator(UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator) {
         this.uniqueParticipantEmailAddressValidator = uniqueParticipantEmailAddressValidator;
+    }
+
+    public void setUniqueParticipantUserNumberValidator(UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator) {
+        this.uniqueParticipantUserNumberValidator = uniqueParticipantUserNumberValidator;
     }
 }

@@ -501,6 +501,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/009_update_study.g
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/010_update_study_participant_assignment.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/011_create_study_participant_reporting_mode_history.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/012_update_study_participant_crf.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/013_update_participant.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -703,6 +704,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantEmailAddress.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantEmailAddressValidator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantUserNumber.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantUserNumberValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStaffEmailAddress.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStaffEmailAddressValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStudyIdentifierForParticipant.java -text
