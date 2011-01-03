@@ -406,6 +406,7 @@ pro-ctcae/software/commons/src/test/java/gov/nih/nci/ctcae/commons/utils/Propert
 pro-ctcae/software/core/core.iml -text
 pro-ctcae/software/core/ivy-build.xml -text
 pro-ctcae/software/core/ivy.xml -text
+pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql.sql -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/001_create_audit_event_values.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/002_create_audit_events.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/003_create_organizations.groovy -text
