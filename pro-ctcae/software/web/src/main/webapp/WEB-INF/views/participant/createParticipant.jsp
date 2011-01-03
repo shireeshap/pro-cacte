@@ -9,8 +9,8 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier"/>
-<tags:dwrJavascriptLink objects="uniqueParticipantUserNumber"/>
+<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber"/>
+<%--<tags:dwrJavascriptLink objects="uniqueParticipantUserNumber"/>--%>
 
 
 <html>
@@ -18,7 +18,7 @@
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
-    <tags:dwrJavascriptLink objects="studyParticipantAssignment"/>
+    <%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
 
     <script>

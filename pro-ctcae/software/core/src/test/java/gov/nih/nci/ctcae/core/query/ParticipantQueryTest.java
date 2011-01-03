@@ -89,4 +89,24 @@ public class ParticipantQueryTest extends TestCase {
         }
     }
 
+    public void testFilterByUserNumber() throws Exception{
+        Integer userNumber =1234;
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByUserNumber(userNumber);
+        assertEquals("SELECT p from Participant p WHERE p.userNumber =:userNumber order by p.id",
+                participantQuery.getQueryString());
+        assertEquals("wrong number of parameters", 1,participantQuery.getParameterMap().size());
+
+
+    }
+
+    public void testFilterByEmail() throws Exception{
+        String email = "reshma.koganti@gmail.com" ;
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByEmail(email);
+        assertEquals("SELECT p from Participant p WHERE lower(p.emailAddress) LIKE :emailAddress order by p.id",
+                participantQuery.getQueryString());
+        assertEquals("wrong number of parameters", 1,participantQuery.getParameterMap().size());
+    }
+
 }

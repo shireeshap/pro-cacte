@@ -72,9 +72,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         //checking for unique user number
-        if(command.getParticipant().getId()==null && command.getParticipant().getUserNumber()!=null){
+        if(command.getParticipant().getUserNumber()!=null){
+
             String userNumber =command.getParticipant().getUserNumber().toString();
-            boolean validUserNumber =uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId().toString());
+            boolean validUserNumber =uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId());
             if(validUserNumber){
                 errors.rejectValue("participant.userNumber","participant.unique_userNumber","participant.unique_userNumber");
             }

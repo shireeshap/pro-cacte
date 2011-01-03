@@ -17,7 +17,7 @@ import java.util.Collection;
 public class UniqueParticipantUserNumberValidator extends AbstractValidator<UniqueParticipantUserNumber>{
     private String message;
     private ParticipantRepository participantRepository;
-    public boolean validateUserNumber(String userNumber, String participantID){
+    public boolean validateUserNumber(String userNumber, Integer participantID){
         Integer userNum = Integer.parseInt(userNumber);
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNum);
@@ -29,7 +29,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
             }
             else{
                 for(Participant participant:participants){
-                    if(participant.getId().equals(Integer.parseInt(participantID))){
+                    if(participant.getId()==participantID){
                         flag = true;
                     }
                 }

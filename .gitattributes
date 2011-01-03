@@ -815,6 +815,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStudyIdentifierForParticipantValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidatorTest.java -text
 pro-ctcae/software/core/src/test/resources/logback.xml -text
 pro-ctcae/software/ivy.xml -text
@@ -1005,6 +1006,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
+pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-validator.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
 pro-ctcae/software/web/src/main/resources/object-graph.xml -text
