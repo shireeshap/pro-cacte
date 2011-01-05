@@ -9,7 +9,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber"/>
+<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress"/>
 <%--<tags:dwrJavascriptLink objects="uniqueParticipantUserNumber"/>--%>
 
 
@@ -22,6 +22,25 @@
 
 
     <script>
+        function checkParticipantEmailAddress(){
+            var participantId = "${param['id']}";
+            var email = $('participant.emailAddress').value;
+            if(email !=""){
+                uniqueParticipantEmailAddress.validateEmail(email,participantId,emailReturnValue);
+                return;
+            }
+            else{
+                jQuery('#emailError').hide();
+            }
+        }
+        function emailReturnValue(returnValue){
+              if(returnValue){
+                jQuery('#emailError').show();
+            }
+            else{
+                jQuery('#emailError').hide();
+            }
+        }
         function checkParticipantUserNumber(){
             var participantId = "${param['id']}";
             var userNumber = $('participant.userNumber').value;
@@ -371,12 +390,20 @@
                                <td width="50%">
                                    <tags:renderEmail propertyName="participant.emailAddress"
                                                      displayName="participant.label.email_address"
-                                                     required="${emailreq}" size="35"/>
+                                                     required="${emailreq}" size="35" onblur="javascript:checkParticipantEmailAddress()"/>
                                </td>
                                <td width="50%">
                                    <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
                                                           displayName="participant.label.phone"
                                                           required="${phonereq}"/>
+                               </td>
+                           </tr>
+                            <tr>
+                               <td>
+                                   <ul id="emailError" style="display:none; padding-left:12em " class="errors">
+                                        <li><spring:message code='participant.unique_emailAddress'
+                                                       text='participant.unique_emailAddress'/></li>
+                                   </ul>
                                </td>
                            </tr>
                        </table>

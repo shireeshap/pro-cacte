@@ -22,8 +22,21 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByEmail(emailAddress);
         Collection<Participant> participants = participantRepository.find(participantQuery);
+        boolean flag=false;
         if (participants != null && !participants.isEmpty()) {
+            if(participantID ==null || participantID.equals("")){
                 return true;
+            }
+            else{
+                for(Participant participant:participants){
+                    if(participant.getId().equals(participantID)){
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    return true;
+                }
+            }
         }
         return false;
     }

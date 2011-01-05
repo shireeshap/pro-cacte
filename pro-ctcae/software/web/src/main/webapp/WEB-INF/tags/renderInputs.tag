@@ -57,7 +57,7 @@
 <c:when test="${categoryName == 'email'}">
     <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                 title="${title}"
-                cssClass="${cssClass}"/>
+                cssClass="${cssClass}" onblur="${onblur}"/>
 </c:when>
 <c:when test="${categoryName == 'password'}">
     <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"

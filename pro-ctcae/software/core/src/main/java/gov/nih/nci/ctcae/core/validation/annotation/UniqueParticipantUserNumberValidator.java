@@ -29,7 +29,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
             }
             else{
                 for(Participant participant:participants){
-                    if(participant.getId()==participantID){
+                    if(participant.getId().equals(participantID)){
                         flag = true;
                     }
                 }

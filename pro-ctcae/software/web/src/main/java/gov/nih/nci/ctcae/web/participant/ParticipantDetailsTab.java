@@ -65,7 +65,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
          // checking for unique email address
-        if (command.getParticipant().getId()==null && command.getParticipant().getEmailAddress()!=null) {
+        if (command.getParticipant().getEmailAddress()!=null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(),command.getParticipant().getId());
             if (validEmail) {
                 errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");

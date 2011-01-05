@@ -23,4 +23,9 @@
               <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
+    <bean id="uniqueParticipantEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
+          <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
 </beans>
