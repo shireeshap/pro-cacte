@@ -693,6 +693,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/BeanVali
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/ValidationError.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/ValidationErrors.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/FirstAndLastName.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/FirstAndLastNameValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmpty.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotNull.java -text

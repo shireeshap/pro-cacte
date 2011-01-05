@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -36,6 +37,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+    private FirstAndLastNameValidator firstAndLastNameValidator;
     private GenericRepository genericRepository;
     private UserRepository userRepository;
     private UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator;
@@ -114,6 +116,17 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             }
         }
 
+        // checking for first name and last name
+        boolean validName = firstAndLastNameValidator.validate(command.getClinicalStaff(),true,true);
+        if (!validName) {
+            if(firstAndLastNameValidator.message().contains("Firstname")){
+                e.rejectValue("clinicalStaff.firstName", "clinicalStaff.firstName_validation", "clinicalStaff.firstName_validation");
+            }
+            else if(firstAndLastNameValidator.message().contains("Lastname")){
+                e.rejectValue("clinicalStaff.lastName", "clinicalStaff.lastName_validation", "clinicalStaff.lastName_validation");
+            }
+        }
+
         // checking for unique email address
         if (command.getClinicalStaff().getId()==null && command.getClinicalStaff().getEmailAddress()!=null) {
             boolean validEmail = uniqueStaffEmailAddressValidator.validateStaffEmail(command.getClinicalStaff().getEmailAddress(),command.getClinicalStaff().getId());
@@ -182,5 +195,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setUniqueStaffEmailAddressValidator(UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator) {
         this.uniqueStaffEmailAddressValidator = uniqueStaffEmailAddressValidator;
+    }
+
+    public void setFirstAndLastNameValidator(FirstAndLastNameValidator firstAndLastNameValidator) {
+        this.firstAndLastNameValidator = firstAndLastNameValidator;
     }
 }

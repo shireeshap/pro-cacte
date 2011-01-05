@@ -10,6 +10,7 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+<tags:dwrJavascriptLink objects="nameValidator"/>
 
 <html>
 <head>
@@ -81,6 +82,44 @@
                 $('admin').disabled = false;
             }
         }
+
+        function checkFirstName(){
+            var firstName = $('clinicalStaff.firstName').value;
+            if(firstName !=""){
+                nameValidator.validateName(firstName,nameReturnValue);
+                return;
+            }
+
+            else{
+                jQuery('#nameError1').hide();
+            }
+        }
+        function checkLastName(){
+            var lastName = $('clinicalStaff.lastName').value;
+            if(lastName!=""){
+                nameValidator.validateName(lastName,nameReturnValue1);
+                return;
+            }
+            else{
+                jQuery('#nameError2').hide();
+            }
+        }
+        function nameReturnValue(returnValue){
+              if(!returnValue){
+                jQuery('#nameError1').show();
+            }
+            else{
+                jQuery('#nameError1').hide();
+            }
+        }
+         function nameReturnValue1(returnValue){
+              if(!returnValue){
+                jQuery('#nameError2').show();
+            }
+            else{
+                jQuery('#nameError2').hide();
+            }
+        }
     </script>
     <!--[if IE]>
     <style>
@@ -129,12 +168,22 @@
                     <td>
                         <tags:renderText propertyName="clinicalStaff.firstName"
                                          displayName="clinicalStaff.label.first_name"
-                                         required="true"/>
+                                         required="true" onblur="checkFirstName();"/>
+                        <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
+                                        <li><spring:message code='clinicalStaff.firstName_validation'
+                                                       text='clinicalStaff.firstName_validation'/>
+                                        </li>
+                        </ul>
                         <tags:renderText propertyName="clinicalStaff.middleName"
                                          displayName="clinicalStaff.label.middle_name"/>
                         <tags:renderText propertyName="clinicalStaff.lastName"
                                          displayName="clinicalStaff.label.last_name"
-                                         required="true"/>
+                                         required="true" onblur="checkLastName()"/>
+                        <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
+                                        <li><spring:message code='clinicalStaff.lastName_validation'
+                                                       text='clinicalStaff.lastName_validation'/>
+                                        </li>
+                        </ul>
                     </td>
                     <td style="vertical-align:top">
                         <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"

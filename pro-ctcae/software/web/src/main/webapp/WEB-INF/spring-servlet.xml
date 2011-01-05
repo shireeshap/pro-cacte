@@ -428,6 +428,7 @@
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
         <property name="userRepository" ref="userRepository"/>
         <property name="uniqueStaffEmailAddressValidator" ref="uniqueStaffEmailAddressValidator"/>
+        <property name="firstAndLastNameValidator" ref="firstAndLastNameValidator"/>
     </bean>
     <bean name="/admin/viewClinicalStaff" id="viewClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ViewClinicalStaffController" parent="ctcaeSimpleFormController">
