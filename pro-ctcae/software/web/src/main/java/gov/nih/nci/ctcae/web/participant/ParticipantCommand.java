@@ -222,6 +222,10 @@ public class ParticipantCommand {
                 }
                 assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request, studyStartDate);
             }
+            if(participant.getStudyParticipantAssignments()!=null && participant.getStudyParticipantAssignments().size()>0){
+                getSelectedStudyParticipantAssignment();
+            }
+
         } else {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
