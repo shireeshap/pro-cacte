@@ -504,6 +504,8 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/011_create_study_p
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/012_update_study_participant_crf.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/013_update_participant.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/014_update_pro_ctc_questions.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/015_update_form_submission_mode.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/016_create_sp_crf_schedule_notifications.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -580,6 +582,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleDueDateComparator.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleNotification.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistory.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
@@ -628,6 +631,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganiza
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantCrfItemQuery.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantCrfScheduleNotificationQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantCrfScheduleQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/UserNotificationQuery.java -text
@@ -845,6 +849,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermControl
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/PasswordPolicyConfigurationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionNotifications.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentController.java -text

@@ -79,7 +79,7 @@
         <value>gov.nih.nci.ctcae.core.domain.StudyMode</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantMode</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantReportingModeHistory</value>
-
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification</value>
 
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"

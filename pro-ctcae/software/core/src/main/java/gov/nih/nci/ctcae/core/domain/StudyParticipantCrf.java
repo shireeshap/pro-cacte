@@ -63,9 +63,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     @Column(name = "start_date", nullable = true)
     private Date startDate;
 
-    @Column(name = "form_submission_mode", nullable = true)
-    @Enumerated(value = EnumType.STRING)
-    private AppMode formSubmissionMode;
+
 
 
 
@@ -197,13 +195,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         this.startDate = startDate;
     }
 
-    public AppMode getFormSubmissionMode() {
-        return formSubmissionMode;
-    }
-
-    public void setFormSubmissionMode(AppMode formSubmissionMode) {
-        this.formSubmissionMode = formSubmissionMode;
-    }
+    
     
     @Transient
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedulesByStatus(CrfStatus crfStatus) {

@@ -176,6 +176,7 @@ public class SubmitFormCommand implements Serializable {
         if ("save".equals(direction)) {
             deleteQuestions();
             schedule.setStatus(CrfStatus.COMPLETED);
+            schedule.setFormSubmissionMode(AppMode.HOMEWEB);
             NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
             notificationsEvaluationService.setGenericRepository(genericRepository);
             notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());

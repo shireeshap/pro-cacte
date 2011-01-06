@@ -684,10 +684,30 @@
     <bean id="nightlyTrigger" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
         <property name="jobDetail" ref="pastDueSchedulesReminderEmailJob"/>
     </bean>
+
+     <bean name="formSubmissionNotificationBean" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
+        <property name="sessionFactory" ref="sessionFactory"/> 
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean id="formSubmissionNotificationJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="formSubmissionNotificationBean"/>
+        <property name="targetMethod" value="sendFormSubmissionNotificationsForIVRS"/>
+    </bean>
+
+    <bean id="formSubmissionNotificationTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="formSubmissionNotificationJob"/>
+        <property name="startDelay" value="0" />
+            <!-- repeat every 2 min -->
+        <property name="repeatInterval" value="120000" />
+    </bean>
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="nightlyTrigger"/>
+               <ref bean="nightlyTrigger"/>
+               <ref bean="formSubmissionNotificationTrigger"/>
             </list>
         </property>
     </bean>

@@ -95,7 +95,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<UserNotification> userNotifications = new ArrayList<UserNotification>();
 
-    /**
+    @Column(name = "form_submission_mode", nullable = true)
+    @Enumerated(value = EnumType.STRING)
+    private AppMode formSubmissionMode;
+
+    @OneToOne(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
+     /**
      * Instantiates a new study participant crf schedule.
      */
     public StudyParticipantCrfSchedule() {
@@ -308,6 +315,22 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.monthInStudy = monthInStudy;
     }
 
+    public AppMode getFormSubmissionMode() {
+        return formSubmissionMode;
+    }
+
+    public void setFormSubmissionMode(AppMode formSubmissionMode) {
+        this.formSubmissionMode = formSubmissionMode;
+    }
+
+    public StudyParticipantCrfScheduleNotification getStudyParticipantCrfScheduleNotification() {
+        return studyParticipantCrfScheduleNotification;
+    }
+
+    public void setStudyParticipantCrfScheduleNotification(StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification) {
+        this.studyParticipantCrfScheduleNotification = studyParticipantCrfScheduleNotification;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -327,6 +350,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             return false;
         if (weekInStudy != null ? !weekInStudy.equals(that.weekInStudy) : that.weekInStudy != null) return false;
 
+        if (formSubmissionMode != null ? !formSubmissionMode.equals(that.formSubmissionMode) : that.formSubmissionMode != null) return false;
+
         return true;
     }
 
@@ -342,6 +367,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         result = 31 * result + (monthInStudy != null ? monthInStudy.hashCode() : 0);
         result = 31 * result + (baseline ? 1 : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
+        result = 31 * result + (formSubmissionMode != null ? formSubmissionMode.hashCode() : 0);
         return result;
     }
 

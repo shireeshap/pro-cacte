@@ -100,6 +100,7 @@ public class ParticipantTestHelper {
 
             }
             schedule.setStatus(CrfStatus.COMPLETED);
+            schedule.setFormSubmissionMode(AppMode.HOMEWEB);
             genericRepository.save(schedule);
             if (executeRule) {
                 if (!emailSent) {
