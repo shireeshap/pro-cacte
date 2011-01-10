@@ -61,9 +61,12 @@
                         <tr id="hiddenDivCondition_${rule.id}"></tr>
                         <tr>
                             <td></td>
-                            <td colspan="3"><tags:button icon="add" color="blue" value="Add" size="small"
+                            <td colspan="3">
+                                <c:if test="${!empty questionTypes }">
+                                <tags:button icon="add" color="blue" value="Add" size="small"
                                                          onclick="addCondition('${rule.id}')"
                                                          markupWithTag="a"/>
+                                </c:if>
                             </td>
                             <td></td>
                         </tr>

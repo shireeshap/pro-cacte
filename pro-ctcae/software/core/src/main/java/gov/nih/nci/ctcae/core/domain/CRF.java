@@ -830,7 +830,8 @@ public class CRF extends BaseVersionable {
                 ProCtcQuestionType questionType = crfPageItem.getProCtcQuestion().getProCtcQuestionType();
                 if (questionType.equals(ProCtcQuestionType.SEVERITY)
                         || questionType.equals(ProCtcQuestionType.INTERFERENCE)
-                        || questionType.equals(ProCtcQuestionType.FREQUENCY))
+                        || questionType.equals(ProCtcQuestionType.FREQUENCY)
+                        || questionType.equals(ProCtcQuestionType.PRESENT))
                     questionTypes.add(questionType);
             }
         }
