@@ -580,11 +580,14 @@ public class CreateFormCommand implements Serializable {
 
     public NotificationRuleCondition addCondition(NotificationRule notificationRule) {
         NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
-
-        notificationRuleCondition.setProCtcQuestionType((new ArrayList<ProCtcQuestionType>(crf.getAllQuestionTypes())).get(0));
-        notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
-        notificationRuleCondition.setThreshold(3);
-        notificationRule.addNotificationRuleCondition(notificationRuleCondition);
+        Set<ProCtcQuestionType> proCtcQuestionTypes= crf.getAllQuestionTypes();
+        if(proCtcQuestionTypes.size()>0){
+            notificationRuleCondition.setProCtcQuestionType((new ArrayList<ProCtcQuestionType>(crf.getAllQuestionTypes())).get(0));
+            notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
+            notificationRuleCondition.setThreshold(3);
+            notificationRule.addNotificationRuleCondition(notificationRuleCondition);
+            return notificationRuleCondition;
+        }
         return notificationRuleCondition;
     }
 }

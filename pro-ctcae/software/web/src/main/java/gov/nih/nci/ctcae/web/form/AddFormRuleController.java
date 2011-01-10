@@ -63,8 +63,9 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
         modelAndView.addObject("condition", notificationRuleCondition);
         modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
+        if(notificationRuleCondition.getProCtcQuestionType()!=null){
         modelAndView.addObject("thresholds", Arrays.asList(notificationRuleCondition.getProCtcQuestionType().getValidValues()));
-
+        }
         return modelAndView;
     }
 
