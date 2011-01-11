@@ -307,4 +307,15 @@
     <bean id="firstAndLastNameValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator">
     </bean>
+
+    <bean id="auditInfoPopulatorInterceptor" class="gov.nih.nci.ctcae.core.audit.AuditInfoPopulatorInterceptor" />
+    <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+		<property name="flushModeName">
+            <value>FLUSH_NEVER</value>
+        </property>
+    </bean>
+    
 </beans>

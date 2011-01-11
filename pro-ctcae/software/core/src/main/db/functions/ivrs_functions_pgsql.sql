@@ -376,8 +376,8 @@ BEGIN
 	v_next_question_id := ivrs_getfirstquestion(userid,formid);
 	IF v_next_question_id = 0
 	then
-		INSERT INTO sp_crf_sch_notifications(id, spc_schedule_id, status, creation_date)
-		VALUES (nextval('sp_crf_sch_notifications_id_seq'),formid,'SCHEDULED',now());
+		INSERT INTO sp_crf_schedule_notif(id, spc_schedule_id, status, creation_date)
+		VALUES (nextval('sp_crf_schedule_notif_id_seq'),formid,'SCHEDULED',now());
 
 		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS' where id=formid and Status ='INPROGRESS';
 

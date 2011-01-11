@@ -7,7 +7,8 @@ import java.util.Date;
 //
 
 /**
- * @author mehul
+ * @author Suneel Allareddy
+ * @since Jan 09, 2011
  */
 
 public class StudyParticipantCrfScheduleNotificationQuery extends AbstractQuery {

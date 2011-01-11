@@ -99,7 +99,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Enumerated(value = EnumType.STRING)
     private AppMode formSubmissionMode;
 
-    @OneToOne(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "studyParticipantCrfSchedule")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
      /**

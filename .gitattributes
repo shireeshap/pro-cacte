@@ -509,6 +509,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/016_create_sp_crf_
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopulatorInterceptor.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV3.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4.java -text
@@ -745,6 +746,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.ja
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopulatorInterceptorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
@@ -784,6 +786,8 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganiz
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignmentIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignmentTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItemTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleNotificationIntegrationTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleNotificationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistoryIntegrationTest.java -text
@@ -809,6 +813,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQu
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ProCtcTermQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/RolePrivilegeQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantCrfScheduleNotificationQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text

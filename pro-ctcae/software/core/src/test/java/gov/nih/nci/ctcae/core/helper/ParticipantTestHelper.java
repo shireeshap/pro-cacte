@@ -45,10 +45,10 @@ public class ParticipantTestHelper {
         Participant miles = createParticipant("Miles", "Straume", "1-6", ss1, 0);
         Participant jim = createParticipant("Jim", "Kwon", "1-7", ss1, 0);
 
-        completeParticipantSchedule(john, ss1, true);
-        completeParticipantSchedule(jack, ss1, false);
-        completeParticipantSchedule(kate, ss1, false);
-        completeParticipantSchedule(sayid, ss1, false);
+        completeParticipantSchedule(john, ss1, true, AppMode.HOMEWEB);
+        completeParticipantSchedule(jack, ss1, false, AppMode.HOMEWEB);
+        completeParticipantSchedule(kate, ss1, false, AppMode.HOMEWEB);
+        completeParticipantSchedule(sayid, ss1, false ,AppMode.HOMEWEB);
 //        completeParticipantSchedule(sun, ss1, false);
 //        completeParticipantSchedule(miles, ss1, false);
 //        completeParticipantSchedule(jim, ss1, false);
@@ -62,20 +62,20 @@ public class ParticipantTestHelper {
         Participant desmond = createParticipant("Desmond", "Hume", "2-6", ss2, 1);
         Participant juliet = createParticipant("Juliet", "Burke", "2-7", ss2, 1);
 
-        completeParticipantSchedule(james, ss2, false);
-        completeParticipantSchedule(charles, ss2, false);
-        completeParticipantSchedule(hugo, ss2, false);
-        completeParticipantSchedule(daniel, ss2, false);
+        completeParticipantSchedule(james, ss2, false, AppMode.HOMEWEB);
+        completeParticipantSchedule(charles, ss2, false ,AppMode.HOMEWEB);
+        completeParticipantSchedule(hugo, ss2, false ,AppMode.HOMEWEB);
+        completeParticipantSchedule(daniel, ss2, false ,AppMode.HOMEWEB);
 //        completeParticipantSchedule(ben, ss2, false);
 //        completeParticipantSchedule(desmond, ss2, false);
 //        completeParticipantSchedule(juliet, ss2, false);
 
-        completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite(), false);
+        completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite(), false ,AppMode.HOMEWEB);
         createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
 
     }
 
-    private static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule) throws Exception {
+    public static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule, AppMode submissionMode) throws Exception {
         boolean emailSent = false;
         Random random = new Random();
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
@@ -100,7 +100,7 @@ public class ParticipantTestHelper {
 
             }
             schedule.setStatus(CrfStatus.COMPLETED);
-            schedule.setFormSubmissionMode(AppMode.HOMEWEB);
+            schedule.setFormSubmissionMode(submissionMode);
             genericRepository.save(schedule);
             if (executeRule) {
                 if (!emailSent) {

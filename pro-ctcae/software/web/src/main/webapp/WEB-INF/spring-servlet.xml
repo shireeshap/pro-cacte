@@ -685,11 +685,30 @@
         <property name="jobDetail" ref="pastDueSchedulesReminderEmailJob"/>
     </bean>
 
+    <bean id="formSubmissionNotificationBeanTarget" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean id="formSubmissionNotificationAuditInfoPopulatorInterceptor" class="gov.nih.nci.ctcae.core.audit.AuditInfoPopulatorInterceptor">
+		<property name="fromJob" value="true" />
+	</bean>
+
+    <bean id="formSubmissionNotificationBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+            <property name="proxyTargetClass"><value>true</value></property>
+            <property name="target"><ref local="formSubmissionNotificationBeanTarget"/></property>
+            <property name="interceptorNames">
+                <list>
+                    <value>formSubmissionNotificationAuditInfoPopulatorInterceptor</value>
+                    <value>hibernateInterceptor</value>
+                </list>
+            </property>
+        </bean>
+     <!--
      <bean name="formSubmissionNotificationBean" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
         <property name="sessionFactory" ref="sessionFactory"/> 
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-
+     -->
     <bean id="formSubmissionNotificationJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="formSubmissionNotificationBean"/>

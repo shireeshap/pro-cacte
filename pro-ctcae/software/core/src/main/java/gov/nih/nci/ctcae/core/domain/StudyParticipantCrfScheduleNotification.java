@@ -16,8 +16,8 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "sp_crf_sch_notifications")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_sch_notif_id")})
+@Table(name = "sp_crf_schedule_notif")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_schedule_notif_id")})
 
 public class StudyParticipantCrfScheduleNotification extends BaseVersionable {
 
@@ -97,8 +97,7 @@ public class StudyParticipantCrfScheduleNotification extends BaseVersionable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;        
 
         StudyParticipantCrfScheduleNotification that = (StudyParticipantCrfScheduleNotification) o;
 
