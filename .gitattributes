@@ -803,6 +803,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/Organization
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/ParticipantTestHelper.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/StudyTestHelper.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/TestDataManager.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/ivrs/IVRSApiTestHelper.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQueryTest.java -text
