@@ -122,6 +122,20 @@ public class ParticipantTestHelper {
         return participant;
     }
 
+    public static Participant createIVRSParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex, int userNumber,int pinNumber) throws ParseException {
+
+        Participant participant = new Participant();
+        firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite, armIndex);
+        participant.setUserNumber(userNumber);
+        participant.setPinNumber(pinNumber);
+        participant = participantRepository.save(participant);
+        secondTab_ParticipantClinicalStaff(participant, studySite);
+        participant = participantRepository.save(participant);
+        assignCrfToParticipantAndCreateSchedules(participant, studySite);
+        participant = participantRepository.save(participant);
+        return participant;
+    }
+
     private static void firstTab_ParticipantDetails(Participant participant, String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex) {
         participant.setFirstName(firstName);
         participant.setLastName(lastName);

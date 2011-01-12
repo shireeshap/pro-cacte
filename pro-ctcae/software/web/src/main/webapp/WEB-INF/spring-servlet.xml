@@ -703,12 +703,7 @@
                 </list>
             </property>
         </bean>
-     <!--
-     <bean name="formSubmissionNotificationBean" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
-        <property name="sessionFactory" ref="sessionFactory"/> 
-        <property name="genericRepository" ref="genericRepository"/>
-    </bean>
-     -->
+     
     <bean id="formSubmissionNotificationJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="formSubmissionNotificationBean"/>

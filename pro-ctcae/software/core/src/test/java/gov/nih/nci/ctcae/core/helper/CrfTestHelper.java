@@ -53,6 +53,34 @@ public class CrfTestHelper {
 
     }
 
+    public static void deleteIVRSTestForm() {
+        CRFQuery query = new CRFQuery();
+        query.filterByTitleExactMatch("IVRSForm");
+        CRF crf = crfRepository.findSingle(query);
+        crf.setStatus(CrfStatus.DRAFT);
+        crf = crfRepository.save(crf);
+        crfRepository.delete(crf);
+
+    }
+
+    public static void createIVRSTestForm(Study study,TestDataManager localTestDataManager) throws Exception {
+        ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,1234,1234);
+        if(myTestDataManager == null)
+             localTestDataManager.commitAndStartNewTransaction();
+        else
+            myTestDataManager.commitAndStartNewTransaction();
+        CRF crf = new CRF();
+        crf.setTitle("IVRSForm");
+        firstTab_SelectStudy(crf, study);
+        secondTab_IVRSFormBuilder(crf);
+        thirdTab_ScheduleTemplate(crf);
+        crf = crfRepository.save(crf);
+        fourthTab_Notifications(crf);
+        crf = crfRepository.save(crf);
+        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
+        crf = crfRepository.updateStatusToReleased(crf);
+    }
+
     private static void createSecondaryForms() throws ParseException {
         CRF crf = new CRF();
         crf.setTitle("PRO Form 2");
@@ -85,6 +113,17 @@ public class CrfTestHelper {
         List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
         crf.setCrfVersion("1.0");
         for (int i = 0; i < numberOfSymptoms; i++) {
+            crf.addProCtcTerm(proCtcTerms.get(i));
+        }
+        crf.updateCrfPageInstructions();
+    }
+
+     private static void secondTab_IVRSFormBuilder(CRF crf) {
+        ProCtcTermQuery query = new ProCtcTermQuery();
+        query.filterByCtcTermHavingQuestionsOnly();
+        List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
+        crf.setCrfVersion("1.0");
+        for (int i = 0; i < 2; i++) {
             crf.addProCtcTerm(proCtcTerms.get(i));
         }
         crf.updateCrfPageInstructions();

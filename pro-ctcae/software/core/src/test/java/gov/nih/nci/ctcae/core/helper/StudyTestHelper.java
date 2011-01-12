@@ -19,6 +19,8 @@ public class StudyTestHelper {
     private static StudyRepository studyRepository;
     public static final String STANDARD_STUDY_ASSIGNED_ID = "1-11-DEFAULT";
     public static final String SECONDARY_STUDY_ASSIGNED_ID = "2-22-SECONDARY";
+    public static final String IVRS_STUDY_ASSIGNED_ID = "1-11-DEFAULT-IVRS";
+
     private static Study study;
 
     private StudyTestHelper() {
@@ -38,6 +40,26 @@ public class StudyTestHelper {
         addCCA();
 
         study = studyRepository.save(study);
+    }
+
+    public static Study createIVRSStudy() {
+        Study study = new Study();
+        firstTab_GeneralInfo(study, "IVRS Study", IVRS_STUDY_ASSIGNED_ID);
+        secondTab_StudySites(study);
+        thirdTab_OverallStudyStaff(study);
+        fourthTab_SiteClinicalStaff();
+        addCCA();
+        study = studyRepository.save(study);
+        return study;
+    }
+
+    public static void deleteIVRSStudy() {
+        StudyQuery query = new StudyQuery();
+        query.filterByAssignedIdentifierExactMatch(IVRS_STUDY_ASSIGNED_ID);
+        Collection<Study> studies = studyRepository.find(query);
+        for (Study study : studies) {
+            studyRepository.delete(study);
+        }
     }
 
     private static void firstTab_GeneralInfo(Study study, String title, String assignedId) {
