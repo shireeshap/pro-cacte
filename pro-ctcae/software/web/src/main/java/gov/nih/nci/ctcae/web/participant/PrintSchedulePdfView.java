@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         Study study = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy();
         StudyOrganization studySite = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite();
         Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
-        HashMap<ProCtcTerm, ArrayList<ProCtcQuestion>> symptomMap = new HashMap();
+        LinkedHashMap<ProCtcTerm, ArrayList<ProCtcQuestion>> symptomMap = new LinkedHashMap();
         ArrayList<ProCtcQuestion> proCtcQuestions;
 
         document.add(new Paragraph("Study: " + study.getDisplayName()));
