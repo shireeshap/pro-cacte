@@ -13,12 +13,17 @@
     Object attribute = request.getAttribute("command");
     int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
     int numOfRows = 0;
-    if (numOfSymptoms % 3 == 0) {
-        numOfRows = numOfSymptoms / 3;
-    } else {
-        numOfRows = (numOfSymptoms / 3) + 1;
+    if(numOfSymptoms > 0){
+        if (numOfSymptoms % 3 == 0) {
+            numOfRows = numOfSymptoms / 3;
+        } else {
+            numOfRows = (numOfSymptoms / 3) + 1;
+        }
+        request.setAttribute("numrows", numOfRows - 1);
+    }else{
+         request.setAttribute("numrows", numOfRows);
     }
-    request.setAttribute("numrows", numOfRows - 1);
+   
 %>
 <html>
 <head>
