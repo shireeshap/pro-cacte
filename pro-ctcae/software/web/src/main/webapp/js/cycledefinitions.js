@@ -135,10 +135,11 @@ function initializeCalendar(index) {
                                   '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
                     showPopUpMenuSchedule(day, index, scheduleid);
+                    myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                 }
-                myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
+
             } else {
-//                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
+                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
                 var delIcon = '<div style="float:right">' +
                                   '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
                                   '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
@@ -191,6 +192,7 @@ function initialize() {
         },
 
         onDragDrop: function(e, id) {
+           
             var oDD;
 
             if ("string" == typeof id) {
