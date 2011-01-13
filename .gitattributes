@@ -872,6 +872,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchC
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CachingFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/HTMLInputFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityFilter.java -text

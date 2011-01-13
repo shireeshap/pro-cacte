@@ -34,7 +34,7 @@
         HttpServletResponse response = (HttpServletResponse) resp;
 
         //Do not allow caching of SSL pages
-        disableCaching(response);
+       disableCaching(request,response);
         //Disable WebDAV, or disallow unneeded HTTP methods
         disallowUnneededHttpMethods(response);
         if (uriContainsIllegalCharacters(request)) {
@@ -72,14 +72,17 @@
     }
 
 
-    private void disableCaching(HttpServletResponse response) {
-        disallowUnneededHttpMethods(response);
-        response.addHeader(HEADER_PRAGMA, "no-cache");
-        response.setHeader(HEADER_CACHE_CONTROL, "no-cache");
-        response.setDateHeader(HEADER_EXPIRES, 1L);
-    }
+        private void disableCaching(HttpServletRequest request, HttpServletResponse response) {
+            if (!StringUtils.containsIgnoreCase(request.getRequestURI(), ".css") &&
+                    !StringUtils.containsIgnoreCase(request.getRequestURI(), ".js") &&
+                    !StringUtils.containsIgnoreCase(request.getRequestURI(), "images")) {
+                response.addHeader(HEADER_PRAGMA, "no-cache");
+                response.setHeader(HEADER_CACHE_CONTROL, "no-cache");
+                response.setDateHeader(HEADER_EXPIRES, 1L);
+            }
+        }
 
-    private void disallowUnneededHttpMethods(HttpServletResponse response) {
+        private void disallowUnneededHttpMethods(HttpServletResponse response) {
         response.setHeader("ALLOW", "GET, HEAD, POST, PUT, TRACE, OPTIONS");
     }
 
