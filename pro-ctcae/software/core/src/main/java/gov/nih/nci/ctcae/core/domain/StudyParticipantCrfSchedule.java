@@ -434,7 +434,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
     public Map<ProCtcTerm, ArrayList<ArrayList>> getCrfItemsBySymptom() {
-        Map<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap<ProCtcTerm, ArrayList<ArrayList>>();
+        Map<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new LinkedHashMap<ProCtcTerm, ArrayList<ArrayList>>();
         ArrayList<ArrayList> spCrfItems;
         Integer counter = 0;
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
@@ -463,7 +463,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
     public Map getParticipantAddedProCtcQuestionsBySymptom() {
-        HashMap<ProCtcTerm, List<List>> symptomMap = new HashMap();
+        Map<ProCtcTerm, List<List>> symptomMap = new LinkedHashMap();
         addParticipantAddedQuestions();
         List<List> studyParticipantCrfScheduleAddedQuestions;
         Integer counter = 0;
@@ -488,7 +488,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     public Map getParticipantAddedMeddraQuestionsBySymptom() {
         addParticipantAddedQuestions();
-        HashMap<String, List<List>> symptomMap = new HashMap();
+        Map<String, List<List>> symptomMap = new LinkedHashMap();
         List<List> studyParticipantCrfScheduleAddedQuestions;
         Integer counter = 0;
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
