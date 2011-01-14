@@ -69,7 +69,7 @@ public class ProCtcAECalendar {
     /**
      * The due after period in mill.
      */
-    private int dueAfterPeriodInMill;
+    private long dueAfterPeriodInMill;
 
     /**
      * The number of repetitions.
@@ -325,8 +325,8 @@ public class ProCtcAECalendar {
      * @param dueAfterValue the due after value
      * @return the due period in millis
      */
-    private int getDuePeriodInMillis(String dueAfter, int dueAfterValue) {
-        int dueAfterPeriodInMillis = 0;
+    private long getDuePeriodInMillis(String dueAfter, int dueAfterValue) {
+        long dueAfterPeriodInMillis = 0;
         if ("Hours".equals(dueAfter)) {
             dueAfterPeriodInMillis = dueAfterValue * 60 * 60 * 1000;
         }
@@ -506,7 +506,7 @@ public class ProCtcAECalendar {
      *
      * @return the due after period in mill
      */
-    public int getDueAfterPeriodInMill() {
+    public long getDueAfterPeriodInMill() {
         return dueAfterPeriodInMill;
     }
 

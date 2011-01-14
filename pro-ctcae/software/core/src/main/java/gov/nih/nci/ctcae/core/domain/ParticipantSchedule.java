@@ -92,7 +92,7 @@ public class ParticipantSchedule {
      */
     public void createSchedules(ScheduleType scheduleType) throws ParseException {
         proCtcAECalendar.prepareSchedules(scheduleType);
-        int dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
+        long dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
         while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
                 createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, null, false);
