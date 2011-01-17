@@ -177,9 +177,14 @@ public class SubmitFormCommand implements Serializable {
             deleteQuestions();
             schedule.setStatus(CrfStatus.COMPLETED);
             schedule.setFormSubmissionMode(AppMode.HOMEWEB);
-            NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
+            //adding the notifications scheduled for the form submission
+            StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
+            studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);
+            schedule.setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
+            //TODO:Suneel A, Needs to remove the block after testing
+            /*NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
             notificationsEvaluationService.setGenericRepository(genericRepository);
-            notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());*/
             setFlashMessage("You have successfully submitted the form.");
             submit = true;
         } else {

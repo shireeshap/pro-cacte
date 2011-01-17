@@ -46,6 +46,12 @@ public class StudyParticipantCrfScheduleNotification extends BaseVersionable {
     @JoinColumn(name = "spc_schedule_id", referencedColumnName = "id", nullable = false)
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
+    public StudyParticipantCrfScheduleNotification() {
+        this.creationDate = new Date();
+        this.status = CrfStatus.SCHEDULED;
+        this.mailSent = false;
+    }
+
     public Integer getId() {
         return id;
     }

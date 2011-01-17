@@ -241,7 +241,10 @@ public class StudyParticipantCrf extends BaseVersionable {
         if (crf.getCreateBaseline()) {
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
             participantSchedule.addStudyParticipantCrf(this);
-            participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1, null, true);
+            //change due date code
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE,1);
+            participantSchedule.createSchedule(Calendar.getInstance(), c.getTime(), -1, -1, null, true);
         }
     }
 

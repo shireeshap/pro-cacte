@@ -771,6 +771,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantI
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableIntegrationTestCase.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableValidatorIntegrationTestCase.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcAECalendarTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTypeTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermIntegrationTest.java -text

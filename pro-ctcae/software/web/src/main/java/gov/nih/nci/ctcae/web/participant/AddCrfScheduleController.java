@@ -40,7 +40,7 @@ public class AddCrfScheduleController extends AbstractController {
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
 
         Calendar c = new GregorianCalendar();
-        long duedate = 24 * 60 * 60 * 1000;
+        
         if ("delall".equals(action)) {
             participantSchedule.removeAllSchedules(formIds);
         }
@@ -75,13 +75,17 @@ public class AddCrfScheduleController extends AbstractController {
             participantSchedule.removeSchedule(c, formIds);
 
             c.setTime(newDate);
-            participantSchedule.createSchedule(c, duedate, -1, -1, formIds, false);
+            Calendar dueCalendar = (Calendar)c.clone();
+            dueCalendar.add(Calendar.DATE,1);
+            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false);
 
         }
 
         if ("add".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.createSchedule(c, duedate, -1, -1, formIds, false);
+            Calendar dueCalendar = (Calendar)c.clone();
+            dueCalendar.add(Calendar.DATE,1);
+            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false);
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));

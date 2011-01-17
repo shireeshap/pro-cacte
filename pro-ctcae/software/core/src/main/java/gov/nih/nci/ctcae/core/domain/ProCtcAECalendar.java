@@ -66,6 +66,13 @@ public class ProCtcAECalendar {
      */
     private Date startDate;
 
+
+
+    /**
+     * The Due date.
+     */
+    private Date dueDate;
+
     /**
      * The due after period in mill.
      */
@@ -340,6 +347,28 @@ public class ProCtcAECalendar {
     }
 
     /**
+     * Gets the due Date for the given Calendar Date.
+     *  @param c      the due after
+     * @param dueAfter      the due after
+     * @param dueAfterValue the due after value
+     * @return the due date
+     */
+    public Date getDueDateForCalendarDate(Calendar c, String dueAfter, int dueAfterValue) {        
+        Calendar tempCalendar = (Calendar)c.clone();
+        tempCalendar.setTimeInMillis(c.getTimeInMillis());
+        if ("Hours".equals(dueAfter)) {
+            tempCalendar.add(Calendar.HOUR,dueAfterValue);
+        }else if ("Days".equals(dueAfter)) {
+            tempCalendar.add(Calendar.DATE,dueAfterValue);
+        }
+        else if ("Weeks".equals(dueAfter)) {
+            tempCalendar.add(Calendar.WEEK_OF_YEAR,dueAfterValue);
+        }
+
+        return tempCalendar.getTime();
+    }
+    
+    /**
      * Gets the calendar.
      *
      * @return the calendar
@@ -573,6 +602,14 @@ public class ProCtcAECalendar {
 
     public int getCycleDay() {
         return cycleDay;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
 }

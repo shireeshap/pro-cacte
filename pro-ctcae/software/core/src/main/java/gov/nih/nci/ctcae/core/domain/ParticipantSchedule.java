@@ -92,13 +92,19 @@ public class ParticipantSchedule {
      */
     public void createSchedules(ScheduleType scheduleType) throws ParseException {
         proCtcAECalendar.prepareSchedules(scheduleType);
-        long dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
+        //TODO:Need to remove dueAfterPeriodInMill code totally after testing of new code for due date
+        //long dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
+
         while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
-                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1, null, false);
+                Calendar nextSchedule = proCtcAECalendar.getNextGeneralScehdule();
+                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule,proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
+                createSchedule(nextSchedule, dueDate, -1, -1, null, false);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
-                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false);
+                Calendar nextSchedule = proCtcAECalendar.getNextCycleScehdule();
+                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule,proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
+                createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false);
             }
         }
     }
@@ -107,12 +113,12 @@ public class ParticipantSchedule {
      * Creates the schedule.
      *
      * @param c                    the c
-     * @param dueAfterPeriodInMill the due after period in mill
+     * @param dueDate due Date 
      * @param cycleNumber
      * @param cycleDay
      * @param baseline
      */
-    public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
+    public void createSchedule(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
@@ -128,7 +134,7 @@ public class ParticipantSchedule {
                         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                         studyParticipantCrfSchedule.setStartDate(c.getTime());
-                        studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
+                        studyParticipantCrfSchedule.setDueDate(dueDate);
                         if (cycleNumber != -1) {
                             studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                             studyParticipantCrfSchedule.setCycleDay(cycleDay);
