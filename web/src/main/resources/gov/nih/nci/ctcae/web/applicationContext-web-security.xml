@@ -1,0 +1,125 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+
+    <http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp">
+
+
+        <intercept-url pattern="/public/login" filters="none"/>
+        <intercept-url pattern="/public/logout" filters="none"/>
+        <!--<intercept-url pattern="/public/forgotusername" filters="none"/>-->
+        <!--<intercept-url pattern="/pages/forgotusername" filters="none"/>-->
+        <!--<intercept-url pattern="/**/forgotusername" filters="none"/>-->
+
+        <intercept-url pattern="/mobile/login" filters="none"/>
+
+
+        <!--following line disables the security-->
+        <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>-->
+
+        <intercept-url pattern="/pages/form/basicForm" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/allConditions" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addCrfComponent" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addConditionalQuestion" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addFormScheduleCycle" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_SEARCH_FORM"/>
+        <intercept-url pattern="/pages/form/editForm" access="PRIVILEGE_EDIT_FORM"/>
+        <intercept-url pattern="/pages/form/copyForm" access="PRIVILEGE_COPY_FORM"/>
+        <intercept-url pattern="/pages/form/editSchedules" access="PRIVILEGE_CREATE_FORM"/>
+
+        <intercept-url pattern="/pages/form/deleteForm" access="PRIVILEGE_DELETE_FORM"/>
+        <intercept-url pattern="/pages/form/versionForm" access="PRIVILEGE_VERSION_FORM"/>
+        <intercept-url pattern="/pages/form/releaseForm" access="PRIVILEGE_RELEASE_FORM"/>
+        <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_SEARCH_FORM"/>
+        <intercept-url pattern="/pages/form/viewForm" access="PRIVILEGE_VIEW_FORM"/>
+            <intercept-url pattern="/pages/form/submit" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/participant/responseReport" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/form/matchSymptoms" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/participant/confirmSymptom" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
+
+
+        <intercept-url pattern="/pages/study/createStudy" access="PRIVILEGE_CREATE_STUDY"/>
+        <intercept-url pattern="/pages/study/addStudySite" access="PRIVILEGE_ADD_STUDY_SITE"/>
+        <intercept-url pattern="/pages/study/searchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
+        <intercept-url pattern="/pages/study/addStudyComponent"
+                       access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/study/editStudy" access="PRIVILEGE_VIEW_STUDY"/>
+        <intercept-url pattern="/pages/study/*" access="PRIVILEGE_EDIT_STUDY"/>
+
+        <intercept-url pattern="/pages/participant/participantInbox" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/mobile/*" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+
+        <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/edit"
+                       access="PRIVILEGE_EDIT_PARTICIPANT, PRIVILEGE_VIEW_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/trueedit"
+                       access="PRIVILEGE_EDIT_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/view"
+                       access="PRIVILEGE_VIEW_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_MONITOR_FORM"/>
+        <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+        <intercept-url pattern="/pages/participant/monitorFormStatus" access="PRIVILEGE_MONITOR_FORM"/>
+        <intercept-url pattern="/pages/participant/offStudyDate" access="PRIVILEGE_EDIT_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/showCompletedCrf" access="PRIVILEGE_MONITOR_FORM"/>
+        <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"/>
+        <intercept-url pattern="/pages/participant/addNotificationClinicalStaff"
+                       access="PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF"/>
+        <intercept-url pattern="/pages/participant/displaycalendar" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/moveFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/deleteFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/detailsFormSchedule"
+                       access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/addFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/displaystudysites"
+                       access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>
+        <intercept-url pattern="/pages/participant/*" access="PRIVILEGE_EDIT_PARTICIPANT"/>
+
+        <intercept-url pattern="/pages/admin/createClinicalStaff"
+                       access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/admin/clinicalStaff/createCCA"
+                       access="PRIVILEGE_CREATE_CCA"/>
+        <intercept-url pattern="/pages/admin/clinicalStaff/createAdmin"
+                       access="PRIVILEGE_CREATE_ADMIN"/>
+        <intercept-url pattern="/pages/admin/passwordConfiguration"
+                       access="PRIVILEGE_CREATE_ADMIN"/>
+
+        <intercept-url pattern="/pages/admin/clinicalStaff/addClinicalStaffComponent"
+                       access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/admin/searchClinicalStaff" access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+        <intercept-url pattern="/pages/admin/viewClinicalStaff" access="PRIVILEGE_VIEW_CLINICAL_STAFF"/>
+        <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/reports/report" access="PRIVILEGE_STUDY_REPORTS"/>
+        <intercept-url pattern="/pages/reports/participantReport" access="PRIVILEGE_PARTICIPANT_REPORTS"/>
+        <intercept-url pattern="/pages/reports/*" access="PRIVILEGE_STUDY_REPORTS,PRIVILEGE_PARTICIPANT_REPORTS"/>
+
+        <intercept-url pattern="/study/editdetails" access="PRIVILEGE_CREATE_STUDY"/>
+        <intercept-url pattern="/study/editsites" access="PRIVILEGE_ADD_STUDY_SITE"/>
+        <intercept-url pattern="/study/editoverallstaff" access="PRIVILEGE_ADD_STUDY_CLINICAL_STAFF"/>
+        <intercept-url pattern="/study/editsitestaff" access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
+        <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
+        <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
+        <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
+                    default-target-url="/pages/home" login-processing-url="/pages/j_spring_security_check"/>
+        <remember-me user-service-ref="userRepository"/>
+        <logout logout-success-url="/public/login" logout-url="/pages/j_spring_security_logout"/>
+    </http>
+
+    <beans:bean id="urlAuthorizationCheck" class="gov.nih.nci.ctcae.web.security.UrlAuthorizationCheck">
+        <beans:property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
+    </beans:bean>
+
+</beans:beans>
+

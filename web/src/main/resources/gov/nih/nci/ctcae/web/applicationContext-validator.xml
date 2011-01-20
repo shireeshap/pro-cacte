@@ -1,0 +1,31 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+        >
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <bean id="uniqueIdentifierForStudyValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+
+    <bean id="uniqueStudyIdentifierForParticipantValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+    <bean id="uniqueParticipantUserNumberValidator"
+              class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator">
+              <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+    <bean id="uniqueParticipantEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
+          <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+</beans>
