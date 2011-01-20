@@ -26,48 +26,52 @@
     </td>
     <c:if test="${isEdit}">
         <td>
-        <c:choose>
-            <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
-                <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/><br>
-            </c:when>
-            <c:otherwise>
-                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a> <br>
-                <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
-                    <a href="javascript:participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
-                        hold</a> <br>
-                </c:if>
-                <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
-                    Treatment on-hold from <tags:formatDate
-                        value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                    <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put participant
-                        on
-                        treatment </a>
-                </c:if>
-                <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
-                    Treatment hold removed from <tags:formatDate
-                        value="${studyParticipantAssignment.offHoldTreatmentDate}"/> <br>
-                </c:if>
-            </c:otherwise>
-        </c:choose>
-      </td>
+            <c:choose>
+                <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
+                    <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/><br>
+                </c:when>
+                <c:otherwise>
+                    <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a>
+                    <br>
+                    <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
+                        <a href="javascript:participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
+                            hold</a> <br>
+                    </c:if>
+                    <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
+                        Treatment on-hold from <tags:formatDate
+                            value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
+                        <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put
+                            participant
+                            on
+                            treatment </a>
+                    </c:if>
+                    <c:if test="${studyParticipantAssignment.offHoldTreatmentDate ne null}">
+                        Treatment hold removed from <tags:formatDate
+                            value="${studyParticipantAssignment.offHoldTreatmentDate}"/> <br>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+        </td>
     </c:if>
 </tr>
 <tr id="subform_${studysite.id}" <c:if test="${not selected}">style="display:none"</c:if>>
 <td></td>
-<td >
+<td>
 <table cellspacing="0" border="0">
 <tr>
     <td class="data" align="right" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
-    </td>                                                                                  
+    </td>
     <td width="50%">
         <input type="text"
                name="participantStudyIdentifier_${studysite.id}"
                value="${studyParticipantAssignment.studyParticipantIdentifier}"
                title="identifier"
-               id="participantStudyIdentifier_${studysite.id}" onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
+               id="participantStudyIdentifier_${studysite.id}"
+               onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
         <ul id="uniqueError" style="display:none" class="errors">
-           <li><spring:message code='participant.unique_assignedIdentifier' text='participant.unique_assignedIdentifier'/></li>
+            <li><spring:message code='participant.unique_assignedIdentifier'
+                                text='participant.unique_assignedIdentifier'/></li>
         </ul>
     </td>
 </tr>
@@ -79,7 +83,7 @@
                     <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
                             code="study.label.arm"/></b>
                 </td>
-                <td width="50%" >
+                <td width="50%">
                     <select name="arm_${studysite.id}" title="arm"
                             id="arm_${studysite.id}">
                         <option value="">Please select</option>
@@ -105,34 +109,35 @@
         </c:choose>
     </c:if>
 </tr>
-<tr>
-    <td align="right" class="data" width="30%">
-        <b>Home reporting option</b>
-    </td>
+<c:if test="${fn:length(studysite.study.studyModes) > 0}">
+    <tr>
+        <td align="right" class="data" width="30%">
+            <b>Home reporting option</b>
+        </td>
 
-    <td width="50%">
-        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.name eq 'HOMEWEB' || studyMode.mode.name eq 'IVRS' || studyMode.mode.name eq 'HOMEBOOKLET'}">
-                <tags:renderRadio propertyName="participantModes_${studysite.id}"
-                                  values="${studyParticipantAssignment.selectedAppModes}"
-                                  displayName="${studyMode.mode.displayName}"
-                                  propertyValue="${studyMode.mode.name}"
-                                  noForm="true" useRenderInput="true"
-                                  onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
-            </c:if>
-        </c:forEach>
-    </td>
-    <td width="${isEdit eq true ? "10%":"40%"}">
-        <div id="web_${studysite.id}" style="display:none">
-            <input type="checkbox" name="email_${studysite.id}" value="true"
-                   id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
-            reminder
-            via email
-        </div>
-        <br>
-    </td>
-</tr>
-
+        <td width="50%">
+            <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+                <c:if test="${studyMode.mode.name eq 'HOMEWEB' || studyMode.mode.name eq 'IVRS' || studyMode.mode.name eq 'HOMEBOOKLET'}">
+                    <tags:renderRadio propertyName="participantModes_${studysite.id}"
+                                      values="${studyParticipantAssignment.selectedAppModes}"
+                                      displayName="${studyMode.mode.displayName}"
+                                      propertyValue="${studyMode.mode.name}"
+                                      noForm="true" useRenderInput="true"
+                                      onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
+                </c:if>
+            </c:forEach>
+        </td>
+        <td width="${isEdit eq true ? "10%":"40%"}">
+            <div id="web_${studysite.id}" style="display:none">
+                <input type="checkbox" name="email_${studysite.id}" value="true"
+                       id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
+                reminder
+                via email
+            </div>
+            <br>
+        </td>
+    </tr>
+</c:if>
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <b>Call time</b>&nbsp;
@@ -201,53 +206,7 @@
         via text if the patient hasn't already completed the form
     </td>
 </tr>
-<%--<tr id="reminder_time_${studysite.id}" style="${showTime eq true ? "":"display:none"}">--%>
-    <%--<td valign="top" align="right" width="30%">--%>
-        <%--<b>Reminder time</b>&nbsp;--%>
-    <%--</td>--%>
-    <%--<td valign="top" width="50%">--%>
-        <%--<select id="reminder_hour_${studysite.id}" name="reminder_hour_${studysite.id}">--%>
-            <%--<c:forEach items="${hours}" var="hour">--%>
-                <%--<option value="${hour}" ${studyParticipantAssignment.reminderHour eq hour ? "selected='selected'" : " "} >${hour}</option>--%>
-            <%--</c:forEach>--%>
-        <%--</select>&nbsp;--%>
-        <%--<select id="reminder_minute_${studysite.id}" name="reminder_minute_${studysite.id}">--%>
-            <%--<c:forEach items="${minutes}" var="minute">--%>
-                <%--<option value="${minute}" ${studyParticipantAssignment.reminderMinute eq minute ? "selected='selected'" : " "} >${minute}</option>--%>
-            <%--</c:forEach>--%>
-        <%--</select>&nbsp;--%>
-        <%--<select id="reminder_ampm_${studysite.id}" name="reminder_ampm_${studysite.id}">--%>
-            <%--<option value="am" ${studyParticipantAssignment.reminderAmPm eq "am" ? "selected='selected'" : " "} >--%>
-                <%--am--%>
-            <%--</option>--%>
-            <%--<option value="pm" ${studyParticipantAssignment.reminderAmPm eq "pm" ? "selected='selected'" : " "} >--%>
-                <%--pm--%>
-            <%--</option>--%>
-        <%--</select>&nbsp;&nbsp;&nbsp;--%>
-        <%--<b>Time zone</b>&nbsp;--%>
-        <%--<select id="reminder_timeZone_${studysite.id}" name="reminder_timeZone_${studysite.id}">--%>
-            <%--<option value="America/New_York" ${studyParticipantAssignment.reminderTimeZone eq "America/New_York" ? "selected='selected'" : " "} >--%>
-                <%--Eastern Time--%>
-            <%--</option>--%>
-            <%--<option value="America/Chicago" ${studyParticipantAssignment.reminderTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >--%>
-                <%--Central Time--%>
-            <%--</option>--%>
-            <%--<option value="America/Denver" ${studyParticipantAssignment.reminderTimeZone eq "America/Denver" ? "selected='selected'" : " "} >--%>
-                <%--Mountain Time--%>
-            <%--</option>--%>
-            <%--<option value="America/Los_Angeles" ${studyParticipantAssignment.reminderTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >--%>
-                <%--Pacific Time--%>
-            <%--</option>--%>
-            <%--<option value="America/Anchorage" ${studyParticipantAssignment.reminderTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >--%>
-                <%--Alaska Time--%>
-            <%--</option>--%>
-            <%--<option value="America/Adak" ${studyParticipantAssignment.reminderTimeZone eq "America/Adak" ? "selected='selected'" : " "} >--%>
-                <%--Hawaii-Aleutian Time--%>
-            <%--</option>--%>
-        <%--</select>--%>
-    <%--</td>--%>
-<%--</tr>--%>
-
+<c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td align="right" class="data" width="30%">
         <b>In-clinic reporting option</b>
@@ -263,22 +222,22 @@
             </c:if>
         </c:forEach>
     </td>
-
+</c:if>
     <%--<td align="left" width="43%">--%>
-        <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-        <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
-        <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
-        <%--</c:if>--%>
-        <%--</c:forEach>--%>
+    <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
+    <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
+    <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
+    <%--</c:if>--%>
+    <%--</c:forEach>--%>
     <%--</td>--%>
 </tr>
-<tr >
-<td align="right">
-<c:if test="${fn:length(studyParticipantAssignment.studyParticipantReportingModeHistoryItems) > 0}">
-<a href="javascript:participantRptModeHistoryDisplay(${studyParticipantAssignment.id})">
-                       <tags:message code="participant.reportmodehist.label.link"/> </a>
-</c:if>                        
-</td>
+<tr>
+    <td align="right">
+        <c:if test="${fn:length(studyParticipantAssignment.studyParticipantReportingModeHistoryItems) > 0}">
+            <a href="javascript:participantRptModeHistoryDisplay(${studyParticipantAssignment.id})">
+                <tags:message code="participant.reportmodehist.label.link"/> </a>
+        </c:if>
+    </td>
 </tr>
 <tr>
     <td align="right" class="data" width="30%">
