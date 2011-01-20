@@ -61,7 +61,7 @@ public class SubmitFormController extends SimpleFormController {
         SubmitFormCommand command = (SubmitFormCommand) request.getSession().getAttribute(getFormSessionAttributeName());
         String crfScheduleId = request.getParameter("id");
         if (command != null && crfScheduleId.equals(command.getSchedule().getId().toString())) {
-            command.lazyInitializeSchedule();
+           // command.lazyInitializeSchedule();
             return command;
         }
         command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository, meddraRepository);

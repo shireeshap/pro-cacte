@@ -170,8 +170,8 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public boolean save() throws Exception {
-        schedule = genericRepository.save(schedule);
-        lazyInitializeSchedule();
+       // schedule = genericRepository.save(schedule);
+        //lazyInitializeSchedule();
         boolean submit = false;
         if ("save".equals(direction)) {
             deleteQuestions();
@@ -190,8 +190,8 @@ public class SubmitFormCommand implements Serializable {
         } else {
             schedule.setStatus(CrfStatus.INPROGRESS);
         }
-        schedule = genericRepository.save(schedule);
-        lazyInitializeSchedule();
+        genericRepository.saveOrUpdate(schedule);
+        //lazyInitializeSchedule();
         return submit;
     }
 

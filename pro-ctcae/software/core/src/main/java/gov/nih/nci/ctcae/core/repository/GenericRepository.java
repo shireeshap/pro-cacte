@@ -32,6 +32,9 @@ public interface GenericRepository {
      * @return the saved/updated object
      */
     <T extends Persistable> T save(T persistable);
+
+    <T extends Persistable> void saveOrUpdate(T persistable);
+
     <T extends Persistable> T create(T persistable);
 
 

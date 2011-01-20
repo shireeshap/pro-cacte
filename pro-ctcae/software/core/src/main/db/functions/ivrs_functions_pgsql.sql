@@ -59,7 +59,7 @@ BEGIN
 	JOIN participants p ON sp.participant_id = p.id
 	where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
 	and p.user_id=userid
-	order by spcs.id LIMIT 1 OFFSET formNum-1;
+	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
 	IF NOT FOUND THEN
 		return 0;

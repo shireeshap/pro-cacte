@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
@@ -45,6 +46,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         if ("save".equals(submitType)) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
         } else {
+            studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
