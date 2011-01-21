@@ -93,7 +93,8 @@
                 }
             })
         }
-        function addSymptom(selectedChoice) {
+        function addSymptom(escapedSelectedChoice) {
+            var selectedChoice = unescape(escapedSelectedChoice);
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
             var itemfound = false;
             for (var i = 0; i < checkboxitems.length; i++) {
@@ -195,6 +196,11 @@
             document.myForm.submit();
         }
 
+        function sendConfirmedSymptom() {
+            var selectedValueNew = escape($('participantSymptomInput').value);
+            addSymptom(selectedValueNew);
+            closeWindow();
+        }
     </script>
 </head>
 <body>

@@ -10,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <table>
-
     <tr>
         <td>
             <div id="confirmSymptom">
@@ -28,9 +27,8 @@
 
                 <div class="flow-buttons">
                     <tags:button color="orange" type="button" id="flow-update"
-                                 onclick="parent.addSymptom('${selectedChoice}');closeWindow();"
-                                 cssClass="next" value="Yes" icon="check"
-                            />
+                                 onclick="sendConfirmedSymptom();"
+                                 cssClass="next" value="Yes" icon="check"/>
                     <tags:button color="blue" type="button" id="flow-cancel"
                                  cssClass="previous ibutton" value="No" icon="x"
                                  onclick="closeWindow()"/>
