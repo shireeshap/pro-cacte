@@ -66,6 +66,7 @@ public class CRFPage extends BaseVersionable {
      * The crf page items.
      */
     @OneToMany(mappedBy = "crfPage", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CrfPageItem> crfPageItems = new LinkedList<CrfPageItem>();
 

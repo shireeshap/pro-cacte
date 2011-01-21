@@ -80,6 +80,28 @@ public class ParticipantRepository implements Repository<Participant, Participan
         return participant;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void saveOrUpdate(Participant participant) {
+        if (participant.getStudyParticipantAssignments().isEmpty()) {
+            throw new CtcAeSystemException("can not save participants without assignments");
+        }
+        User user = participant.getUser();
+        if(participant.getId() == null){
+            //create flow
+            if(user == null) throw new CtcAeSystemException("can not save participant without user");
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.PARTICIPANT);
+            user.addUserRole(userRole);
+            user.setNumberOfAttempts(0);
+            user.setAccountNonLocked(true);
+            userRepository.saveOrUpdate(user);
+            
+        }
+        genericRepository.saveOrUpdate(participant);
+        participant.getUser().setConfirmPassword(participant.getUser().getPassword());
+        
+    }
+
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
         ParticipantQuery query = new ParticipantQuery();
         query.filterParticipantsWithMatchingText(text);

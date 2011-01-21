@@ -147,8 +147,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
                     }
                 }
+                
             }
+
             command.apply(crfRepository, request);
+            command.initialize();
         }
 
         catch (

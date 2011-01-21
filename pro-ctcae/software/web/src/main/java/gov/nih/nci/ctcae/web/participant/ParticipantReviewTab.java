@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since Feb 11, 2009
  */
 public class ParticipantReviewTab extends SecuredTab<ParticipantCommand> {
+    //TODO:SA - to be removed
     GenericRepository genericRepository;
 
     public ParticipantReviewTab() {
@@ -19,15 +20,9 @@ public class ParticipantReviewTab extends SecuredTab<ParticipantCommand> {
     }
 
     @Override
-    public void onDisplay(HttpServletRequest httpServletRequest, ParticipantCommand participantCommand) {
-        Participant participant = genericRepository.findById(Participant.class, participantCommand.getParticipant().getId());
-        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-            studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs();
-        }
-        Study study = genericRepository.findById(Study.class, participantCommand.getSelectedStudyParticipantAssignment().getStudySite().getStudy().getId());
-        for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
-            studyOrganization.getStudyOrganizationClinicalStaffs();
-        }
+    public void onDisplay(HttpServletRequest httpServletRequest, ParticipantCommand participantCommand) {        
+        Study study = participantCommand.getSelectedStudyParticipantAssignment().getStudySite().getStudy();
+        
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         participantCommand.setOdc(user.isODCOnStudy(study));
     }

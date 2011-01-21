@@ -324,7 +324,7 @@ public class User extends BaseVersionable implements UserDetails {
     }
 
     public void addUserRole(UserRole userRole) {
-        if (!userRole.isPersisted() && !getUserRoles().contains(userRole)) {
+        if (!getUserRoles().contains(userRole)) {
             userRole.setUser(this);
             getUserRoles().add(userRole);
         }

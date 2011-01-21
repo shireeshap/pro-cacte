@@ -53,8 +53,11 @@ public class EditParticipantController extends ParticipantController {
         command.setReadOnlyUserName(true);
         for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
             StudyOrganization studySite = studyParticipantAssignment.getStudySite();
-            studySite.getStudy().getCrfs();
+            studySite.getStudy().getCrfs().size();            
             studySite.getStudy().getStudySponsor();
+            studySite.getStudy().getArms().size();
+            studySite.getStudy().getStudyOrganizations().size();
+            studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
         }
 
         command.setParticipant(participant);
@@ -62,6 +65,7 @@ public class EditParticipantController extends ParticipantController {
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
             command.setSelectedStudyParticipantAssignmentId(participant.getStudyParticipantAssignments().get(0).getId());
+            
             if (!user.isAdmin()) {
                 if (!command.getClinicalStaffOrgs().contains(organization)) {
                     command.setReadOnly(true);

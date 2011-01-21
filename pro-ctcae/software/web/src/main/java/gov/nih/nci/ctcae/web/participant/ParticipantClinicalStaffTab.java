@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -16,6 +17,8 @@ import java.util.Map;
  */
 public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> {
 
+
+    protected ParticipantRepository participantRepository;
     public ParticipantClinicalStaffTab() {
         super("participant.tab.clinical_staff", "participant.tab.clinical_staff", "participant/participant_clinical_staff");
     }
@@ -49,4 +52,12 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
         return referenceData;
     }
 
+    @Override
+    public void beforeBind(HttpServletRequest request, ParticipantCommand command) {
+       participantRepository.saveOrUpdate(command.getParticipant());
+
+    }
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
+    }
 }

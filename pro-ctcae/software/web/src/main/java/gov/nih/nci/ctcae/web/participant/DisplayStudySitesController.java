@@ -45,12 +45,17 @@ public class DisplayStudySitesController extends AbstractController {
 
         String participantId = request.getParameter("id");
         Participant participant = null;
-        ParticipantCommand command = (ParticipantCommand) request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+
+        ParticipantCommand command = null;
+
         if (!StringUtils.isBlank(participantId)) {
-            participant = participantRepository.findById(Integer.parseInt(participantId));
+            command = (ParticipantCommand) request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+            
         } else {
-            participant = command.getParticipant();
+            command = (ParticipantCommand) request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+
         }
+        participant = command.getParticipant();
         List<Integer> times = new ArrayList();
         for (int j = 1; j <= 12; j++) {
             times.add(j);
@@ -62,14 +67,8 @@ public class DisplayStudySitesController extends AbstractController {
 
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
-
-            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                StudyOrganization studySite = studyParticipantAssignment.getStudySite();
-                studySites.remove(studySite);
-                studySite.getStudy().getCrfs();
-                studySite.getStudy().getStudySponsor();
-                studyParticipantAssignments.add(studyParticipantAssignment);
-            }
+            studyParticipantAssignments = participant.getStudyParticipantAssignments();
+            
             String[] timeZones = TimeZone.getAvailableIDs();
             boolean showTime = false;
             if (participant.getStudyParticipantAssignments().size() > 0) {

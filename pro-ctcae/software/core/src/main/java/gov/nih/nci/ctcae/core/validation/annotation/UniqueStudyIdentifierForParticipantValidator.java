@@ -31,6 +31,8 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
    public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
+            participantQuery.excludeByParticipantId(participantID);
+       
             Collection<Participant> participants = participantRepository.find(participantQuery);
             if(participants != null && !participants.isEmpty() && participants.size()>0){
                 for(Participant participant:participants){

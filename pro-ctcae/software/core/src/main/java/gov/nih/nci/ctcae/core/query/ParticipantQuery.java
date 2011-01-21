@@ -183,5 +183,16 @@ public class ParticipantQuery extends AbstractQuery {
         }
     }
 
+    /**
+     * Filter by excludes existing participant .
+     *
+     * @param participantId the Db identifier
+     */
+    public void excludeByParticipantId(final Integer participantId){
+          if (participantId != null){
+              andWhere("p.id <> :id");
+              setParameter("id",participantId);
+        }
+    }
 
 }

@@ -186,7 +186,6 @@ public class ParticipantCommand {
     public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request, String studyStartDate) throws ParseException {
         Study study = studyParticipantAssignment.getStudySite().getStudy();
         for (CRF crf : study.getCrfs()) {
-            crf = crfRepository.findById(crf.getId());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
@@ -560,5 +559,32 @@ public class ParticipantCommand {
 
     public void setReminderMinute(Integer reminderMinute) {
         this.reminderMinute = reminderMinute;
+    }
+
+    public void initialize(){
+        if(participant.getUser() != null){
+            if(participant.getUser().getUserRoles() != null) participant.getUser().getUserRoles().size();
+        }
+        if(participant.getStudyParticipantAssignments()!=null){
+            participant.getStudyParticipantAssignments().size();
+            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                if(studyParticipantAssignment.getStudySite()!=null){
+                    StudyOrganization studySite = studyParticipantAssignment.getStudySite();
+                    if(studySite.getStudy()!=null){
+                        studySite.getStudy().getCrfs().size();
+                        studySite.getStudy().getStudySponsor();
+                        studySite.getStudy().getArms().size();
+                        studySite.getStudy().getStudyOrganizations().size();
+                        studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
+                        studySite.getStudy().getStudyModes().size();
+                        studySite.getStudy().getHomeModes();                        
+                    }
+                }
+                
+                
+            }
+        }     
+        
+
     }
 }

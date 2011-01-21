@@ -103,6 +103,7 @@ public class CRF extends BaseVersionable {
      * The crf pages.
      */
     @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)    
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 

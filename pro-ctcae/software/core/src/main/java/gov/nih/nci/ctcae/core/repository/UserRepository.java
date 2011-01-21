@@ -191,7 +191,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
 
     }
-
+    //TODO:SA Needs to remove after Clinical Staff refracted
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User save(User user) {
         if (user.getUsername() == null) {
@@ -219,6 +219,35 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         return user;
+
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void saveOrUpdate(User user) {
+        if (user.getUsername() == null) {
+            throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
+        }
+        user.setUsername(user.getUsername().toLowerCase());
+        if (user.getId() == null) {
+            List<User> users = findByUserName(user.getUsername());
+            if (users.size() > 0) {
+                throw new UsernameAlreadyExistsException(user.getUsername());
+            }
+            String encoded = getEncodedPassword(user);
+            user.setPassword(encoded);
+        } else {
+            String myPassword = user.getPassword();
+            if (myPassword != null) {
+                User temp = findById(user.getId());
+                String currentPassword = temp.getPassword();
+                if (!myPassword.equals(currentPassword)) {
+                    user.setPassword(getEncodedPassword(user));
+                }
+            }
+        }
+
+        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+        genericRepository.saveOrUpdate(user);        
 
     }
 
