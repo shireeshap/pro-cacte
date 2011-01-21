@@ -3,10 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
@@ -14,13 +11,13 @@ import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 //
 
@@ -90,10 +87,36 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, int page) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("homeModeCount", 0);
-        return map;
+    protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
+        Map<String, Object> modelAndView = super.referenceData(request, oCommand, errors, page);
+        modelAndView.put("homeModeCount", 0);
+
+        List<Integer> times = new ArrayList();
+        for (int j = 1; j <= 12; j++) {
+            times.add(j);
+        }
+        List<Integer> minutes = new ArrayList();
+        for (int i = 0; i <= 60; i += 5) {
+            minutes.add(i);
+        }
+
+        ParticipantCommand command = (ParticipantCommand) oCommand;
+
+        String[] timeZones = TimeZone.getAvailableIDs();
+        boolean showTime = false;
+        if (command.getParticipant().getStudyParticipantAssignments().size() > 0) {
+            for (AppMode appMode : command.getParticipant().getStudyParticipantAssignments().get(0).getSelectedAppModes()) {
+                if (appMode.equals(AppMode.IVRS)) {
+                    showTime = true;
+                }
+            }
+        }
+        modelAndView.put("hours", times);
+        modelAndView.put("timezones", timeZones);
+        modelAndView.put("minutes", minutes);
+        modelAndView.put("showTime", showTime);
+
+        return modelAndView;
 
     }
 
