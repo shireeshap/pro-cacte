@@ -206,73 +206,74 @@ uniqueIdentifier"/>
           <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
       </c:if>
        <br>
-       <chrome:division title="study.sections.study_modes">
-           <table border="0">
-               <tr>
-                   <td valign="top" align="right">
-                       <b><tags:message code='study.label.home_reporting'/>&nbsp;</b>
-                   </td>
-                   <td>
-                       <form:checkbox path="appModes" value="HOMEWEB"/>&nbsp;Web <br>
-                       <form:checkbox path="appModes" value="IVRS"
-                                      onclick="javascript:showHideCallFreq(this.checked);"/>&nbsp;IVRS/Automated
-                       Telephone <br>
+       <%--<chrome:division title="study.sections.study_modes">--%>
+           <%--<table border="0">--%>
+               <%--<tr>--%>
+                   <%--<td valign="top" align="right">--%>
+                       <%--<b><tags:message code='study.label.home_reporting'/>&nbsp;</b>--%>
+                   <%--</td>--%>
+                   <%--<td>--%>
+                       <%--<form:checkbox path="appModes" value="HOMEWEB"/>&nbsp;Web <br>--%>
+                       <%--<form:checkbox path="appModes" value="IVRS"--%>
+                                      <%--onclick="javascript:showHideCallFreq(this.checked);"/>&nbsp;IVRS/Automated--%>
+                       <%--Telephone <br>--%>
+<%----%>
+                       <%--<div id="call_freq" style="display:none;">--%>
+                           <%--<table >--%>
+                               <%--<tr>--%>
+                                   <%--<td align="right">--%>
+                                       <%--<b>Reminder frequency</b>--%>
+                                   <%--</td>--%>
+                                   <%--<td>--%>
+                                       <%--<select id="call_back_hour" name="call_back_hour">--%>
+                                           <%--<option value=" ">Please select</option>--%>
+                                           <%--<option value="30"--%>
+                                                   <%--selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>--%>
+                                               <%--30 minutes--%>
+                                           <%--</option>--%>
+                                           <%--<option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>--%>
+                                               <%--60 minutes--%>
+                                           <%--</option>--%>
+                                       <%--</select>--%>
+                                   <%--</td>--%>
+                               <%--</tr>--%>
+                               <%--<tr>--%>
+                                   <%--<td>--%>
+                                       <%--<b>Number of reminders</b>--%>
+                                   <%--</td>--%>
+                                   <%--<td>--%>
+                                       <%--<select id="call_back_frequency" name="call_back_frequency">--%>
+                                           <%--<option value=" ">Please select</option>--%>
+                                           <%--<option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>--%>
+                                               <%--1--%>
+                                           <%--<option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>--%>
+                                               <%--2--%>
+                                           <%--<option value="3"--%>
+                                                   <%--selected ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>--%>
+                                               <%--3--%>
+                                           <%--<option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>--%>
+                                               <%--4--%>
+                                           <%--<option value="5" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>--%>
+                                               <%--5--%>
+                                       <%--</select>--%>
+                                   <%--</td>--%>
+                               <%--</tr>--%>
+                           <%--</table>--%>
+                       <%--</div>--%>
+                       <%--<form:checkbox path="appModes" value="HOMEBOOKLET"/>&nbsp;Paper Form <br>--%>
+                   <%--</td>--%>
+               <%--</tr>--%>
+               <%--<tr>--%>
+                   <%--<td valign="top">--%>
+                       <%--<b><tags:message code='study.label.clinic_reporting'/>&nbsp;</b>--%>
+                   <%--</td>--%>
+                   <%--<td>--%>
+                       <%--<form:checkbox path="appModes" value="CLINICWEB"/>&nbsp;Web <br>--%>
+                       <%--<form:checkbox path="appModes" value="CLINICBOOKLET"/>&nbsp;Paper Form <br>--%>
+                   <%--</td>--%>
+               <%--</tr>--%>
+           <%--</table>--%>
 
-                       <div id="call_freq" style="display:none;">
-                           <table >
-                               <tr>
-                                   <td align="right">
-                                       <b>Reminder frequency</b>
-                                   </td>
-                                   <td>
-                                       <select id="call_back_hour" name="call_back_hour">
-                                           <option value=" ">Please select</option>
-                                           <option value="30"
-                                                   selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
-                                               30 minutes
-                                           </option>
-                                           <option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>
-                                               60 minutes
-                                           </option>
-                                       </select>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td>
-                                       <b>Number of reminders</b>
-                                   </td>
-                                   <td>
-                                       <select id="call_back_frequency" name="call_back_frequency">
-                                           <option value=" ">Please select</option>
-                                           <option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
-                                               1
-                                           <option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
-                                               2
-                                           <option value="3"
-                                                   selected ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
-                                               3
-                                           <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
-                                               4
-                                           <option value="5" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
-                                               5
-                                       </select>
-                                   </td>
-                               </tr>
-                           </table>
-                       </div>
-                       <form:checkbox path="appModes" value="HOMEBOOKLET"/>&nbsp;Paper Form <br>
-                   </td>
-               </tr>
-               <tr>
-                   <td valign="top">
-                       <b><tags:message code='study.label.clinic_reporting'/>&nbsp;</b>
-                   </td>
-                   <td>
-                       <form:checkbox path="appModes" value="CLINICWEB"/>&nbsp;Web <br>
-                       <form:checkbox path="appModes" value="CLINICBOOKLET"/>&nbsp;Paper Form <br>
-                   </td>
-               </tr>
-           </table>
            <%--<div class="row">--%>
            <%--<div class="label"><tags:message code='study.label.home_reporting'/></div>--%>
            <%--<div class="value">--%>
@@ -284,8 +285,8 @@ uniqueIdentifier"/>
            <%--</div>--%>
 
            <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
-       </chrome:division>
-
+       <%--</chrome:division>--%>
+<%----%>
 </jsp:attribute>
 
 </tags:tabForm>

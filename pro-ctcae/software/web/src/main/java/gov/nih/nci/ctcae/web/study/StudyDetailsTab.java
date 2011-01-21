@@ -106,13 +106,14 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         Integer callBackFrequency = ServletRequestUtils.getIntParameter(httpServletRequest, "call_back_frequency", 0);
         studyCommand.getStudy().setCallBackHour(callBackHour);
         studyCommand.getStudy().setCallBackFrequency(callBackFrequency);
-        studyCommand.getStudy().getStudyModes().clear();
-        for (String string : studyCommand.getAppModes()) {
-            AppMode appMode = AppMode.valueOf(string);
-            StudyMode studyMode = new StudyMode();
-            studyMode.setMode(appMode);
-            studyCommand.getStudy().addStudyMode(studyMode);
-        }
+     
+//        studyCommand.getStudy().getStudyModes().clear();
+//        for (String string : studyCommand.getAppModes()) {
+//            AppMode appMode = AppMode.valueOf(string);
+//            StudyMode studyMode = new StudyMode();
+//            studyMode.setMode(appMode);
+//            studyCommand.getStudy().addStudyMode(studyMode);
+//        }
 
         if (!StringUtils.isBlank(studyCommand.getArmIndexToRemove())) {
             Integer armIndex = Integer.valueOf(studyCommand.getArmIndexToRemove());
