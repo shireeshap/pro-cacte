@@ -241,7 +241,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void computeAdditionalSymptoms(ArrayList<ProCtcTerm> proCtcTerms) {
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = this.getSchedule();
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, schedule.getId());
         for (StudyParticipantCrfItem item : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             proCtcTerms.remove(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
         }
@@ -275,8 +275,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
-        //TODO:SA needs to check
-        //lazyInitializeSchedule();
+        lazyInitializeSchedule();
         int position = totalQuestionPages + 2;
 
         for (String symptom : selectedSymptoms) {
@@ -395,10 +394,10 @@ public class SubmitFormCommand implements Serializable {
 
     private StudyParticipantCrfScheduleAddedQuestion AddParticipantSelectedQuestion(Question question, boolean firstTime) {
         StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = schedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(question, totalQuestionPages - 1);
-        //genericRepository.save(studyParticipantCrfAddedQuestion);
+        genericRepository.save(studyParticipantCrfAddedQuestion);
         StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = schedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion, firstTime);
         if (studyParticipantCrfScheduleAddedQuestion != null) {
-           // genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+            genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
         }
         return studyParticipantCrfScheduleAddedQuestion;
     }
@@ -450,13 +449,10 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void lazyInitializeSchedule() {
-        //schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, schedule.getId());
+        schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, schedule.getId());
         schedule.getStudyParticipantCrfItems().size();
-        schedule.getStudyParticipantCrfScheduleAddedQuestions().size();          
-        //schedule.getStudyParticipantCrf();
-        schedule.getStudyParticipantCrf().getStudyParticipantCrfSchedules().size();
+        schedule.getStudyParticipantCrfScheduleAddedQuestions().size();
         schedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size();
-
     }
 
 }

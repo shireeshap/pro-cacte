@@ -38,8 +38,6 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
             if (selectedSymptoms != null) {
                 SubmitFormCommand sCommand = (SubmitFormCommand) command;
                 sCommand.addParticipantAddedQuestions(selectedSymptoms, true);
-                genericRepository.saveOrUpdate(sCommand.getSchedule().getStudyParticipantCrf());
-                genericRepository.saveOrUpdate(sCommand.getSchedule());
             }
             pageNumber++;
         } else {
