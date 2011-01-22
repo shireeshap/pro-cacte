@@ -32,19 +32,18 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
             participantQuery.excludeByParticipantId(participantID);
-       
+
             Collection<Participant> participants = participantRepository.find(participantQuery);
             if(participants != null && !participants.isEmpty() && participants.size()>0){
                 for(Participant participant:participants){
-                    if(participant.getStudyParticipantIdentifier().equals(assignedIdentifier)){
+                    String partcipantIdentifier = participant.getStudyParticipantIdentifier();
+                    if(partcipantIdentifier.equals(assignedIdentifier)){
                         if(participantID == null || participantID.equals("")){
 							return true;
 						} else if(participant.getId()==participantID){
 							return false;
 						}
                     }
-                    else
-                        return false;
                 }
             }
         return false;

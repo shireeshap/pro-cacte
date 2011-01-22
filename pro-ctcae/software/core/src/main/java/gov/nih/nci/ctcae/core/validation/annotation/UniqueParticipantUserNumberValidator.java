@@ -21,6 +21,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
         Integer userNum = Integer.parseInt(userNumber);
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNum);
+        participantQuery.excludeByParticipantId(participantID);
         Collection<Participant> participants = participantRepository.find(participantQuery);
         boolean flag = false;
         if (participants != null && !participants.isEmpty()) {
