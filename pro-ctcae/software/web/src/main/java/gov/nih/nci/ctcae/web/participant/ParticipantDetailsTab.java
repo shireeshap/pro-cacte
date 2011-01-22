@@ -72,7 +72,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
            command.getParticipant().removeAllStudyParticipantAssignments();
            for (StudySite studySite : command.getStudySites()) {
               String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
-              command.getStudySubjectIdentifierMap().put(studySite.getId(), studyParticipantIdentifier);
+              command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
               command.setSiteName(studySite.getOrganization().getName());
               StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignment(studySite,
                       studyParticipantIdentifier , request.getParameter("arm_" + studySite.getId()));
@@ -123,7 +123,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if(command.getParticipant().getUserNumber()!=null){
 
             String userNumber =command.getParticipant().getUserNumber().toString();
-            boolean validUserNumber =uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId());
+            boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId());
             if(validUserNumber){
                 errors.rejectValue("participant.userNumber","participant.unique_userNumber","participant.unique_userNumber");
             }

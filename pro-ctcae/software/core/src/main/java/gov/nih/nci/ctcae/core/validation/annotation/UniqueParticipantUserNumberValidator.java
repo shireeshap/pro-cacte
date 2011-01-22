@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 
@@ -22,22 +23,10 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNum);
         participantQuery.excludeByParticipantId(participantID);
+        
         Collection<Participant> participants = participantRepository.find(participantQuery);
-        boolean flag = false;
-        if (participants != null && !participants.isEmpty()) {
-            if(participantID ==null || participantID.equals("")){
-                return true;
-            }
-            else{
-                for(Participant participant:participants){
-                    if(participant.getId().equals(participantID)){
-                        flag = true;
-                    }
-                }
-                if(!flag){
-                    return true;
-                }
-            }
+        if(!CollectionUtils.isEmpty(participants)) {
+            return true;
         }
         return false;
     }

@@ -136,6 +136,18 @@ public class ParticipantQuery extends AbstractQuery {
         }
     }
 
+    /**
+     * Filter by study.
+     *
+     * @param studyParticipantIdentifier the study Participant Identifier
+     */
+    public void filterByStudyParticipantIdentifier(Integer studyParticipantIdentifier) {
+        if (studyParticipantIdentifier != null) {
+            andWhere("spa.studyParticipantIdentifier =:" + "studyParticipantIdentifier");
+            setParameter("studyParticipantIdentifier", studyParticipantIdentifier);
+        }
+    }
+
     public void filterByStudySite(Integer studySiteId) {
         if (studySiteId != null) {
 
