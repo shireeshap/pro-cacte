@@ -37,4 +37,13 @@ public class ParticipantControllerUtils {
         }
         return participantCommand;
     }
+
+    public static void clearParticipantCommand(HttpServletRequest request){
+          request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+          request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+    }
+
+    public static void clearStudyParticipantCommand(HttpServletRequest request){
+          request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
+    }
 }

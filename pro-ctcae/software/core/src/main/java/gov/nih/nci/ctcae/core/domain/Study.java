@@ -90,15 +90,18 @@ public class Study extends BasePersistable {
      */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<Arm> arms = new LinkedList<Arm>();
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @OrderBy("mode asc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<StudyMode> studyModes = new ArrayList();
 
 
@@ -111,6 +114,7 @@ public class Study extends BasePersistable {
      */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<CRF> crfs = new LinkedList<CRF>();
 
 

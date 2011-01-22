@@ -71,6 +71,9 @@ public class ParticipantCommand {
     private Integer reminderHour;
     private Integer reminderMinute;
 
+    private Date onHoldTreatmentDate;  //BJ - added for capturing the dates for OnHold (see ParticipantOnHoldController)
+    private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
+
     public boolean isOdc() {
         return odc;
     }
@@ -534,6 +537,22 @@ public class ParticipantCommand {
         this.studySubjectIdentifierMap = studySubjectIdentifierMap;
     }
 
+    public Date getOnHoldTreatmentDate() {
+        return onHoldTreatmentDate;
+    }
+
+    public void setOnHoldTreatmentDate(Date onHoldTreatmentDate) {
+        this.onHoldTreatmentDate = onHoldTreatmentDate;
+    }
+
+    public Date getOffHoldTreatmentDate() {
+        return offHoldTreatmentDate;
+    }
+
+    public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
+        this.offHoldTreatmentDate = offHoldTreatmentDate;
+    }
+
     public void initialize(){
         if(participant.getUser() != null){
             if(participant.getUser().getUserRoles() != null) participant.getUser().getUserRoles().size();
@@ -541,6 +560,12 @@ public class ParticipantCommand {
         if(participant.getStudyParticipantAssignments()!=null){
             participant.getStudyParticipantAssignments().size();
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                if(studyParticipantAssignment.getStudyParticipantCrfs() != null){
+                    for(StudyParticipantCrf crf : studyParticipantAssignment.getStudyParticipantCrfs()){
+                        if(crf.getStudyParticipantCrfSchedules() != null) crf.getStudyParticipantCrfSchedules().size();
+                    }
+                }
+                
                 if(studyParticipantAssignment.getStudySite()!=null){
                     StudyOrganization studySite = studyParticipantAssignment.getStudySite();
                     if(studySite.getStudy()!=null){

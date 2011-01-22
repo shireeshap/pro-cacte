@@ -134,6 +134,7 @@ public class CRF extends BaseVersionable {
 
     @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
 
     @Column(name = "activity_date", nullable = true)

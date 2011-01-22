@@ -47,22 +47,10 @@ public class EditParticipantController extends ParticipantController {
         Participant participant = participantRepository.findById(Integer.valueOf(id));
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
 
-        //TODO : BJ - need to optimize this
-        for (UserRole userRole : participant.getUser().getUserRoles()) {
-            userRole.getId();
-        }
         command.setReadOnly(false);
         command.setReadOnlyUserName(true);
-        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-            StudyOrganization studySite = studyParticipantAssignment.getStudySite();
-            studySite.getStudy().getCrfs().size();            
-            studySite.getStudy().getStudySponsor();
-            studySite.getStudy().getArms().size();
-            studySite.getStudy().getStudyOrganizations().size();
-            studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
-        }
-
         command.setParticipant(participant);
+        command.initialize();
 
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();

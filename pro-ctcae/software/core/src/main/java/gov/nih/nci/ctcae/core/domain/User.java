@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.*;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {@Parameter(name = "sequence", value = "seq_users_id")})
 
-
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends BaseVersionable implements UserDetails {
 
 
@@ -68,6 +68,7 @@ public class User extends BaseVersionable implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

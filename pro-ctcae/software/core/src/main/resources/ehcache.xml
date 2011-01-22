@@ -49,4 +49,25 @@
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
             />
+
+
+    <!-- Below entries are for Hibernate L2 caching, tweak them wisely -->
+
+    <cache name="gov.nih.nci.ctcae.core.domain.User"
+     maxElementsInMemory="500"
+     eternal="false"
+     timeToIdleSeconds="180"
+     timeToLiveSeconds="1800"
+     overflowToDisk="false"
+    />
+    <cache
+     name="gov.nih.nci.ctcae.core.domain.User.userRoles"
+     maxElementsInMemory="2000"
+     eternal="false"
+     timeToIdleSeconds="180"
+     timeToLiveSeconds="1800"
+     overflowToDisk="false"
+    />
+
+
 </ehcache>

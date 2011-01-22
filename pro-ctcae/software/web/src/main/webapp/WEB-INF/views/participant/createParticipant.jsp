@@ -157,7 +157,7 @@
 
         function participantOffStudy(id) {
             var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id  ,
+                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id  ,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 350);
                 },
@@ -166,7 +166,7 @@
         }
         function participantOffHold(id, date) {
             var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date,
+                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 350);
                 },
@@ -176,7 +176,7 @@
 
         function participantOnHold(id, date) {
             var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date,
+                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 350);
                 },
@@ -186,7 +186,7 @@
 
         function participantRptModeHistoryDisplay(id) {
             var request = new Ajax.Request("<c:url value="/pages/participant/participantReportingModeHistory"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id, 
+                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id, 
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 350);
                 },
@@ -297,7 +297,7 @@
        
            <chrome:division title="participant.label.site">
                <c:choose>
-                   <c:when test="${not empty command.participant.id}">
+                   <c:when test="${not empty command.participant.studyParticipantAssignments}">
                        <input type="hidden" name="organizationId" id="organizationId"
                               value="${command.organizationId}"/>
 

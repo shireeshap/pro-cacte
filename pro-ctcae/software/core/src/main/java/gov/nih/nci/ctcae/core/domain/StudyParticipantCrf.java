@@ -324,4 +324,14 @@ public class StudyParticipantCrf extends BaseVersionable {
         studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
         return studyParticipantCrfAddedQuestion;
     }
+
+    /**
+     * The date from which off hold is effective
+     * @param effectiveDate
+     */
+    public void putOnHold(Date effectiveDate){
+        for(StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()){
+            studyParticipantCrfSchedule.putOnHold(effectiveDate);
+        }
+    }
 }

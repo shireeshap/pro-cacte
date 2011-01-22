@@ -127,7 +127,7 @@
 
     function participantOnHold(id, date, index) {
         var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,
+            parameters:<tags:ajaxstandardparams/>+"&flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index,
             onComplete:function(transport) {
                 showConfirmationWindow(transport, 600, 250);
             },
@@ -137,7 +137,7 @@
 
     var _winOffHold;
     function participantOffHold(id, date, index) {
-    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?id=" + id + "&date=" + date + "&index=" + index + "&subview=x";
+    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index + "&subview=x";
                  _winOffHold = showModalWindow(url, 600, 350);
         <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
             <%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>

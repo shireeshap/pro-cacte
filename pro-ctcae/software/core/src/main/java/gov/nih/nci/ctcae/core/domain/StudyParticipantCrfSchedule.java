@@ -507,10 +507,33 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                 counter++;
             }
         }
-        return symptomMap;
+        return symptomMap;                                      
+    }
+
+    /**
+     * Will populate the CRF items
+     */
+    public void scheduleStudyParticipantCRFItems(){
+      for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
+          for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                addStudyParticipantCrfItem(studyParticipantCrfItem);
+          }
+      }  
     }
 
     public List<UserNotification> getUserNotifications() {
         return userNotifications;
+    }
+
+    /**
+     * Will on hold the if it is not started yet. 
+     * @param offHoldEffectiveDate - The date on which OffHold starts
+     */
+    public void putOnHold(Date offHoldEffectiveDate){
+       if(DateUtils.compareDate(getStartDate(), offHoldEffectiveDate) > 0) {
+         setStatus(CrfStatus.ONHOLD);  
+       }
     }
 }

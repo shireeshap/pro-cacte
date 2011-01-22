@@ -459,6 +459,16 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.callMinute = callMinute;
     }
 
+    /**
+     * Will mark off hold
+     * @param effectiveDate
+     */
+    public void putOnHold(Date effectiveDate){
+        setOnHoldTreatmentDate(effectiveDate);
+        setOffHoldTreatmentDate(null);
+        for(StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
+    }
+
 //    public String getReminderTimeZone() {
 //        return reminderTimeZone;
 //    }

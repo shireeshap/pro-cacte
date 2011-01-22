@@ -35,10 +35,12 @@ public class FormArmSchedule extends BasePersistable {
 
     @OneToMany(mappedBy = "formArmSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<CRFCalendar> crfCalendars = new LinkedList<CRFCalendar>();
 
     @OneToMany(mappedBy = "formArmSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     private List<CRFCycleDefinition> crfCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     public Integer getId() {

@@ -464,6 +464,7 @@
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+        <property name="participantRepository" ref="participantRepository" />
     </bean>
     
     <bean name="/participant/participantOffHold" id="participantOffHoldController"
