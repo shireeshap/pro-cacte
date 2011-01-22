@@ -46,6 +46,8 @@ public class EditParticipantController extends ParticipantController {
         populateOrganizationsForUser(command);
         Participant participant = participantRepository.findById(Integer.valueOf(id));
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
+
+        //TODO : BJ - need to optimize this
         for (UserRole userRole : participant.getUser().getUserRoles()) {
             userRole.getId();
         }

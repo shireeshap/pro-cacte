@@ -138,9 +138,13 @@ public abstract class StudyOrganization extends BasePersistable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
+        if(!(o instanceof StudyOrganization)) return false;
 
         StudyOrganization that = (StudyOrganization) o;
+        if(getId() != null && that.getId() != null){
+            return getId().equals(that.getId());
+        }
 
         if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
         if (study != null ? !study.equals(that.study) : that.study != null) return false;

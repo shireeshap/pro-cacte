@@ -19,12 +19,14 @@
         </c:if>
     </tr>
     <c:forEach items="${studyparticipantassignments}" var="studyParticipantAssignment" varStatus="spastatus">
+        <!-- BJ : selected -->
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tags:studySite studysite="${studysite}" selected="true" isEdit="${isEdit}"
                         studyParticipantAssignment="${studyParticipantAssignment}"/>
     </c:forEach>
 
     <c:if test="${not isEdit}">
+        <!-- BJ : unselected-->
         <c:forEach items="${unselectedstudysites}" var="studysite">
             <tags:studySite studysite="${studysite}" selected="false" isEdit="${isEdit}"/>
         </c:forEach>

@@ -117,6 +117,20 @@
             Event.observe('organizationId', 'change', function() {
                 getStudySites();
             })
+
+            //need to make the ajax call, when there is validation error in create flow
+            if(${hasValidationErrors}){
+               if('${command.participant.id}' == ''){
+                   //populate the site value-
+                   if($('organizationId-input')){
+                       //admin user login
+                      $('organizationId-input').value = '${command.siteName}'
+                   }
+                   getStudySites();
+               }
+
+            }
+
         });
         function doPostProcessing() {
             getStudySites();
@@ -283,7 +297,7 @@
        
            <chrome:division title="participant.label.site">
                <c:choose>
-                   <c:when test="${not empty command.participant.studyParticipantAssignments}">
+                   <c:when test="${not empty command.participant.id}">
                        <input type="hidden" name="organizationId" id="organizationId"
                               value="${command.organizationId}"/>
 

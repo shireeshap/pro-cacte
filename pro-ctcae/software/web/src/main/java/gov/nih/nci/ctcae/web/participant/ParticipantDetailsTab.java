@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
@@ -12,10 +13,13 @@ import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForPart
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 //
@@ -50,6 +54,50 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         return Privilege.PRIVILEGE_CREATE_PARTICIPANT;
 
 
+    }
+
+    @Override
+    public void onBind(HttpServletRequest request, ParticipantCommand command, Errors errors) {
+        super.onBind(request, command, errors);
+        command.getStudySubjectIdentifierMap().clear();
+
+        if(command.getParticipant().isPersisted()){
+           //Edit flow
+           for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+                command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+           } 
+        }else{
+           //Create flow (Participant is not saved yet)
+           command.getParticipant().removeAllStudyParticipantAssignments();
+           for (StudySite studySite : command.getStudySites()) {
+              String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+              command.getStudySubjectIdentifierMap().put(studySite.getId(), studyParticipantIdentifier);
+              command.setSiteName(studySite.getOrganization().getName());
+              StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignment(studySite,
+                      studyParticipantIdentifier , request.getParameter("arm_" + studySite.getId()));
+              command.setParticipantModeHistory(studySite, studyParticipantAssignment, request);
+              command.setParticipantModesAndReminders(studySite, studyParticipantAssignment, request);
+              String studyStartDate = request.getParameter("study_date_" + studySite.getId());
+              if (!StringUtils.isBlank(studyStartDate)) {
+                 try{
+                    studyParticipantAssignment.setStudyStartDate(DateUtils.parseDate(studyStartDate));
+                 }catch(Exception e){
+                    studyParticipantAssignment.setStudyStartDate(null);
+                 }
+
+              }
+
+           }
+            
+           if(CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())){
+              command.getSelectedStudyParticipantAssignment();  
+           }
+
+        }
+
+
+        
     }
 
 
@@ -100,6 +148,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         }
 
 
+        for(Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()){
+            String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
+            if(ssi == null || ssi.length() == 0) {
+                errors.reject("participant.missing.assignedIdentifier", "participant.missing.assignedIdentifier");
+                continue;
+            }
+            boolean duplicate = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantIdentifier(studySiteId, ssi,command.getParticipant().getId());
+            if (duplicate) {
+                errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
+            }
+        }
+
+
+
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -138,34 +200,16 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
-        try {
-            for (StudySite studySite : command.getStudySites()) {
-                String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
-                if (!studyParticipantIdentifier.equals(null)) {
-                    boolean isunique = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantIdentifier(studySite.getStudy().getId(), studyParticipantIdentifier,command.getParticipant().getId());
-                    if (isunique) {
-                        errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
-                    }
-                }
-                
+        command.initialize();
+        if(!errors.hasErrors()){
+          try{
+               if(!command.getParticipant().isPersisted()) command.assignCrfsToParticipant(); 
+
+            }catch(Exception e){
+                throw new RuntimeException(e);
             }
-
-            command.apply(crfRepository, request);
-            command.initialize();
         }
 
-        catch (
-                ParseException e
-                )
-
-        {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        super.
-
-                postProcess(request, command, errors);
 
     }
 

@@ -116,6 +116,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         modelAndView.put("timezones", timeZones);
         modelAndView.put("minutes", minutes);
         modelAndView.put("showTime", showTime);
+        modelAndView.put("hasValidationErrors", errors.hasErrors());
 
         return modelAndView;
 

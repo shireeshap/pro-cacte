@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
@@ -56,6 +53,9 @@ public class DisplayStudySitesController extends AbstractController {
 
         }
         participant = command.getParticipant();
+        if(!organizationId.equals(command.getOrganizationId())) {
+            participant.removeAllStudyParticipantAssignments();
+        }
         List<Integer> times = new ArrayList();
         for (int j = 1; j <= 12; j++) {
             times.add(j);
@@ -68,6 +68,10 @@ public class DisplayStudySitesController extends AbstractController {
         if (participant != null) {
             List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
             studyParticipantAssignments = participant.getStudyParticipantAssignments();
+            for(StudyParticipantAssignment spa : studyParticipantAssignments){
+               StudySite existingStudySite = spa.getStudySite();
+               if(existingStudySite != null) studySites.remove(existingStudySite);
+            }
             
             String[] timeZones = TimeZone.getAvailableIDs();
             boolean showTime = false;

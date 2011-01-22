@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 
@@ -35,6 +37,9 @@ public class ParticipantCommand {
      */
     private List<StudySite> studySites = new ArrayList<StudySite>();
 
+
+    private Map<Integer, String> studySubjectIdentifierMap = new HashMap<Integer, String>();
+    
     /**
      * The site name.
      */
@@ -183,55 +188,22 @@ public class ParticipantCommand {
         return studyParticipantAssignment;
     }
 
-    public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request, String studyStartDate) throws ParseException {
+    public void assignCrfsToParticipant() throws ParseException{
+        StudyParticipantAssignment studyParticipantAssignment = getSelectedStudyParticipantAssignment();
+        Date studyStartDate = studyParticipantAssignment.getStudyStartDate();
         Study study = studyParticipantAssignment.getStudySite().getStudy();
         for (CRF crf : study.getCrfs()) {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    String sDate = studyStartDate;
-                    if (!StringUtils.isBlank(sDate)) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                        studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
+                    if (studyStartDate != null) {
+                        studyParticipantCrf.setStartDate(studyStartDate);
                     } else {
                         studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
                     }
                     studyParticipantCrf.setCrf(crf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
                     studyParticipantCrf.createSchedules();
-                }
-            }
-        }
-    }
-
-    public void apply(CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
-
-        //if new participant then clear all study participant assignments. otherwise it will create problem in case of any validation error.
-        if (!participant.isPersisted()) {
-            participant.removeAllStudyParticipantAssignments();
-            for (StudySite studySite : getStudySites()) {
-                setSiteName(studySite.getOrganization().getName());
-                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
-                setParticipantModeHistory(studySite, studyParticipantAssignment, request);
-                setParticipantModesAndReminders(studySite, studyParticipantAssignment, request);
-                String studyStartDate = request.getParameter("study_date_" + studySite.getId());
-                if (!StringUtils.isBlank(studyStartDate)) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                    studyParticipantAssignment.setStudyStartDate(simpleDateFormat.parse(studyStartDate));
-                }
-                assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request, studyStartDate);
-            }
-            if(participant.getStudyParticipantAssignments()!=null && participant.getStudyParticipantAssignments().size()>0){
-                getSelectedStudyParticipantAssignment();
-            }
-
-        } else {
-            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
-                setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);                
-                String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studyParticipantAssignment.getStudySite().getId());
-                if (!StringUtils.isBlank(studyParticipantIdentifier)) {
-                    studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
                 }
             }
         }
@@ -363,16 +335,9 @@ public class ParticipantCommand {
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
 
         List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
-        if (studyParticipantAssignments.get(0).getId() != null) {
-            for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAssignments) {
-                if (studyParticipantAssignment.getId().equals(selectedStudyParticipantAssignmentId)) {
-                    return studyParticipantAssignment;
-                }
-            }
-        } else {
+        if(CollectionUtils.isNotEmpty(studyParticipantAssignments)){
             selectedStudyParticipantAssignment = studyParticipantAssignments.get(0);
         }
-
         return selectedStudyParticipantAssignment;
     }
 
@@ -561,6 +526,14 @@ public class ParticipantCommand {
         this.reminderMinute = reminderMinute;
     }
 
+    public Map<Integer, String> getStudySubjectIdentifierMap() {
+        return studySubjectIdentifierMap;
+    }
+
+    public void setStudySubjectIdentifierMap(Map<Integer, String> studySubjectIdentifierMap) {
+        this.studySubjectIdentifierMap = studySubjectIdentifierMap;
+    }
+
     public void initialize(){
         if(participant.getUser() != null){
             if(participant.getUser().getUserRoles() != null) participant.getUser().getUserRoles().size();
@@ -572,9 +545,9 @@ public class ParticipantCommand {
                     StudyOrganization studySite = studyParticipantAssignment.getStudySite();
                     if(studySite.getStudy()!=null){
                         studySite.getStudy().getCrfs().size();
+                        studySite.getStudy().getStudyOrganizations().size();
                         studySite.getStudy().getStudySponsor();
                         studySite.getStudy().getArms().size();
-                        studySite.getStudy().getStudyOrganizations().size();
                         studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
                         studySite.getStudy().getStudyModes().size();
                         studySite.getStudy().getHomeModes();                        
