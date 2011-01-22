@@ -670,6 +670,12 @@
     <bean id="reportResultsHelper" class="gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/updateDueDate" id="updateDueDate" class="gov.nih.nci.ctcae.web.FixDueDateController">
+        <property name="productionDataCorrector" ref="productionDataCorrectorBean" />
+    </bean>
+    <bean name="productionDataCorrectorBean" class="gov.nih.nci.ctcae.web.ProductionDataCorrector">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
 
     <bean name="pastDueSchedulesReminderEmailBean" class="gov.nih.nci.ctcae.web.batch.PastDueSchedulesReminderEmail">
         <property name="sessionFactory" ref="sessionFactory"/>
@@ -737,6 +743,7 @@
         <!--<value>@buildNumber@</value>-->
         <!--</property>-->
     </bean>
+
     <bean name="/loadProCtcTerms" id="loadProCtcTerms" class="gov.nih.nci.ctcae.web.LoadProCtcTermController">
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
