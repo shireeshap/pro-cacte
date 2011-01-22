@@ -506,6 +506,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/013_update_partici
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/014_update_pro_ctc_questions.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/015_update_form_submission_mode.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/016_create_sp_crf_schedule_notifications.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/017_index_fks.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
@@ -852,6 +853,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java 
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/DeleteProCtcTermController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/FixDueDateController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
@@ -1169,6 +1171,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/organizationC
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/viewClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/dueDateUpdated.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotPassword.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotUsername.jsp -text
