@@ -85,7 +85,7 @@
                    var="studyParticipantCrf">
             <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                        var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate < todaysdate)}">
                     <tr>
                         <td>
                             <a href="submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
