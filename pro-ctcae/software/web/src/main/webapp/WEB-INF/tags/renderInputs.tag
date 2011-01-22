@@ -19,6 +19,7 @@
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
 <%@attribute name="doNotshowClear" type="java.lang.Boolean" %>
 <%@attribute name="showIndicator" type="java.lang.Boolean" %>
+<%@attribute name="autofill" description="Will turn off the html autocompletion" type="java.lang.Boolean" %>
 <%@ attribute name="propertyValue" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
@@ -48,7 +49,7 @@
         <c:otherwise>
             <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                         title="${title}"
-                        cssClass="${cssClass}" maxlength="${maxLength}" onblur="${onblur}"/>
+                        cssClass="${cssClass}" maxlength="${maxLength}" onblur="${onblur}" autocomplete="${autofill ? 'ON' : 'OFF'}"/>
         </c:otherwise>
 
     </c:choose>
@@ -62,7 +63,7 @@
 <c:when test="${categoryName == 'password'}">
     <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                    title="${title}"
-                   cssClass="validate-NOTEMPTY&&MAXLENGTH2000" showPassword="true"/>
+                   cssClass="validate-NOTEMPTY&&MAXLENGTH2000" showPassword="true" autocomplete="OFF"/>
 </c:when>
 <c:when test="${categoryName == 'number'}">
     <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"

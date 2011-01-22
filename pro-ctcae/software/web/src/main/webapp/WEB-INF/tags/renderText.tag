@@ -7,6 +7,7 @@
 <%@ attribute name="noForm" %>
 <%@ attribute name="maxLength" %>
 <%@ attribute name="onblur"%>
+<%@attribute name="autofill" description="Will turn off the html autocompletion"  type="java.lang.Boolean" %> 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <tags:renderRow propertyName="${propertyName}"
@@ -17,7 +18,7 @@
                 noForm="${noForm}"
                 maxLength="${maxLength}"
                 propertyValue="${propertyValue}"
-                onblur="${onblur}"/>
+                onblur="${onblur}" autofill="${autofill}"/>
 
 
 
