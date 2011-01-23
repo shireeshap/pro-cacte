@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -32,45 +33,66 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         String spaId = request.getParameter("id");
-        StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(Integer.parseInt(spaId));
-        StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
-        if (request.getParameter("index") != null) {
-            ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
-            Calendar c = new GregorianCalendar();
-            String date = request.getParameter("date");
-            c.setTime(participantSchedule.getProCtcAECalendar().getTime());
-            c.set(Calendar.DATE, Integer.parseInt(date));
-            studyParticipantCommand.setOffHoldTreatmentDate(c.getTime());
+        String flowName = request.getParameter("flow");
+        if(StringUtils.equals("participant", flowName)){
+            //create or edit participant flow
+           ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
+           return command;
+        }else{
+
+            StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(Integer.parseInt(spaId));
+            StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
+            studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
+            if (request.getParameter("index") != null) {
+                ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
+                Calendar c = new GregorianCalendar();
+                String date = request.getParameter("date");
+                c.setTime(participantSchedule.getProCtcAECalendar().getTime());
+                c.set(Calendar.DATE, Integer.parseInt(date));
+                studyParticipantCommand.setOffHoldTreatmentDate(c.getTime());
+            }
+            return studyParticipantCommand;
         }
-        return studyParticipantCommand;
     }
 
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
-        StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
         int cycleNumber = 0;
         int dayNumber = 0;
-        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCommand.getStudyParticipantAssignment();
-        StudyParticipantCrf studyParticipantCrf = studyParticipantAssignment.getStudyParticipantCrfs().get(0);
-        LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = studyParticipantCommand.getOnHoldStudyParticipantCrfSchedules();
-        onHoldStudyParticipantCrfSchedules.clear();
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
-                if (studyParticipantCrfSchedule.getStartDate().getDate() == studyParticipantCommand.getOffHoldTreatmentDate().getDate()) {
-                    cycleNumber = studyParticipantCrfSchedule.getCycleNumber();
-                    dayNumber = studyParticipantCrfSchedule.getCycleDay();
+        int cycle = 0;
+        int day = 0;
+        if(command instanceof ParticipantCommand){
+             //BJ : what should be the cycle and day ???
+
+        }else if(command instanceof StudyParticipantCommand){
+
+
+            StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
+
+            StudyParticipantAssignment studyParticipantAssignment = studyParticipantCommand.getStudyParticipantAssignment();
+            StudyParticipantCrf studyParticipantCrf = studyParticipantAssignment.getStudyParticipantCrfs().get(0);
+            LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = studyParticipantCommand.getOnHoldStudyParticipantCrfSchedules();
+            onHoldStudyParticipantCrfSchedules.clear();
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                    onHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+                    if (studyParticipantCrfSchedule.getStartDate().getDate() == studyParticipantCommand.getOffHoldTreatmentDate().getDate()) {
+                        cycleNumber = studyParticipantCrfSchedule.getCycleNumber();
+                        dayNumber = studyParticipantCrfSchedule.getCycleDay();
+                    }
                 }
+            }
+
+            if (onHoldStudyParticipantCrfSchedules.size() > 0 && onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber() != null) {
+                cycle = onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber();
+                day = onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay();
             }
         }
 
-        Map<String, Object> map = new HashMap<String, Object>();
 
-        if (onHoldStudyParticipantCrfSchedules.size() > 0 && onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber() != null) {
-            map.put("cycle", onHoldStudyParticipantCrfSchedules.getFirst().getCycleNumber());
-            map.put("day", onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay());
-        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("cycle", cycle);
+        map.put("day", day);
         map.put("cycleNumber", cycleNumber);
         map.put("dayNumber", dayNumber);
         return map;
@@ -80,19 +102,25 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
         int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
         int day = ServletRequestUtils.getIntParameter(request, "day", 0);
-        StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
-        if (spCommand.getOnHoldStudyParticipantCrfSchedules().size() > 0) {
-            StudyParticipantCrfSchedule spcSchedule = spCommand.getOnHoldStudyParticipantCrfSchedules().getFirst();
-            if (cycle != 0) {
-                if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
-                    e.reject("Cycle and Day number should be equal to greater that the held survey cycle and day number.", "ssss");
-                }
-            } else {
-                if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()) {
-                    e.reject("Selected date should be equal to or greater than the survey held from date. Please select another date.", "Selected date should be equal to or greater than the survey held from date. Please select another date.");
+        if(o instanceof ParticipantCommand){
+             //BJ : what validation ??
+        }else if(o instanceof StudyParticipantCommand){
+
+            StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
+            if (spCommand.getOnHoldStudyParticipantCrfSchedules().size() > 0) {
+                StudyParticipantCrfSchedule spcSchedule = spCommand.getOnHoldStudyParticipantCrfSchedules().getFirst();
+                if (cycle != 0) {
+                    if (spcSchedule.getCycleNumber() > cycle || (spcSchedule.getCycleNumber() == cycle && spcSchedule.getCycleDay() > day)) {
+                        e.reject("Cycle and Day number should be equal to greater that the held survey cycle and day number.", "ssss");
+                    }
+                } else {
+                    if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()) {
+                        e.reject("Selected date should be equal to or greater than the survey held from date. Please select another date.", "Selected date should be equal to or greater than the survey held from date. Please select another date.");
+                    }
                 }
             }
         }
+
 
         super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
     }
@@ -103,10 +131,24 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 //        String recreateSchedules = ServletRequestUtils.getStringParameter(request, "recreate", "nocycle");
         int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
         int day = ServletRequestUtils.getIntParameter(request, "day", 0);
-        StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
+        Date offHoldDate = new Date();
+        int studyParticipantId = 0;
+        if(command instanceof ParticipantCommand){
+            ParticipantCommand participantCommand = (ParticipantCommand) command;
+            offHoldDate = participantCommand.getOffHoldTreatmentDate();
+            studyParticipantId = participantCommand.getSelectedStudyParticipantAssignment().getId();
 
-        StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(spCommand.getStudyParticipantAssignment().getId());
-        studyParticipantAssignment.setOffHoldTreatmentDate(spCommand.getOffHoldTreatmentDate());
+        }else if(command instanceof StudyParticipantCommand){
+            StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
+            offHoldDate = spCommand.getOffHoldTreatmentDate();
+            studyParticipantId = spCommand.getStudyParticipantAssignment().getId();
+        }
+
+
+
+
+        StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantId);
+        studyParticipantAssignment.setOffHoldTreatmentDate(offHoldDate);
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
 
 //            if (recreateSchedules.equals("cycle")) {
@@ -137,7 +179,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
             } else {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= spCommand.getOffHoldTreatmentDate().getTime()) {
+                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= offHoldDate.getTime()) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                         } else {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
@@ -147,8 +189,13 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
             }
         }
         studyParticipantAssignment.setOnHoldTreatmentDate(null);
+        if(command instanceof ParticipantCommand){
 
-        spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
+        }else if(command instanceof StudyParticipantCommand){
+            StudyParticipantCommand spCommand = (StudyParticipantCommand) command;
+            spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
+        }
+
         ModelAndView mv = new ModelAndView("participant/offHoldRedirect");
         mv.addObject("pId", studyParticipantAssignment.getParticipant().getId());
         return mv;
