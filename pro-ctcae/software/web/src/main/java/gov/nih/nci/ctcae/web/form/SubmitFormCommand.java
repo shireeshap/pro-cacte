@@ -178,9 +178,13 @@ public class SubmitFormCommand implements Serializable {
             schedule.setStatus(CrfStatus.COMPLETED);
             schedule.setFormSubmissionMode(AppMode.HOMEWEB);
             //adding the notifications scheduled for the form submission
-            StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
-            studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);
-            schedule.setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
+
+            if(schedule.getStudyParticipantCrfScheduleNotification()==null){
+                StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
+                studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);
+                schedule.setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
+            }
+
             //TODO:Suneel A, Needs to remove the block after testing
             /*NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
             notificationsEvaluationService.setGenericRepository(genericRepository);
