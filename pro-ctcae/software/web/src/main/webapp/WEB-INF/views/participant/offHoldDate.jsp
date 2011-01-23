@@ -33,7 +33,7 @@
                 <p align="left">
                     Surveys for the participant <i><b>"${command.participant.displayName}"</b></i> have been put on hold
                     beginning
-                    <b><tags:formatDate value="${command.studyParticipantAssignment.onHoldTreatmentDate}"/></b>, <c:if test="${cycle ne null}">which was <b>Cycle ${cycle}</b>, <b>Day ${day}</b>.</c:if><br> <br>
+                    <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>, <c:if test="${cycle ne null && cycle ne 0}">which was <b>Cycle ${cycle}</b>, <b>Day ${day}</b>.</c:if><br> <br>
                     Specify the date on which surveys will resume.
                         <tags:renderDate propertyName="offHoldTreatmentDate"
                                          displayName="participant.label.remove_hold_date1" required="true"/>
