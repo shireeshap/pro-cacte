@@ -218,36 +218,48 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
+        user.setConfirmPassword(user.getConfirmPassword());
         return user;
 
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void saveOrUpdate(User user) {
-        if (user.getUsername() == null) {
+    public void saveOrUpdate(User _user) {
+        if (_user.getUsername() == null) {
             throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
         }
-        user.setUsername(user.getUsername().toLowerCase());
-        if (user.getId() == null) {
-            List<User> users = findByUserName(user.getUsername());
+        
+        User user = _user;
+        
+        if (_user.getId() == null) {
+            _user.setUsername(_user.getUsername().toLowerCase());
+            List<User> users = findByUserName(_user.getUsername());
             if (users.size() > 0) {
-                throw new UsernameAlreadyExistsException(user.getUsername());
+                throw new UsernameAlreadyExistsException(_user.getUsername());
             }
-            String encoded = getEncodedPassword(user);
+            String encoded = getEncodedPassword(_user);
             user.setPassword(encoded);
+            user.setConfirmPassword(_user.getPassword());
+            user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+            
         } else {
-            String myPassword = user.getPassword();
+            String myPassword = _user.getPassword();
             if (myPassword != null) {
-                User temp = findById(user.getId());
-                String currentPassword = temp.getPassword();
+                user = findById(_user.getId());
+                String currentPassword = user.getPassword();
                 if (!myPassword.equals(currentPassword)) {
-                    user.setPassword(getEncodedPassword(user));
+                    String encoded = getEncodedPassword(_user);
+                    _user.setPassword(encoded);
+                    _user.setConfirmPassword(encoded);
+                    user.setPassword(encoded);
+                    user.setConfirmPassword(encoded);
+                    user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+                    _user.setPasswordLastSet(user.getPasswordLastSet());
                 }
             }
         }
 
-        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
-        genericRepository.saveOrUpdate(user);        
+        genericRepository.saveOrUpdate(user);
 
     }
 
@@ -256,6 +268,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         user.setPassword(getEncodedPassword(user));
         user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
+        user.setConfirmPassword(user.getPassword());
         return user;
     }
 

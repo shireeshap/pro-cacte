@@ -94,12 +94,11 @@ public class ParticipantRepository implements Repository<Participant, Participan
             user.addUserRole(userRole);
             user.setNumberOfAttempts(0);
             user.setAccountNonLocked(true);
-            userRepository.saveOrUpdate(user);
-            
         }
+        userRepository.saveOrUpdate(participant.getUser());
         genericRepository.saveOrUpdate(participant);
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
-        
+
     }
 
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {

@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {@Parameter(name = "sequence", value = "seq_users_id")})
 
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends BaseVersionable implements UserDetails {
 
 
@@ -68,7 +68,7 @@ public class User extends BaseVersionable implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
