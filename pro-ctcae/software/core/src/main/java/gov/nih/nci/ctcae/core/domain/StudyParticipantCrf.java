@@ -65,9 +65,6 @@ public class StudyParticipantCrf extends BaseVersionable {
     private Date startDate;
 
 
-
-
-
     /**
      * Instantiates a new study participant crf.
      */
@@ -196,8 +193,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         this.startDate = startDate;
     }
 
-    
-    
+
     @Transient
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedulesByStatus(CrfStatus crfStatus) {
         List l = new ArrayList<StudyParticipantCrfSchedule>();
@@ -244,7 +240,7 @@ public class StudyParticipantCrf extends BaseVersionable {
             participantSchedule.addStudyParticipantCrf(this);
             //change due date code
             Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE,1);
+            c.add(Calendar.DATE, 1);
             participantSchedule.createSchedule(Calendar.getInstance(), c.getTime(), -1, -1, null, true);
         }
     }
@@ -327,11 +323,14 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * The date from which off hold is effective
+     *
      * @param effectiveDate
      */
-    public void putOnHold(Date effectiveDate){
-        for(StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()){
-            studyParticipantCrfSchedule.putOnHold(effectiveDate);
+    public void putOnHold(Date effectiveDate) {
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                studyParticipantCrfSchedule.putOnHold(effectiveDate);
+            }
         }
     }
 }
