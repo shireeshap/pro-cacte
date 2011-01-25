@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,7 +22,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
-
+    protected static final Log logger = LogFactory.getLog(FormSubmissionNotifications.class);
     @Transactional
     public void generateEmailReports() {
 
@@ -31,6 +33,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
+        logger.info("Nightly trigger bean job starts....");
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
@@ -89,6 +92,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             }
 
             String participantSubject = "List of surveys due";
+            logger.info("Nightly trigger bean size of mails map...."+studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
                     String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
@@ -113,6 +117,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             e.printStackTrace();
         }
         tx.commit();
+        logger.info("Nightly trigger bean job ends....");
     }
 
     private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
