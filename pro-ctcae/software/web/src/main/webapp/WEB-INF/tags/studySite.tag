@@ -246,10 +246,7 @@
     <td class="data">
         <c:choose>
             <c:when test="${selected}">
-                <tags:renderDate
-                        propertyName="study_date_${studysite.id}"
-                        doNotshowLabel="true" required="true"
-                        noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
+                <tags:formatDate value="${studyParticipantAssignment.studyStartDate}"/>
             </c:when>
             <c:otherwise>
                 <tags:renderDate
