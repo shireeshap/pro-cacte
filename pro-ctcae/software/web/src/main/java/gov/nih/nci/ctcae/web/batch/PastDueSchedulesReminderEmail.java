@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
-    protected static final Log logger = LogFactory.getLog(FormSubmissionNotifications.class);
+    protected static final Log logger = LogFactory.getLog(PastDueSchedulesReminderEmail.class);
     @Transactional
     public void generateEmailReports() {
 
@@ -33,7 +33,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
-        logger.info("Nightly trigger bean job starts....");
+        logger.error("Nightly trigger bean job starts....");
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
@@ -81,6 +81,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
                 if (StringUtils.isNotBlank(emailAddress)) {
                     System.out.println("Sending email to " + emailAddress);
+                    logger.error("Sending email to " + emailAddress);
                     MimeMessage message = javaMailSender.createMimeMessage();
                     message.setSubject(subject);
                     message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
@@ -92,13 +93,14 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             }
 
             String participantSubject = "List of surveys due";
-            logger.info("Nightly trigger bean size of mails map...."+studyParticipantAndSchedulesMap.keySet().size());
+            logger.error("Nightly trigger bean size of mails map...."+studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
                     String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
                     String participantEmailContent = getHtmlContentForParticipantEmail(studyParticipantAndSchedulesMap.get(studyParticipantAssignment), studyParticipantAssignment);
                     if (StringUtils.isNotBlank(participantEmailAddress)) {
                         System.out.println("Sending email to " + participantEmailAddress);
+                        logger.error("Sending email to " + participantEmailAddress);
                         MimeMessage participantMessage = javaMailSender.createMimeMessage();
                         participantMessage.setSubject(participantSubject);
                         participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
@@ -117,7 +119,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             e.printStackTrace();
         }
         tx.commit();
-        logger.info("Nightly trigger bean job ends....");
+        logger.error("Nightly trigger bean job ends....");
     }
 
     private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
