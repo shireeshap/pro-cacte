@@ -63,7 +63,7 @@ public class PasswordExpiredController extends SimpleFormController {
                     errors.reject("INVALID_PASSWORD", "Please provide a new password different than the current password.");
                     clearAllPasswords(user);
                 } else {
-                    user.setId(-1000);
+                    user.setId(realUser.getId());
                     user.setPassword(user.getNewPassword());
                     try {
                         boolean validUser = userNameAndPasswordValidator.validate(user);
