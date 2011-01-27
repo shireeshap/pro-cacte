@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,6 +33,10 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
         LinkedHashMap<ProCtcTerm, ArrayList<ProCtcQuestion>> symptomMap = new LinkedHashMap();
         ArrayList<ProCtcQuestion> proCtcQuestions;
+        Map<ProCtcTerm, ArrayList<ProCtcQuestion>> participantAddedProctcSymptomMap = new LinkedHashMap();
+        ArrayList<ProCtcQuestion> participantAddedProctcQuestions;
+        Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap();
+        ArrayList<MeddraQuestion> participantAddedMeddraQuestions;
 
         document.add(new Paragraph("Study: " + study.getDisplayName()));
         document.add(new Paragraph("Form: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
@@ -42,8 +45,32 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         document.add(new Paragraph("Start date: " + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
         document.add(new Paragraph(" "));
         document.add(new Paragraph(" "));
+        studyParticipantCrfSchedule.addParticipantAddedQuestions();
+        if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() > 0) {
+            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+                if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
+                    ProCtcTerm proctcSymptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm();
+                    if (participantAddedProctcSymptomMap.containsKey(proctcSymptom)) {
+                        participantAddedProctcQuestions = participantAddedProctcSymptomMap.get(proctcSymptom);
+                    } else {
+                        participantAddedProctcQuestions = new ArrayList();
+                        participantAddedProctcSymptomMap.put(proctcSymptom, participantAddedProctcQuestions);
+                    }
+                    participantAddedProctcQuestions.add(studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion());
+                }
 
-
+                if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
+                    String meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName();
+                    if (participantAddedMeddraSymptomMap.containsKey(meddraSymptom)) {
+                        participantAddedMeddraQuestions = participantAddedMeddraSymptomMap.get(meddraSymptom);
+                    } else {
+                        participantAddedMeddraQuestions = new ArrayList();
+                        participantAddedMeddraSymptomMap.put(meddraSymptom, participantAddedMeddraQuestions);
+                    }
+                    participantAddedMeddraQuestions.add(studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion());
+                }
+            }
+        }
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
             if (symptomMap.containsKey(proCtcTerm)) {
@@ -75,8 +102,8 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 int i = 0;
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                     i++;
-                  Phrase ph = new Phrase(12, "O", f1);
-                  ph.add(new Phrase(" " + proCtcValidValue.getValue(), f));
+                    Phrase ph = new Phrase(12, "O", f1);
+                    ph.add(new Phrase(" " + proCtcValidValue.getValue(), f));
 
                     PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
                     table.addCell(cell3);
@@ -97,7 +124,82 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 //            document.add(new Paragraph(proCtcTerm.getTerm()));
         }
 
+        if (participantAddedProctcSymptomMap.keySet().size() > 0) {
+            for (ProCtcTerm proCtcTerm : participantAddedProctcSymptomMap.keySet()) {
+                PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
+                table.setWidthPercentage(98);
+                PdfPCell cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
+                cell.setBackgroundColor(Color.lightGray);
+                cell.setColspan(6);
+                table.addCell(cell);
+
+                for (ProCtcQuestion proCtcQuestion : participantAddedProctcSymptomMap.get(proCtcTerm)) {
+                    PdfPCell cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(), f));
+
+                    table.addCell(cell2);
+                    int i = 0;
+                    for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
+                        i++;
+                        Phrase ph = new Phrase(12, "O", f1);
+                        ph.add(new Phrase(" " + proCtcValidValue.getValue(), f));
+
+                        PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                        table.addCell(cell3);
+                        cell3.setBorderWidth(0.0f);
+
+                    }
+                    for (int j = 0; j < 5 - i; j++) {
+                        PdfPCell cell4 = new PdfPCell(new Paragraph(""));
+                        table.addCell(cell4);
+                        cell4.setBorderWidth(0.0f);
+                    }
+
+                }
+
+                document.add(table);
+                document.add(new Paragraph(" "));
+        }
     }
+
+        if (participantAddedMeddraSymptomMap.keySet().size() > 0) {
+            for (String meddraTerm : participantAddedMeddraSymptomMap.keySet()) {
+                PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
+                table.setWidthPercentage(98);
+                PdfPCell cell = new PdfPCell(new Paragraph(meddraTerm));
+                cell.setBackgroundColor(Color.lightGray);
+                cell.setColspan(6);
+                table.addCell(cell);
+
+                for (MeddraQuestion meddraQuestion : participantAddedMeddraSymptomMap.get(meddraTerm)) {
+                    PdfPCell cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(), f));
+
+                    table.addCell(cell2);
+                    int i = 0;
+                    for (MeddraValidValue meddraValidValue : meddraQuestion.getValidValues()) {
+                        i++;
+                        Phrase ph = new Phrase(12, "O", f1);
+                        ph.add(new Phrase(" " + meddraValidValue.getValue(), f));
+
+                        PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                        table.addCell(cell3);
+                        cell3.setBorderWidth(0.0f);
+
+                    }
+                    for (int j = 0; j < 5 - i; j++) {
+                        PdfPCell cell4 = new PdfPCell(new Paragraph(""));
+                        table.addCell(cell4);
+                        cell4.setBorderWidth(0.0f);
+                    }
+
+                }
+
+                document.add(table);
+                document.add(new Paragraph(" "));
+        }
+    }
+
+
+}
 
     static String cst(char c) {
         if (c == 0)
