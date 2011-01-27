@@ -18,9 +18,15 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
          */
         private String message;
 
+
      public boolean validate(Object value) {
+
         return validate(value, true, true);
     }
+
+    // Method takes ClinicalStaff as value and it takes a boolean value for first name and last name to know
+    // if they should be validated.
+    // Returns false if method finds that first/last name is empty or mismatch with the given pattern. else it returns true
 
     public boolean validate(Object value, boolean validateFirstName, boolean validateLastName) {
         if (value instanceof ClinicalStaff) {
@@ -48,12 +54,15 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
         }
         return true;
     }
+
+    // Checks if the given name matches to the given pattern and returns true if success
+    // or false if name don't match the given pattern       
     public boolean validateName(String name)
     {
         if(name == null)
             return false;
 
-        Pattern pattern = Pattern.compile("^[a-zA-Z ]+[a-zA-Z'']+$");
+        Pattern pattern =Pattern.compile("^[a-zA-Z ]+[a-zA-Z'']+$");
         Matcher matcher = pattern.matcher(name);
             if(matcher.matches())
             {

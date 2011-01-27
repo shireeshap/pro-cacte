@@ -27,6 +27,9 @@
         <create creator="spring" javascript="uniqueParticipantEmailAddress">
             <param name="beanName" value="uniqueParticipantEmailAddressValidator"/>
         </create>
+        <create creator="spring" javascript="userNameValidation">
+            <param name="beanName" value="userNameAndPasswordValidator"/>
+        </create>
         <create creator="spring" javascript="clinicalStaff">
             <param name="beanName" value="clinicalStaffAjaxFacade"/>
         </create>

@@ -9,277 +9,332 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<tags:dwrJavascriptLink objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress"/>
-<%--<tags:dwrJavascriptLink objects="uniqueParticipantUserNumber"/>--%>
+<tags:dwrJavascriptLink
+        objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
 
+<tags:javascriptLink name="ui_fields_validation"/>
 
 <html>
 <head>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
-    <tags:includePrototypeWindow/>
-    <%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
+<tags:stylesheetLink name="tabbedflow"/>
+<tags:includeScriptaculous/>
+<tags:includePrototypeWindow/>
+<%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
 
-    <script>
-        function checkParticipantEmailAddress(){
-            var participantId = "${param['id']}";
-            var email = $('participant.emailAddress').value;
-            if(email !=""){
-                uniqueParticipantEmailAddress.validateEmail(email,participantId,emailReturnValue);
-                return;
-            }
-            else{
-                jQuery('#emailError').hide();
-            }
+<script>
+// validation check for username
+function checkParticipantUserName() {
+    var userName = $('participant.user.username').value;
+    if (userName != "") {
+        if (userName.length < 6) {
+            jQuery('#userNameError').hide();
+            jQuery('#userNameLengthError').show();
         }
-        function emailReturnValue(returnValue){
-              if(returnValue){
-                jQuery('#emailError').show();
-            }
-            else{
-                jQuery('#emailError').hide();
-            }
+        else {
+            userNameValidation.validateDwrUniqueName(userName, userReturnValue);
+            jQuery('#userNameLengthError').hide();
+            return;
         }
-        function checkParticipantUserNumber(){
-            var participantId = "${param['id']}";
-            var userNumber = $('participant.userNumber').value;
-            if(userNumber !=""){
-                uniqueParticipantUserNumber.validateUserNumber(userNumber,participantId,returnedValue);
-                return;
-            }
-            else{
-                jQuery('#userNameError').hide();
-            }
+    }
+    else {
+        jQuery('#userNameError').hide();
+        jQuery('#userNameLengthError').hide();
+    }
+}
+function userReturnValue(returnValue) {
+    showOrHideErrorField(returnValue, '#userNameError');
+}
 
+//validation check for password policy
+function checkPasswordPolicy(){
+    var userPassword =$('participant.user.password').value;
+    var userName = $('participant.user.username').value;
+    if(userPassword!=""){
+            userNameValidation.validatePasswordPolicyDwr("PARTICIPANT",userPassword,userName,passReturnValue);
+            return;
+    }
+    else{
+        jQuery('#passwordError').hide();
+    }
+}
+
+function passReturnValue(returnValue){
+    if(returnValue!=""){
+        jQuery('#passwordError').show();
+        document.getElementById('passwordError1').innerHTML = returnValue+"";
+    }
+    else{
+         jQuery('#passwordError').hide();
+    }
+}
+
+// validation check for confirm password
+function checkPasswordMatch(){
+    var password = $('participant.user.password').value;
+    var confirmPassword= $('participant.user.confirmPassword').value;
+    if(password!="" && confirmPassword!=""){
+        if(password==confirmPassword){
+              jQuery('#passwordErrorConfirm').hide();
         }
-
-        function returnedValue(returnValue){
-            if(returnValue){
-                jQuery('#userNameError').show();
-            }
-            else{
-                jQuery('#userNameError').hide();   
-            }
-
+        else{
+             jQuery('#passwordErrorConfirm').show();
+             document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
         }
-        function checkParticipantStudyIdentifier(id,siteId) {
-             var participantId = "${param['id']}";
-             var identifier = $('participantStudyIdentifier_'+siteId).value;
-            if (identifier != "") {
-                 uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id,identifier,participantId,postCommentHandler);
-                 return;
-            }
-            else {
-                jQuery('#uniqueError').hide();
-            }
+    }
+    else{
+        jQuery('#passwordErrorConfirm').hide();
+    }
 
-        }
+}
 
-         function postCommentHandler(returnvalue) {
-            if (returnvalue)
-            {
-                jQuery('#uniqueError').show();
 
-            }
-             else{
-                 jQuery('#uniqueError').hide();
-            }
-        }
-        function getStudySites() {
-            var organizationId = $('organizationId').value;
-            if (organizationId == '') {
-                $("studysitestable").innerHTML = '';
-                return;
-            }
-            var id = '${param['id']}';
-            if (id == '') {
-                id = '${command.participant.id}';
-            }
-            var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
-                onComplete:function(transport) {
-                    var response = transport.responseText;
-                    $("studysitestable").update(response);
-                },
-                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
-                method:'get'
-            })
-        }
 
-        Event.observe(window, 'load', function() {
-       
-        <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
-            try {
-                acCreate(new siteAutoComplter('organizationId'))
-            } catch(err) {
+//validation check for participant email address
+function checkParticipantEmailAddress() {
+    var participantId = "${param['id']}";
+    var email = $('participant.emailAddress').value;
+    if (email != "") {
+        uniqueParticipantEmailAddress.validateEmail(email, participantId, emailReturnValue);
+        return;
+    }
+    else {
+        jQuery('#emailError').hide();
+    }
+}
+function emailReturnValue(returnValue) {
+    showOrHideErrorField(returnValue, '#emailError');
+}
+
+// validation check for participant user number (IVRS)
+function checkParticipantUserNumber() {
+    var participantId = "${param['id']}";
+    var userNumber = $('participant.userNumber').value;
+    if (userNumber != "") {
+        uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, returnedValue);
+        return;
+    }
+    else {
+        jQuery('#userNumberError').hide();
+    }
+
+}
+
+function returnedValue(returnValue) {
+    showOrHideErrorField(returnValue, '#userNumberError');
+}
+// validation check for participant study identifier
+function checkParticipantStudyIdentifier(id, siteId) {
+    var participantId = "${param['id']}";
+    var identifier = $('participantStudyIdentifier_' + siteId).value;
+    if (identifier != "") {
+        uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier, participantId, postCommentHandler);
+        return;
+    }
+    else {
+        jQuery('#uniqueError').hide();
+    }
+
+}
+
+function postCommentHandler(returnvalue) {
+    showOrHideErrorField(returnvalue, '#uniqueError');
+}
+
+function getStudySites() {
+    var organizationId = $('organizationId').value;
+    if (organizationId == '') {
+        $("studysitestable").innerHTML = '';
+        return;
+    }
+    var id = '${param['id']}';
+    if (id == '') {
+        id = '${command.participant.id}';
+    }
+    var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
+        onComplete:function(transport) {
+            var response = transport.responseText;
+            $("studysitestable").update(response);
+        },
+        parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
+        method:'get'
+    })
+}
+
+Event.observe(window, 'load', function() {
+
+<c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
+    try {
+        acCreate(new siteAutoComplter('organizationId'))
+    } catch(err) {
+    }
+</c:if>
+    Event.observe('organizationId', 'change', function() {
+        getStudySites();
+    })
+
+    //need to make the ajax call, when there is validation error in create flow
+    if (${hasValidationErrors}) {
+        if ('${command.participant.id}' == '') {
+            //populate the site value-
+            if ($('organizationId-input')) {
+                //admin user login
+                $('organizationId-input').value = '${command.siteName}'
             }
-        </c:if>
-            Event.observe('organizationId', 'change', function() {
-                getStudySites();
-            })
-
-            //need to make the ajax call, when there is validation error in create flow
-            if(${hasValidationErrors}){
-               if('${command.participant.id}' == ''){
-                   //populate the site value-
-                   if($('organizationId-input')){
-                       //admin user login
-                      $('organizationId-input').value = '${command.siteName}'
-                   }
-                   getStudySites();
-               }
-
-            }
-
-        });
-        function doPostProcessing() {
             getStudySites();
         }
 
-        function showForms(obj, id) {
-            var sites = document.getElementsByName('studySites');
-            for (var i = 0; i < sites.length; i++) {
-                $('subform_' + sites[i].value).hide();
-                $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
-                try {
-                    $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
-                } catch(e) {
-                }
-            }
-            $('subform_' + id).show();
-            $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
-            try {
-                $('arm_' + id).addClassName("validate-NOTEMPTY");
-            } catch(e) {
-            }
-            AE.registerCalendarPopups();
-        }
+    }
 
-        function participantOffStudy(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id  ,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 350);
-                },
-                method:'get'
-            })
-        }
-        function participantOffHold(id, date) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 350);
-                },
-                method:'get'
-            })
-        }
+});
+function doPostProcessing() {
+    getStudySites();
+}
 
-        function participantOnHold(id, date) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 350);
-                },
-                method:'get'
-            })
+function showForms(obj, id) {
+    var sites = document.getElementsByName('studySites');
+    for (var i = 0; i < sites.length; i++) {
+        $('subform_' + sites[i].value).hide();
+        $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+        try {
+            $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+        } catch(e) {
         }
+    }
+    $('subform_' + id).show();
+    $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
+    try {
+        $('arm_' + id).addClassName("validate-NOTEMPTY");
+    } catch(e) {
+    }
+    AE.registerCalendarPopups();
+}
 
-        function participantRptModeHistoryDisplay(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/participantReportingModeHistory"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id, 
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 350);
-                },
-                method:'get'
-            })
-        }
+function participantOffStudy(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id  ,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 600, 350);
+        },
+        method:'get'
+    })
+}
+function participantOffHold(id, date) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 600, 350);
+        },
+        method:'get'
+    })
+}
 
-        function showpassword(show) {
-            if (show) {
-                $('passwordfields').show();
-                $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
-            } else {
-                $('passwordfields').hide();
-                $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
-            }
-        }
+function participantOnHold(id, date) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 600, 350);
+        },
+        method:'get'
+    })
+}
 
-        function validateAndSubmit(date, form) {
-            if (date == '') {
-                alert('Please provide a valid date');
-                return;
-            }
-            form.submit();
-        }
+function participantRptModeHistoryDisplay(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantReportingModeHistory"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 600, 350);
+        },
+        method:'get'
+    })
+}
 
-        <%--var clickCount = ${homeModeCount};--%>
-        function showOrHideEmail(value1, value2, id) {
-            if (value1 && value2 == "HOMEWEB") {
-                jQuery('#div_contact').show();
-                jQuery('#div_contact_ivrs').hide();
-                jQuery('#web_' + id).show();
-                jQuery('#email_' + id).attr('checked', true);
-                jQuery('#call_' + id).attr('checked', false);
+function showpassword(show) {
+    if (show) {
+        $('passwordfields').show();
+        $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
+    } else {
+        $('passwordfields').hide();
+        $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
+    }
+}
 
-            } else {
-                jQuery('#web_' + id).show();
-            }
-            if (value1 && value2 == "IVRS") {
-                jQuery('#div_contact').show();
-                jQuery('#div_contact_ivrs').show();
-                jQuery('#ivrs_' + id).show();
-                jQuery('#c_' + id).show();
-                jQuery('#reminder_' + id).show();
-                jQuery('#ivrs_reminder_' + id).show();
-                jQuery('#call_' + id).attr('checked', true);
-                jQuery('#email_' + id).attr('checked', false);
-                jQuery('#web_' + id).show();
+function validateAndSubmit(date, form) {
+    if (date == '') {
+        alert('Please provide a valid date');
+        return;
+    }
+    form.submit();
+}
 
-            } else {
-                jQuery('#ivrs_' + id).hide();
-                jQuery('#ivrs_reminder_' + id).hide();
-                jQuery('#reminder_' + id).hide();
-                jQuery('#c_' + id).hide();
-            }
-        }
+<%--var clickCount = ${homeModeCount};--%>
+function showOrHideEmail(value1, value2, id) {
+    if (value1 && value2 == "HOMEWEB") {
+        jQuery('#div_contact').show();
+        jQuery('#div_contact_ivrs').hide();
+        jQuery('#web_' + id).show();
+        jQuery('#email_' + id).attr('checked', true);
+        jQuery('#call_' + id).attr('checked', false);
 
-    </script>
-    <style type="text/css">
-        .tableHeader {
-            background-color: #2B4186;
-            background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
-            background-position: center top;
-            background-repeat: repeat-x;
-            color: white;
-            font-size: 13px;
-            font-weight: bold;
-            margin: 0;
-            padding: 4px 3px;
-            text-align: left;
-        }
+    } else {
+        jQuery('#web_' + id).show();
+    }
+    if (value1 && value2 == "IVRS") {
+        jQuery('#div_contact').show();
+        jQuery('#div_contact_ivrs').show();
+        jQuery('#ivrs_' + id).show();
+        jQuery('#c_' + id).show();
+        jQuery('#reminder_' + id).show();
+        jQuery('#ivrs_reminder_' + id).show();
+        jQuery('#call_' + id).attr('checked', true);
+        jQuery('#email_' + id).attr('checked', false);
+        jQuery('#web_' + id).show();
 
-        table.widget {
-            width: 100%;
-            background-color: #e9e8e8;
-            border-top: 0px solid #999999;
-            border-right: 0px solid #999999;
-        }
+    } else {
+        jQuery('#ivrs_' + id).hide();
+        jQuery('#ivrs_reminder_' + id).hide();
+        jQuery('#reminder_' + id).hide();
+        jQuery('#c_' + id).hide();
+    }
+}
 
-        td.data {
-            vertical-align: top;
-            border-bottom: 0px solid #999999;
-            border-left: 0px solid #999999;
-            padding-left: 5px;
-        }
+</script>
+<style type="text/css">
+    .tableHeader {
+        background-color: #2B4186;
+        background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
+        background-position: center top;
+        background-repeat: repeat-x;
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        margin: 0;
+        padding: 4px 3px;
+        text-align: left;
+    }
 
-    </style>
-    <!--[if IE]>
-    <style>
-        div.row div.value {
-            margin-left: 0;
-        }
-    </style>
-    <![endif]-->
+    table.widget {
+        width: 100%;
+        background-color: #e9e8e8;
+        border-top: 0px solid #999999;
+        border-right: 0px solid #999999;
+    }
+
+    td.data {
+        vertical-align: top;
+        border-bottom: 0px solid #999999;
+        border-left: 0px solid #999999;
+        padding-left: 5px;
+    }
+
+</style>
+<!--[if IE]>
+<style>
+    div.row div.value {
+        margin-left: 0;
+    }
+</style>
+<![endif]-->
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
@@ -403,7 +458,8 @@
                                <td width="50%">
                                    <tags:renderEmail propertyName="participant.emailAddress"
                                                      displayName="participant.label.email_address"
-                                                     required="${emailreq}" size="35" onblur="javascript:checkParticipantEmailAddress()"/>
+                                                     required="${emailreq}" size="35"
+                                                     onblur="javascript:checkParticipantEmailAddress()"/>
                                </td>
                                <td width="50%">
                                    <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
@@ -411,11 +467,11 @@
                                                           required="${phonereq}"/>
                                </td>
                            </tr>
-                            <tr>
+                           <tr>
                                <td>
                                    <ul id="emailError" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='participant.unique_emailAddress'
-                                                       text='participant.unique_emailAddress'/></li>
+                                       <li><spring:message code='participant.unique_emailAddress'
+                                                           text='participant.unique_emailAddress'/></li>
                                    </ul>
                                </td>
                            </tr>
@@ -477,7 +533,15 @@
                            <c:otherwise>
                                <tags:renderText propertyName="participant.user.username"
                                                 displayName="participant.label.username"
-                                                required="true"/>
+                                                required="true" onblur="checkParticipantUserName();"/>
+                               <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
+                                   <li><spring:message code='participant.unique_userName'
+                                                       text='participant.unique_userName'/></li>
+                               </ul>
+                               <ul id="userNameLengthError" style="display:none; padding-left:12em " class="errors">
+                                   <li><spring:message code='participant.username_length'
+                                                       text='participant.username_length'/></li>
+                               </ul>
                            </c:otherwise>
                        </c:choose>
                    </td>
@@ -496,7 +560,10 @@
                        <td>
 
                            <tags:renderPassword required="true" propertyName="participant.user.password"
-                                                displayName="participant.label.password"/>
+                                                displayName="participant.label.password" onblur="checkPasswordPolicy();"/>
+                           <ul id="passwordError" style="display:none; padding-left:12em " class="errors">
+                                   <li id="passwordError1"></li>
+                           </ul>
                        </td>
                        <td>(The minimum password length should
                            be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
@@ -505,39 +572,42 @@
                    <tr>
                        <td>
                            <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
-                                                displayName="participant.label.confirmpassword"/>
+                                                displayName="participant.label.confirmpassword" onblur="checkPasswordMatch();"/>
+                           <ul id="passwordErrorConfirm" style="display:none; padding-left:12em " class="errors">
+                                   <li id="passwordErrorConfirm1"></li>
+                           </ul>
                        </td>
                    </tr>
                </table>
 
            </div>
-      
-       <div id="div_contact_ivrs" style="display:none;">
 
-                       <table border="0" cellpadding="0" cellspacing="0">
-                           <tr>
-                               <td>
-                                   <tags:renderText propertyName="participant.userNumber"
-                                                    displayName="participant.label.user_number"
-                                                    onblur="checkParticipantUserNumber();"/>
-                                    <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='participant.unique_userNumber'
-                                                       text='participant.unique_userNumber'/></li>
-                                   </ul>
-                               </td>
+           <div id="div_contact_ivrs" style="display:none;">
 
-                           </tr>
-                           <tr>
-                               <td>
+           <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
+                   <td>
+                       <tags:renderText propertyName="participant.userNumber"
+                                        displayName="participant.label.user_number"
+                                        onblur="checkParticipantUserNumber();"/>
+                       <ul id="userNumberError" style="display:none; padding-left:12em " class="errors">
+                           <li><spring:message code='participant.unique_userNumber'
+                                               text='participant.unique_userNumber'/></li>
+                       </ul>
+                   </td>
+
+               </tr>
+               <tr>
+                   <td>
 
 
-                                    <tags:renderText propertyName="participant.pinNumber"
-                                                     displayName="participant.label.pin_number"/>
-                               </td>
-                           </tr>
-                       </table>
+                       <tags:renderText propertyName="participant.pinNumber"
+                                        displayName="participant.label.pin_number"/>
+                   </td>
+               </tr>
+           </table>
 
-                     </chrome:division>
+       </chrome:division>
                </div>
     <chrome:division title="participant.label.studies"/>
         <div id="studysitestable">
@@ -558,14 +628,14 @@
                             </td>
                         </c:if>
                     </tr>
-                    <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="spastatus">
+                    <c:forEach items="${command.participant.studyParticipantAssignments}"
+                               var="studyParticipantAssignment" varStatus="spastatus">
                         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
                         <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
                                         studyParticipantAssignment="${studyParticipantAssignment}"/>
                     </c:forEach>
 
                 </table>
-
 
 
             </c:if>

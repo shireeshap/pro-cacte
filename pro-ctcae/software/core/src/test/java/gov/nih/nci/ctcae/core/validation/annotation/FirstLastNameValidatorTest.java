@@ -38,4 +38,14 @@ public class FirstLastNameValidatorTest extends AbstractTestCase {
 
     }
 
+    public void testValidateNameFalse(){
+        clinicalStaff.setFirstName("reshma1");
+        assertFalse("false",validator.validateName("reshma1"));
+    }
+
+    public void testValidateName(){
+        clinicalStaff.setFirstName("reshma");
+        assertTrue("false",validator.validateName("reshma"));
+    }
+
 }

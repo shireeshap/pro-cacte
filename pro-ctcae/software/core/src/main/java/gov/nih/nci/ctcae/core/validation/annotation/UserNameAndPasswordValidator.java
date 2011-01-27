@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //
+
 /**
  * The Class UniqueIdentifierForStudyValidator.
  *
@@ -33,6 +37,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
      */
+
     public boolean validate(Object value) {
         return validate(value, true, true);
     }
@@ -64,6 +69,18 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         }
     }
 
+    public boolean validateDwrUniqueName(String userName) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserName(userName);
+        List<User> users = new ArrayList<User>(userRepository.find(userQuery));
+        if ((users == null || users.isEmpty())) {
+            return false;
+        } else {
+            message = "Username already exists. Please choose another username.";
+            return true;
+        }
+    }
+
     private boolean validateUserNameLength(User user) {
         if (StringUtils.isBlank(user.getUsername())) {
             message = "Username cannot be empty.";
@@ -88,9 +105,82 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         return true;
     }
 
+    public String validatePasswordPolicyDwr(String role, String password,String userName) {
+        PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(Role.getByCode(role));
+        CombinationPolicy combinationPolicy = passwordPolicy.getPasswordCreationPolicy().getCombinationPolicy();
+        if(validateLowerCaseAlphabet(combinationPolicy, password)
+                        & validateUpperCaseAlphabet(combinationPolicy,password)
+                        & validateNonAlphaNumeric(combinationPolicy, password)
+                        & validateBaseTenDigit(combinationPolicy, password)
+                        & validateMaxSubstringLength(combinationPolicy, password,userName)
+                        & validateMinPasswordLength(passwordPolicy.getPasswordCreationPolicy().getMinPasswordLength(),password))
+        	return "";
+        return this.message;
+    }
+
+    public boolean validateMinPasswordLength(int minLength,String password ) {
+        if (password.length() <= minLength) {
+            message="The minimum length of password must be at least " +minLength +" characters";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateLowerCaseAlphabet(CombinationPolicy policy, String password) {
+        if (policy.isLowerCaseAlphabetRequired()
+                && !password.matches(".*[\\p{javaLowerCase}].*")) {
+            message = "The password should have at least one lower case letter";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateUpperCaseAlphabet(CombinationPolicy policy, String password) {
+        if (policy.isUpperCaseAlphabetRequired()
+                        && !password.matches(".*[\\p{javaUpperCase}].*")) {
+            message="The password should have at least one upper case letter";
+        	return false;
+        }
+        return true;
+    }
+
+     private boolean validateNonAlphaNumeric(CombinationPolicy policy, String password){
+        if (policy.isNonAlphaNumericRequired() && password.matches("[\\p{Alnum}]+")) {
+            message="The password should have at least one special charcter";
+        	return false;
+        }
+        return true;
+    }
+
+
+    private boolean validateBaseTenDigit(CombinationPolicy policy, String password){
+        if (policy.isBaseTenDigitRequired()
+                        && !password.matches(".*[\\p{Digit}].*")) {
+            message="The password should have at least one numeral digit{0-9}";
+        	return false;
+        }
+        return true;
+    }
+
+     private boolean validateMaxSubstringLength(CombinationPolicy policy, String password,String userName){
+        int substringLength = policy.getMaxSubstringLength() + 1;
+        for (int i = 0; i < userName.length() - substringLength; i++) {
+            try {
+                if (password.contains(userName.substring(i, i + substringLength))) {
+                    message="The password should not contain a substring of 3 letters from the username";
+                	return false;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                return true;
+            }
+        }
+        return true;
+    }
+
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
      */
+
     public void initialize(UserNameAndPassword parameters) {
         message = parameters.message();
     }
@@ -98,6 +188,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#message()
      */
+
     public String message() {
         return message;
     }

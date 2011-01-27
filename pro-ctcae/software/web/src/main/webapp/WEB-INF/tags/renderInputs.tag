@@ -63,7 +63,7 @@
 <c:when test="${categoryName == 'password'}">
     <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                    title="${title}"
-                   cssClass="validate-NOTEMPTY&&MAXLENGTH2000" showPassword="true" autocomplete="OFF"/>
+                   cssClass="validate-NOTEMPTY&&MAXLENGTH2000" showPassword="true" autocomplete="OFF" onblur="${onblur}"/>
 </c:when>
 <c:when test="${categoryName == 'number'}">
     <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
