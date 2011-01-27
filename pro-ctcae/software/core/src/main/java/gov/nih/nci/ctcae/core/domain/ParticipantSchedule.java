@@ -121,6 +121,7 @@ public class ParticipantSchedule {
     public void createSchedule(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
@@ -135,6 +136,9 @@ public class ParticipantSchedule {
                         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                         studyParticipantCrfSchedule.setStartDate(c.getTime());
                         studyParticipantCrfSchedule.setDueDate(dueDate);
+                        if (today.after(dueDate)) {
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                        }
                         if (cycleNumber != -1) {
                             studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                             studyParticipantCrfSchedule.setCycleDay(cycleDay);
