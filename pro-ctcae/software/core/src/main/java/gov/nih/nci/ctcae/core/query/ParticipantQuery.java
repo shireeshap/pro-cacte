@@ -109,7 +109,9 @@ public class ParticipantQuery extends AbstractQuery {
                 return;
             } else {
 
-                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+//                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(text) + "%" : null;
+
                 andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                         "or lower(p.lastName) LIKE :%s " +
                         "or lower(p.assignedIdentifier) LIKE :%s " +
