@@ -118,8 +118,8 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         return this.message;
     }
 
-    public boolean validateMinPasswordLength(int minLength,String password ) {
-        if (password.length() <= minLength) {
+    private boolean validateMinPasswordLength(int minLength,String password ) {
+        if (password.length() < minLength) {
             message="The minimum length of password must be at least " +minLength +" characters";
             return false;
         }
