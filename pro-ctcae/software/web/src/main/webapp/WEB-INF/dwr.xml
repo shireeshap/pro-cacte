@@ -30,6 +30,9 @@
         <create creator="spring" javascript="userNameValidation">
             <param name="beanName" value="userNameAndPasswordValidator"/>
         </create>
+        <create creator="spring" javascript="uniqueStaffEmailAddress">
+            <param name="beanName" value="uniqueStaffEmailAddressValidator"/>
+        </create>
         <create creator="spring" javascript="clinicalStaff">
             <param name="beanName" value="clinicalStaffAjaxFacade"/>
         </create>

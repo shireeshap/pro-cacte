@@ -21,6 +21,7 @@ public class UniqueStaffEmailAddressValidator extends AbstractValidator<UniqueSt
     public boolean validateStaffEmail(String emailAddress, Integer staffId) {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByEmail(emailAddress);
+        clinicalStaffQuery.excludeByStaffId(staffId);
         Collection<ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
         if (clinicalStaffs != null && !clinicalStaffs.isEmpty()) {
             return true;

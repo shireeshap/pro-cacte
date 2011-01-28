@@ -10,8 +10,8 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-<tags:dwrJavascriptLink objects="nameValidator"/>
-
+<tags:dwrJavascriptLink objects="nameValidator,userNameValidation,uniqueStaffEmailAddress"/>
+<tags:javascriptLink name="ui_fields_validation"/>
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
@@ -60,7 +60,7 @@
             try {
                 if (value) {
                     $('div_useraccount_details').show();
-                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")                 
+                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
                 } else {
                     $('div_useraccount_details').hide();
                     $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
@@ -83,48 +83,88 @@
             }
         }
 
-        function checkFirstName(){
+        function checkFirstName() {
             var firstName = $('clinicalStaff.firstName').value;
-            if(firstName !=""){
-                nameValidator.validateName(firstName,nameReturnValue);
+            if (firstName != "") {
+                nameValidator.validateName(firstName, nameReturnValue);
                 return;
             }
 
-            else{
+            else {
                 jQuery('#nameError1').hide();
             }
         }
-        function checkLastName(){
+        function checkLastName() {
             var lastName = $('clinicalStaff.lastName').value;
-            if(lastName!=""){
-                nameValidator.validateName(lastName,nameReturnValue1);
+            if (lastName != "") {
+                nameValidator.validateName(lastName, nameReturnValue1);
                 return;
             }
-            else{
+            else {
                 jQuery('#nameError2').hide();
             }
         }
-        function nameReturnValue(returnValue){
-              if(!returnValue){
+        function nameReturnValue(returnValue) {
+            if (!returnValue) {
                 jQuery('#nameError1').show();
             }
-            else{
+            else {
                 jQuery('#nameError1').hide();
             }
         }
-         function nameReturnValue1(returnValue){
-              if(!returnValue){
+        function nameReturnValue1(returnValue) {
+            if (!returnValue) {
                 jQuery('#nameError2').show();
             }
-            else{
+            else {
                 jQuery('#nameError2').hide();
             }
         }
+
+        function checkUniqueUserName() {
+            var userName = $('username').value;
+            if (userName != "") {
+                if (userName.length < 6) {
+                    jQuery('#userNameError').hide();
+                    jQuery('#userNameLengthError').show();
+                }
+                else {
+                    userNameValidation.validateDwrUniqueName(userName, userReturnValue);
+                    jQuery('#userNameLengthError').hide();
+                    return;
+                }
+            }
+            else {
+                jQuery('#userNameError').hide();
+                jQuery('#userNameLengthError').hide();
+            }
+        }
+        function userReturnValue(returnValue) {
+            showOrHideErrorField(returnValue, '#userNameError');
+        }
+
+        //validation check for participant email address
+        function checkUniqueEmailAddress() {
+            var staffId = "${param['clinicalStaffId']}";
+            var email = $('clinicalStaff.emailAddress').value;
+            if (email != "") {
+                uniqueStaffEmailAddress.validateStaffEmail(email, staffId, emailReturnValue);
+                return;
+            }
+            else {
+                jQuery('#emailError').hide();
+            }
+
+        }
+        function emailReturnValue(returnValue) {
+            showOrHideErrorField(returnValue, '#emailError');
+        }
+
     </script>
     <!--[if IE]>
     <style>
         div.row div.value {
-            margin-left:0;
+            margin-left: 0;
         }
     </style>
     <![endif]-->
@@ -170,9 +210,9 @@
                                          displayName="clinicalStaff.label.first_name"
                                          required="true" onblur="checkFirstName();"/>
                         <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='clinicalStaff.firstName_validation'
-                                                       text='clinicalStaff.firstName_validation'/>
-                                        </li>
+                            <li><spring:message code='clinicalStaff.firstName_validation'
+                                                text='clinicalStaff.firstName_validation'/>
+                            </li>
                         </ul>
                         <tags:renderText propertyName="clinicalStaff.middleName"
                                          displayName="clinicalStaff.label.middle_name"/>
@@ -180,9 +220,9 @@
                                          displayName="clinicalStaff.label.last_name"
                                          required="true" onblur="checkLastName()"/>
                         <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='clinicalStaff.lastName_validation'
-                                                       text='clinicalStaff.lastName_validation'/>
-                                        </li>
+                            <li><spring:message code='clinicalStaff.lastName_validation'
+                                                text='clinicalStaff.lastName_validation'/>
+                            </li>
                         </ul>
                     </td>
                     <td style="vertical-align:top">
@@ -191,7 +231,11 @@
                                                required="true"/>
                         <tags:renderEmail propertyName="clinicalStaff.emailAddress"
                                           displayName="clinicalStaff.label.email_address"
-                                          required="true" size="40"/>
+                                          required="true" size="40" onblur="checkUniqueEmailAddress();"/>
+                        <ul id="emailError" style="display:none; padding-left:12em " class="errors">
+                            <li><spring:message code='participant.unique_emailAddress'
+                                                text='participant.unique_emailAddress'/></li>
+                        </ul>
                         <tags:renderText propertyName="clinicalStaff.nciIdentifier"
                                          displayName="clinicalStaff.label.identifier"/>
                     </td>
@@ -226,7 +270,16 @@
                                 <c:when test="${empty param['clinicalStaffId'] or (not hasUserAccount)}">
                                     <tags:renderText propertyName="username"
                                                      displayName="participant.label.username"
-                                                     required="true"/>
+                                                     required="true" onblur="checkUniqueUserName();"/>
+                                    <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
+                                        <li><spring:message code='participant.unique_userName'
+                                                            text='participant.unique_userName'/></li>
+                                    </ul>
+                                    <ul id="userNameLengthError" style="display:none; padding-left:12em "
+                                        class="errors">
+                                        <li><spring:message code='participant.username_length'
+                                                            text='participant.username_length'/></li>
+                                    </ul>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="row">

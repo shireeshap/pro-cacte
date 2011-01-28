@@ -834,6 +834,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueParticipantEmailAddressValidatorTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStaffEmailAddressValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueStudyIdentifierForParticipantValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UserNameAndPasswordValidatorTest.java -text

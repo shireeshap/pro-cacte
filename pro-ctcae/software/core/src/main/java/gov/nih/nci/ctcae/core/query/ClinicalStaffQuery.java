@@ -83,6 +83,18 @@ public class ClinicalStaffQuery extends AbstractQuery {
         setParameter(EMAIL, searchString);
     }
 
+    /**
+     * Filter by excludes existing Staff .
+     *
+     * @param staffId the Db identifier
+     */
+    public void excludeByStaffId(final Integer staffId){
+          if (staffId != null){
+              andWhere("cs.id <> :id");
+              setParameter("id",staffId);
+        }
+    }
+
     public void filterByUserId(final Integer userId) {
         andWhere("cs.user.id =:" + USER_ID);
         setParameter(USER_ID, userId);
