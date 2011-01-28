@@ -143,7 +143,7 @@
             showOrHideErrorField(returnValue, '#userNameError');
         }
 
-        //validation check for participant email address
+        //validation check for staff email address
         function checkUniqueEmailAddress() {
             var staffId = "${param['clinicalStaffId']}";
             var email = $('clinicalStaff.emailAddress').value;
@@ -233,8 +233,8 @@
                                           displayName="clinicalStaff.label.email_address"
                                           required="true" size="40" onblur="checkUniqueEmailAddress();"/>
                         <ul id="emailError" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='participant.unique_emailAddress'
-                                                text='participant.unique_emailAddress'/></li>
+                            <li><spring:message code='clinicalStaff.unique_emailAddress'
+                                                text='clinicalStaff.unique_emailAddress'/></li>
                         </ul>
                         <tags:renderText propertyName="clinicalStaff.nciIdentifier"
                                          displayName="clinicalStaff.label.identifier"/>
@@ -272,13 +272,13 @@
                                                      displayName="participant.label.username"
                                                      required="true" onblur="checkUniqueUserName();"/>
                                     <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='participant.unique_userName'
-                                                            text='participant.unique_userName'/></li>
+                                        <li><spring:message code='clinicalStaff.unique_userName'
+                                                            text='clinicalStaff.unique_userName'/></li>
                                     </ul>
                                     <ul id="userNameLengthError" style="display:none; padding-left:12em "
                                         class="errors">
-                                        <li><spring:message code='participant.username_length'
-                                                            text='participant.username_length'/></li>
+                                        <li><spring:message code='clinicalStaff.username_length'
+                                                            text='clinicalStaff.username_length'/></li>
                                     </ul>
                                 </c:when>
                                 <c:otherwise>
