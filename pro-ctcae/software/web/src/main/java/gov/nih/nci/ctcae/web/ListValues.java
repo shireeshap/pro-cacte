@@ -158,7 +158,7 @@ public class ListValues {
     public static List<ListValues> getNotificationRequired() {
         List<ListValues> valuesList = new ArrayList<ListValues>();
 
-        valuesList.add(new ListValues("", "Please select"));
+        valuesList.add(new ListValues("false", "Please select"));
         valuesList.add(new ListValues("true", "Yes"));
         valuesList.add(new ListValues("false", "No"));
 

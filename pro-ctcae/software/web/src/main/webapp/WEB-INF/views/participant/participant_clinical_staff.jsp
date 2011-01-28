@@ -174,7 +174,7 @@
                     <tags:renderAutocompleter
                             propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"
                             displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
-                            required="true"
+                            required="false"
                             propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"
                             size="70"/>
                 </td>
@@ -182,7 +182,7 @@
                     <tags:renderSelect
                             propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.notify"
                             displayName="participant.label.notification"
-                            required="true" options="${notifyOptions}"/>
+                            required="false" options="${notifyOptions}"/>
                 </td>
             </tr>
             <tr>
@@ -190,7 +190,7 @@
                     <tags:renderAutocompleter
                             propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"
                             displayName="participant.label.clinical.staff.researchnurse" noForm="true"
-                            required="true"
+                            required="false"
                             propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"
                             size="70"/>
                 </td>
@@ -198,7 +198,7 @@
                     <tags:renderSelect
                             propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurse.notify"
                             displayName="participant.label.notification"
-                            required="true" options="${notifyOptions}"/>
+                            required="false" options="${notifyOptions}"/>
                 </td>
             </tr>
         </table>
