@@ -30,6 +30,7 @@ function checkParticipantUserName() {
         if (userName.length < 6) {
             jQuery('#userNameError').hide();
             jQuery('#userNameLengthError').show();
+            checkError();           
         }
         else {
             userNameValidation.validateDwrUniqueName(userName, userReturnValue);
@@ -40,54 +41,80 @@ function checkParticipantUserName() {
     else {
         jQuery('#userNameError').hide();
         jQuery('#userNameLengthError').hide();
+        checkError();
     }
 }
 function userReturnValue(returnValue) {
     showOrHideErrorField(returnValue, '#userNameError');
+    checkError();
 }
 
+// checking if there are any error based on class name and style. 
+function checkError() {
+    var errorlist;
+    var count=0;
+    for (i = 0; i < document.getElementsByClassName('errors').length; i++) {
+        errorlist = document.getElementsByClassName('errors')[i];
+        if (errorlist.style.display != 'none'){
+            count++;
+        }
+    }
+    if(count>0){
+        jQuery('#flow-update').attr('disabled', true);
+        jQuery('#flow-next').attr('disabled', true);
+    }
+    else{
+        jQuery('#flow-update').attr('disabled', false);
+        jQuery('#flow-next').attr('disabled', false);
+    }
+}
 //validation check for password policy
-function checkPasswordPolicy(){
-    var userPassword =$('participant.user.password').value;
+function checkPasswordPolicy() {
+    var userPassword = $('participant.user.password').value;
     var userName = $('participant.user.username').value;
-    if(userPassword!=""){
-            userNameValidation.validatePasswordPolicyDwr("PARTICIPANT",userPassword,userName,passReturnValue);
-            return;
+    if (userPassword != "") {
+        userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, passReturnValue);
+        return;
     }
-    else{
+    else {
         jQuery('#passwordError').hide();
+        checkError();
     }
 }
 
-function passReturnValue(returnValue){
-    if(returnValue!=""){
+function passReturnValue(returnValue) {
+    if (returnValue != "") {
         jQuery('#passwordError').show();
-        document.getElementById('passwordError1').innerHTML = returnValue+"";
+        document.getElementById('passwordError1').innerHTML = returnValue + "";
+        checkError();
     }
-    else{
-         jQuery('#passwordError').hide();
+    else {
+        jQuery('#passwordError').hide();
+        checkError();
     }
 }
 
 // validation check for confirm password
-function checkPasswordMatch(){
+function checkPasswordMatch() {
     var password = $('participant.user.password').value;
-    var confirmPassword= $('participant.user.confirmPassword').value;
-    if(password!="" && confirmPassword!=""){
-        if(password==confirmPassword){
-              jQuery('#passwordErrorConfirm').hide();
+    var confirmPassword = $('participant.user.confirmPassword').value;
+    if (password != "" && confirmPassword != "") {
+        if (password == confirmPassword) {
+            jQuery('#passwordErrorConfirm').hide();
+            checkError();
         }
-        else{
-             jQuery('#passwordErrorConfirm').show();
-             document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
+        else {
+            jQuery('#passwordErrorConfirm').show();
+            document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
+            checkError();
         }
     }
-    else{
+    else {
         jQuery('#passwordErrorConfirm').hide();
+        checkError();
     }
 
 }
-
 
 
 //validation check for participant email address
@@ -100,10 +127,12 @@ function checkParticipantEmailAddress() {
     }
     else {
         jQuery('#emailError').hide();
+        checkError();
     }
 }
 function emailReturnValue(returnValue) {
     showOrHideErrorField(returnValue, '#emailError');
+    checkError();
 }
 
 // validation check for participant user number (IVRS)
@@ -116,13 +145,16 @@ function checkParticipantUserNumber() {
     }
     else {
         jQuery('#userNumberError').hide();
+        checkError();
     }
 
 }
 
 function returnedValue(returnValue) {
     showOrHideErrorField(returnValue, '#userNumberError');
+    checkError();
 }
+
 // validation check for participant study identifier
 function checkParticipantStudyIdentifier(id, siteId) {
     var participantId = "${param['id']}";
@@ -133,12 +165,14 @@ function checkParticipantStudyIdentifier(id, siteId) {
     }
     else {
         jQuery('#uniqueError').hide();
+        checkError();
     }
 
 }
 
 function postCommentHandler(returnvalue) {
     showOrHideErrorField(returnvalue, '#uniqueError');
+    checkError();
 }
 
 function getStudySites() {
@@ -560,9 +594,10 @@ function showOrHideEmail(value1, value2, id) {
                        <td>
 
                            <tags:renderPassword required="true" propertyName="participant.user.password"
-                                                displayName="participant.label.password" onblur="checkPasswordPolicy();"/>
+                                                displayName="participant.label.password"
+                                                onblur="checkPasswordPolicy();"/>
                            <ul id="passwordError" style="display:none; padding-left:12em " class="errors">
-                                   <li id="passwordError1"></li>
+                               <li id="passwordError1"></li>
                            </ul>
                        </td>
                        <td>(The minimum password length should
@@ -572,9 +607,10 @@ function showOrHideEmail(value1, value2, id) {
                    <tr>
                        <td>
                            <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
-                                                displayName="participant.label.confirmpassword" onblur="checkPasswordMatch();"/>
+                                                displayName="participant.label.confirmpassword"
+                                                onblur="checkPasswordMatch();"/>
                            <ul id="passwordErrorConfirm" style="display:none; padding-left:12em " class="errors">
-                                   <li id="passwordErrorConfirm1"></li>
+                               <li id="passwordErrorConfirm1"></li>
                            </ul>
                        </td>
                    </tr>
