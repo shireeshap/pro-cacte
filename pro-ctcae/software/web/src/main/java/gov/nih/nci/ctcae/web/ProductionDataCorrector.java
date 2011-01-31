@@ -44,6 +44,9 @@ public class ProductionDataCorrector extends HibernateDaoSupport {
 
                 Query query = session.createSQLQuery("update sp_crf_schedules set status='SCHEDULED' where status='PASTDUE' and due_date>=now();");
                 numberOfResults = query.executeUpdate();
+
+                Query queryUpdateEmail = session.createSQLQuery("update clinical_staffs set email_address = 'mg@demo.com';");
+                queryUpdateEmail.executeUpdate();
                 //System.out.println(numberOfResults);
 
 
