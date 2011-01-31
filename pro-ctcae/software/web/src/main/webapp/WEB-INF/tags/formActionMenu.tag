@@ -115,7 +115,7 @@
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/study/editsitestaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Site Staff</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=4\'">Manage Study Site Staff</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/reports/report">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
