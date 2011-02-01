@@ -145,7 +145,7 @@ public class ParticipantSchedule {
                         }
                         studyParticipantCrfSchedule.setDueDate(dueDateNew);
                         if (today.after(dueDateNew)) {
-                            studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                            studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
                         }
                         if (cycleNumber != -1) {
                             studyParticipantCrfSchedule.setCycleNumber(cycleNumber);

@@ -73,6 +73,10 @@ function initializeCalendar(index) {
                             item.style.color = "black";
                             onHold = true;
                         }
+                        if (status == 'N/A') {
+                            item.style.background = 'lightgrey';
+                            item.style.color = "black";
+                        }
                         if (a != myschedule.length - 1) {
                             title = title + ', '
                         }
@@ -120,6 +124,10 @@ function initializeCalendar(index) {
                         item.style.color = 'black';
                     }
                     if (status == 'Cancelled') {
+                        item.style.background = 'lightgrey';
+                    }
+
+                    if (status == 'N/A') {
                         item.style.background = 'lightgrey';
                     }
 
