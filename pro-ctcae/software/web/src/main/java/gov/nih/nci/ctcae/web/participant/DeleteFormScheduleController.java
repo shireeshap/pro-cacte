@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -38,15 +39,20 @@ public class DeleteFormScheduleController extends AbstractController {
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("date")));
 
         ModelAndView mv = new ModelAndView("participant/delSchedule");
-        Set<CRF> crfs = new HashSet<CRF>();
+
+         LinkedHashMap<CRF,Boolean> crfListMap = new LinkedHashMap<CRF,Boolean>();
+       // Set<CRF> crfs = new HashSet<CRF>();
         String sids = request.getParameter("sids");
         String[] sidArr = sids.split("_");
         for (String sid : sidArr) {
             if (!StringUtils.isBlank(sid)) {
-                crfs.add(genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(sid)).getStudyParticipantCrf().getCrf());
+               StudyParticipantCrfSchedule schedule =   genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(sid));
+                //crfs.add(schedule.getStudyParticipantCrf().getCrf());
+                crfListMap.put(schedule.getStudyParticipantCrf().getCrf(),schedule.getStatus().equals(CrfStatus.COMPLETED)||schedule.getStatus().equals(CrfStatus.INPROGRESS));
             }
         }
-        mv.addObject("crfs", new ArrayList<CRF>(crfs));
+        mv.addObject("crfsList", crfListMap);
+        mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
         mv.addObject("day", request.getParameter("date"));
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));

@@ -4,20 +4,20 @@
     <tr>
         <td style="padding-left:20px">
             <c:choose>
-                <c:when test="${fn:length(crfs) > 1}">
+                <c:when test="${fn:length(crfsList) > 1}">
                     Multiple forms have events scheduled for <b>${participant.displayName}</b> on <b>${date}</b>.
                     Please select the forms for which you want to delete the scheduled event(s)<br>
-                    <c:forEach items="${crfs}" var="crf">
-                        <input type="checkbox" name="selectedForms"
-                               value="${crf.id}">${crf.title}
+                    <c:forEach items="${crfsList}" var="crfMap">
+                        <input type="checkbox" name="selectedForms"<c:if test="${crfMap.value}">disabled="true"</c:if>
+                               value="${crfMap.key.id}">${crfMap.key.title}
                         <br/>
                     </c:forEach>
                     <br/>
                 </c:when>
                 <c:otherwise>
                     You are about to delete the scheduled event(s) on <b>${date}</b> for
-                    <b>${participant.displayName}</b> on form: <b>${crfs[0].title}</b>
-                    <input type="hidden" name="selectedForms" value="${crfs[0].id}"/>
+                    <b>${participant.displayName}</b> on form: <b>${firstCrf.title}</b>
+                    <input type="hidden" name="selectedForms" value="${firstCrf.id}"/>
                     <br/>
                     <br/>
                 </c:otherwise>

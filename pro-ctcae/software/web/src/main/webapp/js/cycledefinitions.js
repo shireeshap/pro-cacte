@@ -43,6 +43,7 @@ function initializeCalendar(index) {
             var div_id = index + '_schedule_' + day;
             var myschedule = mySchedules[day];
             var showdropdown = false;
+            var showDeleteOption = true;
             var item = $(div_id);
             if (isdefined(myschedule)) {
                 var scheduleid = '';
@@ -80,6 +81,7 @@ function initializeCalendar(index) {
                     if (allCompleted) {
                         item.style.background = '#00cc00';
                         item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
+                        showDeleteOption = false;
                     }
                     if (hasPastDue) {
                         item.style.background = 'red';
@@ -88,7 +90,7 @@ function initializeCalendar(index) {
                     if (onHold) {
                         item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
                     }
-                    showdropdown = true;
+                     showdropdown = true;
                     item.title = title;
 
                 } else {
@@ -104,9 +106,11 @@ function initializeCalendar(index) {
                     }
                     if (status == 'In-progress') {
                         item.style.background = '#ff9900';
+                        showDeleteOption = false;
                     }
                     if (status == 'Completed') {
                         item.style.background = '#00cc00';
+                        showDeleteOption = false;
                     }
                     if (status == 'Past-due') {
                         item.style.background = 'red';
@@ -134,8 +138,9 @@ function initializeCalendar(index) {
                                   '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                                   '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day, index, scheduleid);
+                    showPopUpMenuSchedule(day, index, scheduleid,showDeleteOption);
                     myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
+                    myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
                 }
 
             } else {
@@ -146,7 +151,7 @@ function initializeCalendar(index) {
                                   '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
                 
-                showPopUpMenuSchedule(day, index, null);
+                showPopUpMenuSchedule(day, index, null,true);
 //                Event.observe(div_id, "click", function() {
 //                    showAddWindow(getDate(this), getIndex(this));
 //                })

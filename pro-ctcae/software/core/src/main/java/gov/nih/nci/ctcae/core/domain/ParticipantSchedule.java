@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -135,8 +138,13 @@ public class ParticipantSchedule {
                         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                         studyParticipantCrfSchedule.setStartDate(c.getTime());
-                        studyParticipantCrfSchedule.setDueDate(dueDate);
-                        if (today.after(dueDate)) {
+                        //check if due date is not fixed, then check the values from arm schedules
+                        Date dueDateNew = dueDate;
+                        if(dueDate==null){
+                             dueDateNew = getDueDateForFormSchedule(c,studyParticipantCrf);
+                        }
+                        studyParticipantCrfSchedule.setDueDate(dueDateNew);
+                        if (today.after(dueDateNew)) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                         }
                         if (cycleNumber != -1) {
@@ -148,6 +156,85 @@ public class ParticipantSchedule {
                         }
                         studyParticipantCrfSchedule.setBaseline(baseline);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * get the due date for a given Calendar date with calendar/cycle based definitions for the form.
+     *
+     * @param c  the c
+     * @param studyParticipantCrf  StudyParticipantCrf
+     *
+     * @return Date dueDate
+     */
+    public Date getDueDateForFormSchedule(Calendar c,StudyParticipantCrf studyParticipantCrf){
+           Date dueDate = null;
+           for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
+            if (formArmSchedule.getArm().equals(studyParticipantCrf.getStudyParticipantAssignment().getArm())) {
+                //Calendar Based
+                if(formArmSchedule.getCrfCalendars().size()>0 && formArmSchedule.getCrfCalendars().get(0).isValid()){
+                     CRFCalendar crfCalendar = formArmSchedule.getCrfCalendars().get(0);
+                    String dueDateValue = crfCalendar.getDueDateValue();
+                    String  dueDateUnit =  crfCalendar.getDueDateUnit();
+                   dueDate = proCtcAECalendar.getDueDateForCalendarDate(c,dueDateUnit,Integer.parseInt(dueDateValue));
+                }else if(formArmSchedule.getCrfCycleDefinitions().size()>0 && formArmSchedule.getCrfCycleDefinitions().get(0)!=null){
+                    CRFCycleDefinition cycleDefinition = formArmSchedule.getCrfCycleDefinitions().get(0);
+                    String dueDateValue = cycleDefinition.getDueDateValue();
+                    String  dueDateUnit =  cycleDefinition.getDueDateUnit();
+                    if (StringUtils.isBlank(cycleDefinition.getDueDateUnit()) || StringUtils.isBlank(cycleDefinition.getDueDateValue())) {
+                        dueDateValue = "1";
+                        dueDateUnit = "Days";
+                    }
+
+                   dueDate = proCtcAECalendar.getDueDateForCalendarDate(c,dueDateUnit,Integer.parseInt(dueDateValue));
+
+                }
+                break;
+            }
+        }
+        return dueDate;
+    }
+
+    /**
+     * updates the schedule.
+     *
+     * @param oldCalendar  the c
+     * @param newCalendar  the c
+     * @param formIds formids
+     *
+     */
+    public void updateSchedule(Calendar oldCalendar,Calendar newCalendar, List<String> formIds) {
+        if (newCalendar != null) {
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            StudyParticipantCrfSchedule schToRemove = null;
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                        String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
+                        String calendarDate = sdf.format(oldCalendar.getTime());
+                        String calendarNewDate = sdf.format(newCalendar.getTime());
+                        if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+                            int dateOffset = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
+                            studyParticipantCrfSchedule.setStartDate(newCalendar.getTime());
+                            Calendar dueCalendar  = (Calendar)newCalendar.clone();
+                            dueCalendar.add(Calendar.DATE,dateOffset);
+                            studyParticipantCrfSchedule.setDueDate(dueCalendar.getTime());
+                            if(studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE) ||
+                                   studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)
+                                    ){
+                                 if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                                    studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                                 }else{
+                                     studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                                 }
+                            }
+                            break;
+                        }
+                    }
+
                 }
             }
         }

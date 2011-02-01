@@ -164,7 +164,7 @@
         form.submit();
     }
 
-    function showPopUpMenuSchedule(date, index, sid) {
+    function showPopUpMenuSchedule(date, index, sid,showDeleteOption) {
         var html = '';
         var menuindex = date;
         var holdDate = date;
@@ -185,7 +185,9 @@
             html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
             if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
-                html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                if(showDeleteOption){
+                    html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                }
                 html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
                 html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 var split = sid.split('_');

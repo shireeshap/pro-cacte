@@ -72,12 +72,15 @@ public class AddCrfScheduleController extends AbstractController {
             String olddate = date.substring(date.indexOf(",") + 1);
 
             c.set(Calendar.DATE, Integer.parseInt(olddate));
-            participantSchedule.removeSchedule(c, formIds);
+            /*participantSchedule.removeSchedule(c, formIds);
 
             c.setTime(newDate);
             Calendar dueCalendar = (Calendar)c.clone();
             dueCalendar.add(Calendar.DATE,1);
-            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false);
+            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false); */
+            Calendar newCalendar = (Calendar)c.clone();
+            newCalendar.setTime(newDate);
+            participantSchedule.updateSchedule(c,newCalendar,formIds);
 
         }
 
@@ -85,7 +88,7 @@ public class AddCrfScheduleController extends AbstractController {
             c.set(Calendar.DATE, Integer.parseInt(date));
             Calendar dueCalendar = (Calendar)c.clone();
             dueCalendar.add(Calendar.DATE,1);
-            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false);
+            participantSchedule.createSchedule(c, null, -1, -1, formIds, false);
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
