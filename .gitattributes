@@ -947,6 +947,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFo
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormScheduleController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormScheduleValidateController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantClinicalStaffTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantCommand.java -text
@@ -1232,7 +1233,9 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/detailsSchedule
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/inputParticipantResponses.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/moveConfirmForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/moveForm.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/moveSuccessForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offHoldDate.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offHoldRedirect.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/offStudyDate.jsp -text

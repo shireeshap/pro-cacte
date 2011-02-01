@@ -9,6 +9,7 @@ import java.util.*;
 
 
 //
+
 /**
  * User: Harsh
  * Date: Jan 19, 2009
@@ -101,12 +102,12 @@ public class ParticipantSchedule {
         while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextGeneralScehdule();
-                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule,proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
+                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
                 createSchedule(nextSchedule, dueDate, -1, -1, null, false);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextCycleScehdule();
-                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule,proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
+                Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
                 createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false);
             }
         }
@@ -115,8 +116,8 @@ public class ParticipantSchedule {
     /**
      * Creates the schedule.
      *
-     * @param c                    the c
-     * @param dueDate due Date 
+     * @param c           the c
+     * @param dueDate     due Date
      * @param cycleNumber
      * @param cycleDay
      * @param baseline
@@ -140,8 +141,8 @@ public class ParticipantSchedule {
                         studyParticipantCrfSchedule.setStartDate(c.getTime());
                         //check if due date is not fixed, then check the values from arm schedules
                         Date dueDateNew = dueDate;
-                        if(dueDate==null){
-                             dueDateNew = getDueDateForFormSchedule(c,studyParticipantCrf);
+                        if (dueDate == null) {
+                            dueDateNew = getDueDateForFormSchedule(c, studyParticipantCrf);
                         }
                         studyParticipantCrfSchedule.setDueDate(dueDateNew);
                         if (today.after(dueDateNew)) {
@@ -164,31 +165,30 @@ public class ParticipantSchedule {
     /**
      * get the due date for a given Calendar date with calendar/cycle based definitions for the form.
      *
-     * @param c  the c
-     * @param studyParticipantCrf  StudyParticipantCrf
-     *
+     * @param c                   the c
+     * @param studyParticipantCrf StudyParticipantCrf
      * @return Date dueDate
      */
-    public Date getDueDateForFormSchedule(Calendar c,StudyParticipantCrf studyParticipantCrf){
-           Date dueDate = null;
-           for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
+    public Date getDueDateForFormSchedule(Calendar c, StudyParticipantCrf studyParticipantCrf) {
+        Date dueDate = null;
+        for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
             if (formArmSchedule.getArm().equals(studyParticipantCrf.getStudyParticipantAssignment().getArm())) {
                 //Calendar Based
-                if(formArmSchedule.getCrfCalendars().size()>0 && formArmSchedule.getCrfCalendars().get(0).isValid()){
-                     CRFCalendar crfCalendar = formArmSchedule.getCrfCalendars().get(0);
+                if (formArmSchedule.getCrfCalendars().size() > 0 && formArmSchedule.getCrfCalendars().get(0).isValid()) {
+                    CRFCalendar crfCalendar = formArmSchedule.getCrfCalendars().get(0);
                     String dueDateValue = crfCalendar.getDueDateValue();
-                    String  dueDateUnit =  crfCalendar.getDueDateUnit();
-                   dueDate = proCtcAECalendar.getDueDateForCalendarDate(c,dueDateUnit,Integer.parseInt(dueDateValue));
-                }else if(formArmSchedule.getCrfCycleDefinitions().size()>0 && formArmSchedule.getCrfCycleDefinitions().get(0)!=null){
+                    String dueDateUnit = crfCalendar.getDueDateUnit();
+                    dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, dueDateUnit, Integer.parseInt(dueDateValue));
+                } else if (formArmSchedule.getCrfCycleDefinitions().size() > 0 && formArmSchedule.getCrfCycleDefinitions().get(0) != null) {
                     CRFCycleDefinition cycleDefinition = formArmSchedule.getCrfCycleDefinitions().get(0);
                     String dueDateValue = cycleDefinition.getDueDateValue();
-                    String  dueDateUnit =  cycleDefinition.getDueDateUnit();
+                    String dueDateUnit = cycleDefinition.getDueDateUnit();
                     if (StringUtils.isBlank(cycleDefinition.getDueDateUnit()) || StringUtils.isBlank(cycleDefinition.getDueDateValue())) {
                         dueDateValue = "1";
                         dueDateUnit = "Days";
                     }
 
-                   dueDate = proCtcAECalendar.getDueDateForCalendarDate(c,dueDateUnit,Integer.parseInt(dueDateValue));
+                    dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, dueDateUnit, Integer.parseInt(dueDateValue));
 
                 }
                 break;
@@ -200,20 +200,21 @@ public class ParticipantSchedule {
     /**
      * updates the schedule.
      *
-     * @param oldCalendar  the c
-     * @param newCalendar  the c
-     * @param formIds formids
-     *
+     * @param oldCalendar the c
+     * @param newCalendar the c
+     * @param formIds     formids
      */
-    public void updateSchedule(Calendar oldCalendar,Calendar newCalendar, List<String> formIds) {
+    public void updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap) {
+        List<String> updatedForms = new ArrayList<String>();
+        List<String> completedForms = new ArrayList<String>();
         if (newCalendar != null) {
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             StudyParticipantCrfSchedule schToUpdate = null;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 int alreadyExistsCount = 0;
-                 boolean alreadyExists = false;
-                 boolean alreadyPresentNewDate = false;
+                boolean alreadyExists = false;
+                boolean alreadyPresentNewDate = false;
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
@@ -227,32 +228,88 @@ public class ParticipantSchedule {
                             schToUpdate = studyParticipantCrfSchedule;
                             alreadyPresentNewDate = true;
                         }
-                        if(alreadyExists && alreadyPresentNewDate){
-                             break;
+                        if (alreadyExists && alreadyPresentNewDate) {
+                            break;
                         }
 
                     }
                     //checking for if same form is present in current and moving date or not
                     //if moving date has same form then do not process that record.
-                     if(alreadyExists && !alreadyPresentNewDate){
-                          int dateOffset = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
-                            schToUpdate.setStartDate(newCalendar.getTime());
-                            Calendar dueCalendar  = (Calendar)newCalendar.clone();
-                            dueCalendar.add(Calendar.DATE,dateOffset);
-                            schToUpdate.setDueDate(dueCalendar.getTime());
-                            if(schToUpdate.getStatus().equals(CrfStatus.PASTDUE) ||
-                                   schToUpdate.getStatus().equals(CrfStatus.SCHEDULED)
-                                    ){
-                                 if (today.after(schToUpdate.getDueDate())) {
-                                    schToUpdate.setStatus(CrfStatus.PASTDUE);
-                                 }else{
-                                     schToUpdate.setStatus(CrfStatus.SCHEDULED);
-                                 }
+                    if (alreadyExists && !alreadyPresentNewDate) {
+                        int dateOffset = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+                        schToUpdate.setStartDate(newCalendar.getTime());
+                        Calendar dueCalendar = (Calendar) newCalendar.clone();
+                        dueCalendar.add(Calendar.DATE, dateOffset);
+                        schToUpdate.setDueDate(dueCalendar.getTime());
+                        if (schToUpdate.getStatus().equals(CrfStatus.PASTDUE) ||
+                                schToUpdate.getStatus().equals(CrfStatus.SCHEDULED)
+                                ) {
+                            if (today.after(schToUpdate.getDueDate())) {
+                                schToUpdate.setStatus(CrfStatus.PASTDUE);
+                            } else {
+                                schToUpdate.setStatus(CrfStatus.SCHEDULED);
                             }
-                     }
+                        }
+                        updatedForms.add(studyParticipantCrf.getCrf().getTitle());
+                    } else {
+                        completedForms.add(studyParticipantCrf.getCrf().getTitle());
+                    }
                 }
             }
         }
+        resultMap.put("successForms", updatedForms);
+        resultMap.put("failedForms", completedForms);
+    }
+
+    /**
+     * updates the schedule.
+     *
+     * @param oldCalendar the c
+     * @param newCalendar the c
+     * @param formIds     formids
+     */
+    public List<String> getReschedulePastDueForms(Calendar oldCalendar, Calendar newCalendar, List<String> formIds) {
+        ArrayList<String> listPastDueForms = new ArrayList<String>();
+        if (newCalendar != null) {
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            StudyParticipantCrfSchedule schToUpdate = null;
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                boolean alreadyExists = false;
+                boolean alreadyPresentNewDate = false;
+                if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                        String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
+                        String calendarDate = sdf.format(oldCalendar.getTime());
+                        String calendarNewDate = sdf.format(newCalendar.getTime());
+                        if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+                            schToUpdate = studyParticipantCrfSchedule;
+                            alreadyExists = true;
+                        }
+                        if (calendarNewDate.equals(scheduleDate)) {
+                            schToUpdate = studyParticipantCrfSchedule;
+                            alreadyPresentNewDate = true;
+                        }
+                        if (alreadyExists && alreadyPresentNewDate) {
+                            break;
+                        }
+
+                    }
+                    //checking for if same form is present in current and moving date or not
+                    //if moving date has same form then do not process that record.
+                    if (alreadyExists && !alreadyPresentNewDate) {
+                        int dateOffset = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+                        Calendar dueCalendar = (Calendar) newCalendar.clone();
+                        dueCalendar.add(Calendar.DATE, dateOffset);
+                        if (today.after(dueCalendar.getTime())) {
+                            listPastDueForms.add(studyParticipantCrf.getCrf().getTitle());
+                        }
+
+                    }
+                }
+            }
+        }
+        return listPastDueForms;
     }
 
     /**

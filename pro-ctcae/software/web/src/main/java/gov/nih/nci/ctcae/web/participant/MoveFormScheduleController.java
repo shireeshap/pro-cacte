@@ -51,7 +51,7 @@ public class MoveFormScheduleController extends AbstractController {
         }
 
 
-         mv.addObject("crfsList", crfListMap);
+        mv.addObject("crfsList", crfListMap);
         mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("participant", studyParticipantCommand.getParticipant());

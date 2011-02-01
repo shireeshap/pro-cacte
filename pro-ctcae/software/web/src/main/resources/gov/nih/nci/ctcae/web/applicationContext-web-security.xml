@@ -73,6 +73,7 @@
                        access="PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/participant/displaycalendar" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/moveFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+         <intercept-url pattern="/pages/participant/moveFormScheduleValidate" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/deleteFormSchedule" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
         <intercept-url pattern="/pages/participant/detailsFormSchedule"

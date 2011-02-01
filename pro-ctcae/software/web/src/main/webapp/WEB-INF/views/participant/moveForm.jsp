@@ -65,7 +65,7 @@
     <tr>
         <td style="padding-left:20px">
             <input type="button" value="Only this event"
-                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','add,del' )"/>
+                   onclick="parent.addRemoveValidationSchedule('${index}',$('effectiveStartDate').value+',${day}','add,del' )"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="This and all following events"
                    onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','moveallfuture')"/>

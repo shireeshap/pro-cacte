@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 //
+
 /**
  * The Class AddCrfScheduleController.
  *
@@ -40,7 +41,8 @@ public class AddCrfScheduleController extends AbstractController {
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
 
         Calendar c = new GregorianCalendar();
-        
+
+
         if ("delall".equals(action)) {
             participantSchedule.removeAllSchedules(formIds);
         }
@@ -67,27 +69,31 @@ public class AddCrfScheduleController extends AbstractController {
         }
 
         if ("add,del".equals(action)) {
+            LinkedHashMap<String, List<String>> resultMap = new LinkedHashMap<String, List<String>>();
+            ModelAndView mv = new ModelAndView("participant/moveSuccessForm");
+
             String strNewdate = date.substring(0, date.indexOf(","));
             Date newDate = DateUtils.parseDate(strNewdate);
             String olddate = date.substring(date.indexOf(",") + 1);
 
             c.set(Calendar.DATE, Integer.parseInt(olddate));
-            /*participantSchedule.removeSchedule(c, formIds);
 
-            c.setTime(newDate);
-            Calendar dueCalendar = (Calendar)c.clone();
-            dueCalendar.add(Calendar.DATE,1);
-            participantSchedule.createSchedule(c, dueCalendar.getTime(), -1, -1, formIds, false); */
-            Calendar newCalendar = (Calendar)c.clone();
+            Calendar newCalendar = (Calendar) c.clone();
             newCalendar.setTime(newDate);
-            participantSchedule.updateSchedule(c,newCalendar,formIds);
+            participantSchedule.updateSchedule(c, newCalendar, formIds, resultMap);
+            studyParticipantCommand.lazyInitializeAssignment(genericRepository, true);
+            mv.addObject("day", request.getParameter("date"));
+            mv.addObject("index", request.getParameter("index"));
+            mv.addObject("resultMap", resultMap);
+            return mv;
+
 
         }
 
         if ("add".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            Calendar dueCalendar = (Calendar)c.clone();
-            dueCalendar.add(Calendar.DATE,1);
+            Calendar dueCalendar = (Calendar) c.clone();
+            dueCalendar.add(Calendar.DATE, 1);
             participantSchedule.createSchedule(c, null, -1, -1, formIds, false);
         }
         if ("del".equals(action)) {
@@ -95,7 +101,7 @@ public class AddCrfScheduleController extends AbstractController {
             participantSchedule.removeSchedule(c, formIds);
         }
 
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository,true);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository, true);
         return null;
     }
 

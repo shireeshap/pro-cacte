@@ -41,7 +41,49 @@
         } else {
             var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
                 onComplete:function(transport) {
-                    getCalendar(index, "dir=refresh");
+
+                    if(transport.responseText==""){
+                        getCalendar(index, "dir=refresh");
+                    }else{
+                        showConfirmationWindow(transport, 650, 210);
+                    }
+                },
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
+                method:'get'
+            })
+        }
+    }
+
+    function addRemoveValidationSchedule(index, date, action) {
+        var forms = document.getElementsByName("selectedForms")
+        var fids = '';
+        if (forms.length == 1) {
+            fids = forms[0].value + ',';
+        } else {
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i].checked) {
+                    fids += forms[i].value + ',';
+                }
+            }
+        }
+        if (fids == '' && action != 'cancel') {
+            alert('Please select at least one form');
+            return;
+        }
+
+        if (action == 'cancel') {
+            getCalendar(index, "dir=refresh");
+        } else {
+            var request = new Ajax.Request("<c:url value="/pages/participant/moveFormScheduleValidate"/>", {
+                onComplete:function(transport) {
+
+                     if(transport.responseText==""){
+                        addRemoveSchedule(index, date, action);
+                     }else{
+                        showConfirmationWindow(transport, 650, 210);
+                     }
+
+
                 },
                 parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
                 method:'get'
