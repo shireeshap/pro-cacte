@@ -12,7 +12,7 @@
         <td style="padding-left:20px">
             <c:choose>
                 <c:when test="${fn:length(crfsList) > 1}">
-                    Suneel Multiple forms have events scheduled for <b>${participant.displayName}</b> on <b>${olddate}</b>.
+                    Multiple forms have events scheduled for <b>${participant.displayName}</b> on <b>${olddate}</b>.
                     Please select the forms for which you want to move the scheduled event(s)<br>
                     <c:forEach items="${crfsList}" var="crfMap">
                         <input type="checkbox" name="selectedForms" <c:if test="${crfMap.value}">disabled="true"</c:if>
