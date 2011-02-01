@@ -209,32 +209,47 @@ public class ParticipantSchedule {
         if (newCalendar != null) {
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            StudyParticipantCrfSchedule schToRemove = null;
+            StudyParticipantCrfSchedule schToUpdate = null;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                int alreadyExistsCount = 0;
+                 boolean alreadyExists = false;
+                 boolean alreadyPresentNewDate = false;
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
                         String calendarDate = sdf.format(oldCalendar.getTime());
                         String calendarNewDate = sdf.format(newCalendar.getTime());
                         if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
-                            int dateOffset = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
-                            studyParticipantCrfSchedule.setStartDate(newCalendar.getTime());
+                            schToUpdate = studyParticipantCrfSchedule;
+                            alreadyExists = true;
+                        }
+                        if (calendarNewDate.equals(scheduleDate)) {
+                            schToUpdate = studyParticipantCrfSchedule;
+                            alreadyPresentNewDate = true;
+                        }
+                        if(alreadyExists && alreadyPresentNewDate){
+                             break;
+                        }
+
+                    }
+                    //checking for if same form is present in current and moving date or not
+                    //if moving date has same form then do not process that record.
+                     if(alreadyExists && !alreadyPresentNewDate){
+                          int dateOffset = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+                            schToUpdate.setStartDate(newCalendar.getTime());
                             Calendar dueCalendar  = (Calendar)newCalendar.clone();
                             dueCalendar.add(Calendar.DATE,dateOffset);
-                            studyParticipantCrfSchedule.setDueDate(dueCalendar.getTime());
-                            if(studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE) ||
-                                   studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)
+                            schToUpdate.setDueDate(dueCalendar.getTime());
+                            if(schToUpdate.getStatus().equals(CrfStatus.PASTDUE) ||
+                                   schToUpdate.getStatus().equals(CrfStatus.SCHEDULED)
                                     ){
-                                 if (today.after(studyParticipantCrfSchedule.getDueDate())) {
-                                    studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                                 if (today.after(schToUpdate.getDueDate())) {
+                                    schToUpdate.setStatus(CrfStatus.PASTDUE);
                                  }else{
-                                     studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                                     schToUpdate.setStatus(CrfStatus.SCHEDULED);
                                  }
                             }
-                            break;
-                        }
-                    }
-
+                     }
                 }
             }
         }
