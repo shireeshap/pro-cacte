@@ -9,7 +9,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <table width="100%">
-
+     <c:if test="${fn:length(resultMap['successForms']) > 0}">
     <tr>
     <td style="padding-left:20px">
     <spring:message code="participant.reschedule.sucess"></spring:message> <br/>
@@ -20,6 +20,7 @@
     <br/>
     </td>
     </tr>
+    </c:if>
     <tr>
     <td>&nbsp;</td>
     </tr>
