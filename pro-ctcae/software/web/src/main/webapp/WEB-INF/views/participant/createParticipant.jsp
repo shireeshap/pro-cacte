@@ -11,7 +11,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <tags:dwrJavascriptLink
         objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
-
 <tags:javascriptLink name="ui_fields_validation"/>
 
 <html>
@@ -21,26 +20,34 @@
 <tags:includePrototypeWindow/>
 <%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
-
 <script>
 // validation check for username
 function checkParticipantUserName() {
+    var participantId = "${param['id']}";
     var userName = $('participant.user.username').value;
+    if (participantId == "") {
+        var userId = "${userId}";
+        alert(userId);
+    }
+
     if (userName != "") {
         if (userName.length < 6) {
             jQuery('#userNameError').hide();
+            jQuery('#MissingNameError').hide();
             jQuery('#userNameLengthError').show();
-            checkError();           
+            checkError();
         }
         else {
-            userNameValidation.validateDwrUniqueName(userName, userReturnValue);
+            userNameValidation.validateDwrUniqueName(userName, userId, userReturnValue);
             jQuery('#userNameLengthError').hide();
+            jQuery('#MissingNameError').hide();
             return;
         }
     }
     else {
         jQuery('#userNameError').hide();
         jQuery('#userNameLengthError').hide();
+        jQuery('#MissingNameError').show();
         checkError();
     }
 }
@@ -52,18 +59,18 @@ function userReturnValue(returnValue) {
 // checking if there are any error based on class name and style. 
 function checkError() {
     var errorlist;
-    var count=0;
+    var count = 0;
     for (i = 0; i < document.getElementsByClassName('errors').length; i++) {
         errorlist = document.getElementsByClassName('errors')[i];
-        if (errorlist.style.display != 'none'){
+        if (errorlist.style.display != 'none') {
             count++;
         }
     }
-    if(count>0){
+    if (count > 0) {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
     }
-    else{
+    else {
         jQuery('#flow-update').attr('disabled', false);
         jQuery('#flow-next').attr('disabled', false);
     }
@@ -77,7 +84,8 @@ function checkPasswordPolicy() {
         return;
     }
     else {
-        jQuery('#passwordError').hide();
+        jQuery('#passwordError').show();
+        document.getElementById('passwordError1').innerHTML = "Missing password";
         checkError();
     }
 }
@@ -110,34 +118,49 @@ function checkPasswordMatch() {
         }
     }
     else {
-        jQuery('#passwordErrorConfirm').hide();
+        jQuery('#passwordErrorConfirm').show();
+        document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
         checkError();
     }
-
 }
 
 
 //validation check for participant email address
-function checkParticipantEmailAddress() {
+function checkParticipantEmailAddress(siteId) {
     var participantId = "${param['id']}";
-    var email = $('participant.emailAddress').value;
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    var email = $('participant.emailAddress_' + siteId).value;
     if (email != "") {
-        uniqueParticipantEmailAddress.validateEmail(email, participantId, emailReturnValue);
-        return;
+        uniqueParticipantEmailAddress.validateEmail(email, participantId,
+        {callback:
+                function(returnValue) {
+                    showOrHideErrorField(returnValue, '#emailError_' + siteId);
+                    jQuery('#MissingError_' + siteId).hide();
+                    checkError();
+                }});
+
     }
     else {
-        jQuery('#emailError').hide();
+        jQuery('#emailError_' + siteId).hide();
+        jQuery('#MissingError_' + siteId).show();
+        jQuery('#phoneError_' + siteId).hide();
         checkError();
     }
 }
-function emailReturnValue(returnValue) {
-    showOrHideErrorField(returnValue, '#emailError');
-    checkError();
-}
+//function emailReturnValue(returnValue,siteId) {
+//    alert("hello"+siteId);
+//    showOrHideErrorField(returnValue, '#emailError_');
+//    checkError();
+//}
 
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber() {
     var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
     var userNumber = $('participant.userNumber').value;
     if (userNumber != "") {
         uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, returnedValue);
@@ -158,21 +181,61 @@ function returnedValue(returnValue) {
 // validation check for participant study identifier
 function checkParticipantStudyIdentifier(id, siteId) {
     var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
     var identifier = $('participantStudyIdentifier_' + siteId).value;
     if (identifier != "") {
-        uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier, participantId, postCommentHandler);
+        uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier,
+                participantId, {callback:
+                function(returnValue) {
+                    showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
+                    jQuery('#MissingInError_' + siteId).hide();
+                    checkError();
+                }});
+        jQuery('#MissingInError_' + siteId).hide();
         return;
     }
     else {
-        jQuery('#uniqueError').hide();
+        jQuery('#uniqueError_' + siteId).hide();
+        jQuery('#MissingInError_' + siteId).show();
         checkError();
     }
-
 }
 
-function postCommentHandler(returnvalue) {
-    showOrHideErrorField(returnvalue, '#uniqueError');
-    checkError();
+
+//function postCommentHandler(returnvalue) {
+//    showOrHideErrorField(returnvalue, '#uniqueError_'+ siteId);
+//    checkError();
+//}
+
+// check for phone number
+function ValidUSPhoneNumber(siteId) {
+    var phone = $('participant.phoneNumber_' + siteId).value;
+    phone = phone.replace(/\D+/g, '');
+    var length = phone.length;
+    if (phone != "") {
+        if (phone.length >= 7) {
+            var areaCode = phone.substring(0, length - 7);
+            var prefixNumber = phone.substring(length - 7, length - 4);
+            var suffixNumber = phone.substring(length - 4);
+        }
+        if (areaCode.length != 3 || !isNumeric(areaCode) || prefixNumber.length != 3 || !isNumeric(prefixNumber) || suffixNumber.length != 4 || !isNumeric(suffixNumber)) {
+            jQuery('#phoneError_' + siteId).show();
+            document.getElementById('phoneError_' + siteId).innerHTML = "Invalid phone";
+            checkError();
+        }
+        else {
+            jQuery('#phoneError_' + siteId).hide();
+            checkError();
+        }
+    }
+    else {
+        jQuery('#phoneError_' + siteId).show();
+        document.getElementById('phoneError_' + siteId).innerHTML = "Missing phone";
+        jQuery('#MissingError_' + siteId).hide();
+        checkError();
+    }
 }
 
 function getStudySites() {
@@ -230,6 +293,13 @@ function showForms(obj, id) {
     for (var i = 0; i < sites.length; i++) {
         $('subform_' + sites[i].value).hide();
         $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+        $('participantStudyIdentifier_' + sites[i].value).value = "";
+        jQuery('#uniqueError_' + sites[i].value).hide();
+        jQuery('#MissingInError_' + sites[i].value).hide();
+        jQuery('#emailError_' + sites[i].value).hide();
+        jQuery('#MissingError_' + sites[i].value).hide();
+        jQuery('#phoneError_' + sites[i].value).hide();
+        checkError();
         try {
             $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
         } catch(e) {
@@ -301,6 +371,17 @@ function validateAndSubmit(date, form) {
     form.submit();
 }
 
+function showEmail(id) {
+    if (jQuery('input:checkbox:checked').val()) {
+        jQuery('#emailInput_' + id).show();
+        jQuery('#emailHeader_' + id).show();
+    }
+
+    else {
+        jQuery('#emailInput_' + id).hide();
+        jQuery('#emailHeader_' + id).hide();
+    }
+}
 <%--var clickCount = ${homeModeCount};--%>
 function showOrHideEmail(value1, value2, id) {
     if (value1 && value2 == "HOMEWEB") {
@@ -309,7 +390,9 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#web_' + id).show();
         jQuery('#email_' + id).attr('checked', true);
         jQuery('#call_' + id).attr('checked', false);
-
+        jQuery('#emailInput_' + id).show();
+        jQuery('#emailHeader_' + id).show();
+        jQuery('#phoneError_' + id).hide();
     } else {
         jQuery('#web_' + id).show();
     }
@@ -318,18 +401,47 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#div_contact_ivrs').show();
         jQuery('#ivrs_' + id).show();
         jQuery('#c_' + id).show();
+        jQuery('#c1_' + id).show();
         jQuery('#reminder_' + id).show();
         jQuery('#ivrs_reminder_' + id).show();
         jQuery('#call_' + id).attr('checked', true);
         jQuery('#email_' + id).attr('checked', false);
-        jQuery('#web_' + id).show();
-
+        jQuery('#web_' + id).hide();
+        jQuery('#emailInput_' + id).hide();
+        jQuery('#emailHeader_' + id).hide();
+        jQuery('#emailError_' + id).hide();
+        jQuery('#MissingError_' + id).hide();
     } else {
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();
         jQuery('#c_' + id).hide();
+        jQuery('#c1_' + id).hide();
+        jQuery('#emailError_' + id).hide();
+        jQuery('#MissingError_' + id).hide();
+        jQuery('#phoneError_' + id).hide();
     }
+    checkError();
+}
+
+function checkFirstName(){
+    var firstName =$('participant.firstName').value;
+    if(firstName!=""){
+          jQuery('#missingFirst').hide();
+    }
+    else
+        jQuery('#missingFirst').show();
+    checkError();
+}
+
+function checkLastName(){
+    var lastName =$('participant.lastName').value;
+    if(lastName!=""){
+          jQuery('#missingLast').hide();
+    }
+    else
+        jQuery('#missingLast').show();
+    checkError();
 }
 
 </script>
@@ -436,7 +548,11 @@ function showOrHideEmail(value1, value2, id) {
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"
+                                            onblur="checkFirstName();"/>
+                           <ul id="missingFirst" style="display:none; padding-left:12em " class="errors">
+                               <li>Missing first name</li>
+                           </ul>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"
@@ -444,7 +560,10 @@ function showOrHideEmail(value1, value2, id) {
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="checkLastName();"/>
+                           <ul id="missingLast" style="display:none; padding-left:12em " class="errors">
+                               <li>Missing last name</li>
+                           </ul>
                        </td>
 
                        <td width="50%" valign="top">
@@ -484,34 +603,29 @@ function showOrHideEmail(value1, value2, id) {
                </chrome:division>
            </c:when>
            <c:otherwise>
-               <div id="div_contact">
-                   <chrome:division title="participant.label.contact_information">
+               <%--commented as part of new changes--%>
+               <%--<div id="div_contact">--%>
+               <%--<chrome:division title="participant.label.contact_information">--%>
 
-                       <table border="0" style="width:100%">
-                           <tr>
-                               <td width="50%">
-                                   <tags:renderEmail propertyName="participant.emailAddress"
-                                                     displayName="participant.label.email_address"
-                                                     required="${emailreq}" size="35"
-                                                     onblur="javascript:checkParticipantEmailAddress()"/>
-                               </td>
-                               <td width="50%">
-                                   <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
-                                                          displayName="participant.label.phone"
-                                                          required="${phonereq}"/>
-                               </td>
-                           </tr>
-                           <tr>
-                               <td>
-                                   <ul id="emailError" style="display:none; padding-left:12em " class="errors">
-                                       <li><spring:message code='participant.unique_emailAddress'
-                                                           text='participant.unique_emailAddress'/></li>
-                                   </ul>
-                               </td>
-                           </tr>
-                       </table>
-                   </chrome:division>
-               </div>
+               <%--<table border="0" style="width:100%">--%>
+               <%--<tr>--%>
+               <%--<td width="50%">--%>
+
+               <%--</td>--%>
+               <%--<td width="50%">--%>
+               <%--<tags:renderPhoneOrFax propertyName="participant.phoneNumber"--%>
+               <%--displayName="participant.label.phone"--%>
+               <%--required="${phonereq}"/>--%>
+               <%--</td>--%>
+               <%--</tr>--%>
+               <%--<tr>--%>
+               <%--<td>--%>
+
+               <%--</td>--%>
+               <%--</tr>--%>
+               <%--</table>--%>
+               <%--</chrome:division>--%>
+               <%--</div>--%>
 
            </c:otherwise>
        </c:choose>
@@ -576,6 +690,11 @@ function showOrHideEmail(value1, value2, id) {
                                    <li><spring:message code='participant.username_length'
                                                        text='participant.username_length'/></li>
                                </ul>
+
+                               <ul id="MissingNameError" style="display:none; padding-left:12em " class="errors">
+                                   <li>Missing user name</li>
+                               </ul>
+
                            </c:otherwise>
                        </c:choose>
                    </td>

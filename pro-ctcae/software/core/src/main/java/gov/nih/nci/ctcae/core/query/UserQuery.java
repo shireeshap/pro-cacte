@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.query;
 import gov.nih.nci.ctcae.core.domain.Role;
 
 //
+
 /**
  * User: Mehul Gulati
  * Date: Oct 15, 2008.
@@ -33,7 +34,7 @@ public class UserQuery extends AbstractQuery {
         setParameter(USER_NAME, username.toLowerCase());
     }
 
-    
+
     public void filterByUserRole(final Role role) {
         leftJoin("user.userRoles as userRole");
         andWhere("userRole.role = :" + ROLE);
@@ -45,5 +46,10 @@ public class UserQuery extends AbstractQuery {
         setParameter(TOKEN, token);
     }
 
-
+    public void excludeByUserId(Integer userId) {
+        if (userId != null) {
+            andWhere("user.id <> :id");
+            setParameter("id", userId);
+        }
+    }
 }

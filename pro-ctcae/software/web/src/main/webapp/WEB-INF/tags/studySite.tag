@@ -69,9 +69,12 @@
                title="identifier"
                id="participantStudyIdentifier_${studysite.id}"
                onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
-        <ul id="uniqueError" style="display:none" class="errors">
+        <ul id="uniqueError_${studysite.id}" style="display:none" class="errors">
             <li><spring:message code='participant.unique_assignedIdentifier'
                                 text='participant.unique_assignedIdentifier'/></li>
+        </ul>
+        <ul id="MissingInError_${studysite.id}" style="display:none" class="errors">
+            <li>Missing identifier</li>
         </ul>
     </td>
 </tr>
@@ -113,7 +116,15 @@
     <tr>
         <td align="right" class="data" width="30%">
             <b>Home reporting option</b>
+            <br>
+            <br>
+            <span id="emailHeader_${studysite.id}" style="display:none">
+                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                <b> Email Address</b>
+            </span>
+
         </td>
+
 
         <td width="50%">
             <c:forEach items="${studysite.study.studyModes}" var="studyMode">
@@ -124,20 +135,53 @@
                                       propertyValue="${studyMode.mode.name}"
                                       noForm="true" useRenderInput="true"
                                       onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
+                    <div id="web_${studysite.id}" style="display:none">
+                        <input type="checkbox" name="email_${studysite.id}" value="true"
+                               onclick="javascript:showEmail(${studysite.id});"
+                               id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
+                        reminder via email
+                    </div>
+                    <div id="emailInput_${studysite.id}" style="display:none;">
+                            <%--<span class="data">--%>
+                            <%--<span class="required-indicator">*&nbsp;&nbsp;</span><b> Email Address</b>--%>
+
+                        <input type="text" name="participant.emailAddress"
+                               value="${studyParticipantAssignment.participant.emailAddress}"
+                               id="participant.emailAddress_${studysite.id}"
+                               onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
+                               size="35"/>
+                        <ul id="emailError_${studysite.id}" style="display:none;" class="errors">
+                            <li><spring:message
+                                    code='participant.unique_emailAddress'
+                                    text='participant.unique_emailAddress'/></li>
+                        </ul>
+                        <ul id="MissingError_${studysite.id}" style="display:none;" class="errors">
+                            <li>Missing email Address</li>
+                        </ul>
+                        </span>
+                    </div>
                 </c:if>
             </c:forEach>
         </td>
-        <td width="${isEdit eq true ? "10%":"40%"}">
-            <div id="web_${studysite.id}" style="display:none">
-                <input type="checkbox" name="email_${studysite.id}" value="true"
-                       id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "}/>
-                reminder
-                via email
-            </div>
-            <br>
-        </td>
     </tr>
 </c:if>
+
+<tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
+    <td align="right" class="data" valign="top" width="30%">
+        <span class="required-indicator">*&nbsp;&nbsp; </span>
+        <b>Phone</b>&nbsp;
+    </td>
+    <td valign="top" width="50%">
+        <input type="text" name="participant.phoneNumber" value="${studyParticipantAssignment.participant.phoneNumber}"
+               id="participant.phoneNumber_${studysite.id}"
+               cssClass="validate-US_PHONE_NO" onblur="javascript:ValidUSPhoneNumber(${studysite.id});"/>
+        <span class="phone-number">###-###-####</span>
+        <ul id="phoneError_${studysite.id}" style="display:none;"
+            class="errors">
+            <li></li>
+        </ul>
+    </td>
+</tr>
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <b>Call time</b>&nbsp;
@@ -146,11 +190,13 @@
 
         <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
             <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
+                <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >Hr</option>
                 <c:forEach items="${hours}" var="hour">
                     <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hour}</option>
                 </c:forEach>
             </select>&nbsp;
             <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
+                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min</option>
                 <c:forEach items="${minutes}" var="minute">
                     <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${minute}</option>
                 </c:forEach>
@@ -165,6 +211,9 @@
             </select>&nbsp;&nbsp;&nbsp;
             <b>Time zone</b>&nbsp;
             <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}">
+                <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
+                    Please select
+                </option>
                 <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
                     Eastern Time
                 </option>
@@ -198,12 +247,11 @@
     <td>
 
         <input type="checkbox" name="call_${studysite.id}" value="true"
-               id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>reminder
-        via
-        call if the patient hasn't already completed the form <br>
+               id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
+        reminder via call if the patient hasn't already completed the form <br>
         <input type="checkbox" name="text_${studysite.id}" value="true"
-               id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>reminder
-        via text if the patient hasn't already completed the form
+               id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>
+        reminder via text if the patient hasn't already completed the form
     </td>
 </tr>
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
@@ -222,7 +270,7 @@
             </c:if>
         </c:forEach>
     </td>
-</c:if>
+    </c:if>
     <%--<td align="left" width="43%">--%>
     <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
     <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>

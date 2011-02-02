@@ -1,16 +1,13 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 //
@@ -259,7 +256,14 @@ public class ParticipantCommand {
         studyParticipantAssignment.setCallAmPm(callAmPm);
         studyParticipantAssignment.setCallHour(callHour);
         studyParticipantAssignment.setCallMinute(callMinute);
-        studyParticipantAssignment.setCallTimeZone(callTimeZone);
+        if(callTimeZone!=null){
+            if(callTimeZone.equals(""))
+                studyParticipantAssignment.setCallTimeZone(null);
+           else
+            studyParticipantAssignment.setCallTimeZone(callTimeZone);
+        }
+        else
+            studyParticipantAssignment.setCallTimeZone(callTimeZone);
 //        studyParticipantAssignment.setReminderAmPm(reminderAmPm);
 //        studyParticipantAssignment.setReminderHour(reminderHour);
 //        studyParticipantAssignment.setReminderMinute(reminderMinute);

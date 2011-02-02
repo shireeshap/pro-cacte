@@ -59,13 +59,13 @@ public class UserNameAndPasswordValidatorTest extends AbstractTestCase {
         users.add(user);
         expect(userRepository.find(isA(UserQuery.class))).andReturn(users);
         replayMocks();
-        assertTrue(validator.validateDwrUniqueName("reshma"));
+        assertTrue(validator.validateDwrUniqueName("reshma",1));
     }
 
     public void testValidateDwrUniqueNameFalse(){
         expect(userRepository.find(isA(UserQuery.class))).andReturn(users).anyTimes();
         replayMocks();
-        assertFalse(validator.validateDwrUniqueName("eeee"));
+        assertFalse(validator.validateDwrUniqueName("eeee",1));
     }
 
     public void testValidatePasswordPolicyDwrParticipantError(){

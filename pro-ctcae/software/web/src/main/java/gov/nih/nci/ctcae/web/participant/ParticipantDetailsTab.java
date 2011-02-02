@@ -18,8 +18,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 //
@@ -61,43 +59,60 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         super.onBind(request, command, errors);
         command.getStudySubjectIdentifierMap().clear();
 
-        if(command.getParticipant().isPersisted()){
-           //Edit flow
-           for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+        if (command.getParticipant().isPersisted()) {
+            //Edit flow
+            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                 command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
                 command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
-           } 
-        }else{
-           //Create flow (Participant is not saved yet)
-           command.getParticipant().removeAllStudyParticipantAssignments();
-           for (StudySite studySite : command.getStudySites()) {
-              String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
-              command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
-              command.setSiteName(studySite.getOrganization().getName());
-              StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignment(studySite,
-                      studyParticipantIdentifier , request.getParameter("arm_" + studySite.getId()));
-              command.setParticipantModeHistory(studySite, studyParticipantAssignment, request);
-              command.setParticipantModesAndReminders(studySite, studyParticipantAssignment, request);
-              String studyStartDate = request.getParameter("study_date_" + studySite.getId());
-              if (!StringUtils.isBlank(studyStartDate)) {
-                 try{
-                    studyParticipantAssignment.setStudyStartDate(DateUtils.parseDate(studyStartDate));
-                 }catch(Exception e){
-                    studyParticipantAssignment.setStudyStartDate(null);
-                 }
+            }
+        } else {
+            //Create flow (Participant is not saved yet)
+            command.getParticipant().removeAllStudyParticipantAssignments();
+            for (StudySite studySite : command.getStudySites()) {
+                String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+                command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
+                command.setSiteName(studySite.getOrganization().getName());
+                StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignment(studySite,
+                        studyParticipantIdentifier, request.getParameter("arm_" + studySite.getId()));
+                command.setParticipantModeHistory(studySite, studyParticipantAssignment, request);
+                command.setParticipantModesAndReminders(studySite, studyParticipantAssignment, request);
+                String studyStartDate = request.getParameter("study_date_" + studySite.getId());
+                if (!StringUtils.isBlank(studyStartDate)) {
+                    try {
+                        studyParticipantAssignment.setStudyStartDate(DateUtils.parseDate(studyStartDate));
+                    } catch (Exception e) {
+                        studyParticipantAssignment.setStudyStartDate(null);
+                    }
 
-              }
+                }
 
-           }
-            
-           if(CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())){
-              command.getSelectedStudyParticipantAssignment();  
-           }
+            }
 
+            if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
+                command.getSelectedStudyParticipantAssignment();
+            }
+
+            String email[];
+            email = command.getParticipant().getEmailAddress().split(",");
+            if (email.length<=0) {
+                command.getParticipant().setEmailAddress(null);
+            }
+            for (String em : email) {
+                if (!em.equals("")) {
+                    command.getParticipant().setEmailAddress(em);
+                }
+            }
+            String phone[];
+            phone = command.getParticipant().getPhoneNumber().split(",");
+            if (phone.length<=0) {
+                command.getParticipant().setPhoneNumber(null);
+            }
+            for (String ph : phone) {
+                if (!ph.equals("")) {
+                    command.getParticipant().setPhoneNumber(ph);
+                }
+            }
         }
-
-
-        
     }
 
 
@@ -112,20 +127,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         "studyId", "Please select at least one study.");
             }
         }
-         // checking for unique email address
-        if (command.getParticipant().getEmailAddress()!=null) {
-            boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(),command.getParticipant().getId());
+        // checking for unique email address
+        if (command.getParticipant().getEmailAddress() != null) {
+            boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
             if (validEmail) {
                 errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");
             }
         }
         //checking for unique user number
-        if(command.getParticipant().getUserNumber()!=null){
+        if (command.getParticipant().getUserNumber() != null) {
 
-            String userNumber =command.getParticipant().getUserNumber().toString();
-            boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber,command.getParticipant().getId());
-            if(validUserNumber){
-                errors.rejectValue("participant.userNumber","participant.unique_userNumber","participant.unique_userNumber");
+            String userNumber = command.getParticipant().getUserNumber().toString();
+            boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
+            if (validUserNumber) {
+                errors.rejectValue("participant.userNumber", "participant.unique_userNumber", "participant.unique_userNumber");
             }
         }
         User user = command.getParticipant().getUser();
@@ -148,18 +163,17 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         }
 
 
-        for(Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()){
+        for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
             String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
-            if(ssi == null || ssi.length() == 0) {
+            if (ssi == null || ssi.length() == 0) {
                 errors.reject("participant.missing.assignedIdentifier", "participant.missing.assignedIdentifier");
                 continue;
             }
-            boolean duplicate = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantIdentifier(studySiteId, ssi,command.getParticipant().getId());
+            boolean duplicate = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantIdentifier(studySiteId, ssi, command.getParticipant().getId());
             if (duplicate) {
                 errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
             }
         }
-
 
 
     }
@@ -194,6 +208,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
+        referenceData.put("patientId", command.getParticipant().getId());
+        referenceData.put("userId",command.getParticipant().getUser().getId());
         return referenceData;
     }
 
@@ -201,11 +217,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         command.initialize();
-        if(!errors.hasErrors()){
-          try{
-               if(!command.getParticipant().isPersisted()) command.assignCrfsToParticipant(); 
+        if (!errors.hasErrors()) {
+            try {
+                if (!command.getParticipant().isPersisted()) command.assignCrfsToParticipant();
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }

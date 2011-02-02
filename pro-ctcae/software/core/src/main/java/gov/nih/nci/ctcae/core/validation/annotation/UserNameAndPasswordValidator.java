@@ -69,9 +69,10 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         }
     }
 
-    public boolean validateDwrUniqueName(String userName) {
+    public boolean validateDwrUniqueName(String userName,Integer userId) {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(userName);
+        userQuery.excludeByUserId(userId);
         List<User> users = new ArrayList<User>(userRepository.find(userQuery));
         if ((users == null || users.isEmpty())) {
             return false;
