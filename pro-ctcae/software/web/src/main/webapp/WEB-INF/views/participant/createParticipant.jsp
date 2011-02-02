@@ -27,7 +27,6 @@ function checkParticipantUserName() {
     var userName = $('participant.user.username').value;
     if (participantId == "") {
         var userId = "${userId}";
-        alert(userId);
     }
 
     if (userName != "") {
