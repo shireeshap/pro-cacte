@@ -241,15 +241,14 @@ public class ParticipantSchedule {
                         Calendar dueCalendar = (Calendar) newCalendar.clone();
                         dueCalendar.add(Calendar.DATE, dateOffset);
                         schToUpdate.setDueDate(dueCalendar.getTime());
-                        if (schToUpdate.getStatus().equals(CrfStatus.PASTDUE) ||
-                                schToUpdate.getStatus().equals(CrfStatus.SCHEDULED)
-                                ) {
-                            if (today.after(schToUpdate.getDueDate())) {
+                        if (today.after(schToUpdate.getDueDate())) {
                                 schToUpdate.setStatus(CrfStatus.PASTDUE);
-                            } else {
-                                schToUpdate.setStatus(CrfStatus.SCHEDULED);
-                            }
+                        } else {
+                                if(schToUpdate.getStatus().equals(CrfStatus.PASTDUE)){
+                                    schToUpdate.setStatus(CrfStatus.SCHEDULED);
+                                }
                         }
+
                         updatedForms.add(studyParticipantCrf.getCrf().getTitle());
                     } else {
                         completedForms.add(studyParticipantCrf.getCrf().getTitle());
@@ -423,7 +422,15 @@ public class ParticipantSchedule {
 
             studyParticipantCrfSchedule.setStartDate(c1.getTime());
             studyParticipantCrfSchedule.setDueDate(c2.getTime());
-            studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+            if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                  studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+            } else {
+                  if(studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)){
+                        studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                  }
+            }
+
         }
     }
 
