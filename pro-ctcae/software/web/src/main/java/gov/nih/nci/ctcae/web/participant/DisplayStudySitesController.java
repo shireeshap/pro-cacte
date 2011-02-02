@@ -61,7 +61,7 @@ public class DisplayStudySitesController extends AbstractController {
             times.add(j);
         }
         List<Integer> minutes = new ArrayList();
-        for (int i = 0; i <= 60; i += 5) {
+        for (int i = 0; i <60; i += 5) {
             minutes.add(i);
         }
 

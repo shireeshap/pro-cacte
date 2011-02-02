@@ -192,13 +192,17 @@
             <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
                 <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >Hr</option>
                 <c:forEach items="${hours}" var="hour">
-                    <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hour}</option>
+                    <c:set var="hr" value="${hour}"/>
+                    <c:if test="${hr/10<1}"><c:set var="hr" value="0${hour}"/></c:if>
+                    <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
                 </c:forEach>
             </select>&nbsp;
             <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
                 <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min</option>
                 <c:forEach items="${minutes}" var="minute">
-                    <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${minute}</option>
+                    <c:set var="min" value="${minute}"/>
+                    <c:if test="${min/10<1}"><c:set var="min" value="0${minute}"/></c:if>
+                    <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
                 </c:forEach>
             </select>&nbsp;
             <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}">
