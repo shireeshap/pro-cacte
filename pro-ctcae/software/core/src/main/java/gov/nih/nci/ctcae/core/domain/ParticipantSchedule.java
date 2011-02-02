@@ -190,6 +190,8 @@ public class ParticipantSchedule {
 
                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, dueDateUnit, Integer.parseInt(dueDateValue));
 
+                }else{
+                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, "Days", 2);
                 }
                 break;
             }
