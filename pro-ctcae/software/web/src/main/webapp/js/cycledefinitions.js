@@ -148,8 +148,9 @@ function initializeCalendar(index) {
                     item.innerHTML = delIcon + item.innerHTML;
                     showPopUpMenuSchedule(day, index, scheduleid,showDeleteOption);
                     myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
-                    myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
+
                 }
+                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
 
             } else {
                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
