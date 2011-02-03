@@ -38,7 +38,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
     private UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator;
     private UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator;
-//    protected Properties proCtcAEProperties;
+    //    protected Properties proCtcAEProperties;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
 
     /**
@@ -61,6 +61,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         if (command.getParticipant().isPersisted()) {
             //Edit flow
+            for (StudySite studySite : command.getStudySites()) {
+                String newStartDate = request.getParameter("study_date_" + studySite.getId());
+                try {
+                    command.setNewStartDate(DateUtils.parseDate(newStartDate));
+                } catch (Exception e) {
+                    command.setNewStartDate(null);
+                }
+            }
             for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                 command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
                 command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
@@ -92,27 +100,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 command.getSelectedStudyParticipantAssignment();
             }
 
-            String email[];
-            email = command.getParticipant().getEmailAddress().split(",");
-            if (email.length<=0) {
-                command.getParticipant().setEmailAddress(null);
-            }
-            for (String em : email) {
-                if (!em.equals("")) {
-                    command.getParticipant().setEmailAddress(em);
-                }
-            }
-            String phone[];
-            phone = command.getParticipant().getPhoneNumber().split(",");
-            if (phone.length<=0) {
-                command.getParticipant().setPhoneNumber(null);
-            }
-            for (String ph : phone) {
-                if (!ph.equals("")) {
-                    command.getParticipant().setPhoneNumber(ph);
-                }
-            }
         }
+
+
     }
 
 
@@ -209,7 +199,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         referenceData.put("patientId", command.getParticipant().getId());
-        referenceData.put("userId",command.getParticipant().getUser().getId());
+        referenceData.put("userId", command.getParticipant().getUser().getId());
         return referenceData;
     }
 
@@ -217,9 +207,26 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         command.initialize();
+
         if (!errors.hasErrors()) {
             try {
-                if (!command.getParticipant().isPersisted()) command.assignCrfsToParticipant();
+                if (!command.getParticipant().isPersisted()) {
+                    command.assignCrfsToParticipant();
+                } else {
+                    Date newStartDate = command.getNewStartDate();
+                    int offSetDiff = 0;
+                    for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+                        if (!studyParticipantAssignment.getStudyStartDate().equals(newStartDate)) {
+                            offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
+                            studyParticipantAssignment.setStudyStartDate(newStartDate);
+                            for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+                                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                                    studyParticipantCrf.moveSingleSchedule(studyParticipantCrfSchedule, offSetDiff);
+                                }
+                            }
+                        }
+                    }
+                }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

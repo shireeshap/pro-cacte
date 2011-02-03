@@ -70,6 +70,7 @@ public class ParticipantCommand {
 
     private Date onHoldTreatmentDate;  //BJ - added for capturing the dates for OnHold (see ParticipantOnHoldController)
     private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
+    private Date newStartDate;
 
     public boolean isOdc() {
         return odc;
@@ -157,6 +158,14 @@ public class ParticipantCommand {
 
     public void setPasswordPolicy(PasswordPolicy passwordPolicy) {
         this.passwordPolicy = passwordPolicy;
+    }
+
+    public Date getNewStartDate() {
+        return newStartDate;
+    }
+
+    public void setNewStartDate(Date newStartDate) {
+        this.newStartDate = newStartDate;
     }
 
     public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier, String armId) {
