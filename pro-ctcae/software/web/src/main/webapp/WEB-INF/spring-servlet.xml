@@ -422,7 +422,6 @@
     </bean>
     <bean name="/participant/moveFormScheduleValidate" id="moveFormScheduleValidate"
           class="gov.nih.nci.ctcae.web.participant.MoveFormScheduleValidateController">
-        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/admin/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
