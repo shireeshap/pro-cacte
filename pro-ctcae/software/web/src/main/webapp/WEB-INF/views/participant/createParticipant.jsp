@@ -78,6 +78,8 @@ function checkError() {
 function checkPasswordPolicy() {
     var userPassword = $('participant.user.password').value;
     var userName = $('participant.user.username').value;
+    var confirmPassword = $('participant.user.confirmPassword').value;
+    if(confirmPassword!=""){ checkPasswordMatch();}
     if (userPassword != "") {
         userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, passReturnValue);
         return;
@@ -108,19 +110,21 @@ function checkPasswordMatch() {
     if (password != "" && confirmPassword != "") {
         if (password == confirmPassword) {
             jQuery('#passwordErrorConfirm').hide();
-            checkError();
         }
         else {
             jQuery('#passwordErrorConfirm').show();
             document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
-            checkError();
         }
     }
     else {
-        jQuery('#passwordErrorConfirm').show();
-        document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
-        checkError();
+        if (confirmPassword == ""){
+            alert("sads");
+            jQuery('#passwordErrorConfirm').show();
+            document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
+        }
+        else{jQuery('#passwordErrorConfirm').hide(); }
     }
+    checkError();
 }
 
 
@@ -379,6 +383,10 @@ function showEmail(id) {
     else {
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
+        jQuery('#emailError_' + id).hide();
+        jQuery('#MissingError_' + id).hide();
+        $('participant.emailAddress_' + id).value="";
+        checkError();
     }
 }
 <%--var clickCount = ${homeModeCount};--%>
@@ -442,7 +450,10 @@ function checkLastName(){
         jQuery('#missingLast').show();
     checkError();
 }
+function hideErrors(){
+    jQuery('#missingLast').hide();
 
+}
 </script>
 <style type="text/css">
     .tableHeader {
