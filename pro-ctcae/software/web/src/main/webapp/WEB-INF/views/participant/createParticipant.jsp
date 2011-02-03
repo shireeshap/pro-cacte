@@ -402,6 +402,9 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#phoneError_' + id).hide();
     } else {
         jQuery('#web_' + id).show();
+        jQuery('#emailError_' + id).hide();
+        jQuery('#MissingError_' + id).hide();
+        jQuery('#phoneError_' + id).hide();
     }
     if (value1 && value2 == "IVRS") {
         jQuery('#div_contact').show();
