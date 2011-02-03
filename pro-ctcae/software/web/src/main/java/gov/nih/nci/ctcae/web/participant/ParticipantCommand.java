@@ -71,6 +71,7 @@ public class ParticipantCommand {
     private Date onHoldTreatmentDate;  //BJ - added for capturing the dates for OnHold (see ParticipantOnHoldController)
     private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
     private Date newStartDate;
+    private Integer armId;
 
     public boolean isOdc() {
         return odc;
@@ -168,6 +169,14 @@ public class ParticipantCommand {
         this.newStartDate = newStartDate;
     }
 
+    public Integer getArmId() {
+        return armId;
+    }
+
+    public void setArmId(Integer armId) {
+        this.armId = armId;
+    }
+
     public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier, String armId) {
 
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
@@ -195,6 +204,10 @@ public class ParticipantCommand {
         }
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         return studyParticipantAssignment;
+    }
+
+    public void assignArm (StudySite studySite) {
+
     }
 
     public void assignCrfsToParticipant() throws ParseException{
@@ -574,8 +587,19 @@ public class ParticipantCommand {
             participant.getStudyParticipantAssignments().size();
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 if(studyParticipantAssignment.getStudyParticipantCrfs() != null){
-                    for(StudyParticipantCrf crf : studyParticipantAssignment.getStudyParticipantCrfs()){
-                        if(crf.getStudyParticipantCrfSchedules() != null) crf.getStudyParticipantCrfSchedules().size();
+                    for(StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()){
+                        if(studyParticipantCrf.getStudyParticipantCrfSchedules() != null) studyParticipantCrf.getStudyParticipantCrfSchedules().size();
+                        for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()){
+                            crfPage.getCrfPageItems().size();
+                        }
+                        if (studyParticipantCrf.getCrf().getFormArmSchedules()!= null) studyParticipantCrf.getCrf().getFormArmSchedules().size();
+                        for(FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()){
+                            if (formArmSchedule.getCrfCalendars()!=null) formArmSchedule.getCrfCalendars().size();
+                            if (formArmSchedule.getCrfCycleDefinitions()!=null) formArmSchedule.getCrfCycleDefinitions().size();
+                            for (CRFCycleDefinition crfCycleDefinition : formArmSchedule.getCrfCycleDefinitions()) {
+                                   if (crfCycleDefinition.getCrfCycles()!=null) crfCycleDefinition.getCrfCycles().size();
+                            }
+                        }
                     }
                 }
                 

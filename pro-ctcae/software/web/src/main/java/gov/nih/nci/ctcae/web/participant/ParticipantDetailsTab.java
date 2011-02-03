@@ -61,17 +61,18 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         if (command.getParticipant().isPersisted()) {
             //Edit flow
-            for (StudySite studySite : command.getStudySites()) {
-                String newStartDate = request.getParameter("study_date_" + studySite.getId());
+            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+                StudySite studySite = studyParticipantAssignment.getStudySite();
+                command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
+                String armId = request.getParameter("arm_" + studyParticipantAssignment.getStudySite().getId());
                 try {
                     command.setNewStartDate(DateUtils.parseDate(newStartDate));
                 } catch (Exception e) {
                     command.setNewStartDate(null);
                 }
-            }
-            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
-                command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
-                command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+                command.setArmId(Integer.parseInt(armId));
             }
         } else {
             //Create flow (Participant is not saved yet)
@@ -224,6 +225,15 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                                     studyParticipantCrf.moveSingleSchedule(studyParticipantCrfSchedule, offSetDiff);
                                 }
                             }
+                        }
+                        if (!studyParticipantAssignment.getArm().getId().equals(command.getArmId())) {
+                            for (Arm arm : studyParticipantAssignment.getStudySite().getStudy().getArms()) {
+                                if (command.getArmId() != null && arm.getId().equals(command.getArmId())) {
+                                    studyParticipantAssignment.setArm(arm);
+                                }
+                            }
+                            studyParticipantAssignment.removeAllSchedules();
+                            command.assignCrfsToParticipant();
                         }
                     }
                 }

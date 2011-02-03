@@ -461,12 +461,13 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     /**
      * Will mark off hold
+     *
      * @param effectiveDate
      */
-    public void putOnHold(Date effectiveDate){
+    public void putOnHold(Date effectiveDate) {
         setOnHoldTreatmentDate(effectiveDate);
         setOffHoldTreatmentDate(null);
-        for(StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
+        for (StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
     }
 
 //    public String getReminderTimeZone() {
@@ -514,7 +515,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public List<StudyParticipantReportingModeHistory> getEligiblePartcipantModeReportingHistoryItems() {
         List<StudyParticipantReportingModeHistory> histItems = new ArrayList();
         for (StudyParticipantReportingModeHistory studyParticipantModeRptHistory : studyParticipantReportingModeHistoryItems) {
-            if(studyParticipantModeRptHistory.getEffectiveEndDate()==null){
+            if (studyParticipantModeRptHistory.getEffectiveEndDate() == null) {
                 histItems.add(studyParticipantModeRptHistory);
             }
         }
@@ -525,6 +526,20 @@ public class StudyParticipantAssignment extends BaseVersionable {
         if (studyParticipantModeHistory != null) {
             studyParticipantModeHistory.setStudyParticipantAssignment(this);
             studyParticipantReportingModeHistoryItems.add(studyParticipantModeHistory);
+        }
+    }
+
+    public void removeAllSchedules() {
+        List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                    schedulesToRemove.add(studyParticipantCrfSchedule);
+                }
+            }
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
+                studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+            }
         }
     }
 
