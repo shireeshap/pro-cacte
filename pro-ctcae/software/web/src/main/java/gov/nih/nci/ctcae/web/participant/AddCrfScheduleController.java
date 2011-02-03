@@ -78,7 +78,7 @@ public class AddCrfScheduleController extends AbstractController {
 
             c.set(Calendar.DATE, Integer.parseInt(olddate));
 
-            Calendar newCalendar = (Calendar) c.clone();
+            Calendar newCalendar = new GregorianCalendar();
             newCalendar.setTime(newDate);
             participantSchedule.updateSchedule(c, newCalendar, formIds, resultMap);
             studyParticipantCommand.lazyInitializeAssignment(genericRepository, true);

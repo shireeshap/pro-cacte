@@ -18,14 +18,12 @@ import java.util.*;
 //
 
 /**
- * The Class ReleaseFormController.
+ * The Class MoveFormScheduleValidateController.
  *
- * @author Vinay Kumar
- * @since Nov 5, 2008
+ * @author Suneel Allareddy
+ * @since Feb 3, 2010
  */
 public class MoveFormScheduleValidateController extends AbstractController {
-
-    GenericRepository genericRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mv = new ModelAndView("participant/moveConfirmForm");
@@ -48,7 +46,7 @@ public class MoveFormScheduleValidateController extends AbstractController {
 
         c.set(Calendar.DATE, Integer.parseInt(olddate));
         mv.addObject("olddate", DateUtils.format(c.getTime()));
-        Calendar newCalendar = (Calendar) c.clone();
+        Calendar newCalendar = new GregorianCalendar();
         newCalendar.setTime(newDate);
         mv.addObject("newDate", DateUtils.format(newCalendar.getTime()));
         List<String> issueForms = participantSchedule.getReschedulePastDueForms(c, newCalendar, formIds);
@@ -69,8 +67,4 @@ public class MoveFormScheduleValidateController extends AbstractController {
         return mv;
     }
 
-    @Required
-    public void setGenericRepository(GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 }

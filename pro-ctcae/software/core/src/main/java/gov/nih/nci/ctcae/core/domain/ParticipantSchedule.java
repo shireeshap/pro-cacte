@@ -165,9 +165,9 @@ public class ParticipantSchedule {
     /**
      * get the due date for a given Calendar date with calendar/cycle based definitions for the form.
      *
-     * @param c                   the c
+     * @param c Calendar, for which due date needs to calculate
      * @param studyParticipantCrf StudyParticipantCrf
-     * @return Date dueDate
+     * @return Date, dueDate for the calendar
      */
     public Date getDueDateForFormSchedule(Calendar c, StudyParticipantCrf studyParticipantCrf) {
         Date dueDate = null;
@@ -202,16 +202,17 @@ public class ParticipantSchedule {
     /**
      * updates the schedule.
      *
-     * @param oldCalendar the c
-     * @param newCalendar the c
-     * @param formIds     formids
+     * @param oldCalendar Calendar, of current date
+     * @param newCalendar Calendar, of reschedule date
+     * @param formIds     List<String>, crfs for which schedules needs to be modified
+     * @param resultMap     LinkedHashMap<String, List<String>>, stores the failure and success forms list map
      */
     public void updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap) {
         List<String> updatedForms = new ArrayList<String>();
         List<String> completedForms = new ArrayList<String>();
         if (newCalendar != null) {
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
             StudyParticipantCrfSchedule schToUpdate = null;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 int alreadyExistsCount = 0;
@@ -219,9 +220,9 @@ public class ParticipantSchedule {
                 boolean alreadyPresentNewDate = false;
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
-                        String calendarDate = sdf.format(oldCalendar.getTime());
-                        String calendarNewDate = sdf.format(newCalendar.getTime());
+                        String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
+                        String calendarDate = DateUtils.format(oldCalendar.getTime());
+                        String calendarNewDate = DateUtils.format(newCalendar.getTime());
                         if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
                             schToUpdate = studyParticipantCrfSchedule;
                             alreadyExists = true;
@@ -263,26 +264,26 @@ public class ParticipantSchedule {
     }
 
     /**
-     * updates the schedule.
+     * validation method to get the forms which are going to be past-due(due date<current system date).
      *
-     * @param oldCalendar the c
-     * @param newCalendar the c
-     * @param formIds     formids
+     * @param oldCalendar the Calendar, current date
+     * @param newCalendar the Calendar, reschedule date
+     * @param formIds     List<String>, form ids for which reschedule
      */
     public List<String> getReschedulePastDueForms(Calendar oldCalendar, Calendar newCalendar, List<String> formIds) {
         ArrayList<String> listPastDueForms = new ArrayList<String>();
         if (newCalendar != null) {
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
             StudyParticipantCrfSchedule schToUpdate = null;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 boolean alreadyPresentNewDate = false;
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
-                        String calendarDate = sdf.format(oldCalendar.getTime());
-                        String calendarNewDate = sdf.format(newCalendar.getTime());
+                        String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
+                        String calendarDate = DateUtils.format(oldCalendar.getTime());
+                        String calendarNewDate = DateUtils.format(newCalendar.getTime());
                         if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
                             schToUpdate = studyParticipantCrfSchedule;
                             alreadyExists = true;

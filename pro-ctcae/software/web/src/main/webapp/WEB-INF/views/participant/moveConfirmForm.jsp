@@ -18,10 +18,12 @@
                     </c:forEach>
                     <br/>
 
-
+             <div id="div_hidden_checkboxes" style="display:none;">
             <c:forEach items="${selectedForms}" var="crf">
-               <input type="hidden" name="selectedForms" value="${crf}"/>
+               <%--<input type="hidden" name="selectedForms" value="${crf}"/>  --%>
+                <input type="checkbox" name="selectedForms" value="${crf}" checked>
             </c:forEach>
+                 </div>
         </td>
     </tr>
 
