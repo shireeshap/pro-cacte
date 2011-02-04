@@ -123,13 +123,17 @@
 
         function checkUniqueUserName() {
             var userName = $('username').value;
+            var staffId = "${param['clinicalStaffId']}";
+            if (staffId == "") {
+                var userId = "${clinicalStaffCommand.clinicalStaff.user.id}";
+            }
             if (userName != "") {
                 if (userName.length < 6) {
                     jQuery('#userNameError').hide();
                     jQuery('#userNameLengthError').show();
                 }
                 else {
-                    userNameValidation.validateDwrUniqueName(userName, userReturnValue);
+                    userNameValidation.validateDwrUniqueName(userName,userId, userReturnValue);
                     jQuery('#userNameLengthError').hide();
                     return;
                 }
@@ -210,8 +214,8 @@
                                          displayName="clinicalStaff.label.first_name"
                                          required="true" onblur="checkFirstName();"/>
                         <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='clinicalStaff.firstName_validation'
-                                                text='clinicalStaff.firstName_validation'/>
+                            <li><spring:message code='firstName_validation'
+                                                text='firstName_validation'/>
                             </li>
                         </ul>
                         <tags:renderText propertyName="clinicalStaff.middleName"
@@ -220,8 +224,8 @@
                                          displayName="clinicalStaff.label.last_name"
                                          required="true" onblur="checkLastName()"/>
                         <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='clinicalStaff.lastName_validation'
-                                                text='clinicalStaff.lastName_validation'/>
+                            <li><spring:message code='lastName_validation'
+                                                text='lastName_validation'/>
                             </li>
                         </ul>
                     </td>

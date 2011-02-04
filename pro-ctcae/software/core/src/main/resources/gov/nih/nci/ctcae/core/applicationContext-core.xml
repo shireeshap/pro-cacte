@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -12,6 +11,17 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+
+        <property name="basenames">
+            <list>
+                <value>WEB-INF/message</value>
+                <value>WEB-INF/help</value>
+            </list>
+        </property>
+        <property name="cacheSeconds" value="1"/>
+
+    </bean>
 
     <!--  for @Repository annotation  -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
@@ -306,16 +316,17 @@
     </bean>
     <bean id="firstAndLastNameValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator">
+        <property name="messageSource" ref="messageSource"/>
     </bean>
 
-    <bean id="auditInfoPopulatorInterceptor" class="gov.nih.nci.ctcae.core.audit.AuditInfoPopulatorInterceptor" />
+    <bean id="auditInfoPopulatorInterceptor" class="gov.nih.nci.ctcae.core.audit.AuditInfoPopulatorInterceptor"/>
     <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
-		<property name="flushModeName">
+        <property name="flushModeName">
             <value>FLUSH_NEVER</value>
         </property>
     </bean>
-    
+
 </beans>

@@ -1,7 +1,10 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.MessageSource;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,17 +20,29 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
          * The message.
          */
         private String message;
-
-
+    /**
+     *  The pattern
+     * Matches which are not alphabets and special character ' 
+     */
+        public static Pattern pattern =Pattern.compile("^[a-zA-Z ]+[a-zA-Z'']+$");
+        protected MessageSource messageSource;
+    /**
+     *
+     * @param value
+     * @return true if error exists and vise versa
+     */
      public boolean validate(Object value) {
 
         return validate(value, true, true);
     }
-
-    // Method takes ClinicalStaff as value and it takes a boolean value for first name and last name to know
-    // if they should be validated.
-    // Returns false if method finds that first/last name is empty or mismatch with the given pattern. else it returns true
-
+    /**
+     * @return boolean value
+     * True if first/last name is empty or mismatch with the given pattern. 
+     * @param value
+     * @param validateFirstName to validate firstName
+     * @param validateLastName to validate lastName
+     *
+     */
     public boolean validate(Object value, boolean validateFirstName, boolean validateLastName) {
         if (value instanceof ClinicalStaff) {
             ClinicalStaff staff = (ClinicalStaff) value;
@@ -37,7 +52,7 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
                     return false;
                 }
                 if(!validateName(staff.getFirstName())){
-                    message = "Firstname should contain only alphabets or special character ' .";
+                    message =messageSource.getMessage("firstName_validation",new Object[] {}, Locale.getDefault());
                     return false;
                 }
             }
@@ -47,7 +62,7 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
                     return false;
                 }
                 if(!validateName(staff.getLastName())) {
-                    message = "Lastname should contain only alphabets or special character ' .";
+                    message =messageSource.getMessage("lastName_validation",new Object[] {}, Locale.getDefault());
                     return false;
                 }
             }
@@ -55,14 +70,17 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
         return true;
     }
 
-    // Checks if the given name matches to the given pattern and returns true if success
-    // or false if name don't match the given pattern       
+    /**
+     *
+     * @param name The name
+     * @return true if pattern matches the name and vise versa
+     */     
     public boolean validateName(String name)
     {
         if(name == null)
             return false;
 
-        Pattern pattern =Pattern.compile("^[a-zA-Z ]+[a-zA-Z'']+$");
+
         Matcher matcher = pattern.matcher(name);
             if(matcher.matches())
             {
@@ -76,9 +94,21 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
         message = parameters.message();
     }
 
+    /**
+	 *
+	 *  the message to set
+	 */
     public String message() {
         return message;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+	 * @param messageSource
+	 *            the messageSource to set
+	 */
+    @Required
+    public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
 
 }

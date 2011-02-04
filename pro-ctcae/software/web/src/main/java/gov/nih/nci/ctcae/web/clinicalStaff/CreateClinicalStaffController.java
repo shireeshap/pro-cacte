@@ -119,11 +119,11 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         // checking for first name and last name
         boolean validName = firstAndLastNameValidator.validate(command.getClinicalStaff(),true,true);
         if (!validName) {
-            if(firstAndLastNameValidator.message().contains("Firstname")){
-                e.rejectValue("clinicalStaff.firstName", "clinicalStaff.firstName_validation", "clinicalStaff.firstName_validation");
+            if(firstAndLastNameValidator.message().contains("First name")){
+                e.rejectValue("clinicalStaff.firstName", "firstName_validation", "firstName_validation");
             }
-            else if(firstAndLastNameValidator.message().contains("Lastname")){
-                e.rejectValue("clinicalStaff.lastName", "clinicalStaff.lastName_validation", "clinicalStaff.lastName_validation");
+            else if(firstAndLastNameValidator.message().contains("Last name")){
+                e.rejectValue("clinicalStaff.lastName", "lastName_validation", "lastName_validation");
             }
         }
 
