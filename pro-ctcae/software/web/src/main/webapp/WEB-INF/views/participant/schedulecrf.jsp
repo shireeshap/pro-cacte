@@ -124,12 +124,13 @@
         })
     }
 
-    function showAddWindow(date, index) {
+    function showAddWindow(date, index, sids) {
+
         var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
             onComplete:function(transport) {
                 showConfirmationWindow(transport, 650, 210);
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date ,
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
             method:'get'
         })
     }
@@ -226,7 +227,9 @@
             var html = '<div id="search-engines"><ul>';
             html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
             if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
+                if(${crfsSize>1}){
+                    html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                }
                 if(showDeleteOption){
                     html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
                 }

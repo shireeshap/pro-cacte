@@ -8,15 +8,15 @@
                     Multiple forms have been assigned to the ${participant.displayName}.
                     Please select the forms for which you want to schedule an event<br>
                     <c:forEach items="${crfs}" var="crf">
-                        <input type="checkbox" name="selectedForms"
-                               value="${crf.id}">${crf.title}
+                        <input type="checkbox" name="selectedForms" <c:if test="${crf.value}">disabled="true"</c:if>
+                               value="${crf.key.id}">${crf.key.title}
                         <br/>
                     </c:forEach>
                     <br/>
                 </c:when>
                 <c:otherwise>
-                    You are about to add a new event for ${participant.displayName} on form: ${crfs[0].title}
-                    <input type="hidden" name="selectedForms" value="${crfs[0].id}"/>
+                    You are about to add a new event for ${participant.displayName} on form: ${firstCrf.title}
+                    <input type="hidden" name="selectedForms" value="${firstCrf.id}"/>
                     <br/>
                     <br/>
                 </c:otherwise>

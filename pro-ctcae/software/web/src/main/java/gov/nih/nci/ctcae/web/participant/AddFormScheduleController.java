@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +12,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 //
 
@@ -42,15 +40,28 @@ public class AddFormScheduleController extends AbstractController {
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("date")));
 
         ModelAndView mv = new ModelAndView("participant/addSchedule");
-        List<CRF> crfs = new ArrayList<CRF>();
+        String sids = request.getParameter("sids");
+        List<String> listExistingCrfs = new ArrayList<String>();
+        if(sids!=null){
+            String[] sidArr = sids.split("_");
+             listExistingCrfs = Arrays.asList(sidArr);         }
+        LinkedHashMap<CRF,Boolean> crfListMap = new LinkedHashMap<CRF,Boolean>();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
             CRF crf = studyParticipantCrf.getCrf();
+            boolean crfExists = false;
+            for(StudyParticipantCrfSchedule studyParticipantCrfSchedule:studyParticipantCrf.getStudyParticipantCrfSchedules()){
+                if(listExistingCrfs.contains(studyParticipantCrfSchedule.getId().toString())){
+                      crfExists =true;
+                      break;
+                }
+            }
             if (crf.getChildCrf() == null) {
-                crfs.add(crf);
+                crfListMap.put(crf,crfExists);
             }
         }
 
-        mv.addObject("crfs", crfs);
+        mv.addObject("crfs", crfListMap);
+        mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
         mv.addObject("day", request.getParameter("date"));
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));

@@ -1,12 +1,16 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 //
@@ -50,6 +54,16 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
         map.put("duedateunits", ListValues.getCalendarDueDateUnits());
         map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
         map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
+        int crfsIndex=0;
+        if(command.getStudyParticipantAssignment()!=null){
+            for (StudyParticipantCrf studyParticipantCrf : command.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+                CRF crf = studyParticipantCrf.getCrf();
+                if (crf.getChildCrf() == null) {
+                    crfsIndex++;
+                }
+            }
+        }
+        map.put("crfsSize", crfsIndex);
         return map;
     }
 
