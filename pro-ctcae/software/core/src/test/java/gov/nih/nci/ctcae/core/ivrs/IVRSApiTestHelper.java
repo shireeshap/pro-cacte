@@ -185,6 +185,44 @@ public class IVRSApiTestHelper {
         return result;
     }
 
+    public Integer ivrsGetPreviousQuestion(int userId, int formId, int questionId) {
+        String procedureName = "ivrs_getpreviousquestion";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("questionid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("questionid", questionId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+     public Integer ivrsGetQuestionAnswer(int userId, int formId, int questionId) {
+        String procedureName = "ivrs_getquestionanswer";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("questionid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("questionid", questionId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
     public Integer ivrsCommitSession(int userId, int formId, int pin) {
         String procedureName = "ivrs_commitsession";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)

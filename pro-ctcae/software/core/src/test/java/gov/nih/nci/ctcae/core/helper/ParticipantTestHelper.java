@@ -178,6 +178,7 @@ public class ParticipantTestHelper {
         spa.setStudyParticipantIdentifier("1234");
         spa.setStudySite(studySite);
         spa.setArm(studySite.getStudy().getArms().get(armIndex));
+        spa.setStudyStartDate(new Date());
         participant.addStudyParticipantAssignment(spa);
     }
 

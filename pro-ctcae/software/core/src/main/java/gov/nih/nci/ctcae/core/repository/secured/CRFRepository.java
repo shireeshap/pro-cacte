@@ -67,6 +67,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         StudyParticipantCrf newStudyParticipantCrf = new StudyParticipantCrf();
         newStudyParticipantCrf.setStartDate(studyParticipantAssignment.getStudyStartDate());
         newStudyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+
         crf.addStudyParticipantCrf(newStudyParticipantCrf);
 
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {

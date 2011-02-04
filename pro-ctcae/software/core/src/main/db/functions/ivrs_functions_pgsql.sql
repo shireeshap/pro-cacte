@@ -287,7 +287,7 @@ BEGIN
 	SELECT cpi.crf_page_id INTO v_page_present_num
 	from crf_page_items cpi
 	join study_participant_crf_items spci ON cpi.id= spci.crf_item_id
-	where spci.crf_item_id=questionid;
+	where spci.crf_item_id=questionid and spci.sp_crf_schedule_id = formid;
 
 	--traversing all the questions from the current page to get valid un answered question
 	OPEN curs_questions(formid,v_gender,v_page_present_num);
@@ -395,6 +395,130 @@ EXCEPTION
 END;
 $$ LANGUAGE 'plpgsql';
 
+-- Function: ivrs_getQuestionAnswer(userid integer, formid integer, questionid integer)
+-- DROP FUNCTION ivrs_getQuestionAnswer(userid integer, formid integer, questionid integer);
+--return:  return ivrs answer (1--None,2--Mild,3--Moderate,4--Severe,5--Very Severe etc) for given question, for 0 for there is no answer for given question, -1 for any DB issues
+CREATE OR REPLACE FUNCTION ivrs_getQuestionAnswer(userid integer, formid integer, questionid integer)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    v_return_answer_id integer :=0;
+    v_proctc_question_id integer :=0;
+    v_proctc_value_id integer :=0;
+BEGIN
+	--get the proctc question id using schedule question (crf item id)
+	SELECT pro_ctc_question_id INTO v_proctc_question_id from crf_page_items where id=questionid;
+	--get the answer id for the given form and given question
+	select pro_ctc_valid_value_id INTO v_proctc_value_id from study_participant_crf_items where sp_crf_schedule_id=formid and crf_item_id = questionid;
+	--if answer not found for the question return 0
+        IF v_proctc_value_id IS NULL THEN
+		return 0;
+        END IF;
+
+	--get the IVRS answer type from valid values like 1,2 etc
+	select count(*)+1 INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = v_proctc_question_id and id<v_proctc_value_id;
+
+	return v_return_answer_id;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+-- Function: ivrs_getpreviousquestion(userid integer, formid integer, questionid integer)
+-- DROP FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer);
+--return:  return previous question id for given question, for 0 if there is no previous question(current question id is the first question), -1 for any DB issues
+CREATE OR REPLACE FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    v_gender text := '';
+    v_question_id integer :=0;
+    v_temp_value_id integer :=0;
+    v_tmp_crf_page_id integer :=0;
+    v_page_present_num integer := 0;
+    v_curr_question_index integer := 1;
+    v_previous_page_required integer := 0;
+    v_ret_question_id integer := 0;
+    v_question_id_found integer := 0;
+    --get the questions for given symptom/page
+    curs_questions CURSOR(formid_in integer,gender_in text, pageid_in integer) IS
+    SELECT spci.crf_item_id,spci.pro_ctc_valid_value_id,cpi.crf_page_id
+	from study_participant_crf_items spci
+	join crf_page_items cpi ON cpi.id= spci.crf_item_id
+	join crf_pages cp ON cp.id=cpi.crf_page_id
+	join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
+	where cpi.crf_page_id = pageid_in and
+	spci.sp_crf_schedule_id = formid_in and
+	(pct.gender is null or pct.gender=gender_in or pct.gender ='both')
+	order by cpi.crf_page_id,cpi.display_order;
+
+BEGIN
+	--getting gender information of the participant
+	SELECT lower(gender) into v_gender FROM participants where user_id=userid;
+
+	--getting current page for the given question
+	SELECT cpi.crf_page_id INTO v_page_present_num
+	from crf_page_items cpi
+	join study_participant_crf_items spci ON cpi.id= spci.crf_item_id
+	where spci.crf_item_id=questionid and spci.sp_crf_schedule_id = formid;
+
+	--traversing all the questions in current page to get valid answered answered question
+	OPEN curs_questions(formid,v_gender,v_page_present_num);
+	LOOP
+	FETCH curs_questions INTO v_question_id,v_temp_value_id,v_tmp_crf_page_id;
+	       EXIT WHEN NOT FOUND;
+		--check whether first question it self given question
+		IF v_curr_question_index=1 and v_question_id = questionid THEN
+			v_previous_page_required := 1;
+			EXIT;
+		END IF;
+		--If current questions matches with the given question
+		IF v_question_id = questionid THEN
+			v_question_id_found := 1;
+			EXIT;
+		END IF;
+		--traversing through next questions
+		v_curr_question_index := v_curr_question_index + 1;
+		--capturing previous question id
+		v_ret_question_id := v_question_id;
+	END LOOP;
+
+	CLOSE curs_questions;
+
+	--traversing all the questions in previous page if given question is first question in current page to get valid answered question
+        IF v_previous_page_required = 1 THEN
+		OPEN curs_questions(formid,v_gender,v_page_present_num-1);
+		LOOP
+		v_question_id_found:=v_question_id_found+1;
+		FETCH curs_questions INTO v_question_id,v_temp_value_id,v_tmp_crf_page_id;
+		       EXIT WHEN NOT FOUND;
+
+		        IF v_temp_value_id IS NULL THEN
+				EXIT;
+			END IF;
+			v_ret_question_id := v_question_id;
+
+		END LOOP;
+
+		CLOSE curs_questions;
+
+	END IF;
+	--if there are no valid un answered questions then return 0
+	IF v_question_id_found = 0 then
+		return 0;
+	end if;
+
+	return v_ret_question_id;
+
+EXCEPTION
+    WHEN OTHERS THEN
+return -1;
+END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
 
 
 

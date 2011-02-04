@@ -17,6 +17,10 @@ import java.util.List;
 
 public class IVRSApiTest extends TestDataManager{
     Participant participant;
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+    }
     private void saveIVRSParticipant() {
         //create IVRS test Form and Study, ready the schedule form
         try{
@@ -81,6 +85,9 @@ public class IVRSApiTest extends TestDataManager{
 
         assertEquals(fistQuestionId,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getId());
 
+
+        assertEquals(0,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fistQuestionId).intValue());
+
         String firstQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fistQuestionId);
         assertEquals(firstQuestionText,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getQuestionText());
         String firstQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fistQuestionId);
@@ -90,6 +97,10 @@ public class IVRSApiTest extends TestDataManager{
         //So next question id will be 4th one
         Integer fourthQuestionId = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fistQuestionId,1);
         assertEquals(fourthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getId());
+
+        assertEquals(fistQuestionId,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId));
+        assertEquals(1,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId).intValue());
+
         String fourthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fourthQuestionId);
         assertEquals(fourthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getQuestionText());
         String fourthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fourthQuestionId);
@@ -103,12 +114,18 @@ public class IVRSApiTest extends TestDataManager{
         String fifthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fifthQuestionId);
         assertEquals(fifthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(4).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
 
+         assertEquals(fourthQuestionId,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fifthQuestionId));
+        assertEquals(3,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fourthQuestionId).intValue());
+
         Integer sixthQuestionId = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fifthQuestionId,3);
         assertEquals(sixthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getId());
         String sixthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,sixthQuestionId);
         assertEquals(sixthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getProCtcQuestion().getQuestionText());
         String sixthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,sixthQuestionId);
         assertEquals(sixthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
+
+        assertEquals(fifthQuestionId,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,sixthQuestionId));
+        assertEquals(3,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fifthQuestionId).intValue());
 
        Integer nextQuestionId = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,sixthQuestionId,3);
        assertEquals(nextQuestionId.intValue(),0);
