@@ -118,7 +118,6 @@ function checkPasswordMatch() {
     }
     else {
         if (confirmPassword == ""){
-            alert("sads");
             jQuery('#passwordErrorConfirm').show();
             document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
         }

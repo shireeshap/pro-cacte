@@ -9,9 +9,11 @@ import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.MessageSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 //
 
@@ -29,10 +31,14 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     private String message;
 
     /**
-     * The study repository.
+     * The User repository.
      */
     private UserRepository userRepository;
     PasswordPolicyService passwordPolicyService;
+    /**
+     * The messageSource
+     */
+    protected MessageSource messageSource;
 
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
@@ -42,6 +48,13 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         return validate(value, true, true);
     }
 
+    /**
+     *
+     * @param value
+     * @param validateUserName
+     * @param validatePassword
+     * @return  false if error occurs and vise versa
+     */
     public boolean validate(Object value, boolean validateUserName, boolean validatePassword) {
         if (value instanceof User) {
             User user = (User) value;
@@ -57,6 +70,11 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         return true;
     }
 
+    /**
+     *
+     * @param user  The User
+     * @return false if error occurs and vise versa
+     */
     private boolean validateUniqueName(User user) {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(user.getUsername());
@@ -64,12 +82,18 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         if ((users == null || users.isEmpty())) {
             return true;
         } else {
-            message = "Username already exists. Please choose another username.";
+            message = messageSource.getMessage("user.user_exists",new Object[] {}, Locale.getDefault());
             return false;
         }
     }
 
-    public boolean validateDwrUniqueName(String userName,Integer userId) {
+    /**
+     *
+     * @param userName  the User name
+     * @param userId    the User id
+     * @return  ture if user name already exists. 
+     */
+    public boolean validateDwrUniqueName(String userName, Integer userId) {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(userName);
         userQuery.excludeByUserId(userId);
@@ -77,99 +101,157 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         if ((users == null || users.isEmpty())) {
             return false;
         } else {
-            message = "Username already exists. Please choose another username.";
+            message = messageSource.getMessage("user.user_exists",new Object[] {}, Locale.getDefault());
             return true;
         }
     }
 
+    /**
+     *
+     * @param user The user
+     * @return false if error with user name
+     */
     private boolean validateUserNameLength(User user) {
         if (StringUtils.isBlank(user.getUsername())) {
             message = "Username cannot be empty.";
             return false;
         }
         if (user.getUsername().length() < 6) {
-            message = "Username must be at least six characters long.";
+            message = messageSource.getMessage("clinicalStaff.username_length",new Object[] {}, Locale.getDefault());
             return false;
         }
         return true;
     }
 
+    /**
+     * 
+     * @param user The user
+     * @return false if error
+     */
     private boolean validatePasswordPolicy(User user) {
         return passwordPolicyService.validatePasswordAgainstCreationPolicy(user);
     }
 
+    /**
+     * 
+     * @param user The user
+     * @return false if password and confirm password does not match
+     */
     private boolean validatePasswordAndConfirmPassword(User user) {
         if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
-            message = "Password does not match confirm password.";
+            message = messageSource.getMessage("user.confirm_password",new Object[] {}, Locale.getDefault());
             return false;
         }
         return true;
     }
 
-    public String validatePasswordPolicyDwr(String role, String password,String userName) {
+    /**
+     * 
+     * @param role The role
+     * @param password The Password
+     * @param userName The user name
+     * @return related message if error exists
+     */
+    public String validatePasswordPolicyDwr(String role, String password, String userName) {
         PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(Role.getByCode(role));
         CombinationPolicy combinationPolicy = passwordPolicy.getPasswordCreationPolicy().getCombinationPolicy();
-        if(validateLowerCaseAlphabet(combinationPolicy, password)
-                        & validateUpperCaseAlphabet(combinationPolicy,password)
-                        & validateNonAlphaNumeric(combinationPolicy, password)
-                        & validateBaseTenDigit(combinationPolicy, password)
-                        & validateMaxSubstringLength(combinationPolicy, password,userName)
-                        & validateMinPasswordLength(passwordPolicy.getPasswordCreationPolicy().getMinPasswordLength(),password))
-        	return "";
+        if (validateLowerCaseAlphabet(combinationPolicy, password)
+                & validateUpperCaseAlphabet(combinationPolicy, password)
+                & validateNonAlphaNumeric(combinationPolicy, password)
+                & validateBaseTenDigit(combinationPolicy, password)
+                & validateMaxSubstringLength(combinationPolicy, password, userName)
+                & validateMinPasswordLength(passwordPolicy.getPasswordCreationPolicy().getMinPasswordLength(), password))
+            return "";
         return this.message;
     }
 
-    private boolean validateMinPasswordLength(int minLength,String password ) {
+    /**
+     *
+     * @param minLength The min length
+     * @param password  The Password
+     * @return false if password lenght is less than min length mentioned
+     */
+    private boolean validateMinPasswordLength(int minLength, String password) {
         if (password.length() < minLength) {
-            message="The minimum length of password must be at least " +minLength +" characters";
+            message = "The minimum length of password must be at least " + minLength + " characters";
             return false;
         }
         return true;
     }
 
+    /**
+     *
+     * @param policy The Combination Policy
+     * @param password The Passsword
+     * @return false if password does not contain at least one lower case letter
+     */
     private boolean validateLowerCaseAlphabet(CombinationPolicy policy, String password) {
         if (policy.isLowerCaseAlphabetRequired()
                 && !password.matches(".*[\\p{javaLowerCase}].*")) {
-            message = "The password should have at least one lower case letter";
+            message = messageSource.getMessage("user.password_lower",new Object[] {}, Locale.getDefault());
             return false;
         }
         return true;
     }
 
+    /**
+     *
+     * @param policy The Combination Policy
+     * @param password The Passsword
+     * @return false if password does not contain at least one upper case letter
+     */
     private boolean validateUpperCaseAlphabet(CombinationPolicy policy, String password) {
         if (policy.isUpperCaseAlphabetRequired()
-                        && !password.matches(".*[\\p{javaUpperCase}].*")) {
-            message="The password should have at least one upper case letter";
-        	return false;
+                && !password.matches(".*[\\p{javaUpperCase}].*")) {
+            message = messageSource.getMessage("user.password_upper",new Object[] {},Locale.getDefault());
+            return false;
         }
         return true;
     }
 
-     private boolean validateNonAlphaNumeric(CombinationPolicy policy, String password){
+    /**
+     *
+     * @param policy The Combination Policy
+     * @param password The Passsword
+     * @return false if password does not contain one special character
+     */
+    private boolean validateNonAlphaNumeric(CombinationPolicy policy, String password) {
         if (policy.isNonAlphaNumericRequired() && password.matches("[\\p{Alnum}]+")) {
-            message="The password should have at least one special charcter";
-        	return false;
+            message = messageSource.getMessage("user.password_special",new Object[] {},Locale.getDefault());
+            return false;
         }
         return true;
     }
 
-
-    private boolean validateBaseTenDigit(CombinationPolicy policy, String password){
+    /**
+     *
+     * @param policy The Combination Policy
+     * @param password The Passsword
+     * @return false if password does not contain digits
+     */
+    private boolean validateBaseTenDigit(CombinationPolicy policy, String password) {
         if (policy.isBaseTenDigitRequired()
-                        && !password.matches(".*[\\p{Digit}].*")) {
-            message="The password should have at least one numeral digit{0-9}";
-        	return false;
+                && !password.matches(".*[\\p{Digit}].*")) {
+            message = messageSource.getMessage("user.password_digit",new Object[] {},Locale.getDefault());
+            return false;
         }
         return true;
     }
 
-     private boolean validateMaxSubstringLength(CombinationPolicy policy, String password,String userName){
+    /**
+     *
+     * @param policy The Combination Policy
+     * @param password The Passsword
+     * @param userName The user Name
+     * @return false if password contains substring of 3 letters from user name
+     */
+    private boolean validateMaxSubstringLength(CombinationPolicy policy, String password, String userName) {
         int substringLength = policy.getMaxSubstringLength() + 1;
         for (int i = 0; i < userName.length() - substringLength; i++) {
             try {
                 if (password.contains(userName.substring(i, i + substringLength))) {
-                    message="The password should not contain a substring of 3 letters from the username";
-                	return false;
+                    message = messageSource.getMessage("user.password_substring",new Object[] {},Locale.getDefault());
+                    return false;
                 }
             } catch (IndexOutOfBoundsException e) {
                 return true;
@@ -194,13 +276,30 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         return message;
     }
 
+    /**
+     *
+     * @param userRepository The User Repository
+     */
+
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     *
+     * @param passwordPolicyService The Password Policy
+     */
     @Required
     public void setPasswordPolicyService(PasswordPolicyService passwordPolicyService) {
         this.passwordPolicyService = passwordPolicyService;
+    }
+
+    /**
+     * @param messageSource the messageSource to set
+     */
+    @Required
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 }

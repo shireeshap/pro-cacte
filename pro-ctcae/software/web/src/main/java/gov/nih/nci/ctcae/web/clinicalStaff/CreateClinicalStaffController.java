@@ -143,7 +143,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             user.setUsername(command.getUsername());
             boolean validUser = userNameAndPasswordValidator.validate(user, true, false);
             if (!validUser) {
-                e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                    e.rejectValue("username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
             }
         }
     }

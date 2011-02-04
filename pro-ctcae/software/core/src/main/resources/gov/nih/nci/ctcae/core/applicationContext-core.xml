@@ -313,6 +313,7 @@
           class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
         <property name="userRepository" ref="userRepository"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="messageSource" ref="messageSource"/>
     </bean>
     <bean id="firstAndLastNameValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator">

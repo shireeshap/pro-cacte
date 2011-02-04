@@ -25,6 +25,9 @@ public class FirstAndLastNameValidator extends AbstractValidator<FirstAndLastNam
      * Matches which are not alphabets and special character ' 
      */
         public static Pattern pattern =Pattern.compile("^[a-zA-Z ]+[a-zA-Z'']+$");
+    /**
+     * The messageSource
+     */
         protected MessageSource messageSource;
     /**
      *
