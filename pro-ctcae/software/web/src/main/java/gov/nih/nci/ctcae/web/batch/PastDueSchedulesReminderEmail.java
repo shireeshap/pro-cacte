@@ -23,6 +23,7 @@ import java.util.*;
 
 public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     protected static final Log logger = LogFactory.getLog(PastDueSchedulesReminderEmail.class);
+
     @Transactional
     public void generateEmailReports() {
 
@@ -55,11 +56,11 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                             if (today.after(studyParticipantCrfSchedule.getDueDate())) {
                                 if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
                                     studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                                    for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
+                                        addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
+                                    }
                                 } else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                                     studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
-                                }
-                                for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
-                                    addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
                                 }
                             }
 
@@ -93,7 +94,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             }
 
             String participantSubject = "List of surveys due";
-            logger.error("Nightly trigger bean size of mails map...."+studyParticipantAndSchedulesMap.keySet().size());
+            logger.error("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
                     String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
