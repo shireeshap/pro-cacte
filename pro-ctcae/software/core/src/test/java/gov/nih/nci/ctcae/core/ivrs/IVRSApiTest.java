@@ -20,6 +20,8 @@ public class IVRSApiTest extends TestDataManager{
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
+        deleteIVRSTestData();
+         saveIVRSParticipant();
     }
     private void saveIVRSParticipant() {
         //create IVRS test Form and Study, ready the schedule form
@@ -48,7 +50,7 @@ public class IVRSApiTest extends TestDataManager{
         commitAndStartNewTransaction();
     }
     public void testIVRSApi(){
-        saveIVRSParticipant();
+        //saveIVRSParticipant();
         ParticipantQuery pq = new ParticipantQuery();
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
@@ -144,7 +146,7 @@ public class IVRSApiTest extends TestDataManager{
         assertEquals(CrfStatus.SCHEDULED,finalSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
         assertEquals(false,finalSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
 
-        deleteIVRSTestData();
+        //deleteIVRSTestData();
 
     }
 

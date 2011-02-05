@@ -57,10 +57,11 @@ public class CrfTestHelper {
         CRFQuery query = new CRFQuery();
         query.filterByTitleExactMatch("IVRSForm");
         CRF crf = crfRepository.findSingle(query);
-        crf.setStatus(CrfStatus.DRAFT);
-        crf = crfRepository.save(crf);
-        crfRepository.delete(crf);
-
+        if(crf!=null){
+            crf.setStatus(CrfStatus.DRAFT);
+            crf = crfRepository.save(crf);
+            crfRepository.delete(crf);
+        }
     }
 
     public static void createIVRSTestForm(Study study,TestDataManager localTestDataManager) throws Exception {
@@ -74,6 +75,8 @@ public class CrfTestHelper {
         firstTab_SelectStudy(crf, study);
         secondTab_IVRSFormBuilder(crf);
         thirdTab_ScheduleTemplate(crf);
+        crf.getFormArmSchedules().get(0).getCrfCycleDefinitions().get(0).setDueDateUnit("Days");
+        crf.getFormArmSchedules().get(0).getCrfCycleDefinitions().get(0).setDueDateValue("5");
         crf = crfRepository.save(crf);
         fourthTab_Notifications(crf);
         crf = crfRepository.save(crf);
