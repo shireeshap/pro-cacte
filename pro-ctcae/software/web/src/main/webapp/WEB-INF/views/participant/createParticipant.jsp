@@ -55,7 +55,7 @@ function userReturnValue(returnValue) {
     checkError();
 }
 
-// checking if there are any error based on class name and style. 
+// checking if there are any error based on class name and style.
 function checkError() {
     var errorlist;
     var count = 0;
@@ -79,7 +79,9 @@ function checkPasswordPolicy() {
     var userPassword = $('participant.user.password').value;
     var userName = $('participant.user.username').value;
     var confirmPassword = $('participant.user.confirmPassword').value;
-    if(confirmPassword!=""){ checkPasswordMatch();}
+    if (confirmPassword != "") {
+        checkPasswordMatch();
+    }
     if (userPassword != "") {
         userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, passReturnValue);
         return;
@@ -117,11 +119,13 @@ function checkPasswordMatch() {
         }
     }
     else {
-        if (confirmPassword == ""){
+        if (confirmPassword == "") {
             jQuery('#passwordErrorConfirm').show();
             document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
         }
-        else{jQuery('#passwordErrorConfirm').hide(); }
+        else {
+            jQuery('#passwordErrorConfirm').hide();
+        }
     }
     checkError();
 }
@@ -133,7 +137,7 @@ function checkParticipantEmailAddress(siteId) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var email = $('participant.emailAddress_' + siteId).value;
+    var email = $('participant.emailAddress').value;
     if (email != "") {
         uniqueParticipantEmailAddress.validateEmail(email, participantId,
         {callback:
@@ -222,9 +226,14 @@ function ValidUSPhoneNumber(siteId) {
             var prefixNumber = phone.substring(length - 7, length - 4);
             var suffixNumber = phone.substring(length - 4);
         }
+        else {
+            jQuery('#phoneError_' + siteId).show();
+            document.getElementById('phoneError1_' + siteId).innerHTML = "Invalid phone";
+            checkError();
+        }
         if (areaCode.length != 3 || !isNumeric(areaCode) || prefixNumber.length != 3 || !isNumeric(prefixNumber) || suffixNumber.length != 4 || !isNumeric(suffixNumber)) {
             jQuery('#phoneError_' + siteId).show();
-            document.getElementById('phoneError_' + siteId).innerHTML = "Invalid phone";
+            document.getElementById('phoneError1_' + siteId).innerHTML = "Invalid phone";
             checkError();
         }
         else {
@@ -234,7 +243,7 @@ function ValidUSPhoneNumber(siteId) {
     }
     else {
         jQuery('#phoneError_' + siteId).show();
-        document.getElementById('phoneError_' + siteId).innerHTML = "Missing phone";
+        document.getElementById('phoneError1_' + siteId).innerHTML = "Missing phone";
         jQuery('#MissingError_' + siteId).hide();
         checkError();
     }
@@ -384,7 +393,7 @@ function showEmail(id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
-        $('participant.emailAddress_' + id).value="";
+        $('participant.emailAddress_' + id).value = "";
         checkError();
     }
 }
@@ -404,6 +413,15 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
         jQuery('#phoneError_' + id).hide();
+    }
+    if (value1 && value2 == "HOMEBOOKLET") {
+        jQuery('#web_' + id).hide();
+        jQuery('#emailError_' + id).hide();
+        jQuery('#MissingError_' + id).hide();
+        jQuery('#phoneError_' + id).hide();
+        jQuery('#emailInput_' + id).hide();
+        jQuery('#emailHeader_' + id).hide();
+
     }
     if (value1 && value2 == "IVRS") {
         jQuery('#div_contact').show();
@@ -433,26 +451,26 @@ function showOrHideEmail(value1, value2, id) {
     checkError();
 }
 
-function checkFirstName(){
-    var firstName =$('participant.firstName').value;
-    if(firstName!=""){
-          jQuery('#missingFirst').hide();
+function checkFirstName() {
+    var firstName = $('participant.firstName').value;
+    if (firstName != "") {
+        jQuery('#missingFirst').hide();
     }
     else
         jQuery('#missingFirst').show();
     checkError();
 }
 
-function checkLastName(){
-    var lastName =$('participant.lastName').value;
-    if(lastName!=""){
-          jQuery('#missingLast').hide();
+function checkLastName() {
+    var lastName = $('participant.lastName').value;
+    if (lastName != "") {
+        jQuery('#missingLast').hide();
     }
     else
         jQuery('#missingLast').show();
     checkError();
 }
-function hideErrors(){
+function hideErrors() {
     jQuery('#missingLast').hide();
 
 }
@@ -507,7 +525,7 @@ function hideErrors(){
                <c:set var="maxLength" value="40"/>
            </c:otherwise>
        </c:choose>
-       
+
            <chrome:division title="participant.label.site">
                <c:choose>
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
@@ -572,7 +590,8 @@ function hideErrors(){
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="checkLastName();"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"
+                                            onblur="checkLastName();"/>
                            <ul id="missingLast" style="display:none; padding-left:12em " class="errors">
                                <li>Missing last name</li>
                            </ul>
@@ -795,11 +814,13 @@ function hideErrors(){
                             </td>
                         </c:if>
                     </tr>
+                        <%--<particpant></particpant>                   ${command}--%>
                     <c:forEach items="${command.participant.studyParticipantAssignments}"
                                var="studyParticipantAssignment" varStatus="spastatus">
                         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
                         <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
-                                        studyParticipantAssignment="${studyParticipantAssignment}"/>
+                                        studyParticipantAssignment="${studyParticipantAssignment}"
+                                        participant="${command.participant}"/>
                     </c:forEach>
 
                 </table>

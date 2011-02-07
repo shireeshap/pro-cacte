@@ -87,6 +87,7 @@ public class DisplayStudySitesController extends AbstractController {
             modelAndView.addObject("timezones", timeZones);
             modelAndView.addObject("minutes", minutes);
             modelAndView.addObject("showTime", showTime);
+            modelAndView.addObject("command",command);
         }
         List<String> participantModes = new ArrayList();
 

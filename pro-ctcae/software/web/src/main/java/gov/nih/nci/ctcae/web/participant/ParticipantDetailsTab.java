@@ -101,9 +101,30 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 command.getSelectedStudyParticipantAssignment();
             }
 
+            String email[];
+            if (command.getParticipant().getEmailAddress() != null) {
+                email = command.getParticipant().getEmailAddress().split(",");
+                if (email.length <= 0) {
+                    command.getParticipant().setEmailAddress(null);
+                }
+
+                for (String em : email) {
+                    if (!em.equals("")) {
+                        command.getParticipant().setEmailAddress(em);
+                    }
+                }
+            }
+            String phone[];
+            phone = command.getParticipant().getPhoneNumber().split(",");
+            if (phone.length <= 0) {
+                command.getParticipant().setPhoneNumber(null);
+            }
+            for (String ph : phone) {
+                if (!ph.equals("")) {
+                    command.getParticipant().setPhoneNumber(ph);
+                }
+            }
         }
-
-
     }
 
 

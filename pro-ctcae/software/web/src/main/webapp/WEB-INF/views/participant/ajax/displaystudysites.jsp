@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="isEdit" value="${param['id'] eq '' ? false : true}"/>
-
+<tags:noForm>
 <table cellpadding="0" width="100%" border="0">
     <tr>
         <td class="tableHeader" width="5%">
@@ -22,7 +22,7 @@
         <!-- BJ : selected -->
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tags:studySite studysite="${studysite}" selected="true" isEdit="${isEdit}"
-                        studyParticipantAssignment="${studyParticipantAssignment}"/>
+                        studyParticipantAssignment="${studyParticipantAssignment}" participant="${command.participant}"/>
     </c:forEach>
 
     <c:if test="${not isEdit}">
@@ -32,4 +32,4 @@
         </c:forEach>
     </c:if>
 </table>
-
+</tags:noForm>

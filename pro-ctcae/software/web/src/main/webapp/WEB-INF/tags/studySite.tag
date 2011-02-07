@@ -1,4 +1,5 @@
 <%@ attribute name="studyParticipantAssignment" type="gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment" %>
+<%@ attribute name="participant" type="gov.nih.nci.ctcae.core.domain.Participant" %>
 <%@ attribute name="isEdit" %>
 <%@ attribute name="selected" %>
 <%@ tag import="java.util.Date" %>
@@ -8,7 +9,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ attribute name="studysite" type="gov.nih.nci.ctcae.core.domain.StudySite" required="true" %>
-
 <c:forEach items="${studysite.study.crfs}" var="crf">
     <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
         <c:set var="hasforms" value="true"/>
@@ -78,6 +78,7 @@
         </ul>
     </td>
 </tr>
+
 <tr>
     <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
         <c:choose>
@@ -112,17 +113,28 @@
         </c:choose>
     </c:if>
 </tr>
+
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
     <tr>
         <td align="right" class="data" width="30%">
             <b>Home reporting option</b>
             <br>
             <br>
-            <span id="emailHeader_${studysite.id}" style="display:none">
-                <span class="required-indicator">*&nbsp;&nbsp; </span>
-                <b> Email Address</b>
-            </span>
-
+            <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+                <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
+                    <br>
+                 <span id="emailHeader_${studysite.id}" style="display:none">
+                    <span class="required-indicator">*&nbsp;&nbsp; </span>
+                    <b> Email Address</b>
+                 </span>
+                </c:if>
+                 <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+                 <span id="emailHeader_${studysite.id}" style="display:none">
+                    <span class="required-indicator">*&nbsp;&nbsp; </span>
+                    <b> Email Address</b>
+                 </span>
+                </c:if>
+            </c:forEach>
         </td>
 
 
@@ -135,37 +147,42 @@
                                       propertyValue="${studyMode.mode.name}"
                                       noForm="true" useRenderInput="true"
                                       onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
-                    <div id="web_${studysite.id}" style="display:none">
-                        <input type="checkbox" name="email_${studysite.id}" value="true"
-                               onclick="javascript:showEmail(${studysite.id});"
-                               id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
-                        reminder via email
-                    </div>
-                    <div id="emailInput_${studysite.id}" style="display:none;">
-                            <%--<span class="data">--%>
-                            <%--<span class="required-indicator">*&nbsp;&nbsp;</span><b> Email Address</b>--%>
+                    <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+                        <div id="web_${studysite.id}" style="display:none">
+                            <input type="checkbox" name="email_${studysite.id}" value="true"
+                                   onclick="javascript:showEmail(${studysite.id});"
+                                   id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
+                            reminder via email
+                        </div>
 
-                        <input type="text" name="participant.emailAddress"
-                               value="${studyParticipantAssignment.participant.emailAddress}"
-                               id="participant.emailAddress_${studysite.id}"
-                               onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
-                               size="35"/>
-                        <ul id="emailError_${studysite.id}" style="display:none;" class="errors">
-                            <li><spring:message
-                                    code='participant.unique_emailAddress'
-                                    text='participant.unique_emailAddress'/></li>
-                        </ul>
-                        <ul id="MissingError_${studysite.id}" style="display:none;" class="errors">
-                            <li>Missing email Address</li>
-                        </ul>
-                        </span>
-                    </div>
+                        <div id="emailInput_${studysite.id}" style="display:none;">
+                                <%--<span class="data">--%>
+                                <%--<span class="required-indicator">*&nbsp;&nbsp;</span><b> Email Address</b>--%>
+                            <tags:renderEmail propertyName="participant.emailAddress"
+                                              displayName="participant.label.email_address"
+                                              required="false" size="35" doNotshowLabel="true"
+                                              onblur="javascript:checkParticipantEmailAddress(${studysite.id});"/>
+                                <%--<input type="text" name="participant.emailAddress"--%>
+                                <%--value="${studyParticipantAssignment.participant.emailAddress}"--%>
+                                <%--id="participant.emailAddress_${studysite.id}"--%>
+                                <%--onblur="javascript:checkParticipantEmailAddress(${studysite.id});"--%>
+                                <%--size="35"/>--%>
+                            <ul id="emailError_${studysite.id}" style="display:none;" class="errors">
+                                <li><spring:message
+                                        code='participant.unique_emailAddress'
+                                        text='participant.unique_emailAddress'/></li>
+                            </ul>
+                            <ul id="MissingError_${studysite.id}" style="display:none;" class="errors">
+                                <li>Missing email Address</li>
+                            </ul>
+                            </span>
+                        </div>
+                    </c:if>
                 </c:if>
             </c:forEach>
         </td>
     </tr>
 </c:if>
-
 <tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
@@ -173,15 +190,16 @@
     </td>
     <td valign="top" width="50%">
         <input type="text" name="participant.phoneNumber" value="${studyParticipantAssignment.participant.phoneNumber}"
-               id="participant.phoneNumber_${studysite.id}"
-               cssClass="validate-US_PHONE_NO" onblur="javascript:ValidUSPhoneNumber(${studysite.id});"/>
+        id="participant.phoneNumber_${studysite.id}"
+        cssClass="validate-US_PHONE_NO" onblur="javascript:ValidUSPhoneNumber(${studysite.id});"/>
         <span class="phone-number">###-###-####</span>
         <ul id="phoneError_${studysite.id}" style="display:none;"
             class="errors">
-            <li></li>
+            <li id="phoneError1_${studysite.id}"></li>
         </ul>
     </td>
 </tr>
+
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <b>Call time</b>&nbsp;
@@ -198,7 +216,8 @@
                 </c:forEach>
             </select>&nbsp;
             <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
-                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min</option>
+                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min
+                </option>
                 <c:forEach items="${minutes}" var="minute">
                     <c:set var="min" value="${minute}"/>
                     <c:if test="${min/10<1}"><c:set var="min" value="0${minute}"/></c:if>
