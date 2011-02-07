@@ -393,7 +393,7 @@ function showEmail(id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
-        $('participant.emailAddress_' + id).value = "";
+        $('participant.emailAddress').value = "";
         checkError();
     }
 }
