@@ -123,10 +123,6 @@
             <c:forEach items="${studysite.study.studyModes}" var="studyMode">
                 <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
                     <br>
-                 <span id="emailHeader_${studysite.id}" style="display:none">
-                    <span class="required-indicator">*&nbsp;&nbsp; </span>
-                    <b> Email Address</b>
-                 </span>
                 </c:if>
                  <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
                  <span id="emailHeader_${studysite.id}" style="display:none">
