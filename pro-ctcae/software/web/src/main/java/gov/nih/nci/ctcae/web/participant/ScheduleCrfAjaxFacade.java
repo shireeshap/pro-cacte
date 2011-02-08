@@ -13,6 +13,8 @@ import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
+import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -60,6 +62,11 @@ public class ScheduleCrfAjaxFacade {
             studyQuery.filterByParticipant(participantId);
         }
         List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
+        studies = RankBasedSorterUtils.sort(studies, text, new Serializer<Study>() {
+            public String serialize(Study object) {
+                return object.getDisplayName();
+            }
+        });
         return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
     }
 
@@ -75,6 +82,13 @@ public class ScheduleCrfAjaxFacade {
         participantQuery.filterParticipantsWithMatchingText(text);
         participantQuery.filterByStudy(studyId);
         List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
+
+         participants = RankBasedSorterUtils.sort(participants, text, new Serializer<Participant>() {
+             public String serialize(Participant object) {
+                 return object.getDisplayName();
+             }
+         });
+
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
     }
 

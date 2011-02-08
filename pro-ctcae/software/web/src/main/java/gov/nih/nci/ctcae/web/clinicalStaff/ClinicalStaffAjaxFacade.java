@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
+import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +36,11 @@ public class ClinicalStaffAjaxFacade {
 
         logger.info(String.format("in match matchOrganizationClinicalStaffByOrganizationId method. Search string :%s and studyOrganizationId=%s", text, studyOrganizationId));
         List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
-
+         organizationClinicalStaffs = RankBasedSorterUtils.sort(organizationClinicalStaffs, text, new Serializer<OrganizationClinicalStaff>() {
+             public String serialize(OrganizationClinicalStaff object) {
+                 return object.getDisplayName();
+             }
+         });
         return ObjectTools.reduceAll(organizationClinicalStaffs, "id", "displayName");
 
     }
@@ -52,6 +55,11 @@ public class ClinicalStaffAjaxFacade {
         }
         logger.info(String.format("in match matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole method. Search string :%s and studyOrganizationId=%s and role=%s", text, studyOrganizationId, roles));
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationIdAndRole(text, studyOrganizationId, rolesList);
+        studyOrganizationClinicalStaffs = RankBasedSorterUtils.sort(studyOrganizationClinicalStaffs, text, new Serializer<StudyOrganizationClinicalStaff>() {
+             public String serialize(StudyOrganizationClinicalStaff object) {
+                 return object.getDisplayName();
+             }
+         });
         return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "displayName", "role");
 
     }

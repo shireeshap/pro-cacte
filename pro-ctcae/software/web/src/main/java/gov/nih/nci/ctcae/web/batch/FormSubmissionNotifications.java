@@ -34,14 +34,14 @@ public class FormSubmissionNotifications{
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void sendFormSubmissionNotificationsForIVRS() {
-        logger.error("FormSubmissionNotifications Job starts....");
+        logger.info("FormSubmissionNotifications Job starts....");
         
         StudyParticipantCrfScheduleNotificationQuery query = new StudyParticipantCrfScheduleNotificationQuery();
         query.filterByStatus(CrfStatus.SCHEDULED);
         
         List<StudyParticipantCrfScheduleNotification> schedNotifications = genericRepository.find(query);
         
-        logger.error("IVRS notifications size::"+schedNotifications.size());
+        logger.info("IVRS notifications size::"+schedNotifications.size());
         NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
         notificationsEvaluationService.setGenericRepository(genericRepository);
         try {
@@ -59,7 +59,7 @@ public class FormSubmissionNotifications{
             logger.error(e);
         }
         
-        logger.error("FormSubmissionNotifications Job end....");
+        logger.info("FormSubmissionNotifications Job end....");
     }
 
     public void lazyInitializeSchedule(StudyParticipantCrfSchedule schedule) {        

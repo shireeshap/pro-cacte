@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
+import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,8 +51,13 @@ public class OrganizationAjaxFacade {
         logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery = new OrganizationQuery();
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
-        organizationQuery.setMaximumResults(25);
+        //organizationQuery.setMaximumResults(25);
         List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+        organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<Organization>() {
+            public String serialize(Organization object) {
+                return object.toString();
+            }
+        });
         return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
 
     }
@@ -59,8 +66,13 @@ public class OrganizationAjaxFacade {
         logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery = new OrganizationQuery(false);
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
-        organizationQuery.setMaximumResults(25);
+        //organizationQuery.setMaximumResults(25);
         List<Organization> organizations = genericRepository.find(organizationQuery);
+        organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<Organization>() {
+            public String serialize(Organization object) {
+                return object.toString();
+            }
+        });
         return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
 
     }
@@ -103,6 +115,11 @@ public class OrganizationAjaxFacade {
 
     public List<StudyOrganization> matchOrganizationByStudyId(final String text, Integer studyId) {
         List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId(text, studyId);
+        organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<StudyOrganization>() {
+            public String serialize(StudyOrganization object) {
+                return object.toString();
+            }
+        });
         return ObjectTools.reduceAll(organizations, "id", "displayName");
 
     }

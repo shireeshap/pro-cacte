@@ -1,8 +1,11 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
+import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -37,8 +40,13 @@ public class StudyAjaxFacade {
     public List<Study> matchStudy(final String text) {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
-        studyQuery.setMaximumResults(30);
+        //studyQuery.setMaximumResults(30);
         List<Study> studies = new ArrayList<Study>(studyRepository.find(studyQuery));
+        studies = RankBasedSorterUtils.sort(studies, text, new Serializer<Study>() {
+            public String serialize(Study object) {
+                return object.getDisplayName();
+            }
+        });
         return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
 
     }

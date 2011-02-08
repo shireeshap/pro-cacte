@@ -100,8 +100,8 @@ public class ParticipantQuery extends AbstractQuery {
             if (searchStrings.length == 2) {
                 firstSearchString = searchStrings[0];
                 secondSearchString = searchStrings[1];
-                andWhere(String.format("( lower(p.firstName) = :%s AND lower(p.lastName) like :%s) or " +
-                        "(lower(p.lastName) = :%s AND lower(p.firstName) like :%s) ", "FIRST_TOKEN", "SECOND_TOKEN", "THIRD_TOKEN", "FOURTH_TOKEN"));
+                andWhere(String.format("(( lower(p.firstName) = :%s AND lower(p.lastName) like :%s) or " +
+                        "(lower(p.lastName) = :%s AND lower(p.firstName) like :%s)) ", "FIRST_TOKEN", "SECOND_TOKEN", "THIRD_TOKEN", "FOURTH_TOKEN"));
                 setParameter("FIRST_TOKEN", StringUtils.lowerCase(firstSearchString));
                 setParameter("SECOND_TOKEN", String.format("%s%s", StringUtils.lowerCase(secondSearchString), "%"));
                 setParameter("THIRD_TOKEN", StringUtils.lowerCase(firstSearchString));
@@ -109,13 +109,13 @@ public class ParticipantQuery extends AbstractQuery {
                 return;
             } else {
 
-//                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(text) + "%" : null;
+                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+               // String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(text) + "%" : null;
 
                 andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                         "or lower(p.lastName) LIKE :%s " +
                         "or lower(p.assignedIdentifier) LIKE :%s " +
-                        "or p.studyParticipantAssignments.studyParticipantIdentifier LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
+                        "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
                 setParameter(IDENTIFIER, searchString);
                 setParameter(FIRST_NAME, searchString);
                 setParameter(LAST_NAME, searchString);
