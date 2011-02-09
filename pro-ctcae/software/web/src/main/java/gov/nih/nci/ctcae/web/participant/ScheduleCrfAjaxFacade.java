@@ -115,8 +115,12 @@ public class ScheduleCrfAjaxFacade {
             List<String> meddraTerms = (List<String>) meddraTermsObj;
 
             results.addAll(meddraTerms);
-            Collections.sort(results);
         }
+        results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
+             public String serialize(String object) {
+                 return object;
+             }
+         });
         return results;
     }
 
