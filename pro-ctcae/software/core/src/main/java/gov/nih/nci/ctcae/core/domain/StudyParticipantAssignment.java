@@ -533,7 +533,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                     schedulesToRemove.add(studyParticipantCrfSchedule);
                 }
             }
