@@ -115,13 +115,15 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 }
             }
             String phone[];
-            phone = command.getParticipant().getPhoneNumber().split(",");
-            if (phone.length <= 0) {
-                command.getParticipant().setPhoneNumber(null);
-            }
-            for (String ph : phone) {
-                if (!ph.equals("")) {
-                    command.getParticipant().setPhoneNumber(ph);
+            if (command.getParticipant().getPhoneNumber() != null) {
+                phone = command.getParticipant().getPhoneNumber().split(",");
+                if (phone.length <= 0) {
+                    command.getParticipant().setPhoneNumber(null);
+                }
+                for (String ph : phone) {
+                    if (!ph.equals("")) {
+                        command.getParticipant().setPhoneNumber(ph);
+                    }
                 }
             }
         }
