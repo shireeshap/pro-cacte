@@ -190,6 +190,8 @@ public class CRFCycleDefinition extends BasePersistable {
         crfCycleDefinition.setCycleName(cycleName);
         crfCycleDefinition.setOrder(order);
         crfCycleDefinition.setRepeatTimes(repeatTimes);
+        crfCycleDefinition.setDueDateUnit(dueDateUnit);
+        crfCycleDefinition.setDueDateValue(dueDateValue);
         for (CRFCycle crfCycle : getCrfCycles()) {
             crfCycleDefinition.addCrfCycle(crfCycle.copy());
         }

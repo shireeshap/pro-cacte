@@ -136,14 +136,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                 }
             }
             command.getCopySelectedArmScheduleIds().clear();
-            //TODO: S Allareddy, Needs to clean up the commneted code as copy all arms replaced with specific copy feature
-            /*if (command.getAllArms()) {
-                for (FormArmSchedule fas : command.getCrf().getFormArmSchedules()) {
-                    if (!fas.equals(formArmSchedule)) {
-                        formArmSchedule.copySchedulesInto(fas);
-                    }
-                }
-            }*/
+
         }
         command.setCrf(crfRepository.save(command.getCrf()));
         super.postProcess(request, command, errors);
