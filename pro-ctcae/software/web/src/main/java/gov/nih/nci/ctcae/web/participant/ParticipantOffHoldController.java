@@ -115,8 +115,16 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
     protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
         int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
         int day = ServletRequestUtils.getIntParameter(request, "day", 0);
+
         if (o instanceof ParticipantCommand) {
             //BJ : what validation ??
+            ParticipantCommand participantCommand=(ParticipantCommand) o;
+             Date onHoldDate=participantCommand.getSelectedStudyParticipantAssignment().getOnHoldTreatmentDate();
+                if (onHoldDate != null) {
+                    if (participantCommand.getOffHoldTreatmentDate().getTime() < onHoldDate.getTime()) {
+                        e.reject("participant.offhold_date", "participant.offhold_date");
+                    }
+                }
         } else if (o instanceof StudyParticipantCommand) {
 
             StudyParticipantCommand spCommand = (StudyParticipantCommand) o;
@@ -127,8 +135,15 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                         e.reject("Cycle and Day number should be equal to greater that the held survey cycle and day number.", "ssss");
                     }
                 } else {
-                    if (spCommand.getOffHoldTreatmentDate().getTime() < spcSchedule.getStartDate().getTime()) {
+                    if (spCommand.getOffHoldTreatmentDate().getTime() < spCommand.getStudyParticipantAssignment().getOnHoldTreatmentDate().getTime()) {
                         e.reject("Selected date should be equal to or greater than the survey held from date. Please select another date.", "Selected date should be equal to or greater than the survey held from date. Please select another date.");
+                    }
+                }
+            } else { // off hold date should be greater than on hold date
+                Date onHoldDate=spCommand.getStudyParticipantAssignment().getOnHoldTreatmentDate();
+                if (onHoldDate != null) {
+                    if (spCommand.getOffHoldTreatmentDate().getTime() < onHoldDate.getTime()) {
+                        e.reject("participant.offhold_date", "participant.offhold_date");
                     }
                 }
             }
@@ -137,6 +152,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
         super.onBindAndValidate(request, o, e);    //To change body of overridden methods use File | Settings | File Templates.
     }
+
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {

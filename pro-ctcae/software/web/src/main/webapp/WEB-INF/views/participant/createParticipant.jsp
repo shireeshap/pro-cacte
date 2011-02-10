@@ -334,15 +334,28 @@ function participantOffStudy(id) {
         method:'get'
     })
 }
-function participantOffHold(id, date) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
-        onComplete:function(transport) {
-            showConfirmationWindow(transport, 600, 350);
-        },
-        method:'get'
-    })
-}
+<%--function participantOffHold(id, date) {--%>
+    <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
+        <%--parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,--%>
+        <%--onComplete:function(transport) {--%>
+            <%--showConfirmationWindow(transport, 600, 350);--%>
+        <%--},--%>
+        <%--method:'get'--%>
+    <%--})--%>
+<%--}--%>
+
+    var _winOffHold;
+    function participantOffHold(id, date) {
+    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&subview=x";
+                 _winOffHold = showModalWindow(url, 600, 350);
+        <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
+            <%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
+//            onComplete:function(transport) {
+//                showConfirmationWindow(transport, 600, 350);
+//            },
+//            method:'get'
+//        })
+    }
 
 function participantOnHold(id, date) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {

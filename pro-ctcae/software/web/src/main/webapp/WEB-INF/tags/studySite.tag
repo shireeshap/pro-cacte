@@ -40,7 +40,7 @@
                     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                         Treatment on-hold from <tags:formatDate
                             value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                        <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null)"> Put
+                        <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null,0)"> Put
                             participant
                             on
                             treatment </a>
