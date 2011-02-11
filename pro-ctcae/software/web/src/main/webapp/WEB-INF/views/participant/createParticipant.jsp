@@ -59,15 +59,26 @@ function userReturnValue(returnValue) {
 function checkError() {
     var errorlist;
     var count = 0;
+    var hideError = false;
     for (i = 0; i < document.getElementsByClassName('errors').length; i++) {
         errorlist = document.getElementsByClassName('errors')[i];
         if (errorlist.style.display != 'none') {
             count++;
+            if (errorlist.id.endsWith("msg")) {
+                hideError = true;
+                errorlist.hide();
+            }
         }
     }
     if (count > 0) {
-        jQuery('#flow-update').attr('disabled', true);
-        jQuery('#flow-next').attr('disabled', true);
+        if (hideError) {
+            jQuery('#flow-update').attr('disabled', false);
+            jQuery('#flow-next').attr('disabled', false);
+        }
+        else {
+            jQuery('#flow-update').attr('disabled', true);
+            jQuery('#flow-next').attr('disabled', true);
+        }
     }
     else {
         jQuery('#flow-update').attr('disabled', false);
@@ -335,27 +346,27 @@ function participantOffStudy(id) {
     })
 }
 <%--function participantOffHold(id, date) {--%>
-    <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
-        <%--parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,--%>
-        <%--onComplete:function(transport) {--%>
-            <%--showConfirmationWindow(transport, 600, 350);--%>
-        <%--},--%>
-        <%--method:'get'--%>
-    <%--})--%>
+<%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
+<%--parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,--%>
+<%--onComplete:function(transport) {--%>
+<%--showConfirmationWindow(transport, 600, 350);--%>
+<%--},--%>
+<%--method:'get'--%>
+<%--})--%>
 <%--}--%>
 
-    var _winOffHold;
-    function participantOffHold(id, date) {
+var _winOffHold;
+function participantOffHold(id, date) {
     var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&subview=x";
-                 _winOffHold = showModalWindow(url, 600, 350);
-        <%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
-            <%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
-//            onComplete:function(transport) {
-//                showConfirmationWindow(transport, 600, 350);
-//            },
-//            method:'get'
-//        })
-    }
+    _winOffHold = showModalWindow(url, 600, 350);
+<%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
+<%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
+    //            onComplete:function(transport) {
+    //                showConfirmationWindow(transport, 600, 350);
+    //            },
+    //            method:'get'
+    //        })
+}
 
 function participantOnHold(id, date) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
