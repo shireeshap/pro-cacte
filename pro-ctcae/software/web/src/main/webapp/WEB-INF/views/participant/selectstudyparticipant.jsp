@@ -66,6 +66,8 @@
         function clearInput(inputId) {
             $(inputId).clear();
             $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
         }
 
     </script>

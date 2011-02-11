@@ -240,7 +240,7 @@
     <%--<a href="${showAllJavascript}">Show All</a> --%>
     <c:if test="${!doNotshowClear}">
         <input type="image" id="${propertyName}-clear" name="C" value="Clear"
-               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();return false;"
+               onClick="javascript:resetInputs('${propertyName}');return false;"
                src="/proctcae/images/blue/clear-left-button.png"
                style="vertical-align:top;"/>
     </c:if>

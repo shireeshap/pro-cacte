@@ -602,3 +602,13 @@ function rtrim(stringToTrim) {
 	return stringToTrim.replace(/\s+$/,"");
 }
 
+function resetInputs(propertyName){
+	var el = $(propertyName);
+
+	if(el){
+		el.value='';
+		var elInput = $(propertyName + '-input');
+         elInput.value = '(Begin typing here)';
+        elInput.className = 'pending-search';
+    }
+}
