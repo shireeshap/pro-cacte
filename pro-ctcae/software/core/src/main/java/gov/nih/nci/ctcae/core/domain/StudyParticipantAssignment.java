@@ -530,8 +530,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public void removeAllSchedules() {
-
-        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+        for (StudyParticipantCrf studyParticipantCrf : getStudyParticipantCrfs()) {
             List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
@@ -545,13 +544,27 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     }
 
-//    public void removeAllStudyParticipantCrfs() {
-//        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-//          if (studyParticipantCrf.getStudyParticipantCrfSchedules().size() == 0) {
-//              studyParticipantCrfs.remove(studyParticipantCrf);
-//          }
-//        }
-//    }
+    public void removeSpCrfsIfNoCompletedSchedules() {
+        List<StudyParticipantCrf> studyParticipantCrfsToRemove = new ArrayList<StudyParticipantCrf>();
+        for (StudyParticipantCrf studyParticipantCrf : getStudyParticipantCrfs()) {
+            boolean deleteSpCrf = true;
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                    deleteSpCrf = false;
+                    break;
+                }
+            }
+            studyParticipantCrf.removeScheduledSpCrfSchedules();
+            if (deleteSpCrf) {
+                studyParticipantCrfsToRemove.add(studyParticipantCrf);
+            }
+        }
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfsToRemove) {
+            studyParticipantCrfs.remove(studyParticipantCrf);
+        }
+
+
+    }
 
     public List<StudyParticipantReportingModeHistory> getStudyParticipantReportingModeHistoryItems() {
         return studyParticipantReportingModeHistoryItems;

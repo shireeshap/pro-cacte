@@ -165,6 +165,19 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
+    public void removeScheduledSpCrfSchedules() {
+        List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
+            if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                schedulesToRemove.add(studyParticipantCrfSchedule);
+            }
+        }
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove){
+            studyParticipantCrfSchedules.remove(studyParticipantCrfSchedule);
+        }
+    }
+
+
     /**
      * Gets the study participant crf added questions.
      *

@@ -61,7 +61,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         if (command.getParticipant().isPersisted()) {
             //Edit flow
-            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+//            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+            StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
                 StudySite studySite = studyParticipantAssignment.getStudySite();
                 command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
                 command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
@@ -73,7 +74,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.setNewStartDate(null);
                 }
                 command.setArmId(Integer.parseInt(armId));
-            }
+//            }
         } else {
             //Create flow (Participant is not saved yet)
             command.getParticipant().removeAllStudyParticipantAssignments();
@@ -239,7 +240,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 } else {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
-                    for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+//                    for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+                        StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
 //                        if (!studyParticipantAssignment.getStudyStartDate().equals(newStartDate)) {
                            if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate)!=0){
                             offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
@@ -256,12 +258,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                                     studyParticipantAssignment.setArm(arm);
                                 }
                             }
-                            studyParticipantAssignment.removeAllSchedules();
-//                            studyParticipantAssignment.removeAllStudyParticipantCrfs();
+//                            studyParticipantAssignment.removeAllSchedules();
+                            studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
                             command.assignCrfsToParticipant();
                         }
                     }
-                }
+//                }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
