@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 //
+
 /**
  * The Class CreateClinicalStaffController.
  *
@@ -58,7 +59,8 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
         Map map = super.referenceData(request, command, errors);
-
+        if (errors.hasErrors())
+            map.put("error", true);
         return map;
 
 
@@ -77,7 +79,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         if (clinicalStaffCommand.getUserAccount() && "false".equals(request.getParameter("isEdit"))) {
-                clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(userRepository, request);
+            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(userRepository, request);
         }
         return modelAndView;
     }
@@ -91,6 +93,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */
+
     @Override
     protected Object formBackingObject(HttpServletRequest request)
             throws Exception {
@@ -117,19 +120,18 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         }
 
         // checking for first name and last name
-        boolean validName = firstAndLastNameValidator.validate(command.getClinicalStaff(),true,true);
+        boolean validName = firstAndLastNameValidator.validate(command.getClinicalStaff(), true, true);
         if (!validName) {
-            if(firstAndLastNameValidator.message().contains("First name")){
+            if (firstAndLastNameValidator.message().contains("First name")) {
                 e.rejectValue("clinicalStaff.firstName", "firstName_validation", "firstName_validation");
-            }
-            else if(firstAndLastNameValidator.message().contains("Last name")){
+            } else if (firstAndLastNameValidator.message().contains("Last name")) {
                 e.rejectValue("clinicalStaff.lastName", "lastName_validation", "lastName_validation");
             }
         }
 
         // checking for unique email address
-        if (command.getClinicalStaff().getId()==null && command.getClinicalStaff().getEmailAddress()!=null) {
-            boolean validEmail = uniqueStaffEmailAddressValidator.validateStaffEmail(command.getClinicalStaff().getEmailAddress(),command.getClinicalStaff().getId());
+        if (command.getClinicalStaff().getEmailAddress() != null) {
+            boolean validEmail = uniqueStaffEmailAddressValidator.validateStaffEmail(command.getClinicalStaff().getEmailAddress(), command.getClinicalStaff().getId());
             if (validEmail) {
                 e.rejectValue("clinicalStaff.emailAddress", "clinicalStaff.unique_emailAddress", "clinicalStaff.unique_emailAddress");
             }
@@ -143,7 +145,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             user.setUsername(command.getUsername());
             boolean validUser = userNameAndPasswordValidator.validate(user, true, false);
             if (!validUser) {
-                    e.rejectValue("username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+                e.rejectValue("username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
             }
         }
     }

@@ -60,10 +60,13 @@
             try {
                 if (value) {
                     $('div_useraccount_details').show();
-                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000");
                 } else {
                     $('div_useraccount_details').hide();
-                    $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                    $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000");
+                    jQuery('#userNameError').hide();
+                    jQuery('#userNameLengthError').hide();
+                    hideError();
                 }
             } catch(err) {
             }
@@ -93,6 +96,7 @@
             else {
                 jQuery('#nameError1').hide();
             }
+            hideError();
         }
         function checkLastName() {
             var lastName = $('clinicalStaff.lastName').value;
@@ -103,6 +107,7 @@
             else {
                 jQuery('#nameError2').hide();
             }
+            hideError();
         }
         function nameReturnValue(returnValue) {
             if (!returnValue) {
@@ -111,6 +116,7 @@
             else {
                 jQuery('#nameError1').hide();
             }
+            hideError();
         }
         function nameReturnValue1(returnValue) {
             if (!returnValue) {
@@ -119,9 +125,27 @@
             else {
                 jQuery('#nameError2').hide();
             }
+            hideError();
         }
+        // checking if there are any error based on class name and style.
+        function hideError() {
+            var errorlist;
+            var count = 0;
+            var hideError = false;
+            for (i = 0; i < document.getElementsByClassName('errors').length; i++) {
+                errorlist = document.getElementsByClassName('errors')[i];
+                if (errorlist.style.display != 'none') {
+                    count++;
+                    if (errorlist.id == "") {
+                        hideError = true;
+                        errorlist.hide();
 
+                    }
+                }
+            }
+        }
         function checkUniqueUserName() {
+
             var userName = $('username').value;
             var staffId = "${param['clinicalStaffId']}";
             if (staffId == "") {
@@ -131,9 +155,10 @@
                 if (userName.length < 6) {
                     jQuery('#userNameError').hide();
                     jQuery('#userNameLengthError').show();
+                    hideError();
                 }
                 else {
-                    userNameValidation.validateDwrUniqueName(userName,userId, userReturnValue);
+                    userNameValidation.validateDwrUniqueName(userName, userId, userReturnValue);
                     jQuery('#userNameLengthError').hide();
                     return;
                 }
@@ -142,9 +167,11 @@
                 jQuery('#userNameError').hide();
                 jQuery('#userNameLengthError').hide();
             }
+
         }
         function userReturnValue(returnValue) {
             showOrHideErrorField(returnValue, '#userNameError');
+            hideError();
         }
 
         //validation check for staff email address
@@ -158,10 +185,11 @@
             else {
                 jQuery('#emailError').hide();
             }
-
+            hideError();
         }
         function emailReturnValue(returnValue) {
             showOrHideErrorField(returnValue, '#emailError');
+            hideError();
         }
 
     </script>
@@ -196,173 +224,203 @@
 </div>
 
 <form:form method="post" commandName="clinicalStaffCommand">
-    <c:set var="hasUserAccount"
-           value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
-    <c:set var="isEdit"
-           value="${param['clinicalStaffId'] ne null}"/>
-    <input name="isEdit" value="${isEdit}" type="hidden"/>
-    <chrome:box title="">
-        <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <input type="hidden" id="showForm" name="showForm" value=""/>
+<c:set var="hasUserAccount"
+       value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
+<c:set var="isEdit"
+       value="${param['clinicalStaffId'] ne null}"/>
+<input name="isEdit" value="${isEdit}" type="hidden"/>
+<chrome:box title="">
+    <tags:hasErrorsMessage hideErrorDetails="false"/>
+    <input type="hidden" id="showForm" name="showForm" value=""/>
 
-        <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
-        <chrome:division title="clinicalStaff.division.details">
-            <table width="100%">
-                <tr>
-                    <td>
-                        <tags:renderText propertyName="clinicalStaff.firstName"
-                                         displayName="clinicalStaff.label.first_name"
-                                         required="true" onblur="checkFirstName();"/>
-                        <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='firstName_validation'
-                                                text='firstName_validation'/>
-                            </li>
-                        </ul>
-                        <tags:renderText propertyName="clinicalStaff.middleName"
-                                         displayName="clinicalStaff.label.middle_name"/>
-                        <tags:renderText propertyName="clinicalStaff.lastName"
-                                         displayName="clinicalStaff.label.last_name"
-                                         required="true" onblur="checkLastName()"/>
-                        <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='lastName_validation'
-                                                text='lastName_validation'/>
-                            </li>
-                        </ul>
-                    </td>
-                    <td style="vertical-align:top">
-                        <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
-                                               displayName="clinicalStaff.label.phone"
-                                               required="true"/>
-                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
-                                          displayName="clinicalStaff.label.email_address"
-                                          required="true" size="40" onblur="checkUniqueEmailAddress();"/>
-                        <ul id="emailError" style="display:none; padding-left:12em " class="errors">
-                            <li><spring:message code='clinicalStaff.unique_emailAddress'
-                                                text='clinicalStaff.unique_emailAddress'/></li>
-                        </ul>
-                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
-                                         displayName="clinicalStaff.label.identifier"/>
-                    </td>
-                </tr>
-            </table>
-            <c:choose>
-                <c:when test="${isEdit && hasUserAccount}">
+    <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
+    <chrome:division title="clinicalStaff.division.details">
+        <table width="100%">
+            <tr>
+                <td>
+                    <tags:renderText propertyName="clinicalStaff.firstName"
+                                     displayName="clinicalStaff.label.first_name"
+                                     required="true" onblur="checkFirstName();"/>
+                    <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
+                        <li><spring:message code='firstName_validation'
+                                            text='firstName_validation'/>
+                        </li>
+                    </ul>
+                    <tags:renderText propertyName="clinicalStaff.middleName"
+                                     displayName="clinicalStaff.label.middle_name"/>
+                    <tags:renderText propertyName="clinicalStaff.lastName"
+                                     displayName="clinicalStaff.label.last_name"
+                                     required="true" onblur="checkLastName()"/>
+                    <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
+                        <li><spring:message code='lastName_validation'
+                                            text='lastName_validation'/>
+                        </li>
+                    </ul>
+                </td>
+                <td style="vertical-align:top">
+                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
+                                           displayName="clinicalStaff.label.phone"
+                                           required="true"/>
+                    <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                      displayName="clinicalStaff.label.email_address"
+                                      required="true" size="40" onblur="checkUniqueEmailAddress();"/>
+                    <ul id="emailError" style="display:none; padding-left:12em " class="errors">
+                        <li><spring:message code='clinicalStaff.unique_emailAddress'
+                                            text='clinicalStaff.unique_emailAddress'/></li>
+                    </ul>
+                    <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                     displayName="clinicalStaff.label.identifier"/>
+                </td>
+            </tr>
+        </table>
+        <c:choose>
+            <c:when test="${isEdit && hasUserAccount}">
+                <c:if test="${error eq null}">
                     <input type="hidden" name="userAccount" value="true" id="hasUserAccount"/>
                     <c:set var="div_useraccount_details_style" value=""/>
-                </c:when>
-                <c:when test="${isEdit && not hasUserAccount}">
+                </c:if>
+                <c:if test="${error}">
                     <input type="checkbox" name="userAccount" value="true"
-                           id="hasUserAccount"
+                           id="hasUserAccount" checked="true"
                            onclick="showOrHideUserAccountDetails(this.checked)"/> Create a user account for this clinical staff
-                    <c:set var="div_useraccount_details_style" value="display:none"/>
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" name="userAccount" value="true"
-                           id="hasUserAccount"
-                           onclick="showOrHideUserAccountDetails(this.checked)"
-                           checked/> Create a user account for this clinical staff
                     <c:set var="div_useraccount_details_style" value=""/>
-                </c:otherwise>
-            </c:choose>
-        </chrome:division>
-        <div id="div_useraccount_details" style="${div_useraccount_details_style}">
-            <chrome:division title="clinicalStaff.division.user_account">
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td>
-                            <c:choose>
-                                <c:when test="${empty param['clinicalStaffId'] or (not hasUserAccount)}">
-                                    <tags:renderText propertyName="username"
-                                                     displayName="participant.label.username"
-                                                     required="true" onblur="checkUniqueUserName();"/>
-                                    <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
-                                        <li><spring:message code='clinicalStaff.unique_userName'
-                                                            text='clinicalStaff.unique_userName'/></li>
-                                    </ul>
-                                    <ul id="userNameLengthError" style="display:none; padding-left:12em "
-                                        class="errors">
-                                        <li><spring:message code='clinicalStaff.username_length'
-                                                            text='clinicalStaff.username_length'/></li>
-                                    </ul>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="row">
-                                        <div class="label"><spring:message code="participant.label.username"/>:</div>
+                </c:if>
+            </c:when>
+            <c:when test="${isEdit && not hasUserAccount }">
+                <input type="checkbox" name="userAccount" value="true"
+                       id="hasUserAccount"
+                       onclick="showOrHideUserAccountDetails(this.checked)"/> Create a user account for this clinical staff
+                <c:set var="div_useraccount_details_style" value="display:none"/>
+            </c:when>
+
+            <c:otherwise>
+                <input type="checkbox" name="userAccount" value="true"
+                       id="hasUserAccount"
+                       onclick="showOrHideUserAccountDetails(this.checked)"
+                       checked/> Create a user account for this clinical staff
+                <c:set var="div_useraccount_details_style" value=""/>
+            </c:otherwise>
+        </c:choose>
+    </chrome:division>
+    <div id="div_useraccount_details" style="${div_useraccount_details_style}">
+        <chrome:division title="clinicalStaff.division.user_account">
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty param['clinicalStaffId'] or (not hasUserAccount)}">
+                                <tags:renderText propertyName="username"
+                                                 displayName="participant.label.username"
+                                                 required="true" onblur="checkUniqueUserName();"/>
+                                <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
+                                    <li><spring:message code='clinicalStaff.unique_userName'
+                                                        text='clinicalStaff.unique_userName'/></li>
+                                </ul>
+                                <ul id="userNameLengthError" style="display:none; padding-left:12em "
+                                    class="errors">
+                                    <li><spring:message code='clinicalStaff.username_length'
+                                                        text='clinicalStaff.username_length'/></li>
+                                </ul>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="row">
+                                    <c:if test="${error eq null}">
+                                        <div class="label"><spring:message code="participant.label.username"/>:
+                                        </div>
                                         <div class="value">
+
                                             &nbsp;${clinicalStaffCommand.username}</div>
+
                                         <input type="hidden" id="clinicalStaff.user.username"
                                                name="clinicalStaff.user.username"
                                                value="${clinicalStaffCommand.username}">
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
+                                    </c:if>
 
-                    </tr>
-                </table>
+                                    <form:errors path="*">
+                                        <tags:renderText propertyName="username"
+                                                         displayName="participant.label.username"
+                                                         required="true" onblur="checkUniqueUserName();"/>
+                                        <ul id="userNameError" style="display:none; padding-left:12em "
+                                            class="errors">
+                                            <li><spring:message code='clinicalStaff.unique_userName'
+                                                                text='clinicalStaff.unique_userName'/></li>
+                                        </ul>
+                                        <ul id="userNameLengthError" style="display:none; padding-left:12em "
+                                            class="errors">
+                                            <li><spring:message code='clinicalStaff.username_length'
+                                                                text='clinicalStaff.username_length'/></li>
+                                        </ul>
+                                    </form:errors>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
 
-            </chrome:division>
-            <chrome:division title="Additional Options">
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-                    <input type="checkbox" name="cca" value="true"
-                           id="cca"
-                           <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
-                           <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
-                    This user is a <u>Coordinating Center Administrator</u>
-                </proctcae:urlAuthorize>
-                <br/>
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
-                    <input type="checkbox" name="admin" value="true"
-                           id="admin"
-                           <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
-                           <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
-                    This user is a <u>System Administrator</u>
-                </proctcae:urlAuthorize>
-            </chrome:division>
-            <br/>
-        </div>
-        <chrome:division title="clinicalStaff.division.sites">
-            <div align="left" style="margin-left: 145px">
-                <table cellspacing="0" width="90%">
-                    <tr>
-                        <td>
+                </tr>
+            </table>
 
-                            <table width="90%" class="tablecontent">
-                                <tr id="ss-table-head" class="amendment-table-head">
-                                    <th width="95%" class="tableHeader">
-                                        <tags:requiredIndicator/><tags:message
-                                            code='clinicalStaff.division.sites'/></th>
-                                    <th width="5%" class="tableHeader" style=" background-color: none">
-                                        &nbsp;</th>
-
-                                </tr>
-                                <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
-                                           var="organizationClinicalStaff"
-                                           varStatus="status">
-                                    <administration:organizationClinicalStaff
-                                            organizationClinicalStaff="${organizationClinicalStaff}"
-                                            organizationClinicalStaffIndex="${status.index}"
-                                            readOnly="${organizationClinicalStaff.organization ne null}"/>
-                                </c:forEach>
-
-                                <tr id="hiddenDiv" align="center"></tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
-                                <tags:button color="blue" markupWithTag="a" icon="add"
-                                             value="clinicalStaff.button.add.site"
-                                             onclick="javascript:addSite()" size="small"></tags:button>
-                            </proctcae:urlAuthorize>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </chrome:division>
-    </chrome:box>
-    <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
+        <chrome:division title="Additional Options">
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+                <input type="checkbox" name="cca" value="true"
+                       id="cca"
+                       <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
+                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
+                This user is a <u>Coordinating Center Administrator</u>
+            </proctcae:urlAuthorize>
+            <br/>
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
+                <input type="checkbox" name="admin" value="true"
+                       id="admin"
+                       <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
+                       <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
+                This user is a <u>System Administrator</u>
+            </proctcae:urlAuthorize>
+        </chrome:division>
+        <br/>
+    </div>
+    <chrome:division title="clinicalStaff.division.sites">
+        <div align="left" style="margin-left: 145px">
+            <table cellspacing="0" width="90%">
+                <tr>
+                    <td>
+
+                        <table width="90%" class="tablecontent">
+                            <tr id="ss-table-head" class="amendment-table-head">
+                                <th width="95%" class="tableHeader">
+                                    <tags:requiredIndicator/><tags:message
+                                        code='clinicalStaff.division.sites'/></th>
+                                <th width="5%" class="tableHeader" style=" background-color: none">
+                                    &nbsp;</th>
+
+                            </tr>
+                            <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
+                                       var="organizationClinicalStaff"
+                                       varStatus="status">
+                                <administration:organizationClinicalStaff
+                                        organizationClinicalStaff="${organizationClinicalStaff}"
+                                        organizationClinicalStaffIndex="${status.index}"
+                                        readOnly="${organizationClinicalStaff.organization ne null}"/>
+                            </c:forEach>
+
+                            <tr id="hiddenDiv" align="center"></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+                            <tags:button color="blue" markupWithTag="a" icon="add"
+                                         value="clinicalStaff.button.add.site"
+                                         onclick="javascript:addSite()" size="small"></tags:button>
+                        </proctcae:urlAuthorize>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </chrome:division>
+</chrome:box>
+<div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
 </form:form>
 <c:if test="${hasUserAccount && isEdit}">
     <script type="text/javascript">
@@ -370,9 +428,17 @@
     </script>
 </c:if>
 <c:if test="${!hasUserAccount && isEdit}">
-    <script type="text/javascript">
-        showOrHideUserAccountDetails(false);
-    </script>
+    <c:if test="${error}">
+        <script type="text/javascript">
+            showOrHideUserAccountDetails(true);
+        </script>
+    </c:if>
+    <c:if test="${error eq null}">
+        <script type="text/javascript">
+            showOrHideUserAccountDetails(false);
+        </script>
+    </c:if>
 </c:if>
+
 </body>
 </html>
