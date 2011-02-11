@@ -284,7 +284,8 @@ Event.observe(window, 'load', function() {
 
 <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
     try {
-        acCreate(new siteAutoComplter('organizationId'))
+        acCreate(new siteAutoComplter('organizationId'));
+        initSearchField();
     } catch(err) {
     }
 </c:if>
