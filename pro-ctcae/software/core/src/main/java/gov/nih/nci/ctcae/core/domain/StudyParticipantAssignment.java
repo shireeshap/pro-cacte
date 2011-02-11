@@ -530,8 +530,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public void removeAllSchedules() {
-        List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
+
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                     schedulesToRemove.add(studyParticipantCrfSchedule);
@@ -541,7 +542,16 @@ public class StudyParticipantAssignment extends BaseVersionable {
                 studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
             }
         }
+
     }
+
+//    public void removeAllStudyParticipantCrfs() {
+//        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+//          if (studyParticipantCrf.getStudyParticipantCrfSchedules().size() == 0) {
+//              studyParticipantCrfs.remove(studyParticipantCrf);
+//          }
+//        }
+//    }
 
     public List<StudyParticipantReportingModeHistory> getStudyParticipantReportingModeHistoryItems() {
         return studyParticipantReportingModeHistoryItems;

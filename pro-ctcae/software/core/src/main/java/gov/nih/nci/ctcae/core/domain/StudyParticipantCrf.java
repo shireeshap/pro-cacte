@@ -246,7 +246,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     public void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
-        if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+        if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
             Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
             Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
             c1.add(Calendar.DATE, offset);

@@ -219,7 +219,7 @@ uniqueIdentifier"/>
        <%--<form:checkbox path="appModes" value="IVRS"--%>
        <%--onclick="javascript:showHideCallFreq(this.checked);"/>&nbsp;IVRS/Automated--%>
        <%--Telephone <br>--%>
-       <%----%>
+<%----%>
        <%--<div id="call_freq" style="display:none;">--%>
        <%--<table >--%>
        <%--<tr>--%>
@@ -288,7 +288,7 @@ uniqueIdentifier"/>
 
        <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
        <%--</chrome:division>--%>
-       <%----%>
+
 </jsp:attribute>
 
 </tags:tabForm>

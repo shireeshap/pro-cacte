@@ -240,7 +240,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
                     for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
-                        if (!studyParticipantAssignment.getStudyStartDate().equals(newStartDate)) {
+//                        if (!studyParticipantAssignment.getStudyStartDate().equals(newStartDate)) {
+                           if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate)!=0){
                             offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                             studyParticipantAssignment.setStudyStartDate(newStartDate);
                             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
@@ -256,6 +257,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                                 }
                             }
                             studyParticipantAssignment.removeAllSchedules();
+//                            studyParticipantAssignment.removeAllStudyParticipantCrfs();
                             command.assignCrfsToParticipant();
                         }
                     }
