@@ -7,7 +7,7 @@
 <%@ attribute name="required" %>
 <%@ attribute name="onchange" %>
 <%@ attribute name="disabled" %>
-
+<%@ attribute name="onblur" %>
 
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@attribute name="noForm" type="java.lang.Boolean" %>
@@ -18,7 +18,7 @@
                 categoryName="select" required="${required}"
                 cssClass="${required ? 'validate-NOTEMPTY' : ''}"
                 noForm="${noForm}" propertyValue="${propertyValue}" doNotshowLabel="${doNotshowLabel}" id="${id}"
-                name="${name}" onchange="${onchange}" disabled="${disabled}"/>
+                name="${name}" onchange="${onchange}" disabled="${disabled}" onblur="${onblur}"/>
 
 
 <%--<form:select path="${path}"--%>

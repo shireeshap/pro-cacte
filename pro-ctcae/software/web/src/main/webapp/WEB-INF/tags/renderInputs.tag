@@ -157,7 +157,7 @@
         </c:when>
         <c:otherwise>
             <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                         cssClass="${cssClass}" itemLabel="desc" itemValue="code" onchange="${onchange}"/>
+                         cssClass="${cssClass}" itemLabel="desc" itemValue="code" onchange="${onchange}" onblur="${onblur}"/>
         </c:otherwise>
     </c:choose>
 

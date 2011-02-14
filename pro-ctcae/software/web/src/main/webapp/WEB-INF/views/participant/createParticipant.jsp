@@ -21,6 +21,33 @@
 <%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
 <script>
+// validation check for site
+function checkSite() {
+//    var site = ('organizationId').value;
+    alert(${command.siteName});
+}
+// validation check for gender
+function checkGender() {
+    var gender = $('participant.gender').value;
+    if (gender != "") {
+        jQuery('#genderError').hide();
+    }
+    else {
+        jQuery('#genderError').show();
+    }
+    checkError();
+}
+// validation check for Arm
+function checkArm(id) {
+    var arm = $('arm_' + id).value;
+    if (arm != "") {
+        jQuery('#armError_' + id).hide();
+    }
+    else {
+        jQuery('#armError_' + id).show();
+    }
+    checkError();
+}
 // validation check for username
 function checkParticipantUserName() {
     var participantId = "${param['id']}";
@@ -628,7 +655,11 @@ function hideErrors() {
                                                 displayName="participant.label.date_of_birth" required="true"/>
                            </c:if>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="${required}" options="${genders}"/>
+                                              required="${required}" options="${genders}" onchange="checkGender();"
+                                              onblur="checkGender();"/>
+                           <ul id="genderError" style="display:none; padding-left:12em " class="errors">
+                               <li>Missing Gender</li>
+                           </ul>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier"
                                                 displayName="participant.label.participant_identifier"

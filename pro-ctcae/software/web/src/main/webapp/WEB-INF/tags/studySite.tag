@@ -89,7 +89,7 @@
                 </td>
                 <td width="50%">
                     <select name="arm_${studysite.id}" title="arm"
-                            id="arm_${studysite.id}">
+                            id="arm_${studysite.id}" onblur="checkArm(${studysite.id});" onchange="checkArm(${studysite.id});">
                         <option value="">Please select</option>
                         <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
                             <option value="${arm.id}" <c:if
@@ -98,6 +98,9 @@
                             </option>
                         </c:forEach>
                     </select>
+                    <ul id="armError_${studysite.id}" style="display:none;" class="errors">
+                        <li>Missing Arm</li>
+                    </ul>
                 </td>
             </c:when>
             <c:otherwise>
@@ -124,7 +127,7 @@
                 <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
                     <br>
                 </c:if>
-                 <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
                  <span id="emailHeader_${studysite.id}" style="display:none">
                     <span class="required-indicator">*&nbsp;&nbsp; </span>
                     <b> Email Address</b>
@@ -186,8 +189,8 @@
     </td>
     <td valign="top" width="50%">
         <input type="text" name="participant.phoneNumber" value="${studyParticipantAssignment.participant.phoneNumber}"
-        id="participant.phoneNumber_${studysite.id}"
-        cssClass="validate-US_PHONE_NO" onblur="javascript:ValidUSPhoneNumber(${studysite.id});"/>
+               id="participant.phoneNumber_${studysite.id}"
+               cssClass="validate-US_PHONE_NO" onblur="javascript:ValidUSPhoneNumber(${studysite.id});"/>
         <span class="phone-number">###-###-####</span>
         <ul id="phoneError_${studysite.id}" style="display:none;"
             class="errors">
