@@ -18,7 +18,6 @@
 <tags:stylesheetLink name="tabbedflow"/>
 <tags:includeScriptaculous/>
 <tags:includePrototypeWindow/>
-<%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
 <script>
 // validation check for gender
@@ -32,6 +31,19 @@ function checkGender() {
     }
     checkError();
 }
+//validation check for timezone
+function checkTime(id) {
+    var timezone = $('call_timeZone_' + id).value;
+    if (timezone != "") {
+        jQuery('#timeError_' + id).hide();
+    }
+    else {
+        jQuery('#timeError_' + id).show();
+    }
+    checkError();
+    IVRSFields(id);
+}
+
 // validation check for Arm
 function checkArm(id) {
     var arm = $('arm_' + id).value;
@@ -188,34 +200,36 @@ function checkParticipantEmailAddress(siteId) {
         checkError();
     }
 }
-//function emailReturnValue(returnValue,siteId) {
-//    alert("hello"+siteId);
-//    showOrHideErrorField(returnValue, '#emailError_');
-//    checkError();
-//}
 
 // validation check for participant user number (IVRS)
-function checkParticipantUserNumber() {
+function checkParticipantUserNumber(siteId) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var userNumber = $('participant.userNumber').value;
+    var userNumber = $('participant.userNumber_' + siteId).value;
     if (userNumber != "") {
-        uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, returnedValue);
-        return;
+        uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
+                function(returnValue) {
+                    showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+                    jQuery('#missingUserError_' + siteId).hide();
+                    checkError();
+                    IVRSFields(siteId);
+                }});
     }
     else {
-        jQuery('#userNumberError').hide();
+        jQuery('#userNumberError_' + siteId).hide();
+        jQuery('#missingUserError_' + siteId).show();
         checkError();
     }
-
+    IVRSFields(siteId);
 }
-
-function returnedValue(returnValue) {
-    showOrHideErrorField(returnValue, '#userNumberError');
-    checkError();
-}
+//missingPinError_
+//function returnedValue(returnValue) {
+//    showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+//    checkError();
+//
+//}
 
 // validation check for participant study identifier
 function checkParticipantStudyIdentifier(id, siteId) {
@@ -242,11 +256,6 @@ function checkParticipantStudyIdentifier(id, siteId) {
     }
 }
 
-
-//function postCommentHandler(returnvalue) {
-//    showOrHideErrorField(returnvalue, '#uniqueError_'+ siteId);
-//    checkError();
-//}
 
 // check for phone number
 function ValidUSPhoneNumber(siteId) {
@@ -280,8 +289,28 @@ function ValidUSPhoneNumber(siteId) {
         jQuery('#MissingError_' + siteId).hide();
         checkError();
     }
+    IVRSFields(siteId);
 }
 
+function checkFirstName() {
+    var firstName = $('participant.firstName').value;
+    if (firstName != "") {
+        jQuery('#missingFirst').hide();
+    }
+    else
+        jQuery('#missingFirst').show();
+    checkError();
+}
+
+function checkLastName() {
+    var lastName = $('participant.lastName').value;
+    if (lastName != "") {
+        jQuery('#missingLast').hide();
+    }
+    else
+        jQuery('#missingLast').show();
+    checkError();
+}
 function getStudySites() {
     var organizationId = $('organizationId').value;
     if (organizationId == '') {
@@ -382,13 +411,6 @@ var _winOffHold;
 function participantOffHold(id, date) {
     var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&subview=x";
     _winOffHold = showModalWindow(url, 600, 350);
-<%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
-<%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
-    //            onComplete:function(transport) {
-    //                showConfirmationWindow(transport, 600, 350);
-    //            },
-    //            method:'get'
-    //        })
 }
 
 function participantOnHold(id, date) {
@@ -455,11 +477,18 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailInput_' + id).show();
         jQuery('#emailHeader_' + id).show();
         jQuery('#phoneError_' + id).hide();
+        jQuery('#missingPinError_' + id).hide();
+        jQuery('#missingUserError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
+        checkError();
     } else {
         jQuery('#web_' + id).show();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
         jQuery('#phoneError_' + id).hide();
+        jQuery('#missingPinError_' + id).hide();
+        jQuery('#missingUserError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
         jQuery('#web_' + id).hide();
@@ -468,7 +497,9 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#phoneError_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-
+        jQuery('#missingPinError_' + id).hide();
+        jQuery('#missingUserError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "IVRS") {
         jQuery('#div_contact').show();
@@ -476,6 +507,8 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#ivrs_' + id).show();
         jQuery('#c_' + id).show();
         jQuery('#c1_' + id).show();
+        jQuery('#c2_' + id).show();
+        jQuery('#c3_' + id).show();
         jQuery('#reminder_' + id).show();
         jQuery('#ivrs_reminder_' + id).show();
         jQuery('#call_' + id).attr('checked', true);
@@ -485,38 +518,43 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
+        IVRSFields(id);
     } else {
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();
         jQuery('#c_' + id).hide();
         jQuery('#c1_' + id).hide();
+        jQuery('#c2_' + id).hide();
+        jQuery('#c3_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
         jQuery('#phoneError_' + id).hide();
+        jQuery('#missingPinError_' + id).hide();
+        jQuery('#missingUserError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
     }
-    checkError();
+}
+function IVRSFields(id) {
+    var userNumber = $('participant.userNumber_' + id).value;
+    var phone = $('participant.phoneNumber_' + id).value;
+    var pinNumber = $('participant.pinNumber_' + id).value;
+    var hour = $('call_hour_' + id).value;
+    var minute = $('call_minute_' + id).value;
+    var ampm = $('call_ampm_' + id).value;
+    var timezone = $('call_timeZone_' + id).value;
+
+    if (userNumber != "" && phone != "" && pinNumber != "" && hour != "" && minute != "" && ampm != "" && timezone != "") {
+        jQuery('#flow-update').attr('disabled', false);
+        jQuery('#flow-next').attr('disabled', false);
+        checkError();
+    }
+    else {
+        jQuery('#flow-update').attr('disabled', true);
+        jQuery('#flow-next').attr('disabled', true);
+    }
 }
 
-function checkFirstName() {
-    var firstName = $('participant.firstName').value;
-    if (firstName != "") {
-        jQuery('#missingFirst').hide();
-    }
-    else
-        jQuery('#missingFirst').show();
-    checkError();
-}
-
-function checkLastName() {
-    var lastName = $('participant.lastName').value;
-    if (lastName != "") {
-        jQuery('#missingLast').hide();
-    }
-    else
-        jQuery('#missingLast').show();
-    checkError();
-}
 function hideErrors() {
     jQuery('#missingLast').hide();
 
@@ -684,68 +722,8 @@ function hideErrors() {
                    </table>
                </chrome:division>
            </c:when>
-           <c:otherwise>
-               <%--commented as part of new changes--%>
-               <%--<div id="div_contact">--%>
-               <%--<chrome:division title="participant.label.contact_information">--%>
-
-               <%--<table border="0" style="width:100%">--%>
-               <%--<tr>--%>
-               <%--<td width="50%">--%>
-
-               <%--</td>--%>
-               <%--<td width="50%">--%>
-               <%--<tags:renderPhoneOrFax propertyName="participant.phoneNumber"--%>
-               <%--displayName="participant.label.phone"--%>
-               <%--required="${phonereq}"/>--%>
-               <%--</td>--%>
-               <%--</tr>--%>
-               <%--<tr>--%>
-               <%--<td>--%>
-
-               <%--</td>--%>
-               <%--</tr>--%>
-               <%--</table>--%>
-               <%--</chrome:division>--%>
-               <%--</div>--%>
-
-           </c:otherwise>
+           <c:otherwise/>
        </c:choose>
-       <%--<c:if test="${command.mode eq 'N' || showContact == true}">--%>
-       <%----%>
-       <%--</c:if>--%>
-
-
-       <%--<div id="div_contact" style="display:none">--%>
-       <%--<chrome:division title="participant.label.contact_information">--%>
-       <%--<div id="div_email" style="display:none">--%>
-       <%--<table border="0" style="width:100%">--%>
-       <%----%>
-       <%--<tr>--%>
-       <%--<td width="50%">--%>
-       <%--<tags:renderEmail propertyName="participant.emailAddress"--%>
-       <%--displayName="participant.label.email_address"--%>
-       <%--required="false" size="35"/>--%>
-       <%----%>
-       <%--</td>--%>
-       <%----%>
-       <%--</tr>--%>
-       <%--</table>--%>
-
-
-       <%--<table border="0" style="width:100%">--%>
-       <%--<tr>--%>
-       <%--<td width="50%">--%>
-       <%--<tags:renderPhoneOrFax propertyName="participant.phoneNumber"--%>
-       <%--displayName="participant.label.phone"--%>
-       <%--required="${req}"/>--%>
-       <%--</td>--%>
-       <%----%>
-       <%--</tr>--%>
-       <%--</table>--%>
-       <%--</div>--%>
-       <%--</chrome:division>--%>
-       <%--</div>--%>
        <chrome:division title="participant.label.logininfo">
            <table cellpadding="0" cellspacing="0">
                <tr>
@@ -819,33 +797,7 @@ function hideErrors() {
 
            </div>
 
-           <div id="div_contact_ivrs" style="display:none;">
-
-           <table border="0" cellpadding="0" cellspacing="0">
-               <tr>
-                   <td>
-                       <tags:renderText propertyName="participant.userNumber"
-                                        displayName="participant.label.user_number"
-                                        onblur="checkParticipantUserNumber();"/>
-                       <ul id="userNumberError" style="display:none; padding-left:12em " class="errors">
-                           <li><spring:message code='participant.unique_userNumber'
-                                               text='participant.unique_userNumber'/></li>
-                       </ul>
-                   </td>
-
-               </tr>
-               <tr>
-                   <td>
-
-
-                       <tags:renderText propertyName="participant.pinNumber"
-                                        displayName="participant.label.pin_number"/>
-                   </td>
-               </tr>
-           </table>
-
        </chrome:division>
-               </div>
     <chrome:division title="participant.label.studies"/>
         <div id="studysitestable">
 
@@ -865,7 +817,6 @@ function hideErrors() {
                             </td>
                         </c:if>
                     </tr>
-                        <%--<particpant></particpant>                   ${command}--%>
                     <c:forEach items="${command.participant.studyParticipantAssignments}"
                                var="studyParticipantAssignment" varStatus="spastatus">
                         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
