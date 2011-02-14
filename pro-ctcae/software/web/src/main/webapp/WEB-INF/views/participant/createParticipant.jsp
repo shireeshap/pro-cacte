@@ -21,11 +21,6 @@
 <%--<tags:dwrJavascriptLink objects="studyParticipantAssignment"/>--%>
 
 <script>
-// validation check for site
-function checkSite() {
-//    var site = ('organizationId').value;
-    alert(${command.siteName});
-}
 // validation check for gender
 function checkGender() {
     var gender = $('participant.gender').value;
