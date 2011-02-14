@@ -220,6 +220,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 }
             }
         }
+        command.initialize();
 
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
