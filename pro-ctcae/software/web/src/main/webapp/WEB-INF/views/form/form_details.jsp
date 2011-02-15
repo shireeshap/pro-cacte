@@ -282,8 +282,7 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
         if (i == 0) {
             $('crfPageUpLink_' + index).hide();
             $('crfPagDownLink_' + index).show();
-        } else if (i == formPages.length - 1)
-        {
+        } else if (i == formPages.length - 1) {
             $('crfPagDownLink_' + index).hide();
             $('crfPageUpLink_' + index).show();
         } else {
@@ -388,7 +387,7 @@ function showCrfItemProperties(selectedQuestionId) {
 
 
     addEditingDisplayToQuestion(selectedQuestionId);
-    var yPosition= parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1])-parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1]);
+    var yPosition = parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1]);
     new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
@@ -838,6 +837,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                            id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display
                             Preferences</a>
                     </div>
+                    <br>
                     <c:if test="${advance}">
                         <a id="newPageBtn" href="javascript:addCrfPage()"><img
                                 src="<tags:imageUrl name="blue/new_page_button.png" />"
@@ -901,7 +901,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
                         </c:forEach>
                     </ul>
-
                 </div>
 
                 <div id="questionProperties">
