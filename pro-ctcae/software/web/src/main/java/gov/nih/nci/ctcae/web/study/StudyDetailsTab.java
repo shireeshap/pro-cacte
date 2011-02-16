@@ -11,12 +11,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //
+
 /**
  * The Class StudyDetailsTab.
  *
@@ -28,6 +26,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
     UserRepository userRepository;
     private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
+
     /**
      * Instantiates a new study details tab.
      */
@@ -44,14 +43,14 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     @Override
     public void validate(StudyCommand command, Errors errors) {
         StudyCommand studyCommand = (StudyCommand) command;
-            String studyId ="";
-        if(studyCommand.getStudy().getId()!=null){
-             studyId=(studyCommand.getStudy().getId()).toString();
+        String studyId = "";
+        if (studyCommand.getStudy().getId() != null) {
+            studyId = (studyCommand.getStudy().getId()).toString();
         }
-            boolean isunique=uniqueIdentifierForStudyValidator.validateUniqueIdentifier(studyId,studyCommand.getStudy().getAssignedIdentifier());
-            if(isunique){
-                errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
-            }
+        boolean isunique = uniqueIdentifierForStudyValidator.validateUniqueIdentifier(studyId, studyCommand.getStudy().getAssignedIdentifier());
+        if (isunique) {
+            errors.rejectValue("study.assignedIdentifier", "study.unique_assignedIdentifier", "study.unique_assignedIdentifier");
+        }
     }
 
     @Override
@@ -89,13 +88,13 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     @Override
     public Map<String, Object> referenceData() {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<String> appModes=new ArrayList<String>();
+        List<String> appModes = new ArrayList<String>();
 
-        for(AppMode appMode:AppMode.values()){
+        for (AppMode appMode : AppMode.values()) {
             appModes.add(appMode.getDisplayName());
         }
 
-        map.put("appModes",appModes);
+        map.put("appModes", appModes);
         return map;
     }
 
@@ -106,7 +105,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         Integer callBackFrequency = ServletRequestUtils.getIntParameter(httpServletRequest, "call_back_frequency", 0);
         studyCommand.getStudy().setCallBackHour(callBackHour);
         studyCommand.getStudy().setCallBackFrequency(callBackFrequency);
-     
+
 //        studyCommand.getStudy().getStudyModes().clear();
 //        for (String string : studyCommand.getAppModes()) {
 //            AppMode appMode = AppMode.valueOf(string);
@@ -130,11 +129,18 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                 study.addArm(arm);
             } else {
                 if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
-                    for (Arm arm : studyCommand.getStudy().getArms()) {
-                        if (arm.isDefaultArm()) {
-                            studyCommand.getStudy().getArms().remove(arm);
+                    for(Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();){
+                        Arm arm1=arm.next();
+                          if (arm1.isDefaultArm()) {
+                            arm.remove();
                         }
+
                     }
+//                    for (Arm arm : studyCommand.getStudy().getArms()) {
+////                       if (arm.isDefaultArm()) {
+//                            studyCommand.getStudy().getArms().remove(arm);
+//                        }
+//                    }
                 }
             }
         }
@@ -143,7 +149,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
+
     public void setUniqueIdentifierForStudyValidator(UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator) {
         this.uniqueIdentifierForStudyValidator = uniqueIdentifierForStudyValidator;
     }
