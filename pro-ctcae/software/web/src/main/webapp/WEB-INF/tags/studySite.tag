@@ -234,6 +234,10 @@
         <ul id="missingPinError_${studysite.id}" style="display:none;" class="errors">
             <li>Missing pin number</li>
         </ul>
+        <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
+            <li><spring:message code='participant.pinnumber_pattern'
+                                text='participant.pinnumber_pattern'/></li>
+        </ul>
     </td>
 </tr>
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">

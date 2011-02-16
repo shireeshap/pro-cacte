@@ -200,7 +200,7 @@ function checkParticipantEmailAddress(siteId) {
         checkError();
     }
 }
-    var pattern = /^\d+$/;
+var pattern = /^\d+$/;
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber(siteId) {
     var participantId = "${param['id']}";
@@ -210,9 +210,9 @@ function checkParticipantUserNumber(siteId) {
     var userNumber = $('participant.userNumber_' + siteId).value;
     if (userNumber != "") {
         if (!pattern.test(userNumber)) {
-           jQuery('#UserPatternError_' + siteId).show();
-           jQuery('#missingUserError_' + siteId).hide();
-           jQuery('#userNumberError_' + siteId).hide();
+            jQuery('#UserPatternError_' + siteId).show();
+            jQuery('#missingUserError_' + siteId).hide();
+            jQuery('#userNumberError_' + siteId).hide();
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
@@ -552,15 +552,28 @@ function IVRSFields(id) {
     var minute = $('call_minute_' + id).value;
     var ampm = $('call_ampm_' + id).value;
     var timezone = $('call_timeZone_' + id).value;
-
-    if (userNumber != "" && phone != "" && pinNumber != "" && hour != "" && minute != "" && ampm != "" && timezone != "") {
-        jQuery('#flow-update').attr('disabled', false);
-        jQuery('#flow-next').attr('disabled', false);
-        checkError();
+    if (pinNumber != "") {
+        if (!pattern.test(pinNumber)) {
+            jQuery('#PinPatternError_' + id).show();
+            checkError();
+        }
+        else if (userNumber != "" && phone != "" && pinNumber != "" && hour != "" && minute != "" && ampm != "" && timezone != "") {
+            jQuery('#flow-update').attr('disabled', false);
+            jQuery('#flow-next').attr('disabled', false);
+            jQuery('#PinPatternError_' + id).hide();
+            checkError();
+        }
+        else {
+            jQuery('#flow-update').attr('disabled', true);
+            jQuery('#flow-next').attr('disabled', true);
+            jQuery('#PinPatternError_' + id).hide();
+        }
     }
+
     else {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
+        jQuery('#PinPatternError_' + id).hide();
     }
 }
 
