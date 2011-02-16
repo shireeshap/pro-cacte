@@ -13,17 +13,18 @@
 <%@attribute name="studySiteId" type="java.lang.String" required="true" %>
 <%@attribute name="studyCommand" type="gov.nih.nci.ctcae.web.study.StudyCommand" required="true" %>
 <%@attribute name="roleStatusOptions" required="true" type="java.util.List" %>
+<%@attribute name="notifyOptions" type="java.util.List" %> 
 
 
-<table cellspacing="0" width="100%">
+<table cellspacing="0" width="100%" border="0">
     <tr>
         <td width="80%">
-            <div align="left" style="margin-left: 15px">
-                <table class="tablecontent" width="100%">
+            <%--<div align="left" style="margin-left: 15px">--%>
+                <table class="tablecontent" width="100%" border="0">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="60%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                        <th width="40%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="study.label.clinical.staff"/></th>
-                        <th width="40%" class="tableHeader">Action</th>
+                        <th width="60%" class="tableHeader">Action</th>
                     </tr>
                     <c:forEach var="studyOrganizationClinicalStaff"
                                items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">
@@ -32,7 +33,7 @@
                             <c:if test="${role eq  studyOrganizationClinicalStaff.role}">
                                 <study:studySiteClinicalStaff
                                         studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
-                                        studyOrganizationClinicalStaffIndex="${status.index}"
+                                        studyOrganizationClinicalStaffIndex="${status.index}" notifyOptions="${notifyOptions}"
                                         roleStatusOptions="${roleStatusOptions}" readOnly="true"/>
                             </c:if>
 
@@ -41,7 +42,7 @@
                     </c:forEach>
                     <tr id="hiddenDivForStudySite_${studySiteId}_Role_${role}"></tr>
                 </table>
-            </div>
+            <%--</div>--%>
         </td>
 
     </tr>

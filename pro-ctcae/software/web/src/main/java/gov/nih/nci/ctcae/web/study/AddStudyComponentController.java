@@ -50,7 +50,7 @@ public class AddStudyComponentController extends AbstractController {
 
     private ModelAndView addComponent(HttpServletRequest request) throws ServletRequestBindingException {
         StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
-
+        request.setAttribute("command", studyCommand);
         String componentType = request.getParameter(COMPONENT_TYPE);
 
         if (StringUtils.equals(componentType, STUDY_ORGANIZATION_CLINICAL_STAFF)) {
@@ -71,6 +71,7 @@ public class AddStudyComponentController extends AbstractController {
             modelAndView.addObject("roleStatusOptions", ListValues.getRoleStatusType());
             modelAndView.addObject("studyOrganizationClinicalStaff", studyOrganizationClinicalStaff);
             modelAndView.addObject("studyOrganizationClinicalStaffIndex", studyOrganizationClinicalStaffIndex);
+            modelAndView.addObject("notifyOptions", ListValues.getNotificationRequired());
             return modelAndView;
         }
         return null;

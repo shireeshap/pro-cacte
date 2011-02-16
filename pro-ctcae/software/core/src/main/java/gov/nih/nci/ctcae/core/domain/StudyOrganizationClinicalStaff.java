@@ -44,6 +44,9 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     @Column(name = "status_date", nullable = false)
     private Date statusDate = new Date();
 
+    @Column(name = "notify", nullable = true)
+    private Boolean notify = true;
+
 
     @OneToMany(mappedBy = "studyOrganizationClinicalStaff")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
@@ -126,6 +129,18 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     public void setStatusDate(Date statusDate) {
         this.statusDate = statusDate;
+    }
+
+    public Boolean isNotify() {
+        return notify;
+    }
+
+    public void setNotify(Boolean notify) {
+        this.notify = notify;
+    }
+
+    public Boolean getNotify() {
+        return notify;
     }
 
     public String getDisplayName() {

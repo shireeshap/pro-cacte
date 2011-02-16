@@ -73,7 +73,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             } catch (Exception e) {
                 command.setNewStartDate(null);
             }
-            command.setArmId(Integer.parseInt(armId));
+            if (armId != null) {
+                command.setArmId(Integer.parseInt(armId));
+            }
 //            }
         } else {
             //Create flow (Participant is not saved yet)

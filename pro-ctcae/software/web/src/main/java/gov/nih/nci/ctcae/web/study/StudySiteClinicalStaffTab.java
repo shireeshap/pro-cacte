@@ -62,8 +62,8 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
         referenceData.put("studySites", studySites);
         referenceData.put("roleStatusOptions", ListValues.getRoleStatusType());
         referenceData.put("leadCRA", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
-        referenceData.put("OverallPI", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.PI));
-
+        referenceData.put("OverallPI", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.PI));     
+        referenceData.put("notifyOptions", ListValues.getNotificationRequired());
 
         return referenceData;
     }

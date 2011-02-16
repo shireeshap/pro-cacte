@@ -205,7 +205,7 @@ public abstract class StudyOrganization extends BasePersistable {
         Date today = new Date();
         List<StudyOrganizationClinicalStaff> l = new ArrayList<StudyOrganizationClinicalStaff>();
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffs) {
-            if (studyOrganizationClinicalStaff.getRole().equals(role) && studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getStatusDate().before(today))
+            if (studyOrganizationClinicalStaff.getRole().equals(role) && studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getNotify() && studyOrganizationClinicalStaff.getStatusDate().before(today))
                 l.add(studyOrganizationClinicalStaff);
         }
         return l;

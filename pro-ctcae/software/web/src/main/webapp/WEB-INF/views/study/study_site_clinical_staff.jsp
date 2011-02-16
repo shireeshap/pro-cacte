@@ -79,7 +79,7 @@
 
     <style type="text/css">
         div.row div.label {
-            width: 20em;
+            width: 10em;
         }
 
         * {
@@ -139,7 +139,7 @@
 
                         <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
                                                            roleStatusOptions="${roleStatusOptions}"
-                                                           studyCommand="${command}"/>
+                                                           studyCommand="${command}" notifyOptions="${notifyOptions}"/>
                     </chrome:division>
                 </chrome:box>
 

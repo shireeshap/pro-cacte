@@ -7,13 +7,13 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
 
-
 <script type="text/javascript">
     acCreate(new organizationClinicalStaffAutoComplter('studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}].organizationClinicalStaff',
             '${studyOrganizationClinicalStaff.studyOrganization.id}'))
     initSearchField()
 </script>
-
-<study:studySiteClinicalStaff studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
-                              studyOrganizationClinicalStaffIndex="${studyOrganizationClinicalStaffIndex}"
-                              roleStatusOptions="${roleStatusOptions}"/>
+<tags:noForm>  
+    <study:studySiteClinicalStaff studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
+                                  studyOrganizationClinicalStaffIndex="${studyOrganizationClinicalStaffIndex}"
+                                  roleStatusOptions="${roleStatusOptions}" notifyOptions="${notifyOptions}"/>
+</tags:noForm>
