@@ -130,10 +130,10 @@ public class LoginController extends AbstractController {
         query.filterByClinicalStaffId(clinicalStaff.getId());
         List<StudyOrganizationClinicalStaff> socs = studyOrganizationClinicalStaffRepository.find(query);
         ArrayList<List<StudyParticipantCrfSchedule>> out = new ArrayList<List<StudyParticipantCrfSchedule>>();
-        ArrayList<StudyParticipantCrfSchedule> overdue = new ArrayList<StudyParticipantCrfSchedule>();
-        ArrayList<StudyParticipantCrfSchedule> upcoming = new ArrayList<StudyParticipantCrfSchedule>();
-        out.add(overdue);
-        out.add(upcoming);
+        Set<StudyParticipantCrfSchedule> overdue = new HashSet<StudyParticipantCrfSchedule>();
+        Set<StudyParticipantCrfSchedule> upcoming = new HashSet<StudyParticipantCrfSchedule>();
+//        out.add(overdue);
+//        out.add(upcoming);
         Date today = new Date();
         Date week = DateUtils.addDaysToDate(today, 6);
         Date yesterday = DateUtils.addDaysToDate(today, -1);
@@ -152,6 +152,12 @@ public class LoginController extends AbstractController {
                 }
             }
         }
+        List sortedUpcoming = new ArrayList<StudyParticipantCrfSchedule>(upcoming);
+        Collections.sort(sortedUpcoming,new ParticipantDisplayNameComparator());
+        List sortedOverdue= new ArrayList<StudyParticipantCrfSchedule>(overdue);
+        Collections.sort(sortedOverdue,new ParticipantDisplayNameComparator());
+        out.add(sortedOverdue);
+        out.add(sortedUpcoming);
         return out;
     }
 

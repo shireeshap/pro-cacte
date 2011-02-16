@@ -934,6 +934,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthentic
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotUsernameController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ParticipantDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/PasswordExpiredController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordController.java -text
