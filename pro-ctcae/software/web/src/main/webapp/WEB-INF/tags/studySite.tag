@@ -63,19 +63,26 @@
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
     </td>
     <td width="50%">
-        <input type="text"
-               name="participantStudyIdentifier_${studysite.id}"
-               value="${studyParticipantAssignment.studyParticipantIdentifier}"
-               title="identifier"
-               id="participantStudyIdentifier_${studysite.id}"
-               onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
-        <ul id="uniqueError_${studysite.id}" style="display:none" class="errors">
-            <li><spring:message code='participant.unique_assignedIdentifier'
-                                text='participant.unique_assignedIdentifier'/></li>
-        </ul>
-        <ul id="MissingInError_${studysite.id}" style="display:none" class="errors">
-            <li>Missing identifier</li>
-        </ul>
+        <c:choose>
+            <c:when test="${selected}">
+                ${studyParticipantAssignment.studyParticipantIdentifier}
+            </c:when>
+            <c:otherwise>
+                <input type="text"
+                       name="participantStudyIdentifier_${studysite.id}"
+                       value="${studyParticipantAssignment.studyParticipantIdentifier}"
+                       title="identifier"
+                       id="participantStudyIdentifier_${studysite.id}"
+                       onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
+                <ul id="uniqueError_${studysite.id}" style="display:none" class="errors">
+                    <li><spring:message code='participant.unique_assignedIdentifier'
+                                        text='participant.unique_assignedIdentifier'/></li>
+                </ul>
+                <ul id="MissingInError_${studysite.id}" style="display:none" class="errors">
+                    <li>Missing identifier</li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
     </td>
 </tr>
 
