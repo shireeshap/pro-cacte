@@ -429,7 +429,7 @@ $BODY$
 
 -- Function: ivrs_getpreviousquestion(userid integer, formid integer, questionid integer)
 -- DROP FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer);
---return:  return previous question id for given question, for 0 if there is no previous question(current question id is the first question), -1 for any DB issues
+--return:  return previous question id for given question, for 0 if there is no previous question, -1 for any DB issues,-2 for question is the first question id in the form
 CREATE OR REPLACE FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer)
   RETURNS integer AS
 $BODY$
@@ -443,6 +443,7 @@ DECLARE
     v_previous_page_required integer := 0;
     v_ret_question_id integer := 0;
     v_question_id_found integer := 0;
+    v_last_answered_question_id integer :=0;
     --get the questions for given symptom/page
     curs_questions CURSOR(formid_in integer,gender_in text, pageid_in integer) IS
     SELECT spci.crf_item_id,spci.pro_ctc_valid_value_id,cpi.crf_page_id
@@ -458,6 +459,16 @@ DECLARE
 BEGIN
 	--getting gender information of the participant
 	SELECT lower(gender) into v_gender FROM participants where user_id=userid;
+
+	--if question id sending is 0 then try to get last answered question
+	IF questionid=0 THEN
+		select spci.crf_item_id INTO v_last_answered_question_id from study_participant_crf_items spci
+		where spci.sp_crf_schedule_id = formid and pro_ctc_valid_value_id IS NOT NULL order by id desc LIMIT 1 OFFSET 0;
+		IF NOT FOUND THEN
+			return -3;
+		END IF;
+		return v_last_answered_question_id;
+	END IF;
 
 	--getting current page for the given question
 	SELECT cpi.crf_page_id INTO v_page_present_num
@@ -506,6 +517,10 @@ BEGIN
 		CLOSE curs_questions;
 
 	END IF;
+	--if given question id is the first question then return -2
+	IF v_previous_page_required = 1 AND v_ret_question_id = 0 then
+		return -2;
+	end if;
 	--if there are no valid un answered questions then return 0
 	IF v_question_id_found = 0 then
 		return 0;
@@ -520,5 +535,35 @@ END;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
+-- Function: ivrs_isUserNew(userid integer)
+-- DROP FUNCTION ivrs_isUserNew(userid integer);
+--return:  return 1 for new users to IVRS ,0 for existing users to IVRS, -1 for any DB issues,-2 for question is the first question id in the form
+CREATE OR REPLACE FUNCTION ivrs_isUserNew(userid integer)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    v_ret_count integer :=0;
+BEGIN
+    --getting completed and inprogress forms for the mentioned users
+    SELECT count(spcs.id) INTO v_ret_count
+    from sp_crf_schedules spcs
+    JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
+    JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
+    JOIN participants p ON sp.participant_id = p.id
+    where (spcs.status = 'COMPLETED' OR spcs.status= 'INPROGRESS')
+	  and p.user_id=userid;
+	--if there are forms answered return 0 , if no answered forms then return 1
+    IF v_ret_count > 0 THEN
+	      return 0;
+    ELSE
+	  return 1;
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
 
 

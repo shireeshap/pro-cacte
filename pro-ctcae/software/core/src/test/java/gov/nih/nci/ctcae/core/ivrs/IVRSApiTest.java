@@ -61,6 +61,9 @@ public class IVRSApiTest extends TestDataManager{
         //checking the user information correct
         assertEquals(participant.getUser().getId(),userId);
         assertEquals(participant.getUser().getId(),userId);
+
+        Integer isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
+        assertEquals(1,isUserNew.intValue());
         //passing wrong information
         Integer userId1 = helper.ivrsLogin(1234,9999);
         assertEquals(0,userId1.intValue());
@@ -88,7 +91,7 @@ public class IVRSApiTest extends TestDataManager{
         assertEquals(fistQuestionId,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getId());
 
 
-        assertEquals(0,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fistQuestionId).intValue());
+        assertEquals(-2,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fistQuestionId).intValue());
 
         String firstQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fistQuestionId);
         assertEquals(firstQuestionText,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getQuestionText());
@@ -99,6 +102,9 @@ public class IVRSApiTest extends TestDataManager{
         //So next question id will be 4th one
         Integer fourthQuestionId = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fistQuestionId,1);
         assertEquals(fourthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getId());
+
+        isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
+        assertEquals(0,isUserNew.intValue());
 
         assertEquals(fistQuestionId,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId));
         assertEquals(1,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId).intValue());
@@ -132,6 +138,8 @@ public class IVRSApiTest extends TestDataManager{
        Integer nextQuestionId = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,sixthQuestionId,3);
        assertEquals(nextQuestionId.intValue(),0);
 
+       assertEquals(sixthQuestionId,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,0));
+
        //committed the total session 
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
        assertEquals(result.intValue(),1);
@@ -146,6 +154,8 @@ public class IVRSApiTest extends TestDataManager{
         assertEquals(CrfStatus.SCHEDULED,finalSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
         assertEquals(false,finalSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
 
+        isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
+        assertEquals(0,isUserNew.intValue());
         //deleteIVRSTestData();
 
     }
