@@ -200,7 +200,7 @@ function checkParticipantEmailAddress(siteId) {
         checkError();
     }
 }
-
+    var pattern = /^\d+$/;
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber(siteId) {
     var participantId = "${param['id']}";
@@ -209,16 +209,25 @@ function checkParticipantUserNumber(siteId) {
     }
     var userNumber = $('participant.userNumber_' + siteId).value;
     if (userNumber != "") {
-        uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
-                function(returnValue) {
-                    showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
-                    jQuery('#missingUserError_' + siteId).hide();
-                    checkError();
-                    IVRSFields(siteId);
-                }});
+        if (!pattern.test(userNumber)) {
+           jQuery('#UserPatternError_' + siteId).show();
+           jQuery('#missingUserError_' + siteId).hide();
+           jQuery('#userNumberError_' + siteId).hide();
+        }
+        else {
+            uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
+                    function(returnValue) {
+                        showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+                        jQuery('#missingUserError_' + siteId).hide();
+                        jQuery('#UserPatternError_' + siteId).hide();
+                        checkError();
+                        IVRSFields(siteId);
+                    }});
+        }
     }
     else {
         jQuery('#userNumberError_' + siteId).hide();
+        jQuery('#UserPatternError_' + siteId).hide();
         jQuery('#missingUserError_' + siteId).show();
         checkError();
     }

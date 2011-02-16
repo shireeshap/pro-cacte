@@ -205,15 +205,20 @@
         <b>IVRS user id</b>&nbsp;
     </td>
     <td>
-        <input type="text" name="participantUserNumber_${studysite.id}" value="${studyParticipantAssignment.participant.userNumber}"
-                         id="participant.userNumber_${studysite.id}"
-                         onblur="checkParticipantUserNumber(${studysite.id});"/>
+        <input type="text" name="participantUserNumber_${studysite.id}"
+               value="${studyParticipantAssignment.participant.userNumber}"
+               id="participant.userNumber_${studysite.id}"
+               onblur="checkParticipantUserNumber(${studysite.id});"/>
         <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
             <li><spring:message code='participant.unique_userNumber'
                                 text='participant.unique_userNumber'/></li>
         </ul>
         <ul id="missingUserError_${studysite.id}" style="display:none;" class="errors">
             <li>Missing user number</li>
+        </ul>
+        <ul id="UserPatternError_${studysite.id}" style="display:none;" class="errors">
+            <li><spring:message code='participant.usernumber_pattern'
+                                text='participant.usernumber_pattern'/></li>
         </ul>
     </td>
 </tr>
@@ -223,9 +228,10 @@
         <b>PIN number</b>&nbsp;
     </td>
     <td>
-        <input type="text" name="participantPinNumber_${studysite.id}" value="${studyParticipantAssignment.participant.pinNumber}"
-                         id="participant.pinNumber_${studysite.id}" onblur="IVRSFields(${studysite.id});"/>
-         <ul id="missingPinError_${studysite.id}" style="display:none;" class="errors">
+        <input type="text" name="participantPinNumber_${studysite.id}"
+               value="${studyParticipantAssignment.participant.pinNumber}"
+               id="participant.pinNumber_${studysite.id}" onblur="IVRSFields(${studysite.id});"/>
+        <ul id="missingPinError_${studysite.id}" style="display:none;" class="errors">
             <li>Missing pin number</li>
         </ul>
     </td>
@@ -237,7 +243,8 @@
     <td valign="top" width="50%">
 
         <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
-            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}" onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
+            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"
+                    onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
                 <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >Hr</option>
                 <c:forEach items="${hours}" var="hour">
                     <c:set var="hr" value="${hour}"/>
@@ -245,7 +252,8 @@
                     <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}" onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
+            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"
+                    onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
                 <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min
                 </option>
                 <c:forEach items="${minutes}" var="minute">
@@ -254,7 +262,8 @@
                     <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}" onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
+            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"
+                    onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
                 <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                     am
                 </option>
@@ -263,7 +272,8 @@
                 </option>
             </select>&nbsp;&nbsp;&nbsp;
             <b>Time zone</b>&nbsp;
-            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}" onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
+            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"
+                    onblur="IVRSFields(${studysite.id});" onchange="IVRSFields(${studysite.id});">
                 <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
                     Please select
                 </option>
