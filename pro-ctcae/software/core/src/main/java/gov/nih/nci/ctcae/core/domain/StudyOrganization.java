@@ -211,20 +211,29 @@ public abstract class StudyOrganization extends BasePersistable {
         return l;
     }
 
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffByRoleNotify(Role role) {
+        Date today = new Date();
+        List<StudyOrganizationClinicalStaff> l = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffs) {
+            if (studyOrganizationClinicalStaff.getRole().equals(role) && studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getStatusDate().before(today))
+                l.add(studyOrganizationClinicalStaff);
+        }
+        return l;
+    }
     public List<StudyOrganizationClinicalStaff> getSitePIs() {
-        return getStudyOrganizationClinicalStaffByRole(Role.SITE_PI);
+        return getStudyOrganizationClinicalStaffByRoleNotify(Role.SITE_PI);
     }
 
     public List<StudyOrganizationClinicalStaff> getSiteCRAs() {
-        return getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
+        return getStudyOrganizationClinicalStaffByRoleNotify(Role.SITE_CRA);
     }
 
     public List<StudyOrganizationClinicalStaff> getResearchNurses() {
-        return getStudyOrganizationClinicalStaffByRole(Role.NURSE);
+        return getStudyOrganizationClinicalStaffByRoleNotify(Role.NURSE);
     }
 
     public List<StudyOrganizationClinicalStaff> getTreatingPhysicians() {
-        return getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN);
+        return getStudyOrganizationClinicalStaffByRoleNotify(Role.TREATING_PHYSICIAN);
     }
 
     public List<SiteCRFNotificationRule> getSiteCRFNotificationRules() {
