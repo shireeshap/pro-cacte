@@ -69,7 +69,7 @@
             <table width="55%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
                     <th width="95%" class="tableHeader"><spring:message code='study.label.sites' text=''/></th>
-                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                    <th width="5%" class="tableHeader">&nbsp;</th>
 
                 </tr>
 
@@ -96,7 +96,7 @@
             <table width="55%" class="tablecontent">
                 <tr id="sa-table-head" class="amendment-table-head">
                     <th width="50%" class="tableHeader"><spring:message code='study.label.arm.name' text=''/></th>
-                    <th width="50%" class="tableHeader" style=" background-color: none"><spring:message
+                    <th width="50%" class="tableHeader"><spring:message
                             code='study.label.arm.desc' text=''/></th>
 
                 </tr>
@@ -124,6 +124,72 @@
 
             </table>
         </div>
+    </chrome:division>
+        <chrome:division title="study.tab.clinical_staff">
+        <div class="row">
+            <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
+            <div class="value">${command.study.overallDataCoordinator.displayName} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
+            <div class="value">${command.study.leadCRA.displayName} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
+            <div class="value">${command.study.principalInvestigator.displayName} </div>
+        </div>
+    </chrome:division>
+        <chrome:division title="study.tab.study_site_clinical_staff">   
+        <c:forEach items="${command.study.studySites}" var="studySite">
+            <div align="left" style="margin-left: 100px">
+                <table width="75%" class="tablecontent">
+                    <tr id="ss-table-head1" class="amendment-table-head">
+                        <th width="95%" class="tableHeader" colspan="2">${studySite.displayName}</th>
+                    </tr>
+                    <tr>
+                        <td class="clinicalstaff">
+                            <tags:message code="study.label.clinical.staff.lead.site_pi"/>
+                        </td>
+                        <td>
+                            <c:forEach items="${studySite.sitePIs}" var="sitePI">
+                                ${sitePI.displayName}<br/>
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clinicalstaff">
+                            <tags:message code="study.label.clinical.staff.lead.site_cra"/>
+                        </td>
+                        <td>
+                            <c:forEach items="${studySite.siteCRAs}" var="siteCRA">
+                                ${siteCRA.displayName}<br/>
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clinicalstaff">
+                            <tags:message code="study.label.clinical.staff.lead.treating_physican"/>
+                        </td>
+                        <td>
+                            <c:forEach items="${studySite.treatingPhysicians}" var="treatingPhysician">
+                                ${treatingPhysician.displayName}<br/>
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clinicalstaff">
+                            <tags:message code="study.label.clinical.staff.lead.nurse"/>
+                        </td>
+                        <td>
+                            <c:forEach items="${studySite.researchNurses}" var="researchNurse">
+                                ${researchNurse.displayName}<br/>
+                            </c:forEach>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+        </c:forEach>
     </chrome:division>
 </chrome:box>
 <div style="float:right; padding-right:5px">
