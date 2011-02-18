@@ -138,7 +138,11 @@ public class ParticipantSchedule {
                     if (!alreadyExists) {
                         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                        if(baseline){
+                           studyParticipantCrfSchedule.setStartDate(studyParticipantCrf.getStartDate());
+                        } else {
                         studyParticipantCrfSchedule.setStartDate(c.getTime());
+                        }
                         //check if due date is not fixed, then check the values from arm schedules
                         Date dueDateNew = dueDate;
                         if (dueDate == null) {
