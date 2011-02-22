@@ -51,7 +51,7 @@ function initializeCalendar(index) {
                 item.addClassName('blue');
                 item.removeClassName('passive');
                 item.style.cursor = 'default';
-                if (myschedule.length > 1) {
+                if (myschedule.length >1) {
                     var baseline = false;
                     item.style.background = 'green';
                     var title = '';
@@ -131,7 +131,7 @@ function initializeCalendar(index) {
                         item.style.background = 'lightgrey';
                     }
 
-                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold') {
+                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status=='Completed') {
                         if (holiday == 'true') {
 //                            item.style.background = 'blue';
                             item.addClassName('blue');
