@@ -44,6 +44,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "due_date")
     private Date dueDate;
 
+    /**
+     * The completion date.
+     */
+    @Column(name = "form_completion_date")
+    private Date completionDate;
+
     @Column(name = "is_holiday")
     private boolean holiday;
 
@@ -102,7 +108,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @OneToOne(mappedBy = "studyParticipantCrfSchedule")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
-     /**
+
+    /**
      * Instantiates a new study participant crf schedule.
      */
     public StudyParticipantCrfSchedule() {
@@ -230,6 +237,24 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
     /**
+     * Gets the completion Date
+     *
+     * @return the completion date
+     */
+    public Date getCompletionDate() {
+        return completionDate;
+    }
+
+    /**
+     * Sets the completion Date.
+     *
+     * @param completionDate the new completion date
+     */
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
+    }
+
+    /**
      * Gets the study participant crf.
      *
      * @return the study participant crf
@@ -350,8 +375,10 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             return false;
         if (weekInStudy != null ? !weekInStudy.equals(that.weekInStudy) : that.weekInStudy != null) return false;
 
-        if (formSubmissionMode != null ? !formSubmissionMode.equals(that.formSubmissionMode) : that.formSubmissionMode != null) return false;
-
+        if (formSubmissionMode != null ? !formSubmissionMode.equals(that.formSubmissionMode) : that.formSubmissionMode != null)
+            return false;
+        if(completionDate!=null ? !completionDate.equals(that.completionDate): that.completionDate != null)
+            return false;
         return true;
     }
 
@@ -368,6 +395,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         result = 31 * result + (baseline ? 1 : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (formSubmissionMode != null ? formSubmissionMode.hashCode() : 0);
+        result = 31 * result + (completionDate != null ? completionDate.hashCode():0);
         return result;
     }
 
@@ -507,20 +535,20 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                 counter++;
             }
         }
-        return symptomMap;                                      
+        return symptomMap;
     }
 
     /**
      * Will populate the CRF items
      */
-    public void scheduleStudyParticipantCRFItems(){
-      for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
-          for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+    public void scheduleStudyParticipantCRFItems() {
+        for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                 StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
                 studyParticipantCrfItem.setCrfPageItem(crfPageItem);
                 addStudyParticipantCrfItem(studyParticipantCrfItem);
-          }
-      }  
+            }
+        }
     }
 
     public List<UserNotification> getUserNotifications() {
@@ -528,12 +556,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
     /**
-     * Will on hold the if it is not started yet. 
+     * Will on hold the if it is not started yet.
+     *
      * @param offHoldEffectiveDate - The date on which OffHold starts
      */
-    public void putOnHold(Date offHoldEffectiveDate){
-       if(DateUtils.compareDate(getStartDate(), offHoldEffectiveDate) > 0) {
-         setStatus(CrfStatus.ONHOLD);  
-       }
+    public void putOnHold(Date offHoldEffectiveDate) {
+        if (DateUtils.compareDate(getStartDate(), offHoldEffectiveDate) > 0) {
+            setStatus(CrfStatus.ONHOLD);
+        }
     }
 }

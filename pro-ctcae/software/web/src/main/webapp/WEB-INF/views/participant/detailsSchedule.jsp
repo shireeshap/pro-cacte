@@ -17,6 +17,10 @@
                     <div class="value">${schedule.status}</div>
                 </div>
                 <div class="row">
+                    <div class="label">Start date:&nbsp;</div>
+                    <div class="value"><tags:formatDate value="${schedule.startDate}"/></div>
+                </div>
+                <div class="row">
                     <div class="label">Due date:&nbsp;</div>
                     <div class="value"><tags:formatDate value="${schedule.dueDate}"/></div>
                 </div>

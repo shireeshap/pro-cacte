@@ -508,6 +508,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/015_update_form_su
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/016_create_sp_crf_schedule_notifications.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/017_index_fks.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/018_update_socs.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/019_update_form_completion_date.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
