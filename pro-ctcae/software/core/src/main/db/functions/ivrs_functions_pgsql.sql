@@ -566,4 +566,46 @@ END;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
+-- Function: ivrs_getFormRecallPeriod(userid integer,formid integer)
+-- DROP FUNCTION ivrs_getFormRecallPeriod(userid integer,formid integer);
+--return:  return 1 for weekly period,return 2 for monthly, return 3 for last treatment,>3 for custom recall periods, -1 for any DB issues
+CREATE OR REPLACE FUNCTION ivrs_getFormRecallPeriod(userid integer, formid integer)
+  RETURNS integer AS
+$BODY$
+DECLARE
+    v_recall_period text := '';
+    v_return_recall_period integer := 0;
+BEGIN
+        --get recall period for given form
+        select lower(c.recall_period) INTO v_recall_period
+        from crfs c
+        JOIN study_participant_crfs spc ON c.id=spc.crf_id
+        JOIN sp_crf_schedules scs ON spc.id=scs.study_participant_crf_id
+	where scs.id=formid;
+     --if there is no recall period, then return 0
+     IF NOT FOUND THEN
+	    return 0;
+     END IF;
+     --if recall period weekly then 1, monthly-2, last treatment-3 and for custom -4, later on this numbers will get keep on increase
+     IF v_recall_period='over the past 7 days' THEN
+	v_return_recall_period := 1;
+     ELSIF v_recall_period='over the past 30 days' THEN
+	v_return_recall_period := 2;
+     ELSIF v_recall_period='since your last cancer treatment' THEN
+	v_return_recall_period := 3;
+     ELSE
+	v_return_recall_period := 4;
+     END IF;
+     return v_return_recall_period;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
 

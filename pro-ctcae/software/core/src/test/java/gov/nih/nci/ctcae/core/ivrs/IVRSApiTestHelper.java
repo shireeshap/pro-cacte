@@ -238,6 +238,23 @@ public class IVRSApiTestHelper {
         return result;
     }
 
+    public Integer ivrsGetFormRecallPeriod(int userId, int formId) {
+        String procedureName = "ivrs_getFormRecallPeriod";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
     public Integer ivrsCommitSession(int userId, int formId, int pin) {
         String procedureName = "ivrs_commitsession";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)

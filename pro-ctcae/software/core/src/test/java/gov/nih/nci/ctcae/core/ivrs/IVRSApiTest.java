@@ -86,6 +86,8 @@ public class IVRSApiTest extends TestDataManager{
         Integer schedFormId = helper.ivrsGetForm(participant.getUser().getId(),numberOfForms);
         assertEquals(currentSchedule.getId(),schedFormId);
 
+        //check for the recall period
+        assertEquals(1,helper.ivrsGetFormRecallPeriod(participant.getUser().getId(),schedFormId).intValue());
         Integer fistQuestionId = helper.ivrsGetFirstQuestion(participant.getUser().getId(),schedFormId);
 
         assertEquals(fistQuestionId,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getId());
