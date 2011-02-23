@@ -24,6 +24,10 @@
                     <div class="label">Due date:&nbsp;</div>
                     <div class="value"><tags:formatDate value="${schedule.dueDate}"/></div>
                 </div>
+                <div class="row">
+                    <div class="label">Completion date:&nbsp;</div>
+                    <div class="value"><tags:formatDate value="${schedule.completionDate}"/></div>
+                </div>
                 <hr/>
             </c:forEach>
         </td>

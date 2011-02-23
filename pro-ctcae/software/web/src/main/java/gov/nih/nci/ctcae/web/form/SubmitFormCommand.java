@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
@@ -178,7 +177,7 @@ public class SubmitFormCommand implements Serializable {
             schedule.setStatus(CrfStatus.COMPLETED);
             schedule.setFormSubmissionMode(AppMode.HOMEWEB);
             //adding the notifications scheduled for the form submission
-
+            schedule.setCompletionDate(new Date());
             if(schedule.getStudyParticipantCrfScheduleNotification()==null){
                 StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
                 studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);

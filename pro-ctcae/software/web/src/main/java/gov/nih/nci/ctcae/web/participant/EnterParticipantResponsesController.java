@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * @author Mehul Gulati
@@ -48,6 +49,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         } else {
             studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+            studyParticipantCrfSchedule.setCompletionDate(new Date());
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
         ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId()));
