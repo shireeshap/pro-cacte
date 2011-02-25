@@ -55,18 +55,18 @@ public class SubmitFormCommand implements Serializable {
     private void generateDisplayQuestionsMap() {
         for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
             String symptomGender = item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getGender();
-            if (StringUtils.isBlank(symptomGender)){
+            if (StringUtils.isBlank(symptomGender)) {
                 symptomGender = "both";
             }
-            if(symptomGender.equals(getParticipantGender()) || symptomGender.equals("both")) {
-            DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
-            displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
-            displayQuestion.setStudyParticipantCrfItem(item);
-            displayQuestion.setMandatory(item.getCrfPageItem().getResponseRequired());
+            if (symptomGender.equals(getParticipantGender()) || symptomGender.equals("both")) {
+                DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
+                displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
+                displayQuestion.setStudyParticipantCrfItem(item);
+                displayQuestion.setMandatory(item.getCrfPageItem().getResponseRequired());
             }
         }
         for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-            addParticipantAddedQuestionToSymptomMap(participantQuestion);          
+            addParticipantAddedQuestionToSymptomMap(participantQuestion);
         }
 
         int position = 1;
@@ -88,9 +88,9 @@ public class SubmitFormCommand implements Serializable {
         displayQuestion.setStudyParticipantCrfScheduleAddedQuestion(participantQuestion);
     }
 
-   public String getParticipantGender() {
-       return getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender().toLowerCase();
-   }
+    public String getParticipantGender() {
+        return getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender().toLowerCase();
+    }
 
     private int addQuestionToDisplayMap(int position, Question question) {
         String symptom;
@@ -169,7 +169,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public boolean save() throws Exception {
-       // schedule = genericRepository.save(schedule);
+        // schedule = genericRepository.save(schedule);
         //lazyInitializeSchedule();
         boolean submit = false;
         if ("save".equals(direction)) {
@@ -178,7 +178,7 @@ public class SubmitFormCommand implements Serializable {
             schedule.setFormSubmissionMode(AppMode.HOMEWEB);
             //adding the notifications scheduled for the form submission
             schedule.setCompletionDate(new Date());
-            if(schedule.getStudyParticipantCrfScheduleNotification()==null){
+            if (schedule.getStudyParticipantCrfScheduleNotification() == null) {
                 StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
                 studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);
                 schedule.setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
@@ -425,6 +425,36 @@ public class SubmitFormCommand implements Serializable {
         meddraQuestion.setDisplayOrder(1);
         genericRepository.save(meddraQuestion);
         return meddraQuestion;
+    }
+
+    /**
+     * Sets the currentPageIndex to first unanswered question.
+     */
+    public void firstUnAnsweredPageIndex() {
+        int total = getTotalQuestionPages();
+        List<ValidValue> valid = new ArrayList<ValidValue>();
+        List<DisplayQuestion> displayQuestionsList = new ArrayList<DisplayQuestion>();
+        int i = 0, tempIndex= 1;
+        for (i = 1; i < total; i++) {
+            displayQuestionsList = getCurrentPageQuestions();
+            int count = 0;
+            for (DisplayQuestion displayQuestion : displayQuestionsList) {
+                if (displayQuestion.getSelectedValidValue() != null) {
+                    count++;
+                    valid.add(displayQuestion.getSelectedValidValue());
+                    if (displayQuestionsList.size() > 1) {
+                        if (displayQuestion.getSelectedValidValue().getDisplayOrder() == 0 || count == displayQuestionsList.size()) {
+                            tempIndex = tempIndex + 1;
+                            setCurrentPageIndex(Integer.toString(tempIndex));
+                        } else
+                            setCurrentPageIndex(Integer.toString(tempIndex));
+                    } else {
+                        tempIndex = tempIndex + 1;
+                        setCurrentPageIndex(Integer.toString(tempIndex));
+                    }
+                }
+            }
+        }
     }
 
     public int getAddQuestionPageIndex() {
