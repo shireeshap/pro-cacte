@@ -16,6 +16,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 //
 
@@ -61,7 +63,7 @@ public class SubmitFormController extends SimpleFormController {
         SubmitFormCommand command = (SubmitFormCommand) request.getSession().getAttribute(getFormSessionAttributeName());
         String crfScheduleId = request.getParameter("id");
         if (command != null && crfScheduleId.equals(command.getSchedule().getId().toString())) {
-           // command.lazyInitializeSchedule();
+            // command.lazyInitializeSchedule();
             return command;
         }
         command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository, meddraRepository);
@@ -81,7 +83,37 @@ public class SubmitFormController extends SimpleFormController {
         }
         ModelAndView mv;
         submitFormCommand.setCurrentPageIndex(request.getParameter("p"));
-        int currentPageIndex = submitFormCommand.getNewPageIndex();
+        int currentPageIndex = 0;
+        List<ValidValue> valid = new ArrayList<ValidValue>();
+        List<DisplayQuestion> displayQuestionsList = new ArrayList<DisplayQuestion>();
+        if (request.getParameter("p") == null || request.getParameter("p").equals("")) {
+            int total = submitFormCommand.getTotalQuestionPages();
+            int i = 0 ,ps=1;
+            for (i = 1; i < total; i++) {
+                displayQuestionsList = submitFormCommand.getCurrentPageQuestions();
+                int count = 0;
+                for (DisplayQuestion displayQuestion : displayQuestionsList) {
+                    if (displayQuestion.getSelectedValidValue() != null) {
+                        count++;
+                        valid.add(displayQuestion.getSelectedValidValue());
+                        if(displayQuestionsList.size()>1){
+                            if(displayQuestion.getSelectedValidValue().getDisplayOrder()==0 || count==displayQuestionsList.size()){
+                                ps=ps+1;
+                                submitFormCommand.setCurrentPageIndex(Integer.toString(ps));
+                            }
+                            else
+                                submitFormCommand.setCurrentPageIndex(Integer.toString(ps));
+                        }
+                        else{
+                            ps=ps+1;
+                            submitFormCommand.setCurrentPageIndex(Integer.toString(ps));
+                        }
+                    }
+                }
+            }
+        }
+
+        currentPageIndex = submitFormCommand.getNewPageIndex();
         if (currentPageIndex == submitFormCommand.getAddQuestionPageIndex()) {
             mv = showForm(request, errors, "");
             mv.setView(new RedirectView("addquestion?p=" + currentPageIndex));
