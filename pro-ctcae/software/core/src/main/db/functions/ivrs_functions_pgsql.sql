@@ -379,7 +379,7 @@ BEGIN
 		INSERT INTO sp_crf_schedule_notif(id, spc_schedule_id, status, creation_date)
 		VALUES (nextval('sp_crf_schedule_notif_id_seq'),formid,'SCHEDULED',now());
 
-		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS' where id=formid and Status ='INPROGRESS';
+		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS',form_completion_date=now() where id=formid and Status ='INPROGRESS';
 
 		IF found then
 			return 1;
