@@ -77,6 +77,9 @@ function initializeCalendar(index) {
                             item.style.background = 'lightgrey';
                             item.style.color = "black";
                         }
+                        if (status == 'Completed') {
+                            showDeleteOption = false;
+                        }
                         if (a != myschedule.length - 1) {
                             title = title + ', '
                         }
