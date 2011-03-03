@@ -182,7 +182,7 @@ function checkParticipantEmailAddress(siteId) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var email = $('participant.emailAddress').value;
+    var email = $('participant.emailAddress_'+siteId).value;
     if (email != "") {
         uniqueParticipantEmailAddress.validateEmail(email, participantId,
         {callback:
@@ -471,7 +471,7 @@ function showEmail(id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#MissingError_' + id).hide();
-        $('participant.emailAddress').value = "";
+        $('participant.emailAddress_'+id).value = "";
         checkError();
     }
 }

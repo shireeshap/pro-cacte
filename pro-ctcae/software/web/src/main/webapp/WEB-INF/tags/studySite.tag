@@ -165,15 +165,15 @@
                         <div id="emailInput_${studysite.id}" style="display:none;">
                                 <%--<span class="data">--%>
                                 <%--<span class="required-indicator">*&nbsp;&nbsp;</span><b> Email Address</b>--%>
-                            <tags:renderEmail propertyName="participant.emailAddress"
-                                              displayName="participant.label.email_address"
-                                              required="false" size="35" doNotshowLabel="true"
-                                              onblur="javascript:checkParticipantEmailAddress(${studysite.id});"/>
-                                <%--<input type="text" name="participant.emailAddress"--%>
-                                <%--value="${studyParticipantAssignment.participant.emailAddress}"--%>
-                                <%--id="participant.emailAddress_${studysite.id}"--%>
-                                <%--onblur="javascript:checkParticipantEmailAddress(${studysite.id});"--%>
-                                <%--size="35"/>--%>
+                            <%--<tags:renderEmail propertyName="participant.emailAddress"--%>
+                                              <%--displayName="participant.label.email_address"--%>
+                                              <%--required="false" size="35" doNotshowLabel="true"--%>
+                                              <%--onblur="javascript:checkParticipantEmailAddress(${studysite.id});"/>--%>
+                                <input type="text" name="participant.emailAddress"
+                                value="${studyParticipantAssignment.participant.emailAddress}"
+                                id="participant.emailAddress_${studysite.id}"
+                                onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
+                                size="35"/>
                             <ul id="emailError_${studysite.id}" style="display:none;" class="errors">
                                 <li><spring:message
                                         code='participant.unique_emailAddress'
