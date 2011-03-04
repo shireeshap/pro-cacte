@@ -438,6 +438,7 @@ public class SubmitFormCommand implements Serializable {
         for (i = 1; i < total; i++) {
             displayQuestionsList = getCurrentPageQuestions();
             int count = 0;
+            if(displayQuestionsList!=null){
             for (DisplayQuestion displayQuestion : displayQuestionsList) {
                 if (displayQuestion.getSelectedValidValue() != null) {
                     count++;
@@ -453,6 +454,11 @@ public class SubmitFormCommand implements Serializable {
                         setCurrentPageIndex(Integer.toString(tempIndex));
                     }
                 }
+            }
+            }
+            else{
+                tempIndex=tempIndex+1;
+                setCurrentPageIndex(Integer.toString(tempIndex));
             }
         }
     }
