@@ -435,7 +435,7 @@ public class SubmitFormCommand implements Serializable {
         List<ValidValue> valid = new ArrayList<ValidValue>();
         List<DisplayQuestion> displayQuestionsList = new ArrayList<DisplayQuestion>();
         int i = 0, tempIndex= 1;
-        for (i = 1; i < total; i++) {
+        for (i = 1; i <= total; i++) {
             displayQuestionsList = getCurrentPageQuestions();
             int count = 0;
             if(displayQuestionsList!=null){
