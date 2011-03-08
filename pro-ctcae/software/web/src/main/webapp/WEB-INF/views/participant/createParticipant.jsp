@@ -20,41 +20,15 @@
 <tags:includePrototypeWindow/>
 
 <script>
-// validation check for gender
-function checkGender() {
-    var gender = $('participant.gender').value;
-    if (gender != "") {
-        jQuery('#genderError').hide();
-    }
-    else {
-        jQuery('#genderError').show();
-    }
-    checkError();
-}
-//validation check for timezone
-function checkTime(id) {
-    var timezone = $('call_timeZone_' + id).value;
-    if (timezone != "") {
-        jQuery('#timeError_' + id).hide();
-    }
-    else {
-        jQuery('#timeError_' + id).show();
-    }
-    checkError();
-    IVRSFields(id);
-}
 
-// validation check for Arm
-function checkArm(id) {
-    var arm = $('arm_' + id).value;
-    if (arm != "") {
-        jQuery('#armError_' + id).hide();
-    }
-    else {
-        jQuery('#armError_' + id).show();
-    }
-    checkError();
-}
+var isUserNameError = false;
+var isUserIdError = false;
+var isPinError = false;
+var isIdentifierError = false;
+var isPasswordError = false;
+var isConfirmPassError = false;
+var isEmail = false;
+
 // validation check for username
 function checkParticipantUserName() {
     var participantId = "${param['id']}";
@@ -62,63 +36,47 @@ function checkParticipantUserName() {
     if (participantId == "") {
         var userId = "${userId}";
     }
-
     if (userName != "") {
         if (userName.length < 6) {
             jQuery('#userNameError').hide();
-            jQuery('#MissingNameError').hide();
             jQuery('#userNameLengthError').show();
-            checkError();
+            isUserNameError = true;
         }
         else {
             userNameValidation.validateDwrUniqueName(userName, userId, userReturnValue);
             jQuery('#userNameLengthError').hide();
-            jQuery('#MissingNameError').hide();
             return;
         }
     }
     else {
         jQuery('#userNameError').hide();
         jQuery('#userNameLengthError').hide();
-        jQuery('#MissingNameError').show();
-        checkError();
+        isUserNameError = false;
     }
+    checkError();
 }
 function userReturnValue(returnValue) {
     showOrHideErrorField(returnValue, '#userNameError');
+    if (returnValue) {
+        isUserNameError = true;
+    }
+    else {
+        isUserNameError = false;
+    }
     checkError();
 }
 
-// checking if there are any error based on class name and style.
 function checkError() {
-    var errorlist;
-    var count = 0;
-    var hideError = false;
-    for (i = 0; i < document.getElementsByClassName('errors').length; i++) {
-        errorlist = document.getElementsByClassName('errors')[i];
-        if (errorlist.style.display != 'none') {
-            count++;
-            if (errorlist.id.endsWith("msg")) {
-                hideError = true;
-                errorlist.hide();
-            }
-        }
-    }
-    if (count > 0) {
-        if (hideError) {
-            jQuery('#flow-update').attr('disabled', false);
-            jQuery('#flow-next').attr('disabled', false);
-        }
-        else {
-            jQuery('#flow-update').attr('disabled', true);
-            jQuery('#flow-next').attr('disabled', true);
-        }
+    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError) {
+        jQuery('#flow-update').attr('disabled', true);
+        jQuery('#flow-next').attr('disabled', true);
     }
     else {
         jQuery('#flow-update').attr('disabled', false);
         jQuery('#flow-next').attr('disabled', false);
     }
 }
+
 //validation check for password policy
 function checkPasswordPolicy() {
     var userPassword = $('participant.user.password').value;
@@ -132,22 +90,23 @@ function checkPasswordPolicy() {
         return;
     }
     else {
-        jQuery('#passwordError').show();
-        document.getElementById('passwordError1').innerHTML = "Missing password";
-        checkError();
+        jQuery('#passwordError').hide();
+        isPasswordError = false;
     }
+    checkError();
 }
 
 function passReturnValue(returnValue) {
     if (returnValue != "") {
         jQuery('#passwordError').show();
         document.getElementById('passwordError1').innerHTML = returnValue + "";
-        checkError();
+        isPasswordError = true;
     }
     else {
         jQuery('#passwordError').hide();
-        checkError();
+        isPasswordError = false;
     }
+    checkError();
 }
 
 // validation check for confirm password
@@ -157,20 +116,17 @@ function checkPasswordMatch() {
     if (password != "" && confirmPassword != "") {
         if (password == confirmPassword) {
             jQuery('#passwordErrorConfirm').hide();
+            isConfirmPassError = false;
         }
         else {
             jQuery('#passwordErrorConfirm').show();
             document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
+            isConfirmPassError = true;
         }
     }
     else {
-        if (confirmPassword == "") {
-            jQuery('#passwordErrorConfirm').show();
-            document.getElementById('passwordErrorConfirm1').innerHTML = "Missing confirm password";
-        }
-        else {
-            jQuery('#passwordErrorConfirm').hide();
-        }
+        jQuery('#passwordErrorConfirm').hide();
+        isConfirmPassError = false;
     }
     checkError();
 }
@@ -182,24 +138,28 @@ function checkParticipantEmailAddress(siteId) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var email = $('participant.emailAddress_'+siteId).value;
+    var email = $('participant.emailAddress_' + siteId).value;
     if (email != "") {
         uniqueParticipantEmailAddress.validateEmail(email, participantId,
         {callback:
                 function(returnValue) {
                     showOrHideErrorField(returnValue, '#emailError_' + siteId);
-                    jQuery('#MissingError_' + siteId).hide();
+                    if (returnValue) {
+                        isEmail = true;
+                    }
+                    else {
+                        isEmail = false;
+                    }
                     checkError();
                 }});
-
     }
     else {
         jQuery('#emailError_' + siteId).hide();
-        jQuery('#MissingError_' + siteId).show();
-        jQuery('#phoneError_' + siteId).hide();
+        isEmail = false;
         checkError();
     }
 }
+
 var pattern = /^\d+$/;
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber(siteId) {
@@ -211,34 +171,54 @@ function checkParticipantUserNumber(siteId) {
     if (userNumber != "") {
         if (!pattern.test(userNumber)) {
             jQuery('#UserPatternError_' + siteId).show();
-            jQuery('#missingUserError_' + siteId).hide();
             jQuery('#userNumberError_' + siteId).hide();
+            isUserIdError = true;
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
                     function(returnValue) {
                         showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
-                        jQuery('#missingUserError_' + siteId).hide();
                         jQuery('#UserPatternError_' + siteId).hide();
+                        if (returnValue) {
+                            isUserIdError = true;
+                        }
+                        else {
+                            isUserIdError = false;
+                        }
                         checkError();
-                        IVRSFields(siteId);
                     }});
         }
     }
     else {
         jQuery('#userNumberError_' + siteId).hide();
         jQuery('#UserPatternError_' + siteId).hide();
-        jQuery('#missingUserError_' + siteId).show();
+        isUserIdError = false;
         checkError();
     }
-    IVRSFields(siteId);
+    checkError();
 }
-//missingPinError_
-//function returnedValue(returnValue) {
-//    showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
-//    checkError();
-//
-//}
+// validation check for participant pin number (IVRS)
+function checkParticipantPinNumber(siteId) {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    var pinNumber = $('participant.pinNumber_' + siteId).value;
+    if (pinNumber != "") {
+        if (!pattern.test(pinNumber)) {
+            jQuery('#PinPatternError_' + siteId).show();
+            isPinError = true;
+        }
+        else {
+            isPinError = false;
+        }
+    }
+    else {
+        jQuery('#PinPatternError_' + siteId).hide();
+        isPinError = false;
+    }
+    checkError();
+}
 
 // validation check for participant study identifier
 function checkParticipantStudyIdentifier(id, siteId) {
@@ -252,74 +232,23 @@ function checkParticipantStudyIdentifier(id, siteId) {
                 participantId, {callback:
                 function(returnValue) {
                     showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
-                    jQuery('#MissingInError_' + siteId).hide();
+                    if (returnValue) {
+                        isIdentifierError = true;
+                    }
+                    else {
+                        isIdentifierError = false;
+                    }
                     checkError();
                 }});
-        jQuery('#MissingInError_' + siteId).hide();
         return;
     }
     else {
         jQuery('#uniqueError_' + siteId).hide();
-        jQuery('#MissingInError_' + siteId).show();
+        isIdentifierError = false;
         checkError();
     }
 }
 
-
-// check for phone number
-function ValidUSPhoneNumber(siteId) {
-    var phone = $('participant.phoneNumber_' + siteId).value;
-    phone = phone.replace(/\D+/g, '');
-    var length = phone.length;
-    if (phone != "") {
-        if (phone.length >= 7) {
-            var areaCode = phone.substring(0, length - 7);
-            var prefixNumber = phone.substring(length - 7, length - 4);
-            var suffixNumber = phone.substring(length - 4);
-        }
-        else {
-            jQuery('#phoneError_' + siteId).show();
-            document.getElementById('phoneError1_' + siteId).innerHTML = "Invalid phone";
-            checkError();
-        }
-        if (areaCode.length != 3 || !isNumeric(areaCode) || prefixNumber.length != 3 || !isNumeric(prefixNumber) || suffixNumber.length != 4 || !isNumeric(suffixNumber)) {
-            jQuery('#phoneError_' + siteId).show();
-            document.getElementById('phoneError1_' + siteId).innerHTML = "Invalid phone";
-            checkError();
-        }
-        else {
-            jQuery('#phoneError_' + siteId).hide();
-            checkError();
-        }
-    }
-    else {
-        jQuery('#phoneError_' + siteId).show();
-        document.getElementById('phoneError1_' + siteId).innerHTML = "Missing phone";
-        jQuery('#MissingError_' + siteId).hide();
-        checkError();
-    }
-    IVRSFields(siteId);
-}
-
-function checkFirstName() {
-    var firstName = $('participant.firstName').value;
-    if (firstName != "") {
-        jQuery('#missingFirst').hide();
-    }
-    else
-        jQuery('#missingFirst').show();
-    checkError();
-}
-
-function checkLastName() {
-    var lastName = $('participant.lastName').value;
-    if (lastName != "") {
-        jQuery('#missingLast').hide();
-    }
-    else
-        jQuery('#missingLast').show();
-    checkError();
-}
 function getStudySites() {
     var organizationId = $('organizationId').value;
     if (organizationId == '') {
@@ -371,6 +300,7 @@ function doPostProcessing() {
     getStudySites();
 }
 
+
 function showForms(obj, id) {
     var sites = document.getElementsByName('studySites');
     for (var i = 0; i < sites.length; i++) {
@@ -378,11 +308,10 @@ function showForms(obj, id) {
         $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
         $('participantStudyIdentifier_' + sites[i].value).value = "";
         jQuery('#uniqueError_' + sites[i].value).hide();
-        jQuery('#MissingInError_' + sites[i].value).hide();
+        jQuery('#UserPatternError_' + sites[i].value).hide();
+        jQuery('#PinPatternError_' + sites[i].value).hide();
+        jQuery('#userNumberError_' + sites[i].value).hide();
         jQuery('#emailError_' + sites[i].value).hide();
-        jQuery('#MissingError_' + sites[i].value).hide();
-        jQuery('#phoneError_' + sites[i].value).hide();
-        checkError();
         try {
             $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
         } catch(e) {
@@ -390,12 +319,18 @@ function showForms(obj, id) {
     }
     $('subform_' + id).show();
     $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
+    isIdentifierError = false;
+    isUserIdError = false;
+    isPinError = false;
+    isEmail = false;
+    checkError();
     try {
         $('arm_' + id).addClassName("validate-NOTEMPTY");
     } catch(e) {
     }
     AE.registerCalendarPopups();
 }
+
 
 function participantOffStudy(id) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
@@ -406,15 +341,7 @@ function participantOffStudy(id) {
         method:'get'
     })
 }
-<%--function participantOffHold(id, date) {--%>
-<%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
-<%--parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,--%>
-<%--onComplete:function(transport) {--%>
-<%--showConfirmationWindow(transport, 600, 350);--%>
-<%--},--%>
-<%--method:'get'--%>
-<%--})--%>
-<%--}--%>
+
 
 var _winOffHold;
 function participantOffHold(id, date) {
@@ -460,19 +387,84 @@ function validateAndSubmit(date, form) {
     form.submit();
 }
 
+function addEmailRemoveIVRSClassName(id) {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
+    if (participantId == "") {
+        $('participant.userNumber_' + id).value = "";
+        $('participant.phoneNumber_' + id).value = "";
+        $('participant.pinNumber_' + id).value = "";
+        $('call_hour_' + id).value = "";
+        $('call_minute_' + id).value = "";
+        $('call_ampm_' + id).value = "";
+        $('call_timeZone_' + id).value = "";
+    }
+}
+
+function addIVRSRemoveEmailClassName(id) {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
+    $('participant.phoneNumber_' + id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
+    $('call_hour_' + id).addClassName("validate-NOTEMPTY");
+    $('call_minute_' + id).addClassName("validate-NOTEMPTY");
+    $('call_ampm_' + id).addClassName("validate-NOTEMPTY");
+    $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
+    if (participantId == "") {
+        $('participant.emailAddress_' + id).value = "";
+    }
+}
+
+function removeEmailClassName(id) {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
+    if (participantId == "") {
+        $('participant.emailAddress_' + id).value = "";
+        $('participant.userNumber_' + id).value = "";
+        $('participant.phoneNumber_' + id).value = "";
+        $('participant.pinNumber_' + id).value = "";
+        $('call_hour_' + id).value = "";
+        $('call_minute_' + id).value = "";
+        $('call_ampm_' + id).value = "";
+        $('call_timeZone_' + id).value = "";
+    }
+}
+
 function showEmail(id) {
     if (jQuery('input:checkbox:checked').val()) {
         jQuery('#emailInput_' + id).show();
         jQuery('#emailHeader_' + id).show();
+        addEmailRemoveIVRSClassName(id);
     }
-
     else {
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
-        jQuery('#MissingError_' + id).hide();
-        $('participant.emailAddress_'+id).value = "";
-        checkError();
+        removeEmailClassName(id);
     }
 }
 <%--var clickCount = ${homeModeCount};--%>
@@ -485,30 +477,25 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#call_' + id).attr('checked', false);
         jQuery('#emailInput_' + id).show();
         jQuery('#emailHeader_' + id).show();
-        jQuery('#phoneError_' + id).hide();
-        jQuery('#missingPinError_' + id).hide();
-        jQuery('#missingUserError_' + id).hide();
+        jQuery('#UserPatternError_' + id).hide();
+        jQuery('#PinPatternError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
-        checkError();
+        addEmailRemoveIVRSClassName(id);
+
     } else {
         jQuery('#web_' + id).show();
         jQuery('#emailError_' + id).hide();
-        jQuery('#MissingError_' + id).hide();
-        jQuery('#phoneError_' + id).hide();
-        jQuery('#missingPinError_' + id).hide();
-        jQuery('#missingUserError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
         jQuery('#web_' + id).hide();
         jQuery('#emailError_' + id).hide();
-        jQuery('#MissingError_' + id).hide();
-        jQuery('#phoneError_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-        jQuery('#missingPinError_' + id).hide();
-        jQuery('#missingUserError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
+        jQuery('#UserPatternError_' + id).hide();
+        jQuery('#PinPatternError_' + id).hide();
+        removeEmailClassName(id);
     }
     if (value1 && value2 == "IVRS") {
         jQuery('#div_contact').show();
@@ -526,8 +513,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
-        jQuery('#MissingError_' + id).hide();
-        IVRSFields(id);
+        addIVRSRemoveEmailClassName(id);
     } else {
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
@@ -537,50 +523,15 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
         jQuery('#emailError_' + id).hide();
-        jQuery('#MissingError_' + id).hide();
-        jQuery('#phoneError_' + id).hide();
-        jQuery('#missingPinError_' + id).hide();
-        jQuery('#missingUserError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
     }
-}
-function IVRSFields(id) {
-    var userNumber = $('participant.userNumber_' + id).value;
-    var phone = $('participant.phoneNumber_' + id).value;
-    var pinNumber = $('participant.pinNumber_' + id).value;
-    var hour = $('call_hour_' + id).value;
-    var minute = $('call_minute_' + id).value;
-    var ampm = $('call_ampm_' + id).value;
-    var timezone = $('call_timeZone_' + id).value;
-    if (pinNumber != "") {
-        if (!pattern.test(pinNumber)) {
-            jQuery('#PinPatternError_' + id).show();
-            checkError();
-        }
-        else if (userNumber != "" && phone != "" && pinNumber != "" && hour != "" && minute != "" && ampm != "" && timezone != "") {
-            jQuery('#flow-update').attr('disabled', false);
-            jQuery('#flow-next').attr('disabled', false);
-            jQuery('#PinPatternError_' + id).hide();
-            checkError();
-        }
-        else {
-            jQuery('#flow-update').attr('disabled', true);
-            jQuery('#flow-next').attr('disabled', true);
-            jQuery('#PinPatternError_' + id).hide();
-        }
-    }
-
-    else {
-        jQuery('#flow-update').attr('disabled', true);
-        jQuery('#flow-next').attr('disabled', true);
-        jQuery('#PinPatternError_' + id).hide();
-    }
+    isUserIdError = false;
+    isPinError = false;
+    isEmail = false;
+    checkError();
 }
 
-function hideErrors() {
-    jQuery('#missingLast').hide();
 
-}
 </script>
 <style type="text/css">
     .tableHeader {
@@ -685,11 +636,7 @@ function hideErrors() {
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"
-                                            onblur="checkFirstName();"/>
-                           <ul id="missingFirst" style="display:none; padding-left:12em " class="errors">
-                               <li>Missing first name</li>
-                           </ul>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"
@@ -697,11 +644,7 @@ function hideErrors() {
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"
-                                            onblur="checkLastName();"/>
-                           <ul id="missingLast" style="display:none; padding-left:12em " class="errors">
-                               <li>Missing last name</li>
-                           </ul>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
                        </td>
 
                        <td width="50%" valign="top">
@@ -710,11 +653,7 @@ function hideErrors() {
                                                 displayName="participant.label.date_of_birth" required="true"/>
                            </c:if>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="${required}" options="${genders}" onchange="checkGender();"
-                                              onblur="checkGender();"/>
-                           <ul id="genderError" style="display:none; padding-left:12em " class="errors">
-                               <li>Missing Gender</li>
-                           </ul>
+                                              required="${required}" options="${genders}"/>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier"
                                                 displayName="participant.label.participant_identifier"
@@ -771,10 +710,6 @@ function hideErrors() {
                                <ul id="userNameLengthError" style="display:none; padding-left:12em " class="errors">
                                    <li><spring:message code='participant.username_length'
                                                        text='participant.username_length'/></li>
-                               </ul>
-
-                               <ul id="MissingNameError" style="display:none; padding-left:12em " class="errors">
-                                   <li>Missing user name</li>
                                </ul>
 
                            </c:otherwise>

@@ -76,6 +76,38 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (armId != null) {
                 command.setArmId(Integer.parseInt(armId));
             }
+            String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
+                if (!StringUtils.isBlank(userNumber)) {
+                    try {
+                        command.getParticipant().setUserNumber(Integer.parseInt(userNumber));
+                    } catch (Exception e) {
+                        command.getParticipant().setUserNumber(null);
+                    }
+                }
+                String pinNumber = request.getParameter("participantPinNumber_" + studySite.getId());
+                if (!StringUtils.isBlank(pinNumber)) {
+                    try {
+                        command.getParticipant().setPinNumber(Integer.parseInt(pinNumber));
+                    } catch (Exception e) {
+                        command.getParticipant().setPinNumber(null);
+                    }
+                }
+                String email = request.getParameter("participant.emailAddress_"+studySite.getId());
+                if (!StringUtils.isBlank(email)) {
+                    try {
+                        command.getParticipant().setEmailAddress(email);
+                    } catch (Exception e) {
+                        command.getParticipant().setEmailAddress(null);
+                    }
+                }
+                String phone = request.getParameter("participant.phoneNumber_"+studySite.getId());
+                if (!StringUtils.isBlank(phone)) {
+                    try {
+                        command.getParticipant().setPhoneNumber(phone);
+                    } catch (Exception e) {
+                        command.getParticipant().setPhoneNumber(null);
+                    }
+                }
 //            }
         } else {
             //Create flow (Participant is not saved yet)
@@ -113,36 +145,26 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         command.getParticipant().setPinNumber(null);
                     }
                 }
+                String email = request.getParameter("participant.emailAddress_"+studySite.getId());
+                if (!StringUtils.isBlank(email)) {
+                    try {
+                        command.getParticipant().setEmailAddress(email);
+                    } catch (Exception e) {
+                        command.getParticipant().setEmailAddress(null);
+                    }
+                }
+                String phone = request.getParameter("participant.phoneNumber_"+studySite.getId());
+                if (!StringUtils.isBlank(phone)) {
+                    try {
+                        command.getParticipant().setPhoneNumber(phone);
+                    } catch (Exception e) {
+                        command.getParticipant().setPhoneNumber(null);
+                    }
+                }
             }
 
             if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
                 command.getSelectedStudyParticipantAssignment();
-            }
-
-            String email[];
-            if (command.getParticipant().getEmailAddress() != null) {
-                email = command.getParticipant().getEmailAddress().split(",");
-                if (email.length <= 0) {
-                    command.getParticipant().setEmailAddress(null);
-                }
-
-                for (String em : email) {
-                    if (!em.equals("")) {
-                        command.getParticipant().setEmailAddress(em);
-                    }
-                }
-            }
-            String phone[];
-            if (command.getParticipant().getPhoneNumber() != null) {
-                phone = command.getParticipant().getPhoneNumber().split(",");
-                if (phone.length <= 0) {
-                    command.getParticipant().setPhoneNumber(null);
-                }
-                for (String ph : phone) {
-                    if (!ph.equals("")) {
-                        command.getParticipant().setPhoneNumber(ph);
-                    }
-                }
             }
         }
     }
