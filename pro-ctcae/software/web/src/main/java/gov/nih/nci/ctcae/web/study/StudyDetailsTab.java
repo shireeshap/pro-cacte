@@ -107,11 +107,13 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         studyCommand.getStudy().setCallBackFrequency(callBackFrequency);
 
         studyCommand.getStudy().getStudyModes().clear();
-        for (String string : studyCommand.getAppModes()) {
-            AppMode appMode = AppMode.valueOf(string);
-            StudyMode studyMode = new StudyMode();
-            studyMode.setMode(appMode);
-            studyCommand.getStudy().addStudyMode(studyMode);
+        if (studyCommand.getAppModes() != null) {
+            for (String string : studyCommand.getAppModes()) {
+                AppMode appMode = AppMode.valueOf(string);
+                StudyMode studyMode = new StudyMode();
+                studyMode.setMode(appMode);
+                studyCommand.getStudy().addStudyMode(studyMode);
+            }
         }
 
         if (!StringUtils.isBlank(studyCommand.getArmIndexToRemove())) {
@@ -129,9 +131,9 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                 study.addArm(arm);
             } else {
                 if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
-                    for(Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();){
-                        Arm arm1=arm.next();
-                          if (arm1.isDefaultArm()) {
+                    for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
+                        Arm arm1 = arm.next();
+                        if (arm1.isDefaultArm()) {
                             arm.remove();
                         }
 
