@@ -101,7 +101,7 @@ public class AddCrfScheduleController extends AbstractController {
             participantSchedule.removeSchedule(c, formIds);
         }
 
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository, true);
+        studyParticipantCommand.lazyInitializeAssignment(genericRepository, false);
         return null;
     }
 
