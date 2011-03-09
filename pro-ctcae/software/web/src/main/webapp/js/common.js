@@ -242,8 +242,8 @@ function showConfirmationWindow(transport, width, height, top, left) {
     }
     var win = Windows.getFocusedWindow();
     if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:height, width: width,top:top,left:left});
+        win = new Window({ className: "alphacube", closable : true, minimizable : false, maximizable :
+                true, title: "", destroyOnClose: true, height:height, width: width,top:top,left:left});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.showCenter(true);
@@ -271,13 +271,14 @@ function showModalWindow(url, width, height, top, left) {
     var win = Windows.getFocusedWindow();
 
     if (win == null) {
-        win = new Window({ id: '100' ,
+        win = new Window({
             url:url,
             className: "alphacube",
             closable : true,
             minimizable : false,
             maximizable : true,
             title: "",
+            destroyOnClose: true,
             height:height,
             width: width,
             top:top,
@@ -294,7 +295,7 @@ function showModalWindow(url, width, height, top, left) {
 
 function closeWindow() {
     var win = Windows.getFocusedWindow();
-    if (win != null && win.getId() == '100') {
+    if (win != null) {
         win.close();
     }
 }
