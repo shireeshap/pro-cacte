@@ -44,6 +44,7 @@ function initializeCalendar(index) {
             var myschedule = mySchedules[day];
             var showdropdown = false;
             var showDeleteOption = true;
+            var isEnableDrag = true;
             var item = $(div_id);
             if (isdefined(myschedule)) {
                 var scheduleid = '';
@@ -89,6 +90,7 @@ function initializeCalendar(index) {
                         item.style.background = '#00cc00';
                         item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
                         showDeleteOption = false;
+                        isEnableDrag = false;
                     }
                     if (hasPastDue) {
                         item.style.background = 'red';
@@ -118,6 +120,7 @@ function initializeCalendar(index) {
                     if (status == 'Completed') {
                         item.style.background = '#00cc00';
                         showDeleteOption = false;
+                        isEnableDrag = false;
                     }
                     if (status == 'Past-due') {
                         item.style.background = 'red';
@@ -150,7 +153,9 @@ function initializeCalendar(index) {
                                   '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
                     showPopUpMenuSchedule(day, index, scheduleid,showDeleteOption);
-                    myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
+                    if(isEnableDrag){
+                        myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
+                    }
 
                 }
                  myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');

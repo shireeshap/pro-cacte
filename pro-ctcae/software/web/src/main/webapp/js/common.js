@@ -294,7 +294,7 @@ function showModalWindow(url, width, height, top, left) {
 
 function closeWindow() {
     var win = Windows.getFocusedWindow();
-    if (win != null) {
+    if (win != null && win.getId() == '100') {
         win.close();
     }
 }

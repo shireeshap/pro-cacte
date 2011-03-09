@@ -70,7 +70,7 @@ function addRemoveValidationSchedule(index, date, action) {
         alert('Please select at least one form');
         return;
     }
-
+    closeWindow();
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
