@@ -9,11 +9,11 @@ public class NightlyTriggerBean extends SimpleTriggerBean {
     public NightlyTriggerBean() {
         setStartDelay(0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 04);
-        calendar.set(Calendar.MINUTE, 40);
+        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.MINUTE, 30);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.AM_PM, Calendar.PM);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
         setStartTime(calendar.getTime());
         setRepeatInterval(24 * 60 * 60 * 1000);
 //        setRepeatInterval(600000);
