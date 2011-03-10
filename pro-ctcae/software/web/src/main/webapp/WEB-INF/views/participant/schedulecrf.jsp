@@ -223,7 +223,8 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
 
         html += '</ul></div>';
     } else {
-        menuindex = sid;
+        //TODO:Suneel A needs to clean up commented line after issue resolved
+        //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
         html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
         if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {

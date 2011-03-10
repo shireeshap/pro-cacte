@@ -148,7 +148,7 @@ function initializeCalendar(index) {
                 }
                 if (showdropdown) {
                     var delIcon = '<div style="float:right">' +
-                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + scheduleid + '">' +
+                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
                                   '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                                   '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
