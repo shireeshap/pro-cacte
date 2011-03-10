@@ -9,7 +9,7 @@ public class NightlyTriggerBean extends SimpleTriggerBean {
     public NightlyTriggerBean() {
         setStartDelay(0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.HOUR, 00);
         calendar.set(Calendar.MINUTE, 30);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
