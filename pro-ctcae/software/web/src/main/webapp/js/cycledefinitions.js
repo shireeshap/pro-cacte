@@ -57,6 +57,8 @@ function initializeCalendar(index) {
                     item.style.background = 'green';
                     var title = '';
                     var allCompleted = true;
+                    var allInprogress = true;
+                    var allNa = true;
                     var hasPastDue = false;
                     var onHold = false;
                     for (var a = 0; a < myschedule.length; a++) {
@@ -69,6 +71,12 @@ function initializeCalendar(index) {
                         if (status != 'Completed') {
                             allCompleted = false;
                         }
+                        if (status != 'In-progress') {
+                            allInprogress = false;
+                        }
+                        if (status != 'N/A') {
+                            allNa = false;
+                        }
                         if (status == 'On-hold') {
                             item.style.background = 'yellow';
                             item.style.color = "black";
@@ -78,9 +86,7 @@ function initializeCalendar(index) {
                             item.style.background = 'lightgrey';
                             item.style.color = "black";
                         }
-                        if (status == 'Completed') {
-                            showDeleteOption = false;
-                        }
+
                         if (a != myschedule.length - 1) {
                             title = title + ', '
                         }
@@ -92,6 +98,19 @@ function initializeCalendar(index) {
                         showDeleteOption = false;
                         isEnableDrag = false;
                     }
+                    if (allInprogress) {
+                        item.style.background = '#ff9900';
+                        item.innerHTML = '<br/>Multiple forms<br/>(In-progress)';
+                        showDeleteOption = false;
+                        isEnableDrag = false;
+                    }
+                    if (allNa) {
+                        item.style.background = 'lightgrey';
+                        item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
+                        //showDeleteOption = false;
+                       // isEnableDrag = false;
+                        showdropdown = false;
+                    }
                     if (hasPastDue) {
                         item.style.background = 'red';
                         item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
@@ -99,7 +118,9 @@ function initializeCalendar(index) {
                     if (onHold) {
                         item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
                     }
-                     showdropdown = true;
+                    if(!allNa){
+                        showdropdown = true;
+                    }
                     item.title = title;
 
                 } else {
