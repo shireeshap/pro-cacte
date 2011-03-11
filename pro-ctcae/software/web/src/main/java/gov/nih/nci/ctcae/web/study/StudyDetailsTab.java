@@ -54,6 +54,14 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     }
 
     @Override
+    public void onBind(HttpServletRequest request, StudyCommand command, Errors errors) {
+        super.onBind(request, command, errors);    //To change body of overridden methods use File | Settings | File Templates.
+        if(request.getParameter("appModes")==null){
+            command.setAppModes(null);
+        }
+    }
+
+    @Override
     public void onDisplay(HttpServletRequest httpServletRequest, StudyCommand studyCommand) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user.isAdmin()) {
@@ -78,7 +86,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         if (!studyCommand.getStudy().getStudyModes().isEmpty()) {
             List<String> appModes = new ArrayList<String>();
             for (StudyMode studyMode : studyCommand.getStudy().getStudyModes()) {
-                appModes.add(studyMode.getMode().getDisplayName());
+                appModes.add(studyMode.getMode().getName());
             }
             studyCommand.setAppModes(appModes.toArray(new String[]{}));
         }
