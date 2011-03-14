@@ -102,7 +102,7 @@ public class AddCrfScheduleController extends AbstractController {
         }
 
         studyParticipantCommand.lazyInitializeAssignment(genericRepository, false);
-        return null;
+        return new ModelAndView("participant/confirmMove");
     }
 
 

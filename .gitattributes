@@ -1239,6 +1239,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/addSchedule.jsp
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinicalStaff.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmMove.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmSymptom.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text

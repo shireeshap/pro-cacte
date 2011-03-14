@@ -42,7 +42,7 @@ function addRemoveSchedule(index, date, action) {
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
 
-                if (transport.responseText == "") {
+                if (transport.responseText == "getCalendar") {
                     getCalendar(index, "dir=refresh");
                 } else {
                     showConfirmationWindow(transport, 650, 210);
@@ -77,7 +77,7 @@ function addRemoveValidationSchedule(index, date, action) {
         var request = new Ajax.Request("<c:url value="/pages/participant/moveFormScheduleValidate"/>", {
             onComplete:function(transport) {
 
-                if (transport.responseText == "") {
+                if (transport.responseText == "getCalendar") {
                     addRemoveSchedule(index, date, action);
                 } else {
                     showConfirmationWindow(transport, 650, 210);

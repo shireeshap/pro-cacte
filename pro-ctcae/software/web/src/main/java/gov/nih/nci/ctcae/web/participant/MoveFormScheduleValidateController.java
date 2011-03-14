@@ -52,7 +52,7 @@ public class MoveFormScheduleValidateController extends AbstractController {
         List<String> issueForms = participantSchedule.getReschedulePastDueForms(c, newCalendar, formIds);
 
         if (issueForms.size() == 0) {
-            return null;
+           return new ModelAndView("participant/confirmMove");
         }
 
 
