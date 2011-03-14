@@ -17,25 +17,25 @@
         </layout>
     </appender>
 
-    <!--<logger name="gov.nih.nci.ctcae">-->
-        <!--<level value="ERROR"/>-->
-    <!--</logger>-->
-    <!--<logger name=" org.springframework.security.ui">-->
-        <!--<level value="ERROR"/>-->
-    <!--</logger>-->
-    <!--<logger name="org.springframework.security">-->
-        <!--<level value="ERROR"/>-->
-    <!--</logger>-->
-    <!--<logger name="org.springframework">-->
-        <!--<level value="ERROR"/>-->
-    <!--</logger>-->
-<!---->
-    <!--<logger name="org.hibernate">-->
-        <!--<level value="ERROR"/>-->
-    <!--</logger>-->
+    <logger name="gov.nih.nci.ctcae">
+        <level value="ERROR"/>
+    </logger>
+    <logger name=" org.springframework.security.ui">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework.security">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="ERROR"/>
+    </logger>
 
     <root>
-        <priority value="debug"/>
+        <priority value="ERROR"/>
         <appender-ref ref="stdout"/>
         <appender-ref ref="file"/>
     </root>
