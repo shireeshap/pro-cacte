@@ -305,7 +305,7 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
                             row = hssfSheet.getRow(rownum - (valuesList.size() - index));
                             cell = row.createCell((short) 0);
                             cell.setCellStyle(centerStyle);
-                            cell.setCellValue(Integer.parseInt(participant.getStudyParticipantIdentifier()));
+                            cell.setCellValue(participant.getStudyParticipantIdentifier());
 
                             cell = row.createCell(cellNum);
                             cell.setCellStyle(centerStyle);
