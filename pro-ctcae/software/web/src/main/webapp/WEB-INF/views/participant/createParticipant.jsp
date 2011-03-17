@@ -612,6 +612,11 @@ function showOrHideEmail(value1, value2, id) {
                                                       value="${organizationsHavingStudySite[0].code}"/>
                                            </div>
                                        </div>
+                                       <script type="text/javascript">
+                                           Event.observe(window, 'load', function() {
+                                                getStudySites();
+                                           });
+                                       </script>
                                    </c:when>
                                    <c:otherwise>
                                        <tags:renderSelect propertyName="organizationId"
@@ -777,6 +782,7 @@ function showOrHideEmail(value1, value2, id) {
                     <c:forEach items="${command.participant.studyParticipantAssignments}"
                                var="studyParticipantAssignment" varStatus="spastatus">
                         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
+
                         <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
                                         studyParticipantAssignment="${studyParticipantAssignment}"
                                         participant="${command.participant}"/>
