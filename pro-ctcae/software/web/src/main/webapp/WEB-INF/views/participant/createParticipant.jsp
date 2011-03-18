@@ -741,8 +741,11 @@ function showOrHideEmail(value1, value2, id) {
                                <li id="passwordError1"></li>
                            </ul>
                        </td>
-                       <td>(The minimum password length should
+                       <td>
+                           <c:if test="${empty command.participant.id}">
+                           (The minimum password length should
                            be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
+                           </c:if>
                        </td>
                    </tr>
                    <tr>
