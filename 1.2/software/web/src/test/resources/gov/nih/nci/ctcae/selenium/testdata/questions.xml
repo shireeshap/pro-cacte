@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+
+    <pro_ctc_terms id="-1" term="Fatigue" ctc_term_id="3081" pro_ctc_id="1"/>
+
+    <pro_ctc_terms id="-2" term="Constipation" ctc_term_id="3141" pro_ctc_id="1"/>
+
+    <pro_ctc_questions id="-1" question_text="how OFTEN did you have Fatigue" pro_ctc_term_id="-1"
+                       question_type="FREQUENCY"/>
+
+    <pro_ctc_valid_values id="-1" value="Never" pro_ctc_question_id="-1"/>
+    <pro_ctc_valid_values id="-2" value="Rarely" pro_ctc_question_id="-1"/>
+    <pro_ctc_valid_values id="-3" value="Occasionally" pro_ctc_question_id="-1"/>
+    <pro_ctc_valid_values id="-4" value="Frequently" pro_ctc_question_id="-1"/>
+    <pro_ctc_valid_values id="-5" value="Almost Constantly" pro_ctc_question_id="-1"/>
+
+    <pro_ctc_questions id="-2" question_text="what was the WORST SEVERITY of your Fatigue" pro_ctc_term_id="-1"
+                       question_type="SEVERITY"/>
+
+    <question_display_rules id="-1" pro_ctc_question_id="-2" pro_ctc_valid_value_id="-2"/>
+    <question_display_rules id="-2" pro_ctc_question_id="-2" pro_ctc_valid_value_id="-3"/>
+    <question_display_rules id="-3" pro_ctc_question_id="-2" pro_ctc_valid_value_id="-4"/>
+    <question_display_rules id="-4" pro_ctc_question_id="-2" pro_ctc_valid_value_id="-5"/>
+
+    <pro_ctc_valid_values id="-6" value="None" pro_ctc_question_id="-2"/>
+    <pro_ctc_valid_values id="-7" value="Mild" pro_ctc_question_id="-2"/>
+    <pro_ctc_valid_values id="-8" value="Moderate" pro_ctc_question_id="-2"/>
+    <pro_ctc_valid_values id="-9" value="Severe" pro_ctc_question_id="-2"/>
+    <pro_ctc_valid_values id="-10" value="Very severe" pro_ctc_question_id="-2"/>
+
+
+    <pro_ctc_questions id="-3" question_text="how much did Fatigue INTERFERE with your (daily activities)"
+                       pro_ctc_term_id="-1" question_type="INTERFERENCE"/>
+
+    <question_display_rules id="-5" pro_ctc_question_id="-3" pro_ctc_valid_value_id="-2"/>
+    <question_display_rules id="-6" pro_ctc_question_id="-3" pro_ctc_valid_value_id="-3"/>
+    <question_display_rules id="-7" pro_ctc_question_id="-3" pro_ctc_valid_value_id="-4"/>
+    <question_display_rules id="-8" pro_ctc_question_id="-3" pro_ctc_valid_value_id="-5"/>
+
+    <pro_ctc_valid_values id="-11" value="Not at all" pro_ctc_question_id="-3"/>
+    <pro_ctc_valid_values id="-12" value="A little bit" pro_ctc_question_id="-3"/>
+    <pro_ctc_valid_values id="-13" value="Somewhat" pro_ctc_question_id="-3"/>
+    <pro_ctc_valid_values id="-14" value="Quite a bit" pro_ctc_question_id="-3"/>
+    <pro_ctc_valid_values id="-15" value="Very much" pro_ctc_question_id="-3"/>
+
+    <pro_ctc_questions id="-4" question_text="how OFTEN did you have Constipation" pro_ctc_term_id="-2"
+                       question_type="FREQUENCY"/>
+
+    <pro_ctc_valid_values id="-16" value="Never" pro_ctc_question_id="-4"/>
+    <pro_ctc_valid_values id="-17" value="Rarely" pro_ctc_question_id="-4"/>
+    <pro_ctc_valid_values id="-18" value="Occasionally" pro_ctc_question_id="-4"/>
+    <pro_ctc_valid_values id="-19" value="Frequently" pro_ctc_question_id="-4"/>
+    <pro_ctc_valid_values id="-20" value="Almost Constantly" pro_ctc_question_id="-4"/>
+
+
+    <pro_ctc_questions id="-5" question_text="what was the WORST SEVERITY of your Constipation" pro_ctc_term_id="-2"
+                       question_type="SEVERITY"/>
+
+    <question_display_rules id="-9" pro_ctc_question_id="-5" pro_ctc_valid_value_id="-17"/>
+    <question_display_rules id="-10" pro_ctc_question_id="-5" pro_ctc_valid_value_id="-18"/>
+    <question_display_rules id="-11" pro_ctc_question_id="-5" pro_ctc_valid_value_id="-19"/>
+    <question_display_rules id="-12" pro_ctc_question_id="-5" pro_ctc_valid_value_id="-20"/>
+
+    <pro_ctc_valid_values id="-21" value="None" pro_ctc_question_id="-5"/>
+    <pro_ctc_valid_values id="-22" value="Mild" pro_ctc_question_id="-5"/>
+    <pro_ctc_valid_values id="-23" value="Moderate" pro_ctc_question_id="-5"/>
+    <pro_ctc_valid_values id="-25" value="Very severe" pro_ctc_question_id="-5"/>
+
+    <pro_ctc_questions id="-6" question_text="how much did Constipation INTERFERE with your (daily activities)"
+                       pro_ctc_term_id="-2" question_type="INTERFERENCE"/>
+
+    <question_display_rules id="-13" pro_ctc_question_id="-6" pro_ctc_valid_value_id="-17"/>
+    <question_display_rules id="-14" pro_ctc_question_id="-6" pro_ctc_valid_value_id="-18"/>
+    <question_display_rules id="-15" pro_ctc_question_id="-6" pro_ctc_valid_value_id="-19"/>
+    <question_display_rules id="-16" pro_ctc_question_id="-6" pro_ctc_valid_value_id="-20"/>
+
+
+    <pro_ctc_valid_values id="-26" value="Not at all" pro_ctc_question_id="-6"/>
+    <pro_ctc_valid_values id="-27" value="A little bit" pro_ctc_question_id="-6"/>
+    <pro_ctc_valid_values id="-28" value="Somewhat" pro_ctc_question_id="-6"/>
+    <pro_ctc_valid_values id="-29" value="Quite a bit" pro_ctc_question_id="-6"/>
+    <pro_ctc_valid_values id="-30" value="Very much" pro_ctc_question_id="-6"/>
+
+
+</dataset>
