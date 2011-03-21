@@ -1,9 +1,0 @@
-
-<project name="proctcae-commons" default="compile">
-	<property name="parent.dir" value="${basedir}/.." />
-	<property file="${parent.dir}/build.properties" />
-	<import file="${parent.dir}/common.xml" />
-	<target name="module-specific-flow">
-		<echo>overwriting commons module flow...</echo>
-	</target>
-</project>
