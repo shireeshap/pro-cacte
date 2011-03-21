@@ -44,7 +44,7 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
     @Override
     public Map<String, Object> referenceData(ParticipantCommand command) {
         Map<String, Object> referenceData = super.referenceData(command);
-
+        command.initialize();
         List<StudyParticipantAssignment> studyParticipantAssignments = command.getParticipant().getStudyParticipantAssignments();
         referenceData.put("studyParticipantAssignments", studyParticipantAssignments);
         referenceData.put("notifyOptions", ListValues.getNotificationRequired());
