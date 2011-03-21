@@ -39,7 +39,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
         //Study Site
         document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
 
-        //Particpant
+        //Participant
         document.add(new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
 
         //Report run date

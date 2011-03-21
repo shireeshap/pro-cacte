@@ -72,7 +72,7 @@
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResultsGraph"/>", {
                     parameters:<tags:ajaxstandardparams/>+"&symptomId=" + symptomId + "&selectedTypes=" + selectedTypes ,
                     onComplete:function(transport) {
-                        showConfirmationWindow(transport, 850, 570);
+                        showConfirmationWindow(transport, 800, 500);
                         hideIndicator();
                     },
                     method:'get'
