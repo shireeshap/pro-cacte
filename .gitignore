@@ -1,0 +1,8 @@
+software/commons/build
+software/commons/reports
+software/core/build
+software/core/reports
+software/repository
+software/target
+software/web/build
+software/web/reports
