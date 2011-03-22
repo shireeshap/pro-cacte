@@ -61,6 +61,7 @@ public class ParticipantLevelChartGenerator {
 
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
+    ArrayList<String> validValueType= new ArrayList<String>();
 
     public JFreeChart getChartForSymptom(TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
         String selectedTerm = null;
@@ -113,6 +114,7 @@ public class ParticipantLevelChartGenerator {
                 if (proCtcValidValues.size() > i) {
                     ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                     displayOrder = proCtcValidValue.getDisplayOrder();
+                    validValueType.add(proCtcValidValue.getValue());
                 }
                 String questionType = question.getQuestionType().getDisplayName();
 
@@ -236,8 +238,9 @@ public class ParticipantLevelChartGenerator {
             String questionType = typesInSymptom.get(series);
             ProCtcQuestionType proCtcQuestionType = ProCtcQuestionType.getByCode(questionType);
             Number value = dataset.getValue(series, category);
-            if(value.intValue()>proCtcQuestionType.getValidValues().length-1){
-                return "Not applicable";
+            String validValueName=validValueType.get(series);
+            if (value.intValue() > proCtcQuestionType.getValidValues().length - 1 || questionType.equals("Present/Absent")) {
+                    return validValueName;
             }
             return proCtcQuestionType.getValidValues()[value.intValue()];
         }
