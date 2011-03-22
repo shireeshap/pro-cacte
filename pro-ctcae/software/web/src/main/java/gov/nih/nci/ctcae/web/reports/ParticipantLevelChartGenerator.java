@@ -236,6 +236,9 @@ public class ParticipantLevelChartGenerator {
             String questionType = typesInSymptom.get(series);
             ProCtcQuestionType proCtcQuestionType = ProCtcQuestionType.getByCode(questionType);
             Number value = dataset.getValue(series, category);
+            if(value.intValue()>proCtcQuestionType.getValidValues().length-1){
+                return "Not applicable";
+            }
             return proCtcQuestionType.getValidValues()[value.intValue()];
         }
     }
