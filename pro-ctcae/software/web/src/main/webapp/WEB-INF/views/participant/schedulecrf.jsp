@@ -247,7 +247,30 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                 }
             }
         } else {
-            html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+            var newHoldDate = -1;
+            <c:if test="${command.studyParticipantAssignment.onHoldTreatmentDate ne null}">
+               newHoldDate = ${command.studyParticipantAssignment.onHoldTreatmentDate.date};
+            </c:if>
+                if (newHoldDate > holdDate) {
+                    if (${crfsSize>1}) {
+                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                    }
+                    if (showDeleteOption) {
+                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+                    }
+                    var split = sid.split('_');
+                    for (var a = 0; a < split.length; a++) {
+                        var scheduleid = split[a];
+                        if (scheduleid != '') {
+                            var formName = forms[index][scheduleid];
+                            html += '<li><hr></li>';
+                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+                            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                        }
+                    }
+                }
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
         }
 
         html += '</ul></div>';
