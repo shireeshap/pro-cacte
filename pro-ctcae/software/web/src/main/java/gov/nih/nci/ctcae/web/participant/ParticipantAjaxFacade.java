@@ -31,9 +31,9 @@ public class ParticipantAjaxFacade {
      * @param identifier the identifier
      */
     public List<Participant> searchParticipant(String firstName,
-                                               String lastName, String identifier, String studyId, String spIdentifier) {
+                                               String lastName, String identifier, String studyId, String spIdentifier, String siteId) {
         List<Participant> participants = getObjects(firstName, lastName,
-                identifier, studyId, spIdentifier);
+                identifier, studyId, spIdentifier, siteId);
         return participants;
     }
 
@@ -46,7 +46,7 @@ public class ParticipantAjaxFacade {
      * @return the objects
      */
     private List<Participant> getObjects(String firstName, String lastName,
-                                         String identifier, String studyId, String spIdentifier) {
+                                         String identifier, String studyId, String spIdentifier, String siteId) {
         ParticipantQuery participantQuery = new ParticipantQuery();
 
         if (!StringUtils.isBlank(firstName)) {
@@ -63,6 +63,9 @@ public class ParticipantAjaxFacade {
         }
         if (!StringUtils.isBlank(spIdentifier)) {
             participantQuery.filterByStudyParticipantIdentifier(spIdentifier);
+        }
+        if (!StringUtils.isBlank(siteId)) {
+            participantQuery.filterBySite(Integer.parseInt(siteId));
         }
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);

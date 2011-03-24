@@ -37,10 +37,13 @@ public class ParticipantQuery extends AbstractQuery {
      */
     private static final String STUDY_ID = "studyId";
     private static final String STUDY_SITE_ID = "studySiteId";
+    private static final String ORGANIZATION_ID = "siteId";
     private static final String USERNAME = "username";
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
     private static String EMAIL = "emailAddress";
     private static String USERNUMBER ="userNumber";
+    private static final String STUDY_SITE = "studySite";
+    private static final String LEAD_SITE = "leadSite";
     /**
      * Instantiates a new participant query.
      */
@@ -152,10 +155,20 @@ public class ParticipantQuery extends AbstractQuery {
 
     public void filterByStudySite(Integer studySiteId) {
         if (studySiteId != null) {
-
             leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
             andWhere("ss.id =:" + STUDY_SITE_ID);
             setParameter(STUDY_SITE_ID, studySiteId);
+        }
+    }
+
+    public void filterBySite(Integer siteId) {
+        if (siteId != null) {
+            leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+            andWhere("ss.organization.id = :" + ORGANIZATION_ID);
+            andWhere(String.format("(ss.class = :%s or ss.class = :%s )" , STUDY_SITE, LEAD_SITE));
+            setParameter(ORGANIZATION_ID, siteId);
+            setParameter(STUDY_SITE, "SST");
+            setParameter(LEAD_SITE, "LSS");
         }
     }
 

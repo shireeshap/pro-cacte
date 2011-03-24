@@ -144,6 +144,20 @@
         })
 
     }
+
+    Event.observe(window, "load", function() {
+        acCreate(new siteAutoComplterWithSecurity('studySite'))
+        initializeAutoCompleter('studySite',
+                '${site.displayName}', '${site.id}')
+
+        initSearchField()
+    })
+
+
+
+
+
+
 </script>
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">
@@ -178,6 +192,13 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="false"
+                                  size="100"
+                                  noForm="true"/>
+        <%--<tags:renderAutocompleter propertyName="site"--%>
+                                  <%--displayName="study.label.study_site"--%>
+                                  <%--required="false" size="70" noForm="true"/>--%>
+        <tags:renderAutocompleter propertyName="studySite"
+                                  displayName="Study site"
                                   size="100"
                                   noForm="true"/>
 

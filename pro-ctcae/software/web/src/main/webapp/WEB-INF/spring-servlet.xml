@@ -365,6 +365,7 @@
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
         <property name="participantAjaxFacade" ref="participantAjaxFacade"/>
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 

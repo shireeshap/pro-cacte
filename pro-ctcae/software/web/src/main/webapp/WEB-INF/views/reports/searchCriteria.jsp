@@ -109,7 +109,7 @@
             <c:otherwise>
                 <div id="studyCompleter" style="margin-left:11px;">
                <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
-                                              noForm="true"/>
+                                              noForm="true"/>    
 
                 <script type="text/javascript">
                     createStudyAutoCompleter();

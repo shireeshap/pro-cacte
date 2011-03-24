@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ public class SearchParticipantController extends AbstractController {
 
     private ParticipantAjaxFacade participantAjaxFacade;
     StudyRepository studyRepository;
+    OrganizationRepository organizationRepository;
     protected Properties proCtcAEProperties;
 
     /* (non-Javadoc)
@@ -44,6 +46,7 @@ public class SearchParticipantController extends AbstractController {
         String identifier = "";
         String studyId = "";
         String spIdentifier = "";
+        String siteId = "";
         Integer rowsPerPageInt = 15;
         String sort = request.getParameter("sort");
         String page = request.getParameter("page");
@@ -77,17 +80,20 @@ public class SearchParticipantController extends AbstractController {
             identifier = (String) request.getSession().getAttribute("ParticipantSearchIdentifier");
             studyId = (String) request.getSession().getAttribute("ParticipantSearchStudyId");
             spIdentifier = (String) request.getSession().getAttribute("ParticipantSearchSpIdentifier");
+            siteId = (String) request.getSession().getAttribute("ParticipantSearchSiteId");
         } else {
             firstName = request.getParameter("firstName");
             lastName = request.getParameter("lastName");
             identifier = request.getParameter("identifier");
             studyId = request.getParameter("study");
             spIdentifier = request.getParameter("spIdentifier");
+            siteId = request.getParameter("studySite");
             request.getSession().setAttribute("ParticipantSearchFirstName", firstName);
             request.getSession().setAttribute("ParticipantSearchLastName", lastName);
             request.getSession().setAttribute("ParticipantSearchIdentifier", identifier);
             request.getSession().setAttribute("ParticipantSearchStudyId", studyId);
             request.getSession().setAttribute("ParticipantSearchSpIdentifier", spIdentifier);
+            request.getSession().setAttribute("ParticipantSearchSiteId", siteId);
         }
         modelAndView.addObject("firstName", firstName);
         modelAndView.addObject("lastName", lastName);
@@ -96,12 +102,15 @@ public class SearchParticipantController extends AbstractController {
         if (!StringUtils.isBlank(studyId)) {
             modelAndView.addObject("study", studyRepository.findById(Integer.parseInt(studyId)));
         }
+        if (!StringUtils.isBlank(siteId)) {
+            modelAndView.addObject("studySite", organizationRepository.findById(Integer.parseInt(siteId)));
+        }
         if (!StringUtils.isBlank(rowsPerPage)) {
             rowsPerPageInt = Integer.parseInt(rowsPerPage);
         }
 
 
-        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, studyId, spIdentifier);
+        List<Participant> participants = participantAjaxFacade.searchParticipant(firstName, lastName, identifier, studyId, spIdentifier, siteId);
         int totalRecords = participants.size();
         int numberOfPages = totalRecords / rowsPerPageInt;
         if (totalRecords % rowsPerPageInt > 0) {
@@ -172,6 +181,11 @@ public class SearchParticipantController extends AbstractController {
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
     }
 
     @Required
