@@ -464,8 +464,10 @@ function showEmail(id) {
         jQuery('#emailInput_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
+        isEmail=false;
         removeEmailClassName(id);
     }
+    checkError();
 }
 <%--var clickCount = ${homeModeCount};--%>
 function showOrHideEmail(value1, value2, id) {
