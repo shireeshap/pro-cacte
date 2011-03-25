@@ -228,7 +228,7 @@ public class SubmitFormCommand implements Serializable {
             if (spcaq != null) {
                 String symptom = spcsaq.getProCtcOrMeddraQuestion().getQuestionSymptom();
                 StudyParticipantCrf spc = schedule.getStudyParticipantCrf();
-                spc.removeStudyParticipantCrfAddedQuestion(spcaq);
+//                spc.removeStudyParticipantCrfAddedQuestion(spcaq);   
                 List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : spc.getStudyParticipantCrfAddedQuestions()) {
                     if (studyParticipantCrfAddedQuestion.getProCtcOrMeddraQuestion().getQuestionSymptom().equals(symptom)) {
