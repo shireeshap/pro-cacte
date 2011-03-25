@@ -58,6 +58,7 @@ public class SubmitFormCommand implements Serializable {
             if (StringUtils.isBlank(symptomGender)) {
                 symptomGender = "both";
             }
+
             if (symptomGender.equals(getParticipantGender()) || symptomGender.equals("both")) {
                 DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
                 displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
@@ -89,7 +90,13 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public String getParticipantGender() {
-        return getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender().toLowerCase();
+        String participantGender = getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender();
+            if (StringUtils.isBlank(participantGender)) {
+                participantGender = "both";
+            } else {
+                participantGender.toLowerCase();
+            }
+        return participantGender;
     }
 
     private int addQuestionToDisplayMap(int position, Question question) {
