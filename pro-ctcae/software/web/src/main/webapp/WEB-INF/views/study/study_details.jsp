@@ -238,8 +238,10 @@ uniqueIdentifier"/>
                                        <td>
                                            <select id="call_back_hour" name="call_back_hour">
                                                <option value=" ">Please select</option>
+                                               <option value="10" selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>10 minutes </option>
+                                               <option value="20"  ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>20 minutes </option>
                                                <option value="30"
-                                                       selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                                        ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
                                                    30 minutes
                                                </option>
                                                <option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>
@@ -257,10 +259,10 @@ uniqueIdentifier"/>
                                                <option value=" ">Please select</option>
                                                <option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
                                                    1
-                                               <option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                               <option value="2" selected ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
                                                    2
                                                <option value="3"
-                                                       selected ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
+                                                        ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
                                                    3
                                                <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
                                                    4
@@ -315,8 +317,10 @@ uniqueIdentifier"/>
                                        <td>
                                            <select id="call_back_hour1" name="call_back_hour">
                                                <option value=" ">Please select</option>
+                                               <option value="10" selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>10 minutes </option>
+                                               <option value="20"  ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>20 minutes </option>
                                                <option value="30"
-                                                       selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                                        ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
                                                    30 minutes
                                                </option>
                                                <option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>
@@ -334,10 +338,10 @@ uniqueIdentifier"/>
                                                <option value=" ">Please select</option>
                                                <option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
                                                    1
-                                               <option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                               <option value="2" selected ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
                                                    2
                                                <option value="3"
-                                                       selected ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
+                                                        ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
                                                    3
                                                <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
                                                    4
