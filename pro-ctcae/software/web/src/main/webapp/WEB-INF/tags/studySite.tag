@@ -221,7 +221,7 @@
 </tr>
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
-        <b>Call time</b>&nbsp;
+        <b>Preferred call time</b>&nbsp;
     </td>
     <td valign="top" width="50%">
 
