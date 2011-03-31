@@ -512,6 +512,9 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/018_update_socs.gr
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/019_update_form_completion_date.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/020_ivrs_schedules.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/021_update_spa.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/022_update_sp_crf_items.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/023_update_sp_crf_sch_added_questions.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/024_update_pro_ctc_terms.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
