@@ -104,17 +104,21 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Column(name = "call_minute", nullable = true)
     private Integer callMinute;
 
-//    @Column(name = "reminder_time_zone", nullable = true)
-//    private String reminderTimeZone;
-//
-//    @Column(name = "reminder_am_pm", nullable = true)
-//    private String reminderAmPm;
-//
-//    @Column(name = "reminder_hour", nullable = true)
-//    private Integer reminderHour;
-//
-//    @Column(name = "reminder_minute", nullable = true)
-//    private Integer reminderMinute;
+    @Column(name = "ivrs_language", nullable = true)
+    private String ivrsLanguage;
+
+    @Column(name = "home_web_language", nullable = true)
+    private String homeWebLanguage;
+
+    @Column(name = "clinic_web_language", nullable = true)
+    private String clinicWebLanguage;
+
+    @Column(name = "home_paper_language", nullable = true)
+    private String homePaperLanguage;
+
+    @Column(name = "clinic_paper_language", nullable = true)
+    private String clinicPaperLanguage;
+
 
     @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @OrderBy("id desc")
@@ -562,8 +566,46 @@ public class StudyParticipantAssignment extends BaseVersionable {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfsToRemove) {
             studyParticipantCrfs.remove(studyParticipantCrf);
         }
+    }
 
+    public String getIvrsLanguage() {
+        return ivrsLanguage;
+    }
 
+    public void setIvrsLanguage(String ivrsLanguage) {
+        this.ivrsLanguage = ivrsLanguage;
+    }
+
+    public String getHomeWebLanguage() {
+        return homeWebLanguage;
+    }
+
+    public void setHomeWebLanguage(String homeWebLanguage) {
+        this.homeWebLanguage = homeWebLanguage;
+    }
+
+    public String getClinicWebLanguage() {
+        return clinicWebLanguage;
+    }
+
+    public void setClinicWebLanguage(String clinicWebLanguage) {
+        this.clinicWebLanguage = clinicWebLanguage;
+    }
+
+    public String getHomePaperLanguage() {
+        return homePaperLanguage;
+    }
+
+    public void setHomePaperLanguage(String homePaperLanguage) {
+        this.homePaperLanguage = homePaperLanguage;
+    }
+
+    public String getClinicPaperLanguage() {
+        return clinicPaperLanguage;
+    }
+
+    public void setClinicPaperLanguage(String clinicPaperLanguage) {
+        this.clinicPaperLanguage = clinicPaperLanguage;
     }
 
     public List<StudyParticipantReportingModeHistory> getStudyParticipantReportingModeHistoryItems() {

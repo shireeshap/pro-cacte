@@ -119,19 +119,42 @@
 </tr>
 
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
-    <tr>
-        <td align="right" class="data" width="30%">
+    <tr valign="top">
+        <td align="right" valign="top" width="30%">
             <b>Home reporting option</b>
             <br>
-            <br>
+            
             <c:forEach items="${studysite.study.studyModes}" var="studyMode">
                 <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
-                    <br>
+                    <span id="paper_home_header_${studysite.id}" style="display:none">
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <td align="right" valign="top" width="30%">
+                                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                <b> Preferred language</b>
+                            </td>
+                        </tr>
+
+                    </table>
+                   </span>
+
                 </c:if>
-                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
-                 <span id="emailHeader_${studysite.id}" style="display:none">
-                    <span class="required-indicator">*&nbsp;&nbsp; </span>
-                    <b> Email Address</b>
+                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">  <br><br>
+                    <span id="emailHeader_${studysite.id}" style="display:none">
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <td align="right" valign="bottom" width="30%">
+                                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                <b> Email Address</b>
+                            </td>
+                        </tr>
+                        <tr height="70%">
+                            <td align="right" valign="bottom" width="30%"><br>
+                                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                <b> Preferred language</b>
+                            </td>
+                        </tr>
+                    </table>
                  </span>
                 </c:if>
             </c:forEach>
@@ -147,25 +170,76 @@
                                       propertyValue="${studyMode.mode.name}"
                                       noForm="true" useRenderInput="true"
                                       onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
+                    <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
+                        <div id="home_paper_${studysite.id}" style="display:none">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <select id="home_paper_lang_${studysite.id}"
+                                                name="home_paper_lang_${studysite.id}">
+                                            <option value="" ${studyParticipantAssignment.homePaperLanguage eq "" ? "selected='selected'" : " "} >
+                                                Please select
+                                            </option>
+                                            <option value="english" ${studyParticipantAssignment.homePaperLanguage eq "english" ? "selected='selected'" : " "} >
+                                                English
+                                            </option>
+                                            <option value="spanish" ${studyParticipantAssignment.homePaperLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                                Spanish
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </c:if>
                     <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
                         <div id="web_${studysite.id}" style="display:none">
                             <input type="checkbox" name="email_${studysite.id}" value="true"
                                    onclick="javascript:showEmail(${studysite.id});"
                                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
                             reminder via email
+
                         </div>
 
                         <div id="emailInput_${studysite.id}" style="display:none;">
-                                <input type="text" name="participant.emailAddress_${studysite.id}"
-                                value="${studyParticipantAssignment.participant.emailAddress}"
-                                id="participant.emailAddress_${studysite.id}"
-                                onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
-                                size="35"/>
-                            <ul id="emailError_${studysite.id}" style="display:none;" class="errors">
-                                <li><spring:message
-                                        code='participant.unique_emailAddress'
-                                        text='participant.unique_emailAddress'/></li>
-                            </ul>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="participant.emailAddress_${studysite.id}"
+                                               value="${studyParticipantAssignment.participant.emailAddress}"
+                                               id="participant.emailAddress_${studysite.id}"
+                                               onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
+                                               size="35"/>
+                                        <ul id="emailError_${studysite.id}" style="display:none;"
+                                            class="errors">
+                                            <li><spring:message
+                                                    code='participant.unique_emailAddress'
+                                                    text='participant.unique_emailAddress'/></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="home_web_lang_${studysite.id}"
+                                                name="home_web_lang_${studysite.id}">
+                                            <option value="" ${studyParticipantAssignment.homeWebLanguage eq "" ? "selected='selected'" : " "} >
+                                                Please select
+                                            </option>
+                                            <option value="english" ${studyParticipantAssignment.homeWebLanguage eq "english" ? "selected='selected'" : " "} >
+                                                English
+                                            </option>
+                                            <option value="spanish" ${studyParticipantAssignment.homeWebLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                                Spanish
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div id="webLang_${studysite.id}" style="display:none;">
+
                         </div>
                     </c:if>
                 </c:if>
@@ -173,13 +247,15 @@
         </td>
     </tr>
 </c:if>
+
 <tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
         <b>Phone</b>&nbsp;
     </td>
     <td valign="top" width="50%">
-        <input type="text" name="participant.phoneNumber_${studysite.id}" value="${studyParticipantAssignment.participant.phoneNumber}"
+        <input type="text" name="participant.phoneNumber_${studysite.id}"
+               value="${studyParticipantAssignment.participant.phoneNumber}"
                id="participant.phoneNumber_${studysite.id}"/>
         <span class="phone-number">###-###-####</span>
     </td>
@@ -212,7 +288,8 @@
     <td>
         <input type="text" name="participantPinNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.pinNumber}"
-               id="participant.pinNumber_${studysite.id}" onblur="checkParticipantPinNumber(${studysite.id});"/>
+               id="participant.pinNumber_${studysite.id}"
+               onblur="checkParticipantPinNumber(${studysite.id});"/>
         <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
             <li><spring:message code='participant.pinnumber_pattern'
                                 text='participant.pinnumber_pattern'/></li>
@@ -221,13 +298,16 @@
 </tr>
 <tr id="c_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
+        <span class="required-indicator">*&nbsp;&nbsp; </span>
         <b>Preferred call time</b>&nbsp;
     </td>
     <td valign="top" width="50%">
 
         <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
             <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
-                <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >Hr</option>
+                <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
+                    Hr
+                </option>
                 <c:forEach items="${hours}" var="hour">
                     <c:set var="hr" value="${hour}"/>
                     <c:if test="${hr/10<1}"><c:set var="hr" value="0${hour}"/></c:if>
@@ -235,7 +315,8 @@
                 </c:forEach>
             </select>&nbsp;
             <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
-                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >Min
+                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
+                    Min
                 </option>
                 <c:forEach items="${minutes}" var="minute">
                     <c:set var="min" value="${minute}"/>
@@ -275,9 +356,28 @@
                     Hawaii-Aleutian Time
                 </option>
             </select>
-            <br>
+
         </div>
 
+    </td>
+</tr>
+<tr id="ivrsLang_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
+    <td align="right" valign="top" width="30%">
+        <span class="required-indicator">*&nbsp;&nbsp; </span>
+        <b>Preferred language</b>
+    </td>
+    <td>
+        <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}">
+            <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
+                Please select
+            </option>
+            <option value="english" ${studyParticipantAssignment.ivrsLanguage eq "english" ? "selected='selected'" : " "} >
+                English
+            </option>
+            <option value="spanish" ${studyParticipantAssignment.ivrsLanguage eq "spanish" ? "selected='selected'" : " "} >
+                Spanish
+            </option>
+        </select>
     </td>
 </tr>
 
@@ -296,10 +396,39 @@
         reminder via text if the patient hasn't already completed the form
     </td>
 </tr>
+
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td align="right" class="data" width="30%">
         <b>In-clinic reporting option</b>
+        <br>
+        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+            <c:if test="${studyMode.mode.name eq 'CLINICBOOKLET'}">
+              <span id="paper_clinic_header_${studysite.id}" style="display:none">
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <td align="right" valign="bottom" width="30%">
+                                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                <b> Preferred language</b>
+                            </td>
+                        </tr>
+                    </table>
+                   </span>
+            </c:if>
+            <c:if test="${studyMode.mode.name eq 'CLINICWEB'}"> <br>
+             <span id="web_clinic_header_${studysite.id}" style="display:none">
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <td align="right" valign="bottom" width="30%">
+                                <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                <b> Preferred language</b>
+                            </td>
+                        </tr>
+                    </table>
+                   </span>
+            </c:if>
+        </c:forEach>
+
     </td>
     <td width="10%">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
@@ -308,18 +437,60 @@
                                   values="${studyParticipantAssignment.selectedAppModes}"
                                   displayName="${studyMode.mode.displayName}"
                                   propertyValue="${studyMode.mode.name}"
-                                  noForm="true" useRenderInput="true"/>
+                                  noForm="true" useRenderInput="true"
+                                  onclick="javascript:showOrHideLanguage(this.checked, '${studyMode.mode.name}', ${studysite.id});"/>
             </c:if>
+            <c:if test="${studyMode.mode.name eq 'CLINICBOOKLET'}">
+                <div id="clinicPaper_${studysite.id}" style="display:none">
+                    <table>
+                        <tr>
+                            <td>
+                                <select id="clinic_paper_lang_${studysite.id}"
+                                        name="clinic_paper_lang_${studysite.id}">
+                                    <option value="" ${studyParticipantAssignment.clinicPaperLanguage eq "" ? "selected='selected'" : " "} >
+                                        Please select
+                                    </option>
+                                    <option value="english" ${studyParticipantAssignment.clinicPaperLanguage eq "english" ? "selected='selected'" : " "} >
+                                        English
+                                    </option>
+                                    <option value="spanish" ${studyParticipantAssignment.clinicPaperLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                        Spanish
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </c:if>
+            <c:if test="${studyMode.mode.name eq 'CLINICWEB'}">
+                <div id="clinicWeb_${studysite.id}" style="display:none">
+                    <table>
+                        <tr>
+                            <td>
+                                <select id="clinic_web_lang_${studysite.id}"
+                                        name="clinic_web_lang_${studysite.id}">
+                                    <option value="" ${studyParticipantAssignment.clinicWebLanguage eq "" ? "selected='selected'" : " "} >
+                                        Please select
+                                    </option>
+                                    <option value="english" ${studyParticipantAssignment.clinicWebLanguage eq "english" ? "selected='selected'" : " "} >
+                                        English
+                                    </option>
+                                    <option value="spanish" ${studyParticipantAssignment.clinicWebLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                        Spanish
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </c:if>
+
         </c:forEach>
     </td>
     </c:if>
-    <%--<td align="left" width="43%">--%>
-    <%--<c:forEach items="${studysite.study.studyModes}" var="studyMode">--%>
-    <%--<c:if test="${studyMode.mode.name eq 'CLINICWEB' || studyMode.mode.name eq 'CLINICBOOKLET'}">--%>
-    <%--&nbsp;&nbsp;&nbsp;(no reminder will be sent)<br>--%>
-    <%--</c:if>--%>
-    <%--</c:forEach>--%>
-    <%--</td>--%>
+</tr>
+<tr>
+
 </tr>
 <tr>
     <td align="right">
