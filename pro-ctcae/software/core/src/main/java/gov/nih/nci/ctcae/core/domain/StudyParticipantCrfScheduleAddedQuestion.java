@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 //
 /**
@@ -65,6 +66,16 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
 
     @Column(name = "spc_added_question_id")
     private Integer studyParticipantCrfAddedQuestionId;
+
+    @Column(name = "response_date", nullable = true)
+    private Date reponseDate;
+
+    @Column(name = "updated_by", nullable = true)
+    private String updatedBy;
+
+    @Column(name = "response_mode", nullable = true)
+    @Enumerated(value = EnumType.STRING)
+    private AppMode responseMode;
 
     /**
      * Instantiates a new study participant crf schedule added question.
@@ -240,5 +251,29 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
 
     public void setStudyParticipantCrfAddedQuestionId(Integer studyParticipantCrfAddedQuestionId) {
         this.studyParticipantCrfAddedQuestionId = studyParticipantCrfAddedQuestionId;
+    }
+
+    public Date getReponseDate() {
+        return reponseDate;
+    }
+
+    public void setReponseDate(Date reponseDate) {
+        this.reponseDate = reponseDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public AppMode getResponseMode() {
+        return responseMode;
+    }
+
+    public void setResponseMode(AppMode responseMode) {
+        this.responseMode = responseMode;
     }
 }

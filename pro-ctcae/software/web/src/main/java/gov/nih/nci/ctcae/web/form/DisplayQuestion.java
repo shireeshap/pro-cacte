@@ -110,19 +110,23 @@ public class DisplayQuestion {
         this.studyParticipantCrfScheduleAddedQuestion = studyParticipantCrfScheduleAddedQuestion;
     }
 
-    private StudyParticipantCrfScheduleAddedQuestion getStudyParticipantCrfScheduleAddedQuestion() {
+    public StudyParticipantCrfScheduleAddedQuestion getStudyParticipantCrfScheduleAddedQuestion() {
         for (StudyParticipantCrfScheduleAddedQuestion question : command.getSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
-            if (question.getId().equals(studyParticipantCrfScheduleAddedQuestion.getId())) {
-                return question;
+            if (studyParticipantCrfScheduleAddedQuestion != null) {
+                if (question.getId().equals(studyParticipantCrfScheduleAddedQuestion.getId())) {
+                    return question;
+                }
             }
         }
         return null;
     }
 
-    private StudyParticipantCrfItem getStudyParticipantCrfItem() {
+    public StudyParticipantCrfItem getStudyParticipantCrfItem() {
         for (StudyParticipantCrfItem item : command.getSchedule().getStudyParticipantCrfItems()) {
-            if (item.getId().equals(studyParticipantCrfItem.getId())) {
-                return item;
+            if (studyParticipantCrfItem != null) {
+                if (item.getId().equals(studyParticipantCrfItem.getId())) {
+                    return item;
+                }
             }
         }
         return null;

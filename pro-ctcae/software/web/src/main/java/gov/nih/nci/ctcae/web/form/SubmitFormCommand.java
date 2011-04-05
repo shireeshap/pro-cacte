@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 
 import java.io.Serializable;
 import java.util.*;
@@ -91,11 +93,11 @@ public class SubmitFormCommand implements Serializable {
 
     public String getParticipantGender() {
         String participantGender = getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getGender();
-            if (StringUtils.isBlank(participantGender)) {
-                participantGender = "both";
-            } else {
-                participantGender.toLowerCase();
-            }
+        if (StringUtils.isBlank(participantGender)) {
+            participantGender = "both";
+        } else {
+            participantGender.toLowerCase();
+        }
         return participantGender;
     }
 
@@ -179,6 +181,8 @@ public class SubmitFormCommand implements Serializable {
         // schedule = genericRepository.save(schedule);
         //lazyInitializeSchedule();
         boolean submit = false;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
         if ("save".equals(direction)) {
             deleteQuestions();
             schedule.setStatus(CrfStatus.COMPLETED);
@@ -199,6 +203,25 @@ public class SubmitFormCommand implements Serializable {
             submit = true;
         } else {
             schedule.setStatus(CrfStatus.INPROGRESS);
+            List<DisplayQuestion> questions = this.getCurrentPageQuestions();
+            if (questions != null) {
+                for (DisplayQuestion question : questions) {
+                    if (question != null) {
+                        StudyParticipantCrfItem spCrfItem = question.getStudyParticipantCrfItem();
+                        if (spCrfItem != null) {
+                            spCrfItem.setReponseDate(new Date());
+                            spCrfItem.setResponseMode(AppMode.HOMEWEB);
+                            spCrfItem.setUpdatedBy(user.getUsername());
+                        }
+                        StudyParticipantCrfScheduleAddedQuestion spcsAddedQuestion = question.getStudyParticipantCrfScheduleAddedQuestion();
+                        if (spcsAddedQuestion != null) {
+                            spcsAddedQuestion.setReponseDate(new Date());
+                            spcsAddedQuestion.setResponseMode(AppMode.HOMEWEB);
+                            spcsAddedQuestion.setUpdatedBy(user.getUsername());
+                        }
+                    }
+                }
+            }
         }
         genericRepository.saveOrUpdate(schedule);
         //lazyInitializeSchedule();
@@ -441,30 +464,29 @@ public class SubmitFormCommand implements Serializable {
         int total = getTotalQuestionPages();
         List<ValidValue> valid = new ArrayList<ValidValue>();
         List<DisplayQuestion> displayQuestionsList = new ArrayList<DisplayQuestion>();
-        int i = 0, tempIndex= 1;
+        int i = 0, tempIndex = 1;
         for (i = 1; i <= total; i++) {
             displayQuestionsList = getCurrentPageQuestions();
             int count = 0;
-            if(displayQuestionsList!=null){
-            for (DisplayQuestion displayQuestion : displayQuestionsList) {
-                if (displayQuestion.getSelectedValidValue() != null) {
-                    count++;
-                    valid.add(displayQuestion.getSelectedValidValue());
-                    if (displayQuestionsList.size() > 1) {
-                        if (displayQuestion.getSelectedValidValue().getDisplayOrder() == 0 || count == displayQuestionsList.size()) {
+            if (displayQuestionsList != null) {
+                for (DisplayQuestion displayQuestion : displayQuestionsList) {
+                    if (displayQuestion.getSelectedValidValue() != null) {
+                        count++;
+                        valid.add(displayQuestion.getSelectedValidValue());
+                        if (displayQuestionsList.size() > 1) {
+                            if (displayQuestion.getSelectedValidValue().getDisplayOrder() == 0 || count == displayQuestionsList.size()) {
+                                tempIndex = tempIndex + 1;
+                                setCurrentPageIndex(Integer.toString(tempIndex));
+                            } else
+                                setCurrentPageIndex(Integer.toString(tempIndex));
+                        } else {
                             tempIndex = tempIndex + 1;
                             setCurrentPageIndex(Integer.toString(tempIndex));
-                        } else
-                            setCurrentPageIndex(Integer.toString(tempIndex));
-                    } else {
-                        tempIndex = tempIndex + 1;
-                        setCurrentPageIndex(Integer.toString(tempIndex));
+                        }
                     }
                 }
-            }
-            }
-            else{
-                tempIndex=tempIndex+1;
+            } else {
+                tempIndex = tempIndex + 1;
                 setCurrentPageIndex(Integer.toString(tempIndex));
             }
         }
