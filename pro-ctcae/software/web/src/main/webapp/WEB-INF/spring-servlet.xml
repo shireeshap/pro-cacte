@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:jms="http://www.springframework.org/schema/jms"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -7,10 +9,14 @@
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/jms
+	    http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
         http://www.directwebremoting.org/schema/spring-dwr
         http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://activemq.apache.org/schema/core
+   	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd">
 
     <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
         <!--<property name="basename" value="/WEB-INF/message"/>-->
@@ -279,7 +285,7 @@
         <property name="crfRepository" ref="crfRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
-    
+
     <bean name="/form/versionForm" id="versionFormController"
           class="gov.nih.nci.ctcae.web.form.VersionFormController" parent="ctcaeSimpleFormController">
         <property name="crfRepository" ref="crfRepository"/>
@@ -470,7 +476,7 @@
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
         <property name="participantRepository" ref="participantRepository" />
     </bean>
-    
+
     <bean name="/participant/participantOffHold" id="participantOffHoldController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantOffHoldController" parent="ctcaeSimpleFormController">
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
@@ -645,7 +651,7 @@
 
     <bean id="uniqueParticipantEmailAddressValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
-        <property name="participantRepository" ref="participantRepository"/>   
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
     <bean id="uniqueParticipantUserNumberValidator"
@@ -696,6 +702,22 @@
         <property name="jobDetail" ref="pastDueSchedulesReminderEmailJob"/>
     </bean>
 
+    <bean id="ivrsTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="callOutJob"/>
+        <property name="startDelay" value="0" />
+            <!-- repeat every 2 min -->
+        <property name="repeatInterval" value="300000"/>
+    </bean>
+
+
+    <bean id="callOutJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="IvrsCalloutBean"/>
+        <property name="targetMethod" value="testCallout"/>
+    </bean>
+     <bean name="IvrsCalloutBean" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler">
+        <property name="jmsTemplate" ref="consumerJmsTemplate"/>
+    </bean>
     <bean id="formSubmissionNotificationBeanTarget" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
@@ -714,7 +736,7 @@
                 </list>
             </property>
         </bean>
-     
+
     <bean id="formSubmissionNotificationJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="formSubmissionNotificationBean"/>
@@ -733,6 +755,7 @@
             <list>
                <ref bean="nightlyTrigger"/>
                <ref bean="formSubmissionNotificationTrigger"/>
+                <!--<ref bean="ivrsTrigger"/>-->
             </list>
         </property>
     </bean>
@@ -773,4 +796,41 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantReportingModeHistoryController">
          <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
+    <!--  lets create an embedded ActiveMQ Broker -->
+  <amq:broker useJmx="false" persistent="false">
+    <amq:transportConnectors>
+     <!--   <amq:transportConnector uri="tcp://localhost:61616" /> -->
+     <amq:transportConnector uri="vm://localhost" />
+    </amq:transportConnectors>
+  </amq:broker>
+    <!--  ActiveMQ destinations to use  -->
+  <amq:queue id="destination"  physicalName="org.apache.activemq.spring.Test.spring.embedded"/>
+  <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+  <amq:connectionFactory id="jmsFactory" brokerURL="vm://localhost"/>
+
+  <!-- Spring JMS Template -->
+  <bean id="myJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory">
+      <!-- lets wrap in a pool to avoid creating a connection per send -->
+      <bean class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory">
+          <ref local="jmsFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  <bean id="consumerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="jmsFactory"/>
+  </bean>
+   <!-- A POJO that implements the JMS message listener -->
+	  <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener"/>
+    <!-- The Spring message listener container configuration -->
+	  <jms:listener-container
+	      container-type="default"
+	      connection-factory="jmsFactory"
+	      acknowledge="auto"
+          concurrency="2-2">
+          <jms:listener destination="IVRS.DESTINATION" ref="simpleMessageListener" method="onMessage" />
+
+	  </jms:listener-container>
 </beans>
