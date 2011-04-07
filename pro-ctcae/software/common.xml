@@ -186,6 +186,7 @@
           ==============================================================-->
     <target name="init.test" unless="no.init.test" description="Will initialize the test directories">
         <echo message="Executing ${ant.project.name} : init.test"/>
+    	<mkdir dir="${classes.dir}"/>
         <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
         <mkdir dir="${instrumented.classes.dir}"/>
@@ -600,7 +601,7 @@
     <!-- ==============================================================
                 target: corbetura-init
             ============================================================== -->
-    <target name="cobertura-init" if="run.test" depends="clean-cobertura-dir">
+    <target name="cobertura-init" if="run.test" depends="clean-cobertura-dir, init.test">
     <ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
         <echo message="${test.lib.dir}/cobertura-1.8.jar"/>
         <mkdir dir="${cobertura.dir}"/>
