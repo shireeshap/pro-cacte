@@ -37,6 +37,7 @@
         <intercept-url pattern="/pages/form/viewForm" access="PRIVILEGE_VIEW_FORM"/>
             <intercept-url pattern="/pages/form/submit" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/form/addMorequestion" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/responseReport" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/matchSymptoms" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/confirmSymptom" access="PRIVILEGE_PARTICIPANT_INBOX"/>

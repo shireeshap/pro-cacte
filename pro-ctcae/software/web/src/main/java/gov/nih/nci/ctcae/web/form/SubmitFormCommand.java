@@ -30,6 +30,7 @@ public class SubmitFormCommand implements Serializable {
     private int totalQuestionPages = 0;
     private int addQuestionPageIndex = 0;
     private int reviewPageIndex = 0;
+    private int addMoreQuestionPageIndex = 0;
     private int currentPageIndex = 1;
     private String direction = "";
     private GenericRepository genericRepository;
@@ -50,8 +51,9 @@ public class SubmitFormCommand implements Serializable {
         generateDisplayQuestionsMap();
         totalQuestionPages = displayQuestionsMap.keySet().size();
         addQuestionPageIndex = totalQuestionPages + 1;
-        totalPages = totalQuestionPages + 1;
-        reviewPageIndex = totalQuestionPages + 2;
+        addMoreQuestionPageIndex = addQuestionPageIndex + 1;
+        totalPages = totalQuestionPages + 2;
+        reviewPageIndex = totalQuestionPages + 3;
     }
 
     private void generateDisplayQuestionsMap() {
@@ -346,10 +348,58 @@ public class SubmitFormCommand implements Serializable {
                 position = nextPos;
             }
         }
-        totalPages = totalQuestionPages + 1;
-        reviewPageIndex = totalQuestionPages + 2;
+        totalPages = totalQuestionPages + 2;
+        addMoreQuestionPageIndex = totalQuestionPages + 2;
+        reviewPageIndex = totalQuestionPages + 3;
 
     }
+
+
+public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
+        lazyInitializeSchedule();
+        int position = totalQuestionPages + 3;
+
+        for (String symptom : selectedSymptoms) {
+            List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
+            ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
+            if (proCtcTerm != null) {
+                addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+            } else {
+                LowLevelTerm lowLevelTerm = findMeddraTermBySymptom(symptom);
+                if (lowLevelTerm == null) {
+                    LowLevelTerm participantAddedLlt = new LowLevelTerm();
+                    participantAddedLlt.setMeddraTerm(symptom);
+                    participantAddedLlt.setParticipantAdded(true);
+                    LowLevelTerm term = genericRepository.save(participantAddedLlt);
+                    addMeddraQuestion(term, firstTime, newlyAddedQuestions);
+                } else {
+                    List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm());
+                    if (ctcTerms == null || ctcTerms.size() == 0) {
+                        addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                    } else {
+                        List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
+                        if (proCtcTerms.size() == 0) {
+                            addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                        } else {
+                            addProCtcQuestion(proCtcTerms.get(0), newlyAddedQuestions);
+                        }
+                    }
+                }
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+                addParticipantAddedQuestionToSymptomMap(spcsaq);
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+                int nextPos = addQuestionToDisplayMap(position, spcsaq.getProCtcOrMeddraQuestion());
+                position = nextPos;
+            }
+        }
+        totalPages = totalQuestionPages + 2;
+        reviewPageIndex = totalQuestionPages + 3;
+
+    }
+
+
 
     public boolean ctcTermAlreadyExistsInForm(List<CtcTerm> ctcTerms) {
         if (ctcTerms != null && ctcTerms.size() > 0) {
@@ -514,6 +564,14 @@ public class SubmitFormCommand implements Serializable {
 
     public void setTotalQuestionPages(int totalQuestionPages) {
         this.totalQuestionPages = totalQuestionPages;
+    }
+
+    public int getAddMoreQuestionPageIndex() {
+        return addMoreQuestionPageIndex;
+    }
+
+    public void setAddMoreQuestionPageIndex(int addMoreQuestionPageIndex) {
+        this.addMoreQuestionPageIndex = addMoreQuestionPageIndex;
     }
 
     public void lazyInitializeSchedule() {

@@ -1,4 +1,4 @@
-<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
+ <%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -13,15 +13,15 @@
     Object attribute = request.getAttribute("command");
     int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
     int numOfRows = 0;
-    if (numOfSymptoms > 0) {
+    if(numOfSymptoms > 0){
         if (numOfSymptoms % 3 == 0) {
             numOfRows = numOfSymptoms / 3;
         } else {
             numOfRows = (numOfSymptoms / 3) + 1;
         }
         request.setAttribute("numrows", numOfRows - 1);
-    } else {
-        request.setAttribute("numrows", numOfRows);
+    }else{
+         request.setAttribute("numrows", numOfRows);
     }
 
 %>
@@ -75,7 +75,7 @@
             oAC.maxResultsDisplayed = 100;
         }
 
-        var nextColumnIndex = ${fn:length(command.displaySymptoms)};
+        var nextColumnIndex = 0;
 
         function addNewSymptom(selectedChoice) {
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
@@ -206,84 +206,79 @@
 <body>
 <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
             autopad="true" message="false">
-    <form:form method="post" name="myForm">
-        <p>
-            <b><tags:message code="participant.form.selectsymptom"/></b>
-        </p>
+    <p>
+        <b><tags:message code="participant.form.typesymptom"/></b>
+    </p>
+
+    <div id="keyboardDiv"></div>
+    <br/>
+
+    <div class="yui-skin-sam">
+        <table cellspacing="10px;">
+            <tr>
+                <td>
+                    <div id="participantSymptomAutoComplete">
+                        <input id="participantSymptomInput" type="text">
+
+                        <div id="participantSymptomContainer"></div>
+                    </div>
+                </td>
+                <td>
+                    <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
+                                 icon="add"
+                                 size="small" color="blue" value="add" markupWithTag="a"/>
+                </td>
+                <td>
+                    <tags:button onclick="javascript:clearInput()"
+                                 icon="x"
+                                 size="small" color="blue" value="clear" markupWithTag="a"/>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="row">
+        <input id='usevirtualkeyboard' type="checkbox"
+               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual
+        keyboard
+    </div>
+          <form:form method="post" name="myForm">
         <table id="mytable">
             <tbody>
-            <c:set var="numrows" value="${numrows}"/>
-            <c:set var="displaySymptoms" value="${command.displaySymptoms}"/>
-            <c:forEach var="i" begin="0" end="${numrows}" varStatus="status">
-                <c:if test="${displaySymptoms[i*3+0] ne null}">
-                    <tr id="tr_"${i}>
-                        <c:forEach var="j" begin="0" end="2" varStatus="status">
-                            <td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">
-                                <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
-                                    <input type="checkbox" name="symptomsByParticipants"
-                                           value="${displaySymptoms[i + (numrows+1)*j]}"
-                                           onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"
-                                           id="${i + (numrows+1)*j}"/>
-                                </c:if>
-                            </td>
-                            <td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">
-                                <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
-                                    <div id="div_${i + (numrows+1)*j}"
-                                         class="label">${displaySymptoms[i + (numrows+1)*j]}</div>
-                                </c:if>
-                            </td>
-                        </c:forEach>
-                    </tr>
-                </c:if>
-            </c:forEach>
+            <tr>
+                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
+                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
+                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
+            </tr>
+            <%--<c:set var="numrows" value="${numrows}"/>--%>
+            <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
+            <%--<c:forEach var="i" begin="0" end="${numrows}" varStatus="status">--%>
+                <%--<c:if test="${displaySymptoms[i*3+0] ne null}">--%>
+                    <%--<tr id="tr_"${i}>--%>
+                        <%--<c:forEach var="j" begin="0" end="2" varStatus="status">--%>
+                            <%--<td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">--%>
+                                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
+                                    <%--<input type="checkbox" name="symptomsByParticipants"--%>
+                                           <%--value="${displaySymptoms[i + (numrows+1)*j]}"--%>
+                                           <%--onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"--%>
+                                           <%--id="${i + (numrows+1)*j}"/>--%>
+                                <%--</c:if>--%>
+                            <%--</td>--%>
+                            <%--<td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">--%>
+                                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
+                                    <%--<div id="div_${i + (numrows+1)*j}"--%>
+                                         <%--class="label">${displaySymptoms[i + (numrows+1)*j]}</div>--%>
+                                <%--</c:if>--%>
+                            <%--</td>--%>
+                        <%--</c:forEach>--%>
+                    <%--</tr>--%>
+                <%--</c:if>--%>
+            <%--</c:forEach>--%>
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
     </form:form>
-    <br/>
-
-    <p>
-        <b><tags:message code="participant.selectsymptom.footer"/></b>
-    </p>
-    <%--<p>--%>
-    <%--<b><tags:message code="participant.form.typesymptom"/></b>--%>
-    <%--</p>--%>
-    <%--<br/>--%>
-
-    <%--<div id="keyboardDiv"></div>--%>
-    <%--<br/>--%>
-
-    <%--<div class="yui-skin-sam">--%>
-    <%--<table cellspacing="10px;">--%>
-    <%--<tr>--%>
-    <%--<td>--%>
-    <%--<div id="participantSymptomAutoComplete">--%>
-    <%--<input id="participantSymptomInput" type="text">--%>
-    <%----%>
-    <%--<div id="participantSymptomContainer"></div>--%>
-    <%--</div>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"--%>
-    <%--icon="add"--%>
-    <%--size="small" color="blue" value="add" markupWithTag="a"/>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<tags:button onclick="javascript:clearInput()"--%>
-    <%--icon="x"--%>
-    <%--size="small" color="blue" value="clear" markupWithTag="a"/>--%>
-    <%--</td>--%>
-    <%--</tr>--%>
-    <%--</table>--%>
-    <%----%>
-    <%--</div>--%>
-
-    <%--<div class="row">--%>
-    <%--<input id='usevirtualkeyboard' type="checkbox"--%>
-    <%--onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual--%>
-    <%--keyboard--%>
-    <%--</div>--%>
-
 </chrome:box>
 
 <table width="100%">

@@ -910,6 +910,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfContr
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfComponentController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormRuleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormScheduleCycleController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddMoreQuestionByParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
@@ -1206,6 +1207,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/dueDateUpdated.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotPassword.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/forgotUsername.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/addMoreQuestionForParticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/addquestion.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/allConditions.jsp -text

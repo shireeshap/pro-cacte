@@ -256,6 +256,12 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
+    <bean name="/form/addMorequestion" id="addMoreQuestionByParticipantController"
+           class="gov.nih.nci.ctcae.web.form.AddMoreQuestionByParticipantController" parent="ctcaeSimpleFormController">
+         <property name="genericRepository" ref="genericRepository"/>
+         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+     </bean>
+
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">
         <property name="crfRepository" ref="crfRepository"/>
