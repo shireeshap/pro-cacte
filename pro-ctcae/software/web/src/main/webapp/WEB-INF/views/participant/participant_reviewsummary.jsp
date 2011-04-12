@@ -160,7 +160,7 @@
             <div class="value">${studyParticipantAssignment.arm.title}</div>
         </div>
     </c:if>
-    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf" varStatus="spacrfstatus">
+    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfsForArm}" var="spacrf" varStatus="spacrfstatus">
         <div class="row">
             <div class="label" style="width:15em"><spring:message code="form.tab.form"/>:</div>
             <div class="value">${spacrf.crf.title} (<tags:formatDate value="${spacrf.startDate}"/>)</div>

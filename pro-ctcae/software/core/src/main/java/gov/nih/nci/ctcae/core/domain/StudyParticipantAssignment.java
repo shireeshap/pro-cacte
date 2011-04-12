@@ -223,6 +223,23 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
     }
 
+    public List<StudyParticipantCrf> getStudyParticipantCrfsForArm() {
+        List<StudyParticipantCrf> spCrfs = new ArrayList();
+        for (StudyParticipantCrf spCrf : this.getStudyParticipantCrfs()) {
+            for (FormArmSchedule fas : spCrf.getCrf().getFormArmSchedules()) {
+                if (fas != null) {
+                    if (fas.getCrfCalendars().size() > 1 || fas.getCrfCycleDefinitions().size() > 0) {
+                        Arm arm = fas.getArm();
+                        if (this.getArm().equals(arm)) {
+                            spCrfs.add(spCrf);
+                        }
+                    }
+                }
+            }
+        }
+        return spCrfs;
+    }
+
     public Date getStudyStartDate() {
         return studyStartDate;
     }
@@ -474,37 +491,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
         for (StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
     }
 
-//    public String getReminderTimeZone() {
-//        return reminderTimeZone;
-//    }
-//
-//    public void setReminderTimeZone(String reminderTimeZone) {
-//        this.reminderTimeZone = reminderTimeZone;
-//    }
-//
-//    public String getReminderAmPm() {
-//        return reminderAmPm;
-//    }
-//
-//    public void setReminderAmPm(String reminderAmPm) {
-//        this.reminderAmPm = reminderAmPm;
-//    }
-//
-//    public Integer getReminderHour() {
-//        return reminderHour;
-//    }
-//
-//    public void setReminderHour(Integer reminderHour) {
-//        this.reminderHour = reminderHour;
-//    }
-//
-//    public Integer getReminderMinute() {
-//        return reminderMinute;
-//    }
-//
-//    public void setReminderMinute(Integer reminderMinute) {
-//        this.reminderMinute = reminderMinute;
-//    }
 
     @Transient
     public List<AppMode> getSelectedAppModes() {
