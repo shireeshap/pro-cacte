@@ -50,7 +50,7 @@
                 <img src="/proctcae/images/table/xls.gif" alt="xls"/>
             </a>
         </div>
-
+       
         <c:forEach items="${organizationTable.value}" var="participantTable">
             <chrome:division
                     title="Participant: ${participantTable.key.displayName}"/>
