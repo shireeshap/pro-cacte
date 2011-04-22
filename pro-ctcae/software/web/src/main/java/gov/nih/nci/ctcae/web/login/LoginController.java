@@ -32,6 +32,7 @@ public class LoginController extends AbstractController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+        String load = request.getParameter("load");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new CtcAeSystemException("Cannot find not-null Authentication object. Make sure the user is logged in");
@@ -114,9 +115,15 @@ public class LoginController extends AbstractController {
         mv.addObject("notifications", getNotifications(user));
 
         if (siteLevelRole) {
-            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff);
+            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff, load);
+            if (load!=null && load.equals("all")){
+                load="less";
+            } else {
+                load="all";
+            }
             mv.addObject("overdue", schedules.get(0));
             mv.addObject("upcoming", schedules.get(1));
+            mv.addObject("load", load);
         }
         return mv;
     }
@@ -125,8 +132,14 @@ public class LoginController extends AbstractController {
         return user.getUserNotifications();
     }
 
-    public List<List<StudyParticipantCrfSchedule>> getOverdueAndUpcomingSchedules(ClinicalStaff clinicalStaff) {
+    public List<List<StudyParticipantCrfSchedule>> getOverdueAndUpcomingSchedules(ClinicalStaff clinicalStaff, String load) {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
+        int pastCount = 10;
+        int upcomingCount = 10;
+        if (load != null && load.equals("all")) {
+            pastCount = 100;
+            upcomingCount = 100;
+        }
         query.filterByClinicalStaffId(clinicalStaff.getId());
         List<StudyOrganizationClinicalStaff> socs = studyOrganizationClinicalStaffRepository.find(query);
         ArrayList<List<StudyParticipantCrfSchedule>> out = new ArrayList<List<StudyParticipantCrfSchedule>>();
@@ -143,19 +156,25 @@ public class LoginController extends AbstractController {
                 for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
                     for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
                         if (spcs.getStatus().equals(CrfStatus.PASTDUE)) {
-                            overdue.add(spcs);
+                            if (pastCount > 0) {
+                                overdue.add(spcs);
+                                pastCount--;
+                            }
                         }
                         if (spcs.getStartDate().after(yesterday) && spcs.getStartDate().before(week)) {
-                            upcoming.add(spcs);
+                            if (upcomingCount > 0) {
+                                upcoming.add(spcs);
+                                upcomingCount--;
+                            }
                         }
                     }
                 }
             }
         }
         List sortedUpcoming = new ArrayList<StudyParticipantCrfSchedule>(upcoming);
-        Collections.sort(sortedUpcoming,new ParticipantDisplayNameComparator());
-        List sortedOverdue= new ArrayList<StudyParticipantCrfSchedule>(overdue);
-        Collections.sort(sortedOverdue,new ParticipantDisplayNameComparator());
+        Collections.sort(sortedUpcoming, new ParticipantDisplayNameComparator());
+        List sortedOverdue = new ArrayList<StudyParticipantCrfSchedule>(overdue);
+        Collections.sort(sortedOverdue, new ParticipantDisplayNameComparator());
         out.add(sortedOverdue);
         out.add(sortedUpcoming);
         return out;

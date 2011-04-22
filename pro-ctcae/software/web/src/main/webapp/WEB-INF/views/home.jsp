@@ -184,6 +184,11 @@
             jQuery(this).addClass('quickLinkBGon');
         });
 
+        function moreRows() {
+        <c:set var="showMore" value="false"/>
+            refreshPage();
+        }
+
     </script>
 </head>
 <body>
@@ -279,18 +284,18 @@
     <div style="padding-left:2px; padding-right:2px;">
         <table width="100%" cellpadding="10" cellspacing="0" border="0">
             <tr>
-                 <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-                <td id="a1" class="quickLinkBGon"
-                    style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                    <div class="quickLinkRow">
-                        <div class="quickLinkPicture"><img
-                                src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
-                                align="middle"
-                                class="quickLink"></div>
-                        <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
-                                                       class="quickLink">Create New Staff Profile</a></div>
-                    </div>
-                </td>
+                <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+                    <td id="a1" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
+                                                           class="quickLink">Create New Staff Profile</a></div>
+                        </div>
+                    </td>
                 </proctcae:urlAuthorize>
             </tr>
 
@@ -543,48 +548,67 @@
                                         Due date
                                     </td>
                                 </tr>
+
                                 <c:forEach items="${overdue}" var="schedule">
-                                    <tr>
-                                        <td style="text-align:left" width="15%">
-                                            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                                                <a href="participant/schedulecrf?sid=${schedule.id}"
-                                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                                            </proctcae:urlAuthorize>
-                                        </td>
-                                        <td style="text-align:left" width="45%">
-                                            <c:choose>
-                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
-                                                            ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td style="text-align:left" width="20%">
-                                            <c:choose>
-                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                                    <div title="${schedule.studyParticipantCrf.crf.title}">
-                                                            ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${schedule.studyParticipantCrf.crf.title}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td style="text-align:left" width="10%">
-                                            <tags:formatDate value="${schedule.startDate}"/>
-                                        </td>
-                                        <td style="text-align:left" width="10%">
-                                            <tags:formatDate value="${schedule.dueDate}"/>
-                                        </td>
-                                        <td style="text-align:left" width="10%">
-                                        </td>
-                                    </tr>
+
+                                    <c:set var="count" value="${count + 1}"/>
+                                    <%--<c:if test="${showMore ? count<11 : count<100}">--%>
+                                    <c:if test="${count <20}">
+                                        <tr>
+                                            <td style="text-align:left" width="15%">
+                                                <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                                    <a href="participant/schedulecrf?sid=${schedule.id}"
+                                                       class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                                </proctcae:urlAuthorize>
+                                            </td>
+                                            <td style="text-align:left" width="45%">
+                                                <c:choose>
+                                                    <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                                        <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
+                                                                ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td style="text-align:left" width="20%">
+                                                <c:choose>
+                                                    <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                                        <div title="${schedule.studyParticipantCrf.crf.title}">
+                                                                ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${schedule.studyParticipantCrf.crf.title}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td style="text-align:left" width="10%">
+                                                <tags:formatDate value="${schedule.startDate}"/>
+                                            </td>
+                                            <td style="text-align:left" width="10%">
+                                                <tags:formatDate value="${schedule.dueDate}"/>
+                                            </td>
+                                            <td style="text-align:left" width="10%">
+                                            </td>
+                                        </tr>
+
+                                    </c:if>
                                 </c:forEach>
+                                <tr align="right">                                   
+                                    <c:if test="${load eq 'all'}">
+                                        <td colspan="5">
+                                            <A HREF="./home?load=all">show more</A>
+                                        </td>
+                                    </c:if>
+                                    <c:if test="${load eq 'less'}">
+                                        <td colspan="5">
+                                            <A HREF="./home?load=less">show less</A>
+                                        </td>
+                                    </c:if>
+                                </tr>
                             </table>
                             <br/>
                         </div>
@@ -664,6 +688,18 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
+                                <tr align="right">
+                                    <c:if test="${load eq 'all'}">
+                                        <td colspan="5">
+                                            <A HREF="./home?load=all">show more</A>
+                                        </td>
+                                    </c:if>
+                                    <c:if test="${load eq 'less'}">
+                                        <td colspan="5">
+                                            <A HREF="./home?load=less">show less</A>
+                                        </td>
+                                    </c:if>
+                                </tr>
                             </table>
                             <br/>
                         </div>
