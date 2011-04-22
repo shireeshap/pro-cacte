@@ -85,6 +85,11 @@
                 $('filterByValueHelp').show();
             }
         }
+
+        function showExcelLink() {
+            var sid = $('study').value;
+            window.location = '/proctcae/pages/reports/overallStudyExcel?id=' + sid;
+        }
     </script>
 </head>
 <body>
@@ -108,13 +113,15 @@
             </c:when>
             <c:otherwise>
                 <div id="studyCompleter" style="margin-left:11px;">
-               <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
-                                              noForm="true"/>    
+                    <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
+                                              noForm="true"/>
 
-                <script type="text/javascript">
-                    createStudyAutoCompleter();
-                </script>
-                     </div>
+                    <script type="text/javascript">
+                        createStudyAutoCompleter();
+                    </script>
+                </div>
+
+                <%--</div>--%>
             </c:otherwise>
         </c:choose>
         <c:if test="${not onlyStudy}">
@@ -126,6 +133,7 @@
                                 <div class="label"><tags:message code="reports.label.form"/></div>
                                 <div class="value">${crfs[0].title}</div>
                                 <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
+
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -140,6 +148,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
+
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -231,6 +240,11 @@
                 <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="big"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
+            </div>
+            <div id="studydata" align="right" style="display:none;">
+                <tags:button value="Overall study data export" onclick="javascript:showExcelLink();" color="blue" size="small"/>
+                <%--<a href="#" onclick="javascript:showExcelLink();">Overall study data</a>--%>
+                    <%--<a href="/proctcae/pages/reports/overallStudyExcel" target="_blank">Overall study data</a>--%>
             </div>
         </div>
     </div>

@@ -41,6 +41,7 @@ function acCreateStudyMonitor(mode) {
 function displayForms(crfid) {
     $('divSymptomsRow').hide();
     $('divFormRow').hide();
+    $('studydata').show();
     selectedCrf = crfid;
     var id = $('study').value
     crf.getReducedCrfs(id, updateFormDropDown)
@@ -154,7 +155,7 @@ function showResults(transport) {
     //            items[i].remove();
     //        }
     //    }
-        $('reportOuterDiv').show();
+    $('reportOuterDiv').show();
     //    new Insertion.After('reportInnerDiv', transport.responseText);
     var div = $('reportInnerDiv');
     div.update(transport.responseText);
