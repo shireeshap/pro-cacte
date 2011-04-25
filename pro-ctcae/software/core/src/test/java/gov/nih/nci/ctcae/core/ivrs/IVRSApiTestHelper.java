@@ -17,7 +17,6 @@ import java.sql.Types;
  */
 public class IVRSApiTestHelper {
     private SimpleJdbcCall ivrsLoginFunction;
-
     DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -90,40 +89,42 @@ public class IVRSApiTestHelper {
         return result;
     }
 
-    public Integer ivrsGetFirstQuestion(int userId, int formId) {
+    public String ivrsGetFirstQuestion(int userId, int formId) {
         String procedureName = "ivrs_getfirstquestion";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
         ivrsLoginFunction.setAccessCallParameterMetaData(false);
         ivrsLoginFunction.declareParameters(
-                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlOutParameter("RETURN", Types.VARCHAR),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId);
-        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        String result = ivrsLoginFunction.executeFunction(String.class, in);
         System.out.println(result);
         return result;
     }
 
-    public Integer ivrsGetAnswerQuestion(int userId, int formId, int questionId, int answerNum) {
+    public String ivrsGetAnswerQuestion(int userId, int formId, int questionId, int answerNum,int questioncategory) {
         String procedureName = "ivrs_answerquestion";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
         ivrsLoginFunction.setAccessCallParameterMetaData(false);
         ivrsLoginFunction.declareParameters(
-                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlOutParameter("RETURN", Types.VARCHAR),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER),
                 new SqlParameter("questionid", Types.INTEGER),
-                new SqlParameter("answernum", Types.INTEGER));
+                new SqlParameter("answernum", Types.INTEGER),
+                new SqlParameter("questioncategory",Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId)
                 .addValue("questionid", questionId)
-                .addValue("answernum", answerNum);
-        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+                .addValue("answernum", answerNum)
+                .addValue("questioncategory",questioncategory);
+        String result = ivrsLoginFunction.executeFunction(String.class, in);
         System.out.println(result);
         return result;
     }
@@ -185,26 +186,28 @@ public class IVRSApiTestHelper {
         return result;
     }
 
-    public Integer ivrsGetPreviousQuestion(int userId, int formId, int questionId) {
+    public String ivrsGetPreviousQuestion(int userId, int formId, int questionId,int questionCategory) {
         String procedureName = "ivrs_getpreviousquestion";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
         ivrsLoginFunction.setAccessCallParameterMetaData(false);
         ivrsLoginFunction.declareParameters(
-                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlOutParameter("RETURN", Types.VARCHAR),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER),
-                new SqlParameter("questionid", Types.INTEGER));
+                new SqlParameter("questionid", Types.INTEGER),
+                new SqlParameter("questioncategory", Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId)
-                .addValue("questionid", questionId);
-        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+                .addValue("questionid", questionId)
+                .addValue("questioncategory",questionCategory);
+        String result = ivrsLoginFunction.executeFunction(String.class, in);
         System.out.println(result);
         return result;
     }
 
-     public Integer ivrsGetQuestionAnswer(int userId, int formId, int questionId) {
+     public Integer ivrsGetQuestionAnswer(int userId, int formId, int questionId,int questionCategory) {
         String procedureName = "ivrs_getquestionanswer";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
@@ -213,11 +216,13 @@ public class IVRSApiTestHelper {
                 new SqlOutParameter("RETURN", Types.INTEGER),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER),
-                new SqlParameter("questionid", Types.INTEGER));
+                new SqlParameter("questionid", Types.INTEGER),
+                new SqlParameter("questioncategory",Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId)
-                .addValue("questionid", questionId);
+                .addValue("questionid", questionId)
+                .addValue("questioncategory",questionCategory);
         Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
         System.out.println(result);
         return result;
@@ -273,5 +278,127 @@ public class IVRSApiTestHelper {
         System.out.println(result);
         return result;
     }
+    public Integer ivrsDeleteAddedQuestions(int userId, int formId) {
+        String procedureName = "ivrs_deleteaddedquestions";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+    public Integer ivrsAnswerCoreSymptom(int userId, int formId,int symptomID, int answer,int coreCategory){
+        String procedureName = "ivrs_answercoresymptom";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("symptomID", Types.INTEGER),
+                new SqlParameter("answer", Types.INTEGER),
+                new SqlParameter("coreCategory", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("symptomID",symptomID)
+                .addValue("answer",answer)
+                .addValue("coreCategory",coreCategory);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+    public Integer ivrsGetSymptomQuestionAnswer(int userId, int formId,int symptomID, int answer,int coreCategory){
+        String procedureName = "ivrs_get_sym_ques_ans";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("symptomID", Types.INTEGER),
+                new SqlParameter("answer", Types.INTEGER),
+                new SqlParameter("coreCategory", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("symptomID",symptomID)
+                .addValue("answer",answer)
+                .addValue("coreCategory",coreCategory);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+    public Integer ivrsGetCoreSymptomFileName(int userId, int formId,int symptomID){
+        String procedureName = "ivrs_getcoresymptomfilename";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.VARCHAR),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("symptomID", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("symptomID",symptomID);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+    public Integer ivrsGetCoreSymptomID(int userId, int formId){
+        String procedureName = "ivrs_getcoresymptomid";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+    public Integer ivrsGetPreviousCoreSymptomID(int userId, int formId,int symptomID){
+        String procedureName = "ivrs_getprevious_coresymid";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.VARCHAR),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("symptomID",Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("symptomID",symptomID);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
+
+    
+
+    
+
+    
 
 }
