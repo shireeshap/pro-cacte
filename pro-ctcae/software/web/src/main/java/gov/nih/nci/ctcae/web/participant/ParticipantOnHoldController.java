@@ -79,6 +79,7 @@ public class ParticipantOnHoldController extends CtcAeSimpleFormController {
             ParticipantCommand participantCommand = (ParticipantCommand) command;
             StudyParticipantAssignment studyParticipantAssignment = participantCommand.getSelectedStudyParticipantAssignment();
             studyParticipantAssignment.putOnHold(participantCommand.getOnHoldTreatmentDate());
+            studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);
             participantRepository.saveOrUpdate(participantCommand.getParticipant());
             ParticipantControllerUtils.clearParticipantCommand(request);
             RedirectView redirectView = new RedirectView("edit?_target2=2&_page=1&id=" + participantCommand.getParticipant().getId());
@@ -91,6 +92,7 @@ public class ParticipantOnHoldController extends CtcAeSimpleFormController {
             StudyParticipantAssignment studyParticipantAssignment = spCommand.getStudyParticipantAssignment();
             studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantAssignment.getId()); //BJ-avoid reloading
             studyParticipantAssignment.putOnHold(spCommand.getOnHoldTreatmentDate());
+            studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);            
             studyParticipantAssignmentRepository.save(studyParticipantAssignment);
             RedirectView redirectView = new RedirectView("schedulecrf?pId=" + studyParticipantAssignment.getParticipant().getId());
             mv = new ModelAndView(redirectView);

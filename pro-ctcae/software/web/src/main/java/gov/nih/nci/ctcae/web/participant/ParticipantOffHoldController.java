@@ -176,6 +176,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantId);
         studyParticipantAssignment.setOffHoldTreatmentDate(offHoldDate);
+        studyParticipantAssignment.setStatus(RoleStatus.ACTIVE);
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
 
 //            if (recreateSchedules.equals("cycle")) {

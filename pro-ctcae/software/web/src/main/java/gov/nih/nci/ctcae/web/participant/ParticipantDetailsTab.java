@@ -127,7 +127,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     } catch (Exception e) {
                         studyParticipantAssignment.setStudyStartDate(null);
                     }
-
                 }
                 String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(userNumber)) {

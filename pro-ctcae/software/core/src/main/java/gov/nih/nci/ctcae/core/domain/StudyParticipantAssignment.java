@@ -119,6 +119,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Column(name = "clinic_paper_language", nullable = true)
     private String clinicPaperLanguage;
 
+    @Column(name = "sp_status", nullable = true)
+    @Enumerated(EnumType.STRING)
+    private RoleStatus status = RoleStatus.ACTIVE;
 
     @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @OrderBy("id desc")
@@ -248,6 +251,14 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.studyStartDate = studyStartDate;
     }
 
+
+    public RoleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RoleStatus status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {

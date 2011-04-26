@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
@@ -38,7 +39,9 @@ public class ParticipantOffStudyControllerTest extends AbstractWebTestCase {
         request.setParameter("id", spAssignment.getId().toString());
         Date date = new Date();
         spAssignment.setOffTreatmentDate(date);
+        spAssignment.setStatus(RoleStatus.OFFSTUDY);
         controller.handleRequest(request, response);
         assertEquals("OFFSTUDY", spAssignment.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(2).getStatus().getDisplayName().toUpperCase());
+        assertEquals("OFFSTUDY", spAssignment.getStatus().getDisplayName().toUpperCase());
     }
 }

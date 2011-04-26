@@ -14,8 +14,9 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 public enum RoleStatus implements CodedEnum<String> {
 
     ACTIVE("Active"),
-    IN_ACTIVE("Inactive");
-
+    IN_ACTIVE("Inactive"),
+    OFFSTUDY("OffStudy"),
+    ONHOLD("On-hold");
 
     /**
      * The display text.

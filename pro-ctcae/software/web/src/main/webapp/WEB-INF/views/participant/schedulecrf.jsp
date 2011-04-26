@@ -213,43 +213,44 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
     var holdDate = date;
     if (sid == null) {
         html = '<div id="search-engines"><ul>';
-
-        if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-            html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
-            html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-        } else {
-            html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+        if (${command.studyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+            } else {
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+            }
         }
-
         html += '</ul></div>';
     } else {
         //TODO:Suneel A needs to clean up commented line after issue resolved
         //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
         html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
-        if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-            if (${crfsSize>1}) {
-                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
-            }
-            if (showDeleteOption) {
-                html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
-                html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
-            }
-            html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-            var split = sid.split('_');
-            for (var a = 0; a < split.length; a++) {
-                var scheduleid = split[a];
-                if (scheduleid != '') {
-                    var formName = forms[index][scheduleid];
-                    html += '<li><hr></li>';
-                    html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
-                    html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+        if (${command.studyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                if (${crfsSize>1}) {
+                    html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                 }
-            }
-        } else {
-            var newHoldDate = -1;
+                if (showDeleteOption) {
+                    html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                    html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+                }
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                var split = sid.split('_');
+                for (var a = 0; a < split.length; a++) {
+                    var scheduleid = split[a];
+                    if (scheduleid != '') {
+                        var formName = forms[index][scheduleid];
+                        html += '<li><hr></li>';
+                        html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+                        html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                    }
+                }
+            } else {
+                var newHoldDate = -1;
             <c:if test="${command.studyParticipantAssignment.onHoldTreatmentDate ne null}">
-               newHoldDate = ${command.studyParticipantAssignment.onHoldTreatmentDate.date};
+                newHoldDate = ${command.studyParticipantAssignment.onHoldTreatmentDate.date};
             </c:if>
                 if (newHoldDate > holdDate) {
                     if (${crfsSize>1}) {
@@ -271,8 +272,8 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     }
                 }
                 html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+            }
         }
-
         html += '</ul></div>';
     }
     jQuery('#scheduleActions' + menuindex).menu({
