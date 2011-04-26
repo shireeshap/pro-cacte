@@ -303,15 +303,15 @@ public class IVRSApiTestHelper {
                 new SqlOutParameter("RETURN", Types.INTEGER),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER),
-                new SqlParameter("symptomID", Types.INTEGER),
+                new SqlParameter("symptomid", Types.INTEGER),
                 new SqlParameter("answer", Types.INTEGER),
-                new SqlParameter("coreCategory", Types.INTEGER));
+                new SqlParameter("corecategory", Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId)
-                .addValue("symptomID",symptomID)
+                .addValue("symptomid",symptomID)
                 .addValue("answer",answer)
-                .addValue("coreCategory",coreCategory);
+                .addValue("corecategory",coreCategory);
         Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
         System.out.println(result);
         return result;
@@ -376,7 +376,7 @@ public class IVRSApiTestHelper {
         return result;
     }
 
-    public Integer ivrsGetPreviousCoreSymptomID(int userId, int formId,int symptomID){
+    public String ivrsGetPreviousCoreSymptomID(int userId, int formId,int symptomID){
         String procedureName = "ivrs_getprevious_coresymid";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
@@ -385,12 +385,12 @@ public class IVRSApiTestHelper {
                 new SqlOutParameter("RETURN", Types.VARCHAR),
                 new SqlParameter("userid", Types.INTEGER),
                 new SqlParameter("formid", Types.INTEGER),
-                new SqlParameter("symptomID",Types.INTEGER));
+                new SqlParameter("symptomid",Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("userid", userId)
                 .addValue("formid", formId)
-                .addValue("symptomID",symptomID);
-        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+                .addValue("symptomid",symptomID);
+        String result = ivrsLoginFunction.executeFunction(String.class, in);
         System.out.println(result);
         return result;
     }

@@ -20,8 +20,10 @@ public class IVRSApiTest extends TestDataManager{
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
+        jdbcTemplate.execute("delete from ivrs_sch_core_sym_count"); 
         deleteIVRSTestData();
-         saveIVRSParticipant();
+        saveIVRSParticipant();
+
     }
     private void saveIVRSParticipant() {
         //create IVRS test Form and Study, ready the schedule form
@@ -46,7 +48,7 @@ public class IVRSApiTest extends TestDataManager{
         uq.filterByUserName("ivrs.participant");
         genericRepository.delete(genericRepository.findSingle(uq));
         CrfTestHelper.deleteIVRSTestForm();
-        StudyTestHelper.deleteIVRSStudy();         
+        StudyTestHelper.deleteIVRSStudy();
         commitAndStartNewTransaction();
     }
     public void testIVRSApi(){
@@ -88,10 +90,13 @@ public class IVRSApiTest extends TestDataManager{
 
         //check for the recall period
         assertEquals(1,helper.ivrsGetFormRecallPeriod(participant.getUser().getId(),schedFormId).intValue());
+        // get the first question for the selected form
         String fistQuestionIdCategory = helper.ivrsGetFirstQuestion(participant.getUser().getId(),schedFormId);
+        // split the returned text
         String splitText[]=fistQuestionIdCategory.split("_");
         Integer fistQuestionId = Integer.parseInt(splitText[0]);
         Integer questionCategory = Integer.parseInt(splitText[1]);
+
         assertEquals(fistQuestionId,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getId());
 
 
@@ -160,20 +165,45 @@ public class IVRSApiTest extends TestDataManager{
        assertEquals(nextQuestionId.intValue(),0);
 
        assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,0,questionCategory));
+       // get the first un consumed core symptom
+       Integer firstCoreScreeningID = helper.ivrsGetCoreSymptomID(participant.getUser().getId(),schedFormId);
+       assertEquals(4,firstCoreScreeningID.intValue());
+       // on the first core screening question it should go to previous regular question
+       assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousCoreSymptomID(participant.getUser().getId(),schedFormId,4));
 
-       //committed the total session 
+       assertEquals(5,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,4,2,0).intValue());
+       assertEquals(13,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,5,1,0).intValue());
+        // added question from core screening question
+       String firstAddedQuesCategory=helper.ivrsGetFirstQuestion(participant.getUser().getId(),schedFormId);
+       splitText=firstAddedQuesCategory.split("_");
+       Integer addedQuestionId=Integer.parseInt(splitText[0]);
+       questionCategory =Integer.parseInt(splitText[1]);
+       assertEquals(addedQuestionId,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getId());
+       String firstAddedQuesText = helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,addedQuestionId);
+       assertEquals(firstAddedQuesText,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getQuestionText());
+       String firstAddedQuesType = helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,addedQuestionId);
+       assertEquals(firstAddedQuesType,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getProCtcQuestionType().getCode().toUpperCase());
+       String nextAddedQuestion =helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,addedQuestionId,1,questionCategory);
+       Integer nextAddedQuestionId=0;
+       if(!nextAddedQuestion.equals("0")){
+            splitText=fourthQuestionIdCategory.split("_");
+            nextAddedQuestionId= Integer.parseInt(splitText[0]);
+            questionCategory = Integer.parseInt(splitText[1]);
+       }
+       assertEquals(0,nextAddedQuestionId.intValue()); 
+        //committed the total session
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
        assertEquals(result.intValue(),1);
-        commitAndStartNewTransaction();
-        StudyParticipantCrfSchedule finalSchedule = studyParticipantCrfScheduleRepository.findById(currentSchedule.getId());
-        assertEquals(CrfStatus.COMPLETED,finalSchedule.getStatus());
-        assertEquals(AppMode.IVRS,finalSchedule.getFormSubmissionMode());
-        assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification());
-        assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getId());
-        assertNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCompletionDate());
-        assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCreationDate());
-        assertEquals(CrfStatus.SCHEDULED,finalSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
-        assertEquals(false,finalSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
+       commitAndStartNewTransaction();
+       StudyParticipantCrfSchedule finalSchedule = studyParticipantCrfScheduleRepository.findById(currentSchedule.getId());
+       assertEquals(CrfStatus.COMPLETED,finalSchedule.getStatus());
+       assertEquals(AppMode.IVRS,finalSchedule.getFormSubmissionMode());
+       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification());
+       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getId());
+       assertNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCompletionDate());
+       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCreationDate());
+       assertEquals(CrfStatus.SCHEDULED,finalSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
+       assertEquals(false,finalSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
 
         isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(0,isUserNew.intValue());
