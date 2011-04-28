@@ -66,7 +66,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                 String symptomId = proCtcQuestion.getProCtcTerm().getId().toString();
-                String symptom = proCtcQuestion.getProCtcTerm().getTerm();
+                String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 participantAddedQuestion = false;
                 if (value != null){

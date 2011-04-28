@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -108,6 +110,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @OneToOne(mappedBy = "studyParticipantCrfSchedule")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
+    
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<IvrsSchedule> ivrsSchedules = new ArrayList<IvrsSchedule>();
+
 
     /**
      * Instantiates a new study participant crf schedule.
@@ -173,23 +180,25 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public Map getSymptomItems() {
         Map<String, List<List>> symptomMap = new LinkedHashMap<String, List<List>>();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
-            String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
-            String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText();
-            String answer = studyParticipantCrfItem.getProCtcValidValue() == null ? "" : studyParticipantCrfItem.getProCtcValidValue().getValue();
+            String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+            String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH);
+            String answer = studyParticipantCrfItem.getProCtcValidValue() == null ? "" : studyParticipantCrfItem.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
             Question q = studyParticipantCrfScheduleAddedQuestion.getQuestion();
             String symptom = "";
-            String question = q.getQuestionText();
+            String question = "";
             String answer = "";
             if (q instanceof ProCtcQuestion) {
-                symptom = ((ProCtcQuestion) q).getProCtcTerm().getTerm();
-                answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue();
+            	question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
+                symptom = ((ProCtcQuestion) q).getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+                answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             if (q instanceof MeddraQuestion) {
+            	question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
                 symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName();
-                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
+                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
@@ -424,7 +433,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                     String recallPeriodFirstChar = recallPeriod.substring(0, 1).toUpperCase();
                     String recallPeriodEnd = recallPeriod.substring(1);
                     recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
-                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?");
+                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?", SupportedLanguageEnum.ENGLISH);
                 }
             }
         }
@@ -452,7 +461,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         HashSet symptoms = new HashSet();
         for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
             if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
-                symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish());
             }
             if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
                 symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm());
@@ -565,4 +574,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             setStatus(CrfStatus.ONHOLD);
         }
     }
+
+	public List<IvrsSchedule> getIvrsSchedules() {
+		return ivrsSchedules;
+	}
+
+	public void setIvrsSchedules(List<IvrsSchedule> ivrsSchedules) {
+		this.ivrsSchedules = ivrsSchedules;
+	}
 }

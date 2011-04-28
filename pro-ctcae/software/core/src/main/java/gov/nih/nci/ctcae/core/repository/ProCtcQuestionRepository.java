@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
@@ -23,7 +24,7 @@ public class ProCtcQuestionRepository implements Repository<ProCtcQuestion, ProC
         ProCtcQuestion proCtcQuestion = genericRepository.findById(ProCtcQuestion.class, questionId);
         if (proCtcQuestion != null) {
             for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                validValue.getValue();
+                validValue.getValue(SupportedLanguageEnum.ENGLISH);
             }
         }
         return proCtcQuestion;

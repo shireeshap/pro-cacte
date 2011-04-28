@@ -21,9 +21,11 @@ public class ProCtcTermTest extends TestCase {
     public void testGetterAndSetter() {
         proCtcTerm = new ProCtcTerm();
         proCtcTerm.setProCtc(proCtc);
-        proCtcTerm.setTerm("term");
+        ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(proCtcTerm);
+        proCtcTerm.setProCtcTermVocab(proCtcTermVocab);
+        proCtcTerm.getProCtcTermVocab().setTermEnglish("term");
         assertEquals(proCtc, proCtcTerm.getProCtc());
-        assertEquals("term", proCtcTerm.getTerm());
+        assertEquals("term", proCtcTerm.getProCtcTermVocab().getTermEnglish());
 
     }
 
@@ -55,12 +57,16 @@ public class ProCtcTermTest extends TestCase {
         assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
         assertEquals(anotherProCtcTerm, proCtcTerm);
 
-        proCtcTerm.setTerm("term");
+        ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(proCtcTerm);
+        proCtcTerm.setProCtcTermVocab(proCtcTermVocab);
+        proCtcTerm.getProCtcTermVocab().setTermEnglish("term");
         assertFalse(proCtcTerm.equals(anotherProCtcTerm));
-        anotherProCtcTerm.setTerm("term");
+        
+        ProCtcTermVocab proCtcTermVocab2 = new ProCtcTermVocab();
+        anotherProCtcTerm.setProCtcTermVocab(proCtcTermVocab2);
+        anotherProCtcTerm.getProCtcTermVocab().setTermEnglish("term");
         assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
         assertEquals(anotherProCtcTerm, proCtcTerm);
-
 
     }
 

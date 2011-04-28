@@ -28,6 +28,9 @@ public class CallAction implements Serializable{
         return action;
     }
 
+    /** Change this to getActionId?
+     * @return the actionId for the OrignateAction
+     */
     public String getId(){
         return getOriginateAction().getActionId();
     }

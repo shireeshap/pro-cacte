@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
 import com.csvreader.CsvReader;
+
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
@@ -83,7 +85,7 @@ public class ProCtcTermsImporterV3 {
             }
 
             ProCtcTerm proCtcTerm = new ProCtcTerm();
-            proCtcTerm.setTerm(hmKey);
+            proCtcTerm.getProCtcTermVocab().setTermEnglish(hmKey);
             proCtc.addProCtcTerm(proCtcTerm);
             proCtcTerm.setCtcTerm(ctcTerm.get(0));
 
@@ -91,7 +93,7 @@ public class ProCtcTermsImporterV3 {
                 ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
                 String temp = hmValue.getQuestionText();
                 temp = StringUtils.replace(temp, "$", hmValue.getProctcTerm());
-                proCtcQuestion.setQuestionText(temp);
+                proCtcQuestion.setQuestionText(temp, SupportedLanguageEnum.ENGLISH);
                 proCtcQuestion.setDisplayOrder(new Integer(hmValue.getDisplayOrder()));
                 proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.getByDisplayName(hmValue.getQuestionType()));
                 proCtcTerm.addProCtcQuestion(proCtcQuestion);
@@ -101,9 +103,9 @@ public class ProCtcTermsImporterV3 {
                 int j = 0;
                 while (st1.hasMoreTokens()) {
                     ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-                    proCtcValidValue.setValue(st1.nextToken());
+                    proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
                     if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                        if (proCtcValidValue.getValue().equals("Yes")) {
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).equals("Yes")) {
                             proCtcValidValue.setDisplayOrder(1);
                         } else {
                             proCtcValidValue.setDisplayOrder(0);

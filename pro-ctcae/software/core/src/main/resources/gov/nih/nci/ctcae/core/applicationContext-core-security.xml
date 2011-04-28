@@ -91,6 +91,7 @@
         <property name="ignoredClasses">
             <list>
                 <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
+                <value>gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler</value>
             </list>
         </property>
     </bean>

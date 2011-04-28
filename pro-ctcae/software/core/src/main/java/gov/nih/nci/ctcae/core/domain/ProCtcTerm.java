@@ -33,9 +33,15 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * The term.
-     */
+    
     @Column(name = "term", nullable = false)
     private String term;
+     */
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proCtcTerm")
+    @JoinColumn(name="pro_ctc_terms_id")
+    private ProCtcTermVocab proCtcTermVocab;
+    
 
     @Column(name = "gender", nullable = true)
     private String gender;
@@ -89,25 +95,6 @@ public class ProCtcTerm extends BasePersistable {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    /**
-     * Gets the term.
-     *
-     * @return the term
-     */
-    public String getTerm() {
-        return term;
-    }
-
-    /**
-     * Sets the term.
-     *
-     * @param term the new term
-     */
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
 
     /**
      * Gets the pro ctc questions.
@@ -164,7 +151,7 @@ public class ProCtcTerm extends BasePersistable {
 
     @Override
     public String toString() {
-        return term;
+        return getProCtcTermVocab().getTermEnglish();
     }
 
     /**
@@ -197,7 +184,7 @@ public class ProCtcTerm extends BasePersistable {
 
         if (ctcTerm != null ? !ctcTerm.equals(that.ctcTerm) : that.ctcTerm != null) return false;
         if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
-        if (term != null ? !term.equals(that.term) : that.term != null) return false;
+        if (proCtcTermVocab != null ? !proCtcTermVocab.equals(that.proCtcTermVocab) : that.proCtcTermVocab != null) return false;
 
         return true;
     }
@@ -208,7 +195,8 @@ public class ProCtcTerm extends BasePersistable {
 
     public int hashCode() {
         int result;
-        result = (term != null ? term.hashCode() : 0);
+        result = (getProCtcTermVocab() != null ? getProCtcTermVocab().getTermEnglish().hashCode() : 0);
+        //result = 31 * result + (proCtcTermVocab != null ? proCtcTermVocab.hashCode() : 0);
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
         return result;
@@ -221,4 +209,14 @@ public class ProCtcTerm extends BasePersistable {
     public void setCore(Boolean core) {
         this.core = core;
     }
+
+
+	public ProCtcTermVocab getProCtcTermVocab() {
+		return proCtcTermVocab;
+	}
+
+
+	public void setProCtcTermVocab(ProCtcTermVocab proCtcTermVocab) {
+		this.proCtcTermVocab = proCtcTermVocab;
+	}
 }

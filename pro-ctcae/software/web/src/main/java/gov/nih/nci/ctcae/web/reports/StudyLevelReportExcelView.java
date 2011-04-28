@@ -266,7 +266,7 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
                     for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
                         cell = rowSymptomQuestion.createCell(symptomCellNum++);
                         cell.setCellStyle(greyStyle);
-                        cell.setCellValue(new HSSFRichTextString(proCtcTerm.getTerm() + "_" + proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                        cell.setCellValue(new HSSFRichTextString(proCtcTerm.getProCtcTermVocab().getTermEnglish() + "_" + proCtcQuestion.getProCtcQuestionType().getDisplayName()));
                     }
                 }
                 break;

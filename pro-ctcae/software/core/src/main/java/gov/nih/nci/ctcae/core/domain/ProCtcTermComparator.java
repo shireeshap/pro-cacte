@@ -15,7 +15,7 @@ public class ProCtcTermComparator implements Comparator<ProCtcTerm> {
     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
     */
     public int compare(ProCtcTerm object, ProCtcTerm object1) {
-        return object.getTerm().toLowerCase().compareTo(object1.getTerm().toLowerCase());
+        return object.getProCtcTermVocab().getTermEnglish().toLowerCase().compareTo(object1.getProCtcTermVocab().getTermEnglish().toLowerCase());
 
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,10 @@ public class MeddraQuestion extends Question {
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "meddraQuestion")
+    @JoinColumn(name="meddra_questions_id")
+    private MeddraQuestionVocab meddraQuestionVocab;
 
     @JoinColumn(name = "meddra_llt_id", referencedColumnName = "id")
     @ManyToOne
@@ -88,7 +93,7 @@ public class MeddraQuestion extends Question {
         if (displayOrder != null ? !displayOrder.equals(that.displayOrder) : that.displayOrder != null) return false;
         if (lowLevelTerm != null ? !lowLevelTerm.equals(that.lowLevelTerm) : that.lowLevelTerm != null) return false;
         if (proCtcQuestionType != that.proCtcQuestionType) return false;
-        if (questionText != null ? !questionText.equals(that.questionText) : that.questionText != null) return false;
+        if (meddraQuestionVocab != null ? !meddraQuestionVocab.equals(that.meddraQuestionVocab) : that.meddraQuestionVocab != null) return false;
 
         return true;
     }
@@ -96,7 +101,7 @@ public class MeddraQuestion extends Question {
     public int hashCode() {
         int result;
         result = (lowLevelTerm != null ? lowLevelTerm.hashCode() : 0);
-        result = 31 * result + (questionText != null ? questionText.hashCode() : 0);
+        result = 31 * result + (meddraQuestionVocab != null ? meddraQuestionVocab.hashCode() : 0);
         result = 31 * result + (proCtcQuestionType != null ? proCtcQuestionType.hashCode() : 0);
         result = 31 * result + (displayOrder != null ? displayOrder.hashCode() : 0);
         return result;
@@ -117,4 +122,14 @@ public class MeddraQuestion extends Question {
             validValues.add(validValue);
         }
     }
+
+
+	public MeddraQuestionVocab getMeddraQuestionVocab() {
+		return meddraQuestionVocab;
+	}
+
+
+	public void setMeddraQuestionVocab(MeddraQuestionVocab meddraQuestionVocab) {
+		this.meddraQuestionVocab = meddraQuestionVocab;
+	}
 }

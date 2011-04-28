@@ -122,5 +122,19 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
         c1.set(Calendar.MILLISECOND, 0);
         return c1;
     }
+    
+    /**
+     * Gets the next date given any date. 
+     *
+     * @param theDate the the date
+     * @return the next day
+     */
+    public static Date getNextDay(Date theDate){
+		Calendar tmrw = Calendar.getInstance();
+		tmrw.setTime(theDate);
+		tmrw.add(Calendar.DATE, 1);
+    	
+    	return tmrw.getTime();
+    }
 
 }

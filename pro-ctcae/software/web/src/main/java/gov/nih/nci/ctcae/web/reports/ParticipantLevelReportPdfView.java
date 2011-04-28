@@ -5,6 +5,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import org.jfree.chart.JFreeChart;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
@@ -99,7 +100,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                     for (int k = 0; k < numOfColsInCurrentTable; k++) {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
                         if (validValuesArr.length > absIndex) {
-                            table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue());
+                            table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
                         } else {
                             table.addCell("");
                         }

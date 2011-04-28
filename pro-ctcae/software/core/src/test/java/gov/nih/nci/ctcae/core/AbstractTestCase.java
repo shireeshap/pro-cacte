@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core;
 
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,50 +30,50 @@ public abstract class AbstractTestCase extends CoreTestCase {
         ctcCategory.setName("ctccategory");
         CtcTerm ctcTerm = new CtcTerm();
         ctcTerm.setCategory(ctcCategory);
-        ctcTerm.setTerm("ctc");
+        ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setTerm("Fatigue");
+        proCtcTerm1.getProCtcTermVocab().setTermEnglish("Fatigue");
         proCtcTerm1.setCtcTerm(ctcTerm);
 
         proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.setTerm("Pain");
+        proCtcTerm2.getProCtcTermVocab().setTermEnglish("Pain");
         proCtcTerm2.setCtcTerm(ctcTerm);
 
         proCtcTerm3 = new ProCtcTerm();
-        proCtcTerm3.setTerm("Cough");
+        proCtcTerm3.getProCtcTermVocab().setTermEnglish("Cough");
         proCtcTerm3.setCtcTerm(ctcTerm);
 
         proCtcQuestion1 = new ProCtcQuestion();
-        proCtcQuestion1.setQuestionText("first question");
+        proCtcQuestion1.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion1.setId(1);
 
         proCtcQuestion2 = new ProCtcQuestion();
-        proCtcQuestion2.setQuestionText("second question");
+        proCtcQuestion2.setQuestionText("second question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion2.setId(2);
 
         proCtcQuestion3 = new ProCtcQuestion();
-        proCtcQuestion3.setQuestionText("third question");
+        proCtcQuestion3.setQuestionText("third question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion3.setId(3);
 
         proCtcQuestion4 = new ProCtcQuestion();
-        proCtcQuestion4.setQuestionText("fourth question");
+        proCtcQuestion4.setQuestionText("fourth question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion4.setId(4);
 
         proCtcQuestion5 = new ProCtcQuestion();
-        proCtcQuestion5.setQuestionText("fifth question");
+        proCtcQuestion5.setQuestionText("fifth question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion5.setId(5);
 
         proCtcQuestion6 = new ProCtcQuestion();
-        proCtcQuestion6.setQuestionText("6th question");
+        proCtcQuestion6.setQuestionText("6th question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion6.setId(6);
 
         proCtcQuestion7 = new ProCtcQuestion();
-        proCtcQuestion7.setQuestionText("seventh question");
+        proCtcQuestion7.setQuestionText("seventh question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion7.setId(7);
 
         proCtcQuestion8 = new ProCtcQuestion();
-        proCtcQuestion8.setQuestionText("8th question");
+        proCtcQuestion8.setQuestionText("8th question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion8.setId(8);
 
         proCtcTerm1.addProCtcQuestion(proCtcQuestion1);

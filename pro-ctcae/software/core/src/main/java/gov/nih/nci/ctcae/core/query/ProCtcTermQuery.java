@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
-//
+
 /**
  * The Class ProCtcTermQuery.
  *
@@ -12,7 +12,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.term ";
+    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.proCtcTermVocab.termEnglish";
     private static String CTC_CATEGORY_ID = "ctcCategoryId";
     private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
@@ -50,7 +50,7 @@ public class ProCtcTermQuery extends AbstractQuery {
 
     public void filterByTerm(final String term) {
         String searchString = term.toLowerCase();
-        andWhere("lower(o.term) = :" + PROCTC_TERM);
+        andWhere("lower(o.proCtcTermVocab.termEnglish) = :" + PROCTC_TERM);
         setParameter(PROCTC_TERM, searchString);
 
     }

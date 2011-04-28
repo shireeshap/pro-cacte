@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -107,7 +108,7 @@ public class StudyLevelReportResultsController extends AbstractController {
                 addColumn(table, "", 1, "");
                 for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
                     LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    addColumn(table, proCtcTerm.getTerm(), questionMap.keySet().size(), "header-top");
+                    addColumn(table, proCtcTerm.getProCtcTermVocab().getTermEnglish(), questionMap.keySet().size(), "header-top");
                 }
                 endRow(table);
                 startRow(table);
@@ -134,7 +135,7 @@ public class StudyLevelReportResultsController extends AbstractController {
                         addColumn(table, DateUtils.format(date), 1, "");
                         for (Object obj : valuesLists) {
                             ArrayList<ProCtcValidValue> valueList = (ArrayList<ProCtcValidValue>) obj;
-                            addColumn(table, valueList.get(index).getValue(), 1, "data");
+                            addColumn(table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
                         }
                         index++;
                         endRow(table);

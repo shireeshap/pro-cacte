@@ -34,7 +34,7 @@ public abstract class AbstractReportResultsController extends AbstractController
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, symptomId);
 
         String attribute = request.getParameter("att");
-        title.append("Worst responses for ").append(proCtcTerm.getTerm()).append(" ").append(attribute);
+        title.append("Worst responses for ").append(proCtcTerm.getProCtcTermVocab().getTermEnglish()).append(" ").append(attribute);
         return title.toString();
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractReportResultsController extends AbstractController
         for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
-        modelAndView.addObject("symptom", proCtcTerm.getTerm());
+        modelAndView.addObject("symptom", proCtcTerm.getProCtcTermVocab().getTermEnglish());
         modelAndView.addObject("allAttributes", allAttributes);
     }
 

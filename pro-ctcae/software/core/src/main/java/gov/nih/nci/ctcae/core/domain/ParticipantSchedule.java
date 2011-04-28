@@ -160,6 +160,7 @@ public class ParticipantSchedule {
                             studyParticipantCrfSchedule.setHoliday(true);
                         }
                         studyParticipantCrfSchedule.setBaseline(baseline);
+                        addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
                     }
                 }
             }
@@ -167,6 +168,38 @@ public class ParticipantSchedule {
     }
 
     /**
+     * Adds the ivrs schedules.
+     *
+     * @param studyParticipantCrfSchedule the study participant crf schedule
+     */
+    private void addIvrsSchedules(
+			StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantCrf studyParticipantCrf) {
+    	//update ivrsSchedule for IVRS app Modes
+    	boolean isIvrs = false;
+    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+    	IvrsSchedule ivrsSchedule;
+    	int offSetDiff = 0;
+    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
+    		if(spm.getMode().equals(AppMode.IVRS)){
+    			isIvrs = true;
+    		}
+    	}
+        if(isIvrs){
+        	//for every sp_crf_schedule, create a new ivrsSchedule for every day from startDate to endDate
+			//for everyday from startDate to endDate create a ivrsSchedule
+			Date startDate = studyParticipantCrfSchedule.getStartDate();
+			offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
+			for(int i = 0; i < offSetDiff; i++){
+				ivrsSchedule = new IvrsSchedule(studyParticipantAssignment, startDate);
+				ivrsSchedule.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+				studyParticipantCrfSchedule.getIvrsSchedules().add(ivrsSchedule);
+				startDate = DateUtils.getNextDay(startDate);
+			}
+        }
+		
+	}
+
+	/**
      * get the due date for a given Calendar date with calendar/cycle based definitions for the form.
      *
      * @param c Calendar, for which due date needs to calculate

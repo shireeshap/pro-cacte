@@ -47,7 +47,7 @@ public class ConfirmationCheckController extends AbstractController {
         String description = "";
         if (proCtcTermId != null){
         ProCtcTerm proCtcTerm = proCtcTermRepository.findById(proCtcTermId);
-            description = proCtcTerm.getTerm();
+            description = proCtcTerm.getProCtcTermVocab().getTermEnglish();
         }
         if (StringUtils.equals(confirmationType, DELETE_CRF_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteCrfConfirmationCheck");

@@ -718,18 +718,19 @@
         <property name="jobDetail" ref="callOutJob"/>
         <property name="startDelay" value="0" />
             <!-- repeat every 2 min -->
-        <property name="repeatInterval" value="300000"/>
+        <property name="repeatInterval" value="120000"/>
     </bean>
-
 
     <bean id="callOutJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="IvrsCalloutBean"/>
-        <property name="targetMethod" value="testCallout"/>
+        <property name="targetMethod" value="scheduleJobInQueue"/>
     </bean>
+    
      <bean name="IvrsCalloutBean" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler">
         <property name="jmsTemplate" ref="consumerJmsTemplate"/>
     </bean>
+    
     <bean id="formSubmissionNotificationBeanTarget" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
@@ -739,15 +740,15 @@
 	</bean>
 
     <bean id="formSubmissionNotificationBean" class="org.springframework.aop.framework.ProxyFactoryBean">
-            <property name="proxyTargetClass"><value>true</value></property>
-            <property name="target"><ref local="formSubmissionNotificationBeanTarget"/></property>
-            <property name="interceptorNames">
-                <list>
-                    <value>formSubmissionNotificationAuditInfoPopulatorInterceptor</value>
-                    <value>hibernateInterceptor</value>
-                </list>
-            </property>
-        </bean>
+        <property name="proxyTargetClass"><value>true</value></property>
+        <property name="target"><ref local="formSubmissionNotificationBeanTarget"/></property>
+        <property name="interceptorNames">
+            <list>
+                <value>formSubmissionNotificationAuditInfoPopulatorInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="formSubmissionNotificationJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -767,7 +768,7 @@
             <list>
                <ref bean="nightlyTrigger"/>
                <ref bean="formSubmissionNotificationTrigger"/>
-                <!--<ref bean="ivrsTrigger"/>-->
+                <ref bean="ivrsTrigger"/>
             </list>
         </property>
     </bean>

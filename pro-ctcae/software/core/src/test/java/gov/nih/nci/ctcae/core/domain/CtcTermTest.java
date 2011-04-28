@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
 
 /**
@@ -24,11 +25,11 @@ public class CtcTermTest extends TestCase {
         ctcTerm.setCategory(category);
         ctcTerm.setCtepCode("ctep code");
         ctcTerm.setCtepTerm("ctep term");
-        ctcTerm.setTerm("term");
+        ctcTerm.setTerm("term", SupportedLanguageEnum.ENGLISH);
         assertEquals(category, ctcTerm.getCategory());
         assertEquals("ctep code", ctcTerm.getCtepCode());
         assertEquals("ctep term", ctcTerm.getCtepTerm());
-        assertEquals("term", ctcTerm.getTerm());
+        assertEquals("term", ctcTerm.getTerm(SupportedLanguageEnum.ENGLISH));
 
     }
 
@@ -65,9 +66,9 @@ public class CtcTermTest extends TestCase {
         assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
         assertEquals(anotherCtcTerm, ctcTerm);
 
-        ctcTerm.setTerm("term");
+        ctcTerm.setTerm("term", SupportedLanguageEnum.ENGLISH);
         assertFalse(ctcTerm.equals(anotherCtcTerm));
-        anotherCtcTerm.setTerm("term");
+        anotherCtcTerm.setTerm("term", SupportedLanguageEnum.ENGLISH);
         assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
         assertEquals(anotherCtcTerm, ctcTerm);
 

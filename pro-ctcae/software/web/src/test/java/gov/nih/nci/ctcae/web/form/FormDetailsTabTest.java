@@ -69,11 +69,11 @@ public class FormDetailsTabTest extends WebTestCase {
         proCtcTerm2.setCtcTerm(ctcTerm2);
 
         proCtcTerm3.setCtcTerm(ctcTerm1);
-        proCtcTerm3.setTerm("Itchy skin ");
+        proCtcTerm3.getProCtcTermVocab().setTermEnglish("Itchy skin ");
         proCtcTerm4.setCtcTerm(ctcTerm1);
-        proCtcTerm4.setTerm("Difficulty sleeping (insomnia) ");
+        proCtcTerm4.getProCtcTermVocab().setTermEnglish("Difficulty sleeping (insomnia) ");
         proCtcTerm5.setCtcTerm(ctcTerm1);
-        proCtcTerm5.setTerm("Fatigue");
+        proCtcTerm5.getProCtcTermVocab().setTermEnglish("Fatigue");
 
         command = new CreateFormCommand();
         proCtcTerms.add(proCtcTerm1);

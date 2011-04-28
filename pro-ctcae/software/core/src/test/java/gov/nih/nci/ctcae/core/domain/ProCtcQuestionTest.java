@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
 
 /**
@@ -15,9 +16,9 @@ public class ProCtcQuestionTest extends TestCase {
 
     public void testGetterAndSetter() {
         proCtcQuestion = new ProCtcQuestion();
-        proCtcQuestion.setQuestionText("How is the pain?");
+        proCtcQuestion.setQuestionText("How is the pain?", SupportedLanguageEnum.ENGLISH);
 
-        assertEquals("How is the pain", proCtcQuestion.getQuestionText());
+        assertEquals("How is the pain", proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH));
     }
 
 
@@ -31,9 +32,9 @@ public class ProCtcQuestionTest extends TestCase {
         assertEquals(anotherProCtcQuestion, proCtcQuestion);
         assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
 
-        proCtcQuestion.setQuestionText("How is the pain?");
+        proCtcQuestion.setQuestionText("How is the pain?", SupportedLanguageEnum.ENGLISH);
         assertFalse(proCtcQuestion.equals(anotherProCtcQuestion));
-        anotherProCtcQuestion.setQuestionText("How is the pain?");
+        anotherProCtcQuestion.setQuestionText("How is the pain?", SupportedLanguageEnum.ENGLISH);
         assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
         assertEquals(anotherProCtcQuestion, proCtcQuestion);
 

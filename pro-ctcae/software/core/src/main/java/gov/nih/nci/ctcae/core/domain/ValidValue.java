@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +14,8 @@ public abstract class ValidValue extends BasePersistable {
     @Column(name = "id")
     protected Integer id;
 
-    @Column(name = "value", nullable = false)
-    protected String value;
+//    @Column(name = "value", nullable = false)
+//    protected String value;
 
     @Column(name = "display_order", nullable = true)
     protected Integer displayOrder;
@@ -26,12 +28,51 @@ public abstract class ValidValue extends BasePersistable {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getValue(SupportedLanguageEnum supportedLanguageEnum) {
+    	if(this instanceof ProCtcValidValue){
+    		if(((ProCtcValidValue)this).getProCtcValidValueVocab() != null){
+    			if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+    				return ((ProCtcValidValue)this).getProCtcValidValueVocab().getValueSpanish();
+    			} else {
+    				return ((ProCtcValidValue)this).getProCtcValidValueVocab().getValueEnglish();
+    			}
+    		}
+    	}
+    	if(this instanceof MeddraValidValue){
+    		if(((MeddraValidValue)this).getMeddraValidValueVocab() != null){
+    			if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+    				return ((MeddraValidValue)this).getMeddraValidValueVocab().getValueSpanish();
+    			} else {
+    				return ((MeddraValidValue)this).getMeddraValidValueVocab().getValueEnglish();
+    			}
+    			
+    		}
+    	}
+        return "";
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValue(String value, SupportedLanguageEnum supportedLanguageEnum) {
+    	if(this instanceof ProCtcValidValue){
+    		if(((ProCtcValidValue)this).getProCtcValidValueVocab() == null){
+    			((ProCtcValidValue)this).setProCtcValidValueVocab(new ProCtcValidValueVocab((ProCtcValidValue)this));
+    		}
+			if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+				 ((ProCtcValidValue)this).getProCtcValidValueVocab().setValueSpanish(value);
+			} else {
+				 ((ProCtcValidValue)this).getProCtcValidValueVocab().setValueEnglish(value);
+			}
+    			
+    	}
+    	if(this instanceof MeddraValidValue){
+    		if(((MeddraValidValue)this).getMeddraValidValueVocab() == null){
+    			((MeddraValidValue)this).setMeddraValidValueVocab(new MeddraValidValueVocab((MeddraValidValue)this));
+    		}
+			if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+				 ((MeddraValidValue)this).getMeddraValidValueVocab().setValueSpanish(value);
+			} else {
+				 ((MeddraValidValue)this).getMeddraValidValueVocab().setValueEnglish(value);
+			}
+    	}
     }
 
     public Integer getDisplayOrder() {
@@ -47,6 +88,11 @@ public abstract class ValidValue extends BasePersistable {
     }
 
     public String getDesc() {
-        return value;
+    	return getValue(SupportedLanguageEnum.ENGLISH);
     }
+    
+    public String getDesc(SupportedLanguageEnum supportedLanguageEnum) {
+    	return getValue(supportedLanguageEnum);
+    }
+    
 }

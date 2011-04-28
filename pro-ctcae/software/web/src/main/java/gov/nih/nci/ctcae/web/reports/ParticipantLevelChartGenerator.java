@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Question;
@@ -114,7 +115,7 @@ public class ParticipantLevelChartGenerator {
                 if (proCtcValidValues.size() > i) {
                     ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                     displayOrder = proCtcValidValue.getDisplayOrder();
-                    validValueType.add(proCtcValidValue.getValue());
+                    validValueType.add(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH));
                 }
                 String questionType = question.getQuestionType().getDisplayName();
 

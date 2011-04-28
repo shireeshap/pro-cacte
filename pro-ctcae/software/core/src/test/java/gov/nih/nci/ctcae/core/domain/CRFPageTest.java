@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 
 /**
@@ -114,13 +115,13 @@ public class CRFPageTest extends AbstractTestCase {
         crfPage = new CRFPage();
 
         proCtcQuestion1 = new ProCtcQuestion();
-        proCtcQuestion1.setQuestionText("first question");
+        proCtcQuestion1.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion2 = new ProCtcQuestion();
-        proCtcQuestion2.setQuestionText("second question");
+        proCtcQuestion2.setQuestionText("second question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion3 = new ProCtcQuestion();
-        proCtcQuestion3.setQuestionText("third question");
+        proCtcQuestion3.setQuestionText("third question", SupportedLanguageEnum.ENGLISH);
         proCtcQuestion4 = new ProCtcQuestion();
-        proCtcQuestion4.setQuestionText("fourth question");
+        proCtcQuestion4.setQuestionText("fourth question", SupportedLanguageEnum.ENGLISH);
 
         constipation = new ProCtcTerm();
         constipation.getProCtcQuestions().add(proCtcQuestion1);

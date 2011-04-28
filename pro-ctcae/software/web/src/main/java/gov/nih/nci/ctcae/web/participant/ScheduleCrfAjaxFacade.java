@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
@@ -18,12 +19,13 @@ import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
-import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
 
 //
 
@@ -104,8 +106,8 @@ public class ScheduleCrfAjaxFacade {
         List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
         for (ProCtcTerm symptom : symptoms) {
-            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
-                results.add(symptom.getTerm());
+            if (symptom.getProCtcTermVocab().getTermEnglish().toLowerCase().contains((text.toLowerCase()))) {
+                results.add(symptom.getProCtcTermVocab().getTermEnglish());
             }
         }
         MeddraQuery meddraQuery = new MeddraQuery(true);
@@ -132,14 +134,14 @@ public class ScheduleCrfAjaxFacade {
             List<CtcTerm> ctcTerms = new ArrayList<CtcTerm>();
             ctcTerms.add(proCtcTerm.getCtcTerm());
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
-                return proCtcTerm.getCtcTerm().getTerm();
+                return proCtcTerm.getCtcTerm().getTerm(SupportedLanguageEnum.ENGLISH);
             }
         }
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
             List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm());
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
-                return ctcTerms.get(0).getTerm();
+                return ctcTerms.get(0).getTerm(SupportedLanguageEnum.ENGLISH);
             }
         }
         return "";

@@ -48,6 +48,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
     public static UserNameAndPasswordValidator userNameAndPasswordValidator;
+    public static IvrsScheduleRepository ivrsScheduleRepository;
+    public static IvrsCallHistoryRepository ivrsCallHistoryRepository;
+    public static StudyParticipantCRFScheduleSymptomRecordRepository studyParticipantCRFScheduleSymptomRecordRepository;
+    
 
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
@@ -372,7 +376,23 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
 
-    //    private void deleteUsingHibernate(){
+    @Required
+    public void setIvrsScheduleRepository(IvrsScheduleRepository ivrsScheduleRepository) {
+        TestDataManager.ivrsScheduleRepository = ivrsScheduleRepository;
+    }
+    
+    @Required
+    public void setIvrsCallHistoryRepository(IvrsCallHistoryRepository ivrsCallHistoryRepository) {
+        TestDataManager.ivrsCallHistoryRepository = ivrsCallHistoryRepository;
+    }
+    
+    @Required
+    public void setStudyParticipantCRFScheduleSymptomRecordRepository(StudyParticipantCRFScheduleSymptomRecordRepository 
+    		studyParticipantCRFScheduleSymptomRecordRepository) {
+        TestDataManager.studyParticipantCRFScheduleSymptomRecordRepository = studyParticipantCRFScheduleSymptomRecordRepository;
+    }
+    
+//    private void deleteUsingHibernate(){
 //                 StudyQuery query = new StudyQuery();
 //        List<Study> studies = (List) studyRepository.find(query);
 //        for (Study study : studies) {

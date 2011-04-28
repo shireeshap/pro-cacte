@@ -205,7 +205,7 @@ public class CrfTestHelper {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                 ProCtcQuestion q = crfPageItem.getProCtcQuestion();
                 if (q.getProCtcQuestionType().equals(ProCtcQuestionType.SEVERITY)) {
-                    symptoms.add(q.getProCtcTerm().getTerm());
+                    symptoms.add(q.getProCtcTerm().getProCtcTermVocab().getTermEnglish());
                 }
                 if (symptoms.size() == 1) {
                     break;

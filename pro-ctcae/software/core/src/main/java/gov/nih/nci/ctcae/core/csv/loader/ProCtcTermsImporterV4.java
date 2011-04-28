@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
 import com.csvreader.CsvReader;
+
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
@@ -36,7 +38,7 @@ public class ProCtcTermsImporterV4 {
         CsvReader reader;
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
         if (fromTestCase) {
-            Resource resource = new FileSystemResource("core/src/main/resources/");
+            Resource resource = new FileSystemResource("software/core/src/main/resources/");
             Resource resource1 = resource.createRelative("ProCtcTerms_V4.csv");
             File f = new File(resource1.getFile().getCanonicalPath());
             System.out.println(f.getCanonicalPath());
@@ -122,14 +124,16 @@ public class ProCtcTermsImporterV4 {
 
             if (objCtcTerm != null) {
                 ProCtcTerm objProCtcTerm = new ProCtcTerm();
-                objProCtcTerm.setTerm(proCtcTerm);
+                ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(objProCtcTerm);
+                objProCtcTerm.setProCtcTermVocab(proCtcTermVocab);
+                objProCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTerm);
                 objProCtcTerm.setCtcTerm(objCtcTerm);
                 objProCtcTerm.setProCtc(proCtc);
                 proCtc.addProCtcTerm(objProCtcTerm);
 
                 for (CsvLine hmValue : list) {
                     ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-                    proCtcQuestion.setQuestionText(hmValue.getQuestionText());
+                    proCtcQuestion.setQuestionText(hmValue.getQuestionText(), SupportedLanguageEnum.ENGLISH);
                     proCtcQuestion.setDisplayOrder(new Integer(hmValue.getDisplayOrder()));
                     proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.getByDisplayName(hmValue.getQuestionType()));
                     proCtcQuestion.setProCtcTerm(objProCtcTerm);
@@ -142,9 +146,9 @@ public class ProCtcTermsImporterV4 {
                     int j = 0;
                     while (st1.hasMoreTokens()) {
                         ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-                        proCtcValidValue.setValue(st1.nextToken());
+                        proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
                         if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                            if (proCtcValidValue.getValue().equals("Yes")) {
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).equals("Yes")) {
                                 proCtcValidValue.setDisplayOrder(1);
                             } else {
                                 proCtcValidValue.setDisplayOrder(0);

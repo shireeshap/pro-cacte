@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -116,7 +117,7 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
                 ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
                 for (ProCtcValidValue proCtcValidValue : validValues) {
                     cell = row.createCell(i++);
-                    cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
+                    cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH)));
                 }
                 row = hssfSheet.createRow(rownum++);
             }

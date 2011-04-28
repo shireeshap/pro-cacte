@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -29,18 +30,18 @@ public class CreateFormCommandTest extends WebTestCase {
 
         firstQuestion = new ProCtcQuestion();
         firstQuestion.setId(11);
-        firstQuestion.setQuestionText("sample question1");
+        firstQuestion.setQuestionText("sample question1", SupportedLanguageEnum.ENGLISH);
 
         secondQuestion = new ProCtcQuestion();
-        secondQuestion.setQuestionText("sample question2");
+        secondQuestion.setQuestionText("sample question2", SupportedLanguageEnum.ENGLISH);
         secondQuestion.setId(12);
 
         thirdQuestion = new ProCtcQuestion();
-        thirdQuestion.setQuestionText("sample question3");
+        thirdQuestion.setQuestionText("sample question3", SupportedLanguageEnum.ENGLISH);
         thirdQuestion.setId(13);
 
         fourthQuestion = new ProCtcQuestion();
-        fourthQuestion.setQuestionText("sample question4");
+        fourthQuestion.setQuestionText("sample question4", SupportedLanguageEnum.ENGLISH);
         fourthQuestion.setId(14);
 
         crfItem1Page = new CrfPageItem();
@@ -54,20 +55,20 @@ public class CreateFormCommandTest extends WebTestCase {
 
         fifthQustion = new ProCtcQuestion();
         fifthQustion.setId(15);
-        fifthQustion.setQuestionText("sample question1");
+        fifthQustion.setQuestionText("sample question1", SupportedLanguageEnum.ENGLISH);
 
         sixthQuestion = new ProCtcQuestion();
         sixthQuestion.setId(16);
-        sixthQuestion.setQuestionText("sample question6");
+        sixthQuestion.setQuestionText("sample question6", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setTerm("Fatigue");
+        proCtcTerm1.getProCtcTermVocab().setTermEnglish("Fatigue");
         proCtcTerm1.addProCtcQuestion(firstQuestion);
         proCtcTerm1.addProCtcQuestion(secondQuestion);
         proCtcTerm1.addProCtcQuestion(thirdQuestion);
 
         proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.setTerm("Constipation");
+        proCtcTerm2.getProCtcTermVocab().setTermEnglish("Constipation");
         proCtcTerm2.addProCtcQuestion(fourthQuestion);
         proCtcTerm2.addProCtcQuestion(sixthQuestion);
 

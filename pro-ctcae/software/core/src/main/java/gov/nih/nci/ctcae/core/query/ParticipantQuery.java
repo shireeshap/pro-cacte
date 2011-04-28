@@ -141,18 +141,6 @@ public class ParticipantQuery extends AbstractQuery {
         }
     }
 
-    /**
-     * Filter by study.
-     *
-     * @param studyParticipantIdentifier the study Participant Identifier
-     */
-    public void filterByStudyParticipantIdentifier(Integer studyParticipantIdentifier) {
-        if (studyParticipantIdentifier != null) {
-            andWhere("spa.studyParticipantIdentifier =:" + "studyParticipantIdentifier");
-            setParameter("studyParticipantIdentifier", studyParticipantIdentifier);
-        }
-    }
-
     public void filterByStudySite(Integer studySiteId) {
         if (studySiteId != null) {
             leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
@@ -178,12 +166,25 @@ public class ParticipantQuery extends AbstractQuery {
             setParameter(USERNAME, username.toLowerCase());
         }
     }
+    
+    /**
+     * Filter by study.
+     *
+     * @param studyParticipantIdentifier the study Participant Identifier
+     */
+    public void filterByStudyParticipantIdentifier(Integer studyParticipantIdentifier) {
+        if (studyParticipantIdentifier != null) {
+        	leftJoin("p.studyParticipantAssignments as spa");
+            andWhere("spa.id = :id");
+            setParameter("id", studyParticipantIdentifier);
+        }
+    }
 
     public void filterByStudyParticipantIdentifier(String spIdentifier) {
         if (spIdentifier != null) {
             leftJoin("p.studyParticipantAssignments as spa");
-            andWhere("spa.studyParticipantIdentifier LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
-            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
+            andWhere("spa.id = :id");
+            setParameter("id", spIdentifier);
         }
     }
 

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +31,7 @@ public class DisplayQuestion {
     }
 
     public String getQuestionText() {
-        return question.getQuestionText();
+        return question.getQuestionText(SupportedLanguageEnum.ENGLISH);
     }
 
     public String getQuestionSymptom() {

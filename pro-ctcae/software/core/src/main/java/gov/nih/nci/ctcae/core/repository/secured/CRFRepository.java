@@ -96,11 +96,11 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
             if (!isAlreadyPresent) {
                 int myPageNumber;
                 if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
-                    if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
-                        myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                    if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish())) {
+                        myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish());
                     } else {
                         myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
-                        symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
+                        symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish(), myPageNumber);
                     }
                     i++;
                     newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion(), myPageNumber);

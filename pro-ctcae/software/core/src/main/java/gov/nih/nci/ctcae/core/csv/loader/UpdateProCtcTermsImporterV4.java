@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
 import com.csvreader.CsvReader;
+
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
@@ -79,7 +81,7 @@ public class UpdateProCtcTermsImporterV4 {
             if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
                 ProCtcQuestion ctcQuestion = proCtcQuestions.get(0);
                 ctcQuestion.getProCtcTerm().setGender(gender);
-                ctcQuestion.setQuestionText(question);
+                ctcQuestion.setQuestionText(question, SupportedLanguageEnum.ENGLISH);
                 proCtcQuestionRepository.save(ctcQuestion);
             } else {
                 CtcQuery ctcQuery = new CtcQuery();
@@ -88,7 +90,7 @@ public class UpdateProCtcTermsImporterV4 {
                 if (ctcTerms != null && ctcTerms.size() > 0) {
                     CtcTerm ctcTer = ctcTerms.get(0);
                     if (ctcTer.getProCtcTerms().size() > 0) {
-                        ctcTer.getProCtcTerms().get(0).setTerm(proCtcTerm);
+                        ctcTer.getProCtcTerms().get(0).getProCtcTermVocab().setTermEnglish(proCtcTerm);
                         ctcTer.getProCtcTerms().get(0).setGender(gender);
                         ctcTermRepository.save(ctcTer);
                     } else {
@@ -127,14 +129,14 @@ public class UpdateProCtcTermsImporterV4 {
 
             if (objCtcTerm != null) {
                 ProCtcTerm objProCtcTerm = new ProCtcTerm();
-                objProCtcTerm.setTerm(proCtcTerm);
+                objProCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTerm);
                 objProCtcTerm.setCtcTerm(objCtcTerm);
                 objProCtcTerm.setProCtc(proCtc);
                 proCtc.addProCtcTerm(objProCtcTerm);
 
                 for (CsvLine hmValue : list) {
                     ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-                    proCtcQuestion.setQuestionText(hmValue.getQuestionText());
+                    proCtcQuestion.setQuestionText(hmValue.getQuestionText(), SupportedLanguageEnum.ENGLISH);
                     proCtcQuestion.setDisplayOrder(new Integer(hmValue.getDisplayOrder()));
                     proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.getByDisplayName(hmValue.getQuestionType()));
                     proCtcQuestion.setProCtcTerm(objProCtcTerm);
@@ -147,9 +149,9 @@ public class UpdateProCtcTermsImporterV4 {
                     int j = 0;
                     while (st1.hasMoreTokens()) {
                         ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-                        proCtcValidValue.setValue(st1.nextToken());
+                        proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
                         if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                            if (proCtcValidValue.getValue().equals("Yes")) {
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).equals("Yes")) {
                                 proCtcValidValue.setDisplayOrder(1);
                             } else {
                                 proCtcValidValue.setDisplayOrder(0);

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
@@ -67,9 +68,9 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
     private void intializeTerm(final ProCtcTerm proCtcTerm) {
         if (proCtcTerm != null) {
             for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-                proCtcQuestion.getQuestionText();
+                proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH);
                 for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                    validValue.getValue();
+                    validValue.getValue(SupportedLanguageEnum.ENGLISH);
                 }
             }
         }

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 
 import java.util.Date;
@@ -239,23 +240,23 @@ public class CRFTest extends AbstractTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         firstQuestion = new ProCtcQuestion();
-        firstQuestion.setQuestionText("first question");
+        firstQuestion.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
         firstQuestion.setId(11);
 
         fifthQuestion = new ProCtcQuestion();
-        fifthQuestion.setQuestionText("first question");
+        fifthQuestion.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
         fifthQuestion.setId(15);
 
         secondQuestion = new ProCtcQuestion();
-        secondQuestion.setQuestionText("second question");
+        secondQuestion.setQuestionText("second question", SupportedLanguageEnum.ENGLISH);
         secondQuestion.setId(12);
 
         thirdQuestion = new ProCtcQuestion();
-        thirdQuestion.setQuestionText("third question");
+        thirdQuestion.setQuestionText("third question", SupportedLanguageEnum.ENGLISH);
         thirdQuestion.setId(13);
 
         fourthQuestion = new ProCtcQuestion();
-        fourthQuestion.setQuestionText("fourth question");
+        fourthQuestion.setQuestionText("fourth question", SupportedLanguageEnum.ENGLISH);
         fourthQuestion.setId(14);
 
         constipation = new ProCtcTerm();

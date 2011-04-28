@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
@@ -35,7 +36,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
         firstQuestion = new ProCtcQuestion();
         firstQuestion.setId(11);
-        firstQuestion.setQuestionText("sample question1");
+        firstQuestion.setQuestionText("sample question1", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm.addProCtcQuestion(firstQuestion);
     }

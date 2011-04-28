@@ -3,14 +3,15 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//
 /**
  * The Class ProCtcQuestion.
  *
@@ -21,7 +22,7 @@ import java.util.List;
 @Entity
 @Table(name = "PRO_CTC_QUESTIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_questions_id")})
-public class ProCtcQuestion extends Question {
+public class ProCtcQuestion extends Question{
 
     /**
      * The id.
@@ -31,7 +32,10 @@ public class ProCtcQuestion extends Question {
     @Column(name = "id")
     private Integer id;
 
-
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proCtcQuestion")
+    @JoinColumn(name="pro_ctc_questions_id")
+    private ProCtcQuestionVocab proCtcQuestionVocab;
+    
     /**
      * The pro ctc question type.
      */
@@ -83,21 +87,22 @@ public class ProCtcQuestion extends Question {
      * @param id           the id
      * @param questionText the question text
      */
-    public ProCtcQuestion(Integer id, String questionText) {
+    public ProCtcQuestion(Integer id, String questionText, SupportedLanguageEnum language) {
         this.id = id;
-        this.questionText = questionText;
+        if(getProCtcQuestionVocab() == null){
+        	proCtcQuestionVocab = new ProCtcQuestionVocab();
+        }
+        if(language.equals(SupportedLanguageEnum.SPANISH)){
+        	this.proCtcQuestionVocab.setQuestionTextSpanish(questionText);
+        } else {
+        	this.proCtcQuestionVocab.setQuestionTextEnglish(questionText);
+        }
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-     */
     public Integer getId() {
         return id;
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
-     */
     public void setId(Integer id) {
         this.id = id;
     }
@@ -200,7 +205,7 @@ public class ProCtcQuestion extends Question {
      */
     @Override
     public String toString() {
-        return questionText;
+        return getProCtcQuestionVocab().getQuestionTextEnglish();
     }
 
     /**
@@ -209,7 +214,7 @@ public class ProCtcQuestion extends Question {
      * @return the display name
      */
     public String getDisplayName() {
-        return questionText + " " + proCtcTerm.getCtcTerm().getTerm();
+        return getProCtcQuestionVocab().getQuestionTextEnglish() + " " + proCtcTerm.getCtcTerm().getTerm(SupportedLanguageEnum.ENGLISH);
     }
 
     /**
@@ -218,7 +223,7 @@ public class ProCtcQuestion extends Question {
      * @return the short text
      */
     public String getShortText() {
-        return proCtcTerm.getTerm() + "-" + questionText;
+        return proCtcTerm.getProCtcTermVocab().getTermEnglish() + "-" + getProCtcQuestionVocab().getQuestionTextEnglish();
 
     }
 
@@ -234,7 +239,8 @@ public class ProCtcQuestion extends Question {
         if (displayOrder != null ? !displayOrder.equals(that.displayOrder) : that.displayOrder != null) return false;
         if (proCtcQuestionType != that.proCtcQuestionType) return false;
         if (proCtcTerm != null ? !proCtcTerm.equals(that.proCtcTerm) : that.proCtcTerm != null) return false;
-        if (questionText != null ? !questionText.equals(that.questionText) : that.questionText != null) return false;
+        if (proCtcQuestionVocab != null ? !proCtcQuestionVocab.equals(that.proCtcQuestionVocab) : that.proCtcQuestionVocab != null) return false;
+        //if (questionText != null ? !questionText.equals(that.questionText) : that.questionText != null) return false;
 
         return true;
     }
@@ -244,7 +250,7 @@ public class ProCtcQuestion extends Question {
      */
     public int hashCode() {
         int result;
-        result = (questionText != null ? questionText.hashCode() : 0);
+        result = (proCtcQuestionVocab != null ? proCtcQuestionVocab.hashCode() : 0);
         result = 31 * result + (proCtcQuestionType != null ? proCtcQuestionType.hashCode() : 0);
         result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
         result = 31 * result + (displayOrder != null ? displayOrder.hashCode() : 0);
@@ -259,4 +265,14 @@ public class ProCtcQuestion extends Question {
     public List<ProCtcQuestionDisplayRule> getProCtcQuestionDisplayRules() {
         return proCtcQuestionDisplayRules;
     }
+
+
+	public ProCtcQuestionVocab getProCtcQuestionVocab() {
+		return proCtcQuestionVocab;
+	}
+
+
+	public void setProCtcQuestionVocab(ProCtcQuestionVocab proCtcQuestionVocab) {
+		this.proCtcQuestionVocab = proCtcQuestionVocab;
+	}
 }

@@ -3,12 +3,13 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-//
 
 /**
  * The Class ProCtcValidValue.
@@ -28,6 +29,10 @@ public class ProCtcValidValue extends ValidValue {
     @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proCtcValidValue")
+    @JoinColumn(name="pro_ctc_valid_values_id")
+    private ProCtcValidValueVocab proCtcValidValueVocab;
 
     /**
      * Instantiates a new pro ctc valid value.
@@ -60,19 +65,29 @@ public class ProCtcValidValue extends ValidValue {
         if (!(o instanceof ProCtcValidValue)) return false;
 
         ProCtcValidValue that = (ProCtcValidValue) o;
-
         if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion) : that.proCtcQuestion != null)
             return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
-
+        if (proCtcValidValueVocab != null ? !proCtcValidValueVocab.equals(that.proCtcValidValueVocab) : that.proCtcValidValueVocab != null)
+            return false;
+        
         return true;
     }
 
     public int hashCode() {
         int result;
-        result = (value != null ? value.hashCode() : 0);
+        result = (proCtcValidValueVocab != null ? proCtcValidValueVocab.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
     }
+
+
+	public ProCtcValidValueVocab getProCtcValidValueVocab() {
+		return proCtcValidValueVocab;
+	}
+
+
+	public void setProCtcValidValueVocab(ProCtcValidValueVocab proCtcValidValueVocab) {
+		this.proCtcValidValueVocab = proCtcValidValueVocab;
+	}
 
 }

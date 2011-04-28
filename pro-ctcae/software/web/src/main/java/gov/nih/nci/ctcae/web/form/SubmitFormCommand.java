@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
@@ -298,7 +299,7 @@ public class SubmitFormCommand implements Serializable {
         List<ProCtcTerm> sortedList = getSortedSymptoms();
         List<String> displayList = new ArrayList<String>();
         for (ProCtcTerm symptom : sortedList) {
-            displayList.add(symptom.getTerm());
+            displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
         }
         return displayList;
     }
@@ -405,7 +406,7 @@ public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean 
         if (ctcTerms != null && ctcTerms.size() > 0) {
             for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
                 for (CtcTerm ctcTerm : ctcTerms) {
-                    if (ctcTerm.getTerm().toLowerCase().equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm().getTerm().toLowerCase())) {
+                    if (ctcTerm.getTerm(SupportedLanguageEnum.ENGLISH).toLowerCase().equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm().getTerm(SupportedLanguageEnum.ENGLISH).toLowerCase())) {
                         return true;
                     }
                 }
@@ -426,7 +427,7 @@ public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean 
                 if (ctcTermsToCompare != null && ctcTermsToCompare.size() > 0) {
                     for (CtcTerm ctcTerm : ctcTerms) {
                         for (CtcTerm ctcTermToCompare : ctcTermsToCompare) {
-                            if (ctcTerm.getTerm().toLowerCase().equals(ctcTermToCompare.getTerm().toLowerCase())) {
+                            if (ctcTerm.getTerm(SupportedLanguageEnum.ENGLISH).toLowerCase().equals(ctcTermToCompare.getTerm(SupportedLanguageEnum.ENGLISH).toLowerCase())) {
                                 return true;
                             }
                         }
@@ -439,7 +440,7 @@ public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean 
 
 
     private void addProCtcQuestion(ProCtcTerm proCtcTerm, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
-        if (symptomDoesNotExistInForm(proCtcTerm.getTerm())) {
+        if (symptomDoesNotExistInForm(proCtcTerm.getProCtcTermVocab().getTermEnglish())) {
             for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
                 StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(proCtcQuestion, false);
                 newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
@@ -490,17 +491,17 @@ public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean 
         MeddraValidValue meddraValidValue = new MeddraValidValue();
         meddraQuestion.setLowLevelTerm(lowLevelTerm);
         meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.PRESENT);
-        meddraValidValue.setValue("Yes");
+        meddraValidValue.setValue("Yes", SupportedLanguageEnum.ENGLISH);
         meddraValidValue.setDisplayOrder(1);
         MeddraValidValue meddraValidValue1 = new MeddraValidValue();
-        meddraValidValue1.setValue("No");
+        meddraValidValue1.setValue("No", SupportedLanguageEnum.ENGLISH);
         meddraValidValue1.setDisplayOrder(0);
         meddraQuestion.addValidValue(meddraValidValue);
         meddraQuestion.addValidValue(meddraValidValue1);
         if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
-            meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm().toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":");
+            meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm().toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":", SupportedLanguageEnum.ENGLISH);
         } else {
-            meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
+            meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?", SupportedLanguageEnum.ENGLISH);
         }
         meddraQuestion.setDisplayOrder(1);
         genericRepository.save(meddraQuestion);

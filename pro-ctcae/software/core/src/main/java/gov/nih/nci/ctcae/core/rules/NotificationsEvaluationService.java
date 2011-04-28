@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.rules;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRuleCondition;
@@ -40,7 +41,7 @@ public class NotificationsEvaluationService {
                 if (responseSatisfiesRule(studyParticipantCrfItem, notificationRule)) {
                     getRecipients(users, emails, notificationRule.getNotificationRuleRoles(), studyParticipantCrfSchedule);
                     ProCtcQuestion question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
-                    criticalSymptoms.add(new String[]{question.getProCtcTerm().getTerm(), question.getProCtcQuestionType().getDisplayName()});
+                    criticalSymptoms.add(new String[]{question.getProCtcTerm().getProCtcTermVocab().getTermEnglish(), question.getProCtcQuestionType().getDisplayName()});
 
                 }
             }
@@ -192,9 +193,9 @@ public class NotificationsEvaluationService {
         for (StudyParticipantCrfItem i : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             ProCtcQuestion q = i.getCrfPageItem().getProCtcQuestion();
             if (i.getProCtcValidValue() == null) {
-                map.put(q.getProCtcTerm().getTerm() + "~" + q.getProCtcQuestionType().getDisplayName(), "");
+                map.put(q.getProCtcTerm().getProCtcTermVocab().getTermEnglish() + "~" + q.getProCtcQuestionType().getDisplayName(), "");
             } else {
-                map.put(q.getProCtcTerm().getTerm() + "~" + q.getProCtcQuestionType().getDisplayName(), i.getProCtcValidValue().getValue());
+                map.put(q.getProCtcTerm().getProCtcTermVocab().getTermEnglish() + "~" + q.getProCtcQuestionType().getDisplayName(), i.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH));
             }
         }
         return map;

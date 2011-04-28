@@ -18,6 +18,7 @@ public class ParticipantScheduleTest extends TestCase {
     private ProCtcAECalendar proCtcAECalendar;
     private StudyParticipantCrf studyParticipantCrf;
     private List<StudyParticipantCrf> studyParticipantCrfs;
+    StudyParticipantAssignment studyParticipantAssignment;
     private CRF crf;
     private CRFCycle cycle1;
     private CRFPage crfPage;
@@ -26,6 +27,14 @@ public class ParticipantScheduleTest extends TestCase {
 
     @Override
     public void setUp() throws Exception {
+    	studyParticipantAssignment = new StudyParticipantAssignment();
+    	StudyParticipantMode spm = new StudyParticipantMode();
+    	spm.setMode(AppMode.IVRS);
+    	studyParticipantAssignment.getStudyParticipantModes().add(spm);
+    	studyParticipantAssignment.setCallAmPm("am");
+    	studyParticipantAssignment.setCallHour(10);
+    	studyParticipantAssignment.setCallMinute(0);
+    	studyParticipantAssignment.setCallTimeZone(StudyParticipantAssignment.PACIFIC);
         participantSchedule=new ParticipantSchedule();
         proCtcAECalendar = new ProCtcAECalendar();
         crf = new CRF();
@@ -39,6 +48,7 @@ public class ParticipantScheduleTest extends TestCase {
         studyParticipantCrf.setCrf(crf);
         studyParticipantCrf.setId(1);
         studyParticipantCrf.setStartDate(DateUtils.parseDate("01/18/2011"));
+        studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
         studyParticipantCrfs =new ArrayList<StudyParticipantCrf>();
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.setProCtcAECalendar(proCtcAECalendar);
@@ -66,7 +76,7 @@ public class ParticipantScheduleTest extends TestCase {
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
         participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE);
-        
+        System.out.println("for break point purposes");
 
     }
 }

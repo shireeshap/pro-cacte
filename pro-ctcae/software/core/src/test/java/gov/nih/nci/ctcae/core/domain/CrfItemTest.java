@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
 
 import static gov.nih.nci.ctcae.core.helper.Fixture.createCrfPageItemDisplayRules;
@@ -20,27 +21,27 @@ public class CrfItemTest extends TestCase {
         crfPageItem = new CrfPageItem();
 
         proCtcValidValue1 = new ProCtcValidValue();
-        proCtcValidValue1.setValue("value1");
+        proCtcValidValue1.setValue("value1", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue1.setId(-1);
 
         proCtcValidValue2 = new ProCtcValidValue();
-        proCtcValidValue2.setValue("value2");
+        proCtcValidValue2.setValue("value2", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue2.setId(-2);
 
         proCtcValidValue3 = new ProCtcValidValue();
-        proCtcValidValue3.setValue("value3");
+        proCtcValidValue3.setValue("value3", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue3.setId(-3);
 
         proCtcValidValue3 = new ProCtcValidValue();
-        proCtcValidValue3.setValue("value4");
+        proCtcValidValue3.setValue("value4", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue3.setId(-4);
 
         proCtcValidValue4 = new ProCtcValidValue();
-        proCtcValidValue4.setValue("value5");
+        proCtcValidValue4.setValue("value5", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue4.setId(-5);
 
         proCtcValidValue5 = new ProCtcValidValue();
-        proCtcValidValue5.setValue("value6");
+        proCtcValidValue5.setValue("value6", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue5.setId(-6);
 
 

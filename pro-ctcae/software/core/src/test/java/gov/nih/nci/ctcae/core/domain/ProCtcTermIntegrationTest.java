@@ -19,8 +19,10 @@ public class ProCtcTermIntegrationTest extends TestDataManager {
             proCtcTermRepository.delete(new ProCtcTerm());
             fail("Expecting UnsupportedOperationException: delete is not supported for ProCtcTerm.");
         } catch (CtcAeSystemException e) {
+        	assertTrue(true);
         }
     }
+    
 
     public void testFindAndInitialize() {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
@@ -31,7 +33,7 @@ public class ProCtcTermIntegrationTest extends TestDataManager {
         assertEquals(proProCtcTerm.getCtcTerm().getCtepCode(), firstProProCtcTerm.getCtcTerm().getCtepCode());
         assertEquals(proProCtcTerm.getCtcTerm().getCtepTerm(), firstProProCtcTerm.getCtcTerm().getCtepTerm());
         assertEquals(proProCtcTerm.getCtcTerm().getSelect(), firstProProCtcTerm.getCtcTerm().getSelect());
-        assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
+        assertEquals(proProCtcTerm.getProCtcTermVocab().getTermEnglish(), firstProProCtcTerm.getProCtcTermVocab().getTermEnglish());
         assertEquals(proProCtcTerm, firstProProCtcTerm);
     }
 

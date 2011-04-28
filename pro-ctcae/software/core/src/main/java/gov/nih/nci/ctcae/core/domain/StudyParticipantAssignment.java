@@ -126,8 +126,26 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @OrderBy("id desc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistoryItems = new ArrayList();
+    private List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistoryItems = new ArrayList<StudyParticipantReportingModeHistory>();
 
+    public static final String EASTERN = "America/New_York";
+    
+    public static final String CENTRAL = "America/Chicago";
+
+    public static final String PACIFIC = "America/Los_Angeles";
+
+    public static final String MOUNTAIN = "America/Denver";
+
+    public static final String ALASKA = "America/Anchorage";
+    
+    public static final String HAWAII_ALEUTIAN = "America/Adak";
+
+
+//    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+//    private List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
+    
+    
     /**
      * Instantiates a new study participant assignment.
      */
@@ -502,6 +520,37 @@ public class StudyParticipantAssignment extends BaseVersionable {
         for (StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
     }
 
+//    public String getReminderTimeZone() {
+//        return reminderTimeZone;
+//    }
+//
+//    public void setReminderTimeZone(String reminderTimeZone) {
+//        this.reminderTimeZone = reminderTimeZone;
+//    }
+//
+//    public String getReminderAmPm() {
+//        return reminderAmPm;
+//    }
+//
+//    public void setReminderAmPm(String reminderAmPm) {
+//        this.reminderAmPm = reminderAmPm;
+//    }
+//
+//    public Integer getReminderHour() {
+//        return reminderHour;
+//    }
+//
+//    public void setReminderHour(Integer reminderHour) {
+//        this.reminderHour = reminderHour;
+//    }
+//
+//    public Integer getReminderMinute() {
+//        return reminderMinute;
+//    }
+//
+//    public void setReminderMinute(Integer reminderMinute) {
+//        this.reminderMinute = reminderMinute;
+//    }
 
     @Transient
     public List<AppMode> getSelectedAppModes() {
@@ -564,7 +613,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
             studyParticipantCrfs.remove(studyParticipantCrf);
         }
     }
-
+    
     public String getIvrsLanguage() {
         return ivrsLanguage;
     }
@@ -612,5 +661,13 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public void setStudyParticipantReportingModeHistoryItems(List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistory) {
         this.studyParticipantReportingModeHistoryItems = studyParticipantReportingModeHistory;
     }
+
+
+//	public void setIvrsScheduleList(List<IvrsSchedule> ivrsScheduleLsit) {
+//		this.ivrsScheduleList = ivrsScheduleLsit;
+//	}
+//	public List<IvrsSchedule> getIvrsScheduleList() {
+//		return ivrsScheduleList;
+//	}
 }
 

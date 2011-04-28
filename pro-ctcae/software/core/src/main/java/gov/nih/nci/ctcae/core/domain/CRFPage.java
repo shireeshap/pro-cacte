@@ -324,7 +324,7 @@ public class CRFPage extends BaseVersionable {
     public void updateInstructions() {
         if (!getCrfPageItems().isEmpty()) {
             ProCtcTerm proCtcTerm = getCrfPageItems().get(0).getProCtcQuestion().getProCtcTerm();
-            setInstructions(String.format("Please think back %s:", getCrf().getRecallPeriod(), proCtcTerm.getTerm()));
+            setInstructions(String.format("Please think back %s:", getCrf().getRecallPeriod(), proCtcTerm.getProCtcTermVocab().getTermEnglish()));
         }
     }
 

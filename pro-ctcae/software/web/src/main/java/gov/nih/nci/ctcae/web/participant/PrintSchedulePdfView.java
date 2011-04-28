@@ -6,6 +6,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
@@ -87,7 +88,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
             PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
             table.setWidthPercentage(98);
-            PdfPCell cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
+            PdfPCell cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
             cell.setBackgroundColor(Color.lightGray);
             cell.setColspan(6);
             table.addCell(cell);
@@ -96,14 +97,14 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 //            Font f1 = new Font(bf, 12);
 
             for (ProCtcQuestion proCtcQuestion : symptomMap.get(proCtcTerm)) {
-                PdfPCell cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(), f));
+                PdfPCell cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
 
                 table.addCell(cell2);
                 int i = 0;
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                     i++;
                     Phrase ph = new Phrase(12, "O", f1);
-                    ph.add(new Phrase(" " + proCtcValidValue.getValue(), f));
+                    ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
 
                     PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
                     table.addCell(cell3);
@@ -128,20 +129,20 @@ public class PrintSchedulePdfView extends AbstractPdfView {
             for (ProCtcTerm proCtcTerm : participantAddedProctcSymptomMap.keySet()) {
                 PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
                 table.setWidthPercentage(98);
-                PdfPCell cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
+                PdfPCell cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
                 cell.setBackgroundColor(Color.lightGray);
                 cell.setColspan(6);
                 table.addCell(cell);
 
                 for (ProCtcQuestion proCtcQuestion : participantAddedProctcSymptomMap.get(proCtcTerm)) {
-                    PdfPCell cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(), f));
+                    PdfPCell cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
 
                     table.addCell(cell2);
                     int i = 0;
                     for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                         i++;
                         Phrase ph = new Phrase(12, "O", f1);
-                        ph.add(new Phrase(" " + proCtcValidValue.getValue(), f));
+                        ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
 
                         PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
                         table.addCell(cell3);
@@ -171,14 +172,14 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 table.addCell(cell);
 
                 for (MeddraQuestion meddraQuestion : participantAddedMeddraSymptomMap.get(meddraTerm)) {
-                    PdfPCell cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(), f));
+                    PdfPCell cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
 
                     table.addCell(cell2);
                     int i = 0;
                     for (MeddraValidValue meddraValidValue : meddraQuestion.getValidValues()) {
                         i++;
                         Phrase ph = new Phrase(12, "O", f1);
-                        ph.add(new Phrase(" " + meddraValidValue.getValue(), f));
+                        ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
 
                         PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
                         table.addCell(cell3);

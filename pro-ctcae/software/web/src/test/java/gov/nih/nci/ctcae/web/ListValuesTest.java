@@ -36,9 +36,9 @@ public class ListValuesTest extends TestCase {
 
     public void testgetSymptomsForCRF() {
         ProCtcTerm proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setTerm("A");
+        proCtcTerm1.getProCtcTermVocab().setTermEnglish("A");
         ProCtcTerm proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.setTerm("B");
+        proCtcTerm2.getProCtcTermVocab().setTermEnglish("B");
 
         ProCtcQuestion proCtcQuestion1 = new ProCtcQuestion();
         proCtcQuestion1.setProCtcTerm(proCtcTerm1);

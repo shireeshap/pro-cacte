@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
 
 import java.util.HashSet;
@@ -21,11 +22,11 @@ public class CrfPageItemTest extends TestCase {
         super.setUp();
         crfPageItem = new CrfPageItem();
         proCtcValidValue1 = new ProCtcValidValue();
-        proCtcValidValue1.setValue("value1");
+        proCtcValidValue1.setValue("value1", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue1.setId(1);
 
         proCtcValidValue2 = new ProCtcValidValue();
-        proCtcValidValue2.setValue("value2");
+        proCtcValidValue2.setValue("value2", SupportedLanguageEnum.ENGLISH);
         proCtcValidValue2.setId(2);
 
         crfPageItemDisplayRule1 = new CrfPageItemDisplayRule();

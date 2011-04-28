@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.query.ParticipantAddedQuestionsDetailsQuery;
@@ -43,7 +44,7 @@ public class ParticipantAddedQuestionsReportDetailsController extends Participan
             }
             String[] s = new String[2];
             s[0] = DateUtils.format(sq.getStudyParticipantCrfSchedule().getStartDate());
-            s[1] = sq.getProCtcValidValue() == null ? "" : sq.getProCtcValidValue().getValue();
+            s[1] = sq.getProCtcValidValue() == null ? "" : sq.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             ls.add(s);
         }
 

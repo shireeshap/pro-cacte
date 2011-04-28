@@ -39,9 +39,13 @@
         <value>gov.nih.nci.ctcae.core.domain.Participant</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcTermVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.CtcTermVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValueVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.Privilege</value>
         <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
         <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
@@ -71,10 +75,13 @@
         <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelGroupTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.LowLevelTermVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.PreferredTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.SystemOrganClass</value>
         <value>gov.nih.nci.ctcae.core.domain.MeddraQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraQuestionVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.MeddraValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraValidValueVocab</value>
         <value>gov.nih.nci.ctcae.core.domain.Notification</value>
         <value>gov.nih.nci.ctcae.core.domain.UserNotification</value>
         <value>gov.nih.nci.ctcae.core.domain.FormArmSchedule</value>
@@ -90,7 +97,9 @@
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantMode</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantReportingModeHistory</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification</value>
-
+		<value>gov.nih.nci.ctcae.core.domain.IvrsSchedule</value>
+		<value>gov.nih.nci.ctcae.core.domain.IvrsCallHistory</value>
+		<value>gov.nih.nci.ctcae.core.domain.StudyParticipantCRFScheduleSymptomRecord</value>
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
           autowire="byName">
@@ -294,6 +303,23 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
     </bean>
+    
+    <!-- IVRS introduced repos -->
+    <bean id="ivrsScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    
+    <bean id="ivrsCallHistoryRepository"
+          class="gov.nih.nci.ctcae.core.repository.IvrsCallHistoryRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    
+    <bean id="studyParticipantCRFScheduleSymptomRecordRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCRFScheduleSymptomRecordRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <!-- IVRS introduced repos -->
 
     <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
         <property name="encodeHashAsBase64" value="true"/>

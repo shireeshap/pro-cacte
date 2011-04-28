@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
 
 /**
@@ -11,19 +12,19 @@ public class ProCtcValidValueTest extends TestCase {
 
     public void testConstructor() {
         proCtcValidValue = new ProCtcValidValue();
-        assertNull(proCtcValidValue.getValue());
+        assertEquals(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), "");
     }
 
     public void testGetterAndSetter() {
         proCtcValidValue = new ProCtcValidValue();
-        proCtcValidValue.setValue("value1");
+        proCtcValidValue.setValue("value1", SupportedLanguageEnum.ENGLISH);
 
-        assertEquals("value1", proCtcValidValue.getValue());
+        assertEquals("value1", proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH));
     }
 
     public void tesToString() {
         proCtcValidValue = new ProCtcValidValue();
-        proCtcValidValue.setValue("value1");
+        proCtcValidValue.setValue("value1", SupportedLanguageEnum.ENGLISH);
 
         assertEquals("value1", proCtcValidValue.toString());
     }
@@ -39,9 +40,9 @@ public class ProCtcValidValueTest extends TestCase {
         assertEquals(anotherProCtcValidValue, proCtcValidValue);
         assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
 
-        proCtcValidValue.setValue("value1");
+        proCtcValidValue.setValue("value1", SupportedLanguageEnum.ENGLISH);
         assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
-        anotherProCtcValidValue.setValue("value1");
+        anotherProCtcValidValue.setValue("value1", SupportedLanguageEnum.ENGLISH);
         assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
         assertEquals(anotherProCtcValidValue, proCtcValidValue);
 

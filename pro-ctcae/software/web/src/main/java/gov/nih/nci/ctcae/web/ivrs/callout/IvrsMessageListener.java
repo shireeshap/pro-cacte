@@ -5,6 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.asteriskjava.live.*;
 import org.asteriskjava.manager.action.OriginateAction;
 
+import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
+import gov.nih.nci.ctcae.web.ivrs.callout.CallAction;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -20,7 +23,8 @@ import java.beans.PropertyChangeListener;
  */
 public class IvrsMessageListener implements MessageListener {
      protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
-    static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.90", 5038, "admin", "admin");
+     //10.10.10.136
+    static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.136", 5038, "admin", "admin");
     public void onMessage(Message message) {
 		CallAction CallAction = null;
 		//	ManagerResponse originateResponse;
@@ -32,6 +36,7 @@ public class IvrsMessageListener implements MessageListener {
 			originateAction.setAsync(false);
 
 			final AsteriskChannel channel = defaultAsteriskServer.originate(originateAction);
+//			ivrsSchedule.setCallStatus(IvrsCallStatus.SCHEDULED);
 			logger.error("*****channel created-->> " + channel);
 			if(channel != null){
 				logger.error("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
@@ -43,7 +48,7 @@ public class IvrsMessageListener implements MessageListener {
 							{
 								if (evt.getNewValue() == ChannelState.HUNGUP)
 								{
-									logger.error("YIPPY!!!USER HANGED UP CALL--->>>" + ((AsteriskChannel)evt.getSource()).getName());
+									logger.error("USER HUNG UP --->>>" + ((AsteriskChannel)evt.getSource()).getName());
 									channel.notify();
 								}
 							}

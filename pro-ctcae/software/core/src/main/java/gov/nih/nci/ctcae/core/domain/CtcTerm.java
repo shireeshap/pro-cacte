@@ -4,11 +4,14 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-//
+
 /**
  * The Class CtcTerm.
  *
@@ -31,9 +34,14 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * The term.
-     */
+    
     @Column(name = "term", nullable = false)
     private String term;
+     */
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "ctcTerm")
+    @JoinColumn(name="ctc_terms_id")
+    private CtcTermVocab ctcTermVocab;
 
     /**
      * The category.
@@ -88,22 +96,16 @@ public class CtcTerm extends BasePersistable {
      *
      * @param id   the id
      * @param term the term
-     */
+     
     public CtcTerm(Integer id, String term) {
         this.id = id;
         this.term = term;
-    }
+    }*/
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-     */
     public Integer getId() {
         return id;
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
-     */
     public void setId(Integer id) {
         this.id = id;
     }
@@ -113,8 +115,15 @@ public class CtcTerm extends BasePersistable {
      *
      * @return the term
      */
-    public String getTerm() {
-        return term;
+    public String getTerm(SupportedLanguageEnum supportedLanguageEnum) {
+        if(getCtcTermVocab() == null){
+        	return "";
+        }
+        if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+        	return getCtcTermVocab().getTermSpanish();
+        } else {
+        	return getCtcTermVocab().getTermEnglish();
+        }
     }
 
     /**
@@ -122,8 +131,15 @@ public class CtcTerm extends BasePersistable {
      *
      * @param term the new term
      */
-    public void setTerm(String term) {
-        this.term = term;
+    public void setTerm(String term, SupportedLanguageEnum supportedLanguageEnum) {
+    	if(getCtcTermVocab() == null){
+        	setCtcTermVocab(new CtcTermVocab(this));
+        }
+        if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+        	 getCtcTermVocab().setTermSpanish(term);
+        } else {
+        	 getCtcTermVocab().setTermEnglish(term);
+        }
     }
 
     /**
@@ -199,17 +215,11 @@ public class CtcTerm extends BasePersistable {
         this.category = category;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return term;
+        return getTerm(SupportedLanguageEnum.ENGLISH);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CtcTerm)) return false;
@@ -220,17 +230,14 @@ public class CtcTerm extends BasePersistable {
         if (ctepCode != null ? !ctepCode.equals(ctcTerm.ctepCode) : ctcTerm.ctepCode != null) return false;
         if (ctepTerm != null ? !ctepTerm.equals(ctcTerm.ctepTerm) : ctcTerm.ctepTerm != null) return false;
         if (select != null ? !select.equals(ctcTerm.select) : ctcTerm.select != null) return false;
-        if (term != null ? !term.equals(ctcTerm.term) : ctcTerm.term != null) return false;
+        if (ctcTermVocab != null ? !ctcTermVocab.equals(ctcTerm.ctcTermVocab) : ctcTerm.ctcTermVocab != null) return false;
 
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     public int hashCode() {
         int result;
-        result = (term != null ? term.hashCode() : 0);
+        result = (ctcTermVocab != null ? ctcTermVocab.hashCode() : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (select != null ? select.hashCode() : 0);
         result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
@@ -245,4 +252,12 @@ public class CtcTerm extends BasePersistable {
     public void setProCtcTerms(List<ProCtcTerm> proCtcTerms) {
         this.proCtcTerms = proCtcTerms;
     }
+
+	public CtcTermVocab getCtcTermVocab() {
+		return ctcTermVocab;
+	}
+
+	public void setCtcTermVocab(CtcTermVocab ctcTermVocab) {
+		this.ctcTermVocab = ctcTermVocab;
+	}
 }

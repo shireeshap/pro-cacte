@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -57,10 +58,10 @@ public class StudyLevelReportTest extends WebTestCase {
         datesMap.put(participant2, dates2);
 
         proCtcTerm = new ProCtcTerm();
-        proCtcTerm.setTerm("My Term");
+        proCtcTerm.getProCtcTermVocab().setTermEnglish("My Term");
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setTerm("Your Term");
+        proCtcTerm1.getProCtcTermVocab().setTermEnglish("Your Term");
 
 
         proCtcQuestion1 = new ProCtcQuestion();
@@ -70,15 +71,15 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcValidValueList1 = new ArrayList<ProCtcValidValue>();
 
         ProCtcValidValue proCtcValidValue11 = new ProCtcValidValue();
-        proCtcValidValue11.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[0]);
+        proCtcValidValue11.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[0], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue11.setDisplayOrder(0);
 
         ProCtcValidValue proCtcValidValue12 = new ProCtcValidValue();
-        proCtcValidValue12.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[1]);
+        proCtcValidValue12.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[1], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue12.setDisplayOrder(1);
 
         ProCtcValidValue proCtcValidValue13 = new ProCtcValidValue();
-        proCtcValidValue13.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[3]);
+        proCtcValidValue13.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue13.setDisplayOrder(3);
 
         proCtcValidValueList1.add(proCtcValidValue11);
@@ -92,15 +93,15 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcValidValueList2 = new ArrayList<ProCtcValidValue>();
 
         ProCtcValidValue proCtcValidValue21 = new ProCtcValidValue();
-        proCtcValidValue21.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[2]);
+        proCtcValidValue21.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[2], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue21.setDisplayOrder(2);
 
         ProCtcValidValue proCtcValidValue22 = new ProCtcValidValue();
-        proCtcValidValue22.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[4]);
+        proCtcValidValue22.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[4], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue22.setDisplayOrder(4);
 
         ProCtcValidValue proCtcValidValue23 = new ProCtcValidValue();
-        proCtcValidValue23.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[3]);
+        proCtcValidValue23.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue23.setDisplayOrder(3);
 
         proCtcValidValueList2.add(proCtcValidValue21);
@@ -114,15 +115,15 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcValidValueList3 = new ArrayList<ProCtcValidValue>();
 
         ProCtcValidValue proCtcValidValue31 = new ProCtcValidValue();
-        proCtcValidValue31.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[1]);
+        proCtcValidValue31.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[1], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue31.setDisplayOrder(1);
 
         ProCtcValidValue proCtcValidValue32 = new ProCtcValidValue();
-        proCtcValidValue32.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[4]);
+        proCtcValidValue32.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[4], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue32.setDisplayOrder(4);
 
         ProCtcValidValue proCtcValidValue33 = new ProCtcValidValue();
-        proCtcValidValue33.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[3]);
+        proCtcValidValue33.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue33.setDisplayOrder(3);
 
         proCtcValidValueList3.add(proCtcValidValue31);
