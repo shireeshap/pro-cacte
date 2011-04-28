@@ -39,7 +39,7 @@
                 <c:if test="${empty currentTask.linkName}">
                    <c:set var="backUpKey"><%= request.getPathInfo().replaceAll("/", "_")%></c:set>
                 </c:if>
-                ${request.pathInfo}
+
                 <spring:message var="helpLink" code="${empty helpKey? backUpKey:helpKey}" text="NO_${helpKey}"/>
                 <a id="help" href="http://hccxweb1.dfci.harvard.edu/live_sites/proctcae/index.php${helpLink}" target="_blank">Help</a>
             </proctcae:urlAuthorize>
@@ -48,7 +48,8 @@
                 <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
             </proctcae:urlAuthorize>
         </div>
-
+            <%--${helpKey}--%>
+        <%--${backUpKey}--%>
        
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section" varStatus="index">
