@@ -142,13 +142,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new MyException("User is inactive");
         }
 
-        if (participant != null){
-            for(StudyParticipantMode mode : participant.getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
-                if (mode.getMode().equals(AppMode.IVRS)){
-                      throw new MyException("Use of web not activated");
-                }
-            }
-        }
+//        if (participant != null){
+//            for(StudyParticipantMode mode : participant.getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
+//                if (mode.getMode().equals(AppMode.IVRS)){
+//                      throw new MyException("Use of web not activated");
+//                }
+//            }
+//        }
       
         return findByUserName(user.getUsername()).get(0);
     }

@@ -63,9 +63,9 @@
                     <jsp:forward page="forwardToPasswordExpire.jsp"/>
                 </p>
             </c:when>
-            <c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message, 'Use of web not activated')}">
-                <p class="errors">Use of web is not allowed.</p>
-            </c:when>
+            <%--<c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message, 'Use of web not activated')}">--%>
+                <%--<p class="errors">Use of web is not allowed.</p>--%>
+            <%--</c:when>--%>
             <c:otherwise>
                 <%--${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
                 <p class="errors">User is inactive.</p>
