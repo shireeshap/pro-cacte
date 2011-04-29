@@ -37,10 +37,10 @@
                 <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
                 <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
                 <c:if test="${empty currentTask.linkName}">
-                   <c:set var="backUpKey"><%= request.getPathInfo().replaceAll("/", "_")%></c:set>
+                   <c:set var="backUpKey"><%=request.getPathInfo().replaceAll("/","_")%></c:set>
                 </c:if>
 
-                <spring:message var="helpLink" code="${empty helpKey? backUpKey:helpKey}" text="NO_${helpKey}"/>
+                <spring:message var="helpLink" code="${empty currentTask.linkName? backUpKey:helpKey}" text="NO_${helpKey}"/>
                 <a id="help" href="http://hccxweb1.dfci.harvard.edu/live_sites/proctcae/index.php${helpLink}" target="_blank">Help</a>
             </proctcae:urlAuthorize>
 
@@ -48,9 +48,7 @@
                 <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
             </proctcae:urlAuthorize>
         </div>
-            <%--${helpKey}--%>
-        <%--${backUpKey}--%>
-       
+           <%--${backUpKey}--%>
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section" varStatus="index">
                 <proctcae:urlAuthorize url="${section.mainUrl}">
