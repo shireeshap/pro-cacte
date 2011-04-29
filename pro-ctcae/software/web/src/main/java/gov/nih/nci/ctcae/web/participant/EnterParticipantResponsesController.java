@@ -61,6 +61,14 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
                     spcCrfItem.setUpdatedBy(user.getUsername());
                 }
             }
+            List<StudyParticipantCrfScheduleAddedQuestion> spcsAdded = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions();
+            if (spcsAdded != null) {
+                for (StudyParticipantCrfScheduleAddedQuestion spcsaq : spcsAdded) {
+                    spcsaq.setReponseDate(new Date());
+                    spcsaq.setResponseMode(AppMode.CLINICWEB);
+                    spcsaq.setUpdatedBy(user.getUsername());
+                }
+            }
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
         ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId()));
