@@ -33,15 +33,15 @@ public abstract class AbstractTestCase extends CoreTestCase {
         ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.getProCtcTermVocab().setTermEnglish("Fatigue");
+        proCtcTerm1.setTermEnglish("Fatigue", SupportedLanguageEnum.ENGLISH);
         proCtcTerm1.setCtcTerm(ctcTerm);
 
         proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.getProCtcTermVocab().setTermEnglish("Pain");
+        proCtcTerm2.setTermEnglish("Pain", SupportedLanguageEnum.ENGLISH);
         proCtcTerm2.setCtcTerm(ctcTerm);
 
         proCtcTerm3 = new ProCtcTerm();
-        proCtcTerm3.getProCtcTermVocab().setTermEnglish("Cough");
+        proCtcTerm3.setTermEnglish("Cough", SupportedLanguageEnum.ENGLISH);
         proCtcTerm3.setCtcTerm(ctcTerm);
 
         proCtcQuestion1 = new ProCtcQuestion();

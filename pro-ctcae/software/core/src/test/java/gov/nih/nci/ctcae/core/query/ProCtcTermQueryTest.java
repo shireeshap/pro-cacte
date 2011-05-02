@@ -12,28 +12,28 @@ public class ProCtcTermQueryTest extends TestCase {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermHavingQuestionsOnly();
         assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues inner join o.proCtcQuestions WHERE " +
-        		"o.ctcTerm.category.ctc.name = :ctcName order by o.proCtcTermVocab.termEnglish", query.getQueryString());
+        		"o.ctcTerm.category.ctc.name = :ctcName", query.getQueryString());
     }
 
     public void testFilterByCtcCategoryId() {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcCategoryId(1);
         assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues WHERE " +
-        		"o.ctcTerm.category.id = :ctcCategoryId AND o.ctcTerm.category.ctc.name = :ctcName order by o.proCtcTermVocab.termEnglish", query.getQueryString());
+        		"o.ctcTerm.category.id = :ctcCategoryId AND o.ctcTerm.category.ctc.name = :ctcName", query.getQueryString());
     }
 
     public void testFilterByCtcTermId() {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermId(1);
         assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues WHERE " +
-        		"o.ctcTerm.category.ctc.name = :ctcName AND o.ctcTerm.id = :ctcTermId order by o.proCtcTermVocab.termEnglish", query.getQueryString());
+        		"o.ctcTerm.category.ctc.name = :ctcName AND o.ctcTerm.id = :ctcTermId", query.getQueryString());
     }
 
     public void testFilterByTerm() {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByTerm("test");
         assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues WHERE " +
-        		"o.ctcTerm.category.ctc.name = :ctcName AND lower(o.proCtcTermVocab.termEnglish) = :symptom order by o.proCtcTermVocab.termEnglish", query.getQueryString());
+        		"o.ctcTerm.category.ctc.name = :ctcName AND lower(o.proCtcTermVocab.termEnglish) = :symptom", query.getQueryString());
 
     }
 

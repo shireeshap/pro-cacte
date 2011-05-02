@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +81,25 @@ public class ProCtcTerm extends BasePersistable {
         super();
     }
 
+    @Transient
+    public String getTermEnglish(SupportedLanguageEnum supportedLanguageEnum) {
+    	if (getProCtcTermVocab() != null) {
+    		return getProCtcTermVocab().getTermEnglish();
+        } 
+        return "";
+    }
+
+    public void setTermEnglish(String term, SupportedLanguageEnum supportedLanguageEnum) {
+    	if (getProCtcTermVocab() == null) {
+    		setProCtcTermVocab(new ProCtcTermVocab());
+    	}
+    	if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+    		getProCtcTermVocab().setTermSpanish(term);
+    	} else {
+    		getProCtcTermVocab().setTermEnglish(term);
+    	}
+    }
+    
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
