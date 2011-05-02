@@ -10,9 +10,9 @@ package gov.nih.nci.ctcae.core.query;
 public class ProCtcTermQuery extends AbstractQuery {
 
     /**
-     * The query string.
+     * The query string. removed the "order by o.proCtcTermVocab.termEnglish" portion
      */
-    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues order by o.proCtcTermVocab.termEnglish";
+    private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues";
     private static String CTC_CATEGORY_ID = "ctcCategoryId";
     private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
