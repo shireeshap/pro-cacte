@@ -12,7 +12,8 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT spcsaq.proCtcQuestion.proCtcTerm.term, count(distinct spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id)  from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.proCtcQuestion.proCtcTerm.term order by spcsaq.proCtcQuestion.proCtcTerm.term";
+    private static String queryString = "SELECT spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish, count(distinct spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id)  " +
+    		"from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish order by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish";
 
     public ParticipantAddedQuestionsReportQuery(String query) {
         super(query);
@@ -33,7 +34,7 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     }
 
     public void filterBySymptom(String symptom) {
-        andWhere("spcsaq.proCtcQuestion.proCtcTerm.term=:symptom");
+        andWhere("spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish=:symptom");
         setParameter("symptom", symptom);
     }
 }
