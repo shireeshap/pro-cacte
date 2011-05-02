@@ -40,7 +40,7 @@ public class CtcQuery extends AbstractQuery {
      */
     public void filterByName(final String name) {
         String searchString = name.toLowerCase();
-        andWhere("lower(i.term) = :" + NAME + ")");
+        andWhere("lower(i.ctcTermVocab.termEnglish) = :" + NAME + ")");
         setParameter(NAME, searchString);
 
     }
