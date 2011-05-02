@@ -523,6 +523,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/026_create_ivrs_sc
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/027_alter_sp_assignment.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/028_create_recordings_table.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/029_create_vocab_tables.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/030_drop_term_constraints.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
