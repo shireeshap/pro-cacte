@@ -115,7 +115,7 @@ public class CRFIntegrationTest extends TestDataManager {
     }
 
     public void testSaveCRFWithPage() {
-        crf.addCrfPage(new CRFPage());
+        crf.addCrfPage(getDefaultCrfPage());
         saveCrf();
         assertNotNull(crf.getId());
         assertFalse(crf.getCrfPagesSortedByPageNumber().isEmpty());
@@ -124,7 +124,7 @@ public class CRFIntegrationTest extends TestDataManager {
             assertSame(crf, crfPage.getCrf());
         }
     }
-
+    
     public void testUpdateStatusOfCRF() throws ParseException {
         saveCrf();
         assertNotNull(crf.getId());

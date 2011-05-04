@@ -41,7 +41,7 @@ public class CrfItemIntegrationTest extends TestDataManager {
         query.filterByTitleExactMatch(crf.getTitle());
         crfRepository.delete(crfRepository.findSingle(query));
         commitAndStartNewTransaction();
-        crfPage = new CRFPage();
+        crfPage = getDefaultCrfPage();
         proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
         assertNotNull(proCtc);
 
