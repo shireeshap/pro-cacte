@@ -15,8 +15,9 @@
         http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd
-        http://activemq.apache.org/schema/core
+        http://activemq.org/config/1.0
    	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd">
+<!--      http://activemq.apache.org/schema/core -->
 
     <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
         <!--<property name="basename" value="/WEB-INF/message"/>-->
