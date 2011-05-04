@@ -154,9 +154,13 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 				participant = pIter.next();
 			}
 			phoneNumber = participant.getPhoneNumber();
+			//forSoftPhones
 			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout)
 			//callAction = new CallAction("" + 1, "SIP/oneUser", "outgoing1", "100", 1, 5000000);
+			//for VOIP setup
+			//callAction = new CallAction("" + 1, "SIP/sip.broadvoice.com/17039081998", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
 			//phoneNumber = "91"+phoneNumber.getAlldigitsOnlyFromNumber();
+			//for PSTN
 			//callAction = new CallAction("" + 1, "DAHDI/G1/"+phoneNumber, "outgoing1", "100", 1, 5000000);
 			callAction = new CallAction("" + 1, "DAHDI/G1/226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
 			callActionList.add(callAction);

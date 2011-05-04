@@ -197,7 +197,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             }
             if (q instanceof MeddraQuestion) {
             	question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
-                symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName();
+                symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
@@ -428,7 +428,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
             if (!firstTime) {
                 if (studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().isParticipantAdded()) {
-                    String meddraTerm = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm();
+                    String meddraTerm = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH);
                     String recallPeriod = getStudyParticipantCrf().getCrf().getRecallPeriod();
                     String recallPeriodFirstChar = recallPeriod.substring(0, 1).toUpperCase();
                     String recallPeriodEnd = recallPeriod.substring(1);
@@ -464,7 +464,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                 symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish());
             }
             if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
-                symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm());
+                symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH));
             }
         }
         return symptoms;
@@ -531,7 +531,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
             ArrayList itemCounter = new ArrayList();
             if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
-                String symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName();
+                String symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 if (symptomMap.containsKey(symptom)) {
                     studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
                 } else {

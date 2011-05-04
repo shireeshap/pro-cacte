@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain.meddra;
 
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
 
@@ -29,12 +30,33 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
     private String meddraCode;
 
     @Transient
-    public String getFullName() {
-        return getMeddraTerm();
+    public String getFullName(SupportedLanguageEnum supportedLanguageEnum) {
+        return getMeddraTerm(supportedLanguageEnum);
+    }
+    
+    public String getMeddraTerm(SupportedLanguageEnum supportedLanguageEnum) {
+        if(getLowLevelTermVocab() != null){
+        	if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+        		return getLowLevelTermVocab().getMeddraTermSpanish();
+        	} else {
+        		return getLowLevelTermVocab().getMeddraTermEnglish();
+        	}
+        }
+        return "";
     }
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "lowLevelTerm")
-    @JoinColumn(name="meddra_llt_id")
+    public void setMeddraTerm(String meddraTerm, SupportedLanguageEnum supportedLanguageEnum) {
+    	if(getLowLevelTermVocab() == null){
+    		setLowLevelTermVocab(new LowLevelTermVocab());
+    	}
+    	
+    	if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
+    		 getLowLevelTermVocab().setMeddraTermSpanish(meddraTerm);
+    	} else {
+    		 getLowLevelTermVocab().setMeddraTermEnglish(meddraTerm);
+    	}
+    }
+
     private LowLevelTermVocab lowLevelTermVocab;
     
 
@@ -78,6 +100,8 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
         this.meddraCode = meddraCode;
     }
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "lowLevelTerm")
+    @JoinColumn(name="meddra_llt_id")
 	public LowLevelTermVocab getLowLevelTermVocab() {
 		return lowLevelTermVocab;
 	}

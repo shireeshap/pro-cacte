@@ -10,7 +10,7 @@ public abstract class Question extends BasePersistable {
 	
 //    @Column(name = "question_text", nullable = false)
 //    protected String questionText;
-
+    @Transient
     public String getQuestionText(SupportedLanguageEnum supportedLanguageEnum) {
     	if (this instanceof ProCtcQuestion) {
     		if(((ProCtcQuestion) this).getProCtcQuestionVocab() == null){
@@ -64,13 +64,14 @@ public abstract class Question extends BasePersistable {
             return ((ProCtcQuestion) this).getProCtcTerm().getProCtcTermVocab().getTermEnglish();
         } else {
             if (this instanceof MeddraQuestion) {
-                return ((MeddraQuestion) this).getLowLevelTerm().getMeddraTerm();
+                return ((MeddraQuestion) this).getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH);
             }
         }
         return "";
 
     }
 
+    @Transient
     public String getSymptomGender() {
         if (this instanceof ProCtcQuestion) {
             return ((ProCtcQuestion) this).getProCtcTerm().getGender();
@@ -78,6 +79,7 @@ public abstract class Question extends BasePersistable {
         return null;
     }
 
+    @Transient
     public ProCtcQuestionType getQuestionType() {
         if (this instanceof ProCtcQuestion) {
             return ((ProCtcQuestion) this).getProCtcQuestionType();
@@ -88,6 +90,7 @@ public abstract class Question extends BasePersistable {
         return null;
     }
 
+    @Transient
     public String getStringId() {
         if (this instanceof ProCtcQuestion) {
             return "P_" + ((ProCtcQuestion) this).getProCtcTerm().getId();

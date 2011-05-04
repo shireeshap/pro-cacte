@@ -61,7 +61,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 }
 
                 if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
-                    String meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName();
+                    String meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                     if (participantAddedMeddraSymptomMap.containsKey(meddraSymptom)) {
                         participantAddedMeddraQuestions = participantAddedMeddraSymptomMap.get(meddraSymptom);
                     } else {

@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain.meddra;
 
 
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.BasePersistable;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import org.hibernate.annotations.Cascade;
@@ -15,7 +16,8 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
 
     private Integer id;
 
-    private String meddraTerm;
+    //moved into the lowLevelTermVocab class for LowLevelTerm.
+//    private String meddraTerm;
 
     private String costartSymbol;
 
@@ -100,14 +102,14 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
     }
 
 
-    @Column(name = "meddra_term")
-    public String getMeddraTerm() {
-        return meddraTerm;
-    }
-
-    public void setMeddraTerm(String meddraTerm) {
-        this.meddraTerm = meddraTerm;
-    }
+//    @Column(name = "meddra_term")
+//    public String getMeddraTerm() {
+//        return meddraTerm;
+//    }
+//
+//    public void setMeddraTerm(String meddraTerm) {
+//        this.meddraTerm = meddraTerm;
+//    }
 
     @Column(name = "who_art_code")
     public String getWhoArtCode() {
@@ -135,13 +137,22 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (meddraTerm == null ? 0 : meddraTerm.hashCode());
+        if(this instanceof LowLevelTerm){
+        	String meddraTerm = ((LowLevelTerm)this).getMeddraTerm(SupportedLanguageEnum.ENGLISH);
+    		result = prime * result + (meddraTerm == null ? 0 : meddraTerm.hashCode());
+    	} else {
+    		logger.error("hashCode() for any AbstractMeddraDomainObject other than LowLevelTerm is currently un-suppported");
+    	}
         result = prime * result + (meddraVersion == null ? 0 : meddraVersion.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
+    	if(!(obj instanceof LowLevelTerm) ||  !(this instanceof LowLevelTerm)){
+    		logger.error("equals() for any AbstractMeddraDomainObject other than LowLevelTerm is currently un-suppported");
+    		return false;
+    	}
         if (this == obj) {
             return true;
         }
@@ -151,19 +162,20 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AbstractMeddraDomainObject other = (AbstractMeddraDomainObject) obj;
+        final LowLevelTerm other = (LowLevelTerm) obj;
+        String meddraTerm = ((LowLevelTerm)this).getMeddraTerm(SupportedLanguageEnum.ENGLISH);
         if (meddraTerm == null) {
-            if (other.meddraTerm != null) {
+            if (other.getMeddraTerm(SupportedLanguageEnum.ENGLISH) != null) {
                 return false;
             }
-        } else if (!meddraTerm.equals(other.meddraTerm)) {
+        } else if (!meddraTerm.equals(other.getMeddraTerm(SupportedLanguageEnum.ENGLISH))) {
             return false;
         }
         if (meddraVersion == null) {
-            if (other.meddraVersion != null) {
+            if (other.getMeddraVersion() != null) {
                 return false;
             }
-        } else if (!meddraVersion.equals(other.meddraVersion)) {
+        } else if (!meddraVersion.equals(other.getMeddraVersion())) {
             return false;
         }
         return true;

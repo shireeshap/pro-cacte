@@ -139,7 +139,7 @@ public class ScheduleCrfAjaxFacade {
         }
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
-            List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm());
+            List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH));
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
                 return ctcTerms.get(0).getTerm(SupportedLanguageEnum.ENGLISH);
             }
