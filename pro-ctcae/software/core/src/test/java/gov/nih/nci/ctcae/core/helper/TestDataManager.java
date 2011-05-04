@@ -2,10 +2,13 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.repository.secured.*;
@@ -256,6 +259,18 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             return null;
         }
         return users.get(0);
+    }
+    
+    protected final ProCtcTerm getDefaultProCtcTerm(){
+    	ProCtcTermQuery pQuery = new ProCtcTermQuery();
+    	pQuery.filterByTerm("Aching muscles");
+    	return proCtcTermRepository.findSingle(pQuery);
+    }
+    
+    protected final CRFPage getDefaultCrfPage(){
+    	CRFPage crfPage = new CRFPage();
+    	crfPage.setProCtcTerm(getDefaultProCtcTerm());
+    	return crfPage;
     }
 
     protected final boolean isDataPresentInTable(String tableName) {
