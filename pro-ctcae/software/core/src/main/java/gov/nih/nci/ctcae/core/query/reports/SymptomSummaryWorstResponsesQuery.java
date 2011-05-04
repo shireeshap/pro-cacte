@@ -11,12 +11,12 @@ public class SymptomSummaryWorstResponsesQuery extends AbstractReportQuery {
             "max(spci.proCtcValidValue.displayOrder) , " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id , " +
             "spci.crfPageItem.proCtcQuestion.proCtcQuestionType, " +
-            "spci.crfPageItem.proCtcQuestion.proCtcTerm.term " +
+            "spci.crfPageItem.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish " +
             "from StudyParticipantCrfItem spci " +
             "group by " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id, " +
             "spci.crfPageItem.proCtcQuestion.proCtcQuestionType, " +
-            "spci.crfPageItem.proCtcQuestion.proCtcTerm.term " +
+            "spci.crfPageItem.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish " +
             "order by " +
             "max(spci.proCtcValidValue.displayOrder), " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id";
