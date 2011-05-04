@@ -62,13 +62,13 @@ public class CreateFormCommandTest extends WebTestCase {
         sixthQuestion.setQuestionText("sample question6", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.getProCtcTermVocab().setTermEnglish("Fatigue");
+        proCtcTerm1.setTermEnglish("Fatigue", SupportedLanguageEnum.ENGLISH);
         proCtcTerm1.addProCtcQuestion(firstQuestion);
         proCtcTerm1.addProCtcQuestion(secondQuestion);
         proCtcTerm1.addProCtcQuestion(thirdQuestion);
 
         proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.getProCtcTermVocab().setTermEnglish("Constipation");
+        proCtcTerm1.setTermEnglish("Constipation", SupportedLanguageEnum.ENGLISH);
         proCtcTerm2.addProCtcQuestion(fourthQuestion);
         proCtcTerm2.addProCtcQuestion(sixthQuestion);
 
