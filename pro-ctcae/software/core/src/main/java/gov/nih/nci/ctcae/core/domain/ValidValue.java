@@ -27,6 +27,18 @@ public abstract class ValidValue extends BasePersistable {
     public void setId(Integer id) {
         this.id = id;
     }
+    
+    /*
+     * default implementation assumes English as the preferred language
+     */
+    public String getValue(){
+    	return getValue(SupportedLanguageEnum.ENGLISH);
+    }
+    
+    public void setValue(String value){
+    	setValue(value, SupportedLanguageEnum.ENGLISH);
+    }
+    
 
     public String getValue(SupportedLanguageEnum supportedLanguageEnum) {
     	if(this instanceof ProCtcValidValue){

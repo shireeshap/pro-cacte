@@ -10,6 +10,19 @@ public abstract class Question extends BasePersistable {
 	
 //    @Column(name = "question_text", nullable = false)
 //    protected String questionText;
+	
+	/*
+	 * Default implementation assumes English language
+	 */
+	 @Transient
+	public String getQuestionText(){
+		return getQuestionText(SupportedLanguageEnum.ENGLISH);
+	}
+	
+	public void setQuestionText(String value){
+		setQuestionText(value, SupportedLanguageEnum.ENGLISH);
+	}
+	
     @Transient
     public String getQuestionText(SupportedLanguageEnum supportedLanguageEnum) {
     	if (this instanceof ProCtcQuestion) {

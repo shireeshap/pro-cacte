@@ -80,7 +80,19 @@ public class ProCtcTerm extends BasePersistable {
     public ProCtcTerm() {
         super();
     }
-
+    
+    /*
+     * Default implementation assumes English language
+     */
+    @Transient
+    public String getTerm(){
+    	return getTermEnglish(SupportedLanguageEnum.ENGLISH);
+    }
+    
+    public void setTerm(String value){
+    	setTermEnglish(value, SupportedLanguageEnum.ENGLISH);
+    }
+    
     @Transient
     public String getTermEnglish(SupportedLanguageEnum supportedLanguageEnum) {
     	if (getProCtcTermVocab() != null) {
