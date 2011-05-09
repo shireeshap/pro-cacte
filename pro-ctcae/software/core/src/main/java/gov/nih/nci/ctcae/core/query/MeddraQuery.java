@@ -6,9 +6,9 @@ package gov.nih.nci.ctcae.core.query;
  */
 public class MeddraQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT llt.meddraTerm from LowLevelTerm llt order by llt.id";
+    private static String queryString = "SELECT llt.lowLevelTermVocab.meddraTermEnglish from LowLevelTerm llt order by llt.id";
     private static String queryString1 = "SELECT llt from LowLevelTerm llt order by llt.id";
-    private static String MEDDRA_TERM = "meddraTerm";
+    private static String MEDDRA_TERM = "meddraTermEnglish";
 
     public MeddraQuery() {
         super(queryString1);
@@ -21,13 +21,13 @@ public class MeddraQuery extends AbstractQuery {
     public void filterMeddraWithMatchingText(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : "%";
         andWhere("(llt.participantAdded IS NULL OR llt.participantAdded = FALSE)");
-        andWhere(String.format("(lower(llt.meddraTerm) LIKE :%s)", MEDDRA_TERM));
+        andWhere(String.format("(lower(llt.lowLevelTermVocab.meddraTermEnglish) LIKE :%s)", MEDDRA_TERM));
         setParameter(MEDDRA_TERM, searchString);
     }
 
     public void filterByMeddraTerm(final String term) {
         String searchString = term.toLowerCase();
-        andWhere("lower(llt.meddraTerm) = :" + MEDDRA_TERM);
+        andWhere("lower(llt.lowLevelTermVocab.meddraTermEnglish) = :" + MEDDRA_TERM);
         setParameter(MEDDRA_TERM, searchString);
 
     }
