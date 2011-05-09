@@ -180,15 +180,15 @@ public class ParticipantQuery extends AbstractQuery {
         }
     }
 
-    public void filterByStudyParticipantIdentifier(String spIdentifier) {
+    public void filterByStudyParticipantIdentifier(final String spIdentifier) {
         if (spIdentifier != null) {
             leftJoin("p.studyParticipantAssignments as spa");
-            andWhere("spa.id = :id");
-            setParameter("id", spIdentifier);
+            andWhere("spa.id LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
+            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
         }
     }
-
-     /**
+    
+    /**
      * Filter by participant email address.
      *
      * @param email the email
