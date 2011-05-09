@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -45,12 +46,19 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final int PRIORITY = 1;
 	public static final long TIMEOUT = 5000000;
 	
+	public static final String CHANNEL_SOFTPHONE = "SIP/oneUser";
+	public static final String CHANNEL_VOIP      = "SIP/sip.broadvoice.com";
+	public static final String CHANNEL_PSTN      = "DAHDI/G1";
+	
+	public static final String MODE_IVRSCALLOUT  = "mode.ivrscallout";
+	
 	protected static final Log logger = LogFactory.getLog(IvrsCallOutScheduler.class);
     private JmsTemplate jmsTemplate;
     protected ApplicationContext applicationContext;
     private GenericRepository genericRepository;
     private ParticipantRepository participantRepository;
     private IvrsScheduleRepository ivrsScheduleRepository;
+    private Properties properties;
     
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
@@ -61,8 +69,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
      * candidate jobs and then push them in the queue.
      */
     public void scheduleJobInQueue(){
-//    	applicationContext = (ApplicationContext) scheduler.getContext().get("applicationContext");
-
+    	//applicationContext = (ApplicationContext) scheduler.getContext().get("applicationContext");
     	participantRepository = (ParticipantRepository) applicationContext.getBean("participantRepository");
     	ivrsScheduleRepository = (IvrsScheduleRepository) applicationContext.getBean("ivrsScheduleRepository");
     	genericRepository = (GenericRepository) applicationContext.getBean("genericRepository");
@@ -70,12 +77,14 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
         
+        String ivrsCalloutMode = properties.getProperty(MODE_IVRSCALLOUT);
+        
         logger.debug("----------------------------------------------------------------------------\n\r\n\r");
         logger.debug("scheduleJobInQueue starts...." + new Date());
         //LoadSpringApplicationContext();
 		try {
 			List<IvrsSchedule> ivrScheduleList = getJobsForNextFiveMinutes();
-			List<CallAction> callActionList = generateCallActionList(ivrScheduleList);
+			List<CallAction> callActionList = generateCallActionList(ivrScheduleList, ivrsCalloutMode);
 			executeProducer(callActionList);
 			updateIvrsScheduleStatus(ivrScheduleList);
 		} catch (JMSException e) {
@@ -94,7 +103,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	 */
 	private void updateIvrsScheduleStatus(List<IvrsSchedule> ivrScheduleList) {
 		for(IvrsSchedule ivrsSchedule : ivrScheduleList){
-			//TODO: Should additional checks be performed before updating statuses?
+			//TODO: Should additional checks be performed before updating statuses? update to COMPLETED in the listener?
 			ivrsSchedule.setCallStatus(IvrsCallStatus.SCHEDULED);
 			ivrsScheduleRepository.save(ivrsSchedule);
 		}
@@ -125,7 +134,6 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		
 		return ivrsScheduleList;
 	}
-	
 
 	/**
 	 * Generates the callAction list. This is the list of jobs that need to be eventually pushed into the JMS queue.
@@ -133,7 +141,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	 * @param ivrScheduleList the ivrs schedule list
 	 * @return the list
 	 */
-	private List<CallAction> generateCallActionList(List<IvrsSchedule> ivrScheduleList) {
+	private List<CallAction> generateCallActionList(List<IvrsSchedule> ivrScheduleList, String ivrsCalloutMode) {
 		
 		List<CallAction> callActionList = new ArrayList<CallAction>();
 		CallAction callAction = null;
@@ -144,7 +152,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		for(IvrsSchedule ivrsSchedule: ivrScheduleList){
 			//Get the participant using the StudyParticipantAssignment and get the phoneNumber from the participant.
 			participantQuery = new ParticipantQuery();
-			participantQuery.filterByStudyParticipantIdentifier(ivrsSchedule.getStudyParticipantAssignment().getId());
+			participantQuery.filterByStudyParticipantAssignmentId(ivrsSchedule.getStudyParticipantAssignment().getId());
 			Collection<Participant> participantList = genericRepository.find(participantQuery);
 			if(participantList.size() > 1){
 				logger.error("Got more than 1 participant for a given StudyParticipantAssignment.");
@@ -154,18 +162,21 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 				participant = pIter.next();
 			}
 			phoneNumber = participant.getPhoneNumber();
-			//forSoftPhones
-			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout)
-			//callAction = new CallAction("" + 1, "SIP/oneUser", "outgoing1", "100", 1, 5000000);
-			//for VOIP setup
-			//callAction = new CallAction("" + 1, "SIP/sip.broadvoice.com/17039081998", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
 			//phoneNumber = "91"+phoneNumber.getAlldigitsOnlyFromNumber();
-			//for PSTN
-			//callAction = new CallAction("" + 1, "DAHDI/G1/"+phoneNumber, "outgoing1", "100", 1, 5000000);
-			callAction = new CallAction("" + 1, "DAHDI/G1/226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+			
+			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout)
+			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
+				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+			}
+			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_VOIP)){
+				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + "17039081998", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+			}
+			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_PSTN)){
+				//callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + phoneNumber, "outgoing1", "100", 1, 5000000);
+				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+			}
 			callActionList.add(callAction);
 		}
-
 		return callActionList;
 	}
 
@@ -234,6 +245,15 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
+
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
+
 	
     
 //  private void LoadSpringApplicationContext()

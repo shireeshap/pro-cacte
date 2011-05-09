@@ -22,7 +22,7 @@ import java.beans.PropertyChangeListener;
  * @since March 21, 2011
  */
 public class IvrsMessageListener implements MessageListener {
-     protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
+    protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
      //10.10.10.136
     static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.136", 5038, "admin", "admin");
     public void onMessage(Message message) {
@@ -63,8 +63,8 @@ public class IvrsMessageListener implements MessageListener {
 				}
 			}
 
-			//			originateResponse = defaultAsteriskServer.getManagerConnection().sendAction(CallAction.getOriginateAction());
-			//			Logger.error("method call over originateResponse--" + originateResponse);
+			//originateResponse = defaultAsteriskServer.getManagerConnection().sendAction(CallAction.getOriginateAction());
+			//Logger.error("method call over originateResponse--" + originateResponse);
 			logger.error("*****CALL OVER*****" +  CallAction.getOriginateAction().getChannel());
 			//LOG.info("Consumed message: " + msg.getText());
 		} catch (JMSException e) {			
