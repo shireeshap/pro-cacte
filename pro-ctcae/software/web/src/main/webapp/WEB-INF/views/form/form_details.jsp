@@ -854,13 +854,13 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                                 <ul>
                                     <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                         <li class="closed">
-                                            <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
+                                            <span class="ctctermleft"> ${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish} - </span>
                                                 <span class="ctctermmiddle"
                                                       style="display:none">${proCtcTerm.term}</span>
                                                 <span class="ctctermright"
-                                                      style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
+                                                      style="display:none"> - [${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish}]</span>
                                                 <span class="ctctermonly"
-                                                      style="display:none">${proCtcTerm.ctcTerm.term}</span>
+                                                      style="display:none">${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish}</span>
                                             <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
                                             <a href="javascript:addProctcTerm(${proCtcTerm.id})"
