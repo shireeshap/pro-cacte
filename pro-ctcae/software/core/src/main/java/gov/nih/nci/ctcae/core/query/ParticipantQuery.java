@@ -167,27 +167,28 @@ public class ParticipantQuery extends AbstractQuery {
         }
     }
     
+
+    public void filterByStudyParticipantIdentifier(String spIdentifier) {
+        if (spIdentifier != null) {
+            leftJoin("p.studyParticipantAssignments as spa");
+            andWhere("spa.studyParticipantIdentifier LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
+            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
+        }
+    }
+    
     /**
      * Filter by study.
      *
      * @param studyParticipantIdentifier the study Participant Identifier
      */
-    public void filterByStudyParticipantIdentifier(Integer studyParticipantIdentifier) {
-        if (studyParticipantIdentifier != null) {
+    public void filterByStudyParticipantAssignmentId(Integer studyParticipantAssignmentId) {
+        if (studyParticipantAssignmentId != null) {
         	leftJoin("p.studyParticipantAssignments as spa");
             andWhere("spa.id = :id");
-            setParameter("id", studyParticipantIdentifier);
+            setParameter("id", studyParticipantAssignmentId);
         }
     }
 
-    public void filterByStudyParticipantIdentifier(final String spIdentifier) {
-        if (spIdentifier != null) {
-            leftJoin("p.studyParticipantAssignments as spa");
-            andWhere("spa.id LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
-            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
-        }
-    }
-    
     /**
      * Filter by participant email address.
      *
