@@ -1087,6 +1087,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
+pro-ctcae/software/web/src/main/resources/Spanish_ProCtcTerms_V4_updated.csv -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-validator.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
