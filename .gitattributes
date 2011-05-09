@@ -532,6 +532,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopu
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV3.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProTermsMultiLangImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
@@ -906,6 +907,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormContro
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/DeleteProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/FixDueDateController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadMultiLangTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/PasswordPolicyConfigurationController.java -text

@@ -48,6 +48,7 @@ public class ProCtcQuestion extends Question{
      */
     @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @OrderBy("displayOrder, id asc")
     private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
     /**

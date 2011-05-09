@@ -34,7 +34,7 @@ public class ProCtcQuestionQuery extends AbstractQuery {
 
     public void filterByTerm(final String term) {
         String searchString = term.toLowerCase();
-        andWhere("lower(o.proCtcTerm.term) = :" + PROCTC_TERM);
+        andWhere("lower(o.proCtcTerm.proCtcTermVocab.termEnglish) = :" + PROCTC_TERM);
         setParameter(PROCTC_TERM, searchString);
 
     }

@@ -798,6 +798,11 @@
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
 
+    <bean name="/loadMultiLangTerms" id="loadMultiLangTerms" class="gov.nih.nci.ctcae.web.LoadMultiLangTermsController">
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
+
     <bean name="/deleteProCtcTerm" id="deleteProCtcTerm" class="gov.nih.nci.ctcae.web.DeleteProCtcTermController">
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>

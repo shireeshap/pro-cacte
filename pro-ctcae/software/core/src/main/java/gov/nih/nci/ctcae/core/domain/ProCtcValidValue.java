@@ -40,7 +40,6 @@ public class ProCtcValidValue extends ValidValue {
     public ProCtcValidValue() {
     }
 
-
     /**
      * Gets the pro ctc question.
      *
