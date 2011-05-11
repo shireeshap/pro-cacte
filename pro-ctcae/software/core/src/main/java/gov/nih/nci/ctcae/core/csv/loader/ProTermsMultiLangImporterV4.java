@@ -75,15 +75,15 @@ public class ProTermsMultiLangImporterV4 {
             List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
             if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
                 ProCtcQuestion proCtcQuestion = proCtcQuestions.get(0);
-                if (language.equalsIgnoreCase("Spanish")) {
+//                if (language.equalsIgnoreCase("Spanish")) {
                     proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
-                }
+//                }
                 int i = 0;
                 for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
                     if (StringUtils.isNotBlank(values.get(i))) {
-                        if (language.equalsIgnoreCase("Spanish")) {
+//                        if (language.equalsIgnoreCase("Spanish")) {
                             validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
-                        }
+//                        }
                     }
                     i++;
                 }
@@ -95,9 +95,9 @@ public class ProTermsMultiLangImporterV4 {
             List<ProCtcTerm> proTerms = (List<ProCtcTerm>) proCtcTermRepository.find(proCtcTermQuery);
             if (proTerms != null && proTerms.size() > 0) {
                 ProCtcTerm proTerm = proTerms.get(0);
-                if (language.equalsIgnoreCase("Spanish")) {
+//                if (language.equalsIgnoreCase("Spanish")) {
                     proTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
-                }
+//                }
                 proCtcTermRepository.save(proTerm);
             }
 
