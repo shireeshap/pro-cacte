@@ -169,7 +169,7 @@ public class IVRSApiTest extends TestDataManager{
        // get the first un consumed core symptom
        Integer firstCoreScreeningID = helper.ivrsGetCoreSymptomID(participant.getUser().getId(),schedFormId);
        assertEquals(4,firstCoreScreeningID.intValue());
-       // on the first core screening question it should go to previous regular question
+       // on the first core screening question it should go to previous regular question (if there are no added questions)
        assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousCoreSymptomID(participant.getUser().getId(),schedFormId,4));
 
        assertEquals(5,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,4,2,0).intValue());

@@ -52,6 +52,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "form_completion_date")
     private Date completionDate;
 
+       /**
+     * The file_path .
+     */
+    @Column(name = "file_path")
+    private String filePath;
+
     @Column(name = "is_holiday")
     private boolean holiday;
 
@@ -244,6 +250,22 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+       /**
+     * Gets the file path
+     *
+     * @return the file path
+     */
+    public String getFilePath() {
+        return filePath;
+    }
+    /**
+     * Sets the file path.
+     *
+     * @param filePath the new file path
+     */
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     /**
      * Gets the completion Date
@@ -388,6 +410,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             return false;
         if(completionDate!=null ? !completionDate.equals(that.completionDate): that.completionDate != null)
             return false;
+        if(filePath!=null ? !filePath.equals(that.filePath): that.filePath != null)
+            return false;
         return true;
     }
 
@@ -405,6 +429,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (formSubmissionMode != null ? formSubmissionMode.hashCode() : 0);
         result = 31 * result + (completionDate != null ? completionDate.hashCode():0);
+        result = 31 * result + (filePath != null ? filePath.hashCode():0);
         return result;
     }
 
