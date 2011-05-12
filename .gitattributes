@@ -1096,6 +1096,7 @@ pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationConte
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
 pro-ctcae/software/web/src/main/resources/object-graph.xml -text
+pro-ctcae/software/web/src/main/resources/version.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators.xml -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/mobilelite.jsp -text
