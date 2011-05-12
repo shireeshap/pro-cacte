@@ -109,6 +109,11 @@ public class CtcTerm extends BasePersistable {
     public void setId(Integer id) {
         this.id = id;
     }
+    
+    @Transient
+    public String getTerm() {
+    	return getTerm(SupportedLanguageEnum.ENGLISH);
+    }
 
     /**
      * Gets the term.

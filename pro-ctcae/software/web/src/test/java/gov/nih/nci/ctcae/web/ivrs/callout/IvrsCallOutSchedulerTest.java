@@ -72,14 +72,14 @@ public class IvrsCallOutSchedulerTest extends WebTestCase {
 	//	TextMessage message = session.createTextMessage("this is test message");
 
 		ObjectMessage msg1 = session.createObjectMessage();
-		msg1.setObject(new CallAction("" + 1, "SIP/oneuser", "outgoing1", "100", 1, 5000000) );
+		msg1.setObject(new CallAction("" + 1, "SIP/oneuser", "outgoing1", "100", 1, 5000000, 1) );
 	//	msg1.setJMSType(this.CMD_TYPE_MESSAGETYPE_OBJECT);
 
 		ObjectMessage msg2 = session.createObjectMessage();
-		msg2.setObject(new CallAction("" + 1, "SIP/twouser", "outgoing1", "100", 1, 5000000));
+		msg2.setObject(new CallAction("" + 1, "SIP/twouser", "outgoing1", "100", 1, 5000000, 1));
 
 		ObjectMessage msg3 = session.createObjectMessage();
-		msg3.setObject(new CallAction("" + 1, "SIP/oneuser", "outgoing1", "100", 1, 5000000));
+		msg3.setObject(new CallAction("" + 1, "SIP/oneuser", "outgoing1", "100", 1, 5000000, 1));
 		// Here we are sending the message!
 		producer.send(msg1);
         // Thread.sleep(60*1000);

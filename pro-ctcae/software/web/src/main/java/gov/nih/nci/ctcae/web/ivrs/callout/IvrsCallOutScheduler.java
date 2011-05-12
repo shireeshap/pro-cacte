@@ -46,6 +46,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final int PRIORITY = 1;
 	public static final long TIMEOUT = 5000000;
 	
+	//specified in the datasource.props
 	public static final String CHANNEL_SOFTPHONE = "SIP/oneUser";
 	public static final String CHANNEL_VOIP      = "SIP/sip.broadvoice.com";
 	public static final String CHANNEL_PSTN      = "DAHDI/G1";
@@ -78,10 +79,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         DataAuditInfo.setLocal(auditInfo);
         
         String ivrsCalloutMode = properties.getProperty(MODE_IVRSCALLOUT);
-        
-        logger.debug("----------------------------------------------------------------------------\n\r\n\r");
         logger.debug("scheduleJobInQueue starts...." + new Date());
-        //LoadSpringApplicationContext();
 		try {
 			List<IvrsSchedule> ivrScheduleList = getJobsForNextFiveMinutes();
 			List<CallAction> callActionList = generateCallActionList(ivrScheduleList, ivrsCalloutMode);
@@ -99,11 +97,19 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	/**
 	 * Update ivrs schedule status.
 	 *
-	 * @param ivrScheduleList the ivr schedule list
+	 * @param ivrScheduleList the ivrs schedule list
 	 */
 	private void updateIvrsScheduleStatus(List<IvrsSchedule> ivrScheduleList) {
 		for(IvrsSchedule ivrsSchedule : ivrScheduleList){
-			//TODO: Should additional checks be performed before updating statuses? update to COMPLETED in the listener?
+			//reduce the callCount by one
+			ivrsSchedule.setCallCount(ivrsSchedule.getCallCount() - 1);
+			
+			//set the next CallTime as PrefCallTime + retry period in minutes
+			Calendar nextCallTime = Calendar.getInstance();
+			nextCallTime.setTime(ivrsSchedule.getPreferredCallTime());
+			nextCallTime.add(Calendar.MINUTE, ivrsSchedule.getRetryPeriod());
+			ivrsSchedule.setNextCallTime(nextCallTime.getTime());
+			
 			ivrsSchedule.setCallStatus(IvrsCallStatus.SCHEDULED);
 			ivrsScheduleRepository.save(ivrsSchedule);
 		}
@@ -118,20 +124,25 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
 		Calendar now = Calendar.getInstance();
 		Calendar fiveMinutesFromNow = Calendar.getInstance();
-		fiveMinutesFromNow.add(Calendar.MINUTE, 5);
+		fiveMinutesFromNow.add(Calendar.MINUTE, 2);
 		
 		//add all ivrsSchedules with Status=PENDING
 		IvrsScheduleQuery ivrsScheduleQueryForPendingStatus = new IvrsScheduleQuery();
 		ivrsScheduleQueryForPendingStatus.filterByDate(now.getTime(), fiveMinutesFromNow.getTime());
 		ivrsScheduleQueryForPendingStatus.filterByStatus(IvrsCallStatus.PENDING);
+		//dont get the ones whose callCount is already Zero
+		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
 		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForPendingStatus));
 		
 		//add all ivrsSchedules with Status=SCHEDULED
 		IvrsScheduleQuery ivrsScheduleQueryForScheduledStatus = new IvrsScheduleQuery();
 		ivrsScheduleQueryForScheduledStatus.filterByDate(now.getTime(), fiveMinutesFromNow.getTime());
 		ivrsScheduleQueryForScheduledStatus.filterByStatus(IvrsCallStatus.SCHEDULED);
+		//dont get the ones whose callCount is already Zero
+		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
 		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForScheduledStatus));
 		
+		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleList.size());
 		return ivrsScheduleList;
 	}
 
@@ -161,23 +172,36 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			while(pIter.hasNext()){
 				participant = pIter.next();
 			}
-			phoneNumber = participant.getPhoneNumber();
-			//phoneNumber = "91"+phoneNumber.getAlldigitsOnlyFromNumber();
+			phoneNumber = buildPhoneNumber(participant);
 			
-			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout)
+			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId)
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
-				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+				logger.debug("Adding CallAction for SoftPhone....");
+				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
 			}
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_VOIP)){
-				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + "17039081998", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+				logger.debug("Adding CallAction for VOIP....");
+				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + phoneNumber, CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
 			}
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_PSTN)){
-				//callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + phoneNumber, "outgoing1", "100", 1, 5000000);
-				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT);
+				logger.debug("Adding CallAction for PSTN....");
+				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
 			}
 			callActionList.add(callAction);
 		}
 		return callActionList;
+	}
+
+	/**
+	 * Builds the phone number. Wont work if number is a 11 digit number including the country code 1.
+	 * Basically returns only the digits from the string.
+	 * e.g: converts 908-887-0987 to 9088870987
+	 *
+	 * @param participant the participant
+	 * @return the string
+	 */
+	private String buildPhoneNumber(Participant participant) {
+		return "1" + participant.getPhoneNumber().replaceAll( "[^\\d]", "" );
 	}
 
 	/**
@@ -189,7 +213,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	 */
 	private void executeProducer(List<CallAction> callActionList) throws JMSException,InterruptedException{
 		
-        logger.error("producer starts....");
+        logger.debug("producer starts....");
 		ConnectionFactory connectionFactory = jmsTemplate.getConnectionFactory();
 		Connection connection = connectionFactory.createConnection();
 		Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -197,27 +221,15 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		MessageProducer producer = session.createProducer(destination);
 		ObjectMessage objectMessage = null;
 		
+		logger.debug("Total messages to be sent: " + callActionList.size());
 		for(CallAction callAction: callActionList){
 			objectMessage = session.createObjectMessage();
 			objectMessage.setObject(callAction);
 			producer.send(objectMessage);
 			logger.debug("Sent message------------" + callAction.getId());
 		}
+		logger.debug("producer stops....");
 		connection.close();
-		
-		// We will send a small text message saying 'Hello' in Japanese
-		//	TextMessage message = session.createTextMessage("this is test message");
-/*		ObjectMessage msg1 = session.createObjectMessage();
-		msg1.setObject(new CallAction("" + 1, "SIP/oneuser", "outgoing1", "100", 1, 5000000) );
-		//	msg1.setJMSType(this.CMD_TYPE_MESSAGETYPE_OBJECT);
-		ObjectMessage msg2 = session.createObjectMessage();
-		msg2.setObject(new CallAction("" + 1, "SIP/twouser", "outgoing1", "100", 1, 5000000));
-		// Here we are sending the message!
-		producer.send(msg1);
-        //Thread.sleep(16*60*60*1000);
-		producer.send(msg2);
-		logger.debug("Sent message------------");
-*/
 	}
 
 	public ParticipantRepository getParticipantRepository() {
@@ -254,11 +266,8 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		this.properties = properties;
 	}
 
-	
-    
 //  private void LoadSpringApplicationContext()
 //	{
-		// open/read the application context file
 		//ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:gov/nih/nci/ctcae/web/src/main/webapp/WEB-INF/spring-jms.xml");
         //CallAction action = (CallAction)ctx.getBean("action");
         //StudyController studyController =   (StudyController)ctx.getBean("studyController");

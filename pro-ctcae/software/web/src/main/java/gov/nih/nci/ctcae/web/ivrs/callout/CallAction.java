@@ -11,10 +11,13 @@ import org.asteriskjava.manager.action.OriginateAction;
  */
 public class CallAction implements Serializable{
     private OriginateAction action;
+    
+    private Integer ivrsScheduleId;
+    
     public CallAction(){
 
     }
-    public CallAction(String id, String channel, String context, String extension, int priority, long timeout) {
+    public CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId) {
         this.action = new OriginateAction();
         this.action.setActionId(id);
         this.action.setChannel(channel);
@@ -22,6 +25,7 @@ public class CallAction implements Serializable{
         this.action.setExten(extension);
         this.action.setPriority(priority);
         this.action.setTimeout(timeout);
+        this.ivrsScheduleId = ivrsScheduleId;
     }
 
     public OriginateAction getOriginateAction() {
@@ -34,5 +38,11 @@ public class CallAction implements Serializable{
     public String getId(){
         return getOriginateAction().getActionId();
     }
+	public Integer getIvrsScheduleId() {
+		return ivrsScheduleId;
+	}
+	public void setIvrsScheduleId(Integer ivrsScheduleId) {
+		this.ivrsScheduleId = ivrsScheduleId;
+	}
 }
 

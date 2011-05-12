@@ -36,4 +36,9 @@ public class IvrsScheduleQuery extends AbstractQuery {
         andWhere("ischd.callStatus =:status");
         setParameter("status", status);
     }
+    
+    public void filterByCallCountGreaterThan(int callCount) {
+        andWhere("ischd.callCount >:callCount");
+        setParameter("callCount", callCount);
+    }
 }

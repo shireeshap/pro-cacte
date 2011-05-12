@@ -1,46 +1,72 @@
 package gov.nih.nci.ctcae.web.ivrs.callout;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.asteriskjava.live.*;
-import org.asteriskjava.manager.action.OriginateAction;
-
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
-import gov.nih.nci.ctcae.web.ivrs.callout.CallAction;
+import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
+import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Date;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.asteriskjava.live.AsteriskChannel;
+import org.asteriskjava.live.ChannelState;
+import org.asteriskjava.live.DefaultAsteriskServer;
+import org.asteriskjava.live.ManagerCommunicationException;
+import org.asteriskjava.live.NoSuchChannelException;
+import org.asteriskjava.manager.action.OriginateAction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * The Class IvrsMessageListener.
  *
- * @author Suneel Allareddy
+ * @author Suneel Allareddy, Vinay Gangoli
  * @since March 21, 2011
  */
-public class IvrsMessageListener implements MessageListener {
-    protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
-     //10.10.10.136
-    static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.136", 5038, "admin", "admin");
+public class IvrsMessageListener implements MessageListener, ApplicationContextAware {
+    
+	protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
+    
+	private IvrsScheduleRepository ivrsScheduleRepository;
+	
+	protected ApplicationContext applicationContext;
+     
+    static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.77", 5038, "admin", "admin");
+    
     public void onMessage(Message message) {
-		CallAction CallAction = null;
-		//	ManagerResponse originateResponse;
+		CallAction callAction = null;
+		IvrsSchedule ivrsSchedule = null;
+		ivrsScheduleRepository = (IvrsScheduleRepository) applicationContext.getBean("ivrsScheduleRepository");
+		//ManagerResponse originateResponse;
 		try {
 			ObjectMessage msg = (ObjectMessage) message;;
-			CallAction = (CallAction)msg.getObject();
-			System.out.println("*****NEW CALL STARTING****for user-->*" + CallAction.getOriginateAction().getChannel());
-			OriginateAction originateAction = CallAction.getOriginateAction();
+			callAction = (CallAction)msg.getObject();
+			Integer ivrsScheduleId = callAction.getIvrsScheduleId();
+			ivrsSchedule = ivrsScheduleRepository.findById(ivrsScheduleId);
+	        
+			DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+	        DataAuditInfo.setLocal(auditInfo);
+			
+	        logger.debug("*****NEW CALL STARTING****for user-->*" + callAction.getOriginateAction().getChannel());
+			OriginateAction originateAction = callAction.getOriginateAction();
 			originateAction.setAsync(false);
+			//CallerId is mandatory for VOIP
+			originateAction.setCallerId("ProCtcAE");
 
 			final AsteriskChannel channel = defaultAsteriskServer.originate(originateAction);
-//			ivrsSchedule.setCallStatus(IvrsCallStatus.SCHEDULED);
-			logger.error("*****channel created-->> " + channel);
+			logger.debug("*****channel created-->> " + channel);
 			if(channel != null){
-				logger.error("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
+				logger.debug("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
 				if(channel.wasInState(ChannelState.UP)){
+					ivrsSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
 					synchronized (channel){
 						channel.addPropertyChangeListener(AsteriskChannel.PROPERTY_STATE, new PropertyChangeListener()
 						{
@@ -48,7 +74,7 @@ public class IvrsMessageListener implements MessageListener {
 							{
 								if (evt.getNewValue() == ChannelState.HUNGUP)
 								{
-									logger.error("USER HUNG UP --->>>" + ((AsteriskChannel)evt.getSource()).getName());
+									logger.debug("USER HUNG UP --->>>" + ((AsteriskChannel)evt.getSource()).getName());
 									channel.notify();
 								}
 							}
@@ -61,27 +87,61 @@ public class IvrsMessageListener implements MessageListener {
 						}
 					}
 				}
+			} else {
+				logger.error("The channel returned by the Server was null.");
+				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
 			}
-
-			//originateResponse = defaultAsteriskServer.getManagerConnection().sendAction(CallAction.getOriginateAction());
-			//Logger.error("method call over originateResponse--" + originateResponse);
-			logger.error("*****CALL OVER*****" +  CallAction.getOriginateAction().getChannel());
-			//LOG.info("Consumed message: " + msg.getText());
-		} catch (JMSException e) {			
+			logger.debug("*****CALL OVER*****" +  callAction.getOriginateAction().getChannel());
+		} catch (JMSException e) {
+			if(ivrsSchedule != null){
+				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+			}
 			e.printStackTrace();
+			logger.error("JMSException occurred -->> "+ e  + " --cause-->>" + e.getCause());
+			logger.error("*****CALL OVER*****WITH JMSException");
 		}catch(ManagerCommunicationException e){
+			if(ivrsSchedule != null){
+				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+			}
 			e.printStackTrace();
 			logger.error("ManagerCommunicationException occuerd -->> "+ e  + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH ManagerCommunicationException");
 		}catch(NoSuchChannelException e){
-			//	e.printStackTrace();
-			logger.error("NoSuchChannelException occuerd -->> "+ e + " --cause-->>" + e.getLocalizedMessage());
-			logger.error("*****CALL OVER*****WITH NoSuchChannelException for user-->" + CallAction.getOriginateAction().getChannel());
+			if(ivrsSchedule != null){
+				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+			}
+			e.printStackTrace();
+			logger.error("NoSuchChannelException occuerd -->> "+ e + " --cause-->>" + e.getCause());
+			logger.error("*****CALL OVER*****WITH NoSuchChannelException for user-->" + callAction.getOriginateAction().getChannel());
 		}
 		catch (Exception e){
+			if(ivrsSchedule != null){
+				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+			}
 			e.printStackTrace();
-			logger.error("Exception occuerd -->> "+ e);
+			logger.error("Exception occuerd -->> "+ e + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH EXCEPTION");
+		} finally {
+			ivrsScheduleRepository.save(ivrsSchedule);
 		}
 	}
+
+    
+	public IvrsScheduleRepository getIvrsScheduleRepository() {
+		return ivrsScheduleRepository;
+	}
+
+	public void setIvrsScheduleRepository(
+			IvrsScheduleRepository ivrsScheduleRepository) {
+		this.ivrsScheduleRepository = ivrsScheduleRepository;
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+	
 }

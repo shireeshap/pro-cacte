@@ -38,6 +38,9 @@ public class IvrsSchedule extends BasePersistable{
     @Column(name = "id")
     private Integer id;
 	
+    /*
+     * Initializes to the total number of attempts to be made and reduces with every attempt to Zero.
+     */
 	@Column(name = "call_count", nullable = false)
 	private int callCount;
 	
@@ -114,9 +117,14 @@ public class IvrsSchedule extends BasePersistable{
     	
     	this.nextCallTime = this.preferredCallTime;
     	//retry period is in minutes
-//    	this.retryPeriod = studyParticipantAssignment.getStudySite().getStudy().getCallBackHour();
+    	this.retryPeriod = studyParticipantAssignment.getStudySite().getStudy().getCallBackHour();
     	//number of reminders plus the original call itself
-//		this.callCount = studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() + 1;
+    	if(studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() != null){
+    		this.callCount = studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() + 1;
+    	} else {
+    		this.callCount = 1;
+    	}
+		
     }
 
     
