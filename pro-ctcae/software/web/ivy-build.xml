@@ -47,7 +47,11 @@
     <target name="war" depends="clean-war, init-war, resolve-dist">
         <copy-resources src="${classes.dir}" dest="${war.dir}/WEB-INF/classes" filter="false"/>
         <copy-resources src="${main.src}/../webapp" dest="${war.dir}" filter="false"/>
-
+        <!--<copy file="${main.src.resources}/version.properties" todir="${war.dir}/WEB-INF"/>-->
+         <tstamp>
+                <format property="now" pattern="yyyyMMddHHmmss"/>
+         </tstamp>
+        <echo file="${war.dir}/WEB-INF/version.properties" append="true" message="build.date=${now}"/>
         <war destfile="${dist.dir}/${war.filename}" basedir="${war.dir}"
              webxml="${main.src}/../webapp/WEB-INF/web.xml">
         </war>

@@ -17,6 +17,7 @@
             <list>
                 <value>WEB-INF/message</value>
                 <value>WEB-INF/help</value>
+                <value>WEB-INF/version</value>
             </list>
         </property>
         <property name="cacheSeconds" value="1"/>
