@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -108,7 +109,8 @@ public class StudyParticipantAssignment extends BaseVersionable {
     private String ivrsLanguage;
 
     @Column(name = "home_web_language", nullable = true)
-    private String homeWebLanguage;
+    @Enumerated(value = EnumType.STRING)
+    private SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.ENGLISH;
 
     @Column(name = "clinic_web_language", nullable = true)
     private String clinicWebLanguage;
@@ -622,11 +624,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.ivrsLanguage = ivrsLanguage;
     }
 
-    public String getHomeWebLanguage() {
+    public SupportedLanguageEnum getHomeWebLanguage() {
         return homeWebLanguage;
     }
 
-    public void setHomeWebLanguage(String homeWebLanguage) {
+    public void setHomeWebLanguage(SupportedLanguageEnum homeWebLanguage) {
         this.homeWebLanguage = homeWebLanguage;
     }
 

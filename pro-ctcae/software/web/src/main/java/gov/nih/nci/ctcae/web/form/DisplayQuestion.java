@@ -30,6 +30,10 @@ public class DisplayQuestion {
         this.command = command;
     }
 
+    public String getQuestionTextSpanish() {
+        return question.getQuestionText(SupportedLanguageEnum.SPANISH);
+    }
+
     public String getQuestionText() {
         return question.getQuestionText(SupportedLanguageEnum.ENGLISH);
     }

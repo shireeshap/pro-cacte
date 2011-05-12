@@ -108,7 +108,6 @@ public class ProCtcQuestion extends Question{
         this.id = id;
     }
 
-
     /**
      * Gets the display order.
      *

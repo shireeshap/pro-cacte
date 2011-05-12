@@ -4,4 +4,4 @@
 <c:if test="${configuration.map.showDebugInformation}">
     <tags:debugInfo/>
 </c:if>
-<div id="build-name">version 1.2</div>
+<div id="build-name">version 1.3</div>

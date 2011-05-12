@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +43,7 @@ public class ProTermsMultiLangImporterV4 {
     public void updateMultiLangProTerms() throws IOException {
         CsvReader reader;
         ClassPathResource classPathResource = new ClassPathResource("Spanish_ProCtcTerms_V4_updated.csv");
-        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
+        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader.readHeaders();
 
         while (reader.readRecord()) {
@@ -77,12 +79,14 @@ public class ProTermsMultiLangImporterV4 {
                 ProCtcQuestion proCtcQuestion = proCtcQuestions.get(0);
 //                if (language.equalsIgnoreCase("Spanish")) {
                     proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
+                    System.out.println("spanish question set");
 //                }
                 int i = 0;
                 for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
                     if (StringUtils.isNotBlank(values.get(i))) {
 //                        if (language.equalsIgnoreCase("Spanish")) {
                             validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
+//                            System.out.println("spanish value set");
 //                        }
                     }
                     i++;
@@ -97,6 +101,7 @@ public class ProTermsMultiLangImporterV4 {
                 ProCtcTerm proTerm = proTerms.get(0);
 //                if (language.equalsIgnoreCase("Spanish")) {
                     proTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
+                    System.out.println("spanish proCtcTerm set");
 //                }
                 proCtcTermRepository.save(proTerm);
             }

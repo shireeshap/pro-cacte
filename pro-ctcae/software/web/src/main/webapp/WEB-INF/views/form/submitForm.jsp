@@ -1,3 +1,5 @@
+<%@ page import="gov.nih.nci.ctcae.web.participant.ParticipantCommand" %>
+<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -7,9 +9,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         div.row div.value {
             white-space: normal;
@@ -139,20 +139,42 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${displayQuestion.questionText}?<br/> 
+                            <c:set var="language"
+                                   value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.homeWebLanguage}"/>
+                                <%--<c:set var="_command" value="${command}"/>--%>
+                            <c:if test="${language eq 'ENGLISH' || language eq null}">
+                                ${displayQuestion.questionText}?<br/>
+                            </c:if>
+                                <%--<%  pageContext.getAttribute("_command"); %>--%>
+                            <c:if test="${language eq 'SPANISH'}">
+                                ${displayQuestion.questionTextSpanish}?<br/>
+                                <%--${displayQuestion.questionText}?<br/>--%>
+                            </c:if>
+
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
-                        <tags:validvalue validValueId="${validValue.id}"
-                                         title="${validValue.value}"
-                                         selectedId="${displayQuestion.selectedValidValue.id}"
-                                         displayOrder="${validValue.displayOrder}"
-                                         questionIndexOnPage="${varStatus.index}"
-                                         validValueIndexForQuestion="${validvaluestatus.index}"
-                                />
+                        <c:if test="${language eq 'ENGLISH' || language eq null}">
+                            <tags:validvalue validValueId="${validValue.id}"
+                                             title="${validValue.value}"
+                                             selectedId="${displayQuestion.selectedValidValue.id}"
+                                             displayOrder="${validValue.displayOrder}"
+                                             questionIndexOnPage="${varStatus.index}"
+                                             validValueIndexForQuestion="${validvaluestatus.index}"
+                                    />
+                        </c:if>
+                        <c:if test="${language eq 'SPANISH'}">
+                            <tags:validvalue validValueId="${validValue.id}"
+                                             title="${validValue.valueSpanish}"
+                                             selectedId="${displayQuestion.selectedValidValue.id}"
+                                             displayOrder="${validValue.displayOrder}"
+                                             questionIndexOnPage="${varStatus.index}"
+                                             validValueIndexForQuestion="${validvaluestatus.index}"
+                                    />
+                        </c:if>
                     </c:forEach>
                 </tr>
             </table>

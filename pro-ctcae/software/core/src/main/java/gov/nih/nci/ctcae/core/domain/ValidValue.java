@@ -63,6 +63,10 @@ public abstract class ValidValue extends BasePersistable {
         return "";
     }
 
+    public String getValueSpanish() {
+         return getValue(SupportedLanguageEnum.SPANISH);
+    }
+
     public void setValue(String value, SupportedLanguageEnum supportedLanguageEnum) {
     	if(this instanceof ProCtcValidValue){
     		if(((ProCtcValidValue)this).getProCtcValidValueVocab() == null){
