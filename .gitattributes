@@ -1228,6 +1228,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/view_form_thirdlevelmenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/yuiAutocompleter.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/version.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accountLocked.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
