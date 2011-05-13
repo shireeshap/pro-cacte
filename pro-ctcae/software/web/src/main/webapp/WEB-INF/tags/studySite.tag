@@ -225,10 +225,10 @@
                                             <option value="" ${studyParticipantAssignment.homeWebLanguage eq "" ? "selected='selected'" : " "} >
                                                 Please select
                                             </option>
-                                            <option value="english" ${studyParticipantAssignment.homeWebLanguage eq "english" ? "selected='selected'" : " "} >
+                                            <option value="ENGLISH" ${studyParticipantAssignment.homeWebLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
                                                 English
                                             </option>
-                                            <option value="spanish" ${studyParticipantAssignment.homeWebLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                            <option value="SPANISH" ${studyParticipantAssignment.homeWebLanguage eq "SPANISH" ? "selected='selected'" : " "} >
                                                 Spanish
                                             </option>
                                         </select>
