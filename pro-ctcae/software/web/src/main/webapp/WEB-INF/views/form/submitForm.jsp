@@ -147,7 +147,7 @@
                             </c:if>
                                 <%--<%  pageContext.getAttribute("_command"); %>--%>
                             <c:if test="${language eq 'SPANISH'}">
-                                ${displayQuestion.questionTextSpanish}?<br/>
+                                ${displayQuestion.questionTextSpanish}<br/>
                                 <%--${displayQuestion.questionText}?<br/>--%>
                             </c:if>
 
