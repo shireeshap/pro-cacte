@@ -501,12 +501,12 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
-    <bean name="/participant/responseReport" id="participantResponseReportController"
-          class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">
-        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
-        <property name="userRepository" ref="userRepository"/>
-        <property name="participantRepository" ref="participantRepository"/>
-    </bean>
+    <!--<bean name="/participant/responseReport" id="participantResponseReportController"-->
+          <!--class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">-->
+        <!--<property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>-->
+        <!--<property name="userRepository" ref="userRepository"/>-->
+        <!--<property name="participantRepository" ref="participantRepository"/>-->
+    <!--</bean>-->
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportPdfController">
     </bean>
