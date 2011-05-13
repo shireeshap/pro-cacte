@@ -253,8 +253,8 @@ public class ParticipantCommand {
         String callAmPm = request.getParameter("call_ampm_" + studySite.getId());
         String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
         String homePaperLanguage = request.getParameter("home_paper_lang_" + studySite.getId());
-        String homeWebLang = request.getParameter("home_web_lang_" + studySite.getId());
-        SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.getByCode(homeWebLang);
+        String homeWebLanguage = request.getParameter("home_web_lang_" + studySite.getId());
+//        SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.getByCode(homeWebLang);
         String ivrsLanguage = request.getParameter("ivrs_lang_" + studySite.getId());
         String clinicPaperLanguage = request.getParameter("clinic_paper_lang_" + studySite.getId());
         String clinicWebLanguage = request.getParameter("clinic_web_lang_" + studySite.getId());

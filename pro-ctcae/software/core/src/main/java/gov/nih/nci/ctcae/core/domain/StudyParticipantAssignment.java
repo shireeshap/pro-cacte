@@ -109,8 +109,8 @@ public class StudyParticipantAssignment extends BaseVersionable {
     private String ivrsLanguage;
 
     @Column(name = "home_web_language", nullable = true)
-    @Enumerated(value = EnumType.STRING)
-    private SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.ENGLISH;
+//    @Enumerated(value = EnumType.STRING)
+    private String homeWebLanguage;
 
     @Column(name = "clinic_web_language", nullable = true)
     private String clinicWebLanguage;
@@ -624,11 +624,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.ivrsLanguage = ivrsLanguage;
     }
 
-    public SupportedLanguageEnum getHomeWebLanguage() {
+    public String getHomeWebLanguage() {
         return homeWebLanguage;
     }
 
-    public void setHomeWebLanguage(SupportedLanguageEnum homeWebLanguage) {
+    public void setHomeWebLanguage(String homeWebLanguage) {
         this.homeWebLanguage = homeWebLanguage;
     }
 
