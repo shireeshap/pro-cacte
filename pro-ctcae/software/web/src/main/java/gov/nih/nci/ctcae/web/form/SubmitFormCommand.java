@@ -296,10 +296,16 @@ public class SubmitFormCommand implements Serializable {
 
 
     public List<String> getDisplaySymptoms() {
+        StudyParticipantAssignment spAssignment = getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment();
         List<ProCtcTerm> sortedList = getSortedSymptoms();
         List<String> displayList = new ArrayList<String>();
         for (ProCtcTerm symptom : sortedList) {
+            if (spAssignment.getHomeWebLanguage().equals("ENGLISH") || spAssignment.getHomeWebLanguage().equals("")) {
             displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
+            }
+            if (spAssignment.getHomeWebLanguage().equals("SPANISH")) {
+            displayList.add(symptom.getProCtcTermVocab().getTermSpanish());
+            }
         }
         return displayList;
     }

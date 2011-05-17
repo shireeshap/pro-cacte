@@ -371,10 +371,10 @@
             <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
                 Please select
             </option>
-            <option value="english" ${studyParticipantAssignment.ivrsLanguage eq "english" ? "selected='selected'" : " "} >
+            <option value="ENGLISH" ${studyParticipantAssignment.ivrsLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
                 English
             </option>
-            <option value="spanish" ${studyParticipantAssignment.ivrsLanguage eq "spanish" ? "selected='selected'" : " "} >
+            <option value="SPANISH" ${studyParticipantAssignment.ivrsLanguage eq "SPANISH" ? "selected='selected'" : " "} >
                 Spanish
             </option>
         </select>
@@ -472,10 +472,10 @@
                                     <option value="" ${studyParticipantAssignment.clinicWebLanguage eq "" ? "selected='selected'" : " "} >
                                         Please select
                                     </option>
-                                    <option value="english" ${studyParticipantAssignment.clinicWebLanguage eq "english" ? "selected='selected'" : " "} >
+                                    <option value="ENGLISH" ${studyParticipantAssignment.clinicWebLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
                                         English
                                     </option>
-                                    <option value="spanish" ${studyParticipantAssignment.clinicWebLanguage eq "spanish" ? "selected='selected'" : " "} >
+                                    <option value="SPANISH" ${studyParticipantAssignment.clinicWebLanguage eq "SPANISH" ? "selected='selected'" : " "} >
                                         Spanish
                                     </option>
                                 </select>

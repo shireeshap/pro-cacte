@@ -143,24 +143,16 @@
                                    value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.homeWebLanguage}"/>
                             <c:set var="clinicweblanguage"
                                    value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.clinicWebLanguage}"/>
-                            <c:set var="homepaperlanguage"
-                                   value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.homePaperLanguage}"/>
-                            <c:set var="clinicpaperlanguage"
-                                   value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.clinicPaperLanguage}"/>
-                            <c:set var="ivrslanguage"
-                                   value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.ivrsLanguage}"/>
                                 <%--<c:set var="_command" value="${command}"/>--%>
-                            <c:if test="${homeweblanguage eq 'ENGLISH' || clinicweblanguage eq 'ENGLISH' || homepaperlanguage eq 'ENGLISH' || clinicpaperlanguage eq 'ENGLISH' || ivrslanguage eq 'ENGLISH'  }">
+                            <c:if test="${homeweblanguage eq 'ENGLISH' || homeweblanguage eq null || homeweblanguage eq '' }">
                                 ${displayQuestion.questionText}?<br/>
                             </c:if>
                                 <%--<%  pageContext.getAttribute("_command"); %>--%>
-                            <c:if test="${homeweblanguage eq 'SPANISH' || clinicweblanguage eq 'SPANISH' || homepaperlanguage eq 'SPANISH' || clinicpaperlanguage eq 'SPANISH' || ivrslanguage eq 'SPANISH'}">
+                            <c:if test="${homeweblanguage eq 'SPANISH' || clinicweblanguage eq 'SPANISH'}">
                                 ${displayQuestion.questionTextSpanish}?<br/>
                                 <%--${displayQuestion.questionText}?<br/>--%>
                             </c:if>
-                            <c:if test="${homeweblanguage eq null && clinicweblanguage eq null && homepaperlanguage eq null && clinicpaperlanguage eq null && ivrslanguage eq null}">
-                                ${displayQuestion.questionText}?<br/>
-                            </c:if>
+
 
                         </div>
                     </td>
@@ -168,7 +160,7 @@
                 <tr>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
-                        <c:if test="${homeweblanguage eq 'ENGLISH' || clinicweblanguage eq 'ENGLISH' || homepaperlanguage eq 'ENGLISH' || clinicpaperlanguage eq 'ENGLISH' || ivrslanguage eq 'ENGLISH'  }">
+                        <c:if test="${homeweblanguage eq 'ENGLISH' || homeweblanguage eq null || homeweblanguage eq ''}">
                             <tags:validvalue validValueId="${validValue.id}"
                                              title="${validValue.value}"
                                              selectedId="${displayQuestion.selectedValidValue.id}"
@@ -177,7 +169,7 @@
                                              validValueIndexForQuestion="${validvaluestatus.index}"
                                     />
                         </c:if>
-                        <c:if test="${homeweblanguage eq 'SPANISH' || clinicweblanguage eq 'SPANISH' || homepaperlanguage eq 'SPANISH' || clinicpaperlanguage eq 'SPANISH' || ivrslanguage eq 'SPANISH'}">
+                        <c:if test="${homeweblanguage eq 'SPANISH' }">
                             <tags:validvalue validValueId="${validValue.id}"
                                              title="${validValue.valueSpanish}"
                                              selectedId="${displayQuestion.selectedValidValue.id}"
