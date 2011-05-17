@@ -66,7 +66,7 @@
                             <c:forEach items="${items[0].crfPageItem.proCtcQuestion.validValues}" var="validValue">
                                 <c:set var="checked" value=""/>
                                 <c:set var="style" value=""/>
-                                <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
+                                <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.proCtcValidValueVocab.valueEnglish eq validValue.proCtcValidValueVocab.valueEnglish}">
                                     <c:set var="checked" value="checked "/>
                                     <c:set var="style" value="background-color:blue;color:white"/>
                                 </c:if>

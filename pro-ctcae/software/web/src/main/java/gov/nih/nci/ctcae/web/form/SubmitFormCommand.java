@@ -300,11 +300,15 @@ public class SubmitFormCommand implements Serializable {
         List<ProCtcTerm> sortedList = getSortedSymptoms();
         List<String> displayList = new ArrayList<String>();
         for (ProCtcTerm symptom : sortedList) {
-            if (spAssignment.getHomeWebLanguage().equals("ENGLISH") || spAssignment.getHomeWebLanguage().equals("")) {
-            displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
-            }
-            if (spAssignment.getHomeWebLanguage().equals("SPANISH")) {
-            displayList.add(symptom.getProCtcTermVocab().getTermSpanish());
+            if (spAssignment.getHomeWebLanguage() != null) {
+                if (spAssignment.getHomeWebLanguage().equals("ENGLISH") || spAssignment.getHomeWebLanguage().equals("")) {
+                    displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
+                }
+                if (spAssignment.getHomeWebLanguage().equals("SPANISH")) {
+                    displayList.add(symptom.getProCtcTermVocab().getTermSpanish());
+                }
+            } else {
+                   displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
             }
         }
         return displayList;
@@ -362,7 +366,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
 
-public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
+    public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int position = totalQuestionPages + 3;
 
@@ -405,7 +409,6 @@ public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean 
         reviewPageIndex = totalQuestionPages + 3;
 
     }
-
 
 
     public boolean ctcTermAlreadyExistsInForm(List<CtcTerm> ctcTerms) {
