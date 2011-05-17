@@ -35,6 +35,7 @@
         <pattern>/pages/participant/displaycalendar</pattern>
         <pattern>/pages/form/addquestion</pattern>
         <pattern>/pages/participant/displaycalendar</pattern>
+        <pattern>/pages/form/addMorequestion</pattern>
     </decorator>
 
     <decorator name="mobilelite" page="mobilelite.jsp">
