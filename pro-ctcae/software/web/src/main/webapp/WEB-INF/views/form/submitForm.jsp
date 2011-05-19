@@ -148,7 +148,7 @@
                                 ${displayQuestion.questionText}?<br/>
                             </c:if>
                                 <%--<%  pageContext.getAttribute("_command"); %>--%>
-                            <c:if test="${homeweblanguage eq 'SPANISH' || clinicweblanguage eq 'SPANISH'}">
+                            <c:if test="${homeweblanguage eq 'SPANISH' }">
                                 ${displayQuestion.questionTextSpanish}?<br/>
                                 <%--${displayQuestion.questionText}?<br/>--%>
                             </c:if>
