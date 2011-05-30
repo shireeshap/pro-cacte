@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
@@ -254,6 +255,13 @@ public class ParticipantCommand {
         String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
         String homePaperLanguage = request.getParameter("home_paper_lang_" + studySite.getId());
         String homeWebLanguage = request.getParameter("home_web_lang_" + studySite.getId());
+        String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
+        Date updatedStartDate = null;
+        try{
+        	updatedStartDate =  DateUtils.parseDate(newStartDate);
+        } catch(Exception e){
+        	//logger.error("error parsing start date");
+        }
 //        SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.getByCode(homeWebLang);
         String ivrsLanguage = request.getParameter("ivrs_lang_" + studySite.getId());
         String clinicPaperLanguage = request.getParameter("clinic_paper_lang_" + studySite.getId());
@@ -271,6 +279,80 @@ public class ParticipantCommand {
             callAmPm = null;
             callTimeZone = null;
         }
+        
+        boolean amPmHasChanged = false;
+        boolean timeHasChanged = false;
+        boolean timeZoneHasChanged = false;
+        boolean reminderCallOptionHasChanged = false;
+        
+        if(studyParticipantAssignment.getCallAmPm() != null && !studyParticipantAssignment.getCallAmPm().equalsIgnoreCase(callAmPm)){
+        	amPmHasChanged = true;
+        }
+        if((studyParticipantAssignment.getCallHour() != null && !studyParticipantAssignment.getCallHour().equals(callHour)) || 
+        		(studyParticipantAssignment.getCallMinute() != null && !studyParticipantAssignment.getCallMinute().equals(callMinute))){
+        	timeHasChanged = true;
+        }
+        if(studyParticipantAssignment.getCallTimeZone() != null && !studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(callTimeZone)){
+        	timeZoneHasChanged = true;
+        }
+        if(studyParticipantAssignment.getStudyParticipantModes().get(0).getCall() != call){
+        	reminderCallOptionHasChanged = true;
+        }
+        
+        //update outdated ivrsSchedules status to CANCELLED if start Date has moved.
+        //do we create new SPCrfSchedules when start date is moved backwards???
+//        if(updatedStartDate has changed)){
+//            for(IvrsSchedule ivrsSchedule: studyParticipantAssignment.getIvrsScheduleList()){
+//    	    	if(ivrsSchedule.getPreferredCallTime().before(updatedStartDate) && ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
+//    				ivrsSchedule.setCallStatus(IvrsCallStatus.CANCELLED);
+//    			}
+//            }
+//        }
+
+        //update pending IvrsSchedules if time has been updated
+        if(timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged){
+        	Date finalDate = null;
+            for(IvrsSchedule ivrsSchedule: studyParticipantAssignment.getIvrsScheduleList()){
+            	if(ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
+                	if(timeZoneHasChanged || timeHasChanged || amPmHasChanged){
+                    	Calendar newCal = Calendar.getInstance();
+                    	//convert time from local timZone to requested timeZone first
+                    	Date newDate = DateUtils.getDateInTimeZone(ivrsSchedule.getPreferredCallTime(), callTimeZone);
+                    	newCal.setTimeInMillis(newDate.getTime());
+                    	newCal.setTimeZone(TimeZone.getTimeZone(callTimeZone));
+                    	//set to new values from UI
+                		if(callHour == 12){
+                			newCal.set(Calendar.HOUR, 0);
+                    	} else {
+                    		newCal.set(Calendar.HOUR, callHour);
+                    	}
+                		newCal.set(Calendar.MINUTE, callMinute);
+                		if(callAmPm.equalsIgnoreCase("am")){
+                			newCal.set(Calendar.AM_PM, Calendar.AM);
+                    	} else {
+                    		newCal.set(Calendar.AM_PM, Calendar.PM);
+                    	} 
+                		newCal.set(Calendar.SECOND, 0);
+                		newCal.set(Calendar.MILLISECOND, 0);
+                    	
+                		//always save in the local timezone.
+                		finalDate = DateUtils.getDateInTimeZone(newCal.getTime(), Calendar.getInstance().getTimeZone().getID());
+                    	ivrsSchedule.setPreferredCallTime(finalDate);
+                    	ivrsSchedule.setNextCallTime(finalDate);
+                	}
+                	//if reminders chkbox is unchecked change the callCount to just the one.
+                	if(reminderCallOptionHasChanged){
+                		if(!call){
+                    		ivrsSchedule.setCallCount(1);
+                    	} else {
+                    		ivrsSchedule.setCallCount(studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() + 1);
+                    	}
+                	}
+            	}
+            }
+        }
+        
+        
         studyParticipantAssignment.setCallAmPm(callAmPm);
         studyParticipantAssignment.setCallHour(callHour);
         studyParticipantAssignment.setCallMinute(callMinute);

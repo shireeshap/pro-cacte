@@ -281,13 +281,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     int offSetDiff = 0;
 //                    for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                     StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
-//                        if (!studyParticipantAssignment.getStudyStartDate().equals(newStartDate)) {
                     if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate) != 0) {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
                         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                                 studyParticipantCrf.moveSingleSchedule(studyParticipantCrfSchedule, offSetDiff);
+                                //move the corresponding IvrsSchedules as well
+                                studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offSetDiff);
                             }
                         }
                     }
@@ -302,8 +303,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         command.assignCrfsToParticipant();
                     }
                 }
-//                }
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

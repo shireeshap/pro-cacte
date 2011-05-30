@@ -117,7 +117,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
     
-    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<IvrsSchedule> ivrsSchedules = new ArrayList<IvrsSchedule>();
 
@@ -584,7 +584,60 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             }
         }
     }
-
+    
+    
+    /**
+     * Updates the ivrs schedules date basewd on the offset provided.
+     *
+     * @param studyParticipantCrf the study participant crf
+     */
+    public void updateIvrsSchedules(StudyParticipantCrf studyParticipantCrf, int offset) {
+    	//update ivrsSchedule for IVRS app Modes
+    	boolean isIvrs = false;
+    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
+    		if(spm.getMode().equals(AppMode.IVRS)){
+    			isIvrs = true;
+    		}
+    	}
+        if(isIvrs){
+        	for(IvrsSchedule ivrSchedule: getIvrsSchedules()){
+        		if (ivrSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+	                Calendar c1 = Calendar.getInstance();
+	                c1.setTimeInMillis(ivrSchedule.getPreferredCallTime().getTime());
+	                Calendar c2 = Calendar.getInstance();
+	                c2.setTimeInMillis(ivrSchedule.getNextCallTime().getTime());
+	                c1.add(Calendar.DATE, offset);
+	                c2.add(Calendar.DATE, offset);
+	
+	                ivrSchedule.setNextCallTime(c1.getTime());
+	                ivrSchedule.setPreferredCallTime(c2.getTime());
+	            }
+        	}
+        }
+	}
+    
+    /**
+     * Update ivrs schedules status.
+     *
+     * @param ivrsCallStatus the ivrs call status
+     */
+    public void updateIvrsSchedulesStatus(IvrsCallStatus ivrsCallStatus) {
+    	boolean isIvrs = false;
+    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
+    		if(spm.getMode().equals(AppMode.IVRS)){
+    			isIvrs = true;
+    		}
+    	}
+        if(isIvrs){
+        	for(IvrsSchedule ivrsSchedule: getIvrsSchedules()){
+        		ivrsSchedule.setCallStatus(ivrsCallStatus);
+        	}
+        }
+	}
+    
+    
     public List<UserNotification> getUserNotifications() {
         return userNotifications;
     }

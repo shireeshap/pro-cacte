@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 //
@@ -142,10 +143,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     
     public static final String HAWAII_ALEUTIAN = "America/Adak";
 
-
-//    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-//    private List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.EAGER)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
     
     
     /**
@@ -665,11 +665,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
 
-//	public void setIvrsScheduleList(List<IvrsSchedule> ivrsScheduleLsit) {
-//		this.ivrsScheduleList = ivrsScheduleLsit;
-//	}
-//	public List<IvrsSchedule> getIvrsScheduleList() {
-//		return ivrsScheduleList;
-//	}
+	public void setIvrsScheduleList(List<IvrsSchedule> ivrsScheduleLsit) {
+		this.ivrsScheduleList = ivrsScheduleLsit;
+	}
+	public List<IvrsSchedule> getIvrsScheduleList() {
+		return ivrsScheduleList;
+	}
 }
 

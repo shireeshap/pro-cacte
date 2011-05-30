@@ -196,7 +196,6 @@ public class ParticipantSchedule {
 				startDate = DateUtils.getNextDay(startDate);
 			}
         }
-		
 	}
 
 	/**
@@ -276,10 +275,14 @@ public class ParticipantSchedule {
                     //checking for if same form is present in current and moving date or not
                     //if moving date has same form then do not process that record.
                     if (alreadyExists && !alreadyPresentNewDate) {
-                        int dateOffset = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+                        int dateOffsetBetweenStartAndDueDate = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+                        int dateOffsetBetweenOldAndNewStartDates = DateUtils.daysBetweenDates(newCalendar.getTime(), schToUpdate.getStartDate());
                         schToUpdate.setStartDate(newCalendar.getTime());
+                        //update ivrsSchedules
+                        schToUpdate.updateIvrsSchedules(studyParticipantCrf, dateOffsetBetweenOldAndNewStartDates);
+                        
                         Calendar dueCalendar = (Calendar) newCalendar.clone();
-                        dueCalendar.add(Calendar.DATE, dateOffset);
+                        dueCalendar.add(Calendar.DATE, dateOffsetBetweenStartAndDueDate);
                         schToUpdate.setDueDate(dueCalendar.getTime());
                         if (today.after(schToUpdate.getDueDate())) {
                                 schToUpdate.setStatus(CrfStatus.PASTDUE);
@@ -420,6 +423,7 @@ public class ParticipantSchedule {
                     b.set(yr, mon, dt);
                     if (b.getTimeInMillis() >= a.getTimeInMillis()) {
                         moveSingleSchedule(studyParticipantCrfSchedule, offset);
+                        studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offset);
                     }
                 }
             }

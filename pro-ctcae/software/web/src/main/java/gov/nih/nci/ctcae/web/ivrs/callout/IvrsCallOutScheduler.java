@@ -52,6 +52,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final String CHANNEL_PSTN      = "DAHDI/G1";
 	
 	public static final String MODE_IVRSCALLOUT  = "mode.ivrscallout";
+	public static final int SCHEDULER_FREQUENCY = 2;
 	
 	protected static final Log logger = LogFactory.getLog(IvrsCallOutScheduler.class);
     private JmsTemplate jmsTemplate;
@@ -81,10 +82,10 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         String ivrsCalloutMode = properties.getProperty(MODE_IVRSCALLOUT);
         logger.debug("scheduleJobInQueue starts...." + new Date());
 		try {
-			List<IvrsSchedule> ivrScheduleList = getJobsForNextFiveMinutes();
+			List<IvrsSchedule> ivrScheduleList = getJobsForNextTwoMinutes();
+			updateIvrsScheduleStatus(ivrScheduleList);
 			List<CallAction> callActionList = generateCallActionList(ivrScheduleList, ivrsCalloutMode);
 			executeProducer(callActionList);
-			updateIvrsScheduleStatus(ivrScheduleList);
 		} catch (JMSException e) {
 			logger.error("exception: " + e.getMessage());
 			e.printStackTrace();
@@ -93,6 +94,40 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			e.printStackTrace();
 		}
     }
+
+
+	/**
+	 * Gets the jobs for next two minutes. Looks up the IvrsSchedule table for picking candidate jobs.
+	 * The repeat interval should be the same as the frequency of the trigger configured in the spring-servlet for the ivrsTrigger.
+	 *
+	 * @return the jobs for next five minutes
+	 */
+	private List<IvrsSchedule> getJobsForNextTwoMinutes() {
+		List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
+		Calendar now = Calendar.getInstance();
+		Calendar twoMinutesFromNow = Calendar.getInstance();
+		twoMinutesFromNow.add(Calendar.MINUTE, SCHEDULER_FREQUENCY);
+		
+		//add all ivrsSchedules with Status=PENDING
+		IvrsScheduleQuery ivrsScheduleQueryForPendingStatus = new IvrsScheduleQuery();
+		ivrsScheduleQueryForPendingStatus.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
+		ivrsScheduleQueryForPendingStatus.filterByStatus(IvrsCallStatus.PENDING);
+		//dont get the ones whose callCount is already Zero
+		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
+		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForPendingStatus));
+		
+		//add all ivrsSchedules with Status=SCHEDULED
+		IvrsScheduleQuery ivrsScheduleQueryForScheduledStatus = new IvrsScheduleQuery();
+		ivrsScheduleQueryForScheduledStatus.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
+		ivrsScheduleQueryForScheduledStatus.filterByStatus(IvrsCallStatus.SCHEDULED);
+		//dont get the ones whose callCount is already Zero
+		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
+		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForScheduledStatus));
+		
+		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleList.size());
+		return ivrsScheduleList;
+	}
+	
 
 	/**
 	 * Update ivrs schedule status.
@@ -113,37 +148,6 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			ivrsSchedule.setCallStatus(IvrsCallStatus.SCHEDULED);
 			ivrsScheduleRepository.save(ivrsSchedule);
 		}
-	}
-
-	/**
-	 * Gets the jobs for next five minutes. Looks up the IvrsSchedule table for picking candidate jobs.
-	 *
-	 * @return the jobs for next five minutes
-	 */
-	private List<IvrsSchedule> getJobsForNextFiveMinutes() {
-		List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
-		Calendar now = Calendar.getInstance();
-		Calendar fiveMinutesFromNow = Calendar.getInstance();
-		fiveMinutesFromNow.add(Calendar.MINUTE, 2);
-		
-		//add all ivrsSchedules with Status=PENDING
-		IvrsScheduleQuery ivrsScheduleQueryForPendingStatus = new IvrsScheduleQuery();
-		ivrsScheduleQueryForPendingStatus.filterByDate(now.getTime(), fiveMinutesFromNow.getTime());
-		ivrsScheduleQueryForPendingStatus.filterByStatus(IvrsCallStatus.PENDING);
-		//dont get the ones whose callCount is already Zero
-		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
-		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForPendingStatus));
-		
-		//add all ivrsSchedules with Status=SCHEDULED
-		IvrsScheduleQuery ivrsScheduleQueryForScheduledStatus = new IvrsScheduleQuery();
-		ivrsScheduleQueryForScheduledStatus.filterByDate(now.getTime(), fiveMinutesFromNow.getTime());
-		ivrsScheduleQueryForScheduledStatus.filterByStatus(IvrsCallStatus.SCHEDULED);
-		//dont get the ones whose callCount is already Zero
-		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
-		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForScheduledStatus));
-		
-		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleList.size());
-		return ivrsScheduleList;
 	}
 
 	/**
@@ -192,17 +196,6 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		return callActionList;
 	}
 
-	/**
-	 * Builds the phone number. Wont work if number is a 11 digit number including the country code 1.
-	 * Basically returns only the digits from the string.
-	 * e.g: converts 908-887-0987 to 9088870987
-	 *
-	 * @param participant the participant
-	 * @return the string
-	 */
-	private String buildPhoneNumber(Participant participant) {
-		return "1" + participant.getPhoneNumber().replaceAll( "[^\\d]", "" );
-	}
 
 	/**
 	 * Executes producer. Actually pushes the callAction jobs into the JMS queue.
@@ -231,6 +224,20 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		logger.debug("producer stops....");
 		connection.close();
 	}
+	
+
+	/**
+	 * Builds the phone number. Wont work if number is a 11 digit number including the country code 1.
+	 * Basically returns only the digits from the string.
+	 * e.g: converts 908-887-0987 to 9088870987
+	 *
+	 * @param participant the participant
+	 * @return the string
+	 */
+	private String buildPhoneNumber(Participant participant) {
+		return "1" + participant.getPhoneNumber().replaceAll( "[^\\d]", "" );
+	}
+	
 
 	public ParticipantRepository getParticipantRepository() {
 		return participantRepository;

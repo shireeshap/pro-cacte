@@ -22,6 +22,8 @@ public enum IvrsCallStatus implements CodedEnum<String> {
     CANCELLED("Cancelled"),
     //indicates a failed call
     FAILED("Failed"),
+    //on hold cases
+    ON_HOLD("On Hold"),
     //covers cases which don't fall into any of the above
     NOTAPPLICABLE("N/A");
 

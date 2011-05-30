@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.persistence.Column;
@@ -77,44 +76,27 @@ public class IvrsSchedule extends BasePersistable{
     public IvrsSchedule(StudyParticipantAssignment studyParticipantAssignment, Date studyParticipantCrfScheduleDate){
     	this.studyParticipantAssignment = studyParticipantAssignment;
     	this.callStatus = IvrsCallStatus.PENDING;
-    	//evaluate calling time
 
-    	// Given a time of 10am in Japan, get the local time
-    	Calendar prefTimeSetByParticipant = new GregorianCalendar(TimeZone.getTimeZone(studyParticipantAssignment.getCallTimeZone()));
+    	Calendar prefTimeSetByParticipant = Calendar.getInstance(TimeZone.getTimeZone(studyParticipantAssignment.getCallTimeZone()));
     	prefTimeSetByParticipant.setTime(studyParticipantCrfScheduleDate);
-    	prefTimeSetByParticipant.set(Calendar.HOUR, studyParticipantAssignment.getCallHour());
+    	if(studyParticipantAssignment.getCallAmPm().equalsIgnoreCase("am")){
+    		prefTimeSetByParticipant.set(Calendar.AM_PM, Calendar.AM);
+    	} else {
+    		prefTimeSetByParticipant.set(Calendar.AM_PM, Calendar.PM);
+    	}
+    	//In AM_PM mode 12 is equivalent to 0. Hours run from 0-11 only.
+    	if(studyParticipantAssignment.getCallHour() == 12){
+    		prefTimeSetByParticipant.set(Calendar.HOUR, 0);
+    	} else {
+    		prefTimeSetByParticipant.set(Calendar.HOUR, studyParticipantAssignment.getCallHour());
+    	}
+    	
     	prefTimeSetByParticipant.set(Calendar.MINUTE, studyParticipantAssignment.getCallMinute());
 
     	Calendar prefDate = Calendar.getInstance();
     	prefDate.setTimeInMillis(prefTimeSetByParticipant.getTimeInMillis());
     	
-    	if(studyParticipantAssignment.getCallAmPm().equalsIgnoreCase("am")){
-    		prefDate.add(Calendar.AM_PM, 0);
-    	} else {
-    		prefDate.add(Calendar.AM_PM, 1);
-    	}
-    	
-//    	if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.EASTERN)){
-//    		prefDate.setTimeZone(Calendar.ZONE_OFFSETTimeZone.getTimeZone(ID) );
-//    	}
-//		if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.CENTRAL)){
-//			prefDate.setTimeZone(TimeZone. );		
-//    	}
-//		if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.MOUNTAIN)){
-//			prefDate.setTimeZone(TimeZone. );
-//		}
-//		if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.PACIFIC)){
-//			prefDate.setTimeZone(TimeZone. );
-//		}
-//		if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.ALASKA)){
-//			prefDate.setTimeZone(TimeZone. );
-//		}
-//		if(studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(studyParticipantAssignment.HAWAII_ALEUTIAN)){
-//			prefDate.setTimeZone(TimeZone. );
-//		}
-    	
     	this.preferredCallTime = prefDate.getTime();
-    	
     	this.nextCallTime = this.preferredCallTime;
     	//retry period is in minutes
     	this.retryPeriod = studyParticipantAssignment.getStudySite().getStudy().getCallBackHour();
@@ -124,7 +106,6 @@ public class IvrsSchedule extends BasePersistable{
     	} else {
     		this.callCount = 1;
     	}
-		
     }
 
     

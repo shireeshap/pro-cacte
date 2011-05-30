@@ -66,7 +66,8 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 			if(channel != null){
 				logger.debug("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
 				if(channel.wasInState(ChannelState.UP)){
-					ivrsSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
+					//update to COMPLETED should be done by the stored procedure.
+					//ivrsSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
 					synchronized (channel){
 						channel.addPropertyChangeListener(AsteriskChannel.PROPERTY_STATE, new PropertyChangeListener()
 						{

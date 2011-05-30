@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
@@ -182,6 +183,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 //            if (recreateSchedules.equals("cycle")) {
             if (cycle != 0 && day != 0) {
                 Long timeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - studyParticipantAssignment.getOnHoldTreatmentDate().getTime();
+                int dateOffset = DateUtils.daysBetweenDates(studyParticipantAssignment.getOffHoldTreatmentDate(), studyParticipantAssignment.getOnHoldTreatmentDate());
                 LinkedList<StudyParticipantCrfSchedule> offHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
@@ -192,16 +194,18 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                                 offHoldStudyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
                             } else {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                                studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
                             }
                         } else {
-                            setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff);
+                            setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff, dateOffset);
                         }
                     }
                 }
                 if (offHoldStudyParticipantCrfSchedules.size() > 0) {
                     Long newTimeDiff = studyParticipantAssignment.getOffHoldTreatmentDate().getTime() - offHoldStudyParticipantCrfSchedules.getFirst().getStartDate().getTime();
+                    int newDateOffset = DateUtils.daysBetweenDates(studyParticipantAssignment.getOffHoldTreatmentDate(), offHoldStudyParticipantCrfSchedules.getFirst().getStartDate());
                     for (StudyParticipantCrfSchedule offHoldStudyParticipantCrfSchedule : offHoldStudyParticipantCrfSchedules) {
-                        setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff);
+                        setScheduleDateAndStatus(offHoldStudyParticipantCrfSchedule, newTimeDiff, newDateOffset);
                     }
                 }
             } else {
@@ -209,8 +213,10 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
                         if (studyParticipantCrfSchedule.getStartDate().getTime() >= offHoldDate.getTime()) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                            studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
                         } else {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                            studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
                         }
                     }
                 }
@@ -231,12 +237,15 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
     }
 
-    public void setScheduleDateAndStatus(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Long timeDiff) {
+    public void setScheduleDateAndStatus(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Long timeDiff, int dateOffset) {
         Date newStartDate = new Date(studyParticipantCrfSchedule.getStartDate().getTime() + timeDiff);
         Date newDueDate = new Date(studyParticipantCrfSchedule.getDueDate().getTime() + timeDiff);
         studyParticipantCrfSchedule.setStartDate(newStartDate);
         studyParticipantCrfSchedule.setDueDate(newDueDate);
         studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+        //update ivrsSchedules as well
+        studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrfSchedule.getStudyParticipantCrf(), dateOffset);
+        studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.SCHEDULED);
     }
 
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {

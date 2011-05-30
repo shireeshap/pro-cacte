@@ -2,10 +2,12 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.IvrsScheduleQuery;
@@ -18,8 +20,16 @@ import java.util.Date;
  */
 public class IvrsScheduleRepositoryTest extends TestDataManager {
 
+	private void addStudyParticipantAssignment(Study study){
+		Participant participant = Fixture.createParticipantWithStudyAssignment("John", "Doe", "identifier", study.getStudySites().get(0));
+//		participantRepository.save(participant);
+		StudyParticipantAssignment spa= studyParticipantAssignmentRepository.save(participant.getStudyParticipantAssignments().get(0));
+		study.getArms().get(0).getStudyParticipantAssignments().add(spa);
+	}
+	
     private StudyParticipantAssignment getStudyPartcipantAssignment(){
 	    Study study = StudyTestHelper.getDefaultStudy();
+	    addStudyParticipantAssignment(study);
 	    return study.getArms().get(0).getStudyParticipantAssignments().get(0); 
     }
 
@@ -180,11 +190,39 @@ public class IvrsScheduleRepositoryTest extends TestDataManager {
 	    
     }
     
+    public void testUpdatesToStudyParticipantAssignment(){
+    	//create ivrsSchedule
+    	Date now = Calendar.getInstance().getTime();
+    	IvrsSchedule ivrsSchedule = new IvrsSchedule();
+    	ivrsSchedule.setCallCount(2);
+    	ivrsSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
+    	ivrsSchedule.setNextCallTime(now);
+    	ivrsSchedule.setPreferredCallTime(now);
+    	ivrsSchedule.setRetryPeriod(5);
+    	
+    	StudyParticipantAssignment assignment = getStudyPartcipantAssignment();
+    	ivrsSchedule.setStudyParticipantAssignment(assignment);
+    	ivrsSchedule.setStudyParticipantCrfSchedule(getStudyParticipantCrfSchedule(assignment));
+    	
+    	//save it
+    	ivrsSchedule = ivrsScheduleRepository.save(ivrsSchedule);
+        assertNotNull("IvrsSchedule was not saved to the database.", ivrsSchedule.getId());
+    	
+    	
+    }
+    
+    
+  
+    
 //TOOD: this test case is yet to be implemented	
 //  public IvrsSchedule testFindSingle(IvrsScheduleQuery ivrsScheduleQuery) {
 //  	return ivrsScheduleRepository.findSingle(ivrsScheduleQuery);
 //  }
 
+    
+    
 }
+
+
 
 
