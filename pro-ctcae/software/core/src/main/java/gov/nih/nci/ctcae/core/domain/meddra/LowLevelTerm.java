@@ -28,6 +28,7 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
     private Boolean participantAdded = false;
     private Integer meddraPtId;
     private String meddraCode;
+    private String currency;
 
     @Transient
     public String getFullName(SupportedLanguageEnum supportedLanguageEnum) {
@@ -98,6 +99,15 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
 
     public void setMeddraCode(String meddraCode) {
         this.meddraCode = meddraCode;
+    }
+
+    @Column(name = "currency")
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "lowLevelTerm")

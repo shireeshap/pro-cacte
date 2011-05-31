@@ -187,7 +187,6 @@
         </property>
     </bean>
 
-
     <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
         <property name="sessionFactory">
             <ref local="auditSessionFactory"/>
@@ -303,6 +302,10 @@
         <property name="saltSource" ref="reflectionSaltSource"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+    </bean>
+
+    <bean id="meddraLoaderRepository" class="gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     
     <!-- IVRS introduced repos -->

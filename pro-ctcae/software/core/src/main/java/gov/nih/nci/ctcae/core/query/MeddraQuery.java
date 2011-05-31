@@ -9,6 +9,7 @@ public class MeddraQuery extends AbstractQuery {
     private static String queryString = "SELECT llt.lowLevelTermVocab.meddraTermEnglish from LowLevelTerm llt order by llt.id";
     private static String queryString1 = "SELECT llt from LowLevelTerm llt order by llt.id";
     private static String MEDDRA_TERM = "meddraTermEnglish";
+    private static String MEDDRA_CODE = "meddraCode";
 
     public MeddraQuery() {
         super(queryString1);
@@ -35,5 +36,10 @@ public class MeddraQuery extends AbstractQuery {
     public void filterByMeddraPtId(Integer meddraPtId) {
         andWhere("llt.meddraPtId = :" + MEDDRA_TERM);
         setParameter(MEDDRA_TERM, meddraPtId);
+    }
+
+    public void filterByMeddraCode(String meddraCode) {
+        andWhere("llt.meddraCode = :" + MEDDRA_CODE);
+        setParameter(MEDDRA_CODE, meddraCode);
     }
 }
