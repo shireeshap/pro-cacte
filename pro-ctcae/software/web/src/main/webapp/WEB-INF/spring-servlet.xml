@@ -819,6 +819,17 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean name="/updateSpanishMeddraTerms" id="updateSpanishMeddra"
+          class="gov.nih.nci.ctcae.web.UpdateMeddraTermSpanishController">
+        <property name="meddraLoaderRepository" ref="meddraLoaderRepository"/>
+        <property name="updateMeddraSpanishLoader" ref="updateMeddraSpanishLoader"/>
+    </bean>
+
+    <bean name="updateMeddraSpanishLoader" class="gov.nih.nci.ctcae.core.csv.loader.UpdateMeddraSpanishLoader">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
 
     <bean name="/deleteProCtcTerm" id="deleteProCtcTerm" class="gov.nih.nci.ctcae.web.DeleteProCtcTermController">
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>

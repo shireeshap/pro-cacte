@@ -537,6 +537,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTe
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProTermsMultiLangImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraLoader.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
@@ -917,6 +918,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermControl
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/PasswordPolicyConfigurationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ProductionDataCorrector.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermSpanishController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionNotifications.java -text
@@ -1100,6 +1102,7 @@ pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationConte
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
 pro-ctcae/software/web/src/main/resources/llt.csv -text
+pro-ctcae/software/web/src/main/resources/llt_spanish.csv -text
 pro-ctcae/software/web/src/main/resources/object-graph.xml -text
 pro-ctcae/software/web/src/main/resources/version.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/ctcae.tld -text
