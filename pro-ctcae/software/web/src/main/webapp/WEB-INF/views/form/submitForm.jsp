@@ -10,6 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <style type="text/css">
         div.row div.value {
             white-space: normal;
