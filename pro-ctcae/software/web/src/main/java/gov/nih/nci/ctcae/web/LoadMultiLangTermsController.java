@@ -28,6 +28,7 @@ public class LoadMultiLangTermsController extends AbstractController {
         System.out.println("Multi language terms updated");
 
         return new ModelAndView("proCtcTermsLoaded");  //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
