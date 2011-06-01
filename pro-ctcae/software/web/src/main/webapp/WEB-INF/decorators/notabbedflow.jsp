@@ -12,9 +12,9 @@
 
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<standard:head/>
 	<title>PRO-CTCAE </title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<tags:stylesheetLink name="tabbedflow"/>
 	<tags:javascriptLink name="tabbedflow"/>
