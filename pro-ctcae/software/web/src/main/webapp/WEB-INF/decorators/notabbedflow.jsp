@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="content-language" content="ES">
+    <%--<meta http-equiv="content-language" content="ES">--%>
 
 	<standard:head/>
 	<title>PRO-CTCAE </title>
