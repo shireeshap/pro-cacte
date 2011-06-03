@@ -295,9 +295,10 @@ public class ParticipantCommand {
         if(studyParticipantAssignment.getCallTimeZone() != null && !studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(callTimeZone)){
         	timeZoneHasChanged = true;
         }
-        if(studyParticipantAssignment.getStudyParticipantModes().get(0).getCall() != call){
-        	reminderCallOptionHasChanged = true;
-        }
+//        if(studyParticipantAssignment.getStudyParticipantModes() != null && 
+//        		studyParticipantAssignment.getStudyParticipantModes().get(0).getCall() != call){
+//        	reminderCallOptionHasChanged = true;
+//        }
         
         //update outdated ivrsSchedules status to CANCELLED if start Date has moved.
         //do we create new SPCrfSchedules when start date is moved backwards???
