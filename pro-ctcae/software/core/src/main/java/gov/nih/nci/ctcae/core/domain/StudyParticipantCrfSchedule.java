@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
+
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -459,6 +460,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                     String recallPeriodEnd = recallPeriod.substring(1);
                     recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
                     studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?", SupportedLanguageEnum.ENGLISH);
+                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?", SupportedLanguageEnum.SPANISH);
                 }
             }
         }

@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * The Class ProCtcTermQuery.
  *
@@ -52,7 +54,12 @@ public class ProCtcTermQuery extends AbstractQuery {
         String searchString = term.toLowerCase();
         andWhere("lower(o.proCtcTermVocab.termEnglish) = :" + PROCTC_TERM);
         setParameter(PROCTC_TERM, searchString);
+    }
 
+    public void filterBySpanishTerm(final String term) {
+        String searchString = term.toLowerCase();
+        andWhere("lower(o.proCtcTermVocab.termSpanish) = :" + PROCTC_TERM);
+        setParameter(PROCTC_TERM, searchString);
     }
 
     public void filterByCoreItemsOnly() {

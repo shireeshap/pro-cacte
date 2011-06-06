@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,12 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
     public ProCtcTerm findProCtcTermBySymptom(String symptom) {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
         proCtcTermQuery.filterByTerm(symptom);
+        return genericRepository.findSingle(proCtcTermQuery);
+    }
+
+    public ProCtcTerm findSpanishProTermBySymptom(String symptom) {
+        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterBySpanishTerm(symptom);
         return genericRepository.findSingle(proCtcTermQuery);
     }
 
