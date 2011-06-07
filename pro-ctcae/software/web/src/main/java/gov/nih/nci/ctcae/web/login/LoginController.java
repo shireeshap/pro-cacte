@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -39,7 +40,6 @@ public class LoginController extends AbstractController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new CtcAeSystemException("Cannot find not-null Authentication object. Make sure the user is logged in");
-
         }
 
         User user = (User) auth.getPrincipal();
@@ -47,9 +47,9 @@ public class LoginController extends AbstractController {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
             	String lang = getParticipantsPreferredLanguage(user);
                 if (ControllersUtils.isRequestComingFromMobile(request)) {
-                    return new ModelAndView(new RedirectView("../mobile/inbox?lang=" + lang));
+                    return new ModelAndView(new RedirectView("../mobile/inbox"));
                 } else {
-                    return new ModelAndView(new RedirectView("participant/participantInbox?lang=" + lang));
+                    return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
                 }
             }
             if (userRole.getRole().equals(Role.ADMIN)) {

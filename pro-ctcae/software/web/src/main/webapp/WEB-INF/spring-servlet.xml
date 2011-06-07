@@ -41,7 +41,7 @@
 	</bean>
 	 
 	<bean id="localeResolver"
-	    class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 	    <property name="defaultLocale" value="en"/>
 	</bean>
 
@@ -59,8 +59,8 @@
                 <ref bean="openSessionInViewInterceptor"/>
             </list>
         </property>
-
     </bean>
+    
     <bean id="openSessionInViewInterceptor"
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
         <property name="singleSession" value="true"/>
