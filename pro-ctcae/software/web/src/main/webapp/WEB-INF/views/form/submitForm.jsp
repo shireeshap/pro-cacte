@@ -115,7 +115,7 @@
         <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
     </div>
     <div class="currentPagediv">
-        Progress:
+        <spring:message code="progress"/>:
     </div>
     <div class="label" style="margin-bottom:10px;">
         <tags:recallPeriodFormatter
@@ -227,15 +227,17 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
+            	<spring:message code="back" var="back"/>
                 <c:if test="${command.newPageIndex gt 1}">
-                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="Back"/>
+                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="${back}"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
+            	<spring:message code="continue" var="continue"/>
                 <c:choose>
                     <c:when test="${command.newPageIndex le command.totalPages}">
                         <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')"
-                                     value="Continue"/>
+                                     value="${continue}" />
                     </c:when>
                 </c:choose>
             </td>
