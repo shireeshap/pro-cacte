@@ -56,8 +56,7 @@
     <div style="clear:both;">
         <div id="left-panel">
             <h1>Form: ${command.schedule.studyParticipantCrf.crf.title}</h1>
-            Thank you for completing the questionnaire. If you would like to make any changes to your answers, please
-            use the back button. If you are satisfied with your answers, please press the submit button below.
+            <spring:message code="thankYouMessage" />
             <br/>
             <br/>
 
@@ -69,11 +68,12 @@
             <input type="hidden" name="r"/>
             <tr>
                 <td align="left" width="50%">
-                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="Back"/>
+                	<spring:message code="back" var="back"/>
+                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="${back}"/>
                 </td>
                 <td align="right" width="50%">
-                    <tags:button color="orange" icon="check" onclick="javascript:submitForm('save')"
-                                 value="Submit"/>
+                	<spring:message code="submit" var="submit"/>
+                    <tags:button color="orange" icon="check" onclick="javascript:submitForm('save')" value="${submit}"/>
                 </td>
             </tr>
         </table>

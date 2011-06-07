@@ -3,9 +3,11 @@ package gov.nih.nci.ctcae.web.login;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -26,7 +28,8 @@ import java.util.*;
 public class LoginController extends AbstractController {
     ClinicalStaffRepository clinicalStaffRepository;
     UserRepository userRepository;
-    StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+    ParticipantRepository participantRepository;
+	StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
 
     protected LoginController() {
     }
@@ -40,13 +43,13 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
+            	String lang = getParticipantsPreferredLanguage(user);
                 if (ControllersUtils.isRequestComingFromMobile(request)) {
-                    return new ModelAndView(new RedirectView("../mobile/inbox"));
+                    return new ModelAndView(new RedirectView("../mobile/inbox?lang=" + lang));
                 } else {
-                    return new ModelAndView(new RedirectView("participant/participantInbox"));
+                    return new ModelAndView(new RedirectView("participant/participantInbox?lang=" + lang));
                 }
             }
             if (userRole.getRole().equals(Role.ADMIN)) {
@@ -128,7 +131,43 @@ public class LoginController extends AbstractController {
         return mv;
     }
 
-    private List<UserNotification> getNotifications(User user) {
+    /**
+     * Gets the participants preferred language to be used for display based on participants preference
+
+     *
+     * @param user the user
+     * @return the participants preferred language
+     */
+    private String getParticipantsPreferredLanguage(User user) {
+    	String lang = "en";
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByUsername(user.getUsername());
+        Collection<Participant> participantCollection = participantRepository.find(participantQuery);
+        List<StudyParticipantAssignment> studyParticipantAssignments = null; 
+        StudyParticipantAssignment studyParticipantAssignment = null;
+        if(participantCollection !=null && !participantCollection.isEmpty()){
+        	Object[] pArray = participantCollection.toArray();
+        	studyParticipantAssignments = ((Participant)pArray[0]).getStudyParticipantAssignments();
+        	if(studyParticipantAssignments != null && studyParticipantAssignments.size() > 0){
+        		studyParticipantAssignment = studyParticipantAssignments.get(0);
+        	}
+        }
+        
+        if(studyParticipantAssignment != null){
+        	if(studyParticipantAssignment.getHomeWebLanguage() != null){
+        		if(studyParticipantAssignment.getHomeWebLanguage().equalsIgnoreCase("SPANISH")){
+            		lang = "es";
+            	}
+            } else if(studyParticipantAssignment.getIvrsLanguage().equalsIgnoreCase("SPANISH")){
+            	//only look for ivrsLang if homeWebLang is null.
+            		lang = "es";
+            }
+        }
+        	
+        return lang;
+	}
+
+	private List<UserNotification> getNotifications(User user) {
         return user.getUserNotifications();
     }
 
@@ -194,4 +233,9 @@ public class LoginController extends AbstractController {
     public void setStudyOrganizationClinicalStaffRepository(StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository) {
         this.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
     }
+    
+    @Required
+	public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
 }

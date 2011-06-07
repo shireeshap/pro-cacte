@@ -27,13 +27,23 @@
 
         <property name="basenames">
             <list>
-                <value>WEB-INF/message</value>
+                <value>WEB-INF/messages</value>
                 <value>WEB-INF/help</value>
             </list>
         </property>
         <property name="cacheSeconds" value="1"/>
 
     </bean>
+    
+    <bean id="localeChangeInterceptor"
+	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <property name="paramName" value="lang" />
+	</bean>
+	 
+	<bean id="localeResolver"
+	    class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <property name="defaultLocale" value="en"/>
+	</bean>
 
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
@@ -44,6 +54,7 @@
         </property>
         <property name="interceptors">
             <list>
+                <ref bean="localeChangeInterceptor" />
                 <ref bean="sectionInterceptor"/>
                 <ref bean="openSessionInViewInterceptor"/>
             </list>
@@ -84,6 +95,7 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" lazy-init="true">
         <property name="interceptors">
             <list>
+                <ref bean="localeChangeInterceptor" />
                 <ref bean="sectionInterceptor"/>
             </list>
         </property>
@@ -597,6 +609,7 @@
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="userRepository" ref="userRepository"/>
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
     <bean name="/home/notificationdetails" id="notificationdetails"
           class="gov.nih.nci.ctcae.web.clinicalStaff.NotificationDetailsController">

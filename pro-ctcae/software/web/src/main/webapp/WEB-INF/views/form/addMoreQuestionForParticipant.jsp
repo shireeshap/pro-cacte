@@ -224,14 +224,16 @@
                     </div>
                 </td>
                 <td>
+                	<spring:message code="add" var="add" />
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
                                  icon="add"
-                                 size="small" color="blue" value="add" markupWithTag="a"/>
+                                 size="small" color="blue" value="${add}" markupWithTag="a"/>
                 </td>
                 <td>
+                	<spring:message code="clear" var="clear" />
                     <tags:button onclick="javascript:clearInput()"
                                  icon="x"
-                                 size="small" color="blue" value="clear" markupWithTag="a"/>
+                                 size="small" color="blue" value="${clear}" markupWithTag="a"/>
                 </td>
             </tr>
         </table>
@@ -240,8 +242,7 @@
 
     <div class="row">
         <input id='usevirtualkeyboard' type="checkbox"
-               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;Use virtual
-        keyboard
+               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message code="virtualKeyboard" />
     </div>
           <form:form method="post" name="myForm">
         <table id="mytable">
@@ -284,12 +285,14 @@
 <table width="100%">
     <tr>
         <td align="left" width="50%">
+        	<spring:message code="back" var="back"/>
             <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
-                         value="Back" markupWithTag="a"/>
+                         value="${back}" markupWithTag="a"/>
         </td>
         <td align="right" width="50%">
+        	<spring:message code="continue" var="continue"/>
             <tags:button onclick="javascript:submitForm('continue')" icon="continue"
-                         color="green" value="Continue" markupWithTag="a"/>
+                         color="green" value="${continue}" markupWithTag="a"/>
         </td>
     </tr>
 </table>

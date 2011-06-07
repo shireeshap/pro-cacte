@@ -62,14 +62,26 @@
 </c:forEach>
 <img style=" position:relative; left:-10px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
-<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
-    <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span
-            style="font-weight:bolder;">${numberofCrfs}</span></c:when><c:otherwise>no</c:otherwise></c:choose> form<c:if
-            test="${numberofCrfs != 1}">s</c:if> that need<c:if
-            test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
+
+
+<div id="inboxTitle"><span style="font-size:75px; line-height:70px;"><tags:message code="participant.box.inbox"/></span><br/>
+	<span style="font-size:13pt; margin-left:6px;">
+    <c:choose>
+	    <c:when test="${not empty numberofCrfs}">
+	    	<c:if test="${numberofCrfs != 1}"><tags:message code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message code="participant.messageEndingPlural"/></c:if> 
+    		<c:if test="${numberofCrfs == 1}"><tags:message code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message code="participant.messageEndingSingular"/></c:if>
+	    </c:when>
+	    <c:otherwise><tags:message code="participant.noformsmessage"/>
+	    </c:otherwise>
+    </c:choose>
+    </span>
 </div>
+
+
+
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
-<chrome:box title="Scheduled forms">
+<spring:message code="label.scheduledForms" var="labelScheduledForms" />
+<chrome:box title="${labelScheduledForms}">
     <table id="inboxTable">
         <tr>
             <th>
@@ -116,8 +128,8 @@
     </table>
 </chrome:box>
 
-
-<chrome:box title="Missed forms">
+<spring:message code="label.missedForms" var="labelMissedForms" />
+<chrome:box title="${labelMissedForms}">
     <table id="inboxTable">
         <tr>
             <th>
