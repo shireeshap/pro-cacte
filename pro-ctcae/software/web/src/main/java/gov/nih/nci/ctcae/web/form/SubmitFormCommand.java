@@ -509,16 +509,20 @@ public class SubmitFormCommand implements Serializable {
         meddraQuestion.setLowLevelTerm(lowLevelTerm);
         meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.PRESENT);
         meddraValidValue.setValue("Yes", SupportedLanguageEnum.ENGLISH);
+        meddraValidValue.setValue("Yes", SupportedLanguageEnum.SPANISH);
         meddraValidValue.setDisplayOrder(1);
         MeddraValidValue meddraValidValue1 = new MeddraValidValue();
         meddraValidValue1.setValue("No", SupportedLanguageEnum.ENGLISH);
+        meddraValidValue1.setValue("No", SupportedLanguageEnum.SPANISH);
         meddraValidValue1.setDisplayOrder(0);
         meddraQuestion.addValidValue(meddraValidValue);
         meddraQuestion.addValidValue(meddraValidValue1);
         if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
             meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH).toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":", SupportedLanguageEnum.ENGLISH);
+            meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH).toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":", SupportedLanguageEnum.SPANISH);
         } else {
             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH) + "?", SupportedLanguageEnum.ENGLISH);
+             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH) + "?", SupportedLanguageEnum.SPANISH);
         }
         meddraQuestion.setDisplayOrder(1);
         genericRepository.save(meddraQuestion);
