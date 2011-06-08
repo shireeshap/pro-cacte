@@ -323,7 +323,14 @@ public class SubmitFormCommand implements Serializable {
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int position = totalQuestionPages + 2;
-        String language = schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage().toUpperCase();
+        String language = null;
+        String homeWebLanguage = schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
+        if(!StringUtils.isBlank(homeWebLanguage)){
+        	 language = homeWebLanguage.toUpperCase();
+        } else {
+        	language = SupportedLanguageEnum.ENGLISH.getName();
+        }
+        
         for (String symptom : selectedSymptoms) {
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
             ProCtcTerm proCtcTerm = null;
