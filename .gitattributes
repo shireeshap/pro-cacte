@@ -527,6 +527,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/028_create_recordi
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/029_create_vocab_tables.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/030_drop_term_constraints.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/031_update_sp_crf_schedules.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/032_drop_column_replaced_by_vocab.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
