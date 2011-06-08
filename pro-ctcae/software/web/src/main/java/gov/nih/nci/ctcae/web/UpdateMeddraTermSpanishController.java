@@ -21,7 +21,7 @@ public class UpdateMeddraTermSpanishController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         updateMeddraSpanishLoader.setMeddraLoaderRepository(meddraLoaderRepository);
         updateMeddraSpanishLoader.updateMeddraTerms();
-        System.out.println("Spanish Meddra terms updates");
+        System.out.println("Spanish Meddra terms updated");
         return new ModelAndView("proCtcTermsLoaded");
     }
 
