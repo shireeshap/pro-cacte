@@ -14,10 +14,14 @@ import java.util.List;
  */
 public class MeddraLoaderRepository extends JdbcDaoSupport {
 
-    @Transactional
+//    @Transactional
     public void batchExecute(List<String> list){
 
-          getJdbcTemplate().batchUpdate(list.toArray(new String[0]));
+//          getJdbcTemplate().batchUpdate(list.toArray(new String[0]));
+        for (String query: list) {
+//            System.out.println(query);
+            getJdbcTemplate().execute(query);
+        }
     }
 
 
