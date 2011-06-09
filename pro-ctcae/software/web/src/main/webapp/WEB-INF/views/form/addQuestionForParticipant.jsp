@@ -289,12 +289,14 @@
 <table width="100%">
     <tr>
         <td align="left" width="50%">
+        	<spring:message code="back" var="back" />
             <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
-                         value="Back" markupWithTag="a"/>
+                         value="${back}" markupWithTag="a"/>
         </td>
         <td align="right" width="50%">
+        	<spring:message code="continue" var="continue" />
             <tags:button onclick="javascript:submitForm('continue')" icon="continue"
-                         color="green" value="Continue" markupWithTag="a"/>
+                         color="green" value="${continue}" markupWithTag="a"/>
         </td>
     </tr>
 </table>

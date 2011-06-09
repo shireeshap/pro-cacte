@@ -29,19 +29,17 @@
 
 </head>
 <body>
-<chrome:box title="Confirmation" autopad="true">
+<spring:message code="confirmation" var="confirmation" />
+<chrome:box title="${confirmation}" autopad="true">
     <table>
         <tr>
             <td class="label">
                 <br/>
-                You can <a
-                    href="../participant/participantInbox">click
-                here</a> to go to your Inbox.
-                <br/>
-                <br/>
-                You can <a
-                    href="../participant/responseReport?id=${scheduleid}">click
-                here</a> to view your old responses.
+                <spring:message code="youCan" />&nbsp;<a href="../participant/participantInbox">
+                <spring:message code="clickHere" /></a>&nbsp;<spring:message code="goToInbox" />
+                <br/><br/>
+                <spring:message code="youCan" />&nbsp;<a href="../participant/responseReport?id=${scheduleid}">
+                <spring:message code="clickHere" /></a>&nbsp;<spring:message code="viewOldResponses" />
             </td>
         </tr>
     </table>
