@@ -394,7 +394,59 @@ public class IVRSApiTestHelper {
         System.out.println(result);
         return result;
     }
+       
+    public Integer ivrsGetFormStatus(int userId, int formId){
+        String procedureName = "ivrs_getform_status";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
 
+    public Integer ivrsGetNumberOfUnAnsSymps(int userId, int formId){
+        String procedureName = "ivrs_get_no_of_unans_symps";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }   
+
+    public Integer ivrsSaveFilePath(int userId, int formId,String path){
+        String procedureName = "ivrs_save_filepath";
+        ivrsLoginFunction = new SimpleJdbcCall(dataSource)
+                .withFunctionName(procedureName);
+        ivrsLoginFunction.setAccessCallParameterMetaData(false);
+        ivrsLoginFunction.declareParameters(
+                new SqlOutParameter("RETURN", Types.INTEGER),
+                new SqlParameter("userid", Types.INTEGER),
+                new SqlParameter("formid", Types.INTEGER),
+                new SqlParameter("filepath",Types.VARCHAR));
+        MapSqlParameterSource in = new MapSqlParameterSource()
+                .addValue("userid", userId)
+                .addValue("formid", formId)
+                .addValue("filepath",path);
+        Integer result = ivrsLoginFunction.executeFunction(Integer.class, in);
+        System.out.println(result);
+        return result;
+    }
     
 
     
