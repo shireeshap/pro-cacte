@@ -21,13 +21,13 @@ public class IVRSApiTest extends TestDataManager{
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        jdbcTemplate.execute("delete from ivrs_sch_core_sym_count"); 
+        jdbcTemplate.execute("delete from ivrs_sch_core_sym_count");
         deleteIVRSTestData();
         saveIVRSParticipant();
 
     }
     private void saveIVRSParticipant() {
-        //create IVRS test Form and Study, ready the schedule form
+        //create IVRS test Form and Study,ready the schedule form
         try{
             Study study = StudyTestHelper.createIVRSStudy();
 
