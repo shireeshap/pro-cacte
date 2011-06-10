@@ -119,7 +119,7 @@
     </div>
     <div class="label" style="margin-bottom:10px;">
         <tags:recallPeriodFormatter
-                desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>:
+                desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
     </div>
     <c:set var="showConditionalQuestions" value="false"/>
     <c:forEach items="${command.currentPageQuestions}" var="displayQuestion" varStatus="varStatus">
