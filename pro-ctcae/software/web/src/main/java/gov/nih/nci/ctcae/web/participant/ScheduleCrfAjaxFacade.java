@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.CtcTerm;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
@@ -85,11 +82,11 @@ public class ScheduleCrfAjaxFacade {
         participantQuery.filterByStudy(studyId);
         List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
 
-         participants = RankBasedSorterUtils.sort(participants, text, new Serializer<Participant>() {
-             public String serialize(Participant object) {
-                 return object.getDisplayName();
-             }
-         });
+        participants = RankBasedSorterUtils.sort(participants, text, new Serializer<Participant>() {
+            public String serialize(Participant object) {
+                return object.getDisplayName();
+            }
+        });
 
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
     }
@@ -103,26 +100,62 @@ public class ScheduleCrfAjaxFacade {
     public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        StudyParticipantAssignment spa = submitFormCommand.getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment();
+        String language = spa.getHomeWebLanguage();
+        if (language == null || language == "") {
+            language = SupportedLanguageEnum.ENGLISH.getName();
+        }
         List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
         for (ProCtcTerm symptom : symptoms) {
             if (symptom.getProCtcTermVocab().getTermEnglish().toLowerCase().contains((text.toLowerCase()))) {
-                results.add(symptom.getProCtcTermVocab().getTermEnglish());
+                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    results.add(symptom.getProCtcTermVocab().getTermEnglish());
+                } else {
+                    results.add(symptom.getProCtcTermVocab().getTermSpanish());
+                }
             }
         }
-        MeddraQuery meddraQuery = new MeddraQuery(true);
-        if (text != null) {
+        MeddraQuery meddraQuery;
+        if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+            meddraQuery = new MeddraQuery(true);
+        } else {
+            meddraQuery = new MeddraQuery(language);
+        }
+        if (text != null && text.length() > 2) {
+            if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
             meddraQuery.filterMeddraWithMatchingText(text);
+            } else {
+            meddraQuery.filterMeddraWithSpanishText(text);
+            }
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
 
-            results.addAll(meddraTerms);
+            for (String meddraTerm : meddraTerms) {
+                List<CtcTerm> ctcTerms;
+                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                   ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm);
+                } else {
+                   ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm);
+                }
+                if (ctcTerms != null) {
+                    for (CtcTerm ctcTerm : ctcTerms) {
+                        if (ctcTerm != null) {
+                            List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
+                            if (proCtcTerms != null && proCtcTerms.size() > 0) {
+                                results.add(meddraTerm + " (" + proCtcTerms.get(0) + ")");
+                            }
+                        }
+                    }
+                }
+            }
+//            results.addAll(meddraTerms);
         }
         results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
-             public String serialize(String object) {
-                 return object;
-             }
-         });
+            public String serialize(String object) {
+                return object;
+            }
+        });
         return results;
     }
 
@@ -155,9 +188,9 @@ public class ScheduleCrfAjaxFacade {
      */
     @Required
     public void setParticipantRepository
-            (
-                    ParticipantRepository
-                            participantRepository) {
+    (
+            ParticipantRepository
+                    participantRepository) {
         this.participantRepository = participantRepository;
     }
 
@@ -168,22 +201,22 @@ public class ScheduleCrfAjaxFacade {
      */
     @Required
     public void setStudyRepository
-            (StudyRepository
-                    studyRepository) {
+    (StudyRepository
+             studyRepository) {
         this.studyRepository = studyRepository;
     }
 
     @Required
     public void setGenericRepository
             (GenericRepository
-                    genericRepository) {
+                     genericRepository) {
         this.genericRepository = genericRepository;
     }
 
     @Required
     public void setProCtcTermRepository
             (ProCtcTermRepository
-                    proCtcTermRepository) {
+                     proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
     }
 

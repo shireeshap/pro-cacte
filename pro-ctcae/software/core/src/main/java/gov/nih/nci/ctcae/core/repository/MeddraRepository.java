@@ -68,10 +68,36 @@ public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
         return ctcTerms;
     }
 
+    public List<CtcTerm> findCtcTermForSpanishMeddraTerm(String meddraTerm) {
+        MeddraQuery meddraQuery = new MeddraQuery();
+        meddraQuery.filterBySpanishMeddraTerm(meddraTerm);
+        LowLevelTerm lowLevelTerm = genericRepository.findSingle(meddraQuery);
+        String meddraCode = lowLevelTerm.getMeddraCode();
+        if (meddraCode == null) {
+            return null;
+        }
+        List<CtcTerm> ctcTerms = findCtcTermByMeddraCode(meddraCode);
+        if (ctcTerms == null || ctcTerms.size() == 0) {
+            Integer meddraPtId = lowLevelTerm.getMeddraPtId();
+            meddraQuery = new MeddraQuery();
+            meddraQuery.filterByMeddraPtId(meddraPtId);
+            List<LowLevelTerm> lowLevelTerms = genericRepository.find(meddraQuery);
+            for (LowLevelTerm llt : lowLevelTerms) {
+                ctcTerms = findCtcTermByMeddraCode(llt.getMeddraCode());
+                if (ctcTerms != null && ctcTerms.size() > 0) {
+                    return ctcTerms;
+                }
+            }
+        }
+        return ctcTerms;
+    }
+
+
     private List<CtcTerm> findCtcTermByMeddraCode(String meddraCode) {
         CtcQuery ctcQuery = new CtcQuery(true);
         ctcQuery.filterByCtepCode(meddraCode);
         List<CtcTerm> ctcTerm = genericRepository.find(ctcQuery);
+
         return ctcTerm;
     }
 }
