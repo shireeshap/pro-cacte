@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.query;
 
-import sun.util.resources.CurrencyNames_th_TH;
-
 import java.util.Currency;
 
 /**
