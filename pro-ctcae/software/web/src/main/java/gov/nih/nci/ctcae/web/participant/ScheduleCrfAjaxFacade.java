@@ -122,7 +122,7 @@ public class ScheduleCrfAjaxFacade {
         } else {
             meddraQuery = new MeddraQuery(language);
         }
-        if (text != null && text.length() > 2) {
+        if (text != null) {
             if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
             meddraQuery.filterMeddraWithMatchingText(text);
             } else {
@@ -131,25 +131,25 @@ public class ScheduleCrfAjaxFacade {
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
 
-            for (String meddraTerm : meddraTerms) {
-                List<CtcTerm> ctcTerms;
-                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
-                   ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm);
-                } else {
-                   ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm);
-                }
-                if (ctcTerms != null) {
-                    for (CtcTerm ctcTerm : ctcTerms) {
-                        if (ctcTerm != null) {
-                            List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
-                            if (proCtcTerms != null && proCtcTerms.size() > 0) {
-                                results.add(meddraTerm + " (" + proCtcTerms.get(0) + ")");
-                            }
-                        }
-                    }
-                }
-            }
-//            results.addAll(meddraTerms);
+//            for (String meddraTerm : meddraTerms) {
+//                List<CtcTerm> ctcTerms;
+//                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+//                   ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm);
+//                } else {
+//                   ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm);
+//                }
+//                if (ctcTerms != null) {
+//                    for (CtcTerm ctcTerm : ctcTerms) {
+//                        if (ctcTerm != null) {
+//                            List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
+//                            if (proCtcTerms != null && proCtcTerms.size() > 0) {
+//                                results.add(meddraTerm + " (" + proCtcTerms.get(0) + ")");
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+            results.addAll(meddraTerms);
         }
         results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
             public String serialize(String object) {
