@@ -825,22 +825,23 @@
     <bean name="/updateMeddraTerms" id="updateMeddraTerms" class="gov.nih.nci.ctcae.web.UpdateMeddraTermsController">
         <property name="meddraLoaderRepository" ref="meddraLoaderRepository"/>
         <property name="updateMeddraLoader" ref="updateMeddraLoader"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="updateMeddraLoader" class="gov.nih.nci.ctcae.core.csv.loader.UpdateMeddraLoader">
-        <property name="hibernateTemplate" ref="hibernateTemplate"/>
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <!--<property name="hibernateTemplate" ref="hibernateTemplate"/>-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
     </bean>
 
     <bean name="/updateSpanishMeddraTerms" id="updateSpanishMeddra"
           class="gov.nih.nci.ctcae.web.UpdateMeddraTermSpanishController">
         <property name="meddraLoaderRepository" ref="meddraLoaderRepository"/>
         <property name="updateMeddraSpanishLoader" ref="updateMeddraSpanishLoader"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="updateMeddraSpanishLoader" class="gov.nih.nci.ctcae.core.csv.loader.UpdateMeddraSpanishLoader">
-        <property name="hibernateTemplate" ref="hibernateTemplate"/>
-        <property name="sessionFactory" ref="sessionFactory"/>
+
     </bean>
 
 
