@@ -33,7 +33,7 @@ public class UpdateMeddraSpanishLoader {
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
-        ClassPathResource classPathResource = new ClassPathResource("llt_spanis.csv");
+        ClassPathResource classPathResource = new ClassPathResource("llt_spanish.csv");
         reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader.readHeaders();
 
