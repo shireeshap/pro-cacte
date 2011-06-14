@@ -1,4 +1,4 @@
- <%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
+<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -13,15 +13,15 @@
     Object attribute = request.getAttribute("command");
     int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
     int numOfRows = 0;
-    if(numOfSymptoms > 0){
+    if (numOfSymptoms > 0) {
         if (numOfSymptoms % 3 == 0) {
             numOfRows = numOfSymptoms / 3;
         } else {
             numOfRows = (numOfSymptoms / 3) + 1;
         }
         request.setAttribute("numrows", numOfRows - 1);
-    }else{
-         request.setAttribute("numrows", numOfRows);
+    } else {
+        request.setAttribute("numrows", numOfRows);
     }
 
 %>
@@ -81,18 +81,36 @@
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
                 if (values != '') {
                     var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
-                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice,
+                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
                         onComplete:function(transport) {
-                            showConfirmationWindow(transport, 600, 250);
+                            showConfirmationWindow(transport, 600, 150);
                         },
                         method:'get'
                     })
 
                 } else {
+                    checkMapping(selectedChoice);
                     addSymptom(selectedChoice);
+                }
+
+            })
+        }
+
+        function checkMapping(selectedChoice) {
+            scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
+                if (values != '') {
+                    var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
+                        parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
+                        onComplete:function(transport) {
+                            showConfirmationWindow(transport, 500, 150);
+                        },
+                        method:'post'
+                    })
+
                 }
             })
         }
+
         function addSymptom(escapedSelectedChoice) {
             var selectedChoice = unescape(escapedSelectedChoice);
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
@@ -224,13 +242,13 @@
                     </div>
                 </td>
                 <td>
-                	<spring:message code="add" var="add" />
+                    <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
                                  icon="add"
                                  size="small" color="blue" value="${add}" markupWithTag="a"/>
                 </td>
                 <td>
-                	<spring:message code="clear" var="clear" />
+                    <spring:message code="clear" var="clear"/>
                     <tags:button onclick="javascript:clearInput()"
                                  icon="x"
                                  size="small" color="blue" value="${clear}" markupWithTag="a"/>
@@ -242,40 +260,44 @@
 
     <div class="row">
         <input id='usevirtualkeyboard' type="checkbox"
-               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message code="virtualKeyboard" />
+               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message
+            code="virtualKeyboard"/>
     </div>
-          <form:form method="post" name="myForm">
+    <form:form method="post" name="myForm">
         <table id="mytable">
             <tbody>
             <tr>
-                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
-                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
-                <td class="" style="vertical-align:top" width="1%"></td><td class="value label" width="32%">
+                <td class="" style="vertical-align:top" width="1%"></td>
+                <td class="value label" width="32%">
+                <td class="" style="vertical-align:top" width="1%"></td>
+                <td class="value label" width="32%">
+                <td class="" style="vertical-align:top" width="1%"></td>
+                <td class="value label" width="32%">
             </tr>
-            <%--<c:set var="numrows" value="${numrows}"/>--%>
-            <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
-            <%--<c:forEach var="i" begin="0" end="${numrows}" varStatus="status">--%>
+                <%--<c:set var="numrows" value="${numrows}"/>--%>
+                <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
+                <%--<c:forEach var="i" begin="0" end="${numrows}" varStatus="status">--%>
                 <%--<c:if test="${displaySymptoms[i*3+0] ne null}">--%>
-                    <%--<tr id="tr_"${i}>--%>
-                        <%--<c:forEach var="j" begin="0" end="2" varStatus="status">--%>
-                            <%--<td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">--%>
-                                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
-                                    <%--<input type="checkbox" name="symptomsByParticipants"--%>
-                                           <%--value="${displaySymptoms[i + (numrows+1)*j]}"--%>
-                                           <%--onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"--%>
-                                           <%--id="${i + (numrows+1)*j}"/>--%>
-                                <%--</c:if>--%>
-                            <%--</td>--%>
-                            <%--<td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">--%>
-                                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
-                                    <%--<div id="div_${i + (numrows+1)*j}"--%>
-                                         <%--class="label">${displaySymptoms[i + (numrows+1)*j]}</div>--%>
-                                <%--</c:if>--%>
-                            <%--</td>--%>
-                        <%--</c:forEach>--%>
-                    <%--</tr>--%>
+                <%--<tr id="tr_"${i}>--%>
+                <%--<c:forEach var="j" begin="0" end="2" varStatus="status">--%>
+                <%--<td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">--%>
+                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
+                <%--<input type="checkbox" name="symptomsByParticipants"--%>
+                <%--value="${displaySymptoms[i + (numrows+1)*j]}"--%>
+                <%--onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"--%>
+                <%--id="${i + (numrows+1)*j}"/>--%>
                 <%--</c:if>--%>
-            <%--</c:forEach>--%>
+                <%--</td>--%>
+                <%--<td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">--%>
+                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
+                <%--<div id="div_${i + (numrows+1)*j}"--%>
+                <%--class="label">${displaySymptoms[i + (numrows+1)*j]}</div>--%>
+                <%--</c:if>--%>
+                <%--</td>--%>
+                <%--</c:forEach>--%>
+                <%--</tr>--%>
+                <%--</c:if>--%>
+                <%--</c:forEach>--%>
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
@@ -285,12 +307,12 @@
 <table width="100%">
     <tr>
         <td align="left" width="50%">
-        	<spring:message code="back" var="back"/>
+            <spring:message code="back" var="back"/>
             <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
                          value="${back}" markupWithTag="a"/>
         </td>
         <td align="right" width="50%">
-        	<spring:message code="continue" var="continue"/>
+            <spring:message code="continue" var="continue"/>
             <tags:button onclick="javascript:submitForm('continue')" icon="continue"
                          color="green" value="${continue}" markupWithTag="a"/>
         </td>

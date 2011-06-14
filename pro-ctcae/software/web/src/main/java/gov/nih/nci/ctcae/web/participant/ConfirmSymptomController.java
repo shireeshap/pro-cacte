@@ -16,6 +16,8 @@ public class ConfirmSymptomController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("participant/confirmSymptom");
         modelAndView.addObject("values", request.getParameter("values"));
         modelAndView.addObject("selectedChoice", request.getParameter("selectedChoice"));
+        modelAndView.addObject("mappedValues", request.getParameter("mappedValues"));
+        modelAndView.addObject("isMapped", request.getParameter("isMapped"));
         return modelAndView;
     }
 

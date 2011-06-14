@@ -180,6 +180,19 @@ public class ScheduleCrfAjaxFacade {
         return "";
     }
 
+    public String checkIfSymptomMapsToProctc(HttpServletRequest request, String text) {
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand)
+                request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
+        if (meddraTerm != null) {
+            List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH));
+            if (ctcTerms != null && ctcTerms.size()>0){
+               return ctcTerms.get(0).getProCtcTerms().get(0).getTermEnglish(SupportedLanguageEnum.ENGLISH);
+            }
+        }
+        return "";
+    }
+
 
     /**
      * Sets the participant repository.

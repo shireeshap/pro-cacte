@@ -13,25 +13,46 @@
     <tr>
         <td>
             <div id="confirmSymptom">
+                <c:if test="${isMapped eq false}">
                 <div style="border:1px solid #ccc; height:95px; padding:9px; margin-bottom:10px;">
                     <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
                     <div style="font-size:15px; margin-bottom:10px;">
-                        You have already answered a question for <b>${values}</b>. Are you sure you want to answer an additional
-                        question for <b>${selectedChoice}</b>?
+                        <spring:message code="participant.confirm_symptom"/> <b>${values}</b>. <spring:message code="participant.confirm_symptom1"/> <b>${selectedChoice}</b>?
                     </div>
+
+
                 </div>
                 <br/>
                 <br/>
 
                 <div class="flow-buttons">
+                    <spring:message code="participant.button_yes" var="yesButton"/>
+                    <spring:message code="participant.button_no" var="noButton"/>
                     <tags:button color="orange" type="button" id="flow-update"
-                                 onclick="sendConfirmedSymptom();"
-                                 cssClass="next" value="Yes" icon="check"/>
-                    <tags:button color="blue" type="button" id="flow-cancel"
-                                 cssClass="previous ibutton" value="No" icon="x"
+                                 onclick="closeWindow()"
+                                 cssClass="next" value="${yesButton}" icon="check"/>
+                    <%--<tags:button color="orange" type="button" id="flow-update"--%>
+                                 <%--onclick="sendConfirmedSymptom();"--%>
+                                 <%--cssClass="next" value="${yesButton}" icon="check"/>--%>
+                    <%--<tags:button color="blue" type="button" id="flow-cancel"--%>
+                                 <%--cssClass="previous ibutton" value="${noButton}" icon="x"--%>
+                                 <%--onclick="closeWindow()"/>--%>
+                </div>
+                </c:if>
+                <c:if test="${isMapped eq true}">
+                   <div style="font-size:15px; margin-bottom:10px;">
+                      <spring:message code="participant.confirm_symptom2"/>   <b>${mappedValues}</b>.
+                    </div>
+
+                    <div class="flow-buttons" align="right" >
+                        <spring:message code="participant.button_yes" var="okayButton"/>
+                    <tags:button color="orange" type="button" id="flow-cancel"
+                                 cssClass="previous ibutton" value="${okayButton}" icon="check"
                                  onclick="closeWindow()"/>
+                </div>
+                </c:if>
                 </div>
         </td>
     </tr>
