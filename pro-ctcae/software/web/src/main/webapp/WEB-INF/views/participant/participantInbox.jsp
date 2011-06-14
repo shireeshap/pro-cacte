@@ -50,6 +50,12 @@
 </head>
 <body>
 <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
+<%
+    Calendar calendar = new java.util.GregorianCalendar();
+    calendar.add(Calendar.DAY_OF_MONTH, -15);
+    java.util.Date date = calendar.getTime();
+    request.setAttribute("missedFormDate", date);
+%>
 <%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
@@ -63,24 +69,26 @@
 <img style=" position:relative; left:-10px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
 
-
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;"><tags:message code="participant.box.inbox"/></span><br/>
 	<span style="font-size:13pt; margin-left:6px;">
     <c:choose>
-	    <c:when test="${not empty numberofCrfs}">
-	    	<c:if test="${numberofCrfs != 1}"><tags:message code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message code="participant.messageEndingPlural"/></c:if> 
-    		<c:if test="${numberofCrfs == 1}"><tags:message code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message code="participant.messageEndingSingular"/></c:if>
-	    </c:when>
-	    <c:otherwise><tags:message code="participant.noformsmessage"/>
-	    </c:otherwise>
+        <c:when test="${not empty numberofCrfs}">
+            <c:if test="${numberofCrfs != 1}"><tags:message
+                    code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message
+                    code="participant.messageEndingPlural"/></c:if>
+            <c:if test="${numberofCrfs == 1}"><tags:message
+                    code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message
+                    code="participant.messageEndingSingular"/></c:if>
+        </c:when>
+        <c:otherwise><tags:message code="participant.noformsmessage"/>
+        </c:otherwise>
     </c:choose>
     </span>
 </div>
 
 
-
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
-<spring:message code="label.scheduledForms" var="labelScheduledForms" />
+<spring:message code="label.scheduledForms" var="labelScheduledForms"/>
 <chrome:box title="${labelScheduledForms}">
     <table id="inboxTable">
         <tr>
@@ -128,7 +136,7 @@
     </table>
 </chrome:box>
 
-<spring:message code="label.missedForms" var="labelMissedForms" />
+<spring:message code="label.missedForms" var="labelMissedForms"/>
 <chrome:box title="${labelMissedForms}">
     <table id="inboxTable">
         <tr>
@@ -147,7 +155,8 @@
             <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                 <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                            var="studyParticipantCrfSchedule">
-                    <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'}">
+                    <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+                        && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
                         <tr>
                             <td>
                                     ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
