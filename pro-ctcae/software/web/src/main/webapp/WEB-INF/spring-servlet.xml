@@ -19,31 +19,6 @@
    	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd">
     <!--      http://activemq.apache.org/schema/core -->
 
-    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
-    <!--<property name="basename" value="/WEB-INF/message"/>-->
-    <!--<property name="cacheSeconds" value="1"/>-->
-    <!--</bean>-->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-
-        <property name="basenames">
-            <list>
-                <value>WEB-INF/messages</value>
-                <value>WEB-INF/help</value>
-            </list>
-        </property>
-        <property name="cacheSeconds" value="1"/>
-
-    </bean>
-    
-    <bean id="localeChangeInterceptor"
-	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-	    <property name="paramName" value="lang" />
-	</bean>
-	 
-	<bean id="localeResolver"
-	    class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-	    <property name="defaultLocale" value="en"/>
-	</bean>
 
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
@@ -616,10 +591,6 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-    <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
-    </bean>
-
-
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
           p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
           p:organizationRepository-ref="organizationRepository"
@@ -654,49 +625,6 @@
 
 
     <!-- validation beans-->
-
-    <bean id="webControllerValidator"
-          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"/>
-
-    <bean id="uniqueIdentifierForStudyValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
-        <property name="studyRepository" ref="studyRepository"/>
-    </bean>
-
-    <bean id="uniqueStudyIdentifierForParticipantValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
-        <property name="participantRepository" ref="participantRepository"/>
-    </bean>
-
-    <bean id="uniqueParticipantEmailAddressValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
-        <property name="participantRepository" ref="participantRepository"/>
-    </bean>
-
-    <bean id="uniqueParticipantUserNumberValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator">
-        <property name="participantRepository" ref="participantRepository"/>
-    </bean>
-
-    <bean id="uniqueStaffEmailAddressValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
-        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
-    </bean>
-
-    <bean id="uniqueTitleForCrfValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
-        <property name="crfRepository" ref="crfRepository"/>
-    </bean>
-
-    <bean id="uniqueObjectInCollectionValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator">
-    </bean>
-    <bean id="notEmptyValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator">
-    </bean>
-    <bean id="notNullValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.NotNullValidator">
-    </bean>
     <bean id="reportResultsHelper" class="gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
@@ -889,13 +817,14 @@
     </bean>
 
     <!-- A POJO that implements the JMS message listener -->
-    <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener"/>
-
+    <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener">
+        <property name="properties" ref="proCtcAeProperties"/>
+	</bean>
+	
     <!-- The Spring message listener container configuration -->
     <jms:listener-container container-type="default" connection-factory="jmsFactory" acknowledge="auto"
                             concurrency="2-2">
         <jms:listener destination="IVRS.DESTINATION" ref="simpleMessageListener" method="onMessage"/>
-
     </jms:listener-container>
 
 </beans>
