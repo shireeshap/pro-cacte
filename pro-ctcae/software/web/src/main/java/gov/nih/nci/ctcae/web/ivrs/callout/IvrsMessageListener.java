@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -33,15 +34,32 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class IvrsMessageListener implements MessageListener, ApplicationContextAware {
     
+	public static final String ASTERISK_IP = "asterisk.ip";
+	public static final String ASTERISK_USERNAME = "asterisk.username";
+	public static final String ASTERISK_PASSWORD = "asterisk.password";
+	public static final int port = 5038;
+	
 	protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
     
 	private IvrsScheduleRepository ivrsScheduleRepository;
 	
 	protected ApplicationContext applicationContext;
+	
+	private Properties properties;
      
-    static private DefaultAsteriskServer defaultAsteriskServer = new DefaultAsteriskServer("10.10.10.77", 5038, "admin", "admin");
+    static private DefaultAsteriskServer defaultAsteriskServer = null;
+    
+    public IvrsMessageListener(){
+    	
+    }
     
     public void onMessage(Message message) {
+    	String asteriskIp = properties.getProperty(ASTERISK_IP);
+    	String asteriskUsername = properties.getProperty(ASTERISK_USERNAME);
+    	String asteriskPassword = properties.getProperty(ASTERISK_PASSWORD);
+    	
+    	defaultAsteriskServer = new DefaultAsteriskServer(asteriskIp, IvrsMessageListener.port, asteriskUsername, asteriskPassword);
+    	
 		CallAction callAction = null;
 		IvrsSchedule ivrsSchedule = null;
 		ivrsScheduleRepository = (IvrsScheduleRepository) applicationContext.getBean("ivrsScheduleRepository");
@@ -143,6 +161,10 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+	
+	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
 	
 }

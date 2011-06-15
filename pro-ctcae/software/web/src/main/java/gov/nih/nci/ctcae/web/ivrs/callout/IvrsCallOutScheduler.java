@@ -4,6 +4,7 @@ import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.IvrsScheduleQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -41,10 +42,10 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public class IvrsCallOutScheduler implements ApplicationContextAware{
     
-	public static final String CONTEXT = "myTest";
-	public static final String EXTENSION = "1";
-	public static final int PRIORITY = 1;
-	public static final long TIMEOUT = 5000000;
+//	public static final String CONTEXT = "myTest";
+//	public static final String EXTENSION = "1";
+//	public static final int PRIORITY = 1;
+//	public static final long TIMEOUT = 5000000;
 	
 	//specified in the datasource.props
 	public static final String CHANNEL_SOFTPHONE = "SIP/oneUser";
@@ -52,6 +53,12 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final String CHANNEL_PSTN      = "DAHDI/G1";
 	
 	public static final String MODE_IVRSCALLOUT  = "mode.ivrscallout";
+	public static final String IVRS_CONTEXT_ENGLISH  = "ivrs.context.english";
+	public static final String IVRS_CONTEXT_SPANISH  = "ivrs.context.spanish";
+	public static final String IVRS_EXTENSION  = "ivrs.extension";
+	public static final String IVRS_PRIORITY  = "ivrs.priority";
+	public static final String IVRS_TIMEOUT  = "ivrs.timeout";
+	
 	public static final int SCHEDULER_FREQUENCY = 2;
 	
 	protected static final Log logger = LogFactory.getLog(IvrsCallOutScheduler.class);
@@ -163,7 +170,12 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		Participant participant = null;
 		ParticipantQuery participantQuery = null;
 		String phoneNumber = null;
+
+        String extension = properties.getProperty(IVRS_EXTENSION);
+        int priority = Integer.valueOf(properties.getProperty(IVRS_PRIORITY)).intValue();
+        long timeout = Long.valueOf(properties.getProperty(IVRS_TIMEOUT)).longValue();
 		
+        String context = null;
 		for(IvrsSchedule ivrsSchedule: ivrScheduleList){
 			//Get the participant using the StudyParticipantAssignment and get the phoneNumber from the participant.
 			participantQuery = new ParticipantQuery();
@@ -177,25 +189,51 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 				participant = pIter.next();
 			}
 			phoneNumber = buildPhoneNumber(participant);
-			
+			context = getContext(participant);
 			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId)
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
 				logger.debug("Adding CallAction for SoftPhone....");
-				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
+				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, context, extension, priority, timeout, ivrsSchedule.getId());
 			}
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_VOIP)){
 				logger.debug("Adding CallAction for VOIP....");
-				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + phoneNumber, CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
+				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
 			}
 			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_PSTN)){
 				logger.debug("Adding CallAction for PSTN....");
-				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", CONTEXT, EXTENSION, PRIORITY, TIMEOUT, ivrsSchedule.getId());
+				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", context, extension, priority, timeout, ivrsSchedule.getId());
 			}
 			callActionList.add(callAction);
 		}
 		return callActionList;
 	}
 
+
+	/**
+	 * Gets the context for the participant depending on his/her preferred language.
+	 *
+	 * @param participant the participant
+	 * @return the context
+	 */
+	private String getContext(Participant participant) {
+        String contextEnglish = properties.getProperty(IVRS_CONTEXT_ENGLISH);
+        String contextSpanish = properties.getProperty(IVRS_CONTEXT_SPANISH);
+        
+        //default to English
+        String contextToBeReturned = contextEnglish;
+        StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
+        if(studyParticipantAssignment != null){
+        	if(studyParticipantAssignment.getHomeWebLanguage() != null){
+        		if(studyParticipantAssignment.getHomeWebLanguage().equalsIgnoreCase("SPANISH")){
+        			contextToBeReturned = contextSpanish;
+            	}
+            } else if(studyParticipantAssignment.getIvrsLanguage().equalsIgnoreCase("SPANISH")){
+            	//only look for ivrsLang if homeWebLang is null.
+            	contextToBeReturned = contextSpanish;
+            }
+        }
+		return contextToBeReturned;
+	}
 
 	/**
 	 * Executes producer. Actually pushes the callAction jobs into the JMS queue.
@@ -263,10 +301,6 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
-	}
-
-	public Properties getProperties() {
-		return properties;
 	}
 
 	public void setProperties(Properties properties) {
