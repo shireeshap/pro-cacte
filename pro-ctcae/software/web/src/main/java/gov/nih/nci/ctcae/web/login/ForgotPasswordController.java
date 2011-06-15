@@ -1,23 +1,32 @@
 package gov.nih.nci.ctcae.web.login;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractFormController;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.UUID;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DelegatingMessageSource;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractFormController;
 
 /**
  * @author Harsh Agarwal
@@ -26,8 +35,13 @@ import java.util.UUID;
 public class ForgotPasswordController extends AbstractFormController {
 
     UserRepository userRepository;
+    private DelegatingMessageSource messageSource;
 
-    public ForgotPasswordController() {
+    public void setMessageSource(DelegatingMessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
+	public ForgotPasswordController() {
         setCommandClass(ClinicalStaff.class);
     }
 
@@ -99,7 +113,12 @@ public class ForgotPasswordController extends AbstractFormController {
 
     // sending email to participants
     public void resetPasswordAndSendEmailToParticipant(Participant participant, HttpServletRequest request) {
-	try {
+    	Locale locale = LocaleContextHolder.getLocale();
+    	String salutation = messageSource.getMessage("username.email.salutation", null, locale);
+    	String msg1 = messageSource.getMessage("password.email.message.1", null, locale);
+    	String subject = messageSource.getMessage("password.email.subject", null, locale);
+    	
+    	try {
             User user = participant.getUser();
             user.setAccountNonLocked(true);
             user.setNumberOfAttempts(0);
@@ -107,12 +126,13 @@ public class ForgotPasswordController extends AbstractFormController {
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
             userRepository.saveWithoutCheck(participant.getUser());
-            String content = "Dear " + participant.getFirstName() + " " + participant.getLastName() + ", ";
-            content += "\nYou must reset your password by clicking on this link ";
+            
+            String content = salutation + participant.getFirstName() + " " + participant.getLastName() + ", ";
+            content += "\n" + msg1;
             content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
-            message.setSubject("PRO-CTCAE Account Password");
+            message.setSubject(subject);
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(participant.getEmailAddress());

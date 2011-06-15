@@ -8,6 +8,9 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DelegatingMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -29,8 +33,13 @@ public class ForgotUsernameController extends AbstractFormController {
 
     GenericRepository genericRepository;
     protected Properties proCtcAEProperties;
+    private DelegatingMessageSource messageSource;
 
-    public ForgotUsernameController() {
+    public void setMessageSource(DelegatingMessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
+	public ForgotUsernameController() {
         setCommandClass(ClinicalStaff.class);
     }
 
@@ -107,23 +116,28 @@ public class ForgotUsernameController extends AbstractFormController {
     // sending user names to participants
     public void sendUsernameEmailToParticipant(List<Participant> participants, HttpServletRequest request) {
         try {
+        	Locale locale = LocaleContextHolder.getLocale();
+        	String salutation = messageSource.getMessage("username.email.salutation", null, locale);
+        	String msg1 = messageSource.getMessage("username.email.message.1", null, locale);
+        	String msg2 = messageSource.getMessage("username.email.message.2", null, locale);
+        	String subject = messageSource.getMessage("username.email.subject", null, locale);
 
             String content = "";
             if (participants.size() == 1) {
                 User user = participants.get(0).getUser();
-                content += "Dear " + participants.get(0).getFirstName() + " " + participants.get(0).getLastName() + ", ";
-                content += "\nFollowing is your username: " + user.getUsername();
+                content += salutation + participants.get(0).getFirstName() + " " + participants.get(0).getLastName() + ", ";
+                content += "\n" + msg1 + user.getUsername();
             } else {
-                content += "We have found multiple users with the participant email address that you provided. Below is the list of all the usernames : ";
+                content += msg2;
                 for (Participant participant : participants) {
                     content += "\n\n" + participant.getUser().getUsername();
                 }
             }
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
-            message.setSubject("PRO-CTCAE Account Username");
+            message.setSubject(subject);
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message);
             helper.setTo(participants.get(0).getEmailAddress());
             helper.setText(content, false);
             javaMailSender.send(message);

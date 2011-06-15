@@ -1,9 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="gov.nih.nci.ctcae.web.ControllersUtils" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+
 
 <%
     boolean isMobile = ControllersUtils.isRequestComingFromMobile(request);
@@ -44,7 +47,8 @@
     <![endif]-->
 </head>
 <body>
-<chrome:box title="Please log in" autopad="true">
+<spring:message code="login.title" var="loginTitle" />
+<chrome:box title="${loginTitle}" autopad="true">
     <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
     <c:set var="showLogin" value="true"/>
     <c:if test="${not empty param.error}">
@@ -75,7 +79,7 @@
     <c:if test="${showLogin}">
         <div class="row">
             <div class="label">
-                Username
+                <tags:message code="login.username"/>
             </div>
             <div class="value">
                 <input type="text" name="j_username" id="username"
@@ -85,7 +89,7 @@
         </div>
         <div class="row">
             <div class="label">
-                Password
+                <tags:message code="login.password"/>
             </div>
             <div class="value" style="text-align:left; padding:0;">
                 <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));"
@@ -93,28 +97,25 @@
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;Use
-            virtual
-            keyboard
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;
+            	<tags:message code="login.userVirtualKeyboard"/>
         </div>
         <div class="row">
             <div class="submit">
-                <tags:button type="submit" value="Log in" color="blue"/>
+            	<spring:message code="login.submit" var="loginSubmit" />
+                <tags:button type="submit" value="${loginSubmit}" color="blue"/>
             </div>
         </div>
         </form>
         <div class="row">
-            <a href='<c:url value="password"/>'>Forgot password?</a>
+            <a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a>
         </div>
         <div class="row">
-            <a href='<c:url value="forgotusername"/>'>Forgot username?</a>
+            <a href='<c:url value="forgotusername"/>'><tags:message code="login.forgotUsername"/></a>
         </div>
     </c:if>
     <%--<p align="left">--%>
-        Please be aware that the information you report while using this software is only for research purposes.
-        We will not give this information to the medical staff that treat you.
-        Therefore, it is <b>very important that you discuss any symptoms you are having with your doctor during your
-        regular clinic visits.</b>
+         <tags:message code="login.disclaimer.1"/><b><tags:message code="login.disclaimer.2"/></b>
     <%--</p>--%>
 
 </chrome:box>
@@ -123,31 +124,16 @@
 <chrome:box>
     <p align="center">
 
-    <p align="center"><b>WARNING:</b></p>
+    <p align="center"><b><tags:message code="login.warning.label"/></b></p>
     <%--<ul>--%>
         <%--<li> --%>
-            You are accessing a U.S. Government information system, which includes (1) this computer, (2) this computer
-            network, (3) all computers connected to this network, and (4) all devices and storage media attached to this
-            network or to a computer on this network. This information system is provided for U.S. Government-authorized
-            use
-            only. Unauthorized or improper use of this system may result in disciplinary action, as well as civil and
-            criminal
-            penalties.
-
+        	<tags:message code="login.warning.message.1"/>
         <%--</li>--%>
         <%--<li>--%>
-            By using this information system, you understand and consent to the following:
-            You have no reasonable expectation of privacy regarding any communications or data transiting or stored on
-            this
-            information system. At any time, and for any lawful Government purpose, the government may monitor,
-            intercept,
-            record and search and seize any communication or data transiting or stored on this information system.
+        	<tags:message code="login.warning.message.2"/>
         <%--</li>--%>
-        Any communication or data transiting or stored on this information system may be disclosed or used for any
-        lawful
-        Government purpose.
+        	<tags:message code="login.warning.message.3"/>
     <%--</ul>--%>
-
     </p>
 </chrome:box>
 </body>

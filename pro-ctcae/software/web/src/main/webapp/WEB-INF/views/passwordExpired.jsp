@@ -16,7 +16,8 @@
 </head>
 <body>
 <form:form method="post">
-    <chrome:box title="Password expired" autopad="true">
+	<spring:message code="expiredPassword" var="expiredPassword"/>
+    <chrome:box title="${expiredPassword}" autopad="true">
 
         <tags:instructions code="password.expired"/>
         <tags:hasErrorsMessage hideErrorDetails="false"/>
@@ -42,7 +43,8 @@
                     <div class="row">
                         <div class="label"></div>
                         <div class="value">
-                            <tags:button type="submit" color="green" value="Save" icon="save"/>
+                        	<spring:message code="save" var="submitsave"/>
+                            <tags:button type="submit" color="green" value="${submitsave}" icon="save"/>
                         </div>
                     </div>
                 </td>

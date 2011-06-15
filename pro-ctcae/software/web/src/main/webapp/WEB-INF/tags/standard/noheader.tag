@@ -28,12 +28,26 @@ body {
     <div class="background-R">
         <%--<a href="/proctcae" id="logo">ProCtcAE</a>--%>
 		
-        <div id="taskbar"><spring:message code='label.welcome'/>&nbsp;<b><authz:authentication property="name"></authz:authentication></b></div>
-		<a href="/proctcae" id="home"><spring:message code='label.home'/></a>
+        <div id="taskbar">
+        <table width="100%">
+        	<tr>
+	        	<td width="60%"><spring:message code='label.welcome'/>&nbsp;<b><authz:authentication property="name"></authz:authentication></b>
+	        	</td>
+	        	<td width=20%" align="right" valign="top" style="font-size:small;">
+	        		<c:if test="${pageContext.request.requestURI eq '/proctcae/pages/participant/participantInbox'}">
+						    <a href="?lang=en" style="color:white;background-image:none" >English</a>
+						    |
+						    <a href="?lang=es" style="color:white;background-image:none">Spanish</a>
+					</c:if>
+	        	</td>
+	        	<td></td>
+        	</tr>
+        </table>
+        </div>
+        <a href="/proctcae" id="home"><spring:message code='label.home'/></a>
         <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
             <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>"><spring:message code='label.logout'/></a>
         </proctcae:urlAuthorize>
-        
     </div>
 </div>
 <!-- end header -->

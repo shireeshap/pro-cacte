@@ -8,26 +8,30 @@
 <head>
 </head>
 <body>
-<chrome:box title="Forgot Username" autopad="true">
+<spring:message code="fun.forgotUsername" var="forgotUsername"/>
+<chrome:box title="${forgotUsername}" autopad="true">
     <c:choose>
         <c:when test="${showConfirmation}">
-            Your username has been emailed to you. You can <a href='<c:url value="login"/>'>login</a> to the system or
-            <a href='<c:url value="password"/>'>reset</a> the password using that username.
+        	<spring:message code="fun.confirmation.message.1"/>
+        	<a href='<c:url value="login"/>'><spring:message code="fun.confirmation.message.2"/></a>
+        	<spring:message code="fun.confirmation.message.3"/>
+        	<a href='<c:url value="password"/>'><spring:message code="fun.confirmation.message.4"/></a>
+        	<spring:message code="fun.confirmation.message.5"/>
         </c:when>
         <c:otherwise>
             <div style="margin-left:0.1em">
-                Please enter your email address below.
-                We will send the username to your registered email address.
+                <spring:message code="fun.instructions"/>
             </div>
             <form method="POST" action="forgotusername">
                 <table>
                     <tr>
-                        <td style="text-align:right"><b>Email</b></td>
+                        <td style="text-align:right"><b><spring:message code="fun.email"/></b></td>
                         <td><input type="text" name="email" value="" size="37.9"/></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>&nbsp;&nbsp;&nbsp;<tags:button type="submit" value="Submit" color="green"/></td>
+                        <spring:message code="submit" var="buttonsubmit"/>
+                        <td>&nbsp;&nbsp;&nbsp;<tags:button type="submit" value="${buttonsubmit}" color="green"/></td>
                     </tr>
                 </table>
             </form>

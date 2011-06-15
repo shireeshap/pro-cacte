@@ -7,6 +7,8 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <tags:javascriptLink name="ga"/>
 
 <script type="text/javascript">
@@ -25,8 +27,17 @@
                 <tr>
                     <td><a href="/proctcae" title="Home"><img
                             src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
-                    <td style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
-                        <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>
+                    <td width="65%"  style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
+                        <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td align="right">
+	                    <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
+	                    	<span style="float: right;position:relative;bottom:35px">
+							    <a style="color:white" href="?lang=en">English</a>
+							   <span style="color:white">|</span>
+							    <a style="color:white" href="?lang=es">Spanish</a>
+							</span>
+						</c:if>
                     </td>
                 </tr>
             </table>

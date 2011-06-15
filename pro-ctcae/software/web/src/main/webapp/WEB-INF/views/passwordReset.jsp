@@ -8,7 +8,8 @@
 <head>
 </head>
 <body>
-<chrome:box title="Forgot Password" autopad="true">
+<spring:message code="fp.forgotPassword" var="forgotPassword" />
+<chrome:box title="${forgotPassword}" autopad="true">
     <c:if test="${not empty Message}">
         <spring:message code="${Message}"/>
     </c:if>

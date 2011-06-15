@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreatio
 import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author mehul gulati
@@ -24,8 +27,9 @@ public class ResetPasswordController extends SimpleFormController {
     UserRepository userRepository;
     UserNameAndPasswordValidator userNameAndPasswordValidator;
     PasswordPolicyServiceImpl passwordPolicyService;
+    private DelegatingMessageSource messageSource;
 
-    protected ResetPasswordController() {
+	protected ResetPasswordController() {
         super();
         setCommandClass(ResetPasswordCommand.class);
         setFormView("resetPassword");
@@ -67,7 +71,9 @@ public class ResetPasswordController extends SimpleFormController {
         user.setConfirmPassword(command.getConfirmPassword());
 
         if (!user.getUsername().equals(command.getUsername())) {
-            e.reject("username", "The username that you have provided does not match the username to which this link was sent.");
+        	Locale locale = LocaleContextHolder.getLocale();
+        	String errorMsg = messageSource.getMessage("resetpwd.error.1", null, locale);
+            e.reject("username", errorMsg);
         }
         try {
             boolean validUser = userNameAndPasswordValidator.validate(user, false, true);
@@ -80,7 +86,6 @@ public class ResetPasswordController extends SimpleFormController {
             }
         }
     }
-
     
 
     @Override
@@ -109,4 +114,9 @@ public class ResetPasswordController extends SimpleFormController {
     public void setPasswordPolicyService(PasswordPolicyServiceImpl passwordPolicyService) {
         this.passwordPolicyService = passwordPolicyService;
     }
+    
+
+    public void setMessageSource(DelegatingMessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
 }
