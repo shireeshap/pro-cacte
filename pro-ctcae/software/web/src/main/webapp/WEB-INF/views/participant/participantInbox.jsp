@@ -50,6 +50,7 @@
 </head>
 <body>
 <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
+<c:set var="missedFormsAvailable" value="false"/>
 <%
     Calendar calendar = new java.util.GregorianCalendar();
     calendar.add(Calendar.DAY_OF_MONTH, -15);
@@ -137,47 +138,60 @@
 </chrome:box>
 
 <spring:message code="label.missedForms" var="labelMissedForms"/>
-<chrome:box title="${labelMissedForms}">
-    <table id="inboxTable">
-        <tr>
-            <th>
-                <tags:message code="participant.label.title"/>
-            </th>
-
-            <th>
-                <tags:message code="participant.label.scheduleDate"/>
-            </th>
-            <th>
-                <tags:message code="participant.label.dueDate"/>
-            </th>
-        </tr>
-        <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                           var="studyParticipantCrfSchedule">
-                    <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+<c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+        <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                   var="studyParticipantCrfSchedule">
+            <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
                         && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
-                        <tr>
-                            <td>
-                                    ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
+                <c:set var="missedFormsAvailable" value="true"/>
+            </c:if>
+        </c:forEach>
+    </c:forEach>
+</c:forEach>
+<c:if test="${missedFormsAvailable}">
+    <chrome:box title="${labelMissedForms}">
+        <table id="inboxTable">
+            <tr>
+                <th>
+                    <tags:message code="participant.label.title"/>
+                </th>
 
-                            </td>
+                <th>
+                    <tags:message code="participant.label.scheduleDate"/>
+                </th>
+                <th>
+                    <tags:message code="participant.label.dueDate"/>
+                </th>
+            </tr>
+            <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+                <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                               var="studyParticipantCrfSchedule">
+                        <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+                            && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
+                            <tr>
+                                <td>
+                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+                                    <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
 
-                            <td>
-                                <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                            </td>
-                            <td>
-                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                            </td>
-                        </tr>
-                    </c:if>
+                                </td>
+
+                                <td>
+                                    <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+                                </td>
+                                <td>
+                                    <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                 </c:forEach>
             </c:forEach>
-        </c:forEach>
 
-    </table>
-</chrome:box>
+        </table>
+    </chrome:box>
+</c:if>
 </body>
 
 

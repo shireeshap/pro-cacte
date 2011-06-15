@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
     <buildFile url="file://$PROJECT_DIR$/build.xml">
@@ -12,6 +12,18 @@
       <maximumStackSize value="32" />
       <properties />
     </buildFile>
+  </component>
+  <component name="ArtifactManager">
+    <artifact type="exploded-war" name="web:Web exploded">
+      <root id="root">
+        <element id="javaee-facet-resources" facet="web/web/Web" />
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="classes">
+            <element id="javaee-facet-classes" facet="web/web/Web" />
+          </element>
+        </element>
+      </root>
+    </artifact>
   </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
@@ -68,13 +80,8 @@
     <failedCoveredHighlight>-3920</failedCoveredHighlight>
     <highlightCovered>true</highlightCovered>
   </component>
-  <component name="CodeStyleSettingsManager">
-    <option name="PER_PROJECT_SETTINGS" />
-    <option name="USE_PER_PROJECT_SETTINGS" value="false" />
-  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
-    <option name="DEPLOY_AFTER_MAKE" value="0" />
     <resourceExtensions>
       <entry name=".+\.(properties|xml|html|dtd|tld)" />
       <entry name=".+\.(gif|png|jpeg|jpg)" />
@@ -91,6 +98,10 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
+    <annotationProcessing enabled="false" useClasspath="true" />
+  </component>
+  <component name="CopyrightManager" default="">
+    <module2copyright />
   </component>
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
@@ -103,37 +114,29 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
-      <facet-type id="web">
-        <modules>
-          <module name="web" />
-          <module name="rules">
-            <files>
-              <file url="file://C:/Users/Harsh/workspace/SemanticBits-Rules/rules/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
       <facet-type id="Groovy">
         <modules>
           <module name="core" />
         </modules>
       </facet-type>
+      <facet-type id="web">
+        <modules>
+          <module name="rules">
+            <files>
+              <file url="file://C:/Users/Harsh/workspace/SemanticBits-Rules/rules/src/main/webapp/WEB-INF/web.xml" />
+            </files>
+          </module>
+          <module name="web" />
+        </modules>
+      </facet-type>
     </autodetection-disabled>
   </component>
-  <component name="InspectionProjectProfileManager">
-    <option name="PROJECT_PROFILE" value="Project Default" />
-    <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
-    <scopes />
-    <profiles>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Project Default" />
-        <option name="myLocal" value="false" />
-      </profile>
-    </profiles>
-    <list size="0" />
-  </component>
+  <component name="IdProvider" IDEtalkID="BDAEB16BADD9FDBA96AE181A98E053F3" />
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="false" />
@@ -290,7 +293,6 @@
   <component name="ProjectDetails">
     <option name="projectName" value="pro-ctcae" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/commons/commons.iml" filepath="$PROJECT_DIR$/commons/commons.iml" />
@@ -299,7 +301,10 @@
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK">
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">
@@ -322,6 +327,25 @@
         <entry key="$PROJECT_DIR$/commons">
           <value>
             <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/documents">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/tags">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches" />
@@ -336,6 +360,25 @@
         <entry key="$PROJECT_DIR$/core">
           <value>
             <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/documents">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/tags">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches" />
@@ -350,6 +393,25 @@
         <entry key="$PROJECT_DIR$/web">
           <value>
             <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/documents">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gforge.nci.nih.gov/svnroot/pro-ctcae/tags">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://gforge.nci.nih.gov/svnroot/pro-ctcae/branches" />
@@ -370,17 +432,15 @@
     <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$" vcs="svn" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
     <library name="AllJars">
       <CLASSES>
-        <root url="file://C:/Users/Harsh/ivylibs" />
+        <root url="file://$PROJECT_DIR$/../proctcaelibs" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://C:/Users/Harsh/workspace/Sources/spring-webmvc-2.5.4-sources.jar!/" />
-        <root url="jar://C:/Users/Harsh/workspace/Sources/spring-context-2.5.5-sources.jar!/" />
-      </SOURCES>
-      <jarDirectory url="file://C:/Users/Harsh/ivylibs" recursive="false" />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/../proctcaelibs" recursive="false" />
     </library>
   </component>
 </project>
