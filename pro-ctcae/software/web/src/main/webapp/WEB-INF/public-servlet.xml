@@ -22,13 +22,13 @@
     </bean>
 
     <bean id="publicHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+    	<property name="interceptors">
+            <list>
+                <ref bean="localeChangeInterceptor" />
+            </list>
+        </property>
     </bean>
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="/WEB-INF/message"/>
-        <property name="cacheSeconds" value="1"/>
-    </bean>
-
-
+    
     <bean name="/welcome" id="welcomeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName">
@@ -52,17 +52,22 @@
     <bean name="/password" id="forgotPassword"
           class="gov.nih.nci.ctcae.web.login.ForgotPasswordController">
         <property name="userRepository" ref="userRepository"/>
+        <property name="messageSource" ref="messageSource"/>
     </bean>
+    
     <bean name="/forgotusername" id="forgotUsername"
           class="gov.nih.nci.ctcae.web.login.ForgotUsernameController">
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+        <property name="messageSource" ref="messageSource"/>
     </bean>
+    
     <bean name="/resetPassword" id="resetPassword"
           class="gov.nih.nci.ctcae.web.login.ResetPasswordController">
         <property name="userRepository" ref="userRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="messageSource" ref="messageSource"/>
     </bean>
 
 

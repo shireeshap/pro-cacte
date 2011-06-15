@@ -11,19 +11,6 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-
-        <property name="basenames">
-            <list>
-                <value>WEB-INF/message</value>
-                <value>WEB-INF/help</value>
-                <value>WEB-INF/version</value>
-            </list>
-        </property>
-        <property name="cacheSeconds" value="1"/>
-
-    </bean>
-
     <!--  for @Repository annotation  -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 

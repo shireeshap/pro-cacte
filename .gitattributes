@@ -1364,6 +1364,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/software/web/src/main/resources/Spanish_ProCtcTerms_V4_updated.csv -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-validator.xml -text
+pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-common.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
 pro-ctcae/software/web/src/main/resources/llt.csv -text
