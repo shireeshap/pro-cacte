@@ -33,24 +33,24 @@ public class UpdateMeddraSpanishLoader {
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
-        ClassPathResource classPathResource = new ClassPathResource("llt_spanish.csv");
+        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symptoms_ES_prelim.csv");
         reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader.readHeaders();
 
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");
         List existingMeddraCodes = genericRepository.find(meddraQuery);
         List<String> existingMeddra = (List<String>) existingMeddraCodes;
-        List<String[]> updateTerms = new ArrayList<String[]>();
+        List<String> updateTerms = new ArrayList<String>();
         while (reader.readRecord()) {
             String meddraCode = reader.get(MEDDRA_CODE).trim();
             String meddraTerm = StringEscapeUtils.escapeSql(reader.get(MEDDRA_TERM).trim());
             if (existingMeddra.contains(meddraCode)) {
-//                updateTerms.add("update meddra_llt_vocab set meddra_term_spanish='" + meddraTerm + "' where meddra_llt_id=(select id from meddra_llt where meddra_code='" + meddraCode + "')");
-             updateTerms.add(new String[]{meddraCode, meddraTerm});
+                updateTerms.add("update meddra_llt_vocab set meddra_term_spanish='" + meddraTerm + "' where meddra_llt_id=(select id from meddra_llt where meddra_code='" + meddraCode + "')");
+//             updateTerms.add(new String[]{meddraCode, meddraTerm});
             }
         }
-         meddraLoaderRepository.batchExecute(updateTerms, "update meddra_llt_vocab set meddra_term_spanish=? where meddra_llt_id=(select id from meddra_llt where meddra_code=?)", false);
-//        meddraLoaderRepository.batchExecute(updateTerms);
+//         meddraLoaderRepository.batchExecute(updateTerms, "update meddra_llt_vocab set meddra_term_spanish=? where meddra_llt_id=(select id from meddra_llt where meddra_code=?)", false);
+        meddraLoaderRepository.batchExecute(updateTerms);
 
     }
 
