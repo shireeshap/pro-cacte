@@ -27,7 +27,7 @@ public class UpdateProCtcTermsImporterV4 {
     CtcTermRepository ctcTermRepository;
     ProCtcTermRepository proCtcTermRepository;
 
-    private static final String QUESTION_TEXT = "PRO-CTCAE Wording";
+    private static final String QUESTION_TEXT = "PROCTCAE Wording";
     private static final String PRO_CTC_TERM = "PRO-CTCAE Term";
     private static final String CORE_ITEM = "Core Item";
     private static final String QUESTION_TYPE = "Attribute";
@@ -39,7 +39,7 @@ public class UpdateProCtcTermsImporterV4 {
         CsvReader reader;
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
 
-        ClassPathResource classPathResource = new ClassPathResource("Update_ProCtcTerms_V4.csv");
+        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
         reader.readHeaders();
         String oldProCtcTerm = "";
