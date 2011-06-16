@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -34,6 +35,7 @@ public class SubmitFormCommand implements Serializable {
     private int addMoreQuestionPageIndex = 0;
     private int currentPageIndex = 1;
     private String direction = "";
+    private String language = "en";
     private GenericRepository genericRepository;
     private String flashMessage;
     private List<ProCtcTerm> sortedSymptoms = new ArrayList<ProCtcTerm>();
@@ -308,15 +310,23 @@ public class SubmitFormCommand implements Serializable {
                     displayList.add(symptom.getProCtcTermVocab().getTermSpanish());
                 }
             } else {
-                   displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
+                displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
             }
         }
         return displayList;
     }
 
     public LowLevelTerm findMeddraTermBySymptom(String symptom) {
+        String language = this.getLanguage();
+        if (language == null || language == "") {
+            language = "en";
+        }
         MeddraQuery meddraQuery = new MeddraQuery();
-        meddraQuery.filterByMeddraTerm(symptom);
+        if (language.equals("en")) {
+            meddraQuery.filterByMeddraTerm(symptom);
+        } else {
+            meddraQuery.filterBySpanishMeddraTerm(symptom);
+        }
         return genericRepository.findSingle(meddraQuery);
     }
 
@@ -325,19 +335,19 @@ public class SubmitFormCommand implements Serializable {
         int position = totalQuestionPages + 2;
         String language = null;
         String homeWebLanguage = schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
-        if(!StringUtils.isBlank(homeWebLanguage)){
-        	 language = homeWebLanguage.toUpperCase();
+        if (!StringUtils.isBlank(homeWebLanguage)) {
+            language = homeWebLanguage.toUpperCase();
         } else {
-        	language = SupportedLanguageEnum.ENGLISH.getName();
+            language = SupportedLanguageEnum.ENGLISH.getName();
         }
-        
+
         for (String symptom : selectedSymptoms) {
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
             ProCtcTerm proCtcTerm = null;
             if (SupportedLanguageEnum.ENGLISH.getName().equals(language)) {
-                  proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
+                proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
             } else {
-                  proCtcTerm = proCtcTermRepository.findSpanishProTermBySymptom(symptom);
+                proCtcTerm = proCtcTermRepository.findSpanishProTermBySymptom(symptom);
             }
             if (proCtcTerm != null) {
                 addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
@@ -529,7 +539,7 @@ public class SubmitFormCommand implements Serializable {
             meddraQuestion.setQuestionText("Please confirm if you have experienced " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH).toUpperCase() + " " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":", SupportedLanguageEnum.SPANISH);
         } else {
             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH) + "?", SupportedLanguageEnum.ENGLISH);
-             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH) + "?", SupportedLanguageEnum.SPANISH);
+            meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH) + "?", SupportedLanguageEnum.SPANISH);
         }
         meddraQuestion.setDisplayOrder(1);
         genericRepository.save(meddraQuestion);
@@ -601,6 +611,14 @@ public class SubmitFormCommand implements Serializable {
 
     public void setAddMoreQuestionPageIndex(int addMoreQuestionPageIndex) {
         this.addMoreQuestionPageIndex = addMoreQuestionPageIndex;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public void lazyInitializeSchedule() {

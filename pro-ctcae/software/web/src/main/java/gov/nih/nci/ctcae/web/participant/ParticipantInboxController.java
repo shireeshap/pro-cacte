@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 //
 /**
@@ -47,6 +48,11 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
         return participant;
     }
 
+    @Override
+    protected Map referenceData(HttpServletRequest request) throws Exception {
+        String lang = request.getParameter("lang");
+        return super.referenceData(request);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     @Required
     public void setUserRepository(UserRepository userRepository) {

@@ -232,6 +232,7 @@
     <br/>
 
     <div class="yui-skin-sam">
+        <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}" var="lang"/>
         <table cellspacing="10px;">
             <tr>
                 <td>

@@ -501,6 +501,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         Map<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new LinkedHashMap<ProCtcTerm, ArrayList<ArrayList>>();
         ArrayList<ArrayList> spCrfItems;
         Integer counter = 0;
+        String lang = this.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
             ArrayList itemCounter = new ArrayList();
             ProCtcTerm symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
