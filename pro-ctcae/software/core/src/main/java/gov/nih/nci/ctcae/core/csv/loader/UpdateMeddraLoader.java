@@ -18,6 +18,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class UpdateMeddraLoader  {
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
         ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_EN_prelim.csv");
-        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
+//        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF8"));
         reader.readHeaders();
 
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");
