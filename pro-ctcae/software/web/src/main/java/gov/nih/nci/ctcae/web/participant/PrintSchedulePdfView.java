@@ -44,6 +44,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
         document.add(new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
         document.add(new Paragraph("Start date: " + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
+        document.add(new Paragraph("Recall period: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod()));
         document.add(new Paragraph(" "));
         document.add(new Paragraph(" "));
         studyParticipantCrfSchedule.addParticipantAddedQuestions();
