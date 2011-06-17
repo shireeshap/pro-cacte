@@ -33,14 +33,12 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        Locale l = (Locale) WebUtils.getSessionAttribute(request, org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-        String language = l.getLanguage();
+
         int pageNumber = Integer.parseInt(request.getParameter("p"));
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
                 SubmitFormCommand sCommand = (SubmitFormCommand) command;
-                sCommand.setLanguage(language);
                 sCommand.addParticipantAddedQuestions(selectedSymptoms, true);
             }
             pageNumber++;
@@ -61,7 +59,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-
+        Locale locale = (Locale) WebUtils.getSessionAttribute(request, org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        String language = locale.getLanguage();
+        submitFormCommand.setLanguage(language);
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCoreItemsOnly();
         List l = genericRepository.find(query);
