@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.web.util.WebUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -333,18 +334,14 @@ public class SubmitFormCommand implements Serializable {
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int position = totalQuestionPages + 2;
-        String language = null;
-        String homeWebLanguage = schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
-        if (!StringUtils.isBlank(homeWebLanguage)) {
-            language = homeWebLanguage.toUpperCase();
-        } else {
-            language = SupportedLanguageEnum.ENGLISH.getName();
+        String language = this.getLanguage();
+        if (language == null || language == "") {
+            language = "en";
         }
-
         for (String symptom : selectedSymptoms) {
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
             ProCtcTerm proCtcTerm = null;
-            if (SupportedLanguageEnum.ENGLISH.getName().equals(language)) {
+            if (language.equals("en")) {
                 proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
             } else {
                 proCtcTerm = proCtcTermRepository.findSpanishProTermBySymptom(symptom);

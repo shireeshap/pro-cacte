@@ -140,37 +140,41 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
+                            <c:set var="lang" value="${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"/>
+                            <c:if test="${lang eq null || lang eq ''}">
+                                <c:set var="lang" value="en"/>
+                            </c:if>
                             <c:set var="homeweblanguage"
                                    value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.homeWebLanguage}"/>
                             <c:set var="ivrslanguage"
                                    value="${command.schedule.studyParticipantCrf.studyParticipantAssignment.ivrsLanguage}"/>
                                 <%--<c:set var="_command" value="${command}"/>--%>
 
-                            <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                            <c:if test="${lang eq 'en'}">
                                 ${displayQuestion.questionText}?<br/>
                             </c:if>
                                 <%--<%  pageContext.getAttribute("_command"); %>--%>
-                            <c:if test="${homeweblanguage eq 'SPANISH' }">
+                            <c:if test="${lang eq 'es' }">
                              &#191;${displayQuestion.questionTextSpanish}?<br/>
                             </c:if>
-                            <c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">
-                                <c:if test="${ivrslanguage eq 'ENGLISH'}">
-                                    ${displayQuestion.questionText}?<br/>
-                                </c:if>
-                                <c:if test="${ivrslanguage eq 'SPANISH'}">
-                                    &#191;${displayQuestion.questionTextSpanish}?<br/>
-                                </c:if>
-                                <c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">
-                                    ${displayQuestion.questionText}?<br/>
-                                </c:if>
-                            </c:if>
+                            <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
+                                <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
+                                    <%--${displayQuestion.questionText}?<br/>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
+                                    <%--&#191;${displayQuestion.questionTextSpanish}?<br/>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
+                                    <%--${displayQuestion.questionText}?<br/>--%>
+                                <%--</c:if>--%>
+                            <%--</c:if>--%>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
-                        <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                        <c:if test="${lang eq 'en'}">
                             <tags:validvalue validValueId="${validValue.id}"
                                              title="${validValue.value}"
                                              selectedId="${displayQuestion.selectedValidValue.id}"
@@ -179,7 +183,7 @@
                                              validValueIndexForQuestion="${validvaluestatus.index}"
                                     />
                         </c:if>
-                        <c:if test="${homeweblanguage eq 'SPANISH'}">
+                        <c:if test="${lang eq 'es'}">
                             <tags:validvalue validValueId="${validValue.id}"
                                              title="${validValue.valueSpanish}"
                                              selectedId="${displayQuestion.selectedValidValue.id}"
@@ -188,35 +192,35 @@
                                              validValueIndexForQuestion="${validvaluestatus.index}"
                                     />
                         </c:if>
-                        <c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">
-                                <c:if test="${ivrslanguage eq 'ENGLISH'}">
-                                    <tags:validvalue validValueId="${validValue.id}"
-                                             title="${validValue.value}"
-                                             selectedId="${displayQuestion.selectedValidValue.id}"
-                                             displayOrder="${validValue.displayOrder}"
-                                             questionIndexOnPage="${varStatus.index}"
-                                             validValueIndexForQuestion="${validvaluestatus.index}"
-                                    />
-                                </c:if>
-                                <c:if test="${ivrslanguage eq 'SPANISH'}">
-                                   <tags:validvalue validValueId="${validValue.id}"
-                                             title="${validValue.valueSpanish}"
-                                             selectedId="${displayQuestion.selectedValidValue.id}"
-                                             displayOrder="${validValue.displayOrder}"
-                                             questionIndexOnPage="${varStatus.index}"
-                                             validValueIndexForQuestion="${validvaluestatus.index}"
-                                    />
-                                </c:if>
-                                <c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">
-                                    <tags:validvalue validValueId="${validValue.id}"
-                                             title="${validValue.value}"
-                                             selectedId="${displayQuestion.selectedValidValue.id}"
-                                             displayOrder="${validValue.displayOrder}"
-                                             questionIndexOnPage="${varStatus.index}"
-                                             validValueIndexForQuestion="${validvaluestatus.index}"
-                                    />
-                                </c:if>
-                            </c:if>
+                        <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
+                                <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
+                                    <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                                             <%--title="${validValue.value}"--%>
+                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                                             <%--displayOrder="${validValue.displayOrder}"--%>
+                                             <%--questionIndexOnPage="${varStatus.index}"--%>
+                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                                    <%--/>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
+                                   <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                                             <%--title="${validValue.valueSpanish}"--%>
+                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                                             <%--displayOrder="${validValue.displayOrder}"--%>
+                                             <%--questionIndexOnPage="${varStatus.index}"--%>
+                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                                    <%--/>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
+                                    <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                                             <%--title="${validValue.value}"--%>
+                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                                             <%--displayOrder="${validValue.displayOrder}"--%>
+                                             <%--questionIndexOnPage="${varStatus.index}"--%>
+                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                                    <%--/>--%>
+                                <%--</c:if>--%>
+                            <%--</c:if>--%>
                     </c:forEach>
                 </tr>
             </table>

@@ -106,8 +106,8 @@ public class ScheduleCrfAjaxFacade {
     public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-        StudyParticipantAssignment spa = submitFormCommand.getSchedule().getStudyParticipantCrf().getStudyParticipantAssignment();
-        String language = LocaleContextHolder.getLocale().getLanguage();
+        Locale l = (Locale) WebUtils.getSessionAttribute(request, org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        String language = l.getLanguage();
         if (language == null || language == "") {
             language = "en";
         }
