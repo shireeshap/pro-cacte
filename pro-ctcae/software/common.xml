@@ -294,7 +294,8 @@
         <echo message="Executing in ${ant.project.name}"/>
 
         <copy-resources src="${main.src.resources}" dest="${classes.dir}" filter="true"/>
-        <copy file="${main.src.resources}/*.csv" todir="${classes.dir}" overwrite="true"/>
+        <copy file="${main.src.resources}/*.csv" todir="${classes.dir}" overwrite="true" failonerror="false"/>
+
 
         <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5"
                target="1.5">
