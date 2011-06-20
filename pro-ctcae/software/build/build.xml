@@ -286,6 +286,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<property name="skip.test" value="true" />
 		</ant>
 		<copy file="${software.dir}/web/build/dist/proctcae.war" todir="${proctcae-webapp.dist.dir}" overwrite="true" />
+		<mkdir dir="${proctcae-webapp.dist.dir}/csvfiles"/>
+		 <copy todir="${proctcae-webapp.dist.dir}/csvfiles" overwrite="true" failonerror="false">
+            <fileset dir="${software.dir}/web/src/main/resources">
+                <include name="**/*.csv"/>
+            </fileset>
+        </copy>
 		<mkdir dir="${dist.exploded.dir}/${proctcae-templates.dist.relative.dir}"/>
 		<copy todir="${dist.exploded.dir}/${proctcae-templates.dist.relative.dir}">
 			<fileset dir="${software.dir}/templates">
