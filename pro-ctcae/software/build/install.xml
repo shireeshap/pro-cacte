@@ -684,7 +684,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<delete dir="${tomcat.home}/work"/>
 		<delete dir="${tomcat.home}/webapps/proctcae"/>
 		<delete dir="${tomcat.home}/webapps/wsrf-proctcae"/>
-		<delete dir="${tomcat.home}/webapps/${proctcae-webapp.war.file}" failonerror="false"/>
 		<copy file="${proctcae-webapp.dir.dist}/${proctcae-webapp.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
 		<unwar src="${proctcae-webapp.dir.dist}/${proctcae-webapp.war.file}" dest="${tomcat.home}/webapps"/>
 		 <copy todir="${tomcat.home}/webapps/proctcae/WEB-INF/classes" overwrite="true" failonerror="false">
