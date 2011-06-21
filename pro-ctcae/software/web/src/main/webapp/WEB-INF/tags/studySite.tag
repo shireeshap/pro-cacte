@@ -64,7 +64,7 @@
     </td>
     <td width="50%">
         <c:choose>
-            <c:when test="${selected}">
+            <c:when test="${selected && studyParticipantAssignment.id != null}">
                 ${studyParticipantAssignment.studyParticipantIdentifier}
             </c:when>
             <c:otherwise>
@@ -256,10 +256,13 @@
     <td valign="top" width="50%">
         <input type="text" name="participant.phoneNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.phoneNumber}"
-               id="participant.phoneNumber_${studysite.id}"/>
+               id="participant.phoneNumber_${studysite.id}"
+               onblur="checkParticipantUserNumber(${studysite.id});"/>
         <span class="phone-number">###-###-####</span>
+        <tags:errors path="participant.phoneNumber"/>
     </td>
 </tr>
+<!--
 <tr id="c2_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
@@ -279,7 +282,7 @@
                                 text='participant.usernumber_pattern'/></li>
         </ul>
     </td>
-</tr>
+</tr>   -->
 <tr id="c3_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
