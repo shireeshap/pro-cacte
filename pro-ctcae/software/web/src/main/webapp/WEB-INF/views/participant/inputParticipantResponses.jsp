@@ -47,19 +47,34 @@
         <div id="inputResponses">
             <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
                 <c:set var="myindex" value="1"/>
+                <c:set var="homeweblanguage"
+                       value="${command.studyParticipantCrf.studyParticipantAssignment.homeWebLanguage}"/>
+                <c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">
+                    <c:set var="homeweblanguage" value="ENGLISH"/>
+                </c:if>
                 <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
                     <tr>
                         <td><br/></td>
                     </tr>
                     <tr style="background-color:#cccccc;">
                         <td colspan="5">
-                            <b>${symptom.key.term} </b>
+                            <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                <b>${symptom.key.term} </b>
+                            </c:if>
+                            <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                <b>${symptom.key.proCtcTermVocab.termSpanish} </b>
+                            </c:if>
                         </td>
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
                             <td colspan="5">
-                                <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
+                                <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
+                                </c:if>
+                                <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
+                                </c:if>
                             </td>
                         </tr>
                         <tr>
@@ -71,10 +86,16 @@
                                     <c:set var="style" value="background-color:blue;color:white"/>
                                 </c:if>
                                 <td>
+
                                     <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
                                            type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}> <span
-                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                           value="${validValue.id}" ${checked} ${disabled}>
+                                    <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                        <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                    </c:if>
+                                    <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                        <span style="${style}">${validValue.proCtcValidValueVocab.valueSpanish} &nbsp;&nbsp;</span>
+                                    </c:if>
                                 </td>
                             </c:forEach>
                         </tr>
@@ -87,13 +108,25 @@
                     </tr>
                     <tr style="background-color:#cccccc;">
                         <td colspan="5">
-                            <b>${symptom.key.term} </b>
+                                <%--<b>${symptom.key.term} </b>--%>
+                            <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                <b>${symptom.key.term} </b>
+                            </c:if>
+                            <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                <b>${symptom.key.proCtcTermVocab.termSpanish} </b>
+                            </c:if>
                         </td>
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
                             <td colspan="5">
-                                <b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>
+                                    <%--<b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>--%>
+                                <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
+                                </c:if>
+                                <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
+                                </c:if>
                             </td>
                         </tr>
                         <tr>
@@ -107,8 +140,14 @@
                                 <td>
                                     <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
                                            type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}> <span
-                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                           value="${validValue.id}" ${checked} ${disabled}>
+                                        <%--<span style="${style}">${validValue.value} &nbsp;&nbsp;</span>--%>
+                                    <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                        <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                    </c:if>
+                                    <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                        <span style="${style}">${validValue.proCtcValidValueVocab.valueSpanish} &nbsp;&nbsp;</span>
+                                    </c:if>
                                 </td>
                             </c:forEach>
                         </tr>
@@ -127,7 +166,12 @@
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
                             <td colspan="5">
-                                <b>${myindex}. ${items[0].meddraQuestion.questionText}</b>
+                                <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                    <b>${myindex}. ${items[0].meddraQuestion.questionText}</b>
+                                </c:if>
+                                <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                    <b>${myindex}. ${items[0].meddraQuestion.meddraQuestionVocab.questionTextSpanish}</b>
+                                </c:if>
                             </td>
                         </tr>
                         <tr>
@@ -141,8 +185,13 @@
                                 <td>
                                     <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
                                            type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}> <span
-                                        style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                           value="${validValue.id}" ${checked} ${disabled}>
+                                    <c:if test="${homeweblanguage eq 'ENGLISH'}">
+                                        <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                    </c:if>
+                                     <c:if test="${homeweblanguage eq 'SPANISH'}">
+                                        <span style="${style}">${validValue.meddraValidValueVocab.valueSpanish} &nbsp;&nbsp;</span>
+                                    </c:if>
                                 </td>
                             </c:forEach>
                         </tr>

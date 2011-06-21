@@ -53,7 +53,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "form_completion_date")
     private Date completionDate;
 
-       /**
+    /**
      * The file_path .
      */
     @Column(name = "file_path")
@@ -117,7 +117,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @OneToOne(mappedBy = "studyParticipantCrfSchedule")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification;
-    
+
     @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<IvrsSchedule> ivrsSchedules = new ArrayList<IvrsSchedule>();
@@ -198,12 +198,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             String question = "";
             String answer = "";
             if (q instanceof ProCtcQuestion) {
-            	question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
+                question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
                 symptom = ((ProCtcQuestion) q).getProCtcTerm().getProCtcTermVocab().getTermEnglish();
                 answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             if (q instanceof MeddraQuestion) {
-            	question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
+                question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
                 symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
@@ -251,7 +251,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-       /**
+
+    /**
      * Gets the file path
      *
      * @return the file path
@@ -259,6 +260,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public String getFilePath() {
         return filePath;
     }
+
     /**
      * Sets the file path.
      *
@@ -409,9 +411,9 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
         if (formSubmissionMode != null ? !formSubmissionMode.equals(that.formSubmissionMode) : that.formSubmissionMode != null)
             return false;
-        if(completionDate!=null ? !completionDate.equals(that.completionDate): that.completionDate != null)
+        if (completionDate != null ? !completionDate.equals(that.completionDate) : that.completionDate != null)
             return false;
-        if(filePath!=null ? !filePath.equals(that.filePath): that.filePath != null)
+        if (filePath != null ? !filePath.equals(that.filePath) : that.filePath != null)
             return false;
         return true;
     }
@@ -429,8 +431,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         result = 31 * result + (baseline ? 1 : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (formSubmissionMode != null ? formSubmissionMode.hashCode() : 0);
-        result = 31 * result + (completionDate != null ? completionDate.hashCode():0);
-        result = 31 * result + (filePath != null ? filePath.hashCode():0);
+        result = 31 * result + (completionDate != null ? completionDate.hashCode() : 0);
+        result = 31 * result + (filePath != null ? filePath.hashCode() : 0);
         return result;
     }
 
@@ -553,13 +555,22 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     public Map getParticipantAddedMeddraQuestionsBySymptom() {
         addParticipantAddedQuestions();
+        String language = this.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
+        if (language == null || language == "") {
+            language = SupportedLanguageEnum.ENGLISH.getName();
+        }
         Map<String, List<List>> symptomMap = new LinkedHashMap();
         List<List> studyParticipantCrfScheduleAddedQuestions;
         Integer counter = 0;
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
             ArrayList itemCounter = new ArrayList();
             if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
-                String symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
+                String symptom;
+                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
+                } else {
+                    symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getLowLevelTermVocab().getMeddraTermSpanish();
+                }
                 if (symptomMap.containsKey(symptom)) {
                     studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
                 } else {
@@ -587,60 +598,60 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             }
         }
     }
-    
-    
+
+
     /**
      * Updates the ivrs schedules date basewd on the offset provided.
      *
      * @param studyParticipantCrf the study participant crf
      */
     public void updateIvrsSchedules(StudyParticipantCrf studyParticipantCrf, int offset) {
-    	//update ivrsSchedule for IVRS app Modes
-    	boolean isIvrs = false;
-    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
-    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
-    		if(spm.getMode().equals(AppMode.IVRS)){
-    			isIvrs = true;
-    		}
-    	}
-        if(isIvrs){
-        	for(IvrsSchedule ivrSchedule: getIvrsSchedules()){
-        		if (ivrSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
-	                Calendar c1 = Calendar.getInstance();
-	                c1.setTimeInMillis(ivrSchedule.getPreferredCallTime().getTime());
-	                Calendar c2 = Calendar.getInstance();
-	                c2.setTimeInMillis(ivrSchedule.getNextCallTime().getTime());
-	                c1.add(Calendar.DATE, offset);
-	                c2.add(Calendar.DATE, offset);
-	
-	                ivrSchedule.setNextCallTime(c1.getTime());
-	                ivrSchedule.setPreferredCallTime(c2.getTime());
-	            }
-        	}
+        //update ivrsSchedule for IVRS app Modes
+        boolean isIvrs = false;
+        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+        for (StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()) {
+            if (spm.getMode().equals(AppMode.IVRS)) {
+                isIvrs = true;
+            }
         }
-	}
-    
+        if (isIvrs) {
+            for (IvrsSchedule ivrSchedule : getIvrsSchedules()) {
+                if (ivrSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+                    Calendar c1 = Calendar.getInstance();
+                    c1.setTimeInMillis(ivrSchedule.getPreferredCallTime().getTime());
+                    Calendar c2 = Calendar.getInstance();
+                    c2.setTimeInMillis(ivrSchedule.getNextCallTime().getTime());
+                    c1.add(Calendar.DATE, offset);
+                    c2.add(Calendar.DATE, offset);
+
+                    ivrSchedule.setNextCallTime(c1.getTime());
+                    ivrSchedule.setPreferredCallTime(c2.getTime());
+                }
+            }
+        }
+    }
+
     /**
      * Update ivrs schedules status.
      *
      * @param ivrsCallStatus the ivrs call status
      */
     public void updateIvrsSchedulesStatus(IvrsCallStatus ivrsCallStatus) {
-    	boolean isIvrs = false;
-    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
-    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
-    		if(spm.getMode().equals(AppMode.IVRS)){
-    			isIvrs = true;
-    		}
-    	}
-        if(isIvrs){
-        	for(IvrsSchedule ivrsSchedule: getIvrsSchedules()){
-        		ivrsSchedule.setCallStatus(ivrsCallStatus);
-        	}
+        boolean isIvrs = false;
+        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+        for (StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()) {
+            if (spm.getMode().equals(AppMode.IVRS)) {
+                isIvrs = true;
+            }
         }
-	}
-    
-    
+        if (isIvrs) {
+            for (IvrsSchedule ivrsSchedule : getIvrsSchedules()) {
+                ivrsSchedule.setCallStatus(ivrsCallStatus);
+            }
+        }
+    }
+
+
     public List<UserNotification> getUserNotifications() {
         return userNotifications;
     }
@@ -656,11 +667,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         }
     }
 
-	public List<IvrsSchedule> getIvrsSchedules() {
-		return ivrsSchedules;
-	}
+    public List<IvrsSchedule> getIvrsSchedules() {
+        return ivrsSchedules;
+    }
 
-	public void setIvrsSchedules(List<IvrsSchedule> ivrsSchedules) {
-		this.ivrsSchedules = ivrsSchedules;
-	}
+    public void setIvrsSchedules(List<IvrsSchedule> ivrsSchedules) {
+        this.ivrsSchedules = ivrsSchedules;
+    }
 }
