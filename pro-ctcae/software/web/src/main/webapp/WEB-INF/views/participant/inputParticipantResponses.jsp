@@ -122,10 +122,10 @@
                             <td colspan="5">
                                     <%--<b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>--%>
                                 <c:if test="${homeweblanguage eq 'ENGLISH'}">
-                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
+                                    <b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>
                                 </c:if>
                                 <c:if test="${homeweblanguage eq 'SPANISH'}">
-                                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
+                                    <b>${myindex}. ${items[0].proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
                                 </c:if>
                             </td>
                         </tr>
