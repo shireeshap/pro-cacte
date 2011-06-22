@@ -26,17 +26,14 @@ public class UpdateMeddraSpanishLoader {
     MeddraLoaderRepository meddraLoaderRepository;
     GenericRepository genericRepository;
 
-    private static final String LANGUAGE = "language";
     private static final String MEDDRA_CODE = "llt_code";
     private static final String MEDDRA_TERM = "llt_name";
-    private static final String MEDDRA_PT_ID = "pt_code";
-    private static final String CURRENCY = "llt_currency";
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
         ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symptoms_ES_prelim.csv");
-        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
-//        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
+//        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
 
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");

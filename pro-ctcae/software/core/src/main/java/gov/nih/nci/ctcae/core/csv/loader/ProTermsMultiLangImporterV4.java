@@ -27,7 +27,7 @@ public class ProTermsMultiLangImporterV4 {
     ProCtcTermRepository proCtcTermRepository;
     ProCtcQuestionRepository proCtcQuestionRepository;
 
-    private static final String LANGUAGE = "Language";
+    //    private static final String LANGUAGE = "Language";
     private static final String QUESTION_TEXT = "Language specific PRO-CTCAE Question Display";
     private static final String PRO_CTC_TERM = "PRO-CTCAE Term";
     private static final String PRO_CTC_TERM_LANG = "Language specific PRO-CTCAE Term Display";
@@ -43,11 +43,12 @@ public class ProTermsMultiLangImporterV4 {
     public void updateMultiLangProTerms() throws IOException {
         CsvReader reader;
         ClassPathResource classPathResource = new ClassPathResource("Spanish_Pro-CTCAE_items_06.01.2011.csv");
-        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
+//        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
 
         while (reader.readRecord()) {
-            String language = reader.get(LANGUAGE).trim();
+
             String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
             String questionText = reader.get(QUESTION_TEXT).trim();
             String attribute = reader.get(QUESTION_TYPE).trim();
@@ -78,14 +79,14 @@ public class ProTermsMultiLangImporterV4 {
             if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
                 ProCtcQuestion proCtcQuestion = proCtcQuestions.get(0);
 //                if (language.equalsIgnoreCase("Spanish")) {
-                    proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
-                    System.out.println("spanish question set");
+                proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
+                System.out.println("spanish question set");
 //                }
                 int i = 0;
                 for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
                     if (StringUtils.isNotBlank(values.get(i))) {
 //                        if (language.equalsIgnoreCase("Spanish")) {
-                            validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
+                        validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
 //                            System.out.println("spanish value set");
 //                        }
                     }
@@ -100,8 +101,8 @@ public class ProTermsMultiLangImporterV4 {
             if (proTerms != null && proTerms.size() > 0) {
                 ProCtcTerm proTerm = proTerms.get(0);
 //                if (language.equalsIgnoreCase("Spanish")) {
-                    proTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
-                    System.out.println("spanish proCtcTerm set");
+                proTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
+                System.out.println("spanish proCtcTerm set");
 //                }
                 proCtcTermRepository.save(proTerm);
             }
