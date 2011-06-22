@@ -58,9 +58,11 @@ public class StudyLevelReportTest extends WebTestCase {
         datesMap.put(participant2, dates2);
 
         proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setProCtcTermVocab(new ProCtcTermVocab());
         proCtcTerm.getProCtcTermVocab().setTermEnglish("My Term");
 
         proCtcTerm1 = new ProCtcTerm();
+        proCtcTerm1.setProCtcTermVocab(new ProCtcTermVocab());
         proCtcTerm1.getProCtcTermVocab().setTermEnglish("Your Term");
 
 
