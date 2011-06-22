@@ -41,6 +41,7 @@ public class ParticipantLevelReportTest extends WebTestCase {
 
 
         proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setProCtcTermVocab(new ProCtcTermVocab());
         proCtcTerm.getProCtcTermVocab().setTermEnglish("My Term");
         proCtcTerm.setId(1);
 
