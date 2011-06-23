@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.security.Authentication;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mehul Gulati
@@ -41,6 +43,21 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         }
         return studyParticipantCrfSchedule;
     }
+
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+       Map<String, Object> map = super.referenceData(request, command, errors);
+        String language = request.getParameter("lang");
+        if (language == null || language == "") {
+            language = "en";
+        }
+        map.put("language", language);
+        return map;
+    }
+
+
+
+
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = (StudyParticipantCrfSchedule) oCommand;
