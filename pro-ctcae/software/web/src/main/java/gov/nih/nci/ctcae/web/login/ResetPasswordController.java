@@ -50,7 +50,7 @@ public class ResetPasswordController extends SimpleFormController {
         ModelAndView modelAndView = super.showForm(httpServletRequest, httpServletResponse, e);
 
         User user = command.getUser();
-        if (user == null || (new Date().getTime() - user.getTokenTime().getTime() > 600000)) {
+        if (user == null || (new Date().getTime() - user.getTokenTime().getTime() > 86400000)) {
             modelAndView.addObject("expired", "true");
         } else {
             modelAndView.addObject("passwordPolicy", passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy()));
