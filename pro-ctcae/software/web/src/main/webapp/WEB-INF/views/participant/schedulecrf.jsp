@@ -243,8 +243,11 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     if (scheduleid != '') {
                         var formName = forms[index][scheduleid];
                         html += '<li><hr></li>';
+
                         html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+                        <proctcae:urlAuthorize url="/pages/participant/enterResponses">
                         html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                    </proctcae:urlAuthorize>
                     }
                 }
             } else {
