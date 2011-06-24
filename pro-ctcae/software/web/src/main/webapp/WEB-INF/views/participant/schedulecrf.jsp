@@ -243,9 +243,8 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     if (scheduleid != '') {
                         var formName = forms[index][scheduleid];
                         html += '<li><hr></li>';
-
-                        html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
-                        <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+                    <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+                        html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
                         html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
                     </proctcae:urlAuthorize>
                     }
@@ -281,7 +280,7 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
     }
     jQuery('#scheduleActions' + menuindex).menu({
         content: html,
-        maxHeight: 180,
+        maxHeight: 350,
         positionOpts: {
             directionV: 'down',
             posX: 'left',
@@ -295,6 +294,11 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
 
 
 </script>
+<style type="text/css">
+
+
+
+</style>
 </head>
 <body>
 <table>

@@ -28,6 +28,10 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         Integer id = Integer.parseInt(request.getParameter("id"));
+        String language = request.getParameter("lang");
+        if (language == null || language == "") {
+            language = "en";
+        }
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(id);
         Study study = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy();
         StudyOrganization studySite = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite();
@@ -38,11 +42,6 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         ArrayList<ProCtcQuestion> participantAddedProctcQuestions;
         Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap();
         ArrayList<MeddraQuestion> participantAddedMeddraQuestions;
-        String language = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
-        if (language == null || language == "") {
-            language = SupportedLanguageEnum.ENGLISH.getName();
-        }
-
         document.add(new Paragraph("Study: " + study.getDisplayName()));
         document.add(new Paragraph("Form: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
         document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
@@ -67,7 +66,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
                 if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
                     String meddraSymptom;
-                    if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    if (language.equals("en")) {
                         meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                     } else {
                         meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getLowLevelTermVocab().getMeddraTermSpanish();
@@ -99,7 +98,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
             PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
             table.setWidthPercentage(98);
             PdfPCell cell;
-            if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+            if (language.equals("en")) {
                 cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
             } else {
                 cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermSpanish()));
@@ -113,7 +112,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
             for (ProCtcQuestion proCtcQuestion : symptomMap.get(proCtcTerm)) {
                 PdfPCell cell2;
-                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                if (language.equals("en")) {
                     cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
                 } else {
                     cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
@@ -123,7 +122,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                     i++;
                     Phrase ph = new Phrase(12, "O", f1);
-                    if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    if (language.equals("en")) {
                         ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
                     } else {
                         ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
@@ -152,7 +151,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 PdfPTable table = new PdfPTable(new float[]{2.5f, 1f, 1f, 1f, 1f, 1f});
                 table.setWidthPercentage(98);
                 PdfPCell cell;
-                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                if (language.equals("en")) {
                     cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
                 } else {
                     cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermSpanish()));
@@ -163,7 +162,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
                 for (ProCtcQuestion proCtcQuestion : participantAddedProctcSymptomMap.get(proCtcTerm)) {
                     PdfPCell cell2;
-                    if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    if (language.equals("en")) {
                         cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
                     } else {
                         cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
@@ -174,7 +173,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                     for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                         i++;
                         Phrase ph = new Phrase(12, "O", f1);
-                        if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                        if (language.equals("en")) {
                             ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
                         } else {
                             ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.SPANISH), f));
@@ -209,7 +208,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
                 for (MeddraQuestion meddraQuestion : participantAddedMeddraSymptomMap.get(meddraTerm)) {
                     PdfPCell cell2;
-                    if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                    if (language.equals("en")) {
                         cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
                     } else {
                         cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
@@ -219,7 +218,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                     for (MeddraValidValue meddraValidValue : meddraQuestion.getValidValues()) {
                         i++;
                         Phrase ph = new Phrase(12, "O", f1);
-                        if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
+                        if (language.equals("en")) {
                             ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
                         } else {
                             ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.SPANISH), f));
