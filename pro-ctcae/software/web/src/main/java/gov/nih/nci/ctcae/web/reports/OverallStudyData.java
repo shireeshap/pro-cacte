@@ -20,15 +20,15 @@ public class OverallStudyData extends HibernateDaoSupport {
         final List<Object[]> list = new ArrayList();
         getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
-                String sqlQuery = "select s.short_title, o.name, c.title, p.first_name, p.last_name, scs.start_date, scs.due_date, pct.term, pcq.question_type, pcvv.value\n" +
+                String sqlQuery = "select s.short_title, o.name, c.title, p.first_name, p.last_name, scs.start_date, scs.due_date, pctv.term_english, pcq.question_type, pcvvv.value_english\n" +
                         "from studies s, study_participant_crfs spc, crfs c, sp_crf_schedules scs, study_participant_crf_items spci, crf_page_items cpi, crf_pages cp, pro_ctc_terms pct, pro_ctc_questions pcq, pro_ctc_valid_values pcvv, study_participant_assignments spa, participants p,\n" +
-                        "study_organizations ss    , organizations o   \n" +
+                        "study_organizations ss , organizations o, pro_ctc_terms_vocab pctv, pro_ctc_questions_vocab pcqv, pro_ctc_valid_values_vocab pcvvv    \n" +
                         "where spc.crf_id = c.id and c.study_id = s.id and s.id =:par_id and c.status = 'RELEASED'     \n" +
                         "and scs.study_participant_crf_id = spc.id and scs.status = 'COMPLETED' and spci.sp_crf_schedule_id = scs.id\n" +
-                        "and cpi.id = spci.crf_item_id and cpi.crf_page_id = cp.id and cp.pro_ctc_term_id = pct.id and cpi.pro_ctc_question_id = pcq.id\n" +
+                        "and cpi.id = spci.crf_item_id and cpi.crf_page_id = cp.id and cp.pro_ctc_term_id = pct.id and cpi.pro_ctc_question_id = pcq.id and pcq.id = pcqv.pro_ctc_questions_id\n" +
                         "and spci.pro_ctc_valid_value_id = pcvv.id and spc.study_participant_id = spa.id and p.id = spa.participant_id and\n" +
-                        "spa.study_site_id = ss.id and ss.study_id = s.id and ss.organization_id = o.id\n" +
-                        "order by s.short_title, o.name,  c.title, p.first_name, p.last_name, scs.start_date, scs.due_date, pct.term, pcq.display_order";
+                        "spa.study_site_id = ss.id and ss.study_id = s.id and ss.organization_id = o.id and pcvv.id = pcvvv.pro_ctc_valid_values_id and pct.id = pctv.pro_ctc_terms_id\n" +
+                        "order by s.short_title, o.name,  c.title, p.first_name, p.last_name, scs.start_date, scs.due_date, pctv.term_english, pcq.display_order";
                 org.hibernate.SQLQuery nativeQuery = session.createSQLQuery(sqlQuery);
                 nativeQuery.setParameter("par_id", sid);
                 list.addAll(nativeQuery.list());
