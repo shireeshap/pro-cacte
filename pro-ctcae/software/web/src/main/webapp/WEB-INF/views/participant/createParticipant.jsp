@@ -480,6 +480,7 @@ function showEmail(id) {
 <%--var clickCount = ${homeModeCount};--%>
 function showOrHideLanguage(value1, value2, id) {
     if (value1 && value2 == "CLINICWEB") {
+        jQuery("#clinic_paper_lang_" + id).val('');
         jQuery('#web_clinic_header_' + id).show();
         jQuery('#clinicWeb_' + id).show();
         jQuery('#paper_clinic_header_' +id).hide();
@@ -489,6 +490,7 @@ function showOrHideLanguage(value1, value2, id) {
 
     }
     if (value1 && value2 == "CLINICBOOKLET") {
+        jQuery("#clinic_web_lang_" + id).val('');
         jQuery('#web_clinic_header_' + id).hide();
         jQuery('#clinicWeb_' + id).hide();
         jQuery('#paper_clinic_header_' + id).show();
@@ -499,6 +501,8 @@ function showOrHideLanguage(value1, value2, id) {
 }
 function showOrHideEmail(value1, value2, id) {
     if (value1 && value2 == "HOMEWEB") {
+        jQuery("#ivrs_lang_" + id).val('');
+        jQuery("#home_paper_lang_" + id).val('');
         jQuery('#div_contact').show();
         jQuery('#div_contact_ivrs').hide();
         jQuery('#web_' + id).show();
@@ -533,6 +537,8 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
+        jQuery("#home_web_lang_" + id).val('');
+        jQuery("#ivrs_lang_" + id).val('');
         jQuery('#paper_home_header_' + id).show();
         jQuery('#home_paper_' + id).show();
         jQuery('#web_' + id).hide();
@@ -559,6 +565,8 @@ function showOrHideEmail(value1, value2, id) {
         removeEmailClassName(id);
     }
     if (value1 && value2 == "IVRS") {
+        jQuery("#home_paper_lang_" + id).val('');
+        jQuery("#home_web_lang_" + id).val('');
         jQuery('#div_contact').show();
         jQuery('#div_contact_ivrs').show();
         jQuery('#ivrs_' + id).show();
@@ -578,6 +586,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailError_' + id).hide();
         jQuery('#paper_home_header_' + id).hide();
         jQuery('#home_paper_' + id).hide();
+
         $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
