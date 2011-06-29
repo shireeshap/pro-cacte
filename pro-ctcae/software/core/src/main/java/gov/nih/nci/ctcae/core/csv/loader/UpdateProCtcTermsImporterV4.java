@@ -82,6 +82,27 @@ public class UpdateProCtcTermsImporterV4 {
                 ProCtcQuestion ctcQuestion = proCtcQuestions.get(0);
                 ctcQuestion.getProCtcTerm().setGender(gender);
                 ctcQuestion.setQuestionText(question, SupportedLanguageEnum.ENGLISH);
+                StringTokenizer st1 = new StringTokenizer(validValues, "/");
+                Collection<ProCtcValidValue> values = ctcQuestion.getValidValues();
+                Collection<String> validValues1 = new ArrayList();
+                for (ProCtcValidValue proValue : values) {
+                    String value = proValue.getValue(SupportedLanguageEnum.ENGLISH);
+                    validValues1.add(value);
+                }
+                int j = validValues1.size();
+                while (st1.hasMoreTokens()) {
+                    String nextToken = st1.nextToken();
+                    if (!validValues1.contains(nextToken)) {
+                        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
+                        ProCtcValidValueVocab proCtcValidValueVocab = new ProCtcValidValueVocab();
+                        proCtcValidValueVocab.setValueEnglish(nextToken);
+                        proCtcValidValueVocab.setProCtcValidValue(proCtcValidValue);
+                        proCtcValidValue.setProCtcValidValueVocab(proCtcValidValueVocab);
+                        proCtcValidValue.setDisplayOrder(j);
+                        j++;
+                        ctcQuestion.addValidValue(proCtcValidValue);
+                    }
+                }
                 proCtcQuestionRepository.save(ctcQuestion);
             } else {
                 CtcQuery ctcQuery = new CtcQuery();
@@ -107,7 +128,7 @@ public class UpdateProCtcTermsImporterV4 {
             }
         }
 
-         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
+        HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
 
         for (String hmKey : hm.keySet()) {
             List<CsvLine> list = hm.get(hmKey);
