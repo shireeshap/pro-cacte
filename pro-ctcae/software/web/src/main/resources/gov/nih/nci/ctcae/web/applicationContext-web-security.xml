@@ -58,6 +58,7 @@
 
         <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
          <intercept-url pattern="/pages/participant/enterResponses" access="PRIVILEGE_ENTER_PARTICIPANT_RESPONSE"/>
+        <intercept-url pattern="/pages/participant/printSchedule" access="PRIVILEGE_ENTER_PARTICIPANT_RESPONSE"/>
         <intercept-url pattern="/pages/participant/edit"
                        access="PRIVILEGE_EDIT_PARTICIPANT, PRIVILEGE_VIEW_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/trueedit"
