@@ -1217,6 +1217,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddMoreQuestionB
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AudioFileController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/BasicFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CalendarTemplateTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text

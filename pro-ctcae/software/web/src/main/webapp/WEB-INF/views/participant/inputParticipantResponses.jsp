@@ -25,6 +25,10 @@
             document.forms[0].submitType.value = type;
             document.forms[0].submit();
         }
+
+     	function playAudio(id){
+     		document.getElementById("audio").src="http://localhost:8080/proctcae/pages/participant/wavFile.htm?id="+id;
+     	}
     </script>
 
 </head>
@@ -60,10 +64,10 @@
                 <%--</c:if>--%>
                 <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
                     <tr>
-                        <td><br/></td>
+                        <td colspan="6"><br/></td>
                     </tr>
                     <tr style="background-color:#cccccc;">
-                        <td colspan="5">
+                        <td colspan="6">
                             <c:if test="${language eq 'en'}">
                                 <b>${symptom.key.term} </b>
                             </c:if>
@@ -74,7 +78,7 @@
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <c:if test="${language eq 'en'}">
                                     <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
                                 </c:if>
@@ -91,11 +95,10 @@
                                     <c:set var="checked" value="checked "/>
                                     <c:set var="style" value="background-color:blue;color:white"/>
                                 </c:if>
-                                <td>
-
+                                <td colspan="1">
                                     <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
                                            type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}>
+                                           value="${validValue.id}" ${checked} ${disabled}> 
                                     <c:if test="${language eq 'en'}">
                                         <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
                                     </c:if>
@@ -113,7 +116,7 @@
                         <td><br/></td>
                     </tr>
                     <tr style="background-color:#cccccc;">
-                        <td colspan="5">
+                        <td colspan="6">
                                 <%--<b>${symptom.key.term} </b>--%>
                             <c:if test="${language eq 'en'}">
                                 <b>${symptom.key.term} </b>
@@ -125,7 +128,7 @@
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                     <%--<b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>--%>
                                 <c:if test="${language eq 'en'}">
                                     <b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>
@@ -146,8 +149,8 @@
                                 <td>
                                     <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
                                            type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}>
-                                        <%--<span style="${style}">${validValue.value} &nbsp;&nbsp;</span>--%>
+                                           value="${validValue.id}" ${checked} ${disabled}> 
+                                    <%--<span style="${style}">${validValue.value} &nbsp;&nbsp;</span>--%>
                                     <c:if test="${language eq 'en'}">
                                         <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
                                     </c:if>
@@ -165,13 +168,13 @@
                         <td><br/></td>
                     </tr>
                     <tr style="background-color:#cccccc;">
-                        <td colspan="5">
+                        <td colspan="6">
                             <b>${symptom.key} </b>
                         </td>
                     </tr>
                     <c:forEach items="${symptom.value}" var="items">
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <c:if test="${language eq 'en'}">
                                     <b>${myindex}. ${items[0].meddraQuestion.questionText}</b>
                                 </c:if>
@@ -190,8 +193,7 @@
                                 </c:if>
                                 <td>
                                     <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
-                                           type="radio"
-                                           value="${validValue.id}" ${checked} ${disabled}>
+                                           type="radio" value="${validValue.id}" ${checked} ${disabled}> 
                                     <c:if test="${language eq 'en'}">
                                         <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
                                     </c:if>
@@ -204,10 +206,27 @@
                         <c:set var="myindex" value="${myindex + 1}"/>
                     </c:forEach>
                 </c:forEach>
-
-
+				
+				<c:if test="${not empty command.filePath}">
+					<tr>
+                        <td colspan="6"><br/></td>
+                    </tr>
+					<tr style="background-color:#cccccc;">
+	                    <td colspan="6"> <b><tags:message code="participant.recording.title"/></b>
+	                    </td>
+	                 </tr>
+	                <tr>
+		              <td  colspan="6">
+		              	<a href="#" onclick="playAudio('${command.id}')"><tags:message code="participant.recording.message"/></a><br/>
+		                 <iframe id="audio" src="" frameborder="0" width="400" height="27"  >
+						    	<tags:message code="iframe.oops"/>
+						</iframe>
+					  </td>
+					</tr> 
+				</c:if>
             </table>
         </div>
+        
         <c:if test="${command.status ne 'Completed'}">
             <table width="100%" style="margin-top:10px;">
                 <tr>
