@@ -47,10 +47,13 @@ public class AudioFileController extends AbstractController {
 			HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+        logger.error("Entering handleRequestInternal");
         if (!StringUtils.isBlank(id)) {
             studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
+            logger.error("loaded the sp_crf_schedule object.");
         }
 		if (getContentType() == null) {
+			logger.error("contentType property must be set");
 			throw new IllegalArgumentException("contentType property must be set");
 		}
 
@@ -60,6 +63,7 @@ public class AudioFileController extends AbstractController {
 			String contentType = getContentType();
 			
 			if(bytes != null){
+				logger.error("buffering successful...attempting to stream");
 				ServletOutputStream out = response.getOutputStream();
 				// Write content type and also length (determined via byte array).
 				response.setContentType(contentType);
@@ -67,13 +71,17 @@ public class AudioFileController extends AbstractController {
 
 				// Flush byte array to servlet output stream.
 				out.write(bytes);
+				logger.error("flushing buffer stream");
 				out.flush();
+				logger.error("flushed buffer stream");
 			} else {
+				logger.error("buffer is empty...printing error");
 				PrintWriter printWriter = response.getWriter();
 				printWriter.print("<b>System Error while loading file. Please try again later.</b>");
 				printWriter.flush();
 			}
 		}
+		logger.error("Exiting handleRequestInternal");
 		return null;
 	}
 
@@ -83,6 +91,7 @@ public class AudioFileController extends AbstractController {
 	 * @return the file path
 	 */
 	private String getFilePath(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+		logger.error("filepath: "+ studyParticipantCrfSchedule.getFilePath());
 		return studyParticipantCrfSchedule.getFilePath();
 	}
 
@@ -94,6 +103,7 @@ public class AudioFileController extends AbstractController {
 	 * @throws Exception the exception
 	 */
 	protected byte[] getFileData(String filePath) throws Exception{
+		logger.error("Entering getFileData");
     	String ftpIp = properties.getProperty(FTP_IP);
     	String ftpUsername = properties.getProperty(FTP_USERNAME);
     	String ftpPassword = properties.getProperty(FTP_PASSWORD);
@@ -110,31 +120,31 @@ public class AudioFileController extends AbstractController {
 	          int reply = ftp.getReplyCode();
 	               
 	          if(FTPReply.isPositiveCompletion(reply)){
-	        	  logger.debug("Connected Successfully");
-	        	  
+	        	  logger.error("Connected Successfully to ftp server");
 	        	  FileOutputStream dfile = new FileOutputStream(file);
 	        	  isSuccess = ftp.retrieveFile(filePath, dfile);
 	    		  
               } else {
-	            logger.error("Connection Failed");
+	            logger.error("Connection Failed to ftp server");
 	          }
 	          
 	          if(isSuccess){
+	        	  logger.error("successfully retrieved file from ftp server...populating buffer now.");
 		  	      InputStream fis = new FileInputStream(file);
 		  	      buffer = new byte[fis.available()];
 		  	      fis.read(buffer);
 		  	      fis.close();
 		  	  } 
         } catch (SocketException ex) {
-           ex.printStackTrace();
+        	logger.error("contentType property must be set"+ ex.getMessage());
 	    } catch (IOException ex) {
-           ex.printStackTrace();
+	    	logger.error("contentType property must be set"+ ex.getMessage());
 	    } finally {
 	    	ftp.disconnect();
 	    	//delete the file from $CATALINA_HOME/bin
   	    	file.delete();
 	    }
-	    
+	    logger.error("Exiting getFileData");
 	    return buffer;
     }
 
