@@ -267,7 +267,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	/**
 	 * Builds the phone number. Wont work if number is a 11 digit number including the country code 1.
 	 * Basically returns only the digits from the string.
-	 * e.g: converts 908-887-0987 to 9088870987
+	 * e.g: converts 908-887-0987 to 19088870987
 	 *
 	 * @param participant the participant
 	 * @return the string
