@@ -86,12 +86,12 @@ public class UpdateProCtcTermsImporterV4 {
                 Collection<ProCtcValidValue> values = ctcQuestion.getValidValues();
                 Collection<String> validValues1 = new ArrayList();
                 for (ProCtcValidValue proValue : values) {
-                    String value = proValue.getValue(SupportedLanguageEnum.ENGLISH);
+                    String value = proValue.getValue(SupportedLanguageEnum.ENGLISH).trim();
                     validValues1.add(value);
                 }
                 int j = validValues1.size();
                 while (st1.hasMoreTokens()) {
-                    String nextToken = st1.nextToken();
+                    String nextToken = st1.nextToken().trim();
                     if (!validValues1.contains(nextToken)) {
                         ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
                         ProCtcValidValueVocab proCtcValidValueVocab = new ProCtcValidValueVocab();

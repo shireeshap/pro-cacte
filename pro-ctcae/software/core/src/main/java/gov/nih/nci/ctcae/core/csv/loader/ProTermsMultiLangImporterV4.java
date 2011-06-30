@@ -79,13 +79,16 @@ public class ProTermsMultiLangImporterV4 {
             if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
                 ProCtcQuestion proCtcQuestion = proCtcQuestions.get(0);
 //                if (language.equalsIgnoreCase("Spanish")) {
+                System.out.println(questionText);
                 proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
-                System.out.println("spanish question set");
+
+
 //                }
                 int i = 0;
                 for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
                     if (StringUtils.isNotBlank(values.get(i))) {
 //                        if (language.equalsIgnoreCase("Spanish")) {
+                        System.out.println(values.get(i));
                         validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
 //                            System.out.println("spanish value set");
 //                        }
