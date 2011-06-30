@@ -221,6 +221,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         
         //default to English
         String contextToBeReturned = contextEnglish;
+        /*
         StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
         if(studyParticipantAssignment != null){
         	if(studyParticipantAssignment.getHomeWebLanguage() != null){
@@ -231,7 +232,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
             	//only look for ivrsLang if homeWebLang is null.
             	contextToBeReturned = contextSpanish;
             }
-        }
+        }*/
 		return contextToBeReturned;
 	}
 
