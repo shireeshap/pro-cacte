@@ -47,10 +47,10 @@ public class AudioFileController extends AbstractController {
 			HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-        logger.error("Entering handleRequestInternal");
+        logger.debug("Entering handleRequestInternal");
         if (!StringUtils.isBlank(id)) {
             studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
-            logger.error("loaded the sp_crf_schedule object.");
+            logger.debug("loaded the sp_crf_schedule object with id = " + id);
         }
 		if (getContentType() == null) {
 			logger.error("contentType property must be set");
@@ -63,7 +63,7 @@ public class AudioFileController extends AbstractController {
 			String contentType = getContentType();
 			
 			if(bytes != null){
-				logger.error("buffering successful...attempting to stream");
+				logger.debug("buffering successful...attempting to stream");
 				ServletOutputStream out = response.getOutputStream();
 				// Write content type and also length (determined via byte array).
 				response.setContentType(contentType);
@@ -71,9 +71,9 @@ public class AudioFileController extends AbstractController {
 
 				// Flush byte array to servlet output stream.
 				out.write(bytes);
-				logger.error("flushing buffer stream");
+				logger.debug("flushing buffer stream");
 				out.flush();
-				logger.error("flushed buffer stream");
+				logger.debug("flushed buffer stream");
 			} else {
 				logger.error("buffer is empty...printing error");
 				PrintWriter printWriter = response.getWriter();
@@ -81,7 +81,7 @@ public class AudioFileController extends AbstractController {
 				printWriter.flush();
 			}
 		}
-		logger.error("Exiting handleRequestInternal");
+		logger.debug("Exiting handleRequestInternal");
 		return null;
 	}
 
@@ -91,7 +91,7 @@ public class AudioFileController extends AbstractController {
 	 * @return the file path
 	 */
 	private String getFilePath(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-		logger.error("filepath: "+ studyParticipantCrfSchedule.getFilePath());
+		logger.debug("filepath: "+ studyParticipantCrfSchedule.getFilePath());
 		return studyParticipantCrfSchedule.getFilePath();
 	}
 
@@ -103,7 +103,7 @@ public class AudioFileController extends AbstractController {
 	 * @throws Exception the exception
 	 */
 	protected byte[] getFileData(String filePath) throws Exception{
-		logger.error("Entering getFileData");
+		logger.debug("Entering getFileData");
     	String ftpIp = properties.getProperty(FTP_IP);
     	String ftpUsername = properties.getProperty(FTP_USERNAME);
     	String ftpPassword = properties.getProperty(FTP_PASSWORD);
@@ -120,7 +120,7 @@ public class AudioFileController extends AbstractController {
 	          int reply = ftp.getReplyCode();
 	               
 	          if(FTPReply.isPositiveCompletion(reply)){
-	        	  logger.error("Connected Successfully to ftp server");
+	        	  logger.debug("Connected Successfully to ftp server");
 	        	  FileOutputStream dfile = new FileOutputStream(file);
 	        	  isSuccess = ftp.retrieveFile(filePath, dfile);
 	    		  
@@ -129,7 +129,7 @@ public class AudioFileController extends AbstractController {
 	          }
 	          
 	          if(isSuccess){
-	        	  logger.error("successfully retrieved file from ftp server...populating buffer now.");
+	        	  logger.debug("successfully retrieved file from ftp server...populating buffer now.");
 		  	      InputStream fis = new FileInputStream(file);
 		  	      buffer = new byte[fis.available()];
 		  	      fis.read(buffer);
@@ -144,7 +144,7 @@ public class AudioFileController extends AbstractController {
 	    	//delete the file from $CATALINA_HOME/bin
   	    	file.delete();
 	    }
-	    logger.error("Exiting getFileData");
+	    logger.debug("Exiting getFileData");
 	    return buffer;
     }
 

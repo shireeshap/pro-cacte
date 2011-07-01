@@ -27,7 +27,9 @@
         }
 
      	function playAudio(id){
-     		document.getElementById("audio").src="http://localhost:8080/proctcae/pages/participant/wavFile.htm?id="+id;
+			var loc = window.location;
+			//alert(loc.protocol + "----" + loc.host);
+     		document.getElementById("audio").src = loc.protocol + "//" + loc.host + ":" + loc.port + "/proctcae/pages/participant/wavFile.htm?id="+id;
      	}
     </script>
 
@@ -217,7 +219,9 @@
 	                 </tr>
 	                <tr>
 		              <td  colspan="6">
-		              	<a href="#" onclick="playAudio('${command.id}')"><tags:message code="participant.recording.message"/></a><br/>
+		              	<a href="#" onclick="playAudio('${command.id}')">
+		              		<img id="pShowImage_${command.id}" src="../../images/play_audio.png" height="45" style=""/>
+		              	</a><br/>
 		                 <iframe id="audio" src="" frameborder="0" width="400" height="27"  >
 						    	<tags:message code="iframe.oops"/>
 						</iframe>
