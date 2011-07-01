@@ -116,10 +116,11 @@ public class AudioFileController extends AbstractController {
     	File file = new File("prt_rec.wav");
     	try {
 	          ftp.connect(ftpIp);
-	          ftp.login(ftpUsername, ftpPassword);
 	          int reply = ftp.getReplyCode();
-	               
+	          
 	          if(FTPReply.isPositiveCompletion(reply)){
+	        	  ftp.login(ftpUsername, ftpPassword);
+	        	  ftp.enterLocalPassiveMode();
 	        	  logger.debug("Connected Successfully to ftp server");
 	        	  FileOutputStream dfile = new FileOutputStream(file);
 	        	  isSuccess = ftp.retrieveFile(filePath, dfile);
