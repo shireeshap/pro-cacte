@@ -63,7 +63,7 @@ public class Participant extends Person {
     private String displayName;
 
     @Column(name = "user_number", nullable = true)
-    private Integer userNumber;
+    private String userNumber;
 
     @Column(name = "pin_number", nullable = true)
     private Integer pinNumber;
@@ -292,11 +292,11 @@ public class Participant extends Person {
         this.displayName = displayName;
     }
 
-    public Integer getUserNumber() {
+    public String getUserNumber() {
         return userNumber;
     }
 
-    public void setUserNumber(Integer userNumber) {
+    public void setUserNumber(String userNumber) {
         this.userNumber = userNumber;
     }
 

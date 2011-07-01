@@ -123,7 +123,7 @@ public class ParticipantTestHelper {
         return participant;
     }
 
-    public static Participant createIVRSParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex, int userNumber,int pinNumber) throws ParseException {
+    public static Participant createIVRSParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex, String userNumber,int pinNumber) throws ParseException {
 
         Participant participant = new Participant();
         firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite, armIndex);

@@ -90,7 +90,7 @@ public class ParticipantQueryTest extends TestCase {
     }
 
     public void testFilterByUserNumber() throws Exception{
-        Integer userNumber =1234;
+        String userNumber ="1234567890";
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNumber);
         assertEquals("SELECT p from Participant p WHERE p.userNumber =:userNumber order by p.id",

@@ -205,7 +205,7 @@ public class ParticipantQuery extends AbstractQuery {
      *
      * @param userNumber the userNumber
      */
-    public void filterByUserNumber(final Integer userNumber){
+    public void filterByUserNumber(final String userNumber){
           if (userNumber != null){
               andWhere("p.userNumber =:"+USERNUMBER);
               setParameter(USERNUMBER,userNumber);

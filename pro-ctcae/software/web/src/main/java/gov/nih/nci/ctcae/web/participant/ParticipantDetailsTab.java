@@ -105,7 +105,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     try {
                         command.getParticipant().setPhoneNumber(phone);
                         String userNumber =  phone.replaceAll("-","");
-                        command.getParticipant().setUserNumber(Integer.parseInt(userNumber));
+                        command.getParticipant().setUserNumber(userNumber);
                     } catch (Exception e) {
                         command.getParticipant().setPhoneNumber(null);
                     }
@@ -159,7 +159,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     try {
                         command.getParticipant().setPhoneNumber(phone);
                         String userNumber =  phone.replaceAll("-","");
-                        command.getParticipant().setUserNumber(Integer.parseInt(userNumber));
+                        command.getParticipant().setUserNumber(userNumber);
                     } catch (Exception e) {
                         command.getParticipant().setPhoneNumber(null);
                     }
