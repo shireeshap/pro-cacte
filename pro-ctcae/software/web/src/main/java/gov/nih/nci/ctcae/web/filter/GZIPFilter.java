@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.web.filter;
 import net.sf.ehcache.constructs.web.GenericResponseWrapper;
 import net.sf.ehcache.constructs.web.ResponseHeadersNotModifiableException;
 import net.sf.ehcache.constructs.web.ResponseUtil;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,7 +34,7 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
      */
     protected void doFilter(final HttpServletRequest request, final HttpServletResponse response,
                             final FilterChain chain) throws Exception {
-        if (!isIncluded(request) && acceptsEncoding(request, "gzip")) {
+        if (!isWavRequest(request) && !isIncluded(request) && acceptsEncoding(request, "gzip")) {
             // Client accepts zipped content
             if (LOG.isDebugEnabled()) {
                 LOG.debug(request.getRequestURL() + ". Writing with gzip compression");
@@ -83,7 +85,16 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
         }
     }
 
-    @Override
+    private boolean isWavRequest(HttpServletRequest request) {
+    	boolean isWavRequest = false;
+    	final String uri = request.getRequestURI();
+    	if(!StringUtils.isBlank(uri) && uri.endsWith(".wav")){
+    		isWavRequest = true;
+    	}
+    	return isWavRequest;
+	}
+
+	@Override
     protected boolean acceptsEncoding(HttpServletRequest request, String name) {
         boolean acceptsEncoding = super.acceptsEncoding(request, name);
         String userAgent = request.getHeader("User-Agent");
@@ -97,7 +108,7 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
     private boolean isIncluded(final HttpServletRequest request) {
         final String uri = (String) request.getAttribute("javax.servlet.include.request_uri");
         final boolean includeRequest = !(uri == null);
-
+        
         if (includeRequest && LOG.isDebugEnabled()) {
             LOG.debug(request.getRequestURL() + " resulted in an include request. This is unusable, because" +
                     "the response will be assembled into the overrall response. Not gzipping.");

@@ -29,7 +29,7 @@
      	function playAudio(id){
 			var loc = window.location;
 			//alert(loc.protocol + "----" + loc.host);
-     		document.getElementById("audio").src = loc.protocol + "//" + loc.host + ":" + loc.port + "/proctcae/pages/participant/wavFile.htm?id="+id;
+     		document.getElementById("audio").src = loc.protocol + "//" + loc.host + ":" + loc.port + "/proctcae/pages/participant/playFile.wav?id="+id;
      	}
     </script>
 

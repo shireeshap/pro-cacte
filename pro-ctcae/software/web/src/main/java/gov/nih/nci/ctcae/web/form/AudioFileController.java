@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,18 +62,15 @@ public class AudioFileController extends AbstractController {
 		if(!StringUtils.isBlank(pathOfFileToFetch)){
 			byte[] bytes = getFileData(pathOfFileToFetch);
 			String contentType = getContentType();
-			
 			if(bytes != null){
-				logger.debug("buffering successful...attempting to stream");
-				ServletOutputStream out = response.getOutputStream();
-				// Write content type and also length (determined via byte array).
 				response.setContentType(contentType);
 				response.setContentLength(bytes.length);
-
-				// Flush byte array to servlet output stream.
+				logger.debug("buffering successful...attempting to stream");
+				ServletOutputStream out = response.getOutputStream();
 				out.write(bytes);
 				logger.debug("flushing buffer stream");
 				out.flush();
+				out.close();
 				logger.debug("flushed buffer stream");
 			} else {
 				logger.error("buffer is empty...printing error");
@@ -110,21 +108,22 @@ public class AudioFileController extends AbstractController {
     	
     	FTPClient ftp = new FTPClient();
     	boolean isSuccess = false;
-    	byte[] buffer = null;
+    	byte[] bytes = null;
     	
     	//this will create a file in $CATALINA_HOME/bin
     	File file = new File("prt_rec.wav");
+    	FileOutputStream dfile = new FileOutputStream(file);
     	try {
 	          ftp.connect(ftpIp);
 	          int reply = ftp.getReplyCode();
-	          
 	          if(FTPReply.isPositiveCompletion(reply)){
 	        	  ftp.login(ftpUsername, ftpPassword);
 	        	  ftp.enterLocalPassiveMode();
+	        	  ftp.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
+	        	  ftp.setFileType(FTP.BINARY_FILE_TYPE);
 	        	  logger.debug("Connected Successfully to ftp server");
-	        	  FileOutputStream dfile = new FileOutputStream(file);
+	        	  
 	        	  isSuccess = ftp.retrieveFile(filePath, dfile);
-	    		  
               } else {
 	            logger.error("Connection Failed to ftp server");
 	          }
@@ -132,8 +131,9 @@ public class AudioFileController extends AbstractController {
 	          if(isSuccess){
 	        	  logger.debug("successfully retrieved file from ftp server...populating buffer now.");
 		  	      InputStream fis = new FileInputStream(file);
-		  	      buffer = new byte[fis.available()];
-		  	      fis.read(buffer);
+		  	      bytes = new byte[(int) file.length()];
+		  	      
+		  	      fis.read(bytes);
 		  	      fis.close();
 		  	  } 
         } catch (SocketException ex) {
@@ -146,7 +146,7 @@ public class AudioFileController extends AbstractController {
   	    	file.delete();
 	    }
 	    logger.debug("Exiting getFileData");
-	    return buffer;
+	    return bytes;
     }
 
 	public String getContentType() {
