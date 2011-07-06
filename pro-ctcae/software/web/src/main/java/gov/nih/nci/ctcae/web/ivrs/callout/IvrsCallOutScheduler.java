@@ -42,14 +42,9 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public class IvrsCallOutScheduler implements ApplicationContextAware{
     
-//	public static final String CONTEXT = "myTest";
-//	public static final String EXTENSION = "1";
-//	public static final int PRIORITY = 1;
-//	public static final long TIMEOUT = 5000000;
-	
 	//specified in the datasource.props
 	public static final String CHANNEL_SOFTPHONE = "SIP/oneUser";
-	public static final String CHANNEL_VOIP      = "SIP/sip.broadvoice.com";
+	public static final String CHANNEL_VOIP      = "SIP/sipconnect.ipcomms.net.en";
 	public static final String CHANNEL_PSTN      = "DAHDI/G1";
 	
 	public static final String MODE_IVRSCALLOUT  = "mode.ivrscallout";
@@ -216,12 +211,13 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	 * @return the context
 	 */
 	private String getContext(Participant participant) {
-        String contextEnglish = properties.getProperty(IVRS_CONTEXT_ENGLISH);
         String contextSpanish = properties.getProperty(IVRS_CONTEXT_SPANISH);
         
         //default to English
-        String contextToBeReturned = contextEnglish;
-        /*
+        String contextToBeReturned = properties.getProperty(IVRS_CONTEXT_ENGLISH);
+//        participant.getStudyParticipantAssignments().iterator();
+        participant = genericRepository.initialize(participant);
+        
         StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
         if(studyParticipantAssignment != null){
         	if(studyParticipantAssignment.getHomeWebLanguage() != null){
@@ -232,7 +228,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
             	//only look for ivrsLang if homeWebLang is null.
             	contextToBeReturned = contextSpanish;
             }
-        }*/
+        }
 		return contextToBeReturned;
 	}
 
