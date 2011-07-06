@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 //
+
 /**
  * The Class ParticipantRepository.
  *
@@ -43,13 +46,13 @@ public class ParticipantRepository implements Repository<Participant, Participan
             studyParticipantAssignment.getParticipant();
             studyParticipantAssignment.getStudyParticipantCrfs();
             studyParticipantAssignment.getStudyParticipantClinicalStaffs();
-            for(StudyParticipantMode studyParticipantMode : studyParticipantAssignment.getStudyParticipantModes()){
+            for (StudyParticipantMode studyParticipantMode : studyParticipantAssignment.getStudyParticipantModes()) {
                 studyParticipantMode.getMode();
             }
-            for(StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
+            for (StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
                 studyMode.getMode();
             }
-            for(StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
+            for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
                 studyParticipantReportingModeHistory.getMode();
             }
         }
@@ -86,9 +89,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
             throw new CtcAeSystemException("can not save participants without assignments");
         }
         User user = participant.getUser();
-        if(participant.getId() == null){
+        if (participant.getId() == null) {
             //create flow
-            if(user == null) throw new CtcAeSystemException("can not save participant without user");
+            if (user == null) throw new CtcAeSystemException("can not save participant without user");
             UserRole userRole = new UserRole();
             userRole.setRole(Role.PARTICIPANT);
             user.addUserRole(userRole);
@@ -102,19 +105,49 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
-        ParticipantQuery query = new ParticipantQuery(true);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        boolean siteStaff = false;
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
+                siteStaff = true;
+            } else {
+                leadStaff = true;
+            }
+        }
+        ParticipantQuery query;
+        if (leadStaff) {
+            query = new ParticipantQuery();
+        } else {
+            query = new ParticipantQuery(true);
+        }
         query.filterParticipantsWithMatchingText(text);
         query.filterByStudySite(studySiteId);
         return (List<Participant>) find(query);
-
     }
 
     public List<Participant> findByStudyId(String text, Integer studyId) {
-        ParticipantQuery query = new ParticipantQuery(true);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        boolean siteStaff = false;
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
+                siteStaff = true;
+            } else {
+                leadStaff = true;
+            }
+        }
+        ParticipantQuery query;
+        if (leadStaff) {
+            query = new ParticipantQuery();
+        } else {
+            query = new ParticipantQuery(true);
+        }
         query.filterParticipantsWithMatchingText(text);
         query.filterByStudy(studyId);
         return (List<Participant>) find(query);
-
     }
 
 

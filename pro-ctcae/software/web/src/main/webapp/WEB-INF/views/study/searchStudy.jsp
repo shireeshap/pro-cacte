@@ -55,7 +55,7 @@
 <script>
     Event.observe(window, "load", function() {
 
-        acCreate(new siteAutoComplter('site'))
+        acCreate(new siteAutoComplterWithSecurity('site'))
 
 
         initializeAutoCompleter('site',

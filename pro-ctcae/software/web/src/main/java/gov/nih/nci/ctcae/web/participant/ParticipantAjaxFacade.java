@@ -1,11 +1,16 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -47,7 +52,24 @@ public class ParticipantAjaxFacade {
      */
     private List<Participant> getObjects(String firstName, String lastName,
                                          String identifier, String studyId, String spIdentifier, String siteId) {
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        boolean siteStaff = false;
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
+                siteStaff = true;
+            } else {
+                leadStaff = true;
+            }
+        }
+        ParticipantQuery participantQuery;
+        if (leadStaff) {
+            participantQuery = new ParticipantQuery();
+        } else {
+            participantQuery = new ParticipantQuery(true);
+        }
+//         participantQuery = new ParticipantQuery();
 
         if (!StringUtils.isBlank(firstName)) {
             participantQuery.filterByParticipantFirstName(firstName);
