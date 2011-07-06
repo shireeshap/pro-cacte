@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.Arrays;
 
 //
 
@@ -10,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
  * @author mehul
  */
 
-public class ParticipantQuery extends AbstractQuery {
+public class ParticipantQuery extends SecuredQuery<Organization> {
 
     /**
      * The query string.
@@ -41,15 +44,23 @@ public class ParticipantQuery extends AbstractQuery {
     private static final String USERNAME = "username";
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
     private static String EMAIL = "emailAddress";
-    private static String USERNUMBER ="userNumber";
+    private static String USERNUMBER = "userNumber";
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
+
     /**
      * Instantiates a new participant query.
      */
     public ParticipantQuery() {
 
-        super(queryString);
+        super(queryString, false);
+    }
+
+    public ParticipantQuery(boolean secure) {
+        super(queryString, secure);
+        if (secure) {
+            leftJoinStudySites();
+        }
     }
 
     /**
@@ -112,8 +123,8 @@ public class ParticipantQuery extends AbstractQuery {
                 return;
             } else {
 
-                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-               // String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(text) + "%" : null;
+                String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+                // String searchString = text != null && StringUtils.isNotBlank(text) ? "%" +StringUtils.trim(text) + "%" : null;
 
                 andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                         "or lower(p.lastName) LIKE :%s " +
@@ -151,13 +162,17 @@ public class ParticipantQuery extends AbstractQuery {
 
     public void filterBySite(Integer siteId) {
         if (siteId != null) {
-            leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+            leftJoinStudySites();
             andWhere("ss.organization.id = :" + ORGANIZATION_ID);
-            andWhere(String.format("(ss.class = :%s or ss.class = :%s )" , STUDY_SITE, LEAD_SITE));
+            andWhere(String.format("(ss.class = :%s or ss.class = :%s )", STUDY_SITE, LEAD_SITE));
             setParameter(ORGANIZATION_ID, siteId);
             setParameter(STUDY_SITE, "SST");
             setParameter(LEAD_SITE, "LSS");
         }
+    }
+
+    public void leftJoinStudySites() {
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
     }
 
     public void filterByUsername(String username) {
@@ -166,7 +181,7 @@ public class ParticipantQuery extends AbstractQuery {
             setParameter(USERNAME, username.toLowerCase());
         }
     }
-    
+
 
     public void filterByStudyParticipantIdentifier(String spIdentifier) {
         if (spIdentifier != null) {
@@ -175,15 +190,15 @@ public class ParticipantQuery extends AbstractQuery {
             setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
         }
     }
-    
+
     /**
      * Filter by study.
-     *
-     * @param studyParticipantIdentifier the study Participant Identifier
+     * <p/>
+     * //     * @param studyParticipantIdentifier the study Participant Identifier
      */
     public void filterByStudyParticipantAssignmentId(Integer studyParticipantAssignmentId) {
         if (studyParticipantAssignmentId != null) {
-        	leftJoin("p.studyParticipantAssignments as spa");
+            leftJoin("p.studyParticipantAssignments as spa");
             andWhere("spa.id = :id");
             setParameter("id", studyParticipantAssignmentId);
         }
@@ -205,10 +220,10 @@ public class ParticipantQuery extends AbstractQuery {
      *
      * @param userNumber the userNumber
      */
-    public void filterByUserNumber(final String userNumber){
-          if (userNumber != null){
-              andWhere("p.userNumber =:"+USERNUMBER);
-              setParameter(USERNUMBER,userNumber);
+    public void filterByUserNumber(final String userNumber) {
+        if (userNumber != null) {
+            andWhere("p.userNumber =:" + USERNUMBER);
+            setParameter(USERNUMBER, userNumber);
         }
     }
 
@@ -217,11 +232,20 @@ public class ParticipantQuery extends AbstractQuery {
      *
      * @param participantId the Db identifier
      */
-    public void excludeByParticipantId(final Integer participantId){
-          if (participantId != null){
-              andWhere("p.id <> :id");
-              setParameter("id",participantId);
+    public void excludeByParticipantId(final Integer participantId) {
+        if (participantId != null) {
+            andWhere("p.id <> :id");
+            setParameter("id", participantId);
         }
     }
+
+    public Class<Organization> getPersistableClass() {
+        return Organization.class;
+    }
+
+    protected String getObjectIdQueryString() {
+        return "ss.organization.id";
+    }
+
 
 }

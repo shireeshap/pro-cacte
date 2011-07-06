@@ -102,7 +102,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
-        ParticipantQuery query = new ParticipantQuery();
+        ParticipantQuery query = new ParticipantQuery(true);
         query.filterParticipantsWithMatchingText(text);
         query.filterByStudySite(studySiteId);
         return (List<Participant>) find(query);
@@ -110,7 +110,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public List<Participant> findByStudyId(String text, Integer studyId) {
-        ParticipantQuery query = new ParticipantQuery();
+        ParticipantQuery query = new ParticipantQuery(true);
         query.filterParticipantsWithMatchingText(text);
         query.filterByStudy(studyId);
         return (List<Participant>) find(query);
