@@ -986,6 +986,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObje
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectGroupPrivilegeGenerator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectPrivilegeGenerator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/PrivilegeAuthorizationCheck.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/SecurityHelper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/AbstractAfterInvocationProvider.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/ArrayFilterer.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/CollectionFilterer.java -text

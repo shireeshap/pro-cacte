@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.security.SecurityHelper;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -105,19 +106,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) auth.getPrincipal();
-        boolean siteStaff = false;
-        boolean leadStaff = false;
-        for (UserRole userRole : user.getUserRoles()) {
-            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
-                siteStaff = true;
-            } else {
-                leadStaff = true;
-            }
-        }
+        boolean isLeadStaff = SecurityHelper.isUserSiteIndependent();
         ParticipantQuery query;
-        if (leadStaff) {
+        if (isLeadStaff) {
             query = new ParticipantQuery();
         } else {
             query = new ParticipantQuery(true);
@@ -128,19 +119,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public List<Participant> findByStudyId(String text, Integer studyId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) auth.getPrincipal();
-        boolean siteStaff = false;
-        boolean leadStaff = false;
-        for (UserRole userRole : user.getUserRoles()) {
-            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
-                siteStaff = true;
-            } else {
-                leadStaff = true;
-            }
-        }
+        boolean isLeadStaff = SecurityHelper.isUserSiteIndependent();
         ParticipantQuery query;
-        if (leadStaff) {
+        if (isLeadStaff) {
             query = new ParticipantQuery();
         } else {
             query = new ParticipantQuery(true);
