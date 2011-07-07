@@ -33,6 +33,13 @@
             font-size: 8pt;
             padding-right: 10px;
             text-align: right;
+            margin-bottom: 10px;
+        }
+        .pagesLeftdiv {
+            color: #666666;
+            font-size: 8pt;
+            padding-right: 102px;
+            text-align: right;
             margin-bottom: 15px;
         }
     </style>
@@ -116,6 +123,10 @@
     </div>
     <div class="currentPagediv">
         <spring:message code="progress"/>:
+    </div>
+    <div class="pagesLeftdiv">
+         <spring:message code="current.page"/>: ${command.newPageIndex}
+        <spring:message code="pages.left"/>: ${command.totalPages - command.newPageIndex}
     </div>
     <div class="label" style="margin-bottom:10px;">
         <tags:recallPeriodFormatter
