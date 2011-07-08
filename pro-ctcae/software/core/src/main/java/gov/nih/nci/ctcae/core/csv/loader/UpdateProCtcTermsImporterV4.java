@@ -82,6 +82,15 @@ public class UpdateProCtcTermsImporterV4 {
                 ProCtcQuestion ctcQuestion = proCtcQuestions.get(0);
                 ctcQuestion.getProCtcTerm().setGender(gender);
                 ctcQuestion.setQuestionText(question, SupportedLanguageEnum.ENGLISH);
+                if (ctcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
+                    for (ProCtcValidValue proCtcValidValue : ctcQuestion.getValidValues()) {
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
+                            proCtcValidValue.setDisplayOrder(1);
+                        } else {
+                            proCtcValidValue.setDisplayOrder(0);
+                        }
+                    }
+                }
                 StringTokenizer st1 = new StringTokenizer(validValues, "/");
                 Collection<ProCtcValidValue> values = ctcQuestion.getValidValues();
                 Collection<String> validValues1 = new ArrayList();
