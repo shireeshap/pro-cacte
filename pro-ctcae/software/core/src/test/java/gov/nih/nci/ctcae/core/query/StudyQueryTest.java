@@ -42,7 +42,7 @@ public class StudyQueryTest extends TestCase {
     public void testFilterByAssignedIdentifierExactMatch() throws Exception {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterByAssignedIdentifierExactMatch("John");
-        assertEquals("Select study from Study study WHERE study.id in (:objectIds ) AND lower(study.assignedIdentifier) = :assignedIdentifier order by study.shortTitle",
+        assertEquals("Select study from Study study WHERE lower(study.assignedIdentifier) = :assignedIdentifier AND study.id in (:objectIds ) order by study.shortTitle",
                 studyQuery.getQueryString());
         assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", studyQuery.getParameterMap().containsKey("assignedIdentifier"));
@@ -52,7 +52,7 @@ public class StudyQueryTest extends TestCase {
     public void testFilterByLastName() throws Exception {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesByShortTitle("dow");
-        assertEquals("Select study from Study study WHERE lower(study.shortTitle) LIKE :shortTitle AND study.id in (:objectIds ) order by study.shortTitle",
+        assertEquals("Select study from Study study WHERE study.id in (:objectIds ) AND lower(study.shortTitle) LIKE :shortTitle order by study.shortTitle",
                 studyQuery.getQueryString());
         assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", studyQuery.getParameterMap().containsKey("shortTitle"));
@@ -62,9 +62,9 @@ public class StudyQueryTest extends TestCase {
     public void testFilterBySite() throws Exception {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesForStudySite(1);
-        assertEquals("Select study from Study study left join study.studyOrganizations as sso WHERE study.id in (:objectIds ) AND sso.organization.id = :organizationId AND sso.class = :studySite order by study.shortTitle",
+        assertEquals("Select study from Study study left join study.studyOrganizations as sso WHERE (sso.class = :studySite or sso.class = :leadSite ) AND sso.organization.id = :organizationId AND study.id in (:objectIds ) order by study.shortTitle",
                 studyQuery.getQueryString());
-        assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 2);
+        assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 3);
 
     }
 
