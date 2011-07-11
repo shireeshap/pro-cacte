@@ -11,14 +11,14 @@ public class CrfStatusTest extends TestCase {
         CrfStatus status = CrfStatus.DRAFT;
         assertEquals("Draft", status.toString());
         status = CrfStatus.RELEASED;
-        assertEquals("Released", status.toString());
+        assertEquals("Final", status.toString());
         status = CrfStatus.INPROGRESS;
         assertEquals("In-progress", status.toString());
     }
 
     public void testGetByCode() {
         assertEquals(CrfStatus.DRAFT, CrfStatus.getByCode("Draft"));
-        assertEquals(CrfStatus.RELEASED, CrfStatus.getByCode("Released"));
+        assertEquals(CrfStatus.RELEASED, CrfStatus.getByCode("Final"));
         assertEquals(CrfStatus.INPROGRESS, CrfStatus.getByCode("In-progress"));
 
     }
