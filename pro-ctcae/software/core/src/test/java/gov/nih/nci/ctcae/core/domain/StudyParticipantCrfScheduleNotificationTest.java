@@ -14,7 +14,7 @@ public class StudyParticipantCrfScheduleNotificationTest extends TestCase {
     public void testConstructor() {
         studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
         assertNull(studyParticipantCrfScheduleNotification.getId());
-        assertNull(studyParticipantCrfScheduleNotification.getCreationDate());
+        assertNotNull(studyParticipantCrfScheduleNotification.getCreationDate());
         assertNull(studyParticipantCrfScheduleNotification.getCompletionDate());
         assertFalse(studyParticipantCrfScheduleNotification.isMailSent());
         assertEquals(CrfStatus.SCHEDULED, studyParticipantCrfScheduleNotification.getStatus());
@@ -59,7 +59,7 @@ public class StudyParticipantCrfScheduleNotificationTest extends TestCase {
         assertEquals(studyParticipantCrfScheduleNotification, studyParticipantCrfScheduleNotification);
 
         studyParticipantCrfScheduleNotification.setCreationDate(d);
-        assertFalse(studyParticipantCrfScheduleNotification.equals(studyParticipantCrfScheduleNotification2));
+        assertTrue(studyParticipantCrfScheduleNotification.equals(studyParticipantCrfScheduleNotification2));
         studyParticipantCrfScheduleNotification2.setCreationDate(d);
         assertEquals(studyParticipantCrfScheduleNotification.hashCode(), studyParticipantCrfScheduleNotification2.hashCode());
         assertEquals(studyParticipantCrfScheduleNotification, studyParticipantCrfScheduleNotification2);
