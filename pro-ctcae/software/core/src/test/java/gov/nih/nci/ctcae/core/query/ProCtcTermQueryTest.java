@@ -25,8 +25,8 @@ public class ProCtcTermQueryTest extends TestCase {
     public void testFilterByCtcTermId() {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermId(1);
-        assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues WHERE " +
-        		"o.ctcTerm.category.ctc.name = :ctcName AND o.ctcTerm.id = :ctcTermId", query.getQueryString());
+        assertEquals("SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues " +
+                "WHERE o.ctcTerm.id = :ctcTermId AND o.ctcTerm.category.ctc.name = :ctcName", query.getQueryString());
     }
 
     public void testFilterByTerm() {
