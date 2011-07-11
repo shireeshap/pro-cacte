@@ -795,6 +795,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/031_update_sp_crf_
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/032_drop_column_replaced_by_vocab.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/033_add_roles_privileges.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/034_alter_seq_value_vocab.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/035_alter_participant_userid.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/036_drop_cca_privilege.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
