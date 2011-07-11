@@ -233,6 +233,14 @@ a#logo:active {
 background-position: 0px -200px;
 }
 */
+
+a:focus { 
+    outline: none; 
+}
+button:focus { 
+    outline: none; 
+}
+
 #welcome-user {
     margin-left: 243px;
     margin-top: 20px;
@@ -240,45 +248,57 @@ background-position: 0px -200px;
 }
 
 #logout {
-    background-image: url(../images/blue/logout_tab.png);
+    background: url(../images/blue/header-btns.png) no-repeat -84px 0;
     position: absolute;
-    height: 30px;
-    width: 75px;
-    top: 0px;
-    right: -9px;
-    padding-top: 2px;
+    height: 21px;
+    width: 81px;
+    top: 6px;
+    right: 0px;
+    padding-top: 5px;
+    padding-right: 12px;
     background-repeat: no-repeat;
-    text-align: center;
+    text-align: right;
     margin-right: 15px;
     color: #ffffff;
     font-weight: bold;
     text-decoration: none;
-    font-size: 0.85em;
+    font-size: 12px;
+    text-shadow: 0 -1px #004a94;
 }
 
 #home {
-    background-image: url(../images/blue/logout_tab.png);
+    background: url(../images/blue/header-btns.png) no-repeat 0 0 ;
     position: absolute;
-    height: 30px;
-    width: 75px;
-    top: 0px;
-    right: 60px;
-    padding-top: 2px;
+    height: 21px;
+    width:71px;
+    top: 6px;
+    right: 108px;
+    padding-top: 5px;
+    padding-right: 13px;
     background-repeat: no-repeat;
-    text-align: center;
-    margin-right: 15px;
+    text-align: right;
     color: #ffffff;
     font-weight: bold;
     text-decoration: none;
-    font-size: 0.85em;
+    font-size: 12px;
+    text-shadow: 0 -1px #004a94;
 }
 
 a#logout:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    background-position:-84px -26px;
 }
 
 a#home:hover {
-    text-decoration: underline;
+    background-position:0 -26px;
+}
+a#logout:active{
+    text-decoration: none;
+    background-position:-84px -52px;
+}
+
+a#home:active {
+    background-position:0 -52px;
 }
 
 #skipnav {
@@ -751,10 +771,10 @@ ul.tabs li {
 }
 
 .box .header h2 {
-    color: #333366;
+    color: #006cd7;
     margin: 0;
-    font-size: 1.7em;
-    padding-top: 6px;
+    font-size: 23px;
+    padding-top: 10px;
     padding-right: 20px;
     padding-left: 20px;
     font-weight: normal;
@@ -1169,6 +1189,7 @@ img.indicator {
     padding-left: 14px;
     position: relative;
     padding-top: 4px;
+    margin-bottom: 10px;
 }
 
 .formbuilderboxTable {
@@ -1176,22 +1197,24 @@ img.indicator {
     width: 100%;
 }
 
+.formbuilderboxTable input {display: none}
+
 .TL {
     width: 12px;
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/TL.png);
     background-repeat: no-repeat;
 }
 
 .T {
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/T.png);
     background-repeat: repeat-x;
 }
 
 .TR {
     width: 14px;
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/TR.png);
     background-repeat: no-repeat;
 }
@@ -1203,7 +1226,7 @@ img.indicator {
 }
 
 .formbuilderboxContent {
-    background-color: #F4F6FA;
+    background-color: #FFF;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -1216,20 +1239,20 @@ img.indicator {
 
 .BL {
     width: 12px;
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/BL.png);
     background-repeat: no-repeat;
 }
 
 .B {
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/B.png);
     background-repeat: repeat-x;
 }
 
 .BR {
     width: 14px;
-    height: 15px;
+    height: 14px;
     background-image: url(/proctcae/images/blue/formbuilderBox/BR.png);
     background-repeat: no-repeat;
 }
@@ -1605,15 +1628,61 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     margin-left: 25px;
 }
 
-.norm {
-    background: none;
+.formbuilderboxContent td {
+	display: table-cell;
+	
+	}
+
+.formbuilderboxContent .label {
+	
+	margin: 0 10px 0 0;
+	}
+	
+.formbuilderboxTable .norm {
+	display: table-cell;
+	
+	}	
+
+.norm .label {
+    background: url(/proctcae/images/lightgray.png) repeat-x ;
     cursor: default;
+    text-shadow: 0 1px white;
+    border: 1px solid #d6d6d6;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0px 30px;
+    text-align: center;
+    line-height: 19px;
+    height: 47px;
+    max-height: 47px;
+    -moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0 1px 1px white inset;
+	-webkit-box-shadow: 0 1px 1px white inset;
+	box-shadow: 0 1px 1px white inset;
+    
 }
 
-.over {
-    background: #3399ff;
+.over .label {
+    background: url(/proctcae/images/lightgreen.png) repeat-x ;
     cursor: pointer;
-    color: white;
+    color: #245808;
+    text-shadow: 0 1px white;
+    border: 1px solid #86bc56;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0px 30px;
+    text-align: center;
+    line-height: 19px;
+    height: 47px;
+    max-height: 47px;
+    -moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0 1px 1px white inset;
+	-webkit-box-shadow: 0 1px 1px white inset;
+	box-shadow: 0 1px 1px white inset;
 }
 
 .addall {

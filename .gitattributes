@@ -346,6 +346,7 @@ pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/validation.
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window.js -text
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_effects.js -text
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_ext.js -text
+pro-ctcae/software/.project -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/PROCTCAE_Dialplan.conf -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/Record-Test_dialplan.conf -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/chan_dahdi.conf -text
@@ -1951,6 +1952,7 @@ pro-ctcae/software/web/src/main/webapp/images/disk_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/error-yellow.png -text
 pro-ctcae/software/web/src/main/webapp/images/error.png -text
 pro-ctcae/software/web/src/main/webapp/images/fg-menu_spinner_bar.gif -text
+pro-ctcae/software/web/src/main/webapp/images/green-selected.png -text
 pro-ctcae/software/web/src/main/webapp/images/i-bottom.gif -text
 pro-ctcae/software/web/src/main/webapp/images/i-repeater.gif -text
 pro-ctcae/software/web/src/main/webapp/images/indicator.white.gif -text
@@ -1972,6 +1974,8 @@ pro-ctcae/software/web/src/main/webapp/images/jQuery-theme/ui-icons_cd0a0a_256x2
 pro-ctcae/software/web/src/main/webapp/images/jQuery-theme/ui-icons_ffffff_256x240.png -text
 pro-ctcae/software/web/src/main/webapp/images/keyboard.png -text
 pro-ctcae/software/web/src/main/webapp/images/l.gif -text
+pro-ctcae/software/web/src/main/webapp/images/lightgray.png -text
+pro-ctcae/software/web/src/main/webapp/images/lightgreen.png -text
 pro-ctcae/software/web/src/main/webapp/images/menu.png -text
 pro-ctcae/software/web/src/main/webapp/images/minus.gif -text
 pro-ctcae/software/web/src/main/webapp/images/page-file.png -text

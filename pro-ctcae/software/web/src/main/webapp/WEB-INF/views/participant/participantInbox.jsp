@@ -40,10 +40,25 @@
         }
 
         #inboxTitle {
-            color: #003E7C;
-            position: absolute;
-            left: 150px;
-            top: 39px;
+            color: #333;
+            height: 75px;
+        }
+        
+        #inboxTitle .bolder {
+        	font-weight: bold;
+        	color:#004a93
+        }
+        
+        #inboxTitle h1 {
+        	font-size:37px;
+        	color: #004a93; 
+        	margin: 0;
+        	padding: 0;
+        }
+        
+        #inboxTitle img {
+        float: left;
+        margin: 15px 15px 0 10px;
         }
     </style>
 
@@ -67,18 +82,20 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<img style=" position:relative; left:-10px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
 
-<div id="inboxTitle"><span style="font-size:75px; line-height:70px;"><tags:message code="participant.box.inbox"/></span><br/>
-	<span style="font-size:13pt; margin-left:6px;">
+<div id="inboxTitle">
+<img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+
+<h1><tags:message code="participant.box.inbox"/></h1>
+	<span style="font-size:13pt; margin-left:10px;">
     <c:choose>
         <c:when test="${not empty numberofCrfs}">
             <c:if test="${numberofCrfs != 1}"><tags:message
-                    code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message
+                    code="participant.youHave"/>&nbsp;<span class="bolder">${numberofCrfs}</span><tags:message
                     code="participant.messageEndingPlural"/></c:if>
             <c:if test="${numberofCrfs == 1}"><tags:message
-                    code="participant.youHave"/>&nbsp;<span style="font-weight:bolder;">${numberofCrfs}</span>&nbsp;<tags:message
+                    code="participant.youHave"/>&nbsp;<span class="bolder">${numberofCrfs}</span><tags:message
                     code="participant.messageEndingSingular"/></c:if>
         </c:when>
         <c:otherwise><tags:message code="participant.noformsmessage"/>
