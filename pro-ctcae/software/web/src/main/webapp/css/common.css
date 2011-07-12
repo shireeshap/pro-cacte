@@ -147,10 +147,7 @@ body {
 }
 
 .hr {
-    background-color: #999999;
-    height: 2px;
-    margin-right: 4px;
-    margin-left: 20px;
+    
 }
 
 a img {
@@ -264,6 +261,7 @@ button:focus {
     text-decoration: none;
     font-size: 12px;
     text-shadow: 0 -1px #004a94;
+    
 }
 
 #home {
@@ -773,7 +771,7 @@ ul.tabs li {
 .box .header h2 {
     color: #006cd7;
     margin: 0;
-    font-size: 23px;
+    font-size: 22px;
     padding-top: 10px;
     padding-right: 20px;
     padding-left: 20px;

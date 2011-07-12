@@ -29,14 +29,37 @@
         }
 
         #inboxTable {
-            width: 80%;
+            width: 952px;
             border: 0;
-            margin-left: 20px;
+            margin-left: -4px;
             border-collapse: collapse;
+            margin-bottom: 3px;
         }
 
         #inboxTable th {
-            background-color: #CBD9E4;
+            background: url(../../images/table/inboxtable_th.png) repeat-x top;
+            padding: 10px 10px 10px 20px;
+            font-size: 16px;
+            color: #000;
+            text-shadow: 0 1px #fff;
+            border-top: 1px solid lightgray;
+        }
+        
+        #inboxTable td {
+        	padding: 10px 10px 10px 20px;
+        	
+        }
+        
+        #inboxTable tr {
+        	background: url(../../images/table/inboxtable_tr.png) repeat-x top;
+        	border-bottom: 1px solid lightgray;
+        	text-shadow: 0 1px white;
+        	color: #333;
+        	font-size: 16px;
+        }	
+        
+        #inboxTable tr:hover {
+        	background-position: 0 -43px;
         }
 
         #inboxTitle {
@@ -145,6 +168,9 @@
                             <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                             </td>
+                            <td>
+                            <a href="#" class="btn small-green"><span>Start</span></a>  
+                            </td>
                         </tr>
                     </c:if>
                 </c:forEach>
@@ -200,6 +226,8 @@
                                 <td>
                                     <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                                 </td>
+                                <td>
+                            	</td>
                             </tr>
                         </c:if>
                     </c:forEach>
