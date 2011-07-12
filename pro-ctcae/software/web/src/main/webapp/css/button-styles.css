@@ -1,0 +1,55 @@
+/* remove ff link outline */
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    border: none;
+}
+a:focus { 
+    outline: none; 
+}
+button:focus { 
+    outline: none; 
+}
+
+
+/* Button styles */
+.btn {cursor: pointer;}
+.btn img {margin-left: 4px; vertical-align: middle}
+
+/* Small Button styles */
+
+.btn.small-green  {display:inline-block; height:28px; padding-right:12px; background:url(../images/small-green_btn.png) 100% 0px no-repeat; }
+.btn.small-green span {display:block; padding:3px 13px 3px 20px; font-size:18px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #2e6112; background:transparent url(../images/small-green_btn.png) 0 0 no-repeat; }
+.btn.small-green:hover { background-position:100% -28px;}
+.btn.small-green:hover span { background-position:0 -28px;}
+.btn.small-green:active { background-position:100% -56px;}
+.btn.small-green:active span { background-position:0 -56px;}
+
+
+/* Big Button styles */
+
+.btn.big-green  {display:inline-block; height:40px; padding-right:15px; background:url(../images/biggreen_btn.png) 100% 0px no-repeat; }
+.btn.big-green span {display:block; padding:7px 13px 6px 25px; font-size:22px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #2e6112; background:transparent url(../images/biggreen_btn.png) 0 0 no-repeat; }
+.btn.big-green:hover { background-position:100% -40px;}
+.btn.big-green:hover span { background-position:0 -40px;}
+.btn.big-green:active { background-position:100% -80px;}
+.btn.big-green:active span { background-position:0 -80px;}
+
+
+.btn.big-blue-left  {display:inline-block; height:40px; padding-left:15px; background:url(../images/btn-blue_left.png) 0 0px no-repeat; }
+.btn.big-blue-left span {display:block; padding:7px 25px 6px 18px; font-size:22px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #277fa4; background:transparent url(../images/btn-blue_left.png) 100% 0 no-repeat; }
+.btn.big-blue-left:hover { background-position:0 -40px;}
+.btn.big-blue-left:hover span { background-position:100% -40px;}
+.btn.big-blue-left:active { background-position:0 -80px;}
+.btn.big-blue-left:active span { background-position:100% -80px;}
+
+/* Huge Button styles */
+
+.btn.huge-green  {display:inline-block; height:59px; padding-right:23px; background:url(../images/btn-green-lrg_right.png) 100% 0px no-repeat; }
+.btn.huge-green span {display:block; padding:10px 23px 6px 35px; font-size:32px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #2e6112; background:transparent url(../images/btn-green-lrg_right.png) 0 0 no-repeat; }
+.btn.huge-green:hover { background-position:100% -59px;}
+.btn.huge-green:hover span { background-position:0 -59px;}
+.btn.huge-green:active { background-position:100% -118px;}
+.btn.huge-green:active span { background-position:0 -118px;}
