@@ -2,6 +2,11 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
+import org.springframework.context.NoSuchMessageException;
+
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +26,20 @@ public class FirstLastNameValidatorTest extends AbstractTestCase {
     public void setUp() throws Exception{
         super.setUp();
         validator = new FirstAndLastNameValidator();
+        MessageSource messageSource = new MessageSource() {
+            public String getMessage(String s, Object[] objects, String s1, Locale locale) {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getMessage(String s, Object[] objects, Locale locale) throws NoSuchMessageException {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getMessage(MessageSourceResolvable messageSourceResolvable, Locale locale) throws NoSuchMessageException {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        } ;
+        validator.setMessageSource(messageSource);
         clinicalStaff = new ClinicalStaff();
 
     }
