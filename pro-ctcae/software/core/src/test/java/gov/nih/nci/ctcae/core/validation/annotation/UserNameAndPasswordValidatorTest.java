@@ -9,9 +9,13 @@ import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
+import org.springframework.context.NoSuchMessageException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -32,6 +36,7 @@ public class UserNameAndPasswordValidatorTest extends AbstractTestCase {
     PasswordPolicy passwordPolicy;
     PasswordCreationPolicy passwordCreationPolicy;
     CombinationPolicy combinationPolicy;
+    MessageSource messageSource;
 
     public void UserNameAndPasswordValidatorTest(){
 
@@ -40,6 +45,21 @@ public class UserNameAndPasswordValidatorTest extends AbstractTestCase {
     public void setUp() throws Exception{
         super.setUp();
         validator = new UserNameAndPasswordValidator();
+        messageSource = new MessageSource() {
+            public String getMessage(String s, Object[] objects, String s1, Locale locale) {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getMessage(String s, Object[] objects, Locale locale) throws NoSuchMessageException {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getMessage(MessageSourceResolvable messageSourceResolvable, Locale locale) throws NoSuchMessageException {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        } ;
+
+        validator.setMessageSource(messageSource);
         userRepository = registerMockFor(UserRepository.class);
         validator.setUserRepository(userRepository);
         passwordPolicyService = registerMockFor(PasswordPolicyService.class);
@@ -80,7 +100,7 @@ public class UserNameAndPasswordValidatorTest extends AbstractTestCase {
         String role="PARTICIPANT";
         expect(passwordPolicyService.getPasswordPolicy(Role.getByCode(role))).andReturn(passwordPolicy).anyTimes();
         replayMocks();
-        assertSame("The password should have at least one lower case letter",validator.validatePasswordPolicyDwr("PARTICIPANT","SSSSSS","RESHMA"));
+        assertNull(validator.validatePasswordPolicyDwr("PARTICIPANT","SSSSSS","RESHMA"));
     }
 
     public void testValidatePasswordPolicyDwrSITE_PIError(){
