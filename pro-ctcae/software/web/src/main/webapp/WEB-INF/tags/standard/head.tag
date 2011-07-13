@@ -8,6 +8,9 @@
 <tags:stylesheetLink name="common"/>
 <tags:stylesheetLink name="fields"/>
 <tags:stylesheetLink name="buttons"/>
+<tags:stylesheetLink name="button-styles"/>
+<tags:stylesheetLink name="login"/>
+
 
 
 <!--[if IE]>

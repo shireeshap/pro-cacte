@@ -10,9 +10,9 @@ body {
   padding:0;
 }
 
-a {border: none; text-decoration:none;color:#0b9dce; outline: 0}
+#login a {border: none; text-decoration:none;color:#0b9dce; outline: 0}
 
-a:hover {color: #4ed3ff}
+#login a:hover {color: #4ed3ff}
 input:focus {outline: none;}
 img {border:none}
 
@@ -74,7 +74,7 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
 	margin: 0px 39% 15px 39%;	
 }
 
-input {
+#login input {
 	width: 358px;
 	margin:0 auto 15px auto;
 	color: #818181;
@@ -91,13 +91,13 @@ input {
 	border: 1px solid #ccc;
 }
 
-input.username {background: url(../images/username.png) no-repeat 0 -52px; }
-input.password {background: url(../images/password.png) no-repeat 0 -52px;}
+#login input.username {background: url(../images/username.png) no-repeat 0 -52px; }
+#login input.password {background: url(../images/password.png) no-repeat 0 -52px;}
 
-input.username:hover, input.password:hover {
+#login input.username:hover, input.password:hover {
 	background-position:left top;	
 }
-input.username:focus, input.password:focus {
+#login input.username:focus, input.password:focus {
 	color:#247891;
 	background-position:left top;
 }

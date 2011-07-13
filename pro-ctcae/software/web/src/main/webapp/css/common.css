@@ -15,6 +15,10 @@ body {
     background-color: #006cd7;
 }
 
+a {border: none; text-decoration:none;color:#0b9dce; outline: 0}
+
+a:hover {color: #0163C6}
+
 #proctcae-background {
     background: transparent url(../images/blue/wide_header_bg.jpg) no-repeat scroll center center;
     height: 650px;
@@ -245,7 +249,7 @@ button:focus {
 }
 
 #logout {
-    background: url(../images/blue/header-btns.png) no-repeat -84px 0;
+    background: url(../images/blue/header-btns.png) no-repeat -84px -26px;
     position: absolute;
     height: 21px;
     width: 81px;
@@ -256,16 +260,16 @@ button:focus {
     background-repeat: no-repeat;
     text-align: right;
     margin-right: 15px;
-    color: #ffffff;
+    color: #085EB3;
     font-weight: bold;
     text-decoration: none;
     font-size: 12px;
-    text-shadow: 0 -1px #004a94;
+    text-shadow: 0 1px #fff;
     
 }
 
 #home {
-    background: url(../images/blue/header-btns.png) no-repeat 0 0 ;
+    background: url(../images/blue/header-btns.png) no-repeat 0 -26px ;
     position: absolute;
     height: 21px;
     width:71px;
@@ -275,28 +279,28 @@ button:focus {
     padding-right: 13px;
     background-repeat: no-repeat;
     text-align: right;
-    color: #ffffff;
+    color: #085EB3;
     font-weight: bold;
     text-decoration: none;
     font-size: 12px;
-    text-shadow: 0 -1px #004a94;
+    text-shadow: 0 1px #fff;
 }
 
 a#logout:hover {
     text-decoration: none;
-    background-position:-84px -26px;
-}
-
-a#home:hover {
-    background-position:0 -26px;
-}
-a#logout:active{
-    text-decoration: none;
     background-position:-84px -52px;
 }
 
-a#home:active {
+a#home:hover {
     background-position:0 -52px;
+}
+a#logout:active{
+    text-decoration: none;
+    background-position:-84px 0;
+}
+
+a#home:active {
+    background-position:0 0;
 }
 
 #skipnav {

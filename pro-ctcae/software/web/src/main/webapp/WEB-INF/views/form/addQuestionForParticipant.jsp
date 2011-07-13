@@ -33,10 +33,7 @@
     <tags:includePrototypeWindow/>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-        body {
-            font-family: Arial;
-        }
-
+        
         * {
             zoom: 1;
         }
@@ -58,6 +55,27 @@
             overflow-x: hidden; /* set scrolling */
             _height: 30em; /* ie6 */
         }
+        
+        
+        
+        #mytable td {
+        	height:65px;
+        	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x ;
+        	border: 1px solid lightgray;
+        	padding: 5px 15px 5px 40px;
+        	-moz-border-radius: 8px;
+        	-webkit-border-radius: 8px;
+        	border-radius: 8px;
+        	text-shadow: 0 1px white;
+        	vertical-align: middle;
+        	
+        }
+        
+        #mytable td input {
+        	display: none;
+        }
+        
+        p {font-size: 18px;}
 
     </style>
     <tags:includeScriptaculous/>
@@ -210,7 +228,7 @@
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>
         </p>
-        <table id="mytable">
+        <table id="mytable" cellspacing="13">
             <tbody>
             <c:set var="numrows" value="${numrows}"/>
             <c:set var="displaySymptoms" value="${command.displaySymptoms}"/>
@@ -218,15 +236,15 @@
                 <c:if test="${displaySymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
-                            <td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">
-                                <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
+                            
+                            <td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">
+                            <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
                                            value="${displaySymptoms[i + (numrows+1)*j]}"
                                            onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"
                                            id="${i + (numrows+1)*j}"/>
                                 </c:if>
-                            </td>
-                            <td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">
+                            
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}"
                                          class="label">${displaySymptoms[i + (numrows+1)*j]}</div>

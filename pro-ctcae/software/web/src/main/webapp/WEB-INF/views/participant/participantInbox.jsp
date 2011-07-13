@@ -46,7 +46,7 @@
         }
         
         #inboxTable td {
-        	padding: 10px 10px 10px 20px;
+        	padding: 8px 10px 7px 20px;
         	
         }
         
@@ -169,7 +169,7 @@
                                 <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                             </td>
                             <td>
-                            <a href="#" class="btn small-green"><span>Start</span></a>  
+                            <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}" class="btn small-green"><span>Start</span></a>  
                             </td>
                         </tr>
                     </c:if>
