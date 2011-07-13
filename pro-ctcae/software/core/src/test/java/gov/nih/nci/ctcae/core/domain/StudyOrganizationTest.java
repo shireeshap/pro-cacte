@@ -54,7 +54,7 @@ public class StudyOrganizationTest extends TestCase {
         studySite = new StudySite();
 
         anotherStudySite.setId(1);
-        studySite.setId(2);
+        studySite.setId(1);
         assertEquals("must not consider id", anotherStudySite, studySite);
         assertEquals("must not consider id", anotherStudySite.hashCode(), studySite.hashCode());
 
