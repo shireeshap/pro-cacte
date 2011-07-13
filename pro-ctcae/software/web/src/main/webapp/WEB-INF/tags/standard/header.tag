@@ -99,5 +99,19 @@
         </div>
 
     </div>
+    
+    <div id="logout_warning" style="display:none;text-align:left;padding-left:10px; width:410px;">
+	    <p>
+	        <font size="3"> <tags:message code="instruction_logout_warning" /></font>
+	    </p>
+	    <div class="content buttons autoclear" style="margin-top:20px; width:400px;">
+	        <div class="flow-buttons">
+	            <span class="next">
+	                <tags:button color="blue" value="Keep Working" type="submit" onclick="logOutOKClicked();"></tags:button>
+	            </span>
+	        </div>
+	    </div>
+	</div>
+	
 </div>
 <!-- end header -->

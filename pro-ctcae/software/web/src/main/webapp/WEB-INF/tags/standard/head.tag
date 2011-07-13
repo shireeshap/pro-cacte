@@ -12,7 +12,6 @@
 <tags:stylesheetLink name="login"/>
 
 
-
 <!--[if IE]>
 <tags:stylesheetLink name="ie"/>
 <![endif]-->
@@ -57,7 +56,7 @@
 
 
 <tags:javascriptLink name="extremecomponents"/>
-
+<tags:javascriptLink name="logmeout"/>
 
 <tags:javascriptLink name="lightwindow/lightwindow"/>
 <tags:stylesheetLink name="lightwindow"/>
