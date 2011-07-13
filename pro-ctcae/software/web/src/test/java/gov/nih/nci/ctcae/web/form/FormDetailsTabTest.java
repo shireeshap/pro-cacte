@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CtcCategory;
 import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcTermVocab;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -64,6 +65,12 @@ public class FormDetailsTabTest extends WebTestCase {
         proCtcTerm3 = new ProCtcTerm();
         proCtcTerm4 = new ProCtcTerm();
         proCtcTerm5 = new ProCtcTerm();
+
+        proCtcTerm1.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm2.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm3.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm4.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm5.setProCtcTermVocab(new ProCtcTermVocab());
 
         proCtcTerm1.setCtcTerm(ctcTerm3);
         proCtcTerm2.setCtcTerm(ctcTerm2);
