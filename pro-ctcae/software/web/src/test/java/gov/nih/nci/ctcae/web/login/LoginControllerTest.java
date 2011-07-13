@@ -35,7 +35,7 @@ public class LoginControllerTest extends AbstractWebTestCase {
         LoginController controller = new LoginController();
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertTrue(mv.getView() instanceof RedirectView);
-        assertEquals("participant/participantInbox", ((RedirectView) mv.getView()).getUrl());
+        assertEquals("participant/participantInbox?lang=en", ((RedirectView) mv.getView()).getUrl());
     }
 
     public void testAdminLogin() throws Exception {
