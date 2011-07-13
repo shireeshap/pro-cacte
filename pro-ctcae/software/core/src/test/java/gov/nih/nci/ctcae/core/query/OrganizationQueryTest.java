@@ -47,7 +47,7 @@ public class OrganizationQueryTest extends TestCase {
         organizationQuery.filterByOrganizationName("a");
 
         assertEquals(
-                "SELECT distinct(o) from Organization o WHERE o.id in (:objectIds ) AND lower(o.name) LIKE :name order by o.id",
+                "SELECT distinct(o) from Organization o WHERE lower(o.name) LIKE :name AND o.id in (:objectIds ) order by o.id",
                 organizationQuery.getQueryString());
 
         assertEquals("wrong number of parameters", organizationQuery.getParameterMap().size(), 1);
