@@ -248,6 +248,61 @@ button:focus {
     color: white;
 }
 
+.text-sizer {
+		height: 26px;
+		text-shadow: 0 1px white;
+		font-weight: bold;
+		font-family: "Lucida Grande", sans-serif;	
+		
+	}
+	.text-sizer ul {list-style-type: none; margin: 0; padding:0;}
+	.text-sizer ul li {}
+	
+	.text-sizer li.left a, .text-sizer li.middle a, .text-sizer li.right a {
+		background:url(../images/text-sizer_bg.png) repeat-x top;
+		color:#0f6fe0;
+		text-decoration:none;
+		display:block;
+		float: left;
+		-moz-box-shadow: 0 1px white inset;
+		-webkit-box-shadow: 0 1px white inset;
+		box-shadow: 0 1px white inset;
+	}
+	.text-sizer li.left a:hover, .text-sizer li.middle a:hover, .text-sizer li.right a:hover {
+		background-position: 0 -26px;	
+	}
+	.text-sizer li.left a:active, .text-sizer li.middle a:active, .text-sizer li.right a:active {
+		background-position: 0 -52px;	
+	}
+	
+	.text-sizer li.current a {
+		background:url(../images/text-sizer_bg.png) repeat-x 0 -52px;
+	}
+	
+	.text-sizer li.left a {
+		font-size: 10px;
+		padding: 6px 12px;
+		-moz-border-radius: 8px 0 0 8px;
+		-webkit-border-radius: 8px 0 0 8px;
+		border-radius: 8px 0 0 8px;
+		border: 1px solid lightgray;	
+	}
+	.text-sizer li.middle a {
+		font-size: 15px;
+		padding: 3px 12px;	
+		border: 1px solid lightgray;
+		border-left: 1px solid white;
+	}
+	.text-sizer li.right a {
+		font-size: 20px;
+		padding: 0px 12px;	
+		border: 1px solid lightgray;
+		border-left: 1px solid white;
+		-moz-border-radius: 0 8px 8px 0;
+		-webkit-border-radius: 0 8px 8px 0;
+		border-radius: 0 8px 8px 0;
+	}
+
 #logout {
     background: url(../images/blue/header-btns.png) no-repeat -84px -26px;
     position: absolute;

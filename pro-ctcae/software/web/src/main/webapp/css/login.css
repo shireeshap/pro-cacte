@@ -102,22 +102,22 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
 	background-position:left top;
 }
 
-.left {
+#login .left {
    float: left;
   margin:5px 0 0 150px;
 }
-.right {
+#login .right {
   float: right;
   margin: 5px 150px 0 0;
 }
 
-.left a, .right a {
+#login .left a, .right a {
 	text-decoration: none;
   	color: #25aae1;
   	border-bottom: 1px dotted #25aae1;	
 }
 
-.left a:hover, .right a:hover {
+#login .left a:hover, .right a:hover {
 	text-decoration: none;
   	color: #6acdf6;
   	border-bottom: 1px solid #6acdf6;

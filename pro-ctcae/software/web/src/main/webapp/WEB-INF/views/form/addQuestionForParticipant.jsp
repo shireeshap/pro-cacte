@@ -59,7 +59,7 @@
         
         
         #mytable td {
-        	height:65px;
+        	min-height:65px;
         	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x ;
         	border: 1px solid lightgray;
         	padding: 5px 15px 5px 40px;
