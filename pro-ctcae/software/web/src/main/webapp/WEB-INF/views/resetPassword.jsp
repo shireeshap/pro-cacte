@@ -26,8 +26,9 @@
     <c:otherwise>
         <form:form method="post">
         	<spring:message code="rp.title" var="rpTitle" />
+        	<spring:message code="rp.passwordPolicy" var="passwordPolicy" />
             <chrome:box title="${rpTitle}" autopad="true">
-                <chrome:division title="Password Policy">
+                <chrome:division title="${passwordPolicy}">
                      <spring:message code="rp.minlength" />${passwordPolicy.passwordCreationPolicy.minPasswordLength}
                 <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired}">
                     <spring:message code="rp.uppercase" />
