@@ -25,6 +25,7 @@ public class CreateFormCommandTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         command = new CreateFormCommand();
+        command.setCrfPageNumbers("0,1");
         command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
 
@@ -68,7 +69,7 @@ public class CreateFormCommandTest extends WebTestCase {
         proCtcTerm1.addProCtcQuestion(thirdQuestion);
 
         proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm1.setTermEnglish("Constipation", SupportedLanguageEnum.ENGLISH);
+        proCtcTerm2.setTermEnglish("Constipation", SupportedLanguageEnum.ENGLISH);
         proCtcTerm2.addProCtcQuestion(fourthQuestion);
         proCtcTerm2.addProCtcQuestion(sixthQuestion);
 
