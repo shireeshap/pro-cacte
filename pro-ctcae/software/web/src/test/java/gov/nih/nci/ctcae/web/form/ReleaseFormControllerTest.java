@@ -56,7 +56,7 @@ public class ReleaseFormControllerTest extends WebTestCase {
         request.setMethod("POST");
         expect(crfRepository.findById(null)).andReturn(crf).anyTimes();
         expect(crfRepository.save(crf)).andReturn(crf).anyTimes();
-        expect(crfRepository.updateStatusToReleased(crf)).andReturn(null);
+        expect(crfRepository.updateStatusToReleased(crf)).andReturn(crf);
 
         replayMocks();
 
