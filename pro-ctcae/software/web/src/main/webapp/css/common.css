@@ -255,7 +255,7 @@ button:focus {
 		font-family: "Lucida Grande", sans-serif;	
 		
 	}
-	.text-sizer ul {list-style-type: none; margin: 0; padding:0;}
+	.text-sizer ul, .language-toggle ul {list-style-type: none; margin: 0; padding:0;}
 	.text-sizer ul li {}
 	
 	.text-sizer li.left a, .text-sizer li.middle a, .text-sizer li.right a {
@@ -269,7 +269,7 @@ button:focus {
 		box-shadow: 0 1px white inset;
 	}
 	.text-sizer li.left a:hover, .text-sizer li.middle a:hover, .text-sizer li.right a:hover {
-		background-position: 0 -26px;	
+		background-position: 0 -27px;	
 	}
 	.text-sizer li.left a:active, .text-sizer li.middle a:active, .text-sizer li.right a:active {
 		background-position: 0 -52px;	
@@ -277,6 +277,10 @@ button:focus {
 	
 	.text-sizer li.current a {
 		background:url(../images/text-sizer_bg.png) repeat-x 0 -52px;
+		height: 24px;
+		-moz-box-shadow: 0 1px #f3f3f3 inset;
+		-webkit-box-shadow: 0 1px #f3f3f3 inset;
+		box-shadow: 0 1px #f3f3f3 inset;
 	}
 	
 	.text-sizer li.left a {
@@ -285,13 +289,15 @@ button:focus {
 		-moz-border-radius: 8px 0 0 8px;
 		-webkit-border-radius: 8px 0 0 8px;
 		border-radius: 8px 0 0 8px;
-		border: 1px solid lightgray;	
+		border: 1px solid lightgray;
+		height: 12px;	
 	}
 	.text-sizer li.middle a {
 		font-size: 15px;
-		padding: 3px 12px;	
+		padding:3px 12px;	
 		border: 1px solid lightgray;
 		border-left: 1px solid white;
+		height: 18px;
 	}
 	.text-sizer li.right a {
 		font-size: 20px;
@@ -301,6 +307,69 @@ button:focus {
 		-moz-border-radius: 0 8px 8px 0;
 		-webkit-border-radius: 0 8px 8px 0;
 		border-radius: 0 8px 8px 0;
+		height: 24px;
+	
+	}
+	
+	
+	.language-toggle {
+		height: 31px;
+		text-shadow: 0 1px white;
+		font-size: 15px;
+		font-weight: bold;
+		font-family: "Lucida Grande", sans-serif;
+		}
+	.language-toggle li a { border: 1px solid lightgray; background: url(../images/language-toggle.png) repeat-x top; float: left; color: #085EB3;text-decoration: none;}
+	.language-toggle li a:hover {background-position: 0 -31px;}
+	.language-toggle li a:active {
+		background-position: 0 -62px;
+		color:white;
+		text-shadow: 0 -1px #00284e;
+		
+		border:1px solid #003263;
+		}
+	.language-toggle li.left a {
+		padding: 6px 12px;
+		-moz-border-radius: 8px 0 0 8px;
+		-webkit-border-radius: 8px 0 0 8px;
+		border-radius: 8px 0 0 8px;
+		-moz-box-shadow: 0 1px white inset;
+		-webkit-box-shadow: 0 1px white inset;
+		box-shadow: 0 1px white inset;
+		}
+	.language-toggle li.right a {
+		padding: 6px 12px;	
+		border-left: 1px solid white;
+		-moz-border-radius: 0 8px 8px 0;
+		-webkit-border-radius: 0 8px 8px 0;
+		border-radius: 0 8px 8px 0;	
+		-moz-box-shadow: 0 1px white inset;
+		-webkit-box-shadow: 0 1px white inset;
+		box-shadow: 0 1px white inset;
+		}
+		
+	.language-toggle li.right a:active {
+		border-left: none;
+		-moz-box-shadow: 0 0 5px black inset;
+		-webkit-box-shadow: 0 0 5px black inset;
+		box-shadow: 0 0 5px black inset;
+	}
+	.language-toggle li.left a:active {
+		-moz-box-shadow: 0 0 5px black inset;
+		-webkit-box-shadow: 0 0 5px black inset;
+		box-shadow: 0 0 5px black inset;
+	}
+	
+	.language-toggle li.current a {
+		background-position: 0 -62px;
+		color:white;
+		text-shadow: 0 -1px #00284e;
+		-moz-box-shadow: 0 0 8px black inset;
+		-webkit-box-shadow: 0 0 8px black inset;
+		box-shadow: 0 0 8px black inset;
+		border-color: #003263;
+		
+		
 	}
 
 #logout {

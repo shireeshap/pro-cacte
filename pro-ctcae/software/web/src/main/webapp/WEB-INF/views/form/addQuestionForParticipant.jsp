@@ -56,11 +56,8 @@
             _height: 30em; /* ie6 */
         }
         
-        
-        
-        #mytable td {
-        	min-height:65px;
-        	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x ;
+        #mytable td .label {
+        background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x ;
         	border: 1px solid lightgray;
         	padding: 5px 15px 5px 40px;
         	-moz-border-radius: 8px;
@@ -68,6 +65,12 @@
         	border-radius: 8px;
         	text-shadow: 0 1px white;
         	vertical-align: middle;
+        	height:65px;
+        }
+        
+        #mytable td {
+        	height:65px;
+        	
         	
         }
         

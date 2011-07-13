@@ -156,7 +156,7 @@
                     <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
                         <tr>
                             <td>
-                                <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a>
+                                ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
                                 <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
                             </td>
                             <td>
