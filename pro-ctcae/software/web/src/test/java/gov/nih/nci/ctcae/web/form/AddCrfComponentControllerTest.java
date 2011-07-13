@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -32,6 +29,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         controller.setProCtcTermRepository(proCtcTermRepository);
         proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setProCtcTermVocab(new ProCtcTermVocab());
         command = new CreateFormCommand();
 
         firstQuestion = new ProCtcQuestion();
