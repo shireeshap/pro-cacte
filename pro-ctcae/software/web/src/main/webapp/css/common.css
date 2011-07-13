@@ -309,24 +309,29 @@ a#home:active {
 }
 
 #help {
-    background-image: url(../images/blue/logout_tab.png);
+     background: url(../images/blue/header-btns.png) no-repeat 0 -104px ;
     position: absolute;
-    height: 30px;
-    width: 75px;
-    top: 0px;
-    right: 60px;
-    padding-top: 2px;
+    height: 21px;
+    width:66px;
+    top: 6px;
+    right: 108px;
+    padding-top: 5px;
+    padding-right: 13px;
     background-repeat: no-repeat;
-    text-align: center;
-    margin-right: 15px;
-    color: #ffffff;
+    text-align: right;
+    color: #085EB3;
     font-weight: bold;
     text-decoration: none;
-    font-size: 0.85em;
+    font-size: 12px;
+    text-shadow: 0 1px #fff;
 }
 
 a#help:hover {
-    text-decoration: underline;
+    background-position:0 -130px;
+}
+
+a#help:active{
+    background-position:0 -78px;
 }
 
 /***
