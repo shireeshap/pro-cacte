@@ -42,6 +42,28 @@
             text-align: right;
             margin-bottom: 15px;
         }
+        .selected .label {
+            background-image: url(/proctcae/images/green-selected.png);
+            cursor: pointer;
+            color: #245808;
+            text-shadow: 0 1px white;
+            border: 1px solid #86bc56;
+            vertical-align: middle;
+            display: table-cell;
+            padding: 0px 30px;
+            text-align: center;
+            line-height: 19px;
+            height: 47px;
+            max-height: 47px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            -moz-box-shadow: 0 1px 1px white inset;
+            -webkit-box-shadow: 0 1px 1px white inset;
+            box-shadow: 0 1px 1px white inset;
+
+        }
+
     </style>
     <script type="text/javascript">
         var alreadySubmitted = false;
@@ -54,12 +76,17 @@
             }
         }
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion) {
+//            alert(questionIndexOnPage);
+//            alert(validValueIndexForQuestion);
+
             var x = document.getElementsByName('response' + questionIndexOnPage);
             x[validValueIndexForQuestion].checked = true;
             column.onmouseout = function() {
+                column.className = 'selected';
             };
             var elementName = 'currentPageQuestions[' + questionIndexOnPage + '].selectedValidValueId';
             document.myForm.elements[elementName].value = x[validValueIndexForQuestion].value;
+            column.className = 'selected';
             for (var i = 0; i < x.length; i++) {
                 if (i != validValueIndexForQuestion) {
                     try {
@@ -111,6 +138,11 @@
 
 
             }
+        }
+
+        function getClassName(elId, notNullClass, nullClass){
+            if($F(elId)) return notNullClass;
+            return nullClass;
         }
 
     </script>

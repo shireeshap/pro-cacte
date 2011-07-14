@@ -110,5 +110,5 @@ public abstract class ValidValue extends BasePersistable {
     public String getDesc(SupportedLanguageEnum supportedLanguageEnum) {
     	return getValue(supportedLanguageEnum);
     }
-    
+
 }

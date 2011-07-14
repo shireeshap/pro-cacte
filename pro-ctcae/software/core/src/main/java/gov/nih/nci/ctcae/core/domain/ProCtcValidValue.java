@@ -3,13 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * The Class ProCtcValidValue.
@@ -33,6 +27,9 @@ public class ProCtcValidValue extends ValidValue {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proCtcValidValue")
     @JoinColumn(name="pro_ctc_valid_values_id")
     private ProCtcValidValueVocab proCtcValidValueVocab;
+
+    @Column(name = "response_code", nullable = true)
+    protected Integer responseCode;
 
     /**
      * Instantiates a new pro ctc valid value.
@@ -88,5 +85,13 @@ public class ProCtcValidValue extends ValidValue {
 	public void setProCtcValidValueVocab(ProCtcValidValueVocab proCtcValidValueVocab) {
 		this.proCtcValidValueVocab = proCtcValidValueVocab;
 	}
+
+     public Integer getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(Integer responseCode) {
+        this.responseCode = responseCode;
+    }
 
 }

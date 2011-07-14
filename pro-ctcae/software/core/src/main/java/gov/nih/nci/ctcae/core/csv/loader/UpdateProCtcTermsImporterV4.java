@@ -91,6 +91,7 @@ public class UpdateProCtcTermsImporterV4 {
                         }
                     }
                 }
+                setResponseCode(ctcQuestion);
                 StringTokenizer st1 = new StringTokenizer(validValues, "/");
                 Collection<ProCtcValidValue> values = ctcQuestion.getValidValues();
                 Collection<String> validValues1 = new ArrayList();
@@ -228,5 +229,24 @@ public class UpdateProCtcTermsImporterV4 {
 
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    public void setResponseCode(ProCtcQuestion proCtcQuestion) {
+        int j = 0;
+        for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
+            proCtcValidValue.setResponseCode(j);
+            j++;
+        }
+        for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
+            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).toLowerCase().trim().equals("not sexually active")) {
+                proCtcValidValue.setResponseCode(-66);
+            }
+            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).toLowerCase().trim().equals("not applicable")) {
+                proCtcValidValue.setResponseCode(-88);
+            }
+            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).toLowerCase().trim().equals("prefer not to answer")) {
+                proCtcValidValue.setResponseCode(-77);
+            }
+        }
     }
 }
