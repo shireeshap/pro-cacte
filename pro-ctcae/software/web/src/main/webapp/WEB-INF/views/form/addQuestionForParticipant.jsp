@@ -56,21 +56,18 @@
             _height: 30em; /* ie6 */
         }
         
-        #mytable td .labelx {
-       		
-        	
+        #mytable td .label {
+        
         }
         
-         #mytable td .labelx p {
-         	margin:0;
+         #mytable td .label p {
+         	margin:auto;
          	font-size: 20px;
-         	vertical-align: middle;
          	
          }
         
         #mytable td {
         	height:65px;
-        	min-height:65px;
         	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
         	border: 1px solid lightgray;
         	padding: 5px 15px 5px 40px;
@@ -86,7 +83,6 @@
         	color: #245808;
     		text-shadow: 0 1px white;
     		cursor: pointer;
-        	
         }
         
         #mytable td input {
@@ -265,7 +261,7 @@
                             
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}"
-                                         class="labelx"><p>${displaySymptoms[i + (numrows+1)*j]}</p></div>
+                                         class="label"><p>${displaySymptoms[i + (numrows+1)*j]}</p></div>
                                 </c:if>
                             </td>
                         </c:forEach>
