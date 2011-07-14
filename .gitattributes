@@ -1731,6 +1731,7 @@ pro-ctcae/software/web/src/main/webapp/images/blue/conditional-triggering-icon.p
 pro-ctcae/software/web/src/main/webapp/images/blue/continue_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/continue_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/crumpled-paper.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/custom-field.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/down.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/eXtableheader_bg.png -text
@@ -1840,6 +1841,7 @@ pro-ctcae/software/web/src/main/webapp/images/blue/power-btn-hover.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/blue/power-btn-up.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/blue/preview_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/progress-bar.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/progress-bar_bg.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/question_properties_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/report_set_bg.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/reports_btn.png -text
