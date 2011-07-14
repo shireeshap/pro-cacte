@@ -33,13 +33,6 @@ body {
         	<tr>
 	        	<td width="60%"><spring:message code='label.welcome'/>&nbsp;<b><authz:authentication property="name"></authz:authentication></b>
 	        	</td>
-	        	<td width=20%" align="right" valign="top" style="font-size:small;">
-	        		<c:if test="${pageContext.request.requestURI eq '/proctcae/pages/participant/participantInbox'}">
-						    <a href="?lang=en" style="color:white;background-image:none" >English</a>
-						    |
-						    <a href="?lang=es" style="color:white;background-image:none">Spanish</a>
-					</c:if>
-	        	</td>
 	        	<td></td>
         	</tr>
         </table>

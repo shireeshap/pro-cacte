@@ -37,53 +37,67 @@
         }
 
         #inboxTable th {
-            background:#a4a6a9 url(../../images/table/inboxtable_th.png) repeat-x top;
+            background: #a4a6a9 url(../../images/table/inboxtable_th.png) repeat-x top;
             padding: 10px 10px 10px 20px;
             font-size: 16px;
             color: #000;
             text-shadow: 0 1px #fff;
             border-top: 1px solid lightgray;
         }
-        
+
         #inboxTable td {
-        	padding: 8px 10px 7px 20px;
-        	
+            padding: 8px 10px 7px 20px;
+
         }
-        
+
         #inboxTable tr {
-        	background: url(../../images/table/inboxtable_tr.png) repeat-x top;
-        	border-bottom: 1px solid lightgray;
-        	text-shadow: 0 1px white;
-        	color: #333;
-        	font-size: 16px;
-        }	
-        
+            background: url(../../images/table/inboxtable_tr.png) repeat-x top;
+            border-bottom: 1px solid lightgray;
+            text-shadow: 0 1px white;
+            color: #333;
+            font-size: 16px;
+        }
+
         #inboxTable tr:hover {
-        	background-position: 0 -55px;
+            background-position: 0 -55px;
         }
 
         #inboxTitle {
             color: #333;
             height: 75px;
         }
-        
+
         #inboxTitle .bolder {
-        	font-weight: bold;
-        	color:#004a93
+            font-weight: bold;
+            color: #004a93
         }
-        
+
         #inboxTitle h1 {
-        	font-size:37px;
-        	color: #004a93; 
-        	margin: 0;
-        	padding: 0;
+            font-size: 37px;
+            color: #004a93;
+            margin: 0;
+            padding: 0;
         }
-        
+
         #inboxTitle img {
-        float: left;
-        margin: 15px 15px 0 10px;
+            float: left;
+            margin: 15px 15px 0 10px;
         }
+
+        .current {
+            background-position: 0 -62px;
+
+        }
+
+
     </style>
+    <script type="text/javascript">
+        function setCurrent(className) {
+            alert(className);
+            var x = document.getElementsByClassName('right');
+            x.className = 'current';
+        }
+    </script>
 
 </head>
 <body>
@@ -108,9 +122,23 @@
 
 
 <div id="inboxTitle">
-<img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+    <c:if test="${param.lang eq 'en'}">
+        <c:set var="currentEn" value="current"/>
+        <c:set var="currentEs" value=""/>
+    </c:if>
+    <c:if test="${param.lang eq 'es'}">
+        <c:set var="currentEn" value=""/>
+        <c:set var="currentEs" value="current"/>
+    </c:if>
+    <div class="language-toggle" style="float:right">
+        <ul>
+            <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
+            <li class="right ${currentEs}"><a href="?lang=es"> Español</a></li>
+        </ul>
+    </div>
+    <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
-<h1><tags:message code="participant.box.inbox"/></h1>
+    <h1><tags:message code="participant.box.inbox"/></h1>
 	<span style="font-size:13pt; margin-left:10px;">
     <c:choose>
         <c:when test="${not empty numberofCrfs}">
@@ -156,7 +184,7 @@
                     <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
                         <tr>
                             <td>
-                                ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+                                    ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
                                 <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
                             </td>
                             <td>
@@ -169,7 +197,8 @@
                                 <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                             </td>
                             <td>
-                            <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}" class="btn small-green"><span>Start</span></a>  
+                                <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
+                                   class="btn small-green"><span>Start</span></a>
                             </td>
                         </tr>
                     </c:if>
@@ -227,7 +256,7 @@
                                     <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                                 </td>
                                 <td>
-                            	</td>
+                                </td>
                             </tr>
                         </c:if>
                     </c:forEach>
