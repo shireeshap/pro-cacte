@@ -348,6 +348,7 @@ pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window.js -
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_effects.js -text
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_ext.js -text
 pro-ctcae/software/.project -text
+pro-ctcae/software/IVRS-repo/IVRS[!!-~]recording[!!-~]extension.txt -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/PROCTCAE_Dialplan.conf -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/Record-Test_dialplan.conf -text
 pro-ctcae/software/IVRS-repo/asterisk-configuration/chan_dahdi.conf -text
@@ -364,6 +365,7 @@ pro-ctcae/software/IVRS-repo/dahdi-configuration/modules.bak -text
 pro-ctcae/software/IVRS-repo/dahdi-configuration/system.conf -text
 pro-ctcae/software/IVRS-repo/odbc.ini -text
 pro-ctcae/software/IVRS-repo/odbcinst.ini -text
+pro-ctcae/software/IVRS-repo/proctc_question_core_symptoms.xlsx -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/en/10minsClip.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/en/20minsClip.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/en/30minsClip.gsm -text
@@ -1179,6 +1181,7 @@ pro-ctcae/software/templates/mail.properties -text
 pro-ctcae/software/web.bat -text
 pro-ctcae/software/web/ivy-build.xml -text
 pro-ctcae/software/web/ivy.xml -text
+pro-ctcae/software/web/src/main/Main1.iml -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
@@ -2114,6 +2117,7 @@ pro-ctcae/software/web/src/main/webapp/js/ui_fields_validation.js -text
 pro-ctcae/software/web/src/main/webapp/js/validation.js -text
 pro-ctcae/software/web/src/main/webapp/js/yui-autocomplete.js -text
 pro-ctcae/software/web/src/main/webapp/js/yui.js -text
+pro-ctcae/software/web/src/test/Test.iml -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/CreateClinicalStaffSeleniumTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/SearchClinicalStaffSeleniumTest.java -text
