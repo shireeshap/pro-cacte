@@ -57,17 +57,7 @@
         }
         
         #mytable td .label {
-        
-        }
-        
-         #mytable td .label p {
-         	margin:auto;
-         	font-size: 20px;
-         }
-        
-        #mytable td {
-        	height:65px;
-        	vertical-align: middle;
+       		min-height:65px;
         	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
         	border: 1px solid lightgray;
         	padding: 5px 15px 5px 40px;
@@ -75,13 +65,25 @@
         	-webkit-border-radius: 8px;
         	border-radius: 8px;
         	text-shadow: 0 1px white;
-        	vertical-align: middle;
+        	
+        }
+        
+         #mytable td .label p {
+         	margin:auto;
+         	font-size: 20px;
+         	
+         }
+        
+        #mytable td {
+        	height:65px;
+        	vertical-align: top;
+        	
         	
         	
         }
         
-        #mytable td:hover {
-        	background:#86bc56 url(../../images/lightgreen-tall.png) repeat-x top;
+        #mytable td .label:hover {
+        	background:#d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
         	color: #245808;
     		text-shadow: 0 1px white;
     		cursor: pointer;

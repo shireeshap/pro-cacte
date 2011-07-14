@@ -49,10 +49,10 @@
         	margin-left: 15px;
         }
         .selected .label {
-            background-image: url(/proctcae/images/green-selected.png);
+            background: url(/proctcae/images/green-selected.png) -5px 0;
             cursor: pointer;
-            color: #245808;
-            text-shadow: 0 1px white;
+            color: white;
+            text-shadow: 0 -1px #245808;
             border: 1px solid #86bc56;
             vertical-align: middle;
             display: table-cell;
