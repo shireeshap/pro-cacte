@@ -6,3 +6,5 @@ pro-ctcae/software/repository
 pro-ctcae/software/target
 pro-ctcae/software/web/build
 pro-ctcae/software/web/reports
+pro-ctcae/software/web/src/main/webapp/WEB-INF/classes
+pro-ctcae/software/web/src/main/webapp/WEB-INF/lib
