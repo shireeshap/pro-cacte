@@ -44,20 +44,24 @@
 			-webkit-border-radius: 6px;
 			border-radius: 6px;
 			padding: 9px 15px;
-			font-size: 14px;
+			font-size: 20px;
 			-moz-box-shadow: 0 1px 6px #999 inset;
 			-webkit-box-shadow: 0 1px 6px #999 inset;
 			box-shadow: 0 1px 6px #999 inset;
 		}
 		input[type="text"]:hover, input[type="password"]:hover, textarea:hover {
-			background-position:0 -35px;
+			background-position:0 -50px;
 		}
 		
 		input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
-			background-position:0 -70px;
+			background-position:0 -100px;
 			-moz-box-shadow: 0 0px 6px #ccc;
 			-webkit-box-shadow: 0 0px 6px #ccc;
 			box-shadow: 0 0px 6px #ccc;
+		}
+		
+		.yui-skin-sam .yui-ac-content li {
+			font-size: 20px;
 		}
 		
         * {
