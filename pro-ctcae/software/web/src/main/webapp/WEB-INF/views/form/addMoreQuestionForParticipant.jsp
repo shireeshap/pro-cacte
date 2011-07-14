@@ -34,9 +34,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         body {
-            font-family: Arial;
+            
         }
-
+		
+		input[type="text"], input[type="password"], textarea {
+			background:url(../../images/blue/custom-field.png) repeat-x top;
+			border: 1px solid #ccc;
+			-moz-border-radius: 6px;
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			padding: 9px 15px;
+			font-size: 14px;
+			-moz-box-shadow: 0 1px 6px #999 inset;
+			-webkit-box-shadow: 0 1px 6px #999 inset;
+			box-shadow: 0 1px 6px #999 inset;
+		}
+		input[type="text"]:hover, input[type="password"]:hover, textarea:hover {
+			background-position:0 -35px;
+		}
+		
+		input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+			background-position:0 -70px;
+			-moz-box-shadow: 0 0px 6px #ccc;
+			-webkit-box-shadow: 0 0px 6px #ccc;
+			box-shadow: 0 0px 6px #ccc;
+		}
+		
         * {
             zoom: 1;
         }

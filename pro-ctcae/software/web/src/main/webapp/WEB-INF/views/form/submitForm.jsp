@@ -30,17 +30,23 @@
 
         .currentPagediv {
             color: #666666;
-            font-size: 8pt;
+            font-size: 12px;
             padding-right: 10px;
             text-align: right;
             margin-bottom: 10px;
         }
         .pagesLeftdiv {
             color: #666666;
-            font-size: 8pt;
-            padding-right: 102px;
+            font-size: 11px;
+            padding-right: 33px;
             text-align: right;
             margin-bottom: 15px;
+            float: right;
+        }
+        
+        .pagesLeftdiv div {
+        	float: left;
+        	margin-left: 15px;
         }
         .selected .label {
             background-image: url(/proctcae/images/green-selected.png);

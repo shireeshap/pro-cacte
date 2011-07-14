@@ -57,7 +57,18 @@
         }
         
         #mytable td .label {
-        background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x ;
+        
+        }
+        
+         #mytable td .label p {
+         	margin:auto;
+         	font-size: 20px;
+         }
+        
+        #mytable td {
+        	height:65px;
+        	vertical-align: middle;
+        	background:#d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
         	border: 1px solid lightgray;
         	padding: 5px 15px 5px 40px;
         	-moz-border-radius: 8px;
@@ -65,12 +76,15 @@
         	border-radius: 8px;
         	text-shadow: 0 1px white;
         	vertical-align: middle;
-        	height:65px;
+        	
+        	
         }
         
-        #mytable td {
-        	height:65px;
-        	
+        #mytable td:hover {
+        	background:#86bc56 url(../../images/lightgreen-tall.png) repeat-x top;
+        	color: #245808;
+    		text-shadow: 0 1px white;
+    		cursor: pointer;
         	
         }
         
@@ -250,7 +264,7 @@
                             
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}"
-                                         class="label">${displaySymptoms[i + (numrows+1)*j]}</div>
+                                         class="label"><p>${displaySymptoms[i + (numrows+1)*j]}</p></div>
                                 </c:if>
                             </td>
                         </c:forEach>

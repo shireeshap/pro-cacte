@@ -1918,17 +1918,34 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 .progress-bar-outer {
     border-style: solid;
     width: 150px;
-    border-color: #a1aec5;
+    border-color: #ccc;
     border-width: 1px;
     height: 15px;
     float: right;
     margin-right: 40px;
+    margin-left: 5px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    background-image: url(/proctcae/images/blue/progress-bar_bg.png);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 4px #ccc inset;
+    -webkit-box-shadow: 0 1px 4px #ccc inset ;
+    box-shadow: 0 1px 4px #ccc inset;
+    
 }
 
 .progress-bar-inner {
+	-moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -moz-box-shadow: 0 1px 1px #d1ebff inset;
+    -webkit-box-shadow: 0 1px 1px #d1ebff inset ;
+    box-shadow: 0 1px 1px #d1ebff inset;
     background-color: #0066cc;
     background-image: url(/proctcae/images/blue/progress-bar.png);
     background-repeat: repeat-x;
     width: ${(command.currentPageIndex/command.totalPages)*150} px;
     height: 15px;
+    
 }
