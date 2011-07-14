@@ -37,7 +37,7 @@
         }
 
         #inboxTable th {
-            background: url(../../images/table/inboxtable_th.png) repeat-x top;
+            background:#a4a6a9 url(../../images/table/inboxtable_th.png) repeat-x top;
             padding: 10px 10px 10px 20px;
             font-size: 16px;
             color: #000;
@@ -59,7 +59,7 @@
         }	
         
         #inboxTable tr:hover {
-        	background-position: 0 -43px;
+        	background-position: 0 -55px;
         }
 
         #inboxTitle {
