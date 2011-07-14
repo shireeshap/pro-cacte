@@ -14,9 +14,9 @@ button:focus {
 }
 
 
-/* Button styles */
-.btn {cursor: pointer;}
-.btn img {margin-left: 4px; vertical-align: middle}
+/* Pointer Button styles */
+.btn {cursor: pointer;font-family:"Lucida Grande", sans-serif;}
+.btn img {margin-right: 4px; vertical-align: top; border:none;}
 
 /* Small Button styles */
 
@@ -53,3 +53,40 @@ button:focus {
 .btn.huge-green:hover span { background-position:0 -59px;}
 .btn.huge-green:active { background-position:100% -118px;}
 .btn.huge-green:active span { background-position:0 -118px;}
+
+
+
+
+/* Regular Button styles */
+.btn {cursor: pointer; font-family:"Lucida Grande", sans-serif;}
+.btn img {margin-right: 4px; vertical-align: top; border:none;}
+
+/* Medium Button */
+
+.btn.gray-med  {display:inline-block; height:27px; padding-right:8px; background:url(../images/buttons/gray-medium_end.png) 100% 0px no-repeat; }
+.btn.gray-med span {display:block; padding:4px 6px 5px 10px; font-size:15px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #333; background:transparent url(../images/buttons/gray-medium_btn.png) 0 0 no-repeat; }
+.btn.gray-med:hover {background-position:100% -28px;}
+.btn.gray-med:hover span {background-position:0 -28px;}
+.btn.gray-med:active {background-position:100% -56px;}
+.btn.gray-med:active span {background-position:0 -56px;}
+
+.btn.green-med  {display:inline-block; height:27px; padding-right:8px; background:url(../images/buttons/green-medium_end.png) 100% 0px no-repeat; }
+.btn.green-med span {display:block; padding:4px 6px 5px 10px; font-size:15px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #538f32; background:transparent url(../images/buttons/green-medium_btn.png) 0 0 no-repeat; }
+.btn.green-med:hover {background-position:100% -28px;}
+.btn.green-med:hover span {background-position:0 -28px;}
+.btn.green-med:active {background-position:100% -56px;}
+.btn.green-med:active span {background-position:0 -56px;}
+
+.btn.red-med  {display:inline-block; height:27px; padding-right:8px; background:url(../images/buttons/red-medium_end.png) 100% 0px no-repeat; }
+.btn.red-med span {display:block; padding:4px 6px 5px 10px; font-size:15px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #a52020; background:transparent url(../images/buttons/red-medium_btn.png) 0 0 no-repeat; }
+.btn.red-med:hover {background-position:100% -28px;}
+.btn.red-med:hover span {background-position:0 -28px;}
+.btn.red-med:active {background-position:100% -56px;}
+.btn.red-med:active span {background-position:0 -56px;}
+
+.btn.blue-med  {display:inline-block; height:27px; padding-right:8px; background:url(../images/buttons/blue-medium_end.png) 100% 0px no-repeat; }
+.btn.blue-med span {display:block; padding:4px 6px 5px 10px; font-size:15px; font-weight:bold; color:#fff; text-shadow:0 -1px 0 #0e3159; background:transparent url(../images/buttons/blue-medium_btn.png) 0 0 no-repeat; }
+.btn.blue-med:hover {background-position:100% -28px;}
+.btn.blue-med:hover span {background-position:0 -28px;}
+.btn.blue-med:active {background-position:100% -56px;}
+.btn.blue-med:active span {background-position:0 -56px;}

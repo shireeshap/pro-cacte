@@ -75,8 +75,8 @@
         }
 
         #participantSymptomAutoComplete {
-            width: 25em;
-            padding-bottom: 2em;
+            width: 450px;
+            padding-bottom: 43px;
         }
 
         #participantSymptomAutoComplete .yui-ac-content {
@@ -262,24 +262,30 @@
         <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}" var="lang"/>
         <table cellspacing="10px;">
             <tr>
-                <td>
+                <td width="75%">
                     <div id="participantSymptomAutoComplete">
                         <input id="participantSymptomInput" type="text">
 
                         <div id="participantSymptomContainer"></div>
                     </div>
                 </td>
-                <td>
-                    <spring:message code="add" var="add"/>
+                <td >
+                <spring:message code="add" var="add"/>
+                <a onclick="javascript:clearInput()" class="btn green-med"><span><img src="../../images/add-icon.png"/>Add</span></a> 
+                  
+                  <!--  <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
                                  icon="add"
-                                 size="small" color="blue" value="${add}" markupWithTag="a"/>
+                                 size="small" color="blue" value="${add}" markupWithTag="a"/>-->
                 </td>
-                <td>
-                    <spring:message code="clear" var="clear"/>
+                <td >
+                <spring:message code="clear" var="clear"/>
+                <a onclick="javascript:clearInput()" class="btn red-med"><span><img src="../../images/clear-icon.png"/>Clear</span></a>   
+                  
+                  <!--  <spring:message code="clear" var="clear"/>
                     <tags:button onclick="javascript:clearInput()"
                                  icon="x"
-                                 size="small" color="blue" value="${clear}" markupWithTag="a"/>
+                                 size="small" color="blue" value="${clear}" markupWithTag="a"/> -->
                 </td>
             </tr>
         </table>
