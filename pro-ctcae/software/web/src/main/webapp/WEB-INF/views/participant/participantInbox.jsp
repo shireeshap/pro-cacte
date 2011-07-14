@@ -155,6 +155,7 @@
     </span>
 </div>
 
+<tags:instructions code="login.disclaimer.1"/><br/>
 
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
 <spring:message code="label.scheduledForms" var="labelScheduledForms"/>
