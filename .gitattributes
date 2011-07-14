@@ -1889,6 +1889,8 @@ pro-ctcae/software/web/src/main/webapp/images/btn-green-lrg_right.png -text
 pro-ctcae/software/web/src/main/webapp/images/btn-green_left.png -text
 pro-ctcae/software/web/src/main/webapp/images/btn-green_right.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/Thumbs.db -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/blue-medium_btn.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/blue-medium_end.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/Thumbs.db -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/add_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/addmultiple_icon.png -text
@@ -1922,9 +1924,12 @@ pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/x_icon.png -t
 pro-ctcae/software/web/src/main/webapp/images/buttons/buttons-bg-sprite.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/buttons-small-bg-sprite.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/gray-medium_btn.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/gray-medium_end.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/green-medium_btn.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/green-medium_end.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/new-buttons/small-green_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/red-medium_btn.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/red-medium_end.png -text
 pro-ctcae/software/web/src/main/webapp/images/caaers.ico -text
 pro-ctcae/software/web/src/main/webapp/images/check-icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/checkno.gif -text
