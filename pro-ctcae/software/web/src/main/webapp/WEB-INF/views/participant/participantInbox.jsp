@@ -133,7 +133,7 @@
     <div class="language-toggle" style="float:right">
         <ul>
             <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-            <li class="right ${currentEs}"><a href="?lang=es"> EspaÃ±ol</a></li>
+            <li class="right ${currentEs}"><a href="?lang=es"> Español</a></li>
         </ul>
     </div>
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>

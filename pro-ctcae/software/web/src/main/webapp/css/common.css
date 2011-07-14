@@ -319,10 +319,10 @@ button:focus {
 		font-weight: bold;
 		font-family: "Lucida Grande", sans-serif;
         float: right;
-        width: 167px;
+        width: 175px;
 		}
 	.language-toggle li a { border: 1px solid lightgray; background: url(../images/language-toggle.png) repeat-x top; float: left; color: #085EB3;text-decoration: none;}
-	.language-toggle li a:hover {background-position: 0 -31px; color: #085EB3;}
+	.language-toggle li a:hover {background-position: 0 -31px; color: #085EB3;border-bottom: 1px solid lightgray}
 	.language-toggle li a:active {
 		background-position: 0 -62px;
 		color:white;
