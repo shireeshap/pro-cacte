@@ -16,7 +16,7 @@
 %>
 <html>
 <head>
-    <tags:includeVirtualKeyboard/>
+    
     <style type="text/css">
         .box {
             width: 35em;
@@ -35,8 +35,6 @@
         * {
             zoom: 1;
         }
-
-
     </style>
     <!--[if IE]>
         <style>
@@ -45,97 +43,93 @@
             }
         </style>
     <![endif]-->
+    <script type="text/javascript">
+    	function toggleX(act){
+        	if(act == 'onblur'){
+				if($('password').value==''){
+					 $('password').type = "text";
+					 $('password').value = 'Password';
+				}
+            }
+        	if(act == 'onfocus'){
+        		$('password').type = "password";
+        		if($('password').value== 'Password' ){
+            		 $('password').value='';
+        		}
+            }
+    	}	
+    </script>
 </head>
+
 <body>
 <spring:message code="login.title" var="loginTitle" />
-<chrome:box title="${loginTitle}" autopad="true">
-    <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
-    <c:set var="showLogin" value="true"/>
-    <c:if test="${not empty param.error}">
-        <c:choose>
-            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
-                <p class="errors">Incorrect username and/or password. Please try again.</p>
-            </c:when>
-            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User account is locked'}">
-                <p class="errors">
-                    <jsp:forward page="accountLocked.jsp"/>
-                </p>
-                <c:set var="showLogin" value="false"/>
-            </c:when>
-            <c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message,'Password expired')}">
-                <p class="errors">
-                    <jsp:forward page="forwardToPasswordExpire.jsp"/>
-                </p>
-            </c:when>
-            <%--<c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message, 'Use of web not activated')}">--%>
-                <%--<p class="errors">Use of web is not allowed.</p>--%>
-            <%--</c:when>--%>
-            <c:otherwise>
-                <%--${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
-                <p class="errors">User is inactive.</p>
-            </c:otherwise>
-        </c:choose>
-    </c:if>
-    <c:if test="${showLogin}">
-        <div class="row">
-            <div class="label">
-                <tags:message code="login.username"/>
-            </div>
-            <div class="value">
-                <input type="text" name="j_username" id="username"
-                       value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"
-                       onclick="attachKeyBoard($('username'));"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <tags:message code="login.password"/>
-            </div>
-            <div class="value" style="text-align:left; padding:0;">
-                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));"
-                       style="margin-left:0;"/>
-            </div>
-        </div>
-        <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;
-            	<tags:message code="login.userVirtualKeyboard"/>
-        </div>
-        <div class="row">
-            <div class="submit">
-            	<spring:message code="login.submit" var="loginSubmit" />
-                <tags:button type="submit" value="${loginSubmit}" color="blue"/>
-            </div>
-        </div>
-        </form>
-        <div class="row">
-            <a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a>
-        </div>
-        <div class="row">
-            <a href='<c:url value="forgotusername"/>'><tags:message code="login.forgotUsername"/></a>
-        </div>
-    </c:if>
-    <%--<p align="left">--%>
-         <tags:message code="login.disclaimer.1"/><b><tags:message code="login.disclaimer.2"/></b>
-    <%--</p>--%>
+    
+        <div id="wrapper">
+        <form method="POST" name="loginForm" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
+		    <c:set var="showLogin" value="true"/>
+		    <c:if test="${not empty param.error}">
+		        <c:choose>
+		            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
+		                <p class="errors">Incorrect username and/or password. Please try again.</p>
+		            </c:when>
+		            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User account is locked'}">
+		                <p class="errors">
+		                    <jsp:forward page="accountLocked.jsp"/>
+		                </p>
+		                <c:set var="showLogin" value="false"/>
+		            </c:when>
+		            <c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message,'Password expired')}">
+		                <p class="errors">
+		                    <jsp:forward page="forwardToPasswordExpire.jsp"/>
+		                </p>
+		            </c:when>
+		            <%--<c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message, 'Use of web not activated')}">--%>
+		                <%--<p class="errors">Use of web is not allowed.</p>--%>
+		            <%--</c:when>--%>
+		            <c:otherwise>
+		                <%--${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
+		                <p class="errors">User is inactive.</p>
+		            </c:otherwise>
+		        </c:choose>
+		    </c:if>
+		    <c:if test="${showLogin}">
+	           <div class="content-box">     
+	           <div class="box-container">
+	           <div class="container"  id="login">
+					<p class="inputs">
+						<spring:message code="login.username" var="uname" />
+						<input class="username" id="username" name="j_username" size="30" type="text" value="${uname}" onblur="javascript:if(this.value=='') this.value='${uname}';" onfocus="javascript:if(this.value=='${uname}') this.value='';" onclick="attachKeyBoard($('username'));"/>
+					</p>
+					<p class="inputs">
+						<spring:message code="login.password" var="pwd" />
+					    <input class="password" id="password" name="j_password" size="30" type="text" value="${pwd}" onblur="toggleX('onblur');" onfocus="toggleX('onfocus');" onclick="attachKeyBoard($('password'));"/>
+					</p><br />
 
-</chrome:box>
-<div id="keyboardDiv"></div>
-<br>
-<chrome:box>
-    <p align="center">
+					<p class="submit">
+						<spring:message code="login.submit" var="loginSubmit" />
+						<a href="javascript:document.loginForm.submit();" class="btn big-green" ><span>${loginSubmit}</span></a>                    
+					</p>
+	
+				    <div class="left"><a href='<c:url value="forgotusername"/>'><tags:message code="login.forgotUsername"/></a></div>
+				    <div class="right"><a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a></div>
+				    <div class="clear"></div>
+	             </div>
+	             </div>
+	             </div>
+   		   </c:if>
+   		   <div id="keyboardDiv"></div>
+   		    
+   		   <chrome:box>
+			    <p align="center"><b><tags:message code="login.warning.label"/></b></p>
+			    <p align="center">
+		        	<tags:message code="login.warning.message.1"/>
+		        	<tags:message code="login.warning.message.2"/>
+		        	<tags:message code="login.warning.message.3"/>
+			    </p>
+		   </chrome:box>
+    	</form>   
+   		</div> 
 
-    <p align="center"><b><tags:message code="login.warning.label"/></b></p>
-    <%--<ul>--%>
-        <%--<li> --%>
-        	<tags:message code="login.warning.message.1"/>
-        <%--</li>--%>
-        <%--<li>--%>
-        	<tags:message code="login.warning.message.2"/>
-        <%--</li>--%>
-        	<tags:message code="login.warning.message.3"/>
-    <%--</ul>--%>
-    </p>
-</chrome:box>
 </body>
 </html>
 

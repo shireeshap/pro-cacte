@@ -10,7 +10,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <tags:javascriptLink name="ga"/>
-
+<tags:includeVirtualKeyboard/>
 <script type="text/javascript">
     try {
         var pageTracker = _gat._getTracker("UA-15798971-1");
@@ -93,6 +93,12 @@
                     </proctcae:urlAuthorize>
                 </c:forEach>
             </c:if>
+            <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login' }">
+            	<p align="center">
+            	<input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;
+            	<img src="/proctcae/images/keyboard-icon.png"/>
+            	<tags:message code="login.userVirtualKeyboard"/></p>
+            </c:if>
         </div>
         <div id="floatingTaskbar" style="display:none;">
             <tags:floatingTaskbar/>
@@ -114,4 +120,5 @@
 	</div>
 	
 </div>
+
 <!-- end header -->

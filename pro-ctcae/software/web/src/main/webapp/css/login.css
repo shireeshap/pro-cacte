@@ -21,7 +21,7 @@ ol {margin:0; padding:0}
 h1, h2, h3, h4 {margin: 0; padding: 0;}
 
 #wrapper {
-  margin: 200px auto;
+  margin: 20px auto;
   padding:0;
   width: auto;
   text-align:center;
@@ -94,10 +94,10 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
 #login input.username {background: url(../images/username.png) no-repeat 0 -52px; }
 #login input.password {background: url(../images/password.png) no-repeat 0 -52px;}
 
-#login input.username:hover, input.password:hover {
+#login input.username:hover, #login input.password:hover {
 	background-position:left top;	
 }
-#login input.username:focus, input.password:focus {
+#login input.username:focus, #login input.password:focus {
 	color:#247891;
 	background-position:left top;
 }
