@@ -83,6 +83,7 @@
         	color: #245808;
     		text-shadow: 0 1px white;
     		cursor: pointer;
+    		border-color: #86bc56;
         }
         
         #mytable td input {

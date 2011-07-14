@@ -43,11 +43,12 @@
 			-moz-border-radius: 6px;
 			-webkit-border-radius: 6px;
 			border-radius: 6px;
-			padding: 9px 15px;
+			padding: 9px 10px;
 			font-size: 20px;
 			-moz-box-shadow: 0 1px 6px #999 inset;
 			-webkit-box-shadow: 0 1px 6px #999 inset;
 			box-shadow: 0 1px 6px #999 inset;
+			text-shadow: 0 1px white;
 		}
 		input[type="text"]:hover, input[type="password"]:hover, textarea:hover {
 			background-position:0 -50px;
@@ -62,6 +63,8 @@
 		
 		.yui-skin-sam .yui-ac-content li {
 			font-size: 20px;
+			text-shadow: none;
+			font-family: lucida grande, sans-serif;
 		}
 		
         * {
@@ -262,7 +265,7 @@
         <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}" var="lang"/>
         <table cellspacing="10px;">
             <tr>
-                <td width="75%">
+                <td width="74%">
                     <div id="participantSymptomAutoComplete">
                         <input id="participantSymptomInput" type="text">
 
@@ -292,7 +295,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-left: 15px">
         <input id='usevirtualkeyboard' type="checkbox"
                onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message
             code="virtualKeyboard"/>
