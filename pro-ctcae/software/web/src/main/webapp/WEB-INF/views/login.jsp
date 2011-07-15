@@ -125,16 +125,20 @@
 	             </div>
 	             </div>
    		   </c:if>
-   		   <div id="keyboardDiv"></div>
+   		   <div id="keyboardDiv" align="center"></div>
    		    
-   		   <chrome:box>
+   		   <div class="content-box">     
+	           <div class="box-container">
+	           <div class="container">
 			    <p align="center"><b><tags:message code="login.warning.label"/></b></p>
 			    <p align="center">
 		        	<tags:message code="login.warning.message.1"/>
 		        	<tags:message code="login.warning.message.2"/>
 		        	<tags:message code="login.warning.message.3"/>
 			    </p>
-		   </chrome:box>
+		  	   </div>
+		  	   </div>
+		  </div>
     	</form>   
    		</div> 
 
