@@ -276,21 +276,20 @@
         </tags:formbuilderBox>
 
     </c:forEach>
-    <table width=" 100%" style="margin-top:10px;">
+    <table width="100%" style="margin-top:10px;" cellspacing="10">
         <input type="hidden" name="direction"/>
         <tr>
-            <td align="left" width="50%">
+            <td align="right" width="50%">
             	<spring:message code="back" var="back"/>
                 <c:if test="${command.newPageIndex gt 1}">
-                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="${back}"/>
+                    <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
                 </c:if>
             </td>
-            <td align="right" width="50%">
-            	<spring:message code="continue" var="continue"/>
+            <td align="left" width="50%">
+            	<spring:message code="next" var="next"/>
                 <c:choose>
                     <c:when test="${command.newPageIndex le command.totalPages}">
-                        <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')"
-                                     value="${continue}" />
+                        <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
                     </c:when>
                 </c:choose>
             </td>

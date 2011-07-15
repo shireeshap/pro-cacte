@@ -63,17 +63,17 @@
 
         </div>
         <br/>&nbsp;<br/>&nbsp;<br/>
-        <table width="100%">
+        <table width="100%" cellspacing="10">
             <input type="hidden" name="direction"/>
             <input type="hidden" name="r"/>
             <tr>
-                <td align="left" width="50%">
-                	<spring:message code="back" var="back"/>
-                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="${back}"/>
-                </td>
                 <td align="right" width="50%">
+                	<spring:message code="back" var="back"/>
+                    <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
+                </td>
+                <td align="left" width="50%">
                 	<spring:message code="submit" var="submit"/>
-                    <tags:button color="orange" icon="check" onclick="javascript:submitForm('save')" value="${submit}"/>
+                    <a href="#" class="btn huge-green" onclick="javascript:submitForm('save')"><span>${submit}</span></a>
                 </td>
             </tr>
         </table>
