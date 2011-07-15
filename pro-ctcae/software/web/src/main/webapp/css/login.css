@@ -117,7 +117,7 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
   	border-bottom: 1px dotted #25aae1;	
 }
 
-#login .left a:hover, .right a:hover {
+#login .left a:hover, #login .right a:hover {
 	text-decoration: none;
   	color: #6acdf6;
   	border-bottom: 1px solid #6acdf6;
