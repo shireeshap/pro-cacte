@@ -231,17 +231,15 @@
 
 </chrome:box>
 
-<table width="100%">
+<table width="100%" cellspacing="10">
     <tr>
-        <td align="left" width="50%">
-            <spring:message code="back" var="back"/>
-            <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
-                         value="${back}" markupWithTag="a"/>
-        </td>
         <td align="right" width="50%">
-            <spring:message code="continue" var="continue"/>
-            <tags:button onclick="javascript:submitForm('continue')" icon="continue"
-                         color="green" value="${continue}" markupWithTag="a"/>
+        	<spring:message code="back" var="back" />
+            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
+        </td>
+        <td align="left" width="50%">
+        	<spring:message code="next" var="next" />
+            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
         </td>
     </tr>
 </table>
