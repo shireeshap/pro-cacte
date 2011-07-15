@@ -111,7 +111,7 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
   margin: 5px 150px 0 0;
 }
 
-#login .left a, .right a {
+#login .left a, #login .right a {
 	text-decoration: none;
   	color: #25aae1;
   	border-bottom: 1px dotted #25aae1;	
