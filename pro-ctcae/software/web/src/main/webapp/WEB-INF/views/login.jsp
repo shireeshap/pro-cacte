@@ -58,6 +58,14 @@
         		}
             }
     	}	
+
+    	function checkSubmit(e)
+    	{
+    	   if(e && e.keyCode == 13)
+    	   {
+    	      document.loginForm.submit();
+    	   }
+    	}
     </script>
 </head>
 
@@ -95,7 +103,7 @@
 		    <c:if test="${showLogin}">
 	           <div class="content-box">     
 	           <div class="box-container">
-	           <div class="container"  id="login">
+	           <div class="container"  id="login" onKeyPress="return checkSubmit(event)">
 					<p class="inputs">
 						<spring:message code="login.username" var="uname" />
 						<input class="username" id="username" name="j_username" size="30" type="text" value="${uname}" onblur="javascript:if(this.value=='') this.value='${uname}';" onfocus="javascript:if(this.value=='${uname}') this.value='';" onclick="attachKeyBoard($('username'));"/>
@@ -110,7 +118,7 @@
 						<a href="javascript:document.loginForm.submit();" class="btn big-green" ><span>${loginSubmit}</span></a>                    
 					</p>
 	
-				    <div class="left"><a href='<c:url value="forgotusername"/>'><tags:message code="login.forgotUsername"/></a></div>
+				    <div class="left" ><a href='<c:url value="forgotusername"/>' border-bottom="none"><tags:message code="login.forgotUsername"/></a></div>
 				    <div class="right"><a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a></div>
 				    <div class="clear"></div>
 	             </div>
