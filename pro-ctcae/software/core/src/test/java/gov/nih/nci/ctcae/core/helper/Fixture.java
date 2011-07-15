@@ -91,6 +91,8 @@ public class Fixture {
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setStudyParticipantIdentifier("SPI");
+        studyParticipantAssignment.setArm(studySite.getStudy().getArms().get(0));
+        studyParticipantAssignment.setParticipant(participant);
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         return participant;
     }

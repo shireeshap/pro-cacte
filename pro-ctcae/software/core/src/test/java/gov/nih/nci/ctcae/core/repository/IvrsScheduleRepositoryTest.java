@@ -22,9 +22,9 @@ public class IvrsScheduleRepositoryTest extends TestDataManager {
 
 	private void addStudyParticipantAssignment(Study study){
 		Participant participant = Fixture.createParticipantWithStudyAssignment("John", "Doe", "identifier", study.getStudySites().get(0));
-//		participantRepository.save(participant);
-		StudyParticipantAssignment spa= studyParticipantAssignmentRepository.save(participant.getStudyParticipantAssignments().get(0));
-		study.getArms().get(0).getStudyParticipantAssignments().add(spa);
+		participantRepository.save(participant);
+	//	StudyParticipantAssignment spa= studyParticipantAssignmentRepository.save(participant.getStudyParticipantAssignments().get(0));
+		study.getArms().get(0).getStudyParticipantAssignments().add(participant.getStudyParticipantAssignments().get(0));
 	}
 	
     private StudyParticipantAssignment getStudyPartcipantAssignment(){
