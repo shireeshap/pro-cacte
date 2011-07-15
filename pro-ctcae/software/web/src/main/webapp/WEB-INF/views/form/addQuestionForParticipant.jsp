@@ -27,123 +27,129 @@
 %>
 <html>
 <head>
-<tags:stylesheetLink name="yui-autocomplete"/>
-<tags:javascriptLink name="yui-autocomplete"/>
-<tags:includeVirtualKeyboard/>
-<tags:includePrototypeWindow/>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<style type="text/css">
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:includeVirtualKeyboard/>
+    <tags:includePrototypeWindow/>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
 
-    * {
-        zoom: 1;
-    }
-
-    .label {
-        font-weight: bold;
-        font-size: 15px;
-        vertical-align: top;
-    }
-
-    #participantSymptomAutoComplete {
-        width: 25em;
-        padding-bottom: 2em;
-    }
-
-    #participantSymptomAutoComplete .yui-ac-content {
-        max-height: 20em;
-        overflow: auto;
-        overflow-x: hidden; /* set scrolling */
-        _height: 30em; /* ie6 */
-    }
-
-    #mytable td .label {
-
-    }
-
-    #mytable td .label p {
-        margin: auto;
-        font-size: 20px;
-
-    }
-
-    #mytable td {
-        height: 65px;
-        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
-        border: 1px solid lightgray;
-        padding: 5px 15px 5px 40px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        border-radius: 8px;
-        text-shadow: 0 1px white;
-        vertical-align: middle;
-    }
-
-    #mytable td:hover {
-        background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
-        color: #245808;
-        text-shadow: 0 1px white;
-        cursor: pointer;
-        border-color: #86bc56;
-    }
-
-    #mytable td input {
-        display: none;
-    }
-
-    #mytable td.selected {
-         background: #538f32 url(/proctcae/images/green-selected_tall.png) repeat-x top;
-        color: white;
-        text-shadow: 0 -1px #2a6f04;
-        cursor: pointer;
-        border-color: #538f32;
-    }
-
-    #mytable td.selected img{
-        display:block;
-        vertical-align:middle;
-    }
-
-    p {
-        font-size: 18px;
-    }
-
-</style>
-<tags:includeScriptaculous/>
-<tags:dwrJavascriptLink objects="scheduleCrf"/>
-<script type="text/javascript">
-    var nextColumnIndex = ${fn:length(command.displaySymptoms)};
-
-    function clearInput() {
-        $('participantSymptomInput').clear();
-    }
-
-    function changeClass(index) {
-        var x = document.getElementById(index);
-        var td = $('td_' + index + '_b');
-        if (x.checked) {
-//            alert(1);
-            x.checked = false;
-            $(td).removeClassName("selected");
-            $(td).addClassName('');
-        } else {
-//            alert(2);
-            x.checked = true;
-            td.removeClassName("");
-            td.addClassName("selected");
+        * {
+            zoom: 1;
         }
 
-    }
-    function submitForm(direction) {
-        document.myForm.direction.value = direction;
-        document.myForm.submit();
-    }
+        .label {
+            font-weight: bold;
+            font-size: 15px;
+            vertical-align: top;
+        }
 
-    function sendConfirmedSymptom() {
-        var selectedValueNew = escape($('participantSymptomInput').value);
-        addSymptom(selectedValueNew);
-        closeWindow();
-    }
-</script>
+        #participantSymptomAutoComplete {
+            width: 25em;
+            padding-bottom: 2em;
+        }
+
+        #participantSymptomAutoComplete .yui-ac-content {
+            max-height: 20em;
+            overflow: auto;
+            overflow-x: hidden; /* set scrolling */
+            _height: 30em; /* ie6 */
+        }
+
+        #mytable td .label {
+
+        }
+
+        #mytable td .label p {
+            margin: auto;
+            font-size: 20px;
+
+        }
+
+        #mytable td {
+            height: 65px;
+            background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
+            border: 1px solid lightgray;
+            padding: 5px 15px 5px 40px;
+            -moz-border-radius: 8px;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+            text-shadow: 0 1px white;
+            vertical-align: middle;
+        }
+
+        #mytable td:hover {
+            background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
+            color: #245808;
+            text-shadow: 0 1px white;
+            cursor: pointer;
+            border-color: #86bc56;
+        }
+
+        #mytable td input {
+            display: none;
+        }
+
+        #mytable td.selected {
+            background: #538f32 url(/proctcae/images/green-selected_tall.png) repeat-x top;
+             /*background-image: url("/proctcae/images/check-icon.png");*/
+            /*background: url(/proctcae/images/green-selected.png) 2px 0;*/
+            color: white;
+            text-shadow: 0 -1px #2a6f04;
+            cursor: pointer;
+            border-color: #538f32;
+        }
+
+        #mytable td.selected .check {
+             background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;
+            height: 100%;
+            margin-right: 7px;
+            float: left;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+    </style>
+    <tags:includeScriptaculous/>
+    <tags:dwrJavascriptLink objects="scheduleCrf"/>
+    <script type="text/javascript">
+        var nextColumnIndex = ${fn:length(command.displaySymptoms)};
+
+        function clearInput() {
+            $('participantSymptomInput').clear();
+        }
+
+        function changeClass(index) {
+            var x = document.getElementById(index);
+            var td = $('td_' + index + '_b');
+            if (x.checked) {
+//            alert(1);
+                x.checked = false;
+            document.getElementById("img_"+index).style.display = "none";
+                $(td).removeClassName("selected");
+                $(td).addClassName('');
+            } else {
+//            alert(2);
+                document.getElementById("img_" + index).style.display = "block";
+                x.checked = true;
+                td.removeClassName("");
+                td.addClassName("selected");
+            }
+
+        }
+        function submitForm(direction) {
+            document.myForm.direction.value = direction;
+            document.myForm.submit();
+        }
+
+        function sendConfirmedSymptom() {
+            var selectedValueNew = escape($('participantSymptomInput').value);
+            addSymptom(selectedValueNew);
+            closeWindow();
+        }
+    </script>
 </head>
 <body>
 <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
@@ -172,8 +178,14 @@
                                         <%--</td>--%>
                                         <%--<td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">--%>
                                         <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
+
                                     <div id="div_${i + (numrows+1)*j}" class="label">
-                                        <p>${displaySymptoms[i + (numrows+1)*j]}</p>
+                                          <div id="img_${i + (numrows+1)*j}" class="check" style="display:block; width:15px">&nbsp; </div>
+                                        <%--<img id="img_${i + (numrows+1)*j}" src="/proctcae/images/check-icon.png"--%>
+                                             <%--alt="/proctcae/images/check-icon.png" style="display:none">--%>
+
+                                      <p>${displaySymptoms[i + (numrows+1)*j]}</p>
+
                                     </div>
                                 </td>
                             </c:if>
