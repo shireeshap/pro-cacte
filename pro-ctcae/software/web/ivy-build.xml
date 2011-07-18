@@ -82,7 +82,17 @@
         <mkdir dir="${main.src}/../webapp/WEB-INF/classes"/>
         <mkdir dir="${main.src}/../webapp/WEB-INF/lib"/>
         <copy-resources src="${classes.dir}" dest="${main.src}/../webapp/WEB-INF/classes" filter="false"/>
-        <copy-resources src="${lib.dir}" dest="${main.src}/../webapp/WEB-INF/lib" filter="false"/>
+        <!-- <copy-resources src="${lib.dir}" dest="${main.src}/../webapp/WEB-INF/lib" filter="false"/>    -->
+    	<echo message="Using the new copy to command with exclude" />
+    	<copy todir="${main.src}/../webapp/WEB-INF/lib">
+	        <fileset dir="${lib.dir}" includes="**/*.*">
+	            <exclude name="jsp-api*.jar" />
+	        	<exclude name="servlet-api*.jar" />
+	        	<exclude name=".svn"/>
+                <exclude name="applicationContext-test.xml"/>
+	        </fileset>
+	    </copy>
+
         <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
             docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
         </echo>

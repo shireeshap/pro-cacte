@@ -113,7 +113,7 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.INPROGRESS || (studyParticipantCrfSchedule.status eq CrfStatus.SCHEDULED &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -182,7 +182,7 @@
             <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                 <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                            var="studyParticipantCrfSchedule">
-                    <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
+                    <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.INPROGRESS || (studyParticipantCrfSchedule.status eq CrfStatus.SCHEDULED && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
                         <tr>
                             <td>
                                     ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
@@ -215,7 +215,7 @@
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                    var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+            <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.PASTDUE && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
                         && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
                 <c:set var="missedFormsAvailable" value="true"/>
             </c:if>
@@ -241,7 +241,7 @@
                 <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                                var="studyParticipantCrfSchedule">
-                        <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+                        <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.PASTDUE && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
                             && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
                             <tr>
                                 <td>
