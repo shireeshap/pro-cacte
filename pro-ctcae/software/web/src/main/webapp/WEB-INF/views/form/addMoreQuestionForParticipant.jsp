@@ -27,229 +27,333 @@
 %>
 <html>
 <head>
-    <tags:stylesheetLink name="yui-autocomplete"/>
-    <tags:javascriptLink name="yui-autocomplete"/>
-    <tags:includeVirtualKeyboard/>
-    <tags:includePrototypeWindow/>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <style type="text/css">
-        body {
-            
-        }
-		
-		input[type="text"], input[type="password"], textarea {
-			background:url(../../images/blue/custom-field.png) repeat-x top;
-			border: 1px solid #ccc;
-			-moz-border-radius: 6px;
-			-webkit-border-radius: 6px;
-			border-radius: 6px;
-			padding: 9px 10px;
-			font-size: 20px;
-			-moz-box-shadow: 0 1px 6px #999 inset;
-			-webkit-box-shadow: 0 1px 6px #999 inset;
-			box-shadow: 0 1px 6px #999 inset;
-			text-shadow: 0 1px white;
-		}
-		input[type="text"]:hover, input[type="password"]:hover, textarea:hover {
-			background-position:0 -50px;
-		}
-		
-		input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
-			background-position:0 -100px;
-			-moz-box-shadow: 0 0px 6px #ccc;
-			-webkit-box-shadow: 0 0px 6px #ccc;
-			box-shadow: 0 0px 6px #ccc;
-		}
-		
-		.yui-skin-sam .yui-ac-content li {
-			font-size: 20px;
-			text-shadow: none;
-			font-family: lucida grande, sans-serif;
-		}
-		
-        * {
-            zoom: 1;
-        }
+<tags:stylesheetLink name="yui-autocomplete"/>
+<tags:javascriptLink name="yui-autocomplete"/>
+<tags:includeVirtualKeyboard/>
+<tags:includePrototypeWindow/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+    body {
 
-        .label {
-            font-weight: bold;
-            font-size: 15px;
-            vertical-align: top;
-        }
+    }
 
-        #participantSymptomAutoComplete {
-            width: 450px;
-            padding-bottom: 43px;
-        }
+    input[type="text"], input[type="password"], textarea {
+        background: url(../../images/blue/custom-field.png) repeat-x top;
+        border: 1px solid #ccc;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        padding: 9px 10px;
+        font-size: 20px;
+        -moz-box-shadow: 0 1px 6px #999 inset;
+        -webkit-box-shadow: 0 1px 6px #999 inset;
+        box-shadow: 0 1px 6px #999 inset;
+        text-shadow: 0 1px white;
+    }
 
-        #participantSymptomAutoComplete .yui-ac-content {
-            max-height: 20em;
-            overflow: auto;
-            overflow-x: hidden; /* set scrolling */
-            _height: 30em; /* ie6 */
-        }
+    input[type="text"]:hover, input[type="password"]:hover, textarea:hover {
+        background-position: 0 -50px;
+    }
 
-    </style>
-    <tags:includeScriptaculous/>
-    <tags:dwrJavascriptLink objects="scheduleCrf"/>
-    <script type="text/javascript">
-        var oAC;
-        function initializeAutoCompleter() {
-            var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
-            oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
-            oDS.responseSchema = {
-                recordDelim: ";",
-                fieldDelim: "\t"
-            };
-            oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
-            oAC.maxResultsDisplayed = 100;
-        }
+    input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+        background-position: 0 -100px;
+        -moz-box-shadow: 0 0px 6px #ccc;
+        -webkit-box-shadow: 0 0px 6px #ccc;
+        box-shadow: 0 0px 6px #ccc;
+    }
 
-        var nextColumnIndex = 0;
+    .yui-skin-sam .yui-ac-content li {
+        font-size: 20px;
+        text-shadow: none;
+        font-family: lucida grande, sans-serif;
+    }
 
-        function addNewSymptom(selectedChoice) {
-            scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
-                if (values != '') {
-                    var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
-                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
-                        onComplete:function(transport) {
-                            showConfirmationWindow(transport, 600, 150);
-                        },
-                        method:'get'
-                    })
+    * {
+        zoom: 1;
+    }
 
-                } else {
-                    checkMapping(selectedChoice);
-                    addSymptom(selectedChoice);
-                }
+    .label {
+        font-weight: bold;
+        font-size: 15px;
+        vertical-align: top;
+    }
 
+    #participantSymptomAutoComplete {
+        width: 450px;
+        padding-bottom: 43px;
+    }
+
+    #participantSymptomAutoComplete .yui-ac-content {
+        max-height: 20em;
+        overflow: auto;
+        overflow-x: hidden; /* set scrolling */
+        _height: 30em; /* ie6 */
+    }
+
+    /*#mytable td {*/
+        /*height: 65px;*/
+        /*background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;*/
+        /*border: 1px solid lightgray;*/
+        /*padding: 5px 15px 5px 40px;*/
+        /*-moz-border-radius: 8px;*/
+        /*-webkit-border-radius: 8px;*/
+        /*border-radius: 8px;*/
+        /*text-shadow: 0 1px white;*/
+        /*vertical-align: middle;*/
+    /*}*/
+
+    .buttonLook {
+         height: 65px;
+        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
+        border: 1px solid lightgray;
+        padding: 5px 15px 5px 40px;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        text-shadow: 0 1px white;
+        vertical-align: middle;
+    }
+
+    #mytable td:hover {
+        background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
+        color: #245808;
+        text-shadow: 0 1px white;
+        cursor: pointer;
+        border-color: #86bc56;
+    }
+
+    #mytable td input {
+        display: none;
+    }
+
+    #mytable td.selected {
+        background: #538f32 url(/proctcae/images/green-selected_tall.png) repeat-x top; /*background-image: url("/proctcae/images/check-icon.png");*/
+    /*background: url(/proctcae/images/green-selected.png) 2px 0;*/
+        color: white;
+        text-shadow: 0 -1px #2a6f04;
+        cursor: pointer;
+        border-color: #538f32;
+    }
+
+    #mytable td.selected .check {
+        background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;
+        height: 100%;
+        margin-right: 7px;
+        float: left;
+    }
+
+</style>
+<tags:includeScriptaculous/>
+<tags:dwrJavascriptLink objects="scheduleCrf"/>
+<script type="text/javascript">
+var oAC;
+function initializeAutoCompleter() {
+    var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
+    oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
+    oDS.responseSchema = {
+        recordDelim: ";",
+        fieldDelim: "\t"
+    };
+    oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
+    oAC.maxResultsDisplayed = 100;
+}
+
+var nextColumnIndex = 0;
+var tdCount = 0;
+function addNewSymptom(selectedChoice) {
+    scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
+        if (values != '') {
+            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 150);
+                },
+                method:'get'
             })
+
+        } else {
+            checkMapping(selectedChoice);
+            addSymptom(selectedChoice);
         }
 
-        function checkMapping(selectedChoice) {
-            scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
-                if (values != '') {
-                    var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
-                        parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
-                        onComplete:function(transport) {
-                            showConfirmationWindow(transport, 500, 150);
-                        },
-                        method:'post'
-                    })
+    })
+}
 
-                }
+function checkMapping(selectedChoice) {
+    scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
+        if (values != '') {
+            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 500, 150);
+                },
+                method:'post'
             })
-        }
-
-        function addSymptom(escapedSelectedChoice) {
-            var selectedChoice = unescape(escapedSelectedChoice);
-            var checkboxitems = document.getElementsByName('symptomsByParticipants');
-            var itemfound = false;
-            for (var i = 0; i < checkboxitems.length; i++) {
-                if (checkboxitems[i].value == selectedChoice) {
-                    checkboxitems[i].checked = true;
-                    itemfound = true
-                    changeClass(checkboxitems[i], checkboxitems[i].id);
-                    break;
-                }
-            }
-            if (!itemfound) {
-                addCheckbox(selectedChoice);
-            }
-            clearInput();
-            initSearchField();
 
         }
-        function clearInput() {
-            $('participantSymptomInput').clear();
+    })
+}
+
+function addSymptom(escapedSelectedChoice) {
+    var selectedChoice = unescape(escapedSelectedChoice);
+    var checkboxitems = document.getElementsByName('symptomsByParticipants');
+    var itemfound = false;
+    for (var i = 0; i < checkboxitems.length; i++) {
+        if (checkboxitems[i].value == selectedChoice) {
+            checkboxitems[i].checked = true;
+            itemfound = true
+            changeClass(checkboxitems[i], checkboxitems[i].id);
+            break;
         }
-        function addCheckbox(selectedChoice) {
-            clearInput();
-            if (selectedChoice == '') {
-                return;
-            }
-            if (nextColumnIndex % 3 == 0) {
-                var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
-                var row = document.createElement("TR");
+    }
+    if (!itemfound) {
+        addCheckbox(selectedChoice);
+    }
+    clearInput();
+    initSearchField();
 
-                var td1 = document.createElement("TD");
-                td1.id = 'td_' + nextColumnIndex + '_a';
-                $(td1).addClassName('label');
+}
+function clearInput() {
+    $('participantSymptomInput').clear();
+}
+function addCheckbox(selectedChoice) {
+    clearInput();
 
-                var td2 = document.createElement("TD");
-                td2.id = 'td_' + nextColumnIndex + '_b';
-                $(td2).addClassName('label');
+    if (selectedChoice == '') {
+        return;
+    }
+    if (nextColumnIndex % 3 == 0) {
+        var idVar = Math.floor(nextColumnIndex/3)*3;
+        var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
+        var row = document.createElement("TR");
 
-                var td3 = document.createElement("TD");
-                td3.id = 'td_' + (nextColumnIndex + 1) + '_a';
-                $(td3).addClassName('label');
+        var td2 = document.createElement("TD");
+        td2.id = 'td_' + nextColumnIndex + '_b';
+        $(td2).addClassName('buttonLook');
 
-                var td4 = document.createElement("TD");
-                td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
-                $(td4).addClassName('label');
+        var td4 = document.createElement("TD");
+        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
+        $(td4).addClassName('buttonLook');
 
-                var td5 = document.createElement("TD");
-                td5.id = 'td_' + (nextColumnIndex + 2) + '_a';
-                $(td5).addClassName('label');
+        var td6 = document.createElement("TD");
+        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
+        $(td6).addClassName('buttonLook');
 
-                var td6 = document.createElement("TD");
-                td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
-                $(td6).addClassName('label');
+        tdCount = nextColumnIndex + 2;
 
-                row.appendChild(td1);
-                row.appendChild(td2);
-                row.appendChild(td3);
-                row.appendChild(td4);
-                row.appendChild(td5);
-                row.appendChild(td6);
-                tbody.appendChild(row);
-            }
-            var tda = document.getElementById('td_' + nextColumnIndex + '_a');
-            var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
-            var chkbox = document.createElement('input');
-            chkbox.type = "checkbox";
-            chkbox.name = 'symptomsByParticipants';
-            chkbox.value = selectedChoice;
-            chkbox.id = nextColumnIndex
-            chkbox.onchange = function() {
-                changeClass(chkbox, chkbox.id);
-            }
-            tda.appendChild(chkbox);
-            chkbox.checked = true;
-            var div = document.createElement('div');
-            div.setAttribute('id', 'div_' + nextColumnIndex);
-            div.appendChild(document.createTextNode(selectedChoice));
-            tdb.appendChild(div);
-            changeClass(chkbox, nextColumnIndex);
-            nextColumnIndex++;
+        row.appendChild(td2);
+        row.appendChild(td4);
+        row.appendChild(td6);
+        tbody.appendChild(row);
+
+        td2.onclick = function() {
+            var v=idVar;
+            changeTdClass(v);
+
         }
+        td4.onclick = function() {
+            var v=idVar+1;
+            changeTdClass(v);
+        }
+        td6.onclick = function() {
+            var v=idVar+2;
+            changeTdClass(v);
+        }
+    }
 
+    var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
+    var chkbox = document.createElement('input');
+    chkbox.type = "checkbox";
+    chkbox.name = 'symptomsByParticipants';
+    chkbox.value = selectedChoice;
+    chkbox.id = nextColumnIndex;
+    chkbox.onchange = function() {
+        changeClass(chkbox, chkbox.id);
+    }
 
-        Event.observe(window, "load", function() {
-            initializeAutoCompleter()
-        })
+    tdb.appendChild(chkbox);
+    selectCheckBox(nextColumnIndex);
 
-        function changeClass(obj, index) {
-            var div = $('div_' + index);
-            if (obj.checked) {
-                $(div).removeClassName("norm");
-                $(div).addClassName('over');
+    var div = document.createElement('div');
+    div.setAttribute('id', 'div_' + nextColumnIndex);
+    div.appendChild(document.createTextNode(selectedChoice));
+    tdb.appendChild(div);
+    changeClass(chkbox, nextColumnIndex);
+//    alert(tdCount);
+//    alert(nextColumnIndex);
+    if (tdCount != nextColumnIndex) {
+        removeTdClass(nextColumnIndex, tdCount);
+    }
+//    alert(nextColumnIndex);
+    nextColumnIndex++;
+}
+
+function selectCheckBox(index) {
+    var x = document.getElementById(index);
+    var td = $('td_' + index + '_b');
+    x.checked = true;
+    td.addClassName("selected");
+}
+
+function changeTdClass(index) {
+//    alert(index-1);
+           var ind = index;
+//           alert(ind);
+           var x = $(''+ind);
+//    alert(x);
+           var td = $('td_' + ind + '_b');
+//    alert(td);
+            if (x.checked) {
+//            alert("checked");
+                x.checked = false;
+//            document.getElementById("img_"+index).style.display = "none";
+                $(td).removeClassName("selected");
+                $(td).addClassName('');
             } else {
-                div.removeClassName("over");
-                div.addClassName("norm");
+//            alert("uncheck");
+//                document.getElementById("img_" + index).style.display = "block";
+                x.checked = true;
+                td.removeClassName("");
+                td.addClassName("selected");
             }
-        }
-        function submitForm(direction) {
-            document.myForm.direction.value = direction;
-            document.myForm.submit();
-        }
+}
 
-        function sendConfirmedSymptom() {
-            var selectedValueNew = escape($('participantSymptomInput').value);
-            addSymptom(selectedValueNew);
-            closeWindow();
-        }
-    </script>
+function removeTdClass(index, count) {
+    var columnIndex = index+1;
+//            alert("a");
+    while (columnIndex <= count) {
+//                alert(columnIndex);
+//                alert(count);
+        $('td_' + columnIndex + '_b').removeClassName('buttonLook');
+        columnIndex++;
+    }
+}
+
+Event.observe(window, "load", function() {
+    initializeAutoCompleter()
+})
+
+function changeClass(obj, index) {
+    var div = $('div_' + index);
+    if (obj.checked) {
+        $(div).removeClassName("norm");
+        $(div).addClassName('over');
+    } else {
+        div.removeClassName("over");
+        div.addClassName("norm");
+    }
+}
+function submitForm(direction) {
+    document.myForm.direction.value = direction;
+    document.myForm.submit();
+}
+
+function sendConfirmedSymptom() {
+    var selectedValueNew = escape($('participantSymptomInput').value);
+    addSymptom(selectedValueNew);
+    closeWindow();
+}
+</script>
 </head>
 <body>
 <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
@@ -262,7 +366,8 @@
     <br/>
 
     <div class="yui-skin-sam">
-        <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}" var="lang"/>
+        <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"
+               var="lang"/>
         <table cellspacing="10px;">
             <tr>
                 <td width="74%">
@@ -272,20 +377,22 @@
                         <div id="participantSymptomContainer"></div>
                     </div>
                 </td>
-                <td >
-                <spring:message code="add" var="add"/>
-                <a onclick="javascript:clearInput()" class="btn green-med"><span><img src="../../images/add-icon.png"/>Add</span></a> 
-                  
-                  <!--  <spring:message code="add" var="add"/>
+                <td>
+                    <spring:message code="add" var="add"/>
+                    <a onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
+                       class="btn green-med"><span><img src="../../images/add-icon.png"/>Add</span></a>
+
+                    <!--  <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
                                  icon="add"
                                  size="small" color="blue" value="${add}" markupWithTag="a"/>-->
                 </td>
-                <td >
-                <spring:message code="clear" var="clear"/>
-                <a onclick="javascript:clearInput()" class="btn red-med"><span><img src="../../images/clear-icon.png"/>Clear</span></a>   
-                  
-                  <!--  <spring:message code="clear" var="clear"/>
+                <td>
+                    <spring:message code="clear" var="clear"/>
+                    <a onclick="javascript:clearInput()" class="btn red-med"><span><img
+                            src="../../images/clear-icon.png"/>Clear</span></a>
+
+                    <!--  <spring:message code="clear" var="clear"/>
                     <tags:button onclick="javascript:clearInput()"
                                  icon="x"
                                  size="small" color="blue" value="${clear}" markupWithTag="a"/> -->
@@ -304,12 +411,12 @@
         <table id="mytable">
             <tbody>
             <tr>
-                <td class="" style="vertical-align:top" width="1%"></td>
-                <td class="value label" width="32%">
-                <td class="" style="vertical-align:top" width="1%"></td>
-                <td class="value label" width="32%">
-                <td class="" style="vertical-align:top" width="1%"></td>
-                <td class="value label" width="32%">
+                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
+                    <%--<td class="value label" width="32%">--%>
+                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
+                    <%--<td class="value label" width="32%">--%>
+                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
+                    <%--<td class="value label" width="32%">--%>
             </tr>
                 <%--<c:set var="numrows" value="${numrows}"/>--%>
                 <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
@@ -349,7 +456,7 @@
         </td>
         <td align="left" width="50%">
             <spring:message code="next" var="next"/>
-             <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
+            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
         </td>
     </tr>
 </table>
