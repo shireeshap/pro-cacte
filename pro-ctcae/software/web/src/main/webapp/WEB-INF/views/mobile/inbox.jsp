@@ -52,7 +52,7 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.INPROGRESS || (studyParticipantCrfSchedule.status eq CrfStatus.SCHEDULED &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status eq 'INPROGRESS' || (studyParticipantCrfSchedule.status eq 'SCHEDULED' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -85,13 +85,13 @@
                    var="studyParticipantCrf">
             <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                        var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.status eq CrfStatus.INPROGRESS || (studyParticipantCrfSchedule.status eq CrfStatus.SCHEDULED &&  studyParticipantCrfSchedule.startDate < todaysdate)}">
+                <c:if test="${studyParticipantCrfSchedule.status eq 'INPROGRESS' || (studyParticipantCrfSchedule.status eq 'SCHEDULED' &&  studyParticipantCrfSchedule.startDate < todaysdate)}">
                     <tr>
                         <td>
                             <a href="submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
                         </td>
                         <td>
-                                ${studyParticipantCrfSchedule.status}
+                                ${studyParticipantCrfSchedule.status.displayName}
                         </td>
                         <td>
                             <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>

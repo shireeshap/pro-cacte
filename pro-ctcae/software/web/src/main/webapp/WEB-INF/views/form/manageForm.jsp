@@ -181,7 +181,7 @@
                 </td>
                 <td class="data">
                     <c:choose>
-                        <c:when test="${crf.status eq CrfStatus.RELEASED}">Final</c:when>
+                        <c:when test="${crf.status eq 'RELEASED'}">Final</c:when>
                         <c:otherwise>
                             ${crf.status}
                         </c:otherwise>
