@@ -281,11 +281,11 @@ uniqueIdentifier"/>
                        <c:set var="ivrs" value="false"/>
                        <c:set var="hbook" value="false"/>
                        <c:forEach items="${command.study.studyModes}" var="app" varStatus="status">
-                           <c:if test="${app.mode.name eq 'CLINICWEB'}"><c:set var="cweb" value="true"/></c:if>
-                           <c:if test="${app.mode.name eq 'CLINICBOOKLET'}"><c:set var="cbook" value="true"/></c:if>
-                           <c:if test="${app.mode.name eq 'HOMEWEB'}"><c:set var="hweb" value="true"/></c:if>
-                           <c:if test="${app.mode.name eq 'IVRS'}"><c:set var="ivrs" value="true"/></c:if>
-                           <c:if test="${app.mode.name eq 'HOMEBOOKLET'}"><c:set var="hbook" value="true"/></c:if>
+                           <c:if test="${app.mode.name eq AppMode.CLINICWEB}"><c:set var="cweb" value="true"/></c:if>
+                           <c:if test="${app.mode.name eq AppMode.CLINICBOOKLET}"><c:set var="cbook" value="true"/></c:if>
+                           <c:if test="${app.mode.name eq AppMode.HOMEWEB}"><c:set var="hweb" value="true"/></c:if>
+                           <c:if test="${app.mode.name eq AppMode.IVRS}"><c:set var="ivrs" value="true"/></c:if>
+                           <c:if test="${app.mode.name eq AppMode.HOMEBOOKLET}"><c:set var="hbook" value="true"/></c:if>
                        </c:forEach>
                        <c:if test="${isEdit}">
                            <c:choose>

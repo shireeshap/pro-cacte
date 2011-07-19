@@ -68,12 +68,12 @@
                             <a class="nolink"
                                title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                 <c:choose>
-                                <c:when test="${studyParticipantCrfSchedule.status eq 'Past-due'}">
+                                <c:when test="${studyParticipantCrfSchedule.status eq CrfStatus.PASTDUE}">
                                     <img src="../../images/blue/Past-due.png"/>
                                 </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
+                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq CrfStatus.OFFSTUDY}">
                                 </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                                <c:when test="${studyParticipantCrfSchedule.status eq CrfStatus.SCHEDULED}">
                                 <div id="img_${status.index}"
                                      onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
                                     <img src="../../images/blue/Scheduled.png"/>

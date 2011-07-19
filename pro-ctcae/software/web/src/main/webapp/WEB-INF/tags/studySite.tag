@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ attribute name="studysite" type="gov.nih.nci.ctcae.core.domain.StudySite" required="true" %>
 <c:forEach items="${studysite.study.crfs}" var="crf">
-    <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
+    <c:if test="${crf.status eq CrfStatus.RELEASED and crf.childCrf eq null}">
         <c:set var="hasforms" value="true"/>
     </c:if>
 </c:forEach>
@@ -530,7 +530,7 @@
 <c:if test="${hasforms eq 'true'}">
     <c:set var="hasforms" value="false"/>
     <c:forEach items="${studysite.study.crfs}" var="crf">
-        <c:if test="${crf.status eq 'Final' and crf.childCrf eq null}">
+        <c:if test="${crf.status eq CrfStatus.RELEASED and crf.childCrf eq null}">
             <tr>
                 <td align="right" class="data">
                     <b><spring:message code="form.tab.form"/></b>

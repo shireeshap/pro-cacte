@@ -36,14 +36,14 @@
 </head>
 <body>
 <c:if test="${param['successMessage']}">
-    <c:if test="${command.status eq 'In-progress'}">
+    <c:if test="${command.status eq CrfStatus.INPROGRESS}">
         <chrome:flashMessage flashMessage="Form has been saved successfully"/>
     </c:if>
-    <c:if test="${command.status eq 'Completed'}">
+    <c:if test="${command.status eq CrfStatus.COMPLETED}">
         <chrome:flashMessage flashMessage="Form has been submitted successfully"/>
     </c:if>
 </c:if>
-<c:if test="${command.status eq 'Completed'}">
+<c:if test="${command.status eq CrfStatus.COMPLETED}">
     <c:set var="disabled" value="disabled"/>
 </c:if>
 
