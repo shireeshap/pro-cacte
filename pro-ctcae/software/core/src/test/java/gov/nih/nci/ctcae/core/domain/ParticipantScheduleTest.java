@@ -24,9 +24,17 @@ public class ParticipantScheduleTest extends TestCase {
     private CRFPage crfPage;
     List<CRFPage> crfPages;
     CRFCycleDefinition defA;
+    private Study study;
+    private StudySite studySite;
 
     @Override
     public void setUp() throws Exception {
+        study = new Study();
+        study.setId(1);
+        study.setCallBackHour(1);
+        studySite = new StudySite();
+        studySite.setId(1);
+        studySite.setStudy(study);
     	studyParticipantAssignment = new StudyParticipantAssignment();
     	StudyParticipantMode spm = new StudyParticipantMode();
     	spm.setMode(AppMode.IVRS);
@@ -35,6 +43,7 @@ public class ParticipantScheduleTest extends TestCase {
     	studyParticipantAssignment.setCallHour(10);
     	studyParticipantAssignment.setCallMinute(0);
     	studyParticipantAssignment.setCallTimeZone(StudyParticipantAssignment.PACIFIC);
+        studyParticipantAssignment.setStudySite(studySite);
         participantSchedule=new ParticipantSchedule();
         proCtcAECalendar = new ProCtcAECalendar();
         crf = new CRF();
@@ -68,7 +77,6 @@ public class ParticipantScheduleTest extends TestCase {
         proCtcAECalendar.setDueDateAmount(3);
         proCtcAECalendar.setStartDate(DateUtils.parseDate("01/18/2011"));
         proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
-        
 
     }
     public void testCreateSchedules() throws Exception {
