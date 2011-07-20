@@ -22,7 +22,7 @@
             index = scheduleArr[${index}][day].length;
         }
         scheduleArr[${index}][day][index] = new Array();
-        scheduleArr[${index}][day][index][0] = '${studyParticipantCrfSchedule.status}';
+        scheduleArr[${index}][day][index][0] = '${studyParticipantCrfSchedule.status.displayName}';
         scheduleArr[${index}][day][index][1] = '${studyParticipantCrfSchedule.baseline}';
         scheduleArr[${index}][day][index][2] = '${studyParticipantCrfSchedule.holiday}';
         scheduleArr[${index}][day][index][3] = '${studyParticipantCrfSchedule.id}';
