@@ -406,9 +406,9 @@ function sendConfirmedSymptom() {
     <div class="yui-skin-sam">
         <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"
                var="lang"/>
-        <table cellspacing="10px;">
+        <table cellspacing="10px;" border="0">
             <tr>
-                <td width="74%">
+                <td width="79%">
                     <div id="participantSymptomAutoComplete">
                         <input id="participantSymptomInput" type="text">
 
