@@ -25,8 +25,10 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.RequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractFormController;
+import org.springframework.web.util.WebUtils;
 
 /**
  * @author Harsh Agarwal
@@ -97,6 +99,13 @@ public class ForgotPasswordController extends AbstractFormController {
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
             content += "\nYou must reset your password by clicking on this link ";
             content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
+            String lang = LocaleContextHolder.getLocale().getLanguage();
+            String specifyLang = "&lang=en";
+            if(!StringUtils.isBlank(lang)){
+            	specifyLang = "&lang="+lang;
+            }
+            content += specifyLang;
+            
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject("PRO-CTCAE Account Password");
@@ -130,6 +139,13 @@ public class ForgotPasswordController extends AbstractFormController {
             String content = salutation + participant.getFirstName() + " " + participant.getLastName() + ", ";
             content += "\n" + msg1;
             content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
+            String lang = LocaleContextHolder.getLocale().getLanguage();
+            String specifyLang = "&lang=en";
+            if(!StringUtils.isBlank(lang)){
+            	specifyLang = "&lang="+lang;
+            }
+            content += specifyLang;
+            
             JavaMailSender javaMailSender = new JavaMailSender();
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject(subject);
