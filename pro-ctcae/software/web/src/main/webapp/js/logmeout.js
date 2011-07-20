@@ -39,7 +39,7 @@ function logoutWarning() {
 }
 function timeoutSession() {
 	AE.checkForModification=false;
-	window.location='j_spring_security_logout';
+	window.location.href='/proctcae/pages/j_spring_security_logout';
 }
 
 // ----------------------------------------------------------------------------------------------------------------
