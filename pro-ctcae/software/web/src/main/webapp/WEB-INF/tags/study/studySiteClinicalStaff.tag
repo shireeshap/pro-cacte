@@ -43,7 +43,7 @@
                         </td>
                         <td>
                             <c:choose>
-                                <c:when test="${studyOrganizationClinicalStaff.roleStatus == 'Active'}">
+                                <c:when test="${studyOrganizationClinicalStaff.roleStatus.displayName eq 'Active'}">
                                     <tags:button color="blue" markupWithTag="a" value="De-activate"
                                                  onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
                                                  size="small"/>
