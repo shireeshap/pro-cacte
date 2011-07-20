@@ -103,15 +103,19 @@
     /*}*/
 
     .buttonLook {
-         height: 65px;
+         height: auto;
+         /*display: block;*/
         background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
+        /*background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;*/
         border: 1px solid lightgray;
-        padding: 5px 15px 5px 40px;
+        padding: 10px 15px 10px 15px;
         -moz-border-radius: 8px;
         -webkit-border-radius: 8px;
         border-radius: 8px;
         text-shadow: 0 1px white;
         vertical-align: middle;
+        text-align: center;
+        font-weight:bold;
     }
 
     #mytable td:hover {
@@ -125,6 +129,21 @@
     #mytable td input {
         display: none;
     }
+    .hideTd {
+        display: none;
+    }
+    .showTd {
+        display: block;
+        height: 65px;
+        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
+        border: 1px solid lightgray;
+        padding: 5px 15px 5px 40px;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        text-shadow: 0 1px white;
+        vertical-align: middle;
+    }
 
     #mytable td.selected {
         background: #538f32 url(/proctcae/images/green-selected_tall.png) repeat-x top; /*background-image: url("/proctcae/images/check-icon.png");*/
@@ -135,7 +154,8 @@
         border-color: #538f32;
     }
 
-    #mytable td.selected .check {
+    .check {
+        display: block;
         background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;
         height: 100%;
         margin-right: 7px;
@@ -231,6 +251,7 @@ function addCheckbox(selectedChoice) {
         td2.id = 'td_' + nextColumnIndex + '_b';
         $(td2).addClassName('buttonLook');
 
+
         var td4 = document.createElement("TD");
         td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
         $(td4).addClassName('buttonLook');
@@ -271,7 +292,19 @@ function addCheckbox(selectedChoice) {
         changeClass(chkbox, chkbox.id);
     }
 
+    var divTag = document.createElement("div");
+        divTag.id = "div1_"+nextColumnIndex;
+        divTag.setAttribute("align","left");
+        divTag.style.margin = "0px auto";
+        divTag.className ="check";
+        divTag.innerHTML ="&nbsp;&nbsp;&nbsp;&nbsp;";
+
+    if(nextColumnIndex > 0) {
+        tdb.addClassName('buttonLook');
+//        tdb.addClassName('showTd');
+    }
     tdb.appendChild(chkbox);
+    tdb.appendChild(divTag);
     selectCheckBox(nextColumnIndex);
 
     var div = document.createElement('div');
@@ -302,6 +335,7 @@ function changeTdClass(index) {
            var x = $(''+ind);
 //    alert(x);
            var td = $('td_' + ind + '_b');
+           var div = $('div1_'+ind);
 //    alert(td);
             if (x.checked) {
 //            alert("checked");
@@ -309,12 +343,15 @@ function changeTdClass(index) {
 //            document.getElementById("img_"+index).style.display = "none";
                 $(td).removeClassName("selected");
                 $(td).addClassName('');
+                div.removeClassName('check');
+                div.addClassName('hideTd');
             } else {
 //            alert("uncheck");
 //                document.getElementById("img_" + index).style.display = "block";
                 x.checked = true;
                 td.removeClassName("");
                 td.addClassName("selected");
+                div.addClassName('check');
             }
 }
 
@@ -325,6 +362,7 @@ function removeTdClass(index, count) {
 //                alert(columnIndex);
 //                alert(count);
         $('td_' + columnIndex + '_b').removeClassName('buttonLook');
+//        $('td_' + columnIndex + '_b').addClassName('hideTd');
         columnIndex++;
     }
 }
@@ -408,15 +446,15 @@ function sendConfirmedSymptom() {
             code="virtualKeyboard"/>
     </div>
     <form:form method="post" name="myForm">
-        <table id="mytable">
+        <table id="mytable" width="100%" border="0">
             <tbody>
             <tr>
                     <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <%--<td class="value label" width="32%">--%>
+                    <td width="32%" >
                     <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <%--<td class="value label" width="32%">--%>
+                    <td width="32%" >
                     <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <%--<td class="value label" width="32%">--%>
+                    <td width="32%" >
             </tr>
                 <%--<c:set var="numrows" value="${numrows}"/>--%>
                 <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
