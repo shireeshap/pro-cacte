@@ -93,6 +93,12 @@ public class Fixture {
         studyParticipantAssignment.setStudyParticipantIdentifier("SPI");
         studyParticipantAssignment.setArm(studySite.getStudy().getArms().get(0));
         studyParticipantAssignment.setParticipant(participant);
+
+        StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+        studyParticipantCrf.setCrf(createCrf());
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+
+        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf );
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         return participant;
     }
