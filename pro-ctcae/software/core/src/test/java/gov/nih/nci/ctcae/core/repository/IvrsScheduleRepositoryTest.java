@@ -1,12 +1,7 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
-import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
@@ -22,7 +17,13 @@ public class IvrsScheduleRepositoryTest extends TestDataManager {
 
 	private void addStudyParticipantAssignment(Study study){
 		Participant participant = Fixture.createParticipantWithStudyAssignment("John", "Doe", "identifier", study.getStudySites().get(0));
+        StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
+        CRF crf =    studyParticipantAssignment.getStudyParticipantCrfs().get(0).getCrf();
+        crf.setStudy(study);
+        crfRepository.save(studyParticipantAssignment.getStudyParticipantCrfs().get(0).getCrf());
 		participantRepository.save(participant);
+
+
 	//	StudyParticipantAssignment spa= studyParticipantAssignmentRepository.save(participant.getStudyParticipantAssignments().get(0));
 		study.getArms().get(0).getStudyParticipantAssignments().add(participant.getStudyParticipantAssignments().get(0));
 	}

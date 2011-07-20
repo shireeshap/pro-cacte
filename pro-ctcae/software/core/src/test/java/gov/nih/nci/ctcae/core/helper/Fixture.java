@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 
 import java.util.Date;
 
@@ -13,6 +14,7 @@ public class Fixture {
     public static final Organization NCI = createOrganization("National Cancer Institute", "NCI");
     public static final Organization DUKE = createOrganization("DUKE", "DUKE");
     public static final String DEFAULT_PASSWORD = "password";
+
 
     public static Organization createOrganization(String name, String nciCode) {
 
@@ -96,7 +98,15 @@ public class Fixture {
 
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
         studyParticipantCrf.setCrf(createCrf());
-        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+
+
+
+
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+        studyParticipantCrfSchedule.setBaseline(true);
+        studyParticipantCrfSchedule.setMonthInStudy(1);
+        studyParticipantCrfSchedule.setWeekInStudy(1);
+        studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
         studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf );
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
