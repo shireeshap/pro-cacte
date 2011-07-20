@@ -65,7 +65,7 @@ public class CrfTestHelper {
     }
 
     public static void createIVRSTestForm(Study study,TestDataManager localTestDataManager) throws Exception {
-        ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,"1234567890",1234);
+        ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,"1201201200",1234);
         if(myTestDataManager == null)
              localTestDataManager.commitAndStartNewTransaction();
         else

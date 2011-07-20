@@ -23,14 +23,14 @@ public class IVRSApiTestHelper {
         this.dataSource = dataSource;
     }
 
-    public Integer ivrsLogin(int userNumber, int pin) {
+    public Integer ivrsLogin(String userNumber, int pin) {
         String procedureName = "ivrs_login";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
                 .withFunctionName(procedureName);
         ivrsLoginFunction.setAccessCallParameterMetaData(false);
         ivrsLoginFunction.declareParameters(
                 new SqlOutParameter("RETURN", Types.INTEGER),
-                new SqlParameter("usernumber", Types.INTEGER),
+                new SqlParameter("usernumber", Types.VARCHAR),
                 new SqlParameter("pin", Types.INTEGER));
         MapSqlParameterSource in = new MapSqlParameterSource()
                 .addValue("usernumber", userNumber)

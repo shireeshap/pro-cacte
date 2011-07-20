@@ -2,12 +2,12 @@ package gov.nih.nci.ctcae.core.ivrs;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.helper.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class IVRSApiTest extends TestDataManager{
     
         IVRSApiTestHelper helper = new IVRSApiTestHelper();
         helper.setDataSource(jdbcTemplate.getDataSource());
-        Integer userId = helper.ivrsLogin(1234,1234);
+        Integer userId = helper.ivrsLogin("1201201200",1234);
         //checking the user information correct
         assertEquals(participant.getUser().getId(),userId);
         assertEquals(participant.getUser().getId(),userId);
@@ -68,7 +68,7 @@ public class IVRSApiTest extends TestDataManager{
         Integer isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(1,isUserNew.intValue());
         //passing wrong information
-        Integer userId1 = helper.ivrsLogin(1234,9999);
+        Integer userId1 = helper.ivrsLogin("1201201200",9999);
         assertEquals(0,userId1.intValue());
         Date currentDate = new Date();
         int formsCount = 0;
@@ -113,7 +113,7 @@ public class IVRSApiTest extends TestDataManager{
 
         //skipping next 2 questions as answering the first question with none as answer,checking the skipping questions
         //So next question id will be 4th one
-        String fourthQuestionIdCategory = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fistQuestionId,1,questionCategory);
+        String fourthQuestionIdCategory = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fistQuestionId,0,questionCategory);
         splitText=fourthQuestionIdCategory.split("_");
         Integer fourthQuestionId = Integer.parseInt(splitText[0]);
         questionCategory = Integer.parseInt(splitText[1]);
@@ -124,7 +124,7 @@ public class IVRSApiTest extends TestDataManager{
         assertEquals(0,isUserNew.intValue());
 
         assertEquals(fistQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId,questionCategory));
-        assertEquals(1,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId,questionCategory).intValue());
+        assertEquals(0,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId,questionCategory).intValue());
 
         String fourthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fourthQuestionId);
         assertEquals(fourthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
@@ -187,14 +187,16 @@ public class IVRSApiTest extends TestDataManager{
        assertEquals(firstAddedQuesText,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
        String firstAddedQuesType = helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,addedQuestionId);
        assertEquals(firstAddedQuesType,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getProCtcQuestionType().getCode().toUpperCase());
-       String nextAddedQuestion =helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,addedQuestionId,1,questionCategory);
+       String nextAddedQuestion =helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,addedQuestionId,0,questionCategory);
        Integer nextAddedQuestionId=0;
        if(!nextAddedQuestion.equals("0")){
             splitText=fourthQuestionIdCategory.split("_");
             nextAddedQuestionId= Integer.parseInt(splitText[0]);
             questionCategory = Integer.parseInt(splitText[1]);
        }
-       assertEquals(0,nextAddedQuestionId.intValue()); 
+       assertEquals(0,nextAddedQuestionId.intValue());
+      //helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,4,0,0);
+
         //committed the total session
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
        assertEquals(result.intValue(),1);

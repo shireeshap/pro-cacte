@@ -1,7 +1,7 @@
 --Login function returns user id on successful login
 --Input parameters are user number and pin
 --Function returns 0 on unsuccnextQuestionIdCategoryessful login , returns valid user id which is >0 on successful login and returns -1 for any other DB issues
-CREATE OR REPLACE FUNCTION ivrs_login(userNumber integer, pin integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION ivrs_login(userNumber text, pin integer) RETURNS integer AS $$
 DECLARE
    v_ret_user_id integer := 0;
 BEGIN
@@ -16,6 +16,8 @@ EXCEPTION
     return -1;
 END;
 $$ LANGUAGE plpgsql;
+
+
 
 --Ivrs_NumberForms function returns number of scheduled forms avilable for the user
 --Input parameters: userid is the returned value from login function for the same caller
@@ -611,7 +613,7 @@ BEGIN
     -- get study participant crf id using form id
 	SELECT spcs.study_participant_crf_id INTO v_sp_crf_id from sp_crf_schedules spcs where id=formid;
 	IF answer=1 THEN
-        -- get the count of page numebrs present in sp_crf_sch_added_questions using form id
+        -- get the count of page numbers present in sp_crf_sch_added_questions using form id
 		SELECT count(page_number) INTO v_page_no FROM sp_crf_sch_added_questions scsaq where scsaq.sp_crf_schedule_id = formid;
 		-- if count is 0 then get count of page numbers from mandatory questions using form id else get max page number from added questions
 		IF NOT FOUND or v_page_no=0 THEN
@@ -645,7 +647,7 @@ BEGIN
 		END LOOP;
 		CLOSE cursor_questions;
 	END IF;
-	IF answer=2 THEN
+	IF answer=0 THEN
 		OPEN cursor_questions(symptomid);
 			LOOP
 			FETCH cursor_questions INTO v_question_id;
@@ -685,11 +687,11 @@ $$ LANGUAGE 'plpgsql';
 --return: -2 for form not completed properly and still some questions needs to be answered, 1 for form completed, 0 for form not submitted properly, -1 for any DB issues
 CREATE OR REPLACE FUNCTION IVRS_CommitSession(userid integer, formid integer, pin integer) RETURNS integer AS $$
 DECLARE
-	v_next_question_id integer :=0;
+	v_next_question_id text :=0;
 	v_ret_value integer :=1;
 BEGIN
 	v_next_question_id := ivrs_getfirstquestion(userid,formid);
-	IF v_next_question_id = 0
+	IF v_next_question_id = '0'
 	then
 		--delete the invalid questions
 		v_ret_value := ivrs_deleteAddedQuestions(userid,formid);
@@ -1054,7 +1056,7 @@ BEGIN
 			(SELECT  DISTINCT(pcq.pro_ctc_term_id) from pro_ctc_questions pcq
 			JOIN sp_crf_sch_added_questions spcsaq ON spcsaq.question_id=pcq.id
 			WHERE spcsaq.sp_crf_schedule_id=formid and spcsaq.pro_ctc_valid_value_id IS NOT NULL )
-			LIMIT 1 OFFSET v_sym_row_id-1;
+			ORDER BY pct1.id LIMIT 1 OFFSET v_sym_row_id-1;
 		END IF;
 		-- if not found then check for last answered added or regular question.
 		IF NOT FOUND or v_sym_row_id =0 THEN
@@ -1255,7 +1257,7 @@ BEGIN
 	(SELECT  DISTINCT(pcq.pro_ctc_term_id) from pro_ctc_questions pcq
 	JOIN sp_crf_sch_added_questions spcsaq ON spcsaq.question_id=pcq.id
 	WHERE spcsaq.sp_crf_schedule_id=formid and spcsaq.pro_ctc_valid_value_id IS NOT NULL )
-	LIMIT 1 OFFSET v_core_sym_count;
+	ORDER BY pct1.id LIMIT 1 OFFSET v_core_sym_count;
 
   IF NOT FOUND THEN
 	return 0;
