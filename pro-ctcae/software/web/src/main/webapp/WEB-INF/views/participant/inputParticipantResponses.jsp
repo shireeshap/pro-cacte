@@ -36,14 +36,14 @@
 </head>
 <body>
 <c:if test="${param['successMessage']}">
-    <c:if test="${command.status eq 'INPROGRESS'}">
+    <c:if test="${command.status.displayName eq 'In-progress'}">
         <chrome:flashMessage flashMessage="Form has been saved successfully"/>
     </c:if>
-    <c:if test="${command.status eq 'COMPLETED'}">
+    <c:if test="${command.status.displayName eq 'Completed'}">
         <chrome:flashMessage flashMessage="Form has been submitted successfully"/>
     </c:if>
 </c:if>
-<c:if test="${command.status eq 'COMPLETED'}">
+<c:if test="${command.status.displayName eq 'Completed'}">
     <c:set var="disabled" value="disabled"/>
 </c:if>
 
@@ -231,7 +231,7 @@
             </table>
         </div>
         
-        <c:if test="${command.status ne 'Completed'}">
+        <c:if test="${command.status.displayName ne 'Completed'}">
             <table width="100%" style="margin-top:10px;">
                 <tr>
                     <td align="right">
