@@ -43,7 +43,7 @@
                             <div class="language-toggle" style="float:right">
                                 <ul>
                                     <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-                                    <li class="right ${currentEs}"><a href="?lang=es"> Espa�ol</a></li>
+                                    <li class="right ${currentEs}"><a href="?lang=es">Español</a></li>
                                 </ul>
                             </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
