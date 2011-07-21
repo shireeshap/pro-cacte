@@ -46,7 +46,7 @@
                     id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
               <c:choose>
-                  <c:when test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
+                  <c:when test="${crfPageItem.crfItemAllignment.displayName eq 'Horizontal'}">
                       <c:set var="horizontalCrfItemsStyle" value=""/>
                       <c:set var="verticalCrfItemsStyle" value="display:none;"/>
 
