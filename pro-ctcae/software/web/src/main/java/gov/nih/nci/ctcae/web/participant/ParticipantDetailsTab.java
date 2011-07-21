@@ -194,7 +194,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         }
         //checking for unique phone number
         if (command.getParticipant().getPhoneNumber() != null) {
-
             String phoneNumber = command.getParticipant().getPhoneNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validatePhoneNumber(phoneNumber, command.getParticipant().getId());
             if (validUserNumber) {
