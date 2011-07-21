@@ -191,7 +191,7 @@
                 <td>
                     <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                        id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                    <script>showPopUpMenu('${crf.id}', '${crf.status}');</script>
+                    <script>showPopUpMenu('${crf.id}', '${crf.status.displayName}');</script>
                 </td>
             </tr>
         </c:forEach>
