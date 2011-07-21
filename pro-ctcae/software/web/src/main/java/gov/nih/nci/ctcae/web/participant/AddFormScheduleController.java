@@ -61,7 +61,12 @@ public class AddFormScheduleController extends AbstractController {
         }
 
         mv.addObject("crfs", crfListMap);
-        mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
+        if(crfListMap.size() > 0){
+        	mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
+        } else {
+        	mv.addObject("firstCrf", null);
+        }
+        
         mv.addObject("day", request.getParameter("date"));
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));

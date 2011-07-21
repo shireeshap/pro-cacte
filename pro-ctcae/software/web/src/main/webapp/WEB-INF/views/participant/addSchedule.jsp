@@ -14,28 +14,34 @@
                     </c:forEach>
                     <br/>
                 </c:when>
-                <c:otherwise>
-                    You are about to add a new event for ${participant.displayName} on form: ${firstCrf.title}
+                <c:when test="${firstCrf ne null}">
+                	You are about to add a new event for ${participant.displayName} on form: ${firstCrf.title}
                     <input type="hidden" name="selectedForms" value="${firstCrf.id}"/>
                     <br/>
                     <br/>
+                </c:when>
+                <c:otherwise>
+                    There are no forms available on this study at this time. 
                 </c:otherwise>
             </c:choose>
         </td>
     </tr>
-    <tr>
-        <td style="padding-left:20px">Would you like to add a new event on ${date}?<br></td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td style="padding-left:20px">
-            <input type="button" value="Yes"
-                   onclick="parent.addRemoveSchedule('${index}','${day}','add' )"/>
-            &nbsp;&nbsp;&nbsp;
-            <input type="button" value="No"
-                   onclick="parent.addRemoveSchedule('${index}','${day}','cancel')"/>
-        </td>
-    </tr>
+    <c:if test="${firstCrf ne null}">
+    	<tr>
+	        <td style="padding-left:20px">Would you like to add a new event on ${date}?<br></td>
+	    </tr>
+	    <tr>
+	        <td>&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td style="padding-left:20px">
+	            <input type="button" value="Yes"
+	                   onclick="parent.addRemoveSchedule('${index}','${day}','add' )"/>
+	            &nbsp;&nbsp;&nbsp;
+	            <input type="button" value="No"
+	                   onclick="parent.addRemoveSchedule('${index}','${day}','cancel')"/>
+	        </td>
+	    </tr>
+    </c:if>
+    
 </table>
