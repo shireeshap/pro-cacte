@@ -38,8 +38,8 @@
                 <spring:message code="youCan" />&nbsp;<a href="../participant/participantInbox">
                 <spring:message code="clickHere" /></a>&nbsp;<spring:message code="goToInbox" />
                 <br/><br/>
-                <spring:message code="youCan" />&nbsp;<a href="../participant/responseReport?id=${scheduleid}">
-                <spring:message code="clickHere" /></a>&nbsp;<spring:message code="viewOldResponses" />
+<!--            <spring:message code="youCan" />&nbsp;<a href="../participant/responseReport?id=${scheduleid}">
+                <spring:message code="clickHere" /></a>&nbsp;<spring:message code="viewOldResponses" />			 --> 
             </td>
         </tr>
     </table>
