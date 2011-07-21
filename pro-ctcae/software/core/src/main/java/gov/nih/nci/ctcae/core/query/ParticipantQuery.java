@@ -45,6 +45,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
     private static String EMAIL = "emailAddress";
     private static String USERNUMBER = "userNumber";
+    private static String PHONENUMBER = "phoneNumber";
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
 
@@ -224,6 +225,18 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         if (userNumber != null) {
             andWhere("p.userNumber =:" + USERNUMBER);
             setParameter(USERNUMBER, userNumber);
+        }
+    }
+
+    /**
+     * Filter by participant phone number.
+     *
+     * @param phoneNumber the userNumber
+     */
+    public void filterByPhoneNumber(final String phoneNumber) {
+        if (phoneNumber != null) {
+            andWhere("p.phoneNumber =:" + PHONENUMBER);
+            setParameter(PHONENUMBER, phoneNumber);
         }
     }
 

@@ -23,7 +23,19 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNumber);
         participantQuery.excludeByParticipantId(participantID);
-        
+
+        Collection<Participant> participants = participantRepository.find(participantQuery);
+        if(!CollectionUtils.isEmpty(participants)) {
+            return true;
+        }
+        return false;
+    }
+
+     public boolean validatePhoneNumber(String phoneNumber, Integer participantID){
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByPhoneNumber(phoneNumber);
+        participantQuery.excludeByParticipantId(participantID);
+
         Collection<Participant> participants = participantRepository.find(participantQuery);
         if(!CollectionUtils.isEmpty(participants)) {
             return true;
