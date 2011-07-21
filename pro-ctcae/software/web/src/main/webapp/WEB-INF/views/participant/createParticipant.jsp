@@ -757,11 +757,11 @@ function showOrHideEmail(value1, value2, id) {
                                                  displayName="participant.label.email_address"
                                                  required="false" size="35"/>
                            </td>
-                           <td width="50%">
+                    <!--       <td width="50%">
                                <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
                                                       displayName="participant.label.phone"
                                                       required="${required}"/>
-                           </td>
+                           </td> -->
                        </tr>
                    </table>
                </chrome:division>
