@@ -199,7 +199,7 @@
                             </td>
                             <td>
                                 <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
-                                   class="btn small-green"><span>Start</span></a>
+                                   class="btn small-green"><span><tags:message code="label.start"/></span></a>
                             </td>
                         </tr>
                     </c:if>
