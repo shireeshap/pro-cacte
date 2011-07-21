@@ -142,12 +142,14 @@
                 <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">  <br><br>
                     <span id="emailHeader_${studysite.id}" style="display:none">
                     <table border="0" cellspacing="0">
-                        <tr>
-                            <td align="right" valign="bottom" width="30%">
-                                <span class="required-indicator">*&nbsp;&nbsp; </span>
-                                <b> Email Address</b>
-                            </td>
-                        </tr>
+                        <c:if test="${command.mode eq 'Y'}">
+                            <tr>
+                                <td align="right" valign="bottom" width="30%">
+                                    <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                    <b> Email Address</b>
+                                </td>
+                            </tr>
+                        </c:if>
                         <tr height="70%">
                             <td align="right" valign="bottom" width="30%"><br>
                                 <span class="required-indicator">*&nbsp;&nbsp; </span>
@@ -203,21 +205,23 @@
 
                         <div id="emailInput_${studysite.id}" style="display:none;">
                             <table>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="participant.emailAddress_${studysite.id}"
-                                               value="${studyParticipantAssignment.participant.emailAddress}"
-                                               id="participant.emailAddress_${studysite.id}"
-                                               onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
-                                               size="35"/>
-                                        <ul id="emailError_${studysite.id}" style="display:none;"
-                                            class="errors">
-                                            <li><spring:message
-                                                    code='participant.unique_emailAddress'
-                                                    text='participant.unique_emailAddress'/></li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                                <c:if test="${command.mode eq 'Y'}">
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="participant.emailAddress_${studysite.id}"
+                                                   value="${studyParticipantAssignment.participant.emailAddress}"
+                                                   id="participant.emailAddress_${studysite.id}"
+                                                   onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
+                                                   size="35"/>
+                                            <ul id="emailError_${studysite.id}" style="display:none;"
+                                                class="errors">
+                                                <li><spring:message
+                                                        code='participant.unique_emailAddress'
+                                                        text='participant.unique_emailAddress'/></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </c:if>
                                 <tr>
                                     <td>
                                         <select id="home_web_lang_${studysite.id}"
