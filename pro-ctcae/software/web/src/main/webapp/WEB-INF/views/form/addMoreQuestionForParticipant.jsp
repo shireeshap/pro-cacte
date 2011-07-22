@@ -207,7 +207,7 @@ function addNewSymptom(selectedChoice) {
             })
 
         } else {
-            alertForAdd();
+//            alertForAdd();
             checkMapping(selectedChoice);
             addSymptom(selectedChoice);
         }
