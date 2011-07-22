@@ -41,6 +41,7 @@
         <intercept-url pattern="/pages/participant/responseReport" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/matchSymptoms" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/confirmSymptom" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/participant/alertForAdd" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
 
 

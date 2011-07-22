@@ -91,22 +91,20 @@
     }
 
     /*#mytable td {*/
-        /*height: 65px;*/
-        /*background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;*/
-        /*border: 1px solid lightgray;*/
-        /*padding: 5px 15px 5px 40px;*/
-        /*-moz-border-radius: 8px;*/
-        /*-webkit-border-radius: 8px;*/
-        /*border-radius: 8px;*/
-        /*text-shadow: 0 1px white;*/
-        /*vertical-align: middle;*/
+    /*height: 65px;*/
+    /*background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;*/
+    /*border: 1px solid lightgray;*/
+    /*padding: 5px 15px 5px 40px;*/
+    /*-moz-border-radius: 8px;*/
+    /*-webkit-border-radius: 8px;*/
+    /*border-radius: 8px;*/
+    /*text-shadow: 0 1px white;*/
+    /*vertical-align: middle;*/
     /*}*/
 
     .buttonLook {
-         height: auto;
-         /*display: block;*/
-        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
-        /*background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;*/
+        height: auto; /*display: block;*/
+        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top; /*background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;*/
         border: 1px solid lightgray;
         padding: 10px 15px 10px 15px;
         -moz-border-radius: 8px;
@@ -115,34 +113,50 @@
         text-shadow: 0 1px white;
         vertical-align: middle;
         text-align: center;
-        font-weight:bold;
+        font-weight: bold;
     }
 
-    #mytable td:hover {
+    /*#mytable td:hover {*/
+    /*background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;*/
+    /*color: #245808;*/
+    /*text-shadow: 0 1px white;*/
+    /*cursor: pointer;*/
+    /*border-color: #86bc56;*/
+    /*}*/
+
+    .tdHoverLook {
         background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
         color: #245808;
         text-shadow: 0 1px white;
         cursor: pointer;
         border-color: #86bc56;
+
     }
 
     #mytable td input {
         display: none;
     }
+
     .hideTd {
         display: none;
     }
+
     .showTd {
         display: block;
-        height: 65px;
-        background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;
-        border: 1px solid lightgray;
-        padding: 5px 15px 5px 40px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        border-radius: 8px;
-        text-shadow: 0 1px white;
-        vertical-align: middle;
+        width: 30%; /*height: auto;*/
+    /*display: block;*/
+    /*background: #d6d6d6 url(../../images/lightgray-tall.png) repeat-x top;*/
+    /*background: url(/proctcae/images/check-icon.png) no-repeat 0 50%;*/
+    /*border: 1px solid lightgray;*/
+    /*padding: 10px 15px 10px 15px;*/
+    /*-moz-border-radius: 8px;*/
+    /*-webkit-border-radius: 8px;*/
+    /*border-radius: 8px;*/
+    /*text-shadow: 0 1px white;*/
+    /*vertical-align: middle;*/
+    /*text-align: center;*/
+    /*font-weight:bold;*/
+    <%----%>
     }
 
     #mytable td.selected {
@@ -181,6 +195,7 @@ function initializeAutoCompleter() {
 var nextColumnIndex = 0;
 var tdCount = 0;
 function addNewSymptom(selectedChoice) {
+//    alert($F('participantSymptomInput'));
     scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
         if (values != '') {
             var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
@@ -192,6 +207,7 @@ function addNewSymptom(selectedChoice) {
             })
 
         } else {
+            alertForAdd();
             checkMapping(selectedChoice);
             addSymptom(selectedChoice);
         }
@@ -213,6 +229,17 @@ function checkMapping(selectedChoice) {
         }
     })
 }
+
+function alertForAdd() {
+    var request = new Ajax.Request("<c:url value="/pages/participant/alertForAdd"/>", {
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 650, 180);
+        },
+        parameters:<tags:ajaxstandardparams/> +"&index=ind",
+        method:'get'
+    })
+}
+
 
 function addSymptom(escapedSelectedChoice) {
     var selectedChoice = unescape(escapedSelectedChoice);
@@ -243,22 +270,40 @@ function addCheckbox(selectedChoice) {
         return;
     }
     if (nextColumnIndex % 3 == 0) {
-        var idVar = Math.floor(nextColumnIndex/3)*3;
+        var idVar = Math.floor(nextColumnIndex / 3) * 3;
         var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
         var row = document.createElement("TR");
 
         var td2 = document.createElement("TD");
         td2.id = 'td_' + nextColumnIndex + '_b';
         $(td2).addClassName('buttonLook');
+        td2.onmouseover = function() {
+            addHoverClass(idVar);
+        }
+        td2.onmouseout = function() {
+            removeHoverClass(idVar);
+        }
 
 
         var td4 = document.createElement("TD");
         td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
-        $(td4).addClassName('buttonLook');
+//        $(td4).addClassName('tdHoverLook');
+            td4.onmouseover = function() {
+                addHoverClass(idVar + 1);
+            }
+            td4.onmouseout = function() {
+                removeHoverClass(idVar + 1);
+            }
 
         var td6 = document.createElement("TD");
         td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
-        $(td6).addClassName('buttonLook');
+//        $(td6).addClassName('tdHoverLook');
+            td6.onmouseover = function() {
+                addHoverClass(idVar + 2);
+            }
+            td6.onmouseout = function() {
+                removeHoverClass(idVar + 2);
+            }
 
         tdCount = nextColumnIndex + 2;
 
@@ -268,19 +313,20 @@ function addCheckbox(selectedChoice) {
         tbody.appendChild(row);
 
         td2.onclick = function() {
-            var v=idVar;
+            var v = idVar;
             changeTdClass(v);
 
         }
         td4.onclick = function() {
-            var v=idVar+1;
+            var v = idVar + 1;
             changeTdClass(v);
         }
         td6.onclick = function() {
-            var v=idVar+2;
+            var v = idVar + 2;
             changeTdClass(v);
         }
     }
+
 
     var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
     var chkbox = document.createElement('input');
@@ -293,13 +339,21 @@ function addCheckbox(selectedChoice) {
     }
 
     var divTag = document.createElement("div");
-        divTag.id = "div1_"+nextColumnIndex;
-        divTag.setAttribute("align","left");
-        divTag.style.margin = "0px auto";
-        divTag.className ="check";
-        divTag.innerHTML ="&nbsp;&nbsp;&nbsp;&nbsp;";
-
-    if(nextColumnIndex > 0) {
+    divTag.id = "div1_" + nextColumnIndex;
+    divTag.setAttribute("align", "left");
+    divTag.style.margin = "0px auto";
+    divTag.className = "check";
+    divTag.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+//    alert(tdb.innerHTML);
+//     if (tdb.innerHTML != '') {
+//            tdb.onmouseover = function() {
+//                addHoverClass(nextColumnIndex-1);
+//            }
+//            tdb.onmouseout = function() {
+//                removeHoverClass(nextColumnIndex-1);
+//            }
+//        }
+    if (nextColumnIndex > 0) {
         tdb.addClassName('buttonLook');
 //        tdb.addClassName('showTd');
     }
@@ -330,33 +384,33 @@ function selectCheckBox(index) {
 
 function changeTdClass(index) {
 //    alert(index-1);
-           var ind = index;
+    var ind = index;
 //           alert(ind);
-           var x = $(''+ind);
+    var x = $('' + ind);
 //    alert(x);
-           var td = $('td_' + ind + '_b');
-           var div = $('div1_'+ind);
+    var td = $('td_' + ind + '_b');
+    var div = $('div1_' + ind);
 //    alert(td);
-            if (x.checked) {
+    if (x.checked) {
 //            alert("checked");
-                x.checked = false;
+        x.checked = false;
 //            document.getElementById("img_"+index).style.display = "none";
-                $(td).removeClassName("selected");
-                $(td).addClassName('');
-                div.removeClassName('check');
-                div.addClassName('hideTd');
-            } else {
+        $(td).removeClassName("selected");
+        $(td).addClassName('');
+        div.removeClassName('check');
+        div.addClassName('hideTd');
+    } else {
 //            alert("uncheck");
 //                document.getElementById("img_" + index).style.display = "block";
-                x.checked = true;
-                td.removeClassName("");
-                td.addClassName("selected");
-                div.addClassName('check');
-            }
+        x.checked = true;
+        td.removeClassName("");
+        td.addClassName("selected");
+        div.addClassName('check');
+    }
 }
 
 function removeTdClass(index, count) {
-    var columnIndex = index+1;
+    var columnIndex = index + 1;
 //            alert("a");
     while (columnIndex <= count) {
 //                alert(columnIndex);
@@ -365,6 +419,16 @@ function removeTdClass(index, count) {
 //        $('td_' + columnIndex + '_b').addClassName('hideTd');
         columnIndex++;
     }
+}
+
+function addHoverClass(index) {
+//    alert(1);
+    var columnIndex = index;
+    $('td_' + columnIndex + '_b').addClassName('tdHoverLook');
+}
+function removeHoverClass(index) {
+    var columnIndex = index;
+    $('td_' + columnIndex + '_b').removeClassName('tdHoverLook');
 }
 
 Event.observe(window, "load", function() {
@@ -382,6 +446,10 @@ function changeClass(obj, index) {
     }
 }
 function submitForm(direction) {
+    if(($F('participantSymptomInput'))!=''){
+        alertForAdd();
+        return;
+    }
     document.myForm.direction.value = direction;
     document.myForm.submit();
 }
@@ -450,11 +518,11 @@ function sendConfirmedSymptom() {
             <tbody>
             <tr>
                     <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <td width="32%" >
-                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <td width="32%" >
-                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
-                    <td width="32%" >
+                <td width="32%" colspan="1">
+                        <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
+                <td width="32%" colspan="1">
+                        <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
+                <td width="32%" colspan="1">
             </tr>
                 <%--<c:set var="numrows" value="${numrows}"/>--%>
                 <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
