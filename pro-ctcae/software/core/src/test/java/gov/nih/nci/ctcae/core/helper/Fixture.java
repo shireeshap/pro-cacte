@@ -13,7 +13,7 @@ public class Fixture {
 
     public static final Organization NCI = createOrganization("National Cancer Institute", "NCI");
     public static final Organization DUKE = createOrganization("DUKE", "DUKE");
-    public static final String DEFAULT_PASSWORD = "password";
+    public static final String DEFAULT_PASSWORD = "Password@2";
 
 
     public static Organization createOrganization(String name, String nciCode) {

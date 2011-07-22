@@ -48,8 +48,9 @@ public class UserIntegrationTest extends TestDataManager {
         try {
             invalidUser.setUsername("John");
             userRepository.save(invalidUser);
-            fail();
+
         } catch (CtcAeSystemException e) {
+            fail();
         }
 
     }
