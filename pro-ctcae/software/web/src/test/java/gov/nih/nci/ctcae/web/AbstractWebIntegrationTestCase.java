@@ -57,12 +57,12 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         try {
             String path = r.getFile().getCanonicalPath();
             System.out.println(path);
-            context.setConfigLocations(new String[]{String.format("file:" + path + "/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
+            //context.setConfigLocations(new String[]{String.format("file:" + path + "/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        context.refresh();
+        //context.refresh();
         return context;
     }
 
@@ -72,6 +72,9 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         List<String> list = new ArrayList<String>(Arrays.asList(configLocations));
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml");
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml");
+        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml");
+        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-validator.xml");
+//        list.add(String.format("file:" + path + "/web/src/main/webapp/WEB-INF/spring-servlet.xml"));
         return list.toArray(new String[]{});
 
 
