@@ -307,7 +307,7 @@ public class SubmitFormCommand implements Serializable {
             language = "en";
         }
         for (ProCtcTerm symptom : sortedList) {
-            if (spAssignment.getHomeWebLanguage() != null) {
+            if (language != null) {
                 if (language.equals("en")) {
                     displayList.add(symptom.getProCtcTermVocab().getTermEnglish());
                 }
