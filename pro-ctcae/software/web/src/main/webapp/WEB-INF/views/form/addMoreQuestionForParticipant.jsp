@@ -476,7 +476,7 @@ function sendConfirmedSymptom() {
                var="lang"/>
         <table cellspacing="10px;" border="0">
             <tr>
-                <td width="79%">
+                <td width="80%">
                     <div id="participantSymptomAutoComplete">
                         <input id="participantSymptomInput" type="text">
 
@@ -486,7 +486,7 @@ function sendConfirmedSymptom() {
                 <td>
                     <spring:message code="add" var="add"/>
                     <a onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
-                       class="btn green-med"><span><img src="../../images/add-icon.png"/>Add</span></a>
+                       class="btn green-med"><span>Add</span></a>
 
                     <!--  <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
@@ -495,8 +495,7 @@ function sendConfirmedSymptom() {
                 </td>
                 <td>
                     <spring:message code="clear" var="clear"/>
-                    <a onclick="javascript:clearInput()" class="btn red-med"><span><img
-                            src="../../images/clear-icon.png"/>Clear</span></a>
+                    <a onclick="javascript:clearInput()" class="btn red-med"><span>Clear</span></a>
 
                     <!--  <spring:message code="clear" var="clear"/>
                     <tags:button onclick="javascript:clearInput()"
