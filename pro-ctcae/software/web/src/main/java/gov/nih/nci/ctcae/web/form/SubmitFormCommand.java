@@ -67,7 +67,7 @@ public class SubmitFormCommand implements Serializable {
                 symptomGender = "both";
             }
 
-            if (symptomGender.equals(getParticipantGender()) || symptomGender.equals("both")) {
+            if (symptomGender.equals(getParticipantGender().toLowerCase()) || symptomGender.equals("both")) {
                 DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
                 displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
                 displayQuestion.setStudyParticipantCrfItem(item);
