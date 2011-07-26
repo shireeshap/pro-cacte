@@ -52,6 +52,7 @@ public class IvrsCallOutSchedulerTest extends WebTestCase {
             , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml"
             , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml"
             , "classpath*:gov/nih/nci/ctcae/web/applicationContext-validator.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-activemq.xml"
             //, "file:/Users/Vinay/Workspaces/Proctcae/software/web/src/main/webapp/WEB-INF/spring-servlet.xml"
         };
 
