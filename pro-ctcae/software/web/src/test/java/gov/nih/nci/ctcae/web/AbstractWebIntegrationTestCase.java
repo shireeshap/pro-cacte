@@ -71,7 +71,7 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         List<String> list = new ArrayList<String>(Arrays.asList(configLocations));
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml");
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml");
-        //list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml");
+        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml");
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-validator.xml");
         return list.toArray(new String[]{});
     }

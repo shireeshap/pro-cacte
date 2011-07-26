@@ -788,6 +788,46 @@
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
 
+    
+    <!--  lets create an embedded ActiveMQ Broker -->
+    <amq:broker id="broker" useJmx="false" persistent="false">
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:61616?wireFormat.maxInactivityDuration=0"/>
+        </amq:transportConnectors>
+    </amq:broker>
+
+    <!--  ActiveMQ destinations to use  -->
+    <amq:queue id="destination" physicalName="org.apache.activemq.spring.Test.spring.embedded"/>
+
+    <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+    <amq:connectionFactory id="jmsFactory" brokerURL="tcp://localhost:61616"/>
+
+    <!-- Spring JMS Template -->
+    <bean id="myJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory">
+            <!-- lets wrap in a pool to avoid creating a connection per send -->
+            <bean class="org.springframework.jms.connection.CachingConnectionFactory">
+                <property name="targetConnectionFactory">
+                    <ref local="jmsFactory"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="consumerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"/>
+    </bean>
+
+    <!-- A POJO that implements the JMS message listener -->
+    <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener">
+        <property name="properties" ref="proCtcAeProperties"/>
+	</bean>
+	
+    <!-- The Spring message listener container configuration -->
+    <jms:listener-container container-type="default" connection-factory="jmsFactory" acknowledge="auto"
+                            concurrency="2-2">
+        <jms:listener destination="IVRS.DESTINATION" ref="simpleMessageListener" method="onMessage"/>
+    </jms:listener-container>
 
 </beans>
 
