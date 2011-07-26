@@ -20,7 +20,7 @@ public class ScheduleCrfAjaxFacadeIntegrationTest extends AbstractWebIntegration
     public void testSearchParticipantForStudy() {
         Study study = StudyTestHelper.getDefaultStudy();
 
-        ArrayList<Participant> participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("john", study.getId());
+        ArrayList<Participant> participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("juliet", study.getId());
         assertEquals(1, participants.size());
 
         participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("abc", study.getId());
