@@ -2,11 +2,17 @@ package gov.nih.nci.ctcae.web.ivrs.callout;
 
 import gov.nih.nci.ctcae.core.SetupStatus;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.study.StudyController;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
-
-import javax.jms.*;
 
 /**
  * The Class IvrsCallOutTest.
@@ -42,7 +48,11 @@ public class IvrsCallOutSchedulerTest extends WebTestCase {
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
-            //, "classpath*:gov/nih/nci/ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-validator.xml"
+            //, "file:/Users/Vinay/Workspaces/Proctcae/software/web/src/main/webapp/WEB-INF/spring-servlet.xml"
         };
 
     }
@@ -50,13 +60,14 @@ public class IvrsCallOutSchedulerTest extends WebTestCase {
     private void LoadSpringApplicationContext()
 	{
 		// open/read the application context file
-		//ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getConfigLocationsA());
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:gov/nih/nci/ctcae/web/src/main/webapp/WEB-INF/spring-jms.xml");
+    	ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getConfigLocationsA());
+        //ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:gov/nih/nci/ctcae/web/src/main/webapp/WEB-INF/spring-jms.xml");
         //CallAction action = (CallAction)ctx.getBean("action");
-       SetupStatus setupStatus = (SetupStatus) ctx.getBean("action");
+        SetupStatus setupStatus = (SetupStatus) ctx.getBean("setupStatus");
         assertFalse("Initial setup is not required. .", setupStatus.isSetupNeeded());
 
         //StudyController studyController =   (StudyController)ctx.getBean("studyController");
+
 		jmsTemplate = (JmsTemplate)ctx.getBean("consumerJmsTemplate");
 
 	}
