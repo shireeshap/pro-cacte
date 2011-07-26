@@ -63,6 +63,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-common.xml"
+            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-validator.xml"
 
     };
     protected final String SYSTEM_ADMIN = "system_admin";
