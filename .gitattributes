@@ -683,6 +683,7 @@ pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_2.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_3.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_4.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_5.sql -text
+pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_6.sql -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/001_create_audit_event_values.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/002_create_audit_events.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/001_elaboration_1/003_create_organizations.groovy -text

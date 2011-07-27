@@ -126,7 +126,7 @@ public class CrfTestHelper {
         query.filterByCtcTermHavingQuestionsOnly();
         List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
         crf.setCrfVersion("1.0");
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             crf.addProCtcTerm(proCtcTerms.get(i));
         }
         crf.updateCrfPageInstructions();

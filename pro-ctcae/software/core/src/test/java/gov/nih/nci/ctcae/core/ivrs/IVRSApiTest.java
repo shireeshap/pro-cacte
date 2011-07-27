@@ -109,7 +109,7 @@ public class IVRSApiTest extends TestDataManager{
         String firstQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fistQuestionId);
         assertEquals(firstQuestionText,currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
         String firstQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fistQuestionId);
-        assertEquals(firstQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
+        assertEquals(firstQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(0).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().name().toLowerCase()+"_1");
 
         //skipping next 2 questions as answering the first question with none as answer,checking the skipping questions
         //So next question id will be 4th one
@@ -118,18 +118,18 @@ public class IVRSApiTest extends TestDataManager{
         Integer fourthQuestionId = Integer.parseInt(splitText[0]);
         questionCategory = Integer.parseInt(splitText[1]);
         
-        assertEquals(fourthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getId());
+        assertEquals(fourthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(1).getCrfPageItem().getProCtcQuestion().getId());
 
         isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(0,isUserNew.intValue());
 
         assertEquals(fistQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId,questionCategory));
-        assertEquals(0,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId,questionCategory).intValue());
+        assertEquals(1,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId,questionCategory).intValue());
 
         String fourthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fourthQuestionId);
-        assertEquals(fourthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
+        assertEquals(fourthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(1).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
         String fourthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fourthQuestionId);
-        assertEquals(fourthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
+        assertEquals(fourthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(1).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase()+"_1");
 
         //Answer the fourth question such a way that next 2 questions will come
         String fifthQuestionIdCategory = helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId,3,questionCategory);
@@ -137,11 +137,11 @@ public class IVRSApiTest extends TestDataManager{
         Integer fifthQuestionId = Integer.parseInt(splitText[0]);
         questionCategory= Integer.parseInt(splitText[1]);
 
-        assertEquals(fifthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(4).getCrfPageItem().getProCtcQuestion().getId());
+        assertEquals(fifthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(2).getCrfPageItem().getProCtcQuestion().getId());
         String fifthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,fifthQuestionId);
-        assertEquals(fifthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(4).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
+        assertEquals(fifthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(2).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
         String fifthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,fifthQuestionId);
-        assertEquals(fifthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(4).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
+        assertEquals(fifthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(2).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase()+"_1");
 
         assertEquals(fourthQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fifthQuestionId,questionCategory));
         assertEquals(3,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fourthQuestionId,questionCategory).intValue());
@@ -151,11 +151,11 @@ public class IVRSApiTest extends TestDataManager{
         Integer sixthQuestionId=Integer.parseInt(splitText[0]);
         questionCategory = Integer.parseInt(splitText[1]);
 
-        assertEquals(sixthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getProCtcQuestion().getId());
+        assertEquals(sixthQuestionId,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getId());
         String sixthQuestionText =  helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,sixthQuestionId);
-        assertEquals(sixthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
+        assertEquals(sixthQuestionText,currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
         String sixthQuestionType =  helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,sixthQuestionId);
-        assertEquals(sixthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(5).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase());
+        assertEquals(sixthQuestionType.toLowerCase(),currentSchedule.getStudyParticipantCrfItems().get(3).getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getCode().toLowerCase()+"_1");
 
         assertEquals(fifthQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,sixthQuestionId,1));
         assertEquals(3,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fifthQuestionId,questionCategory).intValue());
@@ -176,7 +176,7 @@ public class IVRSApiTest extends TestDataManager{
        assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousCoreSymptomID(participant.getUser().getId(),schedFormId,4));
 
        assertEquals(5,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,4,2,0).intValue());
-       assertEquals(13,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,5,1,0).intValue());
+       assertEquals(15,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,5,1,0).intValue());
         // added question from core screening question
        String firstAddedQuesCategory=helper.ivrsGetFirstQuestion(participant.getUser().getId(),schedFormId);
        splitText=firstAddedQuesCategory.split("_");
@@ -186,7 +186,7 @@ public class IVRSApiTest extends TestDataManager{
        String firstAddedQuesText = helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,addedQuestionId);
        assertEquals(firstAddedQuesText,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
        String firstAddedQuesType = helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,addedQuestionId);
-       assertEquals(firstAddedQuesType,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getProCtcQuestionType().getCode().toUpperCase());
+       assertEquals(firstAddedQuesType,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getProCtcQuestionType().getCode().toUpperCase()+"_1");
        String nextAddedQuestion =helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,addedQuestionId,0,questionCategory);
        Integer nextAddedQuestionId=0;
        if(!nextAddedQuestion.equals("0")){
