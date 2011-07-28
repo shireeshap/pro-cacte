@@ -1,7 +1,25 @@
 --Login function returns user id on successful login
 --Input parameters are user number and pin
 --Function returns 0 on unsuccnextQuestionIdCategoryessful login , returns valid user id which is >0 on successful login and returns -1 for any other DB issues
-CREATE OR REPLACE FUNCTION ivrs_login(userNumber text, pin integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION make_plpgsql()
+RETURNS VOID
+LANGUAGE SQL
+AS $x$
+CREATE LANGUAGE plpgsql;
+$x$;
+ 
+SELECT
+    CASE
+    WHEN EXISTS(
+        SELECT 1
+        FROM pg_catalog.pg_language
+        WHERE lanname='plpgsql'
+    )
+    THEN NULL
+    ELSE make_plpgsql() END;
+
+    
+CREATE OR REPLACE FUNCTION ivrs_login(userNumber text, pin integer) RETURNS integer AS $x$
 DECLARE
    v_ret_user_id integer := 0;
 BEGIN
@@ -15,7 +33,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 
 
@@ -23,7 +41,7 @@ $$ LANGUAGE plpgsql;
   --Input parameters: userid is the returned value from login function for the same caller
   --Return values:  >=0 for number of scheduled forms avilable for the user, -1 for any other DB issues
 
-  CREATE OR REPLACE FUNCTION Ivrs_NumberForms(userid integer) RETURNS integer AS $$
+  CREATE OR REPLACE FUNCTION Ivrs_NumberForms(userid integer) RETURNS integer AS $x$
   DECLARE
       v_ret_count integer :=0;
   BEGIN
@@ -41,13 +59,13 @@ $$ LANGUAGE plpgsql;
       WHEN OTHERS THEN
       return -1;
   END;
-  $$ LANGUAGE plpgsql;
+  $x$ LANGUAGE plpgsql;
 
 --Ivrs_GetForm returns the form id for corresponding form number(form number(2) indicates the sequence of the returned (2nd)form list.)
 --Input parameters: userid: user id and formNum
 --Return value: formid: >0 is valid scheduled form id(sp_crf_schedules), -2 for invalid form id and -1 for any other DB issues
 
-CREATE OR REPLACE FUNCTION Ivrs_GetForm(userid integer,formNum integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION Ivrs_GetForm(userid integer,formNum integer) RETURNS integer AS $x$
 DECLARE
     v_form_id integer :=0;
 BEGIN
@@ -70,12 +88,12 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 --IVRS_GetFormTitle function returns the form title for the given scheduled form id
 --Input Parameters: userid , formid (scheduled form id)
 --Return values: 'form title' when form title is found and 'Not Found' for DB issues as well as title information not found in DB for given form id
-CREATE OR REPLACE FUNCTION IVRS_GetFormTitle(userid integer,formid integer) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION IVRS_GetFormTitle(userid integer,formid integer) RETURNS text AS $x$
 DECLARE
     v_form_title text :='Not Found';
 BEGIN
@@ -95,14 +113,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return 'Not Found';
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 --IVRS_GetFirstQuestion function returns the first unanswered question id along with the question category(PK of pro_ctc_question)
 --for valid given scheduled form id(skipping rules applied)
 --Input Parameters: userid , formid (scheduled form id)
 --Return values: 'questionId_0' (added questions) 'questionId_1'(Mandatory questions) if it finds any valid question id, 0 if all the questions answered in the form and -1 for any other DB issues
 
-CREATE OR REPLACE FUNCTION IVRS_GetFirstQuestion(userid integer,formid integer) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION IVRS_GetFirstQuestion(userid integer,formid integer) RETURNS text AS $x$
 DECLARE
     v_page_id integer := 0;
     v_gender text := '';
@@ -228,7 +246,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return '-1';
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 --Ivrs_GetQuestionType function returns the question type for the given scheduled form question id
 --Input parameters: userid, formid (scheduled form id), questionid(study_participant_crf_items id)
@@ -236,7 +254,7 @@ $$ LANGUAGE plpgsql;
 --possible values are "AMOUNT","FREQUENCY","INTERFERENCE","PRESENT" and "SEVERITY"
 
 CREATE OR REPLACE FUNCTION IVRS_GetQuestionType(userid integer, formid integer, questionid integer)
-  RETURNS text AS $$
+  RETURNS text AS $x$
 DECLARE
 	v_question_type Text := '';
 	v_type_number integer := 0;
@@ -299,14 +317,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return 'Data Not Found';
 END;
-$$  LANGUAGE 'plpgsql' VOLATILE;
+$x$  LANGUAGE 'plpgsql' VOLATILE;
 
 
 --Ivrs_GetQuestionText function returns the question text for the given scheduled form question id
 --Input parameters: userid, formid (scheduled form id), questionid(study_participant_crf_items.id)
 --Return values: Question text for the given scheduled form question id
 
-CREATE OR REPLACE FUNCTION Ivrs_GetQuestionText(userid integer,formid integer,questionid Integer) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION Ivrs_GetQuestionText(userid integer,formid integer,questionid Integer) RETURNS text AS $x$
 DECLARE
     v_question_text Text := '';
 BEGIN
@@ -324,14 +342,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return 'Data Not Found';
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 
 --Ivrs_GetQuestionFile function returns the question audio file name for the given scheduled form question id
 --Input parameters: userid, formid (scheduled form id), questionid(study_participant_crf_items.id)
 --Return values: Question audio file name for the given scheduled form question id
 
-CREATE OR REPLACE FUNCTION Ivrs_GetQuestionFile(userid integer,formid integer,questionid Integer) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION Ivrs_GetQuestionFile(userid integer,formid integer,questionid Integer) RETURNS text AS $x$
 DECLARE
     v_question_file Text := '';
 BEGIN
@@ -349,7 +367,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return 'Data Not Found';
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 
 
@@ -358,7 +376,7 @@ $$ LANGUAGE plpgsql;
 --return values: 0 if all the questions answered in the form, >0 is the valid question id, -1 for any other DB issues
 --Here next Question id is the PK id of pro_ctc_question
 --function considering questions from the current page (page of input question id)
-CREATE OR REPLACE FUNCTION IVRS_GetNextQuestion(userid integer, formid integer,questionid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION IVRS_GetNextQuestion(userid integer, formid integer,questionid integer) RETURNS integer AS $x$
 DECLARE
     v_page_id integer := 0;
     v_gender text := '';
@@ -430,14 +448,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 --IVRS_GetNextAddedQuestion function returns the next question id for the given form
 --Input values: userid, formid (scheduled form id), questionid(pro_ctc_question.id)
 --return values: 0 if all the questions answered in the form, >0 is the valid question id, -1 for any other DB issues
 --Here next Question id is the PK id of pro_ctc_question
 --function considering questions from the current page (page of input question id)
-CREATE OR REPLACE FUNCTION IVRS_GetNextAddedQuestion(userid integer, formid integer, questionid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION IVRS_GetNextAddedQuestion(userid integer, formid integer, questionid integer) RETURNS integer AS $x$
 DECLARE
     v_page_id integer := 0;
     v_gender text := '';
@@ -533,7 +551,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE plpgsql;
+$x$ LANGUAGE plpgsql;
 
 -- store the answer for the given question and returns next question id if exists
 
@@ -542,7 +560,7 @@ $$ LANGUAGE plpgsql;
 --whether a questions in in mandatory or added core symptom page
 --returns next valid un answered question id for the given form
 CREATE OR REPLACE FUNCTION IVRS_AnswerQuestion(userid integer, formid integer, questionid integer, answernum integer, questioncategory integer)
- RETURNS text AS $$
+ RETURNS text AS $x$
 DECLARE
     v_next_question_id integer :=0;
     v_crf_item_id integer :=0;
@@ -630,7 +648,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return '-1';
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 -- Inserts the symptom's questions to added questions based on answer and returns next core symptom id if exists
@@ -639,7 +657,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --input: userid , formid which is PK id of scheduled form, symptomid and answer and corecategory
 --returns next valid un asked core symptom id for the given form
 CREATE OR REPLACE FUNCTION ivrs_AnswerCoreSymptom(userid integer, formid integer, symptomid integer, answer integer, corecategory integer)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
 	v_proc_ctc_term_id integer :=0;
     v_question_id integer :=0;
@@ -724,13 +742,13 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql';
+$x$ LANGUAGE 'plpgsql';
 
 
 -- ivrs_commitsession function complete the sceduled form upon completion of all questions and change the status to completed
 --Input parameters:userid,pin and formid (scheduled form id,PK id of sp_crf_schedules)
 --return: -2 for form not completed properly and still some questions needs to be answered, 1 for form completed, 0 for form not submitted properly, -1 for any DB issues
-CREATE OR REPLACE FUNCTION IVRS_CommitSession(userid integer, formid integer, pin integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION IVRS_CommitSession(userid integer, formid integer, pin integer) RETURNS integer AS $x$
 DECLARE
 	v_next_question_id text :=0;
 	v_ret_value integer :=1;
@@ -758,7 +776,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql';
+$x$ LANGUAGE 'plpgsql';
 
 -- Function: ivrs_getQuestionAnswer(userid integer, formid integer, questionid integer)
 -- DROP FUNCTION ivrs_getQuestionAnswer(userid integer, formid integer, questionid integer);
@@ -768,7 +786,7 @@ $$ LANGUAGE 'plpgsql';
 -- DROP FUNCTION ivrs_getquestionanswer(integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION IVRS_GetQuestionAnswer(userid integer, formid integer, questionid integer, questioncategory integer)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
     v_return_answer_id integer :=0;
     v_proctc_crf_item_id integer :=0;
@@ -798,14 +816,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql';
+$x$ LANGUAGE 'plpgsql';
 
 -- Function: ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer)
 -- DROP FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer);
 --return:  return previous question id and question category for given question,
 --for 0 if there is no previous question, -1 for any DB issues,-2 for question is the first question id in the form
 CREATE OR REPLACE FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer, questioncategory integer)
-  RETURNS text AS $$
+  RETURNS text AS $x$
 DECLARE
     v_gender text := '';
     v_question_id integer :=0;
@@ -1027,7 +1045,7 @@ EXCEPTION
     WHEN OTHERS THEN
 return '-1';
 END;
-$$ LANGUAGE 'plpgsql';
+$x$ LANGUAGE 'plpgsql';
 
 -- -- Function: ivrs_getprevious_coresymid(userid integer, formid integer, symptomid integer)
 -- DROP FUNCTION ivrs_getprevious_coresymid(userid integer, formid integer, symptomid integer);
@@ -1036,7 +1054,7 @@ $$ LANGUAGE 'plpgsql';
 --'-1' for any DB issues,-2 for question is the first question id in the form
 
 CREATE OR REPLACE FUNCTION ivrs_getprevious_coresymid(userid integer, formid integer, symptomid integer)
-  RETURNS text AS $$
+  RETURNS text AS $x$
 DECLARE
 	v_question_id integer :=0;
 	v_ret_questioncategory integer :=0;
@@ -1130,13 +1148,13 @@ EXCEPTION
     WHEN OTHERS THEN
 return '-1';
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_isUserNew(userid integer)
 -- DROP FUNCTION ivrs_isUserNew(userid integer);
 --return:  return 1 for new users to IVRS ,0 for existing users to IVRS
 --return : -1 for any DB issues,-2 for question is the first question id in the form
-CREATE OR REPLACE FUNCTION IVRS_isUserNew(userid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION IVRS_isUserNew(userid integer) RETURNS integer AS $x$
 DECLARE
 	v_ret_first_count integer :=0;
 	v_sch_id integer :=0;
@@ -1201,14 +1219,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 -- Function: ivrs_getFormRecallPeriod(userid integer,formid integer)
 -- DROP FUNCTION ivrs_getFormRecallPeriod(userid integer,formid integer);
 --return:  return 1 for weekly period,return 2 for monthly, return 3 for last treatment,
 -->return >3 for custom recall periods, -1 for any DB issues
-CREATE OR REPLACE FUNCTION ivrs_getFormRecallPeriod(userid integer, formid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION ivrs_getFormRecallPeriod(userid integer, formid integer) RETURNS integer AS $x$
 DECLARE
     v_recall_period text := '';
     v_return_recall_period integer := 0;
@@ -1239,14 +1257,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql';
+$x$ LANGUAGE 'plpgsql';
 
 -- Function: ivrs_deleteaddedquestions(userid integer, formid integer)
 -- DROP FUNCTION ivrs_deleteaddedquestions(userid integer, formid integer);
 -- return: 0 if deletion of questions which are answered yes  is done
 -- return :1 if there are any exceptions.
 CREATE OR REPLACE FUNCTION ivrs_DeleteAddedQuestions(userid integer, formid integer)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
 	v_page_number integer :=0;
 
@@ -1270,12 +1288,12 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_getcoresymptomid(userid integer, formid integer)
 -- DROP FUNCTION ivrs_getcoresymptomid(userid integer, formid integer);
 CREATE OR REPLACE FUNCTION ivrs_GetCoreSymptomID(userid integer, formid integer)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
     v_proc_ctc_term_id integer :=0;
     v_core_count integer :=0;
@@ -1313,13 +1331,13 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_getcoresymptomfilename(serid integer, formid integer, symptomid integer)
 -- DROP FUNCTION ivrs_getcoresymptomfilename(serid integer, formid integer, symptomid integer);  \
 -- return : file name for given symptom id.
 CREATE OR REPLACE FUNCTION ivrs_GetCoreSymptomFileName(userid integer, formid integer, symptomid integer)
-  RETURNS text AS $$
+  RETURNS text AS $x$
 DECLARE
     v_symptom_file text := '';
 BEGIN
@@ -1332,14 +1350,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return 'Data Not Found';
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_get_sym_ques_ans(userid integer, formid integer, symptomid integer, corecategory integer)
 -- DROP FUNCTION ivrs_get_sym_ques_ans(userid integer, formid integer, symptomid integer, corecategory integer);
 -- return: 2(NO) or 1(YES) based on core category which determines if 7 (previous quesitons is asked or not)
 -- return: 0 if previous question is not asked.
 CREATE OR REPLACE FUNCTION ivrs_Get_Sym_Ques_Ans(userid integer, formid integer, symptomid integer, corecategory integer)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
 	v_spcaq_id integer :=0;
 	v_sp_crf_id integer :=0;
@@ -1366,7 +1384,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_save_filepath(userid integer, formid integer, filepath text)
 -- DROP FUNCTION ivrs_save_filepath(userid integer, formid integer, filepath text);
@@ -1374,7 +1392,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- return: -1 if there are any exceptions
 
 CREATE OR REPLACE FUNCTION IVRS_Save_FilePath(userid integer, formid integer,filepath text)
-  RETURNS integer AS $$
+  RETURNS integer AS $x$
 DECLARE
 BEGIN
     -- update sp_crf_schedules with the given filepath.
@@ -1388,14 +1406,14 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_get_no_of_unans_symps(userid integer, formid integer)
 -- DROP FUNCTION ivrs_get_no_of_unans_symps(userid integer, formid integer);
 -- return: number of unanswered symptoms in the given form.
 -- return: -1 if there are any exceptions
 
-CREATE OR REPLACE FUNCTION ivrs_get_no_of_unans_symps(userid integer, formid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION ivrs_get_no_of_unans_symps(userid integer, formid integer) RETURNS integer AS $x$
 DECLARE
 	v_page_id integer := 0;
 	v_gender text := '';
@@ -1537,7 +1555,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_getform_status(userid integer, formid integer)
 -- DROP FUNCTION ivrs_getform_status(userid integer, formid integer);
@@ -1545,7 +1563,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- return -2 if there is no record found for the given form
 -- return -1 for exception
 
-CREATE OR REPLACE FUNCTION ivrs_getform_status(userid integer, formid integer) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION ivrs_getform_status(userid integer, formid integer) RETURNS integer AS $x$
 DECLARE
     v_form_stauts text :='';
 BEGIN
@@ -1571,6 +1589,6 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 
