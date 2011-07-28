@@ -880,6 +880,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidV
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueVocab.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Question.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ResponseCode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Role.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text

@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -22,6 +23,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
 
     GenericRepository genericRepository;
     ProCtcTermRepository proCtcTermRepository;
+
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -63,31 +65,46 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             dates.add(displayDate);
 
             Integer arraySize = dates.size();
+            StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                if (proCtcQuestion.getDisplayOrder() == 1) {
+                    firstQuestion = studyParticipantCrfItem;
+                }
                 String symptomId = proCtcQuestion.getProCtcTerm().getId().toString();
                 String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 participantAddedQuestion = false;
 //                if (value != null){
-                buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+                buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, firstQuestion);
 //                }
             }
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
                 Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
+//                ProCtcQuestion addedProQuestion = new ProCtcQuestion();
+//                if (question instanceof ProCtcQuestion) {
+//                    addedProQuestion = (ProCtcQuestion) question;
+//                }
+//                ProCtcQuestion firstQuestion = new ProCtcQuestion();
+//                if (addedProQuestion != null && addedProQuestion.getDisplayOrder() == 1) {
+//                    firstQuestion = addedProQuestion;
+//                }
                 String symptomId = question.getStringId();
                 String symptom = question.getQuestionSymptom();
                 ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 participantAddedQuestion = true;
-                buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+                buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, null);
             }
         }
 
         return symptomMap;
     }
 
-    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize) {
-
+    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize, StudyParticipantCrfItem studyParticipantCrfItem) {
+        ProCtcQuestion proQuestion = new ProCtcQuestion();
+        if (question instanceof ProCtcQuestion) {
+            proQuestion = (ProCtcQuestion) question;
+        }
         ArrayList<ProCtcValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
@@ -115,8 +132,8 @@ public class ParticipantLevelReportResultsController extends AbstractController 
 
         }
         if (value == null) {
-            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-            myProCtcValidValue.setDisplayOrder(0);
+            ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, studyParticipantCrfItem);
+//            myProCtcValidValue.setDisplayOrder(0);
             validValue.add(myProCtcValidValue);
         } else {
             validValue.add(value);

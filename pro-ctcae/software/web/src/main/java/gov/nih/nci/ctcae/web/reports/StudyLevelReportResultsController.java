@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,11 +71,15 @@ public class StudyLevelReportResultsController extends AbstractController {
                 datesMap.put(participant, dates);
             }
             dates.add(studyParticipantCrfSchedule.getStartDate());
+            StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                if (proCtcQuestion.getDisplayOrder() == 1) {
+                    firstQuestion = studyParticipantCrfItem;
+                }
                 ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                buildMap(proCtcQuestion, symptom, value, symptomMap);
+                buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion);
             }
         }
 
@@ -151,7 +156,7 @@ public class StudyLevelReportResultsController extends AbstractController {
     }
 
 
-    private void buildMap(ProCtcQuestion proCtcQuestion, ProCtcTerm symptom, ProCtcValidValue value, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap) {
+    private void buildMap(ProCtcQuestion proCtcQuestion, ProCtcTerm symptom, ProCtcValidValue value, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap, StudyParticipantCrfItem firstQuestion) {
         LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
         ArrayList<ProCtcValidValue> validValue;
         if (symptomMap.containsKey(symptom)) {
@@ -168,9 +173,10 @@ public class StudyLevelReportResultsController extends AbstractController {
             careResults.put(proCtcQuestion, validValue);
         }
         if (value == null) {
-            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-            myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
-            myProCtcValidValue.setDisplayOrder(0);
+            ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proCtcQuestion, firstQuestion);
+//            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+//            myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
+//            myProCtcValidValue.setDisplayOrder(0);
             validValue.add(myProCtcValidValue);
         } else {
             validValue.add(value);

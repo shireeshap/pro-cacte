@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.Arm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
@@ -179,6 +176,21 @@ public class ReportResultsHelper {
         }
 
         return allAttributes;
+    }
+
+    public static ProCtcValidValue getValidValueResponseCode(ProCtcQuestion proQuestion, StudyParticipantCrfItem firstQuestion) {
+        ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+            if (proQuestion != null && proQuestion.getDisplayOrder() == 1) {
+//                ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+                myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+            } else {
+                if (firstQuestion!=null&&firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
+                    myProCtcValidValue.setValue(ResponseCode.FORCEDSKIP.getDisplayName());
+                } else {
+                    myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+                }
+            }
+        return myProCtcValidValue;
     }
 
 }
