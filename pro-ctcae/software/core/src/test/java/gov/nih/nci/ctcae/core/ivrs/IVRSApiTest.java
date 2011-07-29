@@ -39,9 +39,12 @@ public class IVRSApiTest extends TestDataManager{
             e.printStackTrace();
         }
         commitAndStartNewTransaction();
+        
         ParticipantQuery pq = new ParticipantQuery();
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
+        System.out.println("p.spa: "+participant.getStudyParticipantAssignments().size());
+        System.out.println("p.spa.spcrf: "+participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().size());
         System.out.println("Ending saveIVRSParticipant");
     }
     private void deleteIVRSTestData() {
