@@ -74,6 +74,9 @@ public class ProCtcTerm extends BasePersistable {
     @ManyToOne
     private CtcTerm ctcTerm;
 
+    @Column(name = "currency", nullable = true)
+    private String currency;
+
     /**
      * Instantiates a new pro ctc term.
      */
@@ -252,4 +255,12 @@ public class ProCtcTerm extends BasePersistable {
 	public void setProCtcTermVocab(ProCtcTermVocab proCtcTermVocab) {
 		this.proCtcTermVocab = proCtcTermVocab;
 	}
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

@@ -806,6 +806,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/035_alter_particip
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/036_drop_cca_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/037_update_valid_values.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/038_alter_seq_meddra_value.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/039_update_pro_ctc_terms.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text

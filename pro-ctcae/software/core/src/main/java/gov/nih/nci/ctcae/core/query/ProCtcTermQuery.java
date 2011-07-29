@@ -19,6 +19,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
     private static String PROCTC_TERM = "symptom";
+    private static String CURRENCY = "currency";
 
     /**
      * Instantiates a new pro ctc term query.
@@ -48,6 +49,11 @@ public class ProCtcTermQuery extends AbstractQuery {
     public void filterByCtcTermId(Integer ctcTermId) {
         andWhere("o.ctcTerm.id = :" + CTC_TERM_ID);
         setParameter(CTC_TERM_ID, ctcTermId);
+    }
+
+    public void filterByCurrency() {
+        andWhere("o.currency = :" + CURRENCY);
+        setParameter(CURRENCY, "Y");
     }
 
     public void filterByTerm(final String term) {

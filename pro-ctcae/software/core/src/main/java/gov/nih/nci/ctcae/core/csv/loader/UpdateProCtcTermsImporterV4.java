@@ -113,6 +113,7 @@ public class UpdateProCtcTermsImporterV4 {
                         ctcQuestion.addValidValue(proCtcValidValue);
                     }
                 }
+                ctcQuestion.getProCtcTerm().setCurrency("Y");
                 proCtcQuestionRepository.save(ctcQuestion);
             } else {
                 CtcQuery ctcQuery = new CtcQuery();
@@ -163,6 +164,7 @@ public class UpdateProCtcTermsImporterV4 {
                 objProCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTerm);
                 objProCtcTerm.setCtcTerm(objCtcTerm);
                 objProCtcTerm.setProCtc(proCtc);
+                objProCtcTerm.setCurrency("Y");
                 proCtc.addProCtcTerm(objProCtcTerm);
 
                 for (CsvLine hmValue : list) {

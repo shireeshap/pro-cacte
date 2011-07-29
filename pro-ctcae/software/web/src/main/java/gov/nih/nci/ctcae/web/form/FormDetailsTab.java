@@ -62,6 +62,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermHavingQuestionsOnly();
+        query.filterByCurrency();
         Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(query);
 
 
@@ -69,7 +70,6 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
             CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCtcTerm().getCategory(), proCtcTerm);
-
         }
 
 
