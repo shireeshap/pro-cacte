@@ -104,7 +104,6 @@ public class CrfTestHelper {
     }
 
     private static void firstTab_SelectStudy(CRF crf, Study study) {
-    	study.getCrfs().add(crf);
         crf.setStudy(study);
         for (Arm arm : study.getArms()) {
             crf.addFormArmSchedule(arm);

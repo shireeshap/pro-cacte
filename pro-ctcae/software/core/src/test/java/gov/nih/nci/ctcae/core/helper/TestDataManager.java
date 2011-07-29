@@ -95,7 +95,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         } else {
-        	System.out.println("No test data present:  onSetUpInTransaction TestDataManager");
+        	System.out.println("test data present:  onSetUpInTransaction TestDataManager");
         }
         commitAndStartNewTransaction();
         System.out.println("Ending onSetUpInTransaction TestDataManager");
