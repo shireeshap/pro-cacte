@@ -65,7 +65,6 @@ public class CrfTestHelper {
     }
 
     public static void createIVRSTestForm(Study study,TestDataManager localTestDataManager) throws Exception {
-        ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,"1201201200",1234);
         if(myTestDataManager == null)
              localTestDataManager.commitAndStartNewTransaction();
         else
@@ -82,6 +81,7 @@ public class CrfTestHelper {
         crf = crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
         crf = crfRepository.updateStatusToReleased(crf);
+        ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,"1201201200",1234);
     }
 
     private static void createSecondaryForms() throws ParseException {
@@ -104,6 +104,7 @@ public class CrfTestHelper {
     }
 
     private static void firstTab_SelectStudy(CRF crf, Study study) {
+    	study.getCrfs().add(crf);
         crf.setStudy(study);
         for (Arm arm : study.getArms()) {
             crf.addFormArmSchedule(arm);
