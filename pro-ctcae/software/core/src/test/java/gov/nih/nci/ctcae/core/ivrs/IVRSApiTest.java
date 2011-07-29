@@ -20,14 +20,17 @@ public class IVRSApiTest extends TestDataManager{
     Participant participant;
     @Override
     protected void onSetUpInTransaction() throws Exception {
+    	System.out.println("Starting onSetUpInTransaction in IVRSApiTest");
         super.onSetUpInTransaction();
         jdbcTemplate.execute("delete from ivrs_sch_core_sym_count");
         deleteIVRSTestData();
         saveIVRSParticipant();
+        System.out.println("Endign onSetUpInTransaction in IVRSApiTest");
 
     }
     private void saveIVRSParticipant() {
         //create IVRS test Form and Study,ready the schedule form
+    	System.out.println("Starting saveIVRSParticipant");
         try{
             Study study = StudyTestHelper.createIVRSStudy();
 
@@ -39,9 +42,11 @@ public class IVRSApiTest extends TestDataManager{
         ParticipantQuery pq = new ParticipantQuery();
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
+        System.out.println("Ending saveIVRSParticipant");
     }
     private void deleteIVRSTestData() {
         //delete existing participant
+    	System.out.println("Starting deleteIVRSTestData");
         ParticipantQuery pq = new ParticipantQuery();
         pq.filterByUsername("ivrs.participant");
         genericRepository.delete(genericRepository.findSingle(pq));
@@ -51,6 +56,7 @@ public class IVRSApiTest extends TestDataManager{
         CrfTestHelper.deleteIVRSTestForm();
         StudyTestHelper.deleteIVRSStudy();
         commitAndStartNewTransaction();
+        System.out.println("Ending deleteIVRSTestData");
     }
     public void testIVRSApi(){
         //saveIVRSParticipant();
