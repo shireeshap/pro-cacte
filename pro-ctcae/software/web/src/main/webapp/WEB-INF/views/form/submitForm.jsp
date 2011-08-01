@@ -35,19 +35,21 @@
             text-align: right;
             margin-bottom: 10px;
         }
+
         .pagesLeftdiv {
             color: #666666;
             font-size: 11px;
-            padding-right: 33px;
+            padding-right: 43px;
             text-align: right;
             margin-bottom: 15px;
             float: right;
         }
-        
+
         .pagesLeftdiv div {
-        	float: left;
-        	margin-left: 15px;
+            float: left;
+            margin-left: 15px;
         }
+
         .selected .label {
             background: url(/proctcae/images/green-selected.png) -2px 0;
             cursor: pointer;
@@ -146,8 +148,8 @@
             }
         }
 
-        function getClassName(elId, notNullClass, nullClass){
-            if($F(elId)) return notNullClass;
+        function getClassName(elId, notNullClass, nullClass) {
+            if ($F(elId)) return notNullClass;
             return nullClass;
         }
 
@@ -156,20 +158,25 @@
 <body>
 <form:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
-    <div class='progress-bar-outer'>
-        <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
-    </div>
-    <div class="currentPagediv">
-        <spring:message code="progress"/>:
-    </div>
+
     <div class="pagesLeftdiv">
-         <spring:message code="current.page"/>: ${command.newPageIndex}
-        <spring:message code="pages.left"/>: ${command.totalPages - command.newPageIndex}
+        <spring:message code="current.page"/>: ${command.newPageIndex}
+        <spring:message code="pages.left"/> ${command.totalPages}
     </div>
-    <div class="label" style="margin-bottom:10px;">
-        <tags:recallPeriodFormatter
-                desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
+    <br><br>
+    <div>
+        <div class="label" style="margin-bottom:10px; float:left">
+            <tags:recallPeriodFormatter
+                    desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
+        </div>
+        <div class='progress-bar-outer'>
+            <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+        </div>
+        <div class="currentPagediv">
+            <spring:message code="progress"/>:
+        </div>
     </div>
+
     <c:set var="showConditionalQuestions" value="false"/>
     <c:forEach items="${command.currentPageQuestions}" var="displayQuestion" varStatus="varStatus">
 
@@ -189,7 +196,8 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                            <c:set var="lang" value="${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"/>
+                            <c:set var="lang"
+                                   value="${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"/>
                             <c:if test="${lang eq null || lang eq ''}">
                                 <c:set var="lang" value="en"/>
                             </c:if>
@@ -204,19 +212,19 @@
                             </c:if>
                                 <%--<%  pageContext.getAttribute("_command"); %>--%>
                             <c:if test="${lang eq 'es' }">
-                             &#191;${displayQuestion.questionTextSpanish}?<br/>
+                                &#191;${displayQuestion.questionTextSpanish}?<br/>
                             </c:if>
-                            <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
+                                <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
                                 <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
-                                    <%--${displayQuestion.questionText}?<br/>--%>
+                                <%--${displayQuestion.questionText}?<br/>--%>
                                 <%--</c:if>--%>
                                 <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
-                                    <%--&#191;${displayQuestion.questionTextSpanish}?<br/>--%>
+                                <%--&#191;${displayQuestion.questionTextSpanish}?<br/>--%>
                                 <%--</c:if>--%>
                                 <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
-                                    <%--${displayQuestion.questionText}?<br/>--%>
+                                <%--${displayQuestion.questionText}?<br/>--%>
                                 <%--</c:if>--%>
-                            <%--</c:if>--%>
+                                <%--</c:if>--%>
                         </div>
                     </td>
                 </tr>
@@ -242,34 +250,34 @@
                                     />
                         </c:if>
                         <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
-                                <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
-                                    <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                                             <%--title="${validValue.value}"--%>
-                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                                             <%--displayOrder="${validValue.displayOrder}"--%>
-                                             <%--questionIndexOnPage="${varStatus.index}"--%>
-                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                                    <%--/>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
-                                   <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                                             <%--title="${validValue.valueSpanish}"--%>
-                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                                             <%--displayOrder="${validValue.displayOrder}"--%>
-                                             <%--questionIndexOnPage="${varStatus.index}"--%>
-                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                                    <%--/>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
-                                    <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                                             <%--title="${validValue.value}"--%>
-                                             <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                                             <%--displayOrder="${validValue.displayOrder}"--%>
-                                             <%--questionIndexOnPage="${varStatus.index}"--%>
-                                             <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                                    <%--/>--%>
-                                <%--</c:if>--%>
-                            <%--</c:if>--%>
+                        <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
+                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                        <%--title="${validValue.value}"--%>
+                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                        <%--displayOrder="${validValue.displayOrder}"--%>
+                        <%--questionIndexOnPage="${varStatus.index}"--%>
+                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                        <%--/>--%>
+                        <%--</c:if>--%>
+                        <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
+                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                        <%--title="${validValue.valueSpanish}"--%>
+                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                        <%--displayOrder="${validValue.displayOrder}"--%>
+                        <%--questionIndexOnPage="${varStatus.index}"--%>
+                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                        <%--/>--%>
+                        <%--</c:if>--%>
+                        <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
+                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
+                        <%--title="${validValue.value}"--%>
+                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
+                        <%--displayOrder="${validValue.displayOrder}"--%>
+                        <%--questionIndexOnPage="${varStatus.index}"--%>
+                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
+                        <%--/>--%>
+                        <%--</c:if>--%>
+                        <%--</c:if>--%>
                     </c:forEach>
                 </tr>
             </table>
@@ -280,16 +288,18 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="right" width="50%">
-            	<spring:message code="back" var="back"/>
+                <spring:message code="back" var="back"/>
                 <c:if test="${command.newPageIndex gt 1}">
-                    <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
+                    <a href="#" class="btn big-blue-left"
+                       onclick="javascript:submitForm('back')"><span>${back}</span></a>
                 </c:if>
             </td>
             <td align="left" width="50%">
-            	<spring:message code="next" var="next"/>
+                <spring:message code="next" var="next"/>
                 <c:choose>
                     <c:when test="${command.newPageIndex le command.totalPages}">
-                        <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
+                        <a href="#" class="btn huge-green"
+                           onclick="javascript:submitForm('continue')"><span>${next}</span></a>
                     </c:when>
                 </c:choose>
             </td>
