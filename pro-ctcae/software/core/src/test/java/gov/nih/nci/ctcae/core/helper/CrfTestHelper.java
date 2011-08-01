@@ -124,12 +124,19 @@ public class CrfTestHelper {
 
      private static void secondTab_IVRSFormBuilder(CRF crf) {
         ProCtcTermQuery query = new ProCtcTermQuery();
-        query.filterByCtcTermHavingQuestionsOnly();
-        List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
-        crf.setCrfVersion("1.0");
-        for (int i = 0; i < 3; i++) {
-            crf.addProCtcTerm(proCtcTerms.get(i));
-        }
+//        query.filterByCtcTermHavingQuestionsOnly();
+//        List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
+          crf.setCrfVersion("1.0");
+//        for (int i = 0; i < 3; i++) {
+//            crf.addProCtcTerm(proCtcTerms.get(i));
+//        }
+         List<ProCtcTerm> proCtcTerms1 = new ArrayList<ProCtcTerm>();
+         proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Anxiety or worry"));
+         proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Shortness of breath"));
+         proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Unusual darkening of the skin"));
+         for(int i=0;i<proCtcTerms1.size();i++){
+             crf.addProCtcTerm(proCtcTerms1.get(i));
+         }
         crf.updateCrfPageInstructions();
     }
 
