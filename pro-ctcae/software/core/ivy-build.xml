@@ -36,6 +36,7 @@
                  password="${datasource.password}"
                  targetVersion="${migrate.version}"
                  migrationsdir="${main.src}/../db/migrate"/>
+    	<echo message="datasource.url : ${datasource.url}"/>
         <echo message="migrate.version : ${migrate.version}"/>
         <echo message="bering.dialect : ${bering.dialect}"/>
     </target>
