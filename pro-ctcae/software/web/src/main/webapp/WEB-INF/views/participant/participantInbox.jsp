@@ -133,7 +133,7 @@
     <div class="language-toggle" style="float:right">
         <ul>
             <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-            <li class="right ${currentEs}"><a href="?lang=es"> Español</a></li>
+            <li class="right ${currentEs}"><a href="?lang=es"> Espaï¿½ol</a></li>
         </ul>
     </div>
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
@@ -155,10 +155,13 @@
     </span>
 </div>
 
-<tags:instructions code="login.disclaimer.1"/><br/>
-
+<tags:instructions code="participant.instruction"/><br/>
+<chrome:box title="participant.disclaimer">
+       <tags:message code="login.disclaimer.1"/>
+</chrome:box>
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
 <spring:message code="label.scheduledForms" var="labelScheduledForms"/>
+
 <chrome:box title="${labelScheduledForms}">
     <table id="inboxTable">
         <tr>
@@ -195,7 +198,9 @@
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
                             <td>
-                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> days
+
+
                             </td>
                             <td>
                                 <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
