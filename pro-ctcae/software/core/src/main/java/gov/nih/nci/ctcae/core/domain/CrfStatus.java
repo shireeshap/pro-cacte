@@ -31,7 +31,7 @@ public enum CrfStatus implements CodedEnum<String> {
     /**
      * The SCHEDULED.
      */
-    SCHEDULED("Scheduled"),
+    SCHEDULED("Available"),
 
     /**
      * The COMPLETED.
