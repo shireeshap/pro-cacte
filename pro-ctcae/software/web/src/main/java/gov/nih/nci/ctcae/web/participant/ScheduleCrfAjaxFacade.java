@@ -17,9 +17,11 @@ import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -117,6 +119,12 @@ public class ScheduleCrfAjaxFacade {
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
     }
 
+    public String removeDiacritics(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD); 
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+	}
+    
     /**
      * Match Symptoms.
      *
@@ -134,12 +142,16 @@ public class ScheduleCrfAjaxFacade {
         List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
         for (ProCtcTerm symptom : symptoms) {
-            if (symptom.getProCtcTermVocab().getTermEnglish().toLowerCase().contains((text.toLowerCase()))) {
-                if (language.equals("en")) {
-                    results.add(symptom.getProCtcTermVocab().getTermEnglish());
-                } else {
-                    results.add(symptom.getProCtcTermVocab().getTermSpanish());
-                }
+            if (language.equals("en")) {
+            	 if (symptom.getProCtcTermVocab().getTermEnglish().toLowerCase().contains(text.toLowerCase())) {
+            		 results.add(symptom.getProCtcTermVocab().getTermEnglish());
+            	 }
+            } else {
+            	 if (symptom.getProCtcTermVocab().getTermSpanish().toLowerCase().contains(text.toLowerCase())) {
+            		 results.add(symptom.getProCtcTermVocab().getTermSpanish());
+            	 } else if(removeDiacritics(symptom.getProCtcTermVocab().getTermSpanish().toLowerCase()).contains(text.toLowerCase())){
+            		 results.add(symptom.getProCtcTermVocab().getTermSpanish());
+            	 }
             }
         }
         MeddraQuery meddraQuery;
