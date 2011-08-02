@@ -155,7 +155,7 @@
     </span>
 </div>
 
-<tags:instructions code="participant.instruction"/><br/>
+<tags:instructions  code="participant.instruction"/><br/>
 <chrome:box title="participant.disclaimer">
        <tags:message code="login.disclaimer.1"/>
 </chrome:box>
@@ -192,14 +192,26 @@
                                 <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
                             </td>
                             <td>
-                                    ${studyParticipantCrfSchedule.status.displayName}
+                                    ${studyParticipantCrfSchedule.status}
                             </td>
                             <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
                             <td>
-                                <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> days
-
+                                <c:if test="${(studyParticipantCrfSchedule.dueDate eq todaysdate)}">
+                                         <tags:message code="participant.today"/>
+                                </c:if>
+                                <c:if test="${(studyParticipantCrfSchedule.dueDate gt todaysdate)}">
+                                    <c:if test="${((studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)) eq 1}">
+                                           <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.day"/>
+                                    </c:if>
+                                    <c:if test="${((studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)) gt 1}">
+                                        <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days"/>
+                                    </c:if>
+                                </c:if>
+                                 <c:if test="${(studyParticipantCrfSchedule.dueDate lt todaysdate)}">
+                                    <tags:message code="participant.expired"/> <c:out value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days.ago"/>
+                                </c:if>
 
                             </td>
                             <td>

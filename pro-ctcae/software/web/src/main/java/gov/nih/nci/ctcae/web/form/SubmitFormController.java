@@ -152,7 +152,12 @@ public class SubmitFormController extends SimpleFormController {
                                     continue;
                                 }
                             }
-                            errors.reject("MANDATORY_VALUE_MISSING", "Please provide a response for question " + (index + 1));
+                            String lang = request.getParameter("lang");
+                            if(lang != null && lang.equals("es")){
+                                errors.reject("MANDATORY_VALUE_MISSING","Por favor, dar una respuesta a la pregunta"  + (index + 1));
+                            }else{
+                                errors.reject("MANDATORY_VALUE_MISSING", "Please provide a response for question " + (index + 1));
+                            }
                         }
                     }
                 } catch (Exception
