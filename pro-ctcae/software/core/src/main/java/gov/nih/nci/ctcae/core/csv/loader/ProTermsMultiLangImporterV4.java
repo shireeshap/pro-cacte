@@ -42,7 +42,7 @@ public class ProTermsMultiLangImporterV4 {
 
     public void updateMultiLangProTerms() throws IOException {
         CsvReader reader;
-        ClassPathResource classPathResource = new ClassPathResource("Spanish_Pro-CTCAE_items_06.01.2011.csv");
+        ClassPathResource classPathResource = new ClassPathResource("Spanish_Pro-CTCAE_items_08.02.2011.csv");
 //        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
