@@ -192,7 +192,7 @@
                                 <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
                             </td>
                             <td>
-                                    ${studyParticipantCrfSchedule.status}
+                                <tags:message code="crfStatus_${studyParticipantCrfSchedule.status.code}"/>
                             </td>
                             <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
