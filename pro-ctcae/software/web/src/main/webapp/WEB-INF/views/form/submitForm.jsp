@@ -26,6 +26,58 @@
             margin-right: 0.5em;
             padding: 1px;
             font-size: 20px;
+
+        }
+
+        .norm .val {
+            background: url(/proctcae/images/lightgray.png) repeat-x;
+            cursor: default;
+            text-shadow: 0 1px white;
+            border: 1px solid #d6d6d6;
+            vertical-align: middle;
+            display: table-cell;
+            padding: 0px 30px;
+            text-align: center;
+            line-height: 19px;
+            height: 47px;
+            max-height: 47px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            -moz-box-shadow: 0 1px 1px white inset;
+            -webkit-box-shadow: 0 1px 1px white inset;
+            box-shadow: 0 1px 1px white inset;
+
+        }
+
+        .over .val {
+            background: url(/proctcae/images/lightblue.png) repeat-x;
+            cursor: pointer;
+            color: #025468;
+            text-shadow: 0 1px white;
+            border: 1px solid #90cbd9;
+            vertical-align: middle;
+            display: table-cell;
+            padding: 0px 30px;
+            text-align: center;
+            line-height: 19px;
+            height: 47px;
+            max-height: 47px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            -moz-box-shadow: 0 1px 1px white inset;
+            -webkit-box-shadow: 0 1px 1px white inset;
+            box-shadow: 0 1px 1px white inset;
+        }
+
+        .val {
+            font-weight: bold;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            padding: 1px;
+            font-size: 20px;
+            width: 100px;
         }
 
         .currentPagediv {
@@ -50,7 +102,7 @@
             margin-left: 15px;
         }
 
-        .selected .label {
+        .selected .val {
             background: url(/proctcae/images/green-selected.png) -2px 0;
             cursor: pointer;
             color: white;
@@ -69,7 +121,7 @@
             -moz-box-shadow: 0 1px 1px white inset;
             -webkit-box-shadow: 0 1px 1px white inset;
             box-shadow: 0 1px 1px white inset;
-
+            width: 100px;
         }
 
     </style>
@@ -164,6 +216,7 @@
         <spring:message code="pages.left"/> ${command.totalPages}
     </div>
     <br><br>
+
     <div>
         <div class="label" style="margin-bottom:10px; float:left">
             <tags:recallPeriodFormatter

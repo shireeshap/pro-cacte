@@ -17,7 +17,7 @@
     onmouseover="javascript:this.className = getClassName('${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad', 'selected' , 'over');"  ${onmouseout}
     onclick="selectValidValue(this,'${displayOrder}','${questionIndexOnPage}','${validValueIndexForQuestion}')"
     id="${validValueIndexForQuestion}_column_${questionIndexOnPage}">
-    <div class="label">
+    <div class="val">
         <input type="radio" id="${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad"
                name="response${questionIndexOnPage}"
                value="${validValueId}" ${checked}/> ${title}
