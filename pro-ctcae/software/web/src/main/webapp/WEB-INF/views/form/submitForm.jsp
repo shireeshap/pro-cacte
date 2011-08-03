@@ -194,7 +194,7 @@
 
             <table>
                 <tr>
-                    <td colspan="${colspan}">
+                    <td colspan="${colspan}" >
                         <div class="label">
                             <c:set var="lang"
                                    value="${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"/>
