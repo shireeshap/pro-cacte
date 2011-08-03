@@ -33,6 +33,7 @@ public class ResetPasswordController extends SimpleFormController {
         super();
         setCommandClass(ResetPasswordCommand.class);
         setFormView("resetPassword");
+        setSessionForm(true);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class ResetPasswordController extends SimpleFormController {
         User cmdUser = command.getUser();
 
         User user = new User();
-        user.setUsername(command.getUsername());
+        user.setUsername(cmdUser.getUsername());
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
 
