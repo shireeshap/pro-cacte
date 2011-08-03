@@ -45,14 +45,23 @@ $x$ LANGUAGE plpgsql;
   DECLARE
       v_ret_count integer :=0;
   BEGIN
-
-      SELECT count(spcs.id) INTO v_ret_count
-      from sp_crf_schedules spcs
-      JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
-      JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
-      JOIN participants p ON sp.participant_id = p.id
-      where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-        and p.user_id=userid;
+       -- RK bug 1080
+     -- SELECT count(spcs.id) INTO v_ret_count
+      --from sp_crf_schedules spcs
+      --JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
+      --JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
+     -- JOIN participants p ON sp.participant_id = p.id
+     -- where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
+     --   and p.user_id=userid;
+    SELECT spcs.id INTO v_form_id
+	from sp_crf_schedules spcs
+	JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
+	JOIN crfs c ON c.id=spc.crf_id
+	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
+	JOIN participants p ON sp.participant_id = p.id
+	where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
+	and p.user_id=userid and c.is_hidden='FALSE'
+	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
        return v_ret_count;
   EXCEPTION
