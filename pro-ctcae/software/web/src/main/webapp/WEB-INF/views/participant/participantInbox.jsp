@@ -198,10 +198,10 @@
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
                             <td>
-                                <c:if test="${(studyParticipantCrfSchedule.dueDate eq todaysdate)}">
+                                <c:if test="${(studyParticipantCrfSchedule.dueDate.time eq todaysdate.time)}">
                                          <tags:message code="participant.today"/>
                                 </c:if>
-                                <c:if test="${(studyParticipantCrfSchedule.dueDate gt todaysdate)}">
+                                <c:if test="${(studyParticipantCrfSchedule.dueDate.time gt todaysdate.time)}">
                                     <c:if test="${((studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)) eq 1}">
                                            <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.day"/>
                                     </c:if>
@@ -209,7 +209,7 @@
                                         <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days"/>
                                     </c:if>
                                 </c:if>
-                                 <c:if test="${(studyParticipantCrfSchedule.dueDate lt todaysdate)}">
+                                 <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
                                     <tags:message code="participant.expired"/> <c:out value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days.ago"/>
                                 </c:if>
 
