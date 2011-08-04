@@ -102,27 +102,29 @@
 		    </c:if>
 		    <c:if test="${showLogin}">
 	           <div class="content-box">     
-	           <div class="box-container">
-	           <div class="container"  id="login" onKeyPress="return checkSubmit(event)">
-					<p class="inputs">
-						<spring:message code="login.username" var="uname" />
-						<input class="username" id="username" name="j_username" size="30" type="text" value="${uname}" onblur="javascript:if(this.value=='') this.value='${uname}';" onfocus="javascript:if(this.value=='${uname}') this.value='';" onclick="attachKeyBoard($('username'));"/>
-					</p>
-					<p class="inputs">
-						<spring:message code="login.password" var="pwd" />
-					    <input class="password" id="password" name="j_password" size="30" type="text" value="${pwd}" onblur="toggleX('onblur');" onfocus="toggleX('onfocus');" onclick="attachKeyBoard($('password'));"/>
-					</p><br />
-
-					<p class="submit">
-						<spring:message code="login.submit" var="loginSubmit" />
-						<a href="javascript:document.loginForm.submit();" class="btn big-green" ><span>${loginSubmit}</span></a>                    
-					</p>
-	
-				    <div class="left" ><a href='<c:url value="forgotusername"/>' border-bottom="none"><tags:message code="login.forgotUsername"/></a></div>
-				    <div class="right"><a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a></div>
-				    <div class="clear"></div>
-	             </div>
-	             </div>
+                   <div class="box-container">
+                       <div class="container"  id="login" onKeyPress="return checkSubmit(event)">
+                            <p class="inputs">
+                                <spring:message code="login.username" var="uname" />
+                                <input class="username" id="username" name="j_username" size="30" type="text" value="${uname}" onblur="javascript:if(this.value=='') this.value='${uname}';" onfocus="javascript:if(this.value=='${uname}') this.value='';" onclick="attachKeyBoard($('username'));"/>
+                            </p>
+                            <p class="inputs">
+                                <spring:message code="login.password" var="pwd" />
+                                <input class="password" id="password" name="j_password" size="30" type="text" value="${pwd}" onblur="toggleX('onblur');" onfocus="toggleX('onfocus');" onclick="attachKeyBoard($('password'));"/>
+                            </p><br />
+                            <div>
+                                <p class="submit">
+                                    <spring:message code="login.submit" var="loginSubmit" />
+                                    <a href="javascript:document.loginForm.submit();" class="btn big-green" ><span>${loginSubmit}</span></a>
+                                </p>
+                           </div>
+                           <div>
+                               <a href='<c:url value="forgotusername"/>' border-bottom="none"><tags:message code="login.forgotUsername"/></a> &nbsp; &nbsp;
+                               <a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a>
+                           </div>
+                            <div class="clear"></div>
+                         </div>
+                     </div>
 	             </div>
    		   </c:if>
    		   <div id="keyboardDiv" align="center"></div>
