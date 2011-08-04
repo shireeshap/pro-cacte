@@ -45,23 +45,23 @@ $x$ LANGUAGE plpgsql;
   DECLARE
       v_ret_count integer :=0;
   BEGIN
-       -- RK bug 1080
-     -- SELECT count(spcs.id) INTO v_ret_count
-      --from sp_crf_schedules spcs
-      --JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
-      --JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
-     -- JOIN participants p ON sp.participant_id = p.id
-     -- where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-     --   and p.user_id=userid;
-    SELECT spcs.id INTO v_form_id
-	from sp_crf_schedules spcs
-	JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
+     
+     --SELECT count(spcs.id) INTO v_ret_count
+     --from sp_crf_schedules spcs
+     --JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
+     ---JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
+     --JOIN participants p ON sp.participant_id = p.id
+     --where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
+     --and p.user_id=userid;
+     SELECT count(spcs.id) INTO v_ret_count
+	 from sp_crf_schedules spcs
+	 JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
 	JOIN crfs c ON c.id=spc.crf_id
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
 	where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-	and p.user_id=userid and c.is_hidden='FALSE'
-	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
+	and p.user_id=userid and c.is_hidden='FALSE';
+   
 
        return v_ret_count;
   EXCEPTION
@@ -79,13 +79,23 @@ DECLARE
     v_form_id integer :=0;
 BEGIN
 
-	SELECT spcs.id INTO v_form_id
+	--SELECT spcs.id INTO v_form_id
+	--from sp_crf_schedules spcs
+	--JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
+	--JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
+	--JOIN participants p ON sp.participant_id = p.id
+	--where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
+	--and p.user_id=userid
+	--order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
+	  -- RK bug 1080
+    SELECT spcs.id INTO v_form_id
 	from sp_crf_schedules spcs
 	JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
+	JOIN crfs c ON c.id=spc.crf_id
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
 	where spcs.start_date <=current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-	and p.user_id=userid
+	and p.user_id=userid and c.is_hidden='FALSE'
 	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
 	IF NOT FOUND THEN
@@ -792,15 +802,19 @@ $x$ LANGUAGE 'plpgsql';
 --return:  return ivrs answer (1--None,2--Mild,3--Moderate,4--Severe,5--Very Severe etc) for given question, for 0 for there is no answer for given question, -1 for any DB issues
 -- Function: ivrs_getquestionanswer(integer, integer, integer, integer)
 
--- DROP FUNCTION ivrs_getquestionanswer(integer, integer, integer, integer);
-
-CREATE OR REPLACE FUNCTION IVRS_GetQuestionAnswer(userid integer, formid integer, questionid integer, questioncategory integer)
-  RETURNS integer AS $x$
-DECLARE
+CREATE OR REPLACE FUNCTION ivrs_getquestionanswer(userid integer, formid integer, questionid integer, questioncategory integer)
+  RETURNS integer AS
+$$ DECLARE
     v_return_answer_id integer :=0;
     v_proctc_crf_item_id integer :=0;
     v_proctc_value_id integer :=0;
+    v_question_type Text := '';
+
 BEGIN
+	SELECT pcq.question_type INTO v_question_type
+	from pro_ctc_questions pcq
+        where pcq.id = questionid;
+
 	IF questioncategory = 1 THEN
 		--get the proctc question id using schedule question (crf item id)
 		SELECT cpi.id INTO v_proctc_crf_item_id from crf_page_items cpi
@@ -814,18 +828,21 @@ BEGIN
 	END IF;
 	--if answer not found for the question return 0
 		IF v_proctc_value_id IS NULL THEN
-			return 0;
+			return -5;
 		END IF;
 	--get the IVRS answer type from valid values like 1,2 etc
-		select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id<v_proctc_value_id;
-
+		IF v_question_type='PRESENT' THEN
+			select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id>v_proctc_value_id;
+		ELSE
+			select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id<v_proctc_value_id;
+		END IF;
 	return v_return_answer_id;
 
 EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$x$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer)
 -- DROP FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer);
