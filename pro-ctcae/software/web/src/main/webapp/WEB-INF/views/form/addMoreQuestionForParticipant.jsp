@@ -269,8 +269,9 @@ function addCheckbox(selectedChoice) {
     if (selectedChoice == '') {
         return;
     }
-    if (nextColumnIndex % 3 == 0) {
-        var idVar = Math.floor(nextColumnIndex / 3) * 3;
+//    if (nextColumnIndex % 3 == 0) {
+//        var idVar = Math.floor(nextColumnIndex / 3) * 3;
+      var idVar = nextColumnIndex ;
         var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
         var row = document.createElement("TR");
 
@@ -285,31 +286,31 @@ function addCheckbox(selectedChoice) {
         }
 
 
-        var td4 = document.createElement("TD");
-        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
+//        var td4 = document.createElement("TD");
+//        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
 //        $(td4).addClassName('tdHoverLook');
-            td4.onmouseover = function() {
-                addHoverClass(idVar + 1);
-            }
-            td4.onmouseout = function() {
-                removeHoverClass(idVar + 1);
-            }
+//            td4.onmouseover = function() {
+//                addHoverClass(idVar + 1);
+//            }
+//            td4.onmouseout = function() {
+//                removeHoverClass(idVar + 1);
+//            }
 
-        var td6 = document.createElement("TD");
-        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
+//        var td6 = document.createElement("TD");
+//        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
 //        $(td6).addClassName('tdHoverLook');
-            td6.onmouseover = function() {
-                addHoverClass(idVar + 2);
-            }
-            td6.onmouseout = function() {
-                removeHoverClass(idVar + 2);
-            }
+//            td6.onmouseover = function() {
+//                addHoverClass(idVar + 2);
+//            }
+//            td6.onmouseout = function() {
+//                removeHoverClass(idVar + 2);
+//            }
 
         tdCount = nextColumnIndex + 2;
 
         row.appendChild(td2);
-        row.appendChild(td4);
-        row.appendChild(td6);
+//        row.appendChild(td4);
+//        row.appendChild(td6);
         tbody.appendChild(row);
 
         td2.onclick = function() {
@@ -317,15 +318,15 @@ function addCheckbox(selectedChoice) {
             changeTdClass(v);
 
         }
-        td4.onclick = function() {
-            var v = idVar + 1;
-            changeTdClass(v);
-        }
-        td6.onclick = function() {
-            var v = idVar + 2;
-            changeTdClass(v);
-        }
-    }
+//        td4.onclick = function() {
+//            var v = idVar + 1;
+//            changeTdClass(v);
+//        }
+//        td6.onclick = function() {
+//            var v = idVar + 2;
+//            changeTdClass(v);
+//        }
+//    }
 
 
     var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
@@ -368,9 +369,9 @@ function addCheckbox(selectedChoice) {
     changeClass(chkbox, nextColumnIndex);
 //    alert(tdCount);
 //    alert(nextColumnIndex);
-    if (tdCount != nextColumnIndex) {
-        removeTdClass(nextColumnIndex, tdCount);
-    }
+//    if (tdCount != nextColumnIndex) {
+//        removeTdClass(nextColumnIndex, tdCount);
+//    }
 //    alert(nextColumnIndex);
     nextColumnIndex++;
 }
