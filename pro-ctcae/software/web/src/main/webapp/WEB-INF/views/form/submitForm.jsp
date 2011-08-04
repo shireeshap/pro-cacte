@@ -60,7 +60,7 @@
             display: table-cell;
             padding: 0px 20px 0 40px;
             text-align: center;
-            line-height: 19px;
+            line-height: 23px;
             height: 47px;
             max-height: 47px;
             -moz-border-radius: 6px;
