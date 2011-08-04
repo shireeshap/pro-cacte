@@ -1810,6 +1810,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/software/web/src/main/resources/MedDRA12_symptoms_ES_prelim.csv -text
 pro-ctcae/software/web/src/main/resources/MedDRA12_symtoms_EN_prelim.csv -text
+pro-ctcae/software/web/src/main/resources/MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv -text
+pro-ctcae/software/web/src/main/resources/MedDRA12_symtoms_ES_prelim_updated_08.04.2011.csv -text
 pro-ctcae/software/web/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_formatted.csv -text
 pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_06.01.2011.csv -text
 pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_08.02.2011.csv -text
