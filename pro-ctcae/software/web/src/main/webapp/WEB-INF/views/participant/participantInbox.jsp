@@ -9,7 +9,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -198,19 +198,21 @@
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
                             <td>
+                                <c:set scope="page" var="remainingDays" value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
+
                                 <c:if test="${(studyParticipantCrfSchedule.dueDate.time eq todaysdate.time)}">
                                          <tags:message code="participant.today"/>
                                 </c:if>
                                 <c:if test="${(studyParticipantCrfSchedule.dueDate.time gt todaysdate.time)}">
-                                    <c:if test="${((studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)) eq 1}">
-                                           <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.day"/>
+                                    <c:if test="${remainingDays eq 1}">
+                                           <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.day"/>
                                     </c:if>
-                                    <c:if test="${((studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)) gt 1}">
-                                        <c:out value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days"/>
+                                    <c:if test="${remainingDays gt 1}">
+                                        <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.days"/>
                                     </c:if>
                                 </c:if>
                                  <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
-                                    <tags:message code="participant.expired"/> <c:out value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days.ago"/>
+                                    <tags:message code="participant.expired"/> <fmt:formatNumber type="number" maxFractionDigits="0" value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days.ago"/>
                                 </c:if>
 
                             </td>
