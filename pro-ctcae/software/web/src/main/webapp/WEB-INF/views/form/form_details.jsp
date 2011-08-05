@@ -18,17 +18,17 @@
 
     Event.observe(window, "load", function () {
 
-    <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
+        <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
         updateQuestionsId();
         addRemoveConditionalTriggeringDisplayToQuestion();
         updateCrfPageNumberAndShowHideUpDownLink();
         reOrderQuestionNumber()
 
         hideQuestionsFromForm();
-    <c:forEach items="${selectedProCtcTerms}" var="selectedProCtcTerms" varStatus="status">
+        <c:forEach items="${selectedProCtcTerms}" var="selectedProCtcTerms" varStatus="status">
         hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
-    </c:forEach>
-    </c:if>
+        </c:forEach>
+        </c:if>
         jQuery('#displayPrefsMenu').menu({
             content: jQuery('#displayOptionsMenu').html(),
             width:250,
@@ -770,14 +770,24 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
         <div class="row">
             <div class="label"><spring:message code="form.label.study"/>:</div>
-            <div class="value">${command.crf.study.displayName}</div>
+            <div class="value">${command.crf.study.displayName} </div>
         </div>
         <div class="row">
             <div class="label" style="margin-top:6px;">
-                <tags:requiredIndicator/><spring:message code="form.label.title"/>
+               <c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if><spring:message code="form.label.title"/>
             </div>
             <div class="value" id="hackThisForIE">
-                <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;" size="60"/>
+                <c:choose>
+                    <c:when test="${command.crf.crfVersion eq 1.0}">
+                        <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;"
+                               size="60"/>
+                    </c:when>
+                    <c:otherwise>
+                        <div style="padding-top:7px">
+                                ${command.crf.title}
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
