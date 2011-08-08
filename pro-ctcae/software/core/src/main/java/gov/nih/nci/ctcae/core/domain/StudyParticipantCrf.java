@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.*;
 
 //
+
 /**
  * The Class StudyParticipantCrf.
  *
@@ -172,7 +173,7 @@ public class StudyParticipantCrf extends BaseVersionable {
                 schedulesToRemove.add(studyParticipantCrfSchedule);
             }
         }
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove){
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
             studyParticipantCrfSchedules.remove(studyParticipantCrfSchedule);
         }
     }
@@ -219,12 +220,13 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     public void createSchedules() throws ParseException {
-        createBaseLineSchedule();
+
         Date calendarStartDate = getStartDate();
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
 
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             if (formArmSchedule.getArm().equals(studyParticipantAssignment.getArm())) {
+                createBaseLineSchedule();
                 for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
                     if (crfCalendar.isValid()) {
                         proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
@@ -357,10 +359,10 @@ public class StudyParticipantCrf extends BaseVersionable {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                 studyParticipantCrfSchedule.putOnHold(effectiveDate);
-                for(IvrsSchedule ivrsSchedule: studyParticipantCrfSchedule.getIvrsSchedules()){
-                	if(ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
-                		ivrsSchedule.setCallStatus(IvrsCallStatus.ON_HOLD);
-                	}
+                for (IvrsSchedule ivrsSchedule : studyParticipantCrfSchedule.getIvrsSchedules()) {
+                    if (ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+                        ivrsSchedule.setCallStatus(IvrsCallStatus.ON_HOLD);
+                    }
                 }
             }
         }
