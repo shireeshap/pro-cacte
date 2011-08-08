@@ -122,11 +122,17 @@
                                <a href='<c:url value="forgotusername"/>' border-bottom="none"><tags:message code="login.forgotUsername"/></a> &nbsp; &nbsp;
                                <a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a>
                            </div>
-                            <div class="clear"></div>
-                           <chrome:box>
-                               <p align="center"><b><tags:message code="participant.disclaimer"/></b></p>
-                                <tags:message code="login.disclaimer.1"/>
-                           </chrome:box>
+                            <div class="clear"></div><br/>
+                           <div class="content-box1">
+                               <div class="box-container">
+                                   <div class="container">
+                                    <p align="center"><b><tags:message code="participant.disclaimer"/></b></p>
+                                    <p align="center">
+                                        <tags:message code="login.disclaimer.1"/>
+                                    </p>
+                                   </div>
+                               </div>
+                          </div>
                          </div>
                      </div>
 	             </div>

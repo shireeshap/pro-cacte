@@ -37,6 +37,11 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
 	margin: 0 auto;
 }
 
+.content-box1 {
+	width: 600px;
+	margin: 0 auto;
+}
+
 
 .content-box .box-container {
 	width: 100%;
