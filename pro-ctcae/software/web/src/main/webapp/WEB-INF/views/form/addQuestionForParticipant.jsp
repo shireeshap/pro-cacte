@@ -152,8 +152,7 @@
     </script>
 </head>
 <body>
-<chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
-            autopad="true" message="false">
+<chrome:box autopad="true" message="false">
     <form:form method="post" name="myForm">
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>
@@ -199,9 +198,9 @@
     </form:form>
     <br/>
 
-    <p>
+ <!--   <p>
         <b><tags:message code="participant.selectsymptom.footer"/></b>
-    </p>
+    </p> -->
     <%--<p>--%>
     <%--<b><tags:message code="participant.form.typesymptom"/></b>--%>
     <%--</p>--%>
