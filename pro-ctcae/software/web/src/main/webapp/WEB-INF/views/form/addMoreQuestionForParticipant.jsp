@@ -465,7 +465,7 @@ function sendConfirmedSymptom() {
 </head>
 <body>
 <chrome:box autopad="true" message="false">
-    <p style="font-size:15px">
+    <p style="font-size:18px">
         <b><tags:message code="participant.form.typesymptom"/></b>
     </p>
 
@@ -510,8 +510,10 @@ function sendConfirmedSymptom() {
 
     <div class="row" style="margin-left: 15px;font-size:20px">
         <input id='usevirtualkeyboard' type="checkbox"
-               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message
-            code="virtualKeyboard"/>
+               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">
+         <img src="/proctcae/images/keyboard-icon.png"/>
+        <spring:message code="virtualKeyboard"/>
+
     </div>
     <form:form method="post" name="myForm">
         <table id="mytable" width="100%" border="0">
