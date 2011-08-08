@@ -26,12 +26,12 @@ public enum CrfStatus implements CodedEnum<String> {
     /**
      * The INPROGRESS.
      */
-    INPROGRESS("In-progress"),
+    INPROGRESS("In progress"),
 
     /**
      * The SCHEDULED.
      */
-    SCHEDULED("Available"),
+    SCHEDULED("Not started"),
 
     /**
      * The COMPLETED.
