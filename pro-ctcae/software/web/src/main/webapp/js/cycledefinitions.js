@@ -158,7 +158,7 @@ function initializeCalendar(index) {
                         item.style.background = 'lightgrey';
                     }
 
-                    if (status == 'Not started' || status == 'Past-due' || status == 'In progress' || status == 'On-hold' || status=='Completed') {
+                    if (status == 'Not_started' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status=='Completed') {
                         if (holiday == 'true') {
 //                            item.style.background = 'blue';
                             item.addClassName('blue');
