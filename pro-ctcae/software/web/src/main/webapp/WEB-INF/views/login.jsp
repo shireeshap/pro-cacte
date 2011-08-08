@@ -123,6 +123,10 @@
                                <a href='<c:url value="password"/>'><tags:message code="login.forgotPassword"/></a>
                            </div>
                             <div class="clear"></div>
+                           <chrome:box>
+                               <p align="center"><b><tags:message code="participant.disclaimer"/></b></p>
+                                <tags:message code="login.disclaimer.1"/>
+                           </chrome:box>
                          </div>
                      </div>
 	             </div>
