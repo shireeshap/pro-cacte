@@ -804,7 +804,7 @@ $x$ LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION ivrs_getquestionanswer(userid integer, formid integer, questionid integer, questioncategory integer)
   RETURNS integer AS
-$$ DECLARE
+$x$ DECLARE
     v_return_answer_id integer :=0;
     v_proctc_crf_item_id integer :=0;
     v_proctc_value_id integer :=0;
@@ -842,7 +842,7 @@ EXCEPTION
     WHEN OTHERS THEN
     return -1;
 END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$x$ LANGUAGE 'plpgsql' VOLATILE;
 
 -- Function: ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer)
 -- DROP FUNCTION ivrs_getpreviousquestion(userid integer, formid integer, questionid integer,questioncategory integer);
