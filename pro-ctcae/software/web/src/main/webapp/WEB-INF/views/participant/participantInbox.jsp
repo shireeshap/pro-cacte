@@ -110,10 +110,11 @@
     request.setAttribute("missedFormDate", date);
 %>
 <%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
+<c:set var="numberofCrfs" scope="page" value="0"/>
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Available' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -138,15 +139,15 @@
     </div>
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
-    <h1><tags:message code="participant.box.inbox"/></h1>
+    <h1><tags:message code="participant.box.inbox"/>(${numberofCrfs})</h1>
 	<span style="font-size:13pt; margin-left:10px;">
     <c:choose>
-        <c:when test="${not empty numberofCrfs}">
+        <c:when test="${numberofCrfs gt 0}">
             <c:if test="${numberofCrfs != 1}"><tags:message
-                    code="participant.youHave"/>&nbsp;<span class="bolder">${numberofCrfs}</span><tags:message
+                    code="participant.youHave"/>&nbsp;<span class="bolder">[${numberofCrfs}]</span><tags:message
                     code="participant.messageEndingPlural"/></c:if>
             <c:if test="${numberofCrfs == 1}"><tags:message
-                    code="participant.youHave"/>&nbsp;<span class="bolder">${numberofCrfs}</span><tags:message
+                    code="participant.youHave"/>&nbsp;<span class="bolder">[${numberofCrfs}]</span><tags:message
                     code="participant.messageEndingSingular"/></c:if>
         </c:when>
         <c:otherwise><tags:message code="participant.noformsmessage"/>
@@ -156,9 +157,10 @@
 </div>
 
 <tags:instructions  code="participant.instruction"/><br/>
-<chrome:box title="participant.disclaimer">
+<!--<chrome:box title="participant.disclaimer">
        <tags:message code="login.disclaimer.1"/>
 </chrome:box>
+-->
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
 <spring:message code="label.scheduledForms" var="labelScheduledForms"/>
 
@@ -171,9 +173,9 @@
             <th>
                 <tags:message code="participant.label.status"/>
             </th>
-            <th>
+      <!--  <th>
                 <tags:message code="participant.label.scheduleDate"/>
-            </th>
+            </th> -->
             <th>
                 <tags:message code="participant.label.dueDate"/>
             </th>
@@ -189,14 +191,14 @@
                         <tr>
                             <td>
                                     ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
+                          <!--      <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if> -->
                             </td>
                             <td>
                                 <tags:message code="crfStatus_${studyParticipantCrfSchedule.status.code}"/>
                             </td>
-                            <td>
+                      <!--  <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                            </td>
+                            </td> -->
                             <td>
                                 <c:set scope="page" var="remainingDays" value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
 
@@ -205,10 +207,10 @@
                                 </c:if>
                                 <c:if test="${(studyParticipantCrfSchedule.dueDate.time gt todaysdate.time)}">
                                     <c:if test="${remainingDays eq 1}">
-                                           <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.day"/>
+                                           <tags:message code="participant.tomorrow"/>
                                     </c:if>
                                     <c:if test="${remainingDays gt 1}">
-                                        <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.days"/>
+                                        <tags:message code="participant.in"/> <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.days"/>
                                     </c:if>
                                 </c:if>
                                  <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
@@ -229,63 +231,64 @@
     </table>
 </chrome:box>
 
-<spring:message code="label.missedForms" var="labelMissedForms"/>
-<c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-        <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                   var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
-                        && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
-                <c:set var="missedFormsAvailable" value="true"/>
-            </c:if>
+<!--
+    <spring:message code="label.missedForms" var="labelMissedForms"/>
+    <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+        <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+            <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                       var="studyParticipantCrfSchedule">
+                <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+                            && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
+                    <c:set var="missedFormsAvailable" value="true"/>
+                </c:if>
+            </c:forEach>
         </c:forEach>
     </c:forEach>
-</c:forEach>
-<c:if test="${missedFormsAvailable}">
-    <chrome:box title="${labelMissedForms}">
-        <table id="inboxTable">
-            <tr>
-                <th>
-                    <tags:message code="participant.label.title"/>
-                </th>
+    <c:if test="${missedFormsAvailable}">
+        <chrome:box title="${labelMissedForms}">
+            <table id="inboxTable">
+                <tr>
+                    <th>
+                        <tags:message code="participant.label.title"/>
+                    </th>
 
-                <th>
-                    <tags:message code="participant.label.scheduleDate"/>
-                </th>
-                <th>
-                    <tags:message code="participant.label.dueDate"/>
-                </th>
-            </tr>
-            <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-                <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                               var="studyParticipantCrfSchedule">
-                        <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
-                            && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
-                            <tr>
-                                <td>
-                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                    <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
+                    <th>
+                        <tags:message code="participant.label.scheduleDate"/>
+                    </th>
+                    <th>
+                        <tags:message code="participant.label.dueDate"/>
+                    </th>
+                </tr>
+                <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+                    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                        <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                                   var="studyParticipantCrfSchedule">
+                            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'Past-due' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false'
+                                && studyParticipantCrfSchedule.dueDate ge missedFormDate}">
+                                <tr>
+                                    <td>
+                                            ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+                                        <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
 
-                                </td>
+                                    </td>
 
-                                <td>
-                                    <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                                </td>
-                                <td>
-                                    <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        </c:if>
+                                    <td>
+                                        <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+                                    </td>
+                                    <td>
+                                        <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
                     </c:forEach>
                 </c:forEach>
-            </c:forEach>
-
-        </table>
-    </chrome:box>
-</c:if>
+            </table>
+        </chrome:box>
+       </c:if>
+-->
 </body>
 
 
