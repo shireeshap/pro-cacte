@@ -114,6 +114,7 @@
         vertical-align: middle;
         text-align: center;
         font-weight: bold;
+        font-size: 20px;
     }
 
     /*#mytable td:hover {*/
@@ -463,9 +464,8 @@ function sendConfirmedSymptom() {
 </script>
 </head>
 <body>
-<chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
-            autopad="true" message="false">
-    <p>
+<chrome:box autopad="true" message="false">
+    <p style="font-size:15px">
         <b><tags:message code="participant.form.typesymptom"/></b>
     </p>
 
@@ -492,7 +492,7 @@ function sendConfirmedSymptom() {
                     <!--  <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
                                  icon="add"
-                                 size="small" color="blue" value="${add}" markupWithTag="a"/>-->
+                                 size="big" color="blue" value="${add}" markupWithTag="a"/>-->
                 </td>
                 <td>
                     <spring:message code="clear" var="clear"/>
@@ -508,7 +508,7 @@ function sendConfirmedSymptom() {
 
     </div>
 
-    <div class="row" style="margin-left: 15px">
+    <div class="row" style="margin-left: 15px;font-size:20px">
         <input id='usevirtualkeyboard' type="checkbox"
                onclick="showVirtualKeyBoard(this,'participantSymptomInput');">&nbsp;<spring:message
             code="virtualKeyboard"/>
