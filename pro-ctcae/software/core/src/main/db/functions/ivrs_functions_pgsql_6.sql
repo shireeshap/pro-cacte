@@ -277,6 +277,7 @@ CREATE OR REPLACE FUNCTION IVRS_GetQuestionType(userid integer, formid integer, 
 DECLARE
 	v_question_type Text := '';
 	v_type_number integer := 0;
+	v_value text :='';
 BEGIN
 	SELECT pcq.question_type INTO v_question_type
 	from pro_ctc_questions pcq
@@ -309,14 +310,20 @@ BEGIN
 	END IF;
 
 	IF v_question_type='FREQUENCY' THEN
-		IF v_type_number = 5 THEN
-			return v_question_type||'_'||1;
-		ELSIF  v_type_number = 6 THEN
-			return v_question_type||'_'||2;
-		ELSE
-			return v_question_type||'_'||3;
-		END IF;
-	END IF;
+			IF v_type_number = 5 THEN
+				return v_question_type||'_'||1;
+			ELSE
+				SELECT value_english INTO v_value FROM pro_ctc_valid_values_vocab pcvv
+				JOIN pro_ctc_valid_values pcv ON pcvv.id=pcv.id
+				WHERE pcv.pro_ctc_question_id=questionid
+				ORDER BY display_order OFFSET 5;
+				IF v_value ='Prefer not to answer' THEN
+					return v_question_type||'_'||3;
+				ELSE
+					return v_question_type||'_'||2;
+				END IF;
+			END IF;
+    END IF;
 
 	IF v_question_type='INTERFERENCE' THEN
 		IF v_type_number = 5 THEN
