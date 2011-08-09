@@ -126,7 +126,7 @@
                            <div class="content-box1">
                                <div class="box-container">
                                    <div class="container">
-                                    <p align="center"><b><tags:message code="participant.disclaimer"/></b></p>
+                                    <p align="center"><b><tags:message code="participant.disclaimer"/>:</b></p>
                                     <p align="center">
                                         <tags:message code="login.disclaimer.1"/>
                                     </p>
