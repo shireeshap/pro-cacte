@@ -487,7 +487,7 @@ function sendConfirmedSymptom() {
                 <td>
                     <spring:message code="add" var="add"/>
                     <a onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
-                       class="btn green-med"><span>Add</span></a>
+                       class="btn green-med"><span><spring:message code="add"/></span></a>
 
                     <!--  <spring:message code="add" var="add"/>
                     <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
@@ -496,7 +496,7 @@ function sendConfirmedSymptom() {
                 </td>
                 <td>
                     <spring:message code="clear" var="clear"/>
-                    <a onclick="javascript:clearInput()" class="btn red-med"><span>Clear</span></a>
+                    <a onclick="javascript:clearInput()" class="btn red-med"><span><spring:message code="clear"/></span></a>
 
                     <!--  <spring:message code="clear" var="clear"/>
                     <tags:button onclick="javascript:clearInput()"
