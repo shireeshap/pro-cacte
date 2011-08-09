@@ -173,10 +173,7 @@
 </div>
 
 <tags:instructions  code="participant.instruction"/><br/>
-<!--<chrome:box title="participant.disclaimer">
-       <tags:message code="login.disclaimer.1"/>
-</chrome:box>
--->
+
 <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
 <spring:message code="label.scheduledForms" var="labelScheduledForms"/>
 
