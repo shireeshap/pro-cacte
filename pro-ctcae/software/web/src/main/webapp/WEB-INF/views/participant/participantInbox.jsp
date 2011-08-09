@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="gov.nih.nci.ctcae.core.domain.ProCtcAECalendar" %>
@@ -13,7 +15,8 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style type="text/css">
         div.row div.value {
             white-space: normal;
@@ -150,7 +153,7 @@
     <div class="language-toggle" style="float:right">
         <ul>
             <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-            <li class="right ${currentEs}"><a href="?lang=es"> Espa�ol</a></li>
+            <li class="right ${currentEs}"><a href="?lang=es">Español</a></li>
         </ul>
     </div>
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
