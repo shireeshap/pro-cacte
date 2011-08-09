@@ -64,8 +64,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 //            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
             StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
             StudySite studySite = studyParticipantAssignment.getStudySite();
+            String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+            command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
             command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
             command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
+            studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
             String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
             String armId = request.getParameter("arm_" + studyParticipantAssignment.getStudySite().getId());
             try {

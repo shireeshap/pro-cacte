@@ -63,11 +63,11 @@
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
     </td>
     <td width="50%">
-        <c:choose>
-            <c:when test="${selected && studyParticipantAssignment.id != null}">
-                ${studyParticipantAssignment.studyParticipantIdentifier}
-            </c:when>
-            <c:otherwise>
+        <%--<c:choose>--%>
+            <%--<c:when test="${selected && studyParticipantAssignment.id != null}">--%>
+                <%--${studyParticipantAssignment.studyParticipantIdentifier}--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
                 <input type="text"
                        name="participantStudyIdentifier_${studysite.id}"
                        value="${studyParticipantAssignment.studyParticipantIdentifier}"
@@ -78,8 +78,8 @@
                     <li><spring:message code='participant.unique_assignedIdentifier'
                                         text='participant.unique_assignedIdentifier'/></li>
                 </ul>
-            </c:otherwise>
-        </c:choose>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
     </td>
 </tr>
 
