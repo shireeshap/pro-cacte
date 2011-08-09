@@ -124,8 +124,8 @@
                            </div>
                             <div class="clear"></div><br/>
                            <div class="content-box1">
-                               <div class="box-container">
-                                   <div class="container">
+                               <div class="box-container1">
+                                   <div class="container1">
                                     <p align="center"><b><tags:message code="participant.disclaimer"/>:</b></p>
                                     <p align="center">
                                         <tags:message code="login.disclaimer.1"/>

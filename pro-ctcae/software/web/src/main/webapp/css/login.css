@@ -42,6 +42,16 @@ h1, h2, h3, h4 {margin: 0; padding: 0;}
 	margin: 0 auto;
 }
 
+.content-box .box-container1 {
+	width: 100%;
+	margin-bottom:0px;
+	font-size: 14px;
+}
+
+.content-box .container1 {
+	padding: 0px 15px;
+}
+
 
 .content-box .box-container {
 	width: 100%;
