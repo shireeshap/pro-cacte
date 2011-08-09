@@ -86,8 +86,18 @@ public class UpdateProCtcTermsImporterV4 {
                     for (ProCtcValidValue proCtcValidValue : ctcQuestion.getValidValues()) {
                         if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
                             proCtcValidValue.setDisplayOrder(1);
-                        } else {
+                        }
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("No")) {
                             proCtcValidValue.setDisplayOrder(0);
+                        }
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not applicable")) {
+                            proCtcValidValue.setDisplayOrder(2);
+                        }
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not sexually active")) {
+                            proCtcValidValue.setDisplayOrder(3);
+                        }
+                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Prefer not to answer")) {
+                            proCtcValidValue.setDisplayOrder(4);
                         }
                     }
                 }
@@ -184,10 +194,20 @@ public class UpdateProCtcTermsImporterV4 {
                         ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
                         proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
                         if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).equals("Yes")) {
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
                                 proCtcValidValue.setDisplayOrder(1);
-                            } else {
+                            }
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("No")) {
                                 proCtcValidValue.setDisplayOrder(0);
+                            }
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not applicable")) {
+                                proCtcValidValue.setDisplayOrder(2);
+                            }
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not sexually active")) {
+                                proCtcValidValue.setDisplayOrder(3);
+                            }
+                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Prefer not to answer")) {
+                                proCtcValidValue.setDisplayOrder(4);
                             }
                         } else {
                             proCtcValidValue.setDisplayOrder(j);
