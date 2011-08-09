@@ -256,11 +256,11 @@ public class ListValues {
     public static List<ListValues> getCalendarDueDateUnits() {
         List<ListValues> col = new ArrayList<ListValues>();
 //        ListValues lov0 = new ListValues("", "Please select");
-        ListValues lov1 = new ListValues("Hours", "Hours");
+//        ListValues lov1 = new ListValues("Hours", "Hours");
         ListValues lov2 = new ListValues("Days", "Days");
         ListValues lov3 = new ListValues("Weeks", "Weeks");
 //        col.add(lov0);
-        col.add(lov1);
+//        col.add(lov1);
         col.add(lov2);
         col.add(lov3);
         return col;
