@@ -44,29 +44,31 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                    for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
-                        if (mode.getMode().equals(AppMode.HOMEWEB)) {
-                            if (mode.getEmail()) {
-                                web = true;
-                            }
-                        }
-                    }
-                    for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                            if (today.after(studyParticipantCrfSchedule.getDueDate())) {
-                                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
-                                    studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
-                                    for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
-                                        addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
-                                    }
-                                } else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
-                                    studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+                    if (studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
+                        for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
+                            if (mode.getMode().equals(AppMode.HOMEWEB)) {
+                                if (mode.getEmail()) {
+                                    web = true;
                                 }
                             }
+                        }
+                        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+                            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                                if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
+                                        studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                                        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
+                                            addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
+                                        }
+                                    } else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                                        studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+                                    }
+                                }
 
-                            if (web && today.after(studyParticipantCrfSchedule.getStartDate()) && today.before(studyParticipantCrfSchedule.getDueDate())) {
-                                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
-                                    addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
+                                if (web && today.after(studyParticipantCrfSchedule.getStartDate()) && today.before(studyParticipantCrfSchedule.getDueDate())) {
+                                    if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                                        addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
+                                    }
                                 }
                             }
                         }
