@@ -31,7 +31,7 @@
 <tags:javascriptLink name="yui-autocomplete"/>
 <tags:includeVirtualKeyboard/>
 <tags:includePrototypeWindow/>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
     body {
 

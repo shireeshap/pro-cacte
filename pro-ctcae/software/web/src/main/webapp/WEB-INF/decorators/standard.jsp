@@ -9,12 +9,11 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
 <head>
 	<standard:head/>
     <title>ProCtcAE</title>
     <link rel="icon" href="../../images/ctcae.ico"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:stylesheetLink name="tabbedflow"/>
 
     <decorator:head/>

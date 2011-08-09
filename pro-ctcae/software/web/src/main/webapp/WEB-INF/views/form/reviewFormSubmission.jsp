@@ -9,7 +9,7 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:javascriptLink name="submit_btn_animation"/>
     <style type="text/css">
         div.row div.value {

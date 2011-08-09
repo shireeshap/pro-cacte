@@ -1,5 +1,14 @@
 package gov.nih.nci.ctcae.web.filter;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.zip.GZIPOutputStream;
+
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.ehcache.constructs.web.GenericResponseWrapper;
 import net.sf.ehcache.constructs.web.ResponseHeadersNotModifiableException;
 import net.sf.ehcache.constructs.web.ResponseUtil;
@@ -7,12 +16,6 @@ import net.sf.ehcache.constructs.web.ResponseUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * Provides GZIP compression of responses.
@@ -28,13 +31,15 @@ import java.util.zip.GZIPOutputStream;
 public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter {
 
     private static final Log LOG = LogFactory.getLog(GZIPFilter.class.getName());
+    public static final ArrayList<String> participantUrlsList = new ArrayList<String>(
+    		Arrays.asList("/form/addquestion","/form/addMorequestion", "/form/submit", "/form/manageForm", "/participant/participantInbox", "/login"));
 
     /**
      * Performs the filtering for a request.
      */
     protected void doFilter(final HttpServletRequest request, final HttpServletResponse response,
                             final FilterChain chain) throws Exception {
-        if (!isWavRequest(request) && !isIncluded(request) && acceptsEncoding(request, "gzip")) {
+        if (!isNonClinicainFlow(request, response) && !isWavRequest(request) && !isIncluded(request) && acceptsEncoding(request, "gzip")) {
             // Client accepts zipped content
             if (LOG.isDebugEnabled()) {
                 LOG.debug(request.getRequestURL() + ". Writing with gzip compression");
@@ -85,7 +90,26 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
         }
     }
 
-    private boolean isWavRequest(HttpServletRequest request) {
+    /**
+     * Checks if it is spanish locale.
+     *
+     * @return true, if is spanish locale
+     */
+    private boolean isNonClinicainFlow(final HttpServletRequest request, final HttpServletResponse response) {
+    	response.setCharacterEncoding("UTF-8");
+    	if(participantUrlsList.contains(request.getPathInfo())){
+    		return true;
+    	}
+		return false;
+	}
+
+	/**
+	 * Checks if it is wav request. MEaning if the url is going to be streaming any audio.
+	 *
+	 * @param request the request
+	 * @return true, if is wav request
+	 */
+	private boolean isWavRequest(HttpServletRequest request) {
     	boolean isWavRequest = false;
     	final String uri = request.getRequestURI();
     	if(!StringUtils.isBlank(uri) && uri.endsWith(".wav")){

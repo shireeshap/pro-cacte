@@ -24,7 +24,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
 	<title>ProCtcAE</title>
 	<link rel="icon" href="../../images/ctcae.ico"/>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<standard:head/>
 	<tags:stylesheetLink name="tabbedflow"/>
