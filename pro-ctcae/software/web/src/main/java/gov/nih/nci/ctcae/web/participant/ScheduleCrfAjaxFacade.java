@@ -120,7 +120,7 @@ public class ScheduleCrfAjaxFacade {
     }
 
     /**
-     * Removes the diacritics. Convert the — to o so that the regular 
+     * Removes the diacritics. Convert the accented o to o so that the regular 
      * keyboard can be used to fetch Spanish chars from the auto-completer.
      *
      * @param str the str
