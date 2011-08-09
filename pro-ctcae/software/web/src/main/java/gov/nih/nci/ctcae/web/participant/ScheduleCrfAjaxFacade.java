@@ -119,6 +119,13 @@ public class ScheduleCrfAjaxFacade {
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
     }
 
+    /**
+     * Removes the diacritics. Convert the — to o so that the regular 
+     * keyboard can be used to fetch Spanish chars from the auto-completer.
+     *
+     * @param str the str
+     * @return the string
+     */
     public String removeDiacritics(String str) {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD); 
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
