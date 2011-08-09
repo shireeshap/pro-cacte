@@ -96,7 +96,6 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
      * @return true, if is spanish locale
      */
     private boolean isNonClinicainFlow(final HttpServletRequest request, final HttpServletResponse response) {
-    	response.setCharacterEncoding("UTF-8");
     	if(participantUrlsList.contains(request.getPathInfo())){
     		return true;
     	}
