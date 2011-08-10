@@ -28,7 +28,7 @@
                 <br/>
 
                 <div class="flow-buttons">
-                    <spring:message code="participant.button_yes" var="yesButton"/>
+                    <spring:message code="participant.button_okay" var="yesButton"/>
                     <spring:message code="participant.button_no" var="noButton"/>
                     <tags:button color="orange" type="button" id="flow-update"
                                  onclick="closeWindow()"
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="flow-buttons" align="right" >
-                        <spring:message code="participant.button_yes" var="okayButton"/>
+                        <spring:message code="participant.button_okay" var="okayButton"/>
                     <tags:button color="orange" type="button" id="flow-cancel"
                                  cssClass="previous ibutton" value="${okayButton}" icon="check"
                                  onclick="closeWindow()"/>
