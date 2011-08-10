@@ -50,6 +50,11 @@
             margin-left: 15px;
         }
 
+        .formbuilderboxTable .selected {
+            display: table-cell;
+
+        }
+
         .selected .label {
             background: url(/proctcae/images/green-selected.png) -2px 0;
             cursor: pointer;
@@ -227,7 +232,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+                <tr> <td>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
                         <c:if test="${lang eq 'en'}">
@@ -277,7 +282,7 @@
                         <%--/>--%>
                         <%--</c:if>--%>
                         <%--</c:if>--%>
-                    </c:forEach>
+                    </c:forEach>    </td>
                 </tr>
             </table>
         </tags:formbuilderBox>
