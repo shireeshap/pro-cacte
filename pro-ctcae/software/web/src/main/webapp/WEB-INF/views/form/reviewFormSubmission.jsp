@@ -18,7 +18,7 @@
 
         #left-panel {
             padding-left: 15px;
-            width: 100%;
+            width: 99%;
             float: left;
             font-size: 17px;
         }
@@ -55,7 +55,7 @@
 <form:form method="post" name="myForm">
     <div style="clear:both;">
         <div id="left-panel">
-            <h1>Form: ${command.schedule.studyParticipantCrf.crf.title}</h1>
+
             <spring:message code="thankYouMessage" />
             <br/>
             <br/>
@@ -69,11 +69,10 @@
             <tr>
                 <td align="right" width="50%">
                 	<spring:message code="back" var="back"/>
-                    <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
+                    <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span><spring:message code="back"/></span></a>
                 </td>
                 <td align="left" width="50%">
-                	<spring:message code="submit" var="submit"/>
-                    <a href="#" class="btn huge-green" onclick="javascript:submitForm('save')"><span>${submit}</span></a>
+                    <a href="#" class="btn huge-green" onclick="javascript:submitForm('save')"><span><spring:message code="submit"/></span></a>
                 </td>
             </tr>
         </table>
