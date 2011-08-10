@@ -34,20 +34,18 @@
                             <div style="border:1px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                                 <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
                                      style="float:left; margin-right:15px; margin-left:50px;"/>
-
                                 <div style="font-size:20px; margin-bottom:5px;">Are you sure you are ready to
                                     release this form?
                                 </div>
-                                <div>Releasing a form is irreversible, you will no longer be able to edit this form.<br>
-                                    However
-                                    you can create a new version in the future.
-                                </div>
                             </div>
-                            You are about to release
+                            <div>Releasing a form is irreversible, you will no longer be able to edit this form.<br>
+                                However you can create a new version in the future.
+                            </div>
+                            <br/>
 
-                            <strong>${command.title}</strong>.
-
-                            You will no longer be able to edit it.
+                            <div>
+                                You are about to release <strong>${command.title}</strong>. You will no longer be able to edit it.
+                            </div>
                             <br/>
                             Please provide the date on which this form will be made effective.
                             <tags:renderDate propertyName="effectiveStartDate"
