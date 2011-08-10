@@ -70,7 +70,6 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
             try {
 				ResponseUtil.addGzipHeader(response);
 				response.setContentLength(compressedBytes.length);
-				response.setCharacterEncoding("UTF-8");
 			} catch (ResponseHeadersNotModifiableException e) {
 				LOG.error(e.getMessage());
 				return;
