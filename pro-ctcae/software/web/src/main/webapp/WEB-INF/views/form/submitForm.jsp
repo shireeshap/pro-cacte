@@ -159,21 +159,20 @@
 <form:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
 
-    <div class="pagesLeftdiv">
+    <div style="padding-left:796px;font-size:12px">
         <spring:message code="current.page"/>: ${command.newPageIndex}
         <spring:message code="pages.left"/> ${command.totalPages}
     </div>
-    <br><br>
     <div>
-        <div class="val" style="margin-bottom:10px; float:left">
-            <tags:recallPeriodFormatter
-                    desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
+        <div class="val" style="margin-bottom:10px; float:left;font-size:12px">
+            <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
         </div>
-        <div class='progress-bar-outer'>
-            <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
-        </div>
+
         <div class="currentPagediv">
             <spring:message code="progress"/>:
+            <div class='progress-bar-outer'>
+                <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+            </div>
         </div>
     </div>
 
