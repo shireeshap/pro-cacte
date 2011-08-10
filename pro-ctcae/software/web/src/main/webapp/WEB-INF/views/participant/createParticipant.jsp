@@ -820,10 +820,10 @@ function showOrHideEmail(value1, value2, id) {
                            </ul>
                        </td>
                        <td>
-                           <c:if test="${empty command.participant.id}">
+                           <%--<c:if test="${empty command.participant.id}">
                            (The minimum password length should
                            be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
-                           </c:if>
+                           </c:if>--%>
                        </td>
                    </tr>
                    <tr>

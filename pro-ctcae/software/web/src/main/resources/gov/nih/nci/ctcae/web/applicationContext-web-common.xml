@@ -20,7 +20,7 @@
         <property name="basenames">
         <list>
         	<value>/WEB-INF/help</value>
-            <value>/WEB-INF/messages</value>
+            <value>/WEB-INF/messages_en</value>
             <value>/WEB-INF/version</value>
         </list>
         </property>
