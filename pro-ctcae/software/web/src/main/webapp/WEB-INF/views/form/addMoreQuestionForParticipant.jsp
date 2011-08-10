@@ -202,7 +202,7 @@ function addNewSymptom(selectedChoice) {
             var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 150);
+                    showConfirmationWindow(transport, 600, 250);
                 },
                 method:'get'
             })

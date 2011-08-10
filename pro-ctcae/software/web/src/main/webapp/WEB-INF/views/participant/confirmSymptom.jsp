@@ -19,7 +19,7 @@
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
                     <div style="font-size:15px; margin-bottom:10px;">
-                        <spring:message code="participant.confirm_symptom"/> <b>${selectedChoice}</b>. <spring:message code="participant.confirm_symptom1"/> <b>${values}</b>?
+                        <spring:message code="participant.confirm_symptom"/> <b>${selectedChoice}</b>. <spring:message code="participant.confirm_symptom1"/> <b>${values}</b>
                     </div>
 
 
