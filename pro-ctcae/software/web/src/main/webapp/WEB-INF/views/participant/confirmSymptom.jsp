@@ -27,7 +27,7 @@
                 <br/>
                 <br/>
 
-                <div class="flow-buttons">
+                <div class="flow-buttons" align="right">
                     <spring:message code="participant.button_okay" var="yesButton"/>
                     <spring:message code="participant.button_no" var="noButton"/>
                     <tags:button color="orange" type="button" id="flow-update"
