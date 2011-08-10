@@ -117,7 +117,7 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Available' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -128,7 +128,7 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Available' &&  studyParticipantCrfSchedule.startDate > todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate > todaysdate)}">
                 <c:set var="futureNumberofCrfs" scope="page" value="${futureNumberofCrfs + 1}"/>
                 <c:if test="${futureNumberofCrfs == 1}">
                     <c:set var="futureSurveyAvailableDate"  scope="page" value="${studyParticipantCrfSchedule.startDate}" />
@@ -198,9 +198,9 @@
                 <th>
                     <tags:message code="participant.label.status"/>
                 </th>
-          <!--  <th>
+          <%--  <th>
                     <tags:message code="participant.label.scheduleDate"/>
-                </th> -->
+                </th> --%>
                 <th>
                     <tags:message code="participant.label.dueDate"/>
                 </th>
@@ -212,18 +212,18 @@
                 <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                                var="studyParticipantCrfSchedule">
-                        <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Available' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
+                        <c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate)}">
                             <tr>
                                 <td>
                                         ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                              <!--      <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if> -->
+                                    <%--<c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if> --%>
                                 </td>
                                 <td>
                                     <tags:message code="crfStatus_${studyParticipantCrfSchedule.status.code}"/>
                                 </td>
-                          <!--  <td>
+                          <%--  <td>
                                     <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                                </td> -->
+                                </td> --%>
                                 <td>
                                     <c:set scope="page" var="remainingDays" value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
 
@@ -257,8 +257,7 @@
     </c:if>
 </chrome:box>
 
-<!--
-    <spring:message code="label.missedForms" var="labelMissedForms"/>
+   <%-- <spring:message code="label.missedForms" var="labelMissedForms"/>
     <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
         <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
             <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
@@ -313,8 +312,8 @@
                 </c:forEach>
             </table>
         </chrome:box>
-       </c:if>
--->
+       </c:if>--%>
+
 </body>
 
 
