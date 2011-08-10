@@ -1816,6 +1816,7 @@ pro-ctcae/software/web/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_for
 pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_06.01.2011.csv -text
 pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_08.02.2011.csv -text
 pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_08.04.2011.csv -text
+pro-ctcae/software/web/src/main/resources/Spanish_Pro-CTCAE_items_08.10.2011.csv -text
 pro-ctcae/software/web/src/main/resources/Spanish_ProCtcTerms_V4_updated.csv -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-validator.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-activemq.xml -text
