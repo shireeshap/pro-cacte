@@ -43,7 +43,7 @@
                 </c:if>
                 <c:if test="${isMapped eq true}">
                    <div style="font-size:15px; margin-bottom:10px;">
-                      <spring:message code="participant.confirm_symptom2"/>   <b>${mappedValues}</b>.
+                      <spring:message code="participant.confirm_symptom2"/>  <b>${selectedChoice}</b>. &nbsp;<spring:message code="participant.confirm_symptom3"/>   <b>${mappedValues}</b>.
                     </div>
 
                     <div class="flow-buttons" align="right" >
