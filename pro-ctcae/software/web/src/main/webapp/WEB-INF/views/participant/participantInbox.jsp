@@ -150,12 +150,11 @@
         <c:set var="currentEn" value=""/>
         <c:set var="currentEs" value="current"/>
     </c:if>
-    <div class="language-toggle" style="float:right">
-        <ul>
-            <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-            <li class="right ${currentEs}"><a href="?lang=es">Español</a></li>
-        </ul>
+    <div class="language-toggle1" style="float:right">
+        <a class="left ${currentEn}" href="?lang=en">English</a>
+        <a class="right ${currentEs}" href="?lang=es">Español</a>
     </div>
+
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
     <h1><tags:message code="participant.box.inbox"/>(${numberofCrfs})</h1>

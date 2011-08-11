@@ -374,6 +374,69 @@ button:focus {
 		
 	}
 
+    .language-toggle1 {
+		height: 58px;
+		text-shadow: 0 1px white;
+		font-size: 13px;
+		font-weight: bold;
+		font-family: "Lucida Grande", sans-serif;
+        float: right;
+        width: 175px;
+		}
+	.language-toggle1 a { border: 1px solid lightgray; background: url(../images/language-toggle.png) repeat-x top; float: left; color: #085EB3;text-decoration: none;}
+	.language-toggle1 a:hover {background-position: 0 -31px; color: #085EB3;border-bottom: 1px solid lightgray}
+	.language-toggle1 a:active {
+		background-position: 0 -62px;
+		color:white;
+		text-shadow: 0 -1px #00284e;
+
+		border:1px solid #003263;
+		}
+	.language-toggle1 a.left  {
+		padding: 6px 12px;
+		-moz-border-radius: 8px 0 0 8px;
+		-webkit-border-radius: 8px 0 0 8px;
+		border-radius: 8px 0 0 8px;
+		-moz-box-shadow: 0 1px white inset;
+		-webkit-box-shadow: 0 1px white inset;
+		box-shadow: 0 1px white inset;
+		}
+	.language-toggle1 a.right  {
+		padding: 6px 12px;
+		border-left: 1px solid white;
+		-moz-border-radius: 0 8px 8px 0;
+		-webkit-border-radius: 0 8px 8px 0;
+		border-radius: 0 8px 8px 0;
+		-moz-box-shadow: 0 1px white inset;
+		-webkit-box-shadow: 0 1px white inset;
+		box-shadow: 0 1px white inset;
+		}
+
+	.language-toggle1 a.right a:active {
+		border-left: none;
+		-moz-box-shadow: 0 0 5px black inset;
+		-webkit-box-shadow: 0 0 5px black inset;
+		box-shadow: 0 0 5px black inset;
+	}
+	.language-toggle1 a.left a:active {
+		-moz-box-shadow: 0 0 5px black inset;
+		-webkit-box-shadow: 0 0 5px black inset;
+		box-shadow: 0 0 5px black inset;
+	}
+
+	.language-toggle1 a.current {
+		background-position: 0 -62px;
+		color:white;
+		text-shadow: 0 -1px #00284e;
+		-moz-box-shadow: 0 0 8px black inset;
+		-webkit-box-shadow: 0 0 8px black inset;
+		box-shadow: 0 0 8px black inset;
+		border-color: #003263;
+
+
+	}
+
+
 #logout {
     background: url(../images/blue/header-btns.png) no-repeat -84px -26px;
     position: absolute;
