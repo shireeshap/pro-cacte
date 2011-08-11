@@ -10,10 +10,12 @@
 <spring:message var="date" code="build.date" />
 <c:choose>
     <c:when test="${fn:contains(version, 'SNAPSHOT')}">
-         <div id="build-name">${version} ${date} </div>
+        <br/>
+         <div id="build-name">${version} ${date}</div>
     </c:when>
     <c:otherwise>
-         <div id="build-name">${version} ${date} </div>
+        <br/>
+         <div id="build-name">${version} ${date}</div>
     </c:otherwise>
 </c:choose>
 
