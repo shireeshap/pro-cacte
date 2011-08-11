@@ -1773,12 +1773,9 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	
 .formbuilderboxTable .norm {
 	display: table-cell;
-	
-	}
-.formbuilderboxTable .over {
-	display: table-cell;
 
 	}
+
 
 .norm .label {
     background: url(/proctcae/images/lightgray.png) repeat-x ;
@@ -1787,7 +1784,7 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     border: 1px solid #d6d6d6;
     vertical-align: middle;
     display: table-cell;
-    padding: 0px 10px;
+    padding: 0px 15px;
     text-align: center;
     line-height: 23px;
     height: 47px;
@@ -1809,7 +1806,7 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     border: 1px solid #90cbd9;
     vertical-align: middle;
     display: table-cell;
-    padding: 0px 10px;
+    padding: 0px 15px;
     text-align: center;
     line-height: 23px;
     height: 47px;

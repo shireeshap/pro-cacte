@@ -13,7 +13,7 @@
     <c:set var="class" value="selected"/>
     <c:set var="onmouseout" value=""/>
 </c:if>
-<div class="${class}"
+<td class="${class}"
     onmouseover="javascript:this.className = getClassName('${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad', 'selected' , 'over');"  ${onmouseout}
     onclick="selectValidValue(this,'${displayOrder}','${questionIndexOnPage}','${validValueIndexForQuestion}')"
     id="${validValueIndexForQuestion}_column_${questionIndexOnPage}" >
@@ -22,7 +22,7 @@
                name="response${questionIndexOnPage}"
                value="${validValueId}" ${checked}/> ${title}
     </div>
-</div>
+</td>
 
 
 

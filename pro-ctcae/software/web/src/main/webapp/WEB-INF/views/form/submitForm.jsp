@@ -63,7 +63,7 @@
             border: 1px solid #86bc56;
             vertical-align: middle;
             display: table-cell;
-            padding: 0px 20px 0 40px;
+            padding: 0 15px 0 35px;
             text-align: center;
             line-height: 23px;
             height: 47px;
@@ -232,7 +232,9 @@
                         </div>
                     </td>
                 </tr>
-                <tr> <td>
+                </table>
+                <table>
+                    <tr>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
                         <c:if test="${lang eq 'en'}">
@@ -282,7 +284,7 @@
                         <%--/>--%>
                         <%--</c:if>--%>
                         <%--</c:if>--%>
-                    </c:forEach>    </td>
+                    </c:forEach>
                 </tr>
             </table>
         </tags:formbuilderBox>
