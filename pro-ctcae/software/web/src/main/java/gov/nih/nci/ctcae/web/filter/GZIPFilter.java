@@ -48,7 +48,6 @@ public class GZIPFilter extends net.sf.ehcache.constructs.web.filter.GzipFilter 
             // Handle the request
             final GenericResponseWrapper wrapper = new GenericResponseWrapper(response, gzout);
             chain.doFilter(request, wrapper);
-            wrapper.setContentType("charset=UTF-8");
             wrapper.flush();
             gzout.close();
 
