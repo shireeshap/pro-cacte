@@ -94,7 +94,26 @@
           =============================================================-->
     <target name="migrate" description="this is added to do migrate and build as a single job using hudson">
         <subant target="migrate" buildpath="core/ivy-build.xml"/>
+    	<antcall target="loadPlpgsqlFunctions" />
     </target>
+
+    <!-- ==========================================================
+              target : load PLPGSQL functions
+              This is added to load the ivrs related stored procedures into the database
+              along with the install.
+          =============================================================-->
+    <target name="loadPlpgsqlFunctions" description="This is added to load the ivrs related stored procedures into the database" depends="find-datasource">
+    	<property file="${dsFile}"/>
+    	<echo message="Looking up the script at: ${basedir}/core/src/main/db/functions/${datasource.script}" />
+    	<sql keepformat="yes" 
+    	    classpathref="main.classpath" driver="${datasource.driver}"
+    	    url="${datasource.url}" 
+    	    userid="${datasource.username}" 
+    	    password="${datasource.password}" 
+    		delimiter="/" delimitertype="row"
+    	    src="${basedir}/core/src/main/db/functions/${datasource.script}" />
+    </target>
+	
 
     <target name="migrate-selenium-data" description="this for migrating sample data for selenium">
         <subant target="migrate-selenium-data" buildpath="web/ivy-build.xml"/>

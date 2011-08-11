@@ -8,7 +8,7 @@
     <condition property="webConf" value="distGrid" else="dist">
         <istrue value="false"/>
     </condition>
-	
+
     <import file="${parent.dir}/common.xml"/>
 
     <!-- ==============================================================
@@ -96,8 +96,6 @@
         <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
             docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
         </echo>
-    	
-    	<antcall target="loadPlpgsqlFunctions" />
     </target>
 
     <!--=================================================================
@@ -112,27 +110,8 @@
     <!--=================================================================
          target :deploy-proctcae
      ==================================================================== -->
-    <target name="deploy-proctcae" depends="undeploy-proctcae, compile, copy-proctcae-context, loadPlpgsqlFunctions" />
+    <target name="deploy-proctcae" depends="undeploy-proctcae, compile, copy-proctcae-context" />
 
-	
-    <!-- ==========================================================
-              target : load PLPGSQL functions
-              This is added to load the ivrs related stored procedures into the database
-              along with the install.
-          =============================================================-->
-    <target name="loadPlpgsqlFunctions" description="This is added to load the ivrs related stored procedures into the database" depends="find-datasource">
-    	<property file="${dsFile}"/>
-    	<echo message="Looking up the script at: ${basedir}/../core/src/main/db/functions/${datasource.script}" />
-    	<sql keepformat="yes" 
-    	    classpathref="main.classpath" driver="${datasource.driver}"
-    	    url="${datasource.url}" 
-    	    userid="${datasource.username}" 
-    	    password="${datasource.password}" 
-    		delimiter="/" delimitertype="row"
-    	    src="${basedir}/../core/src/main/db/functions/${datasource.script}" />
-    </target>
-	
-	
     <target name="TomStart">
         <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" maxmemory="1024m" fork="true">
             <jvmarg value="-Dcatalina.home=${env.CATALINA_HOME}"/>
