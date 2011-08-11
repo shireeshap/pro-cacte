@@ -1625,3 +1625,14 @@ END;
 $x$ LANGUAGE 'plpgsql' VOLATILE;
 
 
+--Function: unaccent(text)
+-- replaces accented chars ()ONLY a,e,i,o,u and n with tilde) with the corresponding non accented chars.
+-- used to fetch œlcer when ulcer is typed.
+CREATE OR REPLACE FUNCTION unaccent(text) RETURNS text AS $BODY$
+BEGIN
+    RETURN translate($1, '‡Ž’—œçƒêîò–„', 'aeiouAEIOUnN');
+END;
+$BODY$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+

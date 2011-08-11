@@ -67,7 +67,7 @@ public class MeddraQuery extends AbstractQuery {
 //        andWhere("(ctcTerm.id = proCtcTerm.ctcTerm)");
 //        andWhere("(proCtcTerm.proCtcTermVocab.termEnglish IS NOT NULL)");
         andWhere("llt.currency = :" + CURRENCY);
-        andWhere(String.format("(lower(llt.lowLevelTermVocab.meddraTermSpanish) LIKE :%s)", MEDDRA_TERM_SPANISH));
+        andWhere(String.format("(lower(unaccent(llt.lowLevelTermVocab.meddraTermSpanish)) LIKE :%s)", MEDDRA_TERM_SPANISH));
         setParameter(MEDDRA_TERM_SPANISH, searchString);
         setParameter(CURRENCY, "Y");
     }

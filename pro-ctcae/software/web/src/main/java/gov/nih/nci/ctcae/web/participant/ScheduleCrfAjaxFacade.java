@@ -171,7 +171,8 @@ public class ScheduleCrfAjaxFacade {
             if (language.equals("en")) {
                 meddraQuery.filterMeddraWithMatchingText(text);
             } else {
-                meddraQuery.filterMeddraWithSpanishText(text);
+            	String unaccentedText = removeDiacritics(text);
+                meddraQuery.filterMeddraWithSpanishText(unaccentedText);
             }
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
