@@ -55,37 +55,34 @@
                     <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule" varStatus="status">
                         <td class="data ${studyParticipantCrfSchedule.status.displayName}">
                             <c:choose>
-                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
-                                <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
-                                   title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                    Results
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                            <c:set var="todaysdate"
-                                   value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
-                            <a class="nolink"
-                               title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                <c:choose>
-                                <c:when test="${studyParticipantCrfSchedule.status eq 'PASTDUE'}">
-                                    <img src="../../images/blue/Past-due.png"/>
+                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
+                                    <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
+                                       title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                        Results
+                                    </a>
                                 </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OFFSTUDY'}">
-                                </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status eq 'SCHEDULED'}">
-                                <div id="img_${status.index}"
-                                     onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
-                                    <img src="../../images/blue/Scheduled.png"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <%--<img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>--%>
-                                    </c:otherwise>
-                                    </c:choose>
-
-                                    </c:otherwise>
-                                    </c:choose>
-                            </a>
+                                <c:otherwise>
+                                    <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
+                                    <a class="nolink" title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                        <c:choose>
+                                            <c:when test="${studyParticipantCrfSchedule.status eq 'Past-due'}">
+                                                <img src="../../images/blue/Past-due.png"/>
+                                            </c:when>
+                                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
+                                            </c:when>
+                                            <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                                                <div id="img_${status.index}" onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
+                                                    <img src="../../images/blue/Scheduled.png"/>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </c:forEach>
                 </tr>
