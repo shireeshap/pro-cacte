@@ -237,14 +237,18 @@
                                             <tags:message code="participant.in"/> <fmt:formatNumber type="number" maxFractionDigits="0" value="${remainingDays}"/> <tags:message code="participant.days"/>
                                         </c:if>
                                     </c:if>
-                                     <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
+                                    <c:set var="expiredFlag" value="true"/>
+                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
+                                         <c:set var="expiredFlag" value="false"/>
                                         <tags:message code="participant.expired"/> <fmt:formatNumber type="number" maxFractionDigits="0" value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/> <tags:message code="participant.days.ago"/>
                                     </c:if>
 
                                 </td>
                                 <td>
-                                    <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
-                                       class="btn small-green"><span><tags:message code="label.start"/></span></a>
+                                    <c:if test="${expiredFlag}">
+                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
+                                           class="btn small-green"><span><tags:message code="label.start"/></span></a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:if>
