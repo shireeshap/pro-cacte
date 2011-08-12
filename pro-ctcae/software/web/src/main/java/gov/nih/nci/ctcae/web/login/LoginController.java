@@ -72,11 +72,7 @@ public class LoginController extends AbstractController {
             	String lang = LocaleContextHolder.getLocale().getLanguage();
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
             	//String lang = getParticipantsPreferredLanguage(user);
-                if (ControllersUtils.isRequestComingFromMobile(request)) {
-                    return new ModelAndView(new RedirectView("../mobile/inbox"));
-                } else {
-                    return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
-                }
+                return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
             }
             if (userRole.getRole().equals(Role.ADMIN)) {
                 return new ModelAndView("home");
