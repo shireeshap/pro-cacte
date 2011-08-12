@@ -46,18 +46,25 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("home", mv.getViewName());
     }
 
+    /**
+     * Test participant mobile login. Changed the assert from
+     * <../mobile/inbox> to:<participant/participantInbox?lang=en> as mobile mode is not supported any more.
+     * PRKC-1114
+     *
+     * @throws Exception the exception
+     */
     public void testParticipantMobileLogin() throws Exception {
         request.addHeader("x-wap-profile", "wap");
         login(ParticipantTestHelper.getDefaultParticipant().getUser().getUsername());
         LoginController controller = new LoginController();
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertTrue(mv.getView() instanceof RedirectView);
-        assertEquals("../mobile/inbox", ((RedirectView) mv.getView()).getUrl());
+        assertEquals("participant/participantInbox?lang=en", ((RedirectView) mv.getView()).getUrl());
 
         request.addHeader("user-agent", "Windows CE");
         mv = controller.handleRequestInternal(request, response);
         assertTrue(mv.getView() instanceof RedirectView);
-        assertEquals("../mobile/inbox", ((RedirectView) mv.getView()).getUrl());
+        assertEquals("participant/participantInbox?lang=en", ((RedirectView) mv.getView()).getUrl());
     }
 
     public void testClinicalStaffLogin() throws Exception {
