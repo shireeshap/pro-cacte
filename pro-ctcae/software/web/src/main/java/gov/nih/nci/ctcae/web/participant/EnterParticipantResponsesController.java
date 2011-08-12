@@ -46,24 +46,26 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
 
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+        StudyParticipantCrfSchedule spcSchedule = (StudyParticipantCrfSchedule) command;
        Map<String, Object> map = super.referenceData(request, command, errors);
         String language = request.getParameter("lang");
         if (language == null || language == "") {
             language = "en";
         }
+        spcSchedule.setLanguage(language);
         map.put("language", language);
         return map;
     }
-
-
-
-
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = (StudyParticipantCrfSchedule) oCommand;
         String submitType = request.getParameter("submitType");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
+        String language = studyParticipantCrfSchedule.getLanguage();
+        if (language == null || language == "") {
+            language = "en";
+        }
         if ("save".equals(submitType)) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
         } else {
@@ -88,7 +90,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             }
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId()));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId() + "&lang="+language));
         modelAndView.addObject("successMessage", "true");
         return modelAndView;
     }
