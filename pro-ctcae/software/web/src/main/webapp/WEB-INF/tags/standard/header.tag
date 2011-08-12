@@ -40,11 +40,9 @@
                                 <c:set var="currentEn" value=""/>
                                 <c:set var="currentEs" value="current"/>
                             </c:if>
-                            <div class="language-toggle" style="float:right">
-                                <ul>
-                                    <li class="left ${currentEn}"><a href="?lang=en">English</a></li>
-                                    <li class="right ${currentEs}"><a href="?lang=es">Español</a></li>
-                                </ul>
+                            <div class="language-toggle1" style="float:right">
+                                <a class="left ${currentEn}" href="?lang=en">English</a>
+                                <a class="right ${currentEs}" href="?lang=es">EspaÃ±ol</a>
                             </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
 							    <%--<a style="color:white" href="?lang=en">English</a>--%>
