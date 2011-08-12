@@ -89,6 +89,8 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         modelAndView.addObject("notifications", ListValues.getNotificationOptions());
         modelAndView.addObject("isSite", isSite);
+        modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
+        modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
 
 
         return modelAndView;
