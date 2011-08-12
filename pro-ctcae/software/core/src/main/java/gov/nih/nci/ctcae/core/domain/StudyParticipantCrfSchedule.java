@@ -122,6 +122,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<IvrsSchedule> ivrsSchedules = new ArrayList<IvrsSchedule>();
 
+    @Transient
+    private String language;
 
     /**
      * Instantiates a new study participant crf schedule.
@@ -145,6 +147,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     /**
