@@ -184,7 +184,7 @@ public class ReportResultsHelper {
 //                ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
                 myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
             } else {
-                if (firstQuestion!=null&&firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
+                if (firstQuestion!=null&&firstQuestion.getProCtcValidValue()!=null&&firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
                     myProCtcValidValue.setValue(ResponseCode.FORCEDSKIP.getDisplayName());
                 } else {
                     myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
