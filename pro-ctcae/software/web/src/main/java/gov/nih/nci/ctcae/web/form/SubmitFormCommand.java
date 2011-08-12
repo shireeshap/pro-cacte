@@ -404,8 +404,10 @@ public class SubmitFormCommand implements Serializable {
                     LowLevelTerm participantAddedLlt = new LowLevelTerm();
                     LowLevelTermVocab participantAddedLltVocab = new LowLevelTermVocab(participantAddedLlt);
                     participantAddedLlt.setMeddraTerm(symptom, SupportedLanguageEnum.ENGLISH);
+                    participantAddedLlt.setMeddraTerm(symptom, SupportedLanguageEnum.SPANISH);
                     participantAddedLlt.setParticipantAdded(true);
                     participantAddedLltVocab.setMeddraTermEnglish(symptom);
+                    participantAddedLltVocab.setMeddraTermSpanish(symptom);
                     participantAddedLlt.setLowLevelTermVocab(participantAddedLltVocab);
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
                     addMeddraQuestion(term, firstTime, newlyAddedQuestions);
