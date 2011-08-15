@@ -44,25 +44,23 @@
         </style>
     <![endif]-->
     <script type="text/javascript">
-    	function toggleX(act){
-        	if(act == 'onblur'){
-				if($('password').value==''){
-					 $('password').type = "text";
-					 $('password').value = 'Password';
-				}
+    	function pwdFocus() {
+            $('fakepassword').hide();
+            $('password').show();
+            $('password').focus();
+            //attachKeyBoard($('password'));
+        }
+
+        function pwdBlur() {
+            if ($('password').value == '') {
+                $('password').hide();
+                $('fakepassword').show();
             }
-        	if(act == 'onfocus'){
-        		$('password').type = "password";
-        		if($('password').value== 'Password' ){
-            		 $('password').value='';
-        		}
-            }
-    	}	
+        }
 
     	function checkSubmit(e)
     	{
-    	   if(e && e.keyCode == 13)
-    	   {
+    	   if(e && e.keyCode == 13) {
     	      document.loginForm.submit();
     	   }
     	}
@@ -110,7 +108,8 @@
                             </p>
                             <p class="inputs">
                                 <spring:message code="login.password" var="pwd" />
-                                <input class="password" id="password" name="j_password" size="30" type="text" value="${pwd}" onblur="toggleX('onblur');" onfocus="toggleX('onfocus');" onclick="attachKeyBoard($('password'));"/>
+                                <input class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" />
+                                <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur();" />
                             </p><br />
                             <div>
                                 <p class="submit">
