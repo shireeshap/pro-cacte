@@ -17,8 +17,8 @@
     <%--<meta http-equiv="content-language" content="ES">--%>
 
 	<standard:head/>
-	<title>PRO-CTCAE </title>
-
+	<title>PRO-CTCAE</title>
+	<link rel="icon" href="<chrome:imageUrl name='../ctcae.ico'/>"/>
 	<tags:stylesheetLink name="tabbedflow"/>
 	<tags:javascriptLink name="tabbedflow"/>
 

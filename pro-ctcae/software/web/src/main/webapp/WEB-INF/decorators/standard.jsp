@@ -12,7 +12,7 @@
 <head>
 	<standard:head/>
     <title>ProCtcAE</title>
-    <link rel="icon" href="../../images/ctcae.ico"/>
+    <link rel="icon" href="<chrome:imageUrl name='../ctcae.ico'/>" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:stylesheetLink name="tabbedflow"/>
 

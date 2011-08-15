@@ -13,9 +13,9 @@
 <html>
 <head>
 	<standard:head/>
-    <title>PRO-CTCAE </title>
+    <title>PRO-CTCAE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+	<link rel="icon" href="<chrome:imageUrl name='../ctcae.ico'/>"/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:javascriptLink name="tabbedflow"/>
 
