@@ -472,7 +472,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
                     String recallPeriodEnd = recallPeriod.substring(1);
                     recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
                     studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?", SupportedLanguageEnum.ENGLISH);
-                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("La última vez que utilizó este sistema, se informó" + meddraTerm + ". " + recallPeriod + ", tienen todavía tenía esto?", SupportedLanguageEnum.SPANISH);
+                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("La última vez que utilizó este sistema, se informó " + meddraTerm + ". " + recallPeriod + ", tienen todavía tenía esto?", SupportedLanguageEnum.SPANISH);
                 }
             }
         }
