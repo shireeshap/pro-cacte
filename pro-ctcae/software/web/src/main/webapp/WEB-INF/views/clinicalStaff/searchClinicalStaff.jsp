@@ -214,7 +214,7 @@
                 </c:when>
                 <c:otherwise>
                     <td style="white-space:nowrap;font-size:10px;">
-                            ${totalRecords} results found, displaying ${begin}to ${end}<br/>
+                            ${totalRecords} results found, displaying ${begin} to ${end}<br/>
                         <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
                             <tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
                                          href="createClinicalStaff" size="small"/>
