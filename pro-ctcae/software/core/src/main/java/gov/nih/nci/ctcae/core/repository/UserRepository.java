@@ -78,7 +78,19 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                     instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                 }
             }
-
+            
+            //To allow CCA's access to only studies that are associated with their organization
+            if(roles.contains(Role.CCA)){
+            	for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+            		List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
+            		for (StudyOrganization studyOrganization : studyOrganizationList) {
+            			Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
+                        for (String privilege : privileges) {
+                            instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                        }
+            		}
+                }
+            }
 
             StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
 
@@ -310,6 +322,18 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         clinicalStaffQuery.filterByUserName(user.getUsername());
         return genericRepository.findSingle(clinicalStaffQuery);
 
+    }
+    
+    /**
+     * Find study organizations associated with the given OrganizationClinicalStaff.
+     *
+     * @param organizationClinicalStaff the organization clinical staff
+     * @return the list
+     */
+    public List<StudyOrganization> findStudyOrganizations(OrganizationClinicalStaff organizationClinicalStaff){
+    	StudyOrganizationQuery organizationClinicalStaffQuery = new StudyOrganizationQuery();
+    	organizationClinicalStaffQuery.filterByOrganizationId(organizationClinicalStaff.getOrganization().getId());
+    	return genericRepository.find(organizationClinicalStaffQuery);
     }
 
     public Participant findParticipantForUser(User user) {
