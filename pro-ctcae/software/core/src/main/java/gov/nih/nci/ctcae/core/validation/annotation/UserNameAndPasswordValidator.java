@@ -28,7 +28,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     /**
      * The message.
      */
-    private String message;
+    private String message = "";
 
     /**
      * The User repository.
@@ -155,6 +155,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     public String validatePasswordPolicyDwr(String role, String password, String userName) {
         PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(Role.getByCode(role));
         CombinationPolicy combinationPolicy = passwordPolicy.getPasswordCreationPolicy().getCombinationPolicy();
+        message = "";
         if (validateLowerCaseAlphabet(combinationPolicy, password)
                 & validateUpperCaseAlphabet(combinationPolicy, password)
                 & validateNonAlphaNumeric(combinationPolicy, password)
@@ -173,7 +174,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      */
     private boolean validateMinPasswordLength(int minLength, String password) {
         if (password.length() < minLength) {
-            message = "The minimum length of password must be at least " + minLength + " characters";
+            message = "The minimum length of password must be at least " + minLength + " characters"+ "<br/>" + message;
             return false;
         }
         return true;
@@ -203,7 +204,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     private boolean validateUpperCaseAlphabet(CombinationPolicy policy, String password) {
         if (policy.isUpperCaseAlphabetRequired()
                 && !password.matches(".*[\\p{javaUpperCase}].*")) {
-            message = messageSource.getMessage("user.password_upper",new Object[] {},Locale.getDefault());
+            message = messageSource.getMessage("user.password_upper",new Object[] {},Locale.getDefault())+ "<br/>" + message;
             return false;
         }
         return true;
@@ -217,7 +218,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      */
     private boolean validateNonAlphaNumeric(CombinationPolicy policy, String password) {
         if (policy.isNonAlphaNumericRequired() && password.matches("[\\p{Alnum}]+")) {
-            message = messageSource.getMessage("user.password_special",new Object[] {},Locale.getDefault());
+            message = messageSource.getMessage("user.password_special",new Object[] {},Locale.getDefault())+ "<br/>" + message;
             return false;
         }
         return true;
@@ -232,7 +233,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
     private boolean validateBaseTenDigit(CombinationPolicy policy, String password) {
         if (policy.isBaseTenDigitRequired()
                 && !password.matches(".*[\\p{Digit}].*")) {
-            message = messageSource.getMessage("user.password_digit",new Object[] {},Locale.getDefault());
+            message = messageSource.getMessage("user.password_digit",new Object[] {},Locale.getDefault())+ "<br/>" + message;
             return false;
         }
         return true;
@@ -250,7 +251,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
         for (int i = 0; i < userName.length() - substringLength; i++) {
             try {
                 if (password.contains(userName.substring(i, i + substringLength))) {
-                    message = messageSource.getMessage("user.password_substring",new Object[] {},Locale.getDefault());
+                    message = messageSource.getMessage("user.password_substring",new Object[] {},Locale.getDefault())+ "<br/>" + message;
                     return false;
                 }
             } catch (IndexOutOfBoundsException e) {
