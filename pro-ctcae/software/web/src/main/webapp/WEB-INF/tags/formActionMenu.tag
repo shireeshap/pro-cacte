@@ -90,36 +90,43 @@
             isODC = false;
         }
         var html = '<div id="search-engines"><ul>';
-    <c:set var="tabVal" value="1"/>
-    <proctcae:urlAuthorize url="/study/editoverallstaff">
-    <c:set var="tabVal" value="2"/>
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/study/editsites">
-    <c:set var="tabVal" value="2"/>
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/study/createStudy">
-    <c:set var="tabVal" value="3"/>
-    </proctcae:urlAuthorize>
-        if (isODC == 'true' || isODC == true) {
-        <proctcae:urlAuthorize url="/pages/study/editStudy">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View Study</a></li>';
-        </proctcae:urlAuthorize>
-        } else {
-        <proctcae:urlAuthorize url="/pages/study/editStudy">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View/Edit Study</a></li>';
-        </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/form/basicForm">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
-        </proctcae:urlAuthorize>
+        <c:set var="tabVal" value="1"/>
         <proctcae:urlAuthorize url="/study/editoverallstaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
+            <c:set var="tabVal" value="2"/>
         </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/study/editsitestaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=4\'">Manage Study Site Staff</a></li>';
+        <proctcae:urlAuthorize url="/study/editsites">
+            <c:set var="tabVal" value="2"/>
         </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/reports/report">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
+        <proctcae:urlAuthorize url="/pages/study/createStudy">
+            <c:set var="tabVal" value="3"/>
         </proctcae:urlAuthorize>
+        if (isODC == 'true' || isODC == true) {
+            <proctcae:urlAuthorize url="/pages/study/editStudy">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View Study</a></li>';
+            </proctcae:urlAuthorize>
+        } else {
+             <c:set var="nextTabVal" value="1"/>
+            <proctcae:urlAuthorize url="/pages/study/editStudy">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">View/Edit Study</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/basicForm">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/study/editoverallstaff">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
+                <c:set var="nextTabVal" value="${tabVal + 1}"/>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/study/editsitestaff">
+                <c:if test="${nextTabVal eq 1}">
+                    <proctcae:urlAuthorize url="/study/editsites">
+                        <c:set var="nextTabVal" value="2"/>
+                    </proctcae:urlAuthorize>
+                </c:if>
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${nextTabVal}\'">Manage Study Site Staff</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
+            </proctcae:urlAuthorize>
         }
 
         html += '</ul></div>';
