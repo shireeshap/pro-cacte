@@ -360,23 +360,37 @@
             </table>
 
         </chrome:division>
-        <chrome:division title="Additional Options">
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-                <input type="checkbox" name="cca" value="true"
-                       id="cca"
-                       <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
-                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
-                This user is a <u>Coordinating Center Administrator</u>
-            </proctcae:urlAuthorize>
-            <br/>
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
-                <input type="checkbox" name="admin" value="true"
-                       id="admin"
-                       <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
-                       <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
-                This user is a <u>System Administrator</u>
-            </proctcae:urlAuthorize>
-        </chrome:division>
+        
+        <c:set var="cca" value="false" />
+        <c:set var="admin" value="false" />
+        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+        	<c:set var="cca" value="true" />
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
+        	<c:set var="admin" value="true" />
+        </proctcae:urlAuthorize>
+        
+        <c:if test="${cca eq 'true' or admin eq 'true'}">
+			<chrome:division title="Additional Options">
+	             <c:if test="${cca eq 'true'}">
+	                <input type="checkbox" name="cca" value="true"
+	                       id="cca"
+	                       <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
+	                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
+	                This user is a <u>Coordinating Center Administrator</u>
+	            </c:if>
+	            <br/>
+	             <c:if test="${admin eq 'true'}" >
+	                <input type="checkbox" name="admin" value="true"
+	                       id="admin"
+	                       <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
+	                       <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
+	                This user is a <u>System Administrator</u>
+	            </c:if>
+	        </chrome:division>
+        </c:if>
+        
+        
         <br/>
     </div>
     <chrome:division title="clinicalStaff.division.sites">
