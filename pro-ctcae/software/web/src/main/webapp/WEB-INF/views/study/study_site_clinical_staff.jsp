@@ -8,6 +8,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
 
 <html>
 <head>
@@ -96,7 +98,6 @@
                                               propertyName="selectedStudySite" required="true"
                                               onchange="changeStudySite()" itemLabel="organization.displayName"/>
 
-
         <chrome:box title="study.tab.clinical_staff">
             <div class="row">
                 <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>
@@ -110,48 +111,40 @@
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
-
                 <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
-
                     <chrome:division title="study.label.clinical.staff.lead.site_pi">
-
                         <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
-
+                    
                     <chrome:division title="study.label.clinical.staff.lead.site_cra">
-
                         <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
                 </chrome:box>
-                <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
-                    <chrome:division title="study.label.clinical.staff.lead.treating_physican">
-
-                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
-                                                           roleStatusOptions="${roleStatusOptions}"
-                                                           studyCommand="${command}"/>
-                    </chrome:division>
-
-                    <chrome:division title="study.label.clinical.staff.lead.nurse">
-
-                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
-                                                           roleStatusOptions="${roleStatusOptions}"
-                                                           studyCommand="${command}" notifyOptions="${notifyOptions}"/>
-                    </chrome:division>
-                </chrome:box>
-
+                
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+                	 <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
+	                    <chrome:division title="study.label.clinical.staff.lead.treating_physican">
+	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
+	                                                           roleStatusOptions="${roleStatusOptions}"
+	                                                           studyCommand="${command}"/>
+	                    </chrome:division>
+	                    
+	                    <chrome:division title="study.label.clinical.staff.lead.nurse">
+	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
+	                                                           roleStatusOptions="${roleStatusOptions}"
+	                                                           studyCommand="${command}" notifyOptions="${notifyOptions}"/>
+	                    </chrome:division>
+	                </chrome:box>
+                </proctcae:urlAuthorize>
             </c:if>
-
 
         </c:forEach>
 
-
-
         </jsp:attribute>
-
 </tags:tabForm>
 
 </body>

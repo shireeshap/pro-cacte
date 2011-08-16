@@ -1234,6 +1234,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/038_alter_seq_medd
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/039_update_pro_ctc_terms.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/040_update_cca_role.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/041_update_cca_privilege.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/042_update_leadcra_privilege.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
