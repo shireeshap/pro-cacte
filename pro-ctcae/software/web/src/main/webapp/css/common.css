@@ -1989,8 +1989,6 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     border-width: 1px;
     height: 15px;
     float: right;
-    margin-right: 40px;
-    margin-left: 5px;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     border-radius: 20px;
@@ -1999,7 +1997,7 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     -moz-box-shadow: 0 1px 4px #ccc inset;
     -webkit-box-shadow: 0 1px 4px #ccc inset ;
     box-shadow: 0 1px 4px #ccc inset;
-    
+    margin-right:10px;
 }
 
 .progress-bar-inner {

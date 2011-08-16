@@ -31,7 +31,7 @@
         .currentPagediv {
             color: #666666;
             font-size: 12px;
-            padding-right: 10px;
+            padding-right: 0px;
             text-align: right;
             margin-bottom: 10px;
         }
@@ -164,22 +164,45 @@
 <form:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
 
-    <div style="padding-left:796px;font-size:12px">
+   <%-- <div style="padding-left:796px;font-size:12px">
         <spring:message code="current.page"/>: ${command.newPageIndex}
         <spring:message code="pages.left"/> ${command.totalPages}
     </div>
-    <div>
-        <div class="val" style="margin-bottom:10px; float:left;font-size:12px">
-            <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
-        </div>
 
-        <div class="currentPagediv">
-            <spring:message code="progress"/>:
-            <div class='progress-bar-outer'>
-                <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
-            </div>
-        </div>
+    <div class="val" style="margin-bottom:10px; float:left;font-size:12px">
+        <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
     </div>
+
+    <div class="currentPagediv">
+       <div> <spring:message code="progress"/>: </div>
+        <div class='progress-bar-outer'>
+            <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+        </div>
+    </div>--%>
+    <div style="padding-left:835px;font-size:12px;color: #666666;">
+        <spring:message code="current.page"/>: ${command.newPageIndex}
+        <spring:message code="pages.left"/> ${command.totalPages}
+    </div>
+    <table cellspacing="0">
+        <tr>
+            <td width="80%">
+                 <div class="val" style="float:left;font-size:18px;margin-left:10px">
+                    <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
+                </div>
+            </td>
+            <td width="4%">
+                <div style="font-size:12px;color: #666666;">
+                 <spring:message code="progress"/>:
+                </div>
+            </td>
+            <td valign="middle" width="20%">
+                 <div class='progress-bar-outer'>
+                    <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
 
     <c:set var="showConditionalQuestions" value="false"/>
     <c:forEach items="${command.currentPageQuestions}" var="displayQuestion" varStatus="varStatus">
