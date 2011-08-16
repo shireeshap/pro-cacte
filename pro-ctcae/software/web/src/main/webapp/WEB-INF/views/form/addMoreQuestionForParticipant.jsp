@@ -199,12 +199,13 @@ function addNewSymptom(selectedChoice) {
 //    alert($F('participantSymptomInput'));
     scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
         if (values != '') {
-            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom"/>", {
+
+            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 250);
                 },
-                method:'get'
+                method:'post'
             })
 
         } else {
