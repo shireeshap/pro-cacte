@@ -62,6 +62,11 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         setParameter("crfId", crfId);
     }
 
+    public void filterByCRFIds(List<Integer> crfIds) {
+        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.crf.id in (:crfs)");
+        setParameterList("crfs", crfIds);
+    }
+
     public void filterByStudySite(Integer id) {
         if (id != null) {
             andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");

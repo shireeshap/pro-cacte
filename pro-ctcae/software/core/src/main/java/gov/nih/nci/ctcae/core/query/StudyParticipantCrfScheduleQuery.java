@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.query;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 
 import java.util.Date;
+import java.util.List;
 
 //
 /**
@@ -12,6 +13,7 @@ import java.util.Date;
 public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
     private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by startDate";
+    private static String CRF_IDS = "ids";
 
     public StudyParticipantCrfScheduleQuery() {
         super(queryString);
@@ -25,6 +27,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     public void filterByCrf(Integer id) {
         andWhere("spcs.studyParticipantCrf.crf.id =:crfId");
         setParameter("crfId", id);
+    }
+
+    public void filterByCRFIds(List<Integer> crfIds) {
+        andWhere("spcs.studyParticipantCrf.crf.id in (:" + CRF_IDS + ")");
+        setParameterList(CRF_IDS, crfIds);
     }
 
     public void filterByStudySite(Integer id) {

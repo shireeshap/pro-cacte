@@ -186,8 +186,13 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         Integer crfId = Integer.parseInt(request.getParameter("crfId"));
         Integer participantId = Integer.parseInt(request.getParameter("participantId"));
         String visitRange = request.getParameter("visitRange");
-
-        query.filterByCrf(crfId);
+        CRF crf = genericRepository.findById(CRF.class, crfId);
+        List<Integer> crfIds = new ArrayList();
+        crfIds.add(crfId);
+        if (crf.getParentCrf()!=null) {
+            crfIds.add(crf.getParentCrf().getId());
+        }
+        query.filterByCRFIds(crfIds);
         query.filterByStudy(studyId);
         query.filterByParticipant(participantId);
         query.filterByStudySite(studySiteId);
@@ -202,7 +207,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         modelAndView.addObject("participant", participant);
         request.getSession().setAttribute("participant", participant);
         request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
-        request.getSession().setAttribute("crf", genericRepository.findById(CRF.class, crfId));
+        request.getSession().setAttribute("crf", crf);
         request.getSession().setAttribute("studySite", genericRepository.findById(StudySite.class, studySiteId));
 
         return query;

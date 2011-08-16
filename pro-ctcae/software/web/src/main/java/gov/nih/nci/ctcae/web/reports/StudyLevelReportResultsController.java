@@ -190,8 +190,13 @@ public class StudyLevelReportResultsController extends AbstractController {
         Integer studyId = Integer.parseInt(request.getParameter("study"));
         String studySite = request.getParameter("studySite");
         Integer crfId = Integer.parseInt(request.getParameter("crf"));
-
-        query.filterByCrf(crfId);
+        CRF crf = genericRepository.findById(CRF.class, crfId);
+        List<Integer> crfIds = new ArrayList();
+        crfIds.add(crfId);
+        if (crf.getParentCrf()!=null) {
+            crfIds.add(crf.getParentCrf().getId());
+        }
+        query.filterByCRFIds(crfIds);
         query.filterByStudy(studyId);
         query.filterByStatus(CrfStatus.COMPLETED);
         if (!StringUtils.isBlank(studySite)) {

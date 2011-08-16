@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class ReportResultsHelper {
 
@@ -46,7 +43,14 @@ public class ReportResultsHelper {
     public static void parseRequestParametersAndFormQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {
         int crfId = Integer.parseInt(request.getParameter("crf"));
         String studySiteId = request.getParameter("studySite");
-        query.filterByCrf(crfId);
+        CRF crf = genericRepository.findById(CRF.class, crfId);
+        List<Integer> crfIds = new ArrayList();
+        crfIds.add(crfId);
+        if (crf.getParentCrf()!=null) {
+            crfIds.add(crf.getParentCrf().getId());
+        }
+        query.filterByCRFIds(crfIds);
+//        query.filterByCrf(crfId);
         query.filterByAttributes(getSelectedAttributes(request));
         if (!StringUtils.isBlank(studySiteId)) {
             query.filterByStudySite(Integer.parseInt(studySiteId));
