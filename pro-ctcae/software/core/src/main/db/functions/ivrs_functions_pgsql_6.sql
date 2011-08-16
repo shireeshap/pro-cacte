@@ -1072,9 +1072,9 @@ BEGIN
 			join crf_page_items cpi ON cpi.id= spci.crf_item_id
 			join crf_pages cp ON cp.id=cpi.crf_page_id
 			join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
-			where cpi.crf_page_id < 4312 and
-			spci.sp_crf_schedule_id = 6351 and
-			(pct.gender is null or pct.gender='male' or pct.gender ='both')
+			where cpi.crf_page_id < v_page_present_num and
+			spci.sp_crf_schedule_id = formid and
+			(pct.gender is null or pct.gender=v_gender or pct.gender ='both')
 			order by cpi.crf_page_id,cpi.display_order LIMIT 1 offset v_count-1;
 			
 			OPEN curs_questions(formid,v_gender,v_page_previous_num);
