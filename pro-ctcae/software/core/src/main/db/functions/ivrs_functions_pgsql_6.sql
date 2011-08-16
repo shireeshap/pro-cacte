@@ -816,7 +816,8 @@ $x$ DECLARE
     v_proctc_crf_item_id integer :=0;
     v_proctc_value_id integer :=0;
     v_question_type Text := '';
-
+    v_display integer :=0;
+    
 BEGIN
 	SELECT pcq.question_type INTO v_question_type
 	from pro_ctc_questions pcq
@@ -839,7 +840,9 @@ BEGIN
 		END IF;
 	--get the IVRS answer type from valid values like 1,2 etc
 		IF v_question_type='PRESENT' THEN
-			select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id>v_proctc_value_id;
+		    SELECT display_order INTO v_display FROM pro_ctc_valid_values where  pro_ctc_question_id = questionid and id =v_proctc_value_id;
+			SELECT count(*) INTO  v_return_answer_id FROM pro_ctc_valid_values where pro_ctc_question_id = questionid and display_order<v_display;
+		--	select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id>v_proctc_value_id;
 		ELSE
 			select count(*) INTO  v_return_answer_id from pro_ctc_valid_values where pro_ctc_question_id = questionid and id<v_proctc_value_id;
 		END IF;
@@ -872,7 +875,9 @@ DECLARE
     v_ret_questioncategory integer := 0;
     v_sym_count integer :=0;
     v_proc_ctc_term_id integer :=0;
-
+    v_count integer :=0;
+    v_page_previous_num integer :=0;
+    
     --get the questions for given symptom/page
     curs_questions CURSOR(formid_in integer,gender_in text, pageid_in integer) IS
     SELECT cpi.pro_ctc_question_id,spci.pro_ctc_valid_value_id,cpi.crf_page_id
@@ -1052,7 +1057,27 @@ BEGIN
 		CLOSE curs_questions;
 		--traversing all the questions in previous page if given question is first question in current page to get valid answered question
 		IF v_previous_page_required = 1 THEN
-			OPEN curs_questions(formid,v_gender,v_page_present_num-1);
+		    -- update for the issue PRKC-1124 
+		    SELECT count(*) INTO v_count
+			from study_participant_crf_items spci
+			join crf_page_items cpi ON cpi.id= spci.crf_item_id
+			join crf_pages cp ON cp.id=cpi.crf_page_id
+			join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
+			where cpi.crf_page_id < v_page_present_num and
+			spci.sp_crf_schedule_id = formid and
+			(pct.gender is null or pct.gender=v_gender or pct.gender ='both');
+
+			SELECT cpi.crf_page_id INTO v_page_previous_num
+			from study_participant_crf_items spci
+			join crf_page_items cpi ON cpi.id= spci.crf_item_id
+			join crf_pages cp ON cp.id=cpi.crf_page_id
+			join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
+			where cpi.crf_page_id < 4312 and
+			spci.sp_crf_schedule_id = 6351 and
+			(pct.gender is null or pct.gender='male' or pct.gender ='both')
+			order by cpi.crf_page_id,cpi.display_order LIMIT 1 offset v_count-1;
+			
+			OPEN curs_questions(formid,v_gender,v_page_previous_num);
 			LOOP
 			v_question_id_found:=v_question_id_found+1;
 			FETCH curs_questions INTO v_question_id,v_temp_value_id,v_tmp_crf_page_id;
