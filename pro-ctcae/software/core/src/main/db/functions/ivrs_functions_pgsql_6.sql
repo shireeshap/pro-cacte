@@ -1066,17 +1066,17 @@ BEGIN
 			where cpi.crf_page_id < v_page_present_num and
 			spci.sp_crf_schedule_id = formid and
 			(pct.gender is null or pct.gender=v_gender or pct.gender ='both');
-
-			SELECT cpi.crf_page_id INTO v_page_previous_num
-			from study_participant_crf_items spci
-			join crf_page_items cpi ON cpi.id= spci.crf_item_id
-			join crf_pages cp ON cp.id=cpi.crf_page_id
-			join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
-			where cpi.crf_page_id < v_page_present_num and
-			spci.sp_crf_schedule_id = formid and
-			(pct.gender is null or pct.gender=v_gender or pct.gender ='both')
-			order by cpi.crf_page_id,cpi.display_order LIMIT 1 offset v_count-1;
-			
+            IF v_count>0 THEN
+              SELECT cpi.crf_page_id INTO v_page_previous_num
+              from study_participant_crf_items spci
+              join crf_page_items cpi ON cpi.id= spci.crf_item_id
+              join crf_pages cp ON cp.id=cpi.crf_page_id
+              join pro_ctc_terms pct ON pct.id=cp.pro_ctc_term_id
+              where cpi.crf_page_id < v_page_present_num and
+              spci.sp_crf_schedule_id = formid and
+              (pct.gender is null or pct.gender=v_gender or pct.gender ='both')
+              order by cpi.crf_page_id,cpi.display_order LIMIT 1 offset v_count-1;
+			END IF;
 			OPEN curs_questions(formid,v_gender,v_page_previous_num);
 			LOOP
 			v_question_id_found:=v_question_id_found+1;
