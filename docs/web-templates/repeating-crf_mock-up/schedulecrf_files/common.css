@@ -1,0 +1,1512 @@
+/**** GENERAL TAG STYLE OVERRIDES */
+body {
+	font-family: Lucida Grande, Trebuchet MS, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000000;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	background-image: url(../images/blue/mega-huge-background.png );
+	background-position: top;
+	background-color: #006cd7;
+}
+
+.workflow-tabs {
+	position: relative;
+	top: 135px;
+	width: 950px;
+	background-color: #666;
+	z-index: 0;
+	padding-top: 15px;
+	padding-right: 15px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	background-image: url( ../images/blue/thirdlevelnav_grey_gradient.png );
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+.workflow-tabs2 {
+	position: relative;
+	width: 950px;
+	background-color: #666;
+	z-index: 0;
+	padding-top: 15px;
+	padding-right: 15px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	background-image: url( ../images/blue/thirdlevelnav_grey_gradient.png );
+	background-repeat: repeat-x;
+	background-position: bottom;
+	top: -27px;
+	left: -4px;
+}
+
+#thirdlevelnav {
+	margin: 5px;
+}
+
+#thirdlevelnav div {
+	background-image: url( ../images/blue/thirdlevelarrow_grey.png );
+	background-repeat: no-repeat;
+	background-position: right;
+	padding-right: 20px;
+}
+
+#thirdlevelnav div a {
+	text-decoration: none;
+	color: #fff;
+}
+
+#thirdlevelnav div a:hover {
+	text-decoration: underline
+}
+
+#thirdlevelnav div a:active {
+	color: #CCCCCC
+}
+
+#thirdlevelnav.last div {
+	background-image: none;
+}
+
+#thirdlevelnav.selected div a {
+	color: #333333;
+	font-weight: bold;
+	background-color: #FFFFCC;
+	padding-top: 2px;
+	padding-right: 7px;
+	padding-bottom: 2px;
+	padding-left: 7px;
+	background-image: url( ../images/blue/taskbar_selected.png );
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+.hr {
+	background-color: #999999;
+	height: 2px;
+	margin-right: 4px;
+	margin-left: 20px;
+}
+
+a img {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	/* vertical-align: middle; */
+}
+
+.eXtremeTable a img {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	vertical-align: baseline;
+}
+
+#all {
+	width: 980px;
+	margin: 0px auto;
+	text-align: left;
+	position: relative;
+	padding-right: 1px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	color: #00207E;
+	font-weight: 600;
+}
+
+h1 {
+	font-size: 2em;
+	margin-bottom: 0.4em;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3, h4 {
+	font-size: 0.9em;
+}
+
+p {
+	margin: 1em 0;
+}
+
+/**** COMMON TEMPLATE ELEMENTS */
+/*
+#header {
+	width: 100%;
+	position: absolute;
+	height: 100px;
+	background-image: url(../images/blue/header_bg.jpg);
+	background-position: top;
+}
+*/
+
+
+a#logo {
+/* 	background-image: url(/ctcae/images/blue/agadoo-logo.png); */
+	height: 98px;
+	width: 220px;
+	position:absolute;
+	text-indent: -9999px;
+}
+/*
+a#logo:link {
+background-position: 0px
+}
+
+a#logo:hover {
+background-position: 0px -100px;
+}
+
+a#logo:active {
+background-position: 0px -200px;
+}
+*/
+#logout {
+	background-image: url( ../images/blue/logout_tab.png );
+	position: absolute;
+	height: 30px;
+	width: 75px;
+	top: 0px;
+	right: -9px;
+	padding-top: 2px;
+	background-repeat: no-repeat;
+	text-align: center;
+	margin-right: 15px;
+	color: #333366;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 0.85em;
+}
+
+a#logout:hover {
+	text-decoration: underline;
+}
+
+#skipnav {
+	text-indent: -9999px;
+	position: absolute;
+}
+
+#help {
+	background-image: url( ../images/blue/logout_tab.png );
+	position: absolute;
+	height: 30px;
+	width: 75px;
+	top: 0px;
+	right: 65px;
+	padding-top: 2px;
+	background-repeat: no-repeat;
+	text-align: center;
+	margin-right: 15px;
+	color: #333366;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 0.85em;
+}
+
+a#help:hover {
+	text-decoration: underline;
+}
+
+/***
+The following are the rules for 1st level navigation tabs:
+firstlevelnav_listAdverseEventsController: Adverse Events
+firstlevelnav_createStudyController: Studies
+3. Subjects
+4. Rules
+5. Administration
+6. Advanced Search
+
+*/
+
+a#firstlevelnav_manageFormController {
+	background-image: url( ../images/blue/forms_btn.png );
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	width: 148px;
+}
+
+a#firstlevelnav_manageFormController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_manageFormController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_manageFormController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_manageFormController {
+	background-image: url( ../images/blue/forms_btn_selected.png );
+}
+
+a#firstlevelnav_createStudyController {
+	background-image: url( ../images/blue/studies_btn.png );
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	width: 148px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+a#firstlevelnav_createStudyController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_createStudyController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_createStudyController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_createStudyController {
+	background-image: url( ../images/blue/studies_btn_selected.png );
+}
+
+a#firstlevelnav_createParticipantController {
+	background-image: url( ../images/blue/subjects_btn.png );
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	width: 148px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+a#firstlevelnav_createParticipantController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_createParticipantController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_createParticipantController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_createParticipantController {
+	background-image: url( ../images/blue/subjects_btn_selected.png );
+}
+
+a#firstlevelnav_createRuleController {
+	background-image: url( ../images/blue/rules_btn.png );
+	width: 148px;
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+a#firstlevelnav_createRuleController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_createRuleController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_createRuleController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_createRuleController {
+	background-image: url( ../images/blue/rules_btn_selected.png );
+}
+
+a#firstlevelnav_studyController {
+	background-image: url( ../images/blue/advancedSearch_btn.png );
+	width: 148px;
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+a#firstlevelnav_studyController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_studyController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_studyController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_studyController {
+	background-image: url( ../images/blue/advancedSearch_btn_selected.png );
+}
+
+a#firstlevelnav_createClinicalStaffController {
+	background-image: url( ../images/blue/administration_btn.png );
+	width: 148px;
+	height: 0px;
+	padding: 45px 0px 0px 0px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+a#firstlevelnav_createClinicalStaffController:link {
+	background-position: 0px 0px;
+}
+
+a#firstlevelnav_createClinicalStaffController:hover {
+	background-position: 0px -45px;
+}
+
+a#firstlevelnav_createClinicalStaffController:active {
+	background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_createClinicalStaffController {
+	background-image: url( ../images/blue/administration_btn_selected.png );
+}
+
+#sso-form {
+	display: none
+}
+
+#build-name {
+	color: #666;
+	font-size: 85%;
+	padding: 3px;
+	position: absolute;
+	bottom: -150px;
+	margin-left: 20px;
+}
+
+/**** COMMON TAB STYLES (shared across all three levels) */
+
+ul.tabs {
+	margin: 0;
+	float: none;
+	padding-left: 0;
+}
+
+ul.tabs li {
+	display: block;
+	list-style-type: none;
+	float: left;
+	padding: 0;
+}
+
+/**** SECTION TABS */
+
+#sections {
+	position: absolute;
+	top: 53px;
+	left: 231px;
+}
+
+/*
+#sections li.selected {
+  background-image: url(../images/chrome/section_BG_s.gif);
+}
+
+
+
+#sections a {
+  line-height: 20px;
+  display: block;
+  text-decoration: none; font-weight: bold;
+  color: #333333;
+}
+
+#sections a:hover { color: #efe; }
+#sections li.selected a:hover { color: #339; }
+*/
+/**** TASKS */
+
+#taskbar {
+	background: url( ../images/blue/taskbar_BG.png ) repeat-x top;
+	height: 51px;
+	width: 970px;
+	font-size: 12pt;
+	position: absolute;
+	top: 98px;
+	padding-left: 10px;
+	color: #FFFFFF;
+	vertical-align: middle;
+	z-index: 1;
+	left:0px;
+}
+
+#taskbar a.lte4 {
+	color: #FFF;
+	text-decoration: none;
+	height: 43px;
+	width: 232px;
+	float: left;
+	padding-top: 8px;
+	font-weight: bold;
+}
+
+#taskbar a.gt4 {
+	color: #FFF;
+	text-decoration: none;
+	height: 19px;
+	width: 232px;
+	float: left;
+	padding-top: 2px;
+	font-weight: bold;
+	font-size: 12px;
+	text-indent: 10px;
+	margin-top: 1px;
+	margin-right: 2px;
+}
+
+#taskbar a.gt4:hover {
+	background-image: url( ../images/blue/secondlevelnav_hover_gt4.png );
+	background-repeat: no-repeat;
+}
+
+#taskbar a.gt4:active {
+	background-image: url( ../images/blue/secondlevelnav_hover_gt4.png );
+	background-repeat: no-repeat;
+}
+
+#taskbar a.lte4 img {
+	margin-right: 7px;
+	margin-left: 5px;
+	vertical-align:middle;
+}
+
+#taskbar a:hover {
+	color: #fff;
+	background-image: url( ../images/blue/secondlevelnav_hover.png );
+	background-repeat: no-repeat;
+}
+
+#taskbar a:active {
+	color: #ffe9a5;
+	background-image: url( ../images/blue/secondlevelnav_hover.png );
+	background-repeat: no-repeat;
+}
+
+#taskbar a.lte4 img.imagegt18 {
+	float: left;
+	margin-top: 6px;
+}
+
+#taskbar a.lte4.gt18 {
+	padding-top: 2px;
+	display: inline;
+}
+
+.spangt18 {
+	padding-right: 4px
+}
+
+#taskbar a.selected.lte4 {
+	background-image: url( ../images/blue/secondlevelnav_selected.png );
+	background-repeat: no-repeat;
+}
+
+#taskbar a.selected.gt4 {
+	background-image: url( ../images/blue/secondlevelnav_gt4_selected.png );
+	background-repeat: no-repeat;
+}
+
+/**** PAGE CONTENT BOXES */
+
+#main {
+	padding-top: 12px;
+	padding-bottom: 20px;
+	position: relative;
+	top: 140px; /* margin-bottom:140px; */
+}
+
+#flash-message {
+	border: 1px solid #999;
+	border-width: 1px 0;
+	text-align: center;
+	background-color: #ccc;
+	margin: 1em auto;
+	width: 75%;
+	padding: 0.5em;
+}
+
+#flash-message.info {
+	border-color: #390;
+	background-color: #aea;
+}
+
+#flash-message.error {
+	border-color: #930;
+	background-color: #ea9;
+}
+
+/* A pane is a vertical subdivision of the page.
+   Individual panes will need to have their widths specified
+   if there's more than one in a page;
+   the total should be something less than 100%. */
+.pane {
+	margin: 0 14px 12px 0;
+}
+
+/* Each pane will contain one or more "boxes" */
+.box {
+	background-color: #fff;
+	margin-bottom: 12px;
+	background-image: url( ../images/blue/box_bg.jpg );
+	background-repeat: repeat-x;
+}
+
+.box .header {
+}
+
+.box .header h2 {
+	color: #333366;
+	margin: 0;
+	font-size: 1.7em;
+	padding-top: 6px;
+	padding-right: 20px;
+	padding-left: 20px;
+	font-weight: normal;
+}
+
+.box .header .background-L {
+	background: url( ../images/blue/box_header_bg_l.jpg ) no-repeat top left;
+}
+
+.box .header .background-R {
+	background: url( ../images/blue/box_header_bg_r.jpg ) no-repeat top right;
+}
+
+.box .border-T {
+}
+
+.box .border-L {
+	background: url( ../images/blue/box_l.png ) repeat-y left;
+}
+
+.box .border-R {
+	background: url( ../images/blue/box_r.png ) repeat-y right;
+}
+
+.box .border-B {
+	background: url( ../images/blue/box_bottom.png ) repeat-x bottom;
+}
+
+.box .border-TL {
+}
+
+.box .border-TR {
+}
+
+.box .border-BL {
+	background: url( ../images/blue/box_bl.png ) no-repeat bottom left;
+}
+
+.box .border-BR {
+	background: url( ../images/blue/box_br.png ) no-repeat bottom right;
+}
+
+.box .interior {
+	margin: 0 8px 0 7px;
+	padding: 8px 0;
+	min-height: 28px;
+}
+
+.box.tabbed .interior {
+	padding-top: 0;
+}
+
+.box .content {
+	padding: 8px;
+}
+
+.box h3 {
+	padding-top: 4px;
+	padding-right: 8px;
+	padding-bottom: 1px;
+	padding-left: 8px;
+	font-size: 1em;
+	color: #2e3257;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+}
+
+/**** TABS WITHIN A BOX */
+
+.box ul.inner.tabs {
+/* this overspecific selector is necessary for IE */
+	background: url( ../images/chrome/inner-tab_BG.gif ) no-repeat top right;
+	padding: 4px 7px 0 0;
+	margin: 0 0 0 7px;
+	height: 20px;
+	font-size: .9em;
+}
+
+.box ul.inner.tabs li {
+	background: url( ../images/chrome/inner-tab_L.gif ) no-repeat top left;
+}
+
+.box ul.inner.tabs li.selected {
+	background-image: url( ../images/chrome/inner-tab_L_s.gif );
+}
+
+.box ul.inner.tabs li div {
+	background: url( ../images/chrome/inner-tab_R.gif ) no-repeat top right;
+	padding: 0 20px;
+}
+
+.box ul.inner.tabs li.selected div {
+	background-image: url( ../images/chrome/inner-tab_R_s.gif );
+}
+
+.box ul.inner.tabs a {
+	line-height: 20px;
+	display: block;
+	text-decoration: none;
+	font-weight: bold;
+	color: #333333;
+}
+
+.box ul.inner.tabs a:hover {
+	color: #002EE2;
+}
+
+/* two boxes with the additional class "paired" are displayed side-by-side */
+.box.paired {
+	width: 45%;
+	margin: 1em;
+	float: left;
+}
+
+.box.small {
+	width: 610px;
+	margin-left:185px;
+	display:block;
+}
+
+.division {
+	clear: both;
+}
+
+/**** REUSABLE PAGE ELEMENTS/CLASSES */
+
+.required-indicator {
+	color: #a00;
+	font-family: arial, serif;
+}
+
+#thirdlevelnav .required-indicator {
+	color: #f66;
+	font-family: arial, serif;
+}
+
+.required-for-submit {
+	color: #6f6;
+	font-family: Arial, serif;
+	font-weight: bold;
+}
+
+span.phone-number {
+	font-style: italic;
+}
+
+.error input {
+	border-color: #c03;
+}
+
+.error .label {
+	color: #c03;
+}
+
+.errors {
+	color: #c03;
+}
+
+div.errors {
+	color: #c03;
+	font-size: 11pt;
+	border: 1px solid #c03;
+	margin: 40px;
+	padding: 0 0em 0.2em 1em;
+}
+
+ul.errors {
+	color: #c03;
+	margin: 0;
+	padding: 0 1em 0.2em 1em;
+}
+
+ul.errors li {
+	margin: 0 0.8em;
+	padding: 0;
+	list-style-image: url( '../images/error.png' );
+}
+
+/* The delete checkbox which may go in a box's h3s */
+
+div.div-list-controls {
+	float: right;
+}
+
+a.list-control {
+	text-decoration: none;
+	color: #222;
+	top: 0;
+}
+
+a.delete-control {
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: 0 2px;
+}
+
+a.min-max-control {
+	padding: 0 2px;
+}
+
+a.move-up-control {
+	font-size: 1.2em;
+}
+
+a.move-down-control {
+	font-size: 1.2em;
+}
+
+a.list-control:hover {
+	background-color: #222;
+	color: #eee;
+}
+
+div.first-item a.move-up-control {
+	visibility: hidden;
+}
+
+div.last-item a.move-down-control {
+	visibility: hidden;
+}
+
+span.list-controls {
+	padding: 0 4px;
+}
+
+/*
+	'row' is a class for label: value type rows.  The intent is
+	that each row would contain 2-3 subdivs:  a label (float: left), an optional extra
+	(float: right), and the value (positioned naturally).
+ */
+div.row {
+	padding-right: 2px;
+	padding-left: 2px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+
+/* Automatically clear after each row
+   Based on http://www.positioniseverything.net/easyclearing.html */
+div.row:after, .autoclear:after {
+	display: block;
+	content: ' ';
+	clear: both;
+	height: 0;
+	visibility: hidden;
+}
+
+div.row div.label {
+	font-weight: bold;
+	float: left;
+	margin-left: 0.5em;
+	text-align: right; /* default width; pages might override */
+	width: 10em;
+}
+
+div.row div.value {
+	font-weight: normal; /* default; should be changed whenever .label width is changed */
+	margin-left: 11em;
+	/* In Mac the Help (?) button is wrapping-------Sorry, its causing titles that are too long to go off the page -david
+  white-space:nowrap; */
+	text-align: left;
+}
+
+img.indicator {
+	visibility: hidden;
+}
+
+/*
+  Left and right panels
+*/
+.rightpanel {
+	float: right;
+	width: 48%;
+	margin: 0 14px 14px 0;
+	padding: 5px;
+}
+
+.leftpanel {
+	float: left;
+	width: 48%;
+	margin: 0 5px 5px -2em;
+	padding: 5px;
+}
+
+/* Form Builder Styles */
+#formbuilderTable {
+	width: 100%;
+}
+
+#formbuilderTable #left {
+	vertical-align: top;
+}
+
+#formbuilderTable #right {
+	vertical-align: top;
+	padding: 0px;
+	position: relative;
+	height: 100%;
+	width:375px;
+}
+#formbuilderTable-TL {
+	width:32px;
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/TL.png);
+	background-repeat:no-repeat;
+}
+#formbuilderTable-T {
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/T.png);
+	background-repeat:repeat-x;
+}
+#formbuilderTable-TR {
+	width:30px;
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/TR.png);
+	background-repeat:no-repeat;
+}
+#formbuilderTable-L {
+	width:32px;
+	background-image:url(/ctcae/images/blue/form_table/L.png);
+	background-repeat:repeat-y;
+}
+#formbuilderTable-M {
+	vertical-align:top;
+	background-color:#e4e9f6;
+	position:relative;
+}
+#formbuilderTable-R {
+	width:30px;
+	background-image:url(/ctcae/images/blue/form_table/R.png);
+	background-repeat:repeat-y;
+}
+#formbuilderTable-BL {
+	width:32px;
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/BL.png);
+	background-repeat:no-repeat;
+}
+#formbuilderTable-B {
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/B.png);
+	background-repeat:repeat-x;
+}
+#formbuilderTable-BR {
+	width:30px;
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/BR.png);
+	background-repeat:no-repeat;
+}
+
+.formbuilderHeader {
+	color: #00207E;
+	font-size: 30px;
+	display: block;
+}
+
+.formbuildersubHeader {
+	margin-bottom: 15px;
+	display: block;
+	margin-left: 6px;
+	margin-top: 5px;
+}
+
+#totalQuestionDivision {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.sortable {
+	padding-top: 5px;
+}
+
+.conditional-question {
+	padding-left:30px;
+}
+
+#sortable {
+	margin-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	position: relative;
+}
+
+/* Formbuilder box styles */
+/* plain styles */
+.formbuilderBox {
+	padding-left: 14px;
+	position: relative;
+	padding-top: 4px;
+}
+
+.formbuilderboxTable {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/TL.png );
+	background-repeat: no-repeat;
+}
+
+.T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/T.png );
+	background-repeat: repeat-x;
+}
+
+.TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/TR.png );
+	background-repeat: no-repeat;
+}
+
+.L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/L.png );
+	background-repeat: repeat-y;
+}
+
+.formbuilderboxContent {
+	background-color: #F4F6FA;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/R.png );
+	background-repeat: repeat-y;
+}
+
+.BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/BL.png );
+	background-repeat: no-repeat;
+}
+
+.B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/B.png );
+	background-repeat: repeat-x;
+}
+
+.BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/BR.png );
+	background-repeat: no-repeat;
+}
+
+.formbuilderboxTable ul {
+	margin: 0px;
+}
+/* editing styles */
+.editing .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TL.png );
+	background-repeat: no-repeat;
+}
+
+.editing .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/T.png );
+	background-repeat: repeat-x;
+}
+
+.editing .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TR.png );
+	background-repeat: no-repeat;
+}
+
+.editing .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/L.png );
+	background-repeat: repeat-y;
+}
+
+.editing .formbuilderboxContent {
+	background-color: #4d6eff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:white;
+}
+
+.editing .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/R.png );
+	background-repeat: repeat-y;
+}
+
+.editing .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BL.png );
+	background-repeat: no-repeat;
+}
+
+.editing .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/B.png );
+	background-repeat: repeat-x;
+}
+
+.editing .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BR.png );
+	background-repeat: no-repeat;
+}
+/* conditional styles */
+.conditional-question .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/TL.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/T.png );
+	background-repeat: repeat-x;
+}
+
+.conditional-question .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/TR.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/L.png );
+	background-repeat: repeat-y;
+}
+
+.conditional-question .formbuilderboxContent {
+	background-color: #d0f3c2;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:black;
+}
+
+.conditional-question .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/R.png );
+	background-repeat: repeat-y;
+}
+
+.conditional-question .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/BL.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/B.png );
+	background-repeat: repeat-x;
+}
+
+.conditional-question .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/BR.png );
+	background-repeat: no-repeat;
+}
+/* editing a conditonal question styles */
+.editing.conditional-question .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TL.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/T.png );
+	background-repeat: repeat-x;
+}
+
+.editing.conditional-question .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TR.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/L.png );
+	background-repeat: repeat-y;
+}
+
+.editing.conditional-question .formbuilderboxContent {
+	background-color: #4d6eff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:white;
+}
+
+.editing.conditional-question .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/R.png );
+	background-repeat: repeat-y;
+}
+
+.editing.conditional-question .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BL.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/B.png );
+	background-repeat: repeat-x;
+}
+
+.editing.conditional-question .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BR.png );
+	background-repeat: no-repeat;
+}
+
+/*
+  Styles for Table Data
+*/
+table.tablecontent {
+	border-collapse: collapse;
+}
+
+.tablecontent td, .tablecontent th {
+	padding: 0.2em;
+}
+
+.tablecontent .tableHeader th, .tablecontent .even td, .tablecontent .odd td {
+	text-align: left;
+}
+
+.tablecontent th {
+	text-align: left;
+	background-color: #e4e4e4;
+	border: 1px solid #e4e4e4
+}
+
+.tablecontent td {
+	border: 1px solid #ccc;
+}
+
+.tablecontent .highlight td {
+	background-color: #F5F5F5;
+}
+
+a.help {
+	display: block;
+	float: right;
+	color: #fff;
+}
+
+a.help img {
+	border: none;
+}
+
+.dueOn {
+	color: #cc0033;
+	text-align: center;
+}
+
+.submittedOn {
+	color: #009900;
+	text-align: center;
+}
+
+.leftpane {
+	float: left;
+	padding: 5px;
+}
+
+.endpanes {
+	clear: both;
+}
+
+.instructions {
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+.instructions .summarylabel {
+	float: left;
+	font-weight: bold;
+	margin-left: 10px;
+	text-align: right;
+	margin-right: 7px;
+}
+
+.instructions .summaryvalue {
+	font-weight: normal;
+	margin-left: 90px;
+	text-align: left;
+	width: 75%;
+}
+
+#table231 {
+	background-color: #fff
+}
+
+/* suppress Routine AE search button */
+#secondlevelnav_routineReportController {
+	visibility: hidden;
+}
+
+#hiddenDiv {
+	width: 320px;
+}
+
+#sortable .formbuilderBoxControls {
+	position: absolute;
+	top: 9px;
+	right: 20px;
+}
+
+/*
+these 3 rules define form builder controls styles
+*/
+.formbuilderBoxControls {
+	position: absolute;
+	top: 8px;
+	right: 20px;
+}
+
+.formbuilderBoxControls-left {
+	float: left;
+	background-image: url( /ctcae/images/blue/formbuilderBoxControls-L.png );
+	height: 18px;
+	padding-left: 6px;
+}
+
+.formbuilderBoxControls-right {
+	float: left;
+	background-image: url( /ctcae/images/blue/formbuilderBoxControls-R.png );
+	height: 18px;
+	width: 6px;
+}
+
+/*
+these next 3 rules are the same as the previous 3, but need to be more specifically defined to hit the form builder tree
+*/
+ul.tree ul ul li table div.formbuilderBoxControls {
+	position: absolute;
+	top: 7px;
+	right: 20px;
+}
+
+ul.tree ul ul li table div.formbuilderBoxControls-left {
+	float: left;
+	background-image: url( /ctcae/images/blue/formbuilderBoxControls-L.png );
+	height: 18px;
+	padding-left: 6px;
+}
+
+ul.tree ul ul li table div.formbuilderBoxControls-right {
+	float: left;
+	background-image: url( /ctcae/images/blue/formbuilderBoxControls-R.png );
+	height: 18px;
+	width: 6px;
+}
+
+.sortableSpan {
+	float: left;
+	height: 100%;
+	font-size: 30px;
+	margin-right: 10px;
+	vertical-align: middle;
+	display: block;
+}
+
+#crfTitle {
+	padding-left: 4px;
+	padding-top: 3px;
+	width:90%;
+}
+
+#crfTitle-inplaceeditor input {
+	font-size: 30px;
+	size: 20;
+	color: #00207E;
+}
+
+#reviewLink {
+	position: absolute;
+	top: 12px;
+	right: 134px;
+	background-image: url( /ctcae/images/blue/preview_btn.png );
+	height: 0px;
+	overflow: hidden;
+	width: 116px;
+	display: block;
+	padding: 40px 0 0 0;
+}
+
+#newFormUrl {
+	background-image: url( /ctcae/images/blue/new_form_btn.png );
+	height: 0px;
+	overflow: hidden;
+	width: 131px;
+	display: block;
+	padding: 40px 0 0 0;
+	margin-left: 30px;
+}
+
+.norm {
+	background: none;
+	cursor: default;
+}
+
+.over {
+	background: #3399ff;
+	cursor: pointer;
+	color: white;
+}
+
+.addall {
+	position: relative;
+	width: 104px;
+	height: 20px;
+	background-image: url( /ctcae/images/blue/add_all_btn.png );
+	background-repeat: no-repeat;
+}
+.formpages {
+	border-left:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	border-bottom:1px solid #CCCCCC;
+	margin:10px;
+	padding:36px 5px 5px;
+	/* background-color:#cdd4f7; */
+	position:relative;
+	background-image:url(/ctcae/images/blue/crumpled-paper.png);
+}
+.formpagesselected {
+	/* background-color: #edc0ac; */
+	border-left: 2px solid #4D6EFF;
+	border-right: 2px solid #4D6EFF;
+	border-bottom: 2px solid #4D6EFF;
+}
+.formpageheader {
+	width:100%;
+	background-image:url(/ctcae/images/blue/page-border-top.png);
+	background-repeat:repeat-x;
+	height:36px;
+	display:block;
+	z-index:0;
+	position:absolute;
+	top:0;
+	right:0;
+}
+.formpagesselected .formpageheader {
+	width:101%;
+	background-image:url(/ctcae/images/blue/pageselected-border-top.png);
+	background-repeat:repeat-x;
+	height:36px;
+	display:block;
+	z-index:0;
+	position:absolute;
+	top:0;
+	left:-2px;
+}
+.formpageheader .formbuilderBoxControls {
+	position: absolute;
+	top: 0px;
+	right: 5px;
+}
+#shrinkQuestionBankUrl {
+	width:100%;
+	height:22px;
+	background-image:url(/ctcae/images/blue/formbuilder_min-max_bg.png);
+	display:block;
+	border-left:1px solid #cfcfcf;
+}
+#shrinkFormUrl{
+	width:100%;
+	height:22px;
+	background-image:url(/ctcae/images/blue/formbuilder_min-max_bg.png);
+	display:block;
+	border-right:1px solid #cfcfcf;
+	margin-top:1px;
+	margin-bottom:11px;
+}
+#expandFormUrl{
+	float:right;
+}
+.crfPageTitle{
+	font-size:17px;
+	margin-left:5px;
+	margin-top:5px;
+	position:absolute;
+}
+.inplaceeditor-form input[type="text"] {
+	font-size:17px;
+	margin-left:5px;
+	margin-top:3px;
+	position:absolute;
+}
+.formpagesselected .crfPageTitle{
+	font-size:17px;
+	margin-left:5px;
+	margin-top:5px;
+	position:absolute;
+	color:white;
+}
