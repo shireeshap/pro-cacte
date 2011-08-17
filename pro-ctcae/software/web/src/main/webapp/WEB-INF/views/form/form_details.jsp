@@ -119,7 +119,8 @@ function showQuestionSettings() {
     if ($$('div.sortable').size() != 0) {
         var firstQuestion = $$('div.sortable')[1].id;
         var questionId = firstQuestion.substr(9, firstQuestion.length);
-        showCrfItemProperties(questionId);
+        //showCrfItemProperties(questionId);
+        $('pages_'+questionId).style.display = "none";
     }
 }
 function showQuestionSettingsTab() {
@@ -162,6 +163,7 @@ function addCrfItemPropertiesHtml(questionId) {
         new Insertion.Before("questionProperties0", response);
     }
 }
+
 function showCrfItemPropertiesTab(questionId) {
     if (questionId != '') {
 
@@ -847,7 +849,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                            id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display
                             Preferences</a>
                     </div>
-                    <br>
+                    <br/><br/>
                     <c:if test="${advance}">
                         <a id="newPageBtn" href="javascript:addCrfPage()"><img
                                 src="<tags:imageUrl name="blue/new_page_button.png" />"
