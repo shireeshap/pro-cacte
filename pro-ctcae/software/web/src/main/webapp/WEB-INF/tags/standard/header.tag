@@ -66,7 +66,7 @@
 
                 <spring:message var="helpLink" code="${empty currentTask.linkName? backUpKey:helpKey}"
                                 text="NO_${helpKey}"/>
-                <a id="help" href="http://hccxweb1.dfci.harvard.edu/live_sites/proctcae/index.php${helpLink}"
+                <a id="help" href="http://alfie.semanticbits.com/index.php${helpLink}"
                    target="_blank">Help</a>
             </proctcae:urlAuthorize>
 
