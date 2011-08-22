@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
@@ -11,6 +9,7 @@ import gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValid
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,8 +58,16 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
         Map map = super.referenceData(request, command, errors);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean cca = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.CCA)) {
+                cca = true;
+            }
+        }
         if (errors.hasErrors())
-            map.put("error", true);
+        map.put("error", true);
+        map.put("cca", cca);
         return map;
 
 

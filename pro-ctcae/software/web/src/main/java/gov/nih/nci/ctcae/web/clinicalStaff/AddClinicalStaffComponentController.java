@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.*;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -29,6 +29,13 @@ public class AddClinicalStaffComponentController extends AbstractController {
         String action = request.getParameter("action");
         ClinicalStaffCommand clinicalStaffCommand = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean cca = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.CCA)) {
+                cca = true;
+            }
+        }
 
 
         if ("delete".equals(action)) {
@@ -45,6 +52,7 @@ public class AddClinicalStaffComponentController extends AbstractController {
         modelAndView = new ModelAndView("clinicalStaff/organizationClinicalStaffSection");
         modelAndView.addObject("organizationClinicalStaffIndex", organizationClinicalStaffIndex);
         modelAndView.addObject("organizationClinicalStaff", organizationClinicalStaff);
+        modelAndView.addObject("cca", cca);
 
         return modelAndView;
     }
