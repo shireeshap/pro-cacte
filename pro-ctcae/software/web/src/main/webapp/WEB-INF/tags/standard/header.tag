@@ -32,6 +32,10 @@
                     </td>
                     <td align="right">
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
+                           <c:if test="${empty param.lang}">
+                               <c:set var="currentEn" value="current"/>
+                           </c:if>
+
                             <c:if test="${param.lang eq 'en'}">
                                 <c:set var="currentEn" value="current"/>
                                 <c:set var="currentEs" value=""/>
@@ -42,7 +46,7 @@
                             </c:if>
                             <div class="language-toggle1" style="float:right">
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
-                                <a class="right ${currentEs}" href="?lang=es">Español</a>
+                                <a class="right ${currentEs}" href="?lang=es">Espaï¿½ol</a>
                             </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
 							    <%--<a style="color:white" href="?lang=en">English</a>--%>
