@@ -66,12 +66,12 @@
                                     <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
                                     <a class="nolink" title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                         <c:choose>
-                                            <c:when test="${studyParticipantCrfSchedule.status eq 'Past-due'}">
+                                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Past-due'}">
                                                 <img src="../../images/blue/Past-due.png"/>
                                             </c:when>
                                             <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
                                             </c:when>
-                                            <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Scheduled'}">
                                                 <div id="img_${status.index}" onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
                                                     <img src="../../images/blue/Scheduled.png"/>
                                                 </div>
