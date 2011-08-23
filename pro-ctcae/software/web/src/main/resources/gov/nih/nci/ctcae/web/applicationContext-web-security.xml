@@ -49,7 +49,7 @@
         <intercept-url pattern="/pages/study/addStudySite" access="PRIVILEGE_ADD_STUDY_SITE"/>
         <intercept-url pattern="/pages/study/searchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
         <intercept-url pattern="/pages/study/addStudyComponent"
-                       access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+                       access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/study/editStudy" access="PRIVILEGE_VIEW_STUDY"/>
         <intercept-url pattern="/pages/study/*" access="PRIVILEGE_EDIT_STUDY"/>
@@ -99,6 +99,8 @@
 
         <intercept-url pattern="/pages/admin/clinicalStaff/addClinicalStaffComponent"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
+        <intercept-url pattern="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff"
+                       access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/admin/searchClinicalStaff" access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/admin/viewClinicalStaff" access="PRIVILEGE_VIEW_CLINICAL_STAFF"/>
@@ -111,7 +113,7 @@
         <intercept-url pattern="/study/editdetails" access="PRIVILEGE_CREATE_STUDY"/>
         <intercept-url pattern="/study/editsites" access="PRIVILEGE_ADD_STUDY_SITE"/>
         <intercept-url pattern="/study/editoverallstaff" access="PRIVILEGE_ADD_STUDY_CLINICAL_STAFF"/>
-        <intercept-url pattern="/study/editsitestaff" access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+        <intercept-url pattern="/study/editsitestaff" access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>

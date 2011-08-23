@@ -27,6 +27,7 @@ public class Privilege extends BasePersistable {
     public static final String PRIVILEGE_CREATE_STUDY = "PRIVILEGE_CREATE_STUDY";
     public static final String PRIVILEGE_VIEW_STUDY = "PRIVILEGE_VIEW_STUDY";
     public static final String PRIVILEGE_ADD_STUDY_SITE = "PRIVILEGE_ADD_STUDY_SITE";
+    public static final String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
     public static final String PRIVILEGE_ADD_STUDY_CLINICAL_STAFF = "PRIVILEGE_ADD_STUDY_CLINICAL_STAFF";
     public static final String PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF = "PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF";
     public static final String PRIVILEGE_SEARCH_STUDY = "PRIVILEGE_SEARCH_STUDY";
