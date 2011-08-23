@@ -125,7 +125,7 @@
                     </chrome:division>
                 </chrome:box>
                 
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
                 	 <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
 	                    <chrome:division title="study.label.clinical.staff.lead.treating_physican">
 	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
