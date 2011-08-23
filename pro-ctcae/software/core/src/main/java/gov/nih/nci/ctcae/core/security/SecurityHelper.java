@@ -44,8 +44,8 @@ public class SecurityHelper {
     }
     
     /**
-     * Update loaded study privileges. Do this so that the CRA (or any role that can create a study) whose study privileges are pre-loaded 
-     * is updated to include this newly created study.
+     * Update study privileges. Do this so that the CRA (or any role that can create a study) whose study privileges are pre-loaded 
+     * is updated to include this newly created study. Prevents the creating lead_cra from being denied access to the study he just created.
      *
      * @param study the study
      */
