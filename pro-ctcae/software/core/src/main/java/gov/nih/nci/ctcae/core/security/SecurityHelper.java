@@ -1,9 +1,18 @@
 package gov.nih.nci.ctcae.core.security;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import org.springframework.security.Authentication;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.context.SecurityContextHolder;
 
 /**
@@ -25,4 +34,38 @@ public class SecurityHelper {
         }
         return isLeadStaff;
     }
+    
+    
+    public static User getLoggedInUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        
+        return user;
+    }
+    
+    /**
+     * Update loaded study privileges. Do this so that the CRA (or any role that can create a study) whose study privileges are pre-loaded 
+     * is updated to include this newly created study.
+     *
+     * @param study the study
+     */
+    public static void updateLoadedStudyPrivileges(Study study) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User user = (User)auth.getPrincipal();
+		DomainObjectPrivilegeGenerator privilegeGenerator = new DomainObjectPrivilegeGenerator();
+		Set<Role> roles = new HashSet<Role>();
+		for (UserRole userRole : user.getUserRoles()) {
+            roles.add(userRole.getRole());
+        }
+		
+		if(roles.contains(Role.CCA)){
+			List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(Arrays.asList(((User)auth.getPrincipal()).getAuthorities()));
+			Set<String> privileges = privilegeGenerator.generatePrivilege(study);
+            for (String privilege : privileges) {
+                grantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+            }
+            user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
+        }
+	}
+    
 }

@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.User;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +63,7 @@ public class DomainObjectAuthorizationCheck {
 
 
     private boolean hasPermission(Authentication authentication, Persistable persistable, String privilege) {
-        for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
+        for (GrantedAuthority grantedAuthority : ((User)authentication.getPrincipal()).getAuthorities()) {
             if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
                 logger.debug(String.format("User %s is having privilege %s on %s object. So Returning this object.",
                         authentication.getName(), privilege, persistable.getClass().getName()));

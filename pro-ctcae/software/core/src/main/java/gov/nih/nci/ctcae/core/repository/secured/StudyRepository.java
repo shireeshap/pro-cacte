@@ -1,16 +1,23 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.LeadStudySite;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyMode;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import gov.nih.nci.ctcae.core.security.SecurityHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 //
 /**
@@ -24,8 +31,7 @@ import java.util.List;
 public class StudyRepository implements Repository<Study, StudyQuery> {
     private GenericRepository genericRepository;
 
-
-    public void delete(Study study) {
+	public void delete(Study study) {
         genericRepository.delete(study);
     }
 
@@ -46,11 +52,13 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
         removeLeadStudySiteFromStudySites(study);
         Study savedStudy = genericRepository.save(study);
         initialzeStudy(savedStudy);
+        SecurityHelper.updateLoadedStudyPrivileges(study);
         return savedStudy;
 
     }
 
-    private void removeLeadStudySiteFromStudySites(Study study) {
+
+	private void removeLeadStudySiteFromStudySites(Study study) {
         List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
         for (StudySite studySite : study.getStudySites()) {
             if (studySite != null && studySite.getOrganization() != null) {
