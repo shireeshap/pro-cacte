@@ -80,6 +80,8 @@
                                                     <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
                                             </c:otherwise>
                                         </c:choose>
+
+
                                     </a>
                                 </c:otherwise>
                             </c:choose>
