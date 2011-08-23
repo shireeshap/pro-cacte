@@ -46,7 +46,7 @@
                             </c:if>
                             <div class="language-toggle1" style="float:right">
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
-                                <a class="right ${currentEs}" href="?lang=es">Espa�ol</a>
+                                <a class="right ${currentEs}" href="?lang=es">Español</a>
                             </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
 							    <%--<a style="color:white" href="?lang=en">English</a>--%>
