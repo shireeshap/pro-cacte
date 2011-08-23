@@ -31,7 +31,7 @@ function resetLogoutTimer() {
 //----------------------------------------------------------------------------------------------------------------
 //shows the warning box
 function logoutWarning() {
-  var warnDiv = new Window({className: "dialog", width:440, height:130, zIndex: 100, resizable: true, recenterAuto:true, draggable:true, closable:false, minimizable:false, maximizable:false}); 
+  var warnDiv = new Window({className: "dialog", width:430, height:150, zIndex: 100, resizable: true, recenterAuto:true, draggable:true, closable:false, minimizable:false, maximizable:false}); 
   warnDiv.setContent('logout_warning');
   warnDiv.showCenter(true);
   warnDiv.show();
