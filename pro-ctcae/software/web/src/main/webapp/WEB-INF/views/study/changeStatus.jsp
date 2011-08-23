@@ -30,7 +30,8 @@
                                  cssClass="previous ibutton" value="Cancel" icon="x"
                                  onclick="closeWindow()"/>
                 </div>
-                </form:form>
+            </div>
+            </form:form>
         </td>
     </tr>
 </table>

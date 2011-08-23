@@ -44,7 +44,7 @@
         <intercept-url pattern="/pages/participant/alertForAdd" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
 
-
+		<intercept-url pattern="/pages/study/changeStatus" access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF,PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>	
         <intercept-url pattern="/pages/study/createStudy" access="PRIVILEGE_CREATE_STUDY"/>
         <intercept-url pattern="/pages/study/addStudySite" access="PRIVILEGE_ADD_STUDY_SITE"/>
         <intercept-url pattern="/pages/study/searchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
