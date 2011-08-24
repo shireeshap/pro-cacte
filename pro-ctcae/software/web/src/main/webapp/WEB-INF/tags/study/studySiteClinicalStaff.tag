@@ -45,12 +45,12 @@
                             <c:choose>
                                 <c:when test="${studyOrganizationClinicalStaff.roleStatus.displayName eq 'Active'}">
                                     <tags:button color="blue" markupWithTag="a" value="De-activate"
-                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
                                                  size="small"/>
                                 </c:when>
                                 <c:otherwise>
                                     <tags:button color="blue" markupWithTag="a" value="Activate"
-                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
                                                  size="small"/>
                                 </c:otherwise>
                             </c:choose>
