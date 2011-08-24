@@ -242,8 +242,8 @@ function showConfirmationWindow(transport, width, height, top, left) {
     }
     var win = Windows.getFocusedWindow();
     if (win == null) {
-        win = new Window({ className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", destroyOnClose: true, height:height, width: width,top:top,left:left});
+        win = new Window({ className: "alphacube", closable : false, minimizable : false, maximizable :
+                false, title: "", destroyOnClose: true, height:height, width: width,top:top,left:left});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.showCenter(true);
