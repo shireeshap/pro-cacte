@@ -77,8 +77,10 @@
                     <tr id="hiddenDiv" align="center"></tr>
                 </table>
                 <br/>
-                <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
-                             value="study.button.add_study_site" icon="add" size="small"/>
+                <div style="width:110px;">
+                    <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
+                                 value="study.button.add_study_site" icon="add" size="small"/>
+                </div>
             </div>
     </jsp:attribute>
 </tags:tabForm>
