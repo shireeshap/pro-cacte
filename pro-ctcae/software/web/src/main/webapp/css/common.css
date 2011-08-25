@@ -1705,10 +1705,10 @@ a.help img {
 .instructions .summarylabel {
     float: left;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 5px;
     text-align: right;
     margin-right: 7px;
-    width: 80px;
+    width: 88px;
 }
 
 .instructions .summaryvalue {
