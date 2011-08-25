@@ -1659,5 +1659,95 @@ BEGIN
 END;
 $BODY$ LANGUAGE 'plpgsql' VOLATILE;
 
+-- Function: ivrs_updateques_filename()
+
+-- DROP FUNCTION ivrs_updateques_filename();
+
+CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
+  RETURNS integer AS
+$x$
+DECLARE
+	v_count integer :=1;
+	v_value text :='';
+BEGIN
+
+	FOR i IN 1..126 LOOP
+		v_value :='question'||i;
+		UPDATE pro_ctc_questions SET question_file_name=v_value WHERE id=i;
+
+	END LOOP;
+
+	return 0;
+	--WHILE v_count < 126 LOOP
+	--	UPDATE pro_ctc_questions SET question_file_name='question' WHERE id=v_count;
+	--	v_count := v_count + 1;
+	--END LOOP;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+
+$x$
+  LANGUAGE 'plpgsql' VOLATILE;
 
 
+SELECT ivrs_updateques_filename();
+
+-- Function: ivrs_updateSymp_filename()
+
+-- DROP FUNCTION ivrs_updateSymp_filename();
+
+CREATE OR REPLACE FUNCTION ivrs_updateSymp_filename()
+  RETURNS integer AS
+$BODY$
+DECLARE
+	v_count integer :=1;
+	v_value integer :=0;
+	v_term text :='';
+BEGIN
+
+	UPDATE pro_ctc_terms SET file_name='cs_anxiety'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Anxiety');
+	UPDATE pro_ctc_terms SET file_name='cs_arm_leg_swelling'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Arm or leg swelling');
+	UPDATE pro_ctc_terms SET file_name='cs_concentration_problem'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Problems with concentration');
+	UPDATE pro_ctc_terms SET file_name='cs_constipation'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Constipation');
+	UPDATE pro_ctc_terms SET file_name='cs_decreased_appetite'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Decreased appetite');
+	UPDATE pro_ctc_terms SET file_name='cs_dry_mouth'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Dry mouth');
+	UPDATE pro_ctc_terms SET file_name='cs_fatigue'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Fatigue, tiredness, or lack of energy');
+	UPDATE pro_ctc_terms SET file_name='cs_headache'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Headache');
+	UPDATE pro_ctc_terms SET file_name='cs_insomnia'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Insomnia (including difficulty falling asleep, staying asleep, or waking up early)');
+	UPDATE pro_ctc_terms SET file_name='cs_loose_watery'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Loose or watery stools (diarrhea)');
+	UPDATE pro_ctc_terms SET file_name='cs_mouth_throat_sores'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Mouth or throat sores');
+	UPDATE pro_ctc_terms SET file_name='cs_nausea'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Nausea');
+	UPDATE pro_ctc_terms SET file_name='cs_pain'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Pain');
+	UPDATE pro_ctc_terms SET file_name='cs_tasting_problem'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Problems with tasting food or drink');
+	UPDATE pro_ctc_terms SET file_name='cs_vomiting'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Vomiting');
+
+
+	return 0;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
+SELECT ivrs_updateSymp_filename();
