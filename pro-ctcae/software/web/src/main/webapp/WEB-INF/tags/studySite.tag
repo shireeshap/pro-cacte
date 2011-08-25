@@ -139,13 +139,13 @@
                    </span>
 
                 </c:if>
-                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">  <br><br>
-                    <span id="emailHeader_${studysite.id}" style="display:none">
-                    <table border="0" cellspacing="0">
+                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+                    <span id="emailHeader_${studysite.id}" style="display:none;">
+                    <table border="0" cellspacing="0" style="height:40px">
                         <c:if test="${command.mode eq 'Y'}">
                             <tr>
                                 <td align="right" valign="bottom" width="30%">
-                                    <span class="required-indicator">*&nbsp;&nbsp; </span>
+                                    <span class="required-indicator">*&nbsp;</span>
                                     <b> Email Address</b>
                                 </td>
                             </tr>
