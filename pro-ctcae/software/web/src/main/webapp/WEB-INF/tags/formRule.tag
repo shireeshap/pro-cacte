@@ -33,11 +33,11 @@
                                 <c:when test="${status.index%2 == 0}">
                                     <tr>
                                     <td><input type="checkbox" name="symptoms_${rule.id}"
-                                               value="${symptom.id}" ${checked}>${symptom.term}</td>
+                                               value="${symptom.id}" ${checked}>&nbsp;${symptom.term}</td>
                                 </c:when>
                                 <c:otherwise>
                                     <td><input type="checkbox" name="symptoms_${rule.id}"
-                                               value="${symptom.id}" ${checked}>${symptom.term}</td>
+                                               value="${symptom.id}" ${checked}>&nbsp;${symptom.term}</td>
                                     </tr>
                                 </c:otherwise>
                             </c:choose>
@@ -88,12 +88,12 @@
                                     <td>
                                         <input type="checkbox" name="notifications_${rule.id}"
                                                value="${notification.code}"
-                                            ${selected}/>${notification.desc}</td>
+                                            ${selected}/>&nbsp;${notification.desc}</td>
                                 </c:when>
                                 <c:otherwise>
                                     <td><input type="checkbox" name="notifications_${rule.id}"
                                                value="${notification.code}"
-                                        ${selected}/>${notification.desc}</td>
+                                        ${selected}/>&nbsp;${notification.desc}</td>
                                     </tr>
                                 </c:otherwise>
                             </c:choose>
