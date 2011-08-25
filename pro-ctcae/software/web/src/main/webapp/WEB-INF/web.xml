@@ -302,12 +302,12 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <jsp-config>
-        <taglib>
-            <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
-            <taglib-location>/WEB-INF/tags/c.tld</taglib-location>
-        </taglib>
-    </jsp-config>
+    <!--<jsp-config>-->
+        <!--<taglib>-->
+            <!--<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>-->
+            <!--<taglib-location>/WEB-INF/tags/c.tld</taglib-location>-->
+        <!--</taglib>-->
+    <!--</jsp-config>-->
 
     <error-page>
         <error-code>500</error-code>
