@@ -102,7 +102,7 @@
         </c:if>
     </div>
 
-    <div class="content" id="contentOf-${id}" style="display:block; padding:0px; margin:10px 0 10px 5px;">
+    <div class="divcontent" id="contentOf-${id}">
         <c:if test="${collapsable && (empty id)}"><h1 style="color:red; padding-bottom:20px;">Please give an unique ID
             to your Division Element.</h1></c:if>
         <jsp:doBody/>

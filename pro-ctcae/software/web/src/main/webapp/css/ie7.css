@@ -34,8 +34,8 @@ div.row {
 	position:relative;
 }
 button.omnipotent-button {
-	margin:0 0px;
-} 
+	margin:0 -25px;
+}
 button.omnipotent-button.small {
 	margin:0;
 }
@@ -57,6 +57,7 @@ div.row div.value.IEdivValueHack {
 
 .divcontent{
     display:block;
-    padding-top:0px;
-    margin:40px 0px 10px 5px;
+    padding:0px;
+    margin:10px 0 10px 5px;
 }
+

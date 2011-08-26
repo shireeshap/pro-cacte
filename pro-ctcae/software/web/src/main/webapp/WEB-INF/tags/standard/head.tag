@@ -12,7 +12,11 @@
 <tags:stylesheetLink name="login"/>
 
 
-<!--[if IE]>
+<!--[if lt IE 8]>
+<tags:stylesheetLink name="ie7"/>
+<![endif]-->
+
+<!--[if gt IE 7]>
 <tags:stylesheetLink name="ie"/>
 <![endif]-->
 
