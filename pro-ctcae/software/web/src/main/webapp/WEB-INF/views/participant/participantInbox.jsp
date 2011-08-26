@@ -46,6 +46,7 @@
             color: #000;
             text-shadow: 0 1px #fff;
             border-top: 1px solid lightgray;
+            text-align: left;
         }
 
         #inboxTable td {
