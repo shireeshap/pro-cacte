@@ -12,7 +12,7 @@
     </td>
     <td>
         <tags:renderText propertyName="study.arms[${index}].description" displayName="Description"
-                         size="70" noForm="true" propertyValue="${arm.description}"/>
+                         size="45" noForm="true" propertyValue="${arm.description}"/>
     </td>
     <c:if test="${param['studyId'] eq null}">
         <td style="border-left:none;">
