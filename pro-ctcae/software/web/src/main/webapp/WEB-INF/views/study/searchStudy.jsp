@@ -7,6 +7,9 @@
 <html>
 <head>
     <tags:formActionMenu/>
+     <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="organization"/>
     <style type="text/css">
         body {
             margin: 0;
@@ -53,16 +56,52 @@
 </head>
 
 <script>
-    Event.observe(window, "load", function() {
 
-        acCreate(new siteAutoComplterWithSecurity('site'))
+     function getSites(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+            return aResults;
+        }
+
+     var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('siteInput', getSites, handleSelect);
+                $('siteInput').value = "${site.displayName}";
+                $('siteInput').removeClassName('pending-search');
+        })
+                ;
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+
+        }
+
+        function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
 
-        initializeAutoCompleter('site',
-                '${site.displayName}', '${site.id}')
+//    Event.observe(window, "load", function() {
 
-        initSearchField()
-    })
+//        acCreate(new siteAutoComplterWithSecurity('site'))
+
+
+//        initializeAutoCompleter('site',
+                <%--'${site.displayName}', '${site.id}')--%>
+
+//        initSearchField()
+//    })
 
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
@@ -120,9 +159,16 @@
 
                     <div id="error"></div>
                 </div>
-                <tags:renderAutocompleter propertyName="site"
-                                          displayName="study.label.study_site"
-                                          required="false" size="70" noForm="true"/>
+                <input type="hidden" id="site" name="site"/>
+                <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_site'/></div>
+            <div class="value">
+        <tags:yuiAutocompleter inputName="siteInput" value="${site.displayName}" required="false"
+                               hiddenInputName="site"/>
+             </div></div>
+                <%--<tags:renderAutocompleter propertyName="site"--%>
+                                          <%--displayName="study.label.study_site"--%>
+                                          <%--required="false" size="70" noForm="true"/>--%>
             </div>
             <div style="padding-left:140px">
                 <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
