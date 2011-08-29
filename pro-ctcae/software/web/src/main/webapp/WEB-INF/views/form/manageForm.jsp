@@ -16,6 +16,9 @@
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:stylesheetLink name="table_menu"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="study"/>
 
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="crf"/>
@@ -32,33 +35,75 @@
         * {
             zoom: 1;
         }
+
         td.header-top {
             background-color: #CCCCCC;
             font-weight: bold;
             text-align: left;
-}
+        }
+
         td.data {
-              text-align: left;
+            text-align: left;
         }
     </style>
     <!--[if IE]>
-        <style>
-            div.row div.value {
-                margin-left:7px;
-            }
-        </style>
+    <style>
+        div.row div.value {
+            margin-left: 7px;
+        }
+    </style>
     <![endif]-->
     <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var sac = new studyAutoCompleter('study');
-            acCreateStudy(sac);
 
-        <c:if test="${study ne null}">
-            initializeAutoCompleter('study',
-                    '${study.displayName}', '${study.id}')
-        </c:if>
-            initSearchField();
-        });
+        function getStudies(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            study.matchStudy(unescape(sQuery), callMetaData);
+            return aResults;
+        }
+
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+
+
+                $('studyInput').value = "${study.displayName}";
+                $('studyInput').removeClassName('pending-search');
+
+
+        })
+                ;
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+            buildTable();
+        }
+
+        function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
+
+
+        //        Event.observe(window, "load", function () {
+        //            var sac = new studyAutoCompleter('study');
+        //            acCreateStudy(sac);
+        <%----%>
+        <%--<c:if test="${study ne null}">--%>
+        //            initializeAutoCompleter('study',
+        <%--'${study.displayName}', '${study.id}')--%>
+        <%--</c:if>--%>
+        //            initSearchField();
+        //        });
 
 
         function buildTable() {
@@ -67,18 +112,18 @@
             window.location.href = url + "?studyId=" + id;
         }
 
-        function acCreateStudy(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    buildTable();
-                },
-                indicator: mode.basename + "-indicator"
-            })
-
-        }
+        //        function acCreateStudy(mode) {
+        //            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+        //                    mode.populator, {
+        //                valueSelector: mode.valueSelector,
+        //                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+        //                    acPostSelect(mode, selectedChoice);
+        //                    buildTable();
+        //                },
+        //                indicator: mode.basename + "-indicator"
+        //            })
+        <%----%>
+        //        }
 
 
         function showVersionForm(crfId) {
@@ -110,11 +155,15 @@
     <div align="left" style="margin-left: 50px">
         <tags:instructions code="instruction_select_study"/>
 
-        <tags:renderAutocompleter propertyName="study"
-                                  displayName="Study"
-                                  required="true"
-                                  size="100"
-                                  noForm="true"/>
+            <%--<tags:renderAutocompleter propertyName="study"--%>
+            <%--displayName="Study"--%>
+            <%--required="true"--%>
+            <%--size="100"--%>
+            <%--noForm="true"/>--%>
+
+        <input type="hidden" id="study"/>
+        <tags:yuiAutocompleter inputName="studyInput" value="${study.shortTitle}" required="true"
+                               hiddenInputName="study"/>
 
         <c:if test="${crfs ne null}">
             You have selected the study ${study.shortTitle}.
@@ -132,7 +181,8 @@
                                      href="basicForm?studyId=${study.id}"/>
                     </td>
                     <td align="right">
-                        <tags:button color="blue" markupWithTag="a" id="hiddenForms" value="View hidden forms" size="small"
+                        <tags:button color="blue" markupWithTag="a" id="hiddenForms" value="View hidden forms"
+                                     size="small"
                                      href="hiddenForms?studyId=${study.id}"/>
                     </td>
                 </tr>
