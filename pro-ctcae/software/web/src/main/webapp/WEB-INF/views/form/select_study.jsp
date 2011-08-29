@@ -13,22 +13,53 @@
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
-
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="study"/>
     <tags:includePrototypeWindow/>
 
     <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var sac = new studyAutoCompleter('crf.study');
-            acCreate(sac);
-        <c:if test="${command.crf.study ne null}">
-            initializeAutoCompleter('crf.study', '${command.crf.study.displayName}', '${command.crf.study.id}')
 
-        </c:if>
+        function getStudies(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            study.matchStudy(unescape(sQuery), callMetaData);
+            return aResults;
+        }
 
-            initSearchField();
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('crf.studyInput', getStudies, handleSelect);
+
+            if ("${command.crf.study.displayName}" != '') {
+                $('crf.studyInput').value = "${command.crf.study.displayName}";
+                $('crf.studyInput').removeClassName('pending-search');
+            }
 
         })
+       ;
 
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            Element.update(hiddenInputId + "-selected-name", oData.displayName)
+            $(hiddenInputId + '-selected').show()
+            new Effect.Highlight(hiddenInputId + "-selected")
+            $(hiddenInputId).value = oData.id;
+
+        }
+
+       function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
     </script>
     <style type="text/css">
@@ -52,8 +83,14 @@
         <c:choose>
             <c:when test="${command.crf.crfVersion eq 1.0}">
                 <p><tags:instructions code="instruction_select_study"/></p>
-                <tags:renderAutocompleter propertyName="crf.study" required="true" displayName="form.label.study"
-                                          size="100"/>
+                <%--<tags:renderAutocompleter propertyName="crf.study" required="true" displayName="form.label.study"--%>
+                                          <%--size="100"/>--%>
+
+                <form:input path="crf.study" id="crf.study" cssClass="validate-NOTEMPTY"
+                    title="Study"
+                    cssStyle="display:none;"/>
+                <tags:yuiAutocompleter inputName="crf.studyInput" value="${command.crf.study.shortTitle}" required="true"
+                               hiddenInputName="crf.study"/>
                 <p id="crf.study-selected" style="display: none">
                     You have selected the study <span id="crf.study-selected-name"></span>.
                 </p>
