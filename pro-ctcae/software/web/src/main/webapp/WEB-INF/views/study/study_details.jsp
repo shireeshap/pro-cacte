@@ -166,10 +166,10 @@ uniqueIdentifier"/>
                     <%--'${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')--%>
         </c:if>
         <c:if test="${command.study.leadStudySite ne null}">
-//            initializeAutoCompleter('study.leadStudySite.organization',
-                    <%--'${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')--%>
+            initializeAutoCompleter('study.leadStudySite.organization',
+                    '${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')
         </c:if>
-//            initSearchField()
+            initSearchField()
         })
     </script>
 </head>
@@ -209,7 +209,7 @@ uniqueIdentifier"/>
                     cssStyle="display:none;"/>
             <div class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_sponsor'/></div>
-            <div class="value">                     
+            <div class="value">
                 <tags:yuiAutocompleter inputName="study.studySponsor.organizationInput" value="${command.study.studySponsor.organization.displayName}" required="false"
                                hiddenInputName="study.studySponsor.organization"/>
 			</div></div>
@@ -253,7 +253,7 @@ uniqueIdentifier"/>
                                hiddenInputName="study.dataCoordinatingCenter.organization"/>
 			</div>
 			</div>
-					
+
         <%--<tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"--%>
                                   <%--displayName="study.label.study_coordinating_center"--%>
                                   <%--required="true" size="70"/>--%>
@@ -277,7 +277,7 @@ uniqueIdentifier"/>
                     cssStyle="display:none;"/>
             <div class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_lead_site'/></div>
-            <div class="value">                    
+            <div class="value">
                 <tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput" value="${command.study.leadStudySite.organization.displayName}" required="false"
                                hiddenInputName="study.leadStudySite.organization"/>
             </div></div>
