@@ -207,9 +207,12 @@ uniqueIdentifier"/>
                <form:input path="study.studySponsor.organization" id="study.studySponsor.organization" cssClass="validate-NOTEMPTY"
                     title="Study sponsor"
                     cssStyle="display:none;"/>
-                <tags:yuiAutocompleter inputName="study.studySponsor.organizationInput" value="${command.study.studySponsor.organization.displayName}" required="true"
+            <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_sponsor'/></div>
+            <div class="value">                     
+                <tags:yuiAutocompleter inputName="study.studySponsor.organizationInput" value="${command.study.studySponsor.organization.displayName}" required="false"
                                hiddenInputName="study.studySponsor.organization"/>
-
+			</div></div>
 
                <%--<tags:renderAutocompleter propertyName="study.studySponsor.organization"--%>
                                          <%--displayName="study.label.study_sponsor"--%>
@@ -243,9 +246,14 @@ uniqueIdentifier"/>
        <form:input path="study.dataCoordinatingCenter.organization" id="study.dataCoordinatingCenter.organization" cssClass="validate-NOTEMPTY"
                     title="Data Coordinating center"
                     cssStyle="display:none;"/>
-            <tags:yuiAutocompleter inputName="study.dataCoordinatingCenter.organizationInput" value="${command.study.dataCoordinatingCenter.organization.displayName}" required="true"
+            <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_coordinating_center'/></div>
+            <div class="value">
+            <tags:yuiAutocompleter inputName="study.dataCoordinatingCenter.organizationInput" value="${command.study.dataCoordinatingCenter.organization.displayName}" required="false"
                                hiddenInputName="study.dataCoordinatingCenter.organization"/>
-
+			</div>
+			</div>
+					
         <%--<tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"--%>
                                   <%--displayName="study.label.study_coordinating_center"--%>
                                   <%--required="true" size="70"/>--%>
@@ -253,8 +261,12 @@ uniqueIdentifier"/>
      <form:input path="study.fundingSponsor.organization" id="study.fundingSponsor.organization" cssClass="validate-NOTEMPTY"
                     title="Study funding sponsor"
                     cssStyle="display:none;"/>
-                <tags:yuiAutocompleter inputName="study.fundingSponsor.organizationInput" value="${command.study.fundingSponsor.organization.displayName}" required="true"
+            <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_funding_sponsor'/></div>
+            <div class="value">
+                <tags:yuiAutocompleter inputName="study.fundingSponsor.organizationInput" value="${command.study.fundingSponsor.organization.displayName}" required="false"
                                hiddenInputName="study.fundingSponsor.organization"/>
+            </div></div>
 
         <%--<tags:renderAutocompleter propertyName="study.fundingSponsor.organization"--%>
                                   <%--displayName="study.label.study_funding_sponsor"--%>
@@ -263,8 +275,12 @@ uniqueIdentifier"/>
          <form:input path="study.leadStudySite.organization" id="study.leadStudySite.organization" cssClass="validate-NOTEMPTY"
                     title="Study funding sponsor"
                     cssStyle="display:none;"/>
-                <tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput" value="${command.study.leadStudySite.organization.displayName}" required="true"
+            <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_lead_site'/></div>
+            <div class="value">                    
+                <tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput" value="${command.study.leadStudySite.organization.displayName}" required="false"
                                hiddenInputName="study.leadStudySite.organization"/>
+            </div></div>
         <%--<tags:renderAutocompleter propertyName="study.leadStudySite.organization"--%>
                                   <%--displayName="study.label.study_lead_site"--%>
                                   <%--required="true" size="70"/>--%>
