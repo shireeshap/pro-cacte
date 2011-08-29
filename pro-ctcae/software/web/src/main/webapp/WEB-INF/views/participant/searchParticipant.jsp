@@ -192,14 +192,14 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="false"
-                                  size="100"
+                                  size="95"
                                   noForm="true"/>
         <%--<tags:renderAutocompleter propertyName="site"--%>
                                   <%--displayName="study.label.study_site"--%>
                                   <%--required="false" size="70" noForm="true"/>--%>
         <tags:renderAutocompleter propertyName="studySite"
                                   displayName="Study site"
-                                  size="100"
+                                  size="95"
                                   noForm="true"/>
 
         <c:if test="${mode eq 'N'}">
