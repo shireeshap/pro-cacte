@@ -14,7 +14,9 @@ uniqueIdentifier"/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
-
+     <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="organization"/>
     <style>
         .specialWidth {
             width: 10px;
@@ -84,31 +86,84 @@ uniqueIdentifier"/>
                 jQuery('#error1').hide();
             }
         }
+
+        function getOrgs(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            return aResults;
+        }
+
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('study.studySponsor.organizationInput', getOrgs, handleSelect);
+                $('study.studySponsor.organizationInput').value = "${command.study.studySponsor.organization.displayName}";
+                $('study.studySponsor.organizationInput').removeClassName('pending-search');
+
+            new YUIAutoCompleter('study.dataCoordinatingCenter.organizationInput', getOrgs, handleSelect);
+                $('study.dataCoordinatingCenter.organizationInput').value = "${command.study.dataCoordinatingCenter.organization.displayName}";
+                $('study.dataCoordinatingCenter.organizationInput').removeClassName('pending-search');
+
+            new YUIAutoCompleter('study.fundingSponsor.organizationInput', getOrgs, handleSelect);
+                $('study.fundingSponsor.organizationInput').value = "${command.study.fundingSponsor.organization.displayName}";
+                $('study.fundingSponsor.organizationInput').removeClassName('pending-search');
+
+            new YUIAutoCompleter('study.leadStudySite.organizationInput', getOrgs, handleSelect);
+                $('study.leadStudySite.organizationInput').value = "${command.study.leadStudySite.organization.displayName}";
+                $('study.leadStudySite.organizationInput').removeClassName('pending-search');
+
+
+        })
+       ;
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+//            Element.update(hiddenInputId + "-selected-name", oData.displayName)
+//            $(hiddenInputId + '-selected').show()
+//            new Effect.Highlight(hiddenInputId + "-selected")
+            $(hiddenInputId).value = oData.id;
+
+        }
+
+       function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
+
+
         Event.observe(window, "load", function() {
 
             //            $('study.callBackFrequency-row').addClassName('specialWidth');
 
         <c:if test="${command.admin eq true}">
-            acCreate(new siteAutoComplter('study.studySponsor.organization'))
+//            acCreate(new siteAutoComplter('study.studySponsor.organization'))
         </c:if>
-            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
-            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
+//            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
+//            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
         <c:if test="${command.study.studySponsor ne null}">
         <c:if test="${command.admin eq true}">
-            initializeAutoCompleter('study.studySponsor.organization',
-                    '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
+//            initializeAutoCompleter('study.studySponsor.organization',
+                    <%--'${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')--%>
         </c:if>
         </c:if>
 
         <c:if test="${command.study.dataCoordinatingCenter ne null}">
-            initializeAutoCompleter('study.dataCoordinatingCenter.organization',
-                    '${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')
+//            initializeAutoCompleter('study.dataCoordinatingCenter.organization',
+                    <%--'${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')--%>
         </c:if>
         <c:if test="${command.study.fundingSponsor ne null}">
-            initializeAutoCompleter('study.fundingSponsor.organization',
-                    '${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')
+//            initializeAutoCompleter('study.fundingSponsor.organization',
+                    <%--'${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')--%>
         </c:if>
         <c:if test="${command.study.leadStudySite ne null}">
             initializeAutoCompleter('study.leadStudySite.organization',
@@ -149,9 +204,16 @@ uniqueIdentifier"/>
        
        <c:choose>
            <c:when test="${command.admin eq true}">
-               <tags:renderAutocompleter propertyName="study.studySponsor.organization"
-                                         displayName="study.label.study_sponsor"
-                                         required="true" size="70"/>
+               <form:input path="study.studySponsor.organization" id="study.studySponsor.organization" cssClass="validate-NOTEMPTY"
+                    title="Study sponsor"
+                    cssStyle="display:none;"/>
+                <tags:yuiAutocompleter inputName="study.studySponsor.organizationInput" value="${command.study.studySponsor.organization.displayName}" required="true"
+                               hiddenInputName="study.studySponsor.organization"/>
+
+
+               <%--<tags:renderAutocompleter propertyName="study.studySponsor.organization"--%>
+                                         <%--displayName="study.label.study_sponsor"--%>
+                                         <%--required="true" size="70"/>--%>
            </c:when>
            <c:otherwise>
                <c:choose>
@@ -178,17 +240,34 @@ uniqueIdentifier"/>
            </c:otherwise>
        </c:choose>
 
-        <tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"
-                                  displayName="study.label.study_coordinating_center"
-                                  required="true" size="70"/>
+       <form:input path="study.dataCoordinatingCenter.organization" id="study.dataCoordinatingCenter.organization" cssClass="validate-NOTEMPTY"
+                    title="Data Coordinating center"
+                    cssStyle="display:none;"/>
+            <tags:yuiAutocompleter inputName="study.dataCoordinatingCenter.organizationInput" value="${command.study.dataCoordinatingCenter.organization.displayName}" required="true"
+                               hiddenInputName="study.dataCoordinatingCenter.organization"/>
 
-        <tags:renderAutocompleter propertyName="study.fundingSponsor.organization"
-                                  displayName="study.label.study_funding_sponsor"
-                                  required="true" size="70"/>
+        <%--<tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"--%>
+                                  <%--displayName="study.label.study_coordinating_center"--%>
+                                  <%--required="true" size="70"/>--%>
 
-        <tags:renderAutocompleter propertyName="study.leadStudySite.organization"
-                                  displayName="study.label.study_lead_site"
-                                  required="true" size="70"/>
+     <form:input path="study.fundingSponsor.organization" id="study.fundingSponsor.organization" cssClass="validate-NOTEMPTY"
+                    title="Study funding sponsor"
+                    cssStyle="display:none;"/>
+                <tags:yuiAutocompleter inputName="study.fundingSponsor.organizationInput" value="${command.study.fundingSponsor.organization.displayName}" required="true"
+                               hiddenInputName="study.fundingSponsor.organization"/>
+
+        <%--<tags:renderAutocompleter propertyName="study.fundingSponsor.organization"--%>
+                                  <%--displayName="study.label.study_funding_sponsor"--%>
+                                  <%--required="true" size="70"/>--%>
+
+         <form:input path="study.leadStudySite.organization" id="study.leadStudySite.organization" cssClass="validate-NOTEMPTY"
+                    title="Study funding sponsor"
+                    cssStyle="display:none;"/>
+                <tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput" value="${command.study.leadStudySite.organization.displayName}" required="true"
+                               hiddenInputName="study.leadStudySite.organization"/>
+        <%--<tags:renderAutocompleter propertyName="study.leadStudySite.organization"--%>
+                                  <%--displayName="study.label.study_lead_site"--%>
+                                  <%--required="true" size="70"/>--%>
          <br>
 
       <c:if test="${not command.activeDefaultArm}">
