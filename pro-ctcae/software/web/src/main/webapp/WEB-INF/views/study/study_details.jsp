@@ -148,7 +148,7 @@ uniqueIdentifier"/>
         </c:if>
 //            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
 //            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
-            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
+//            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
         <c:if test="${command.study.studySponsor ne null}">
         <c:if test="${command.admin eq true}">
@@ -166,10 +166,10 @@ uniqueIdentifier"/>
                     <%--'${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')--%>
         </c:if>
         <c:if test="${command.study.leadStudySite ne null}">
-            initializeAutoCompleter('study.leadStudySite.organization',
-                    '${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')
+//            initializeAutoCompleter('study.leadStudySite.organization',
+                    <%--'${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')--%>
         </c:if>
-            initSearchField()
+//            initSearchField()
         })
     </script>
 </head>
