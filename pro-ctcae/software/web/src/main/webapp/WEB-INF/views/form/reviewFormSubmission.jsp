@@ -15,6 +15,13 @@
         div.row div.value {
             white-space: normal;
         }
+        
+        #center-panel {
+            padding-left: 0px;
+            width: 99%;
+            float: left;
+            font-size: 17px;
+        }
 
         #left-panel {
             padding-left: 15px;
@@ -53,16 +60,15 @@
 </head>
 <body>
 <form:form method="post" name="myForm">
+    <br/><br/><br/>
     <div style="clear:both;">
-        <div id="left-panel">
-
+        <div id="center-panel">
+        <tags:formbuilderBox id="x">
             <spring:message code="thankYouMessage" />
             <br/>
-            <br/>
-
-
+		</tags:formbuilderBox>
         </div>
-        <br/>&nbsp;<br/>&nbsp;<br/>
+        <br/>&nbsp;<br/>&nbsp;<br/><br/>
         <table width="100%" cellspacing="10">
             <input type="hidden" name="direction"/>
             <input type="hidden" name="r"/>

@@ -9,7 +9,7 @@
 <%@attribute name="collapsable" required="false" %>
 <div class="formbuilderBox ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
 
-    <table class="formbuilderboxTable">
+    <table class="formbuilderboxTable" >
         <tr>
             <td class="TL"></td>
             <td class="T"></td>
@@ -17,7 +17,7 @@
         </tr>
         <tr>
             <td class="L"></td>
-            <td class="formbuilderboxContent">
+            <td class="formbuilderboxContent" align="center">
                 <jsp:doBody/>
             </td>
             <td class="R"></td>
