@@ -15,37 +15,63 @@
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="clinicalStaff"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
 
 
     <script type="text/javascript">
 
-        Event.observe(window, "load", function() {
+        function getODCStaff(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, callMetaData);
+            return aResults;
+        }
 
+        function getLeadStaff(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
+            return aResults;
+        }
 
-            var odcAutoComplterBaseName = 'overallDataCoordinator.organizationClinicalStaff';
-            acCreate(new organizationClinicalStaffAutoComplter(odcAutoComplterBaseName, '${command.study.dataCoordinatingCenter.id}'))
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('overallDataCoordinator.organizationClinicalStaffInput', getODCStaff, handleSelect);
+            $('overallDataCoordinator.organizationClinicalStaffInput').value = "${command.overallDataCoordinator.displayName}";
+            $('overallDataCoordinator.organizationClinicalStaffInput').removeClassName('pending-search');
 
-            var leadCRAAutoComplterBaseName = 'leadCRA.organizationClinicalStaff';
-            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter(leadCRAAutoComplterBaseName, '${command.study.leadStudySite.id}'))
+            new YUIAutoCompleter('leadCRA.organizationClinicalStaffInput', getLeadStaff, handleSelect);
+            $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
+            $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
 
-
-            var piAutoCompleterBaseName = 'principalInvestigator.organizationClinicalStaff';
-            acCreate(new organizationClinicalStaffAutoComplter(piAutoCompleterBaseName, '${command.study.leadStudySite.id}'))
-
-            initializeAutoCompleter(odcAutoComplterBaseName, '${command.overallDataCoordinator.displayName}',
-                    '${command.overallDataCoordinator.organizationClinicalStaff.id}')
-
-
-            initializeAutoCompleter(piAutoCompleterBaseName, '${command.principalInvestigator.displayName}',
-                    '${command.principalInvestigator.organizationClinicalStaff.id}')
-
-            initializeAutoCompleter(leadCRAAutoComplterBaseName, '${command.leadCRA.displayName}',
-                    '${command.leadCRA.organizationClinicalStaff.id}');
-
-            initSearchField()
+            new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff, handleSelect);
+            $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
+            $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
 
         })
+                ;
 
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+
+        }
+
+        function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
     </script>
 
@@ -63,11 +89,19 @@
                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
            </div>
+           <form:input path="overallDataCoordinator.organizationClinicalStaff"
+                       id="overallDataCoordinator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                       title="Data coordinator"
+                       cssStyle="display:none;"/>
+           <div class="row">
+           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+               <div class="value">
+                   <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
+                                          value="${command.overallDataCoordinator.displayName}" required="false"
+                                          hiddenInputName="overallDataCoordinator.organizationClinicalStaff"/>
+               </div>
+           </div>
 
-
-           <tags:renderAutocompleter propertyName="overallDataCoordinator.organizationClinicalStaff"
-                                     displayName="study.label.clinical.staff" noForm="true" required="true"
-                   />
        </chrome:division>
 
         <chrome:division title="study.label.clinical.staff.lead.cra">
@@ -77,11 +111,18 @@
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
 
-
-            <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
-                                      displayName="study.label.clinical.staff" noForm="true" required="true"
-                    />
-
+             <form:input path="leadCRA.organizationClinicalStaff"
+                       id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                       title="Data coordinator"
+                       cssStyle="display:none;"/>
+           <div class="row">
+           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+               <div class="value">
+                   <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
+                                          value="${command.leadCRA.displayName}" required="false"
+                                          hiddenInputName="leadCRA.organizationClinicalStaff"/>
+               </div>
+           </div>
 
         </chrome:division>
         <chrome:division title="study.label.clinical.staff.pi">
@@ -90,12 +131,18 @@
                 <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
-
-
-            <tags:renderAutocompleter propertyName="principalInvestigator.organizationClinicalStaff"
-                                      displayName="study.label.clinical.staff" noForm="true" required="true"
-                    />
-
+            <form:input path="principalInvestigator.organizationClinicalStaff"
+                       id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                       title="Data coordinator"
+                       cssStyle="display:none;"/>
+            <div class="row">
+           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+               <div class="value">
+                   <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
+                                          value="${command.principalInvestigator.displayName}" required="false"
+                                          hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
+               </div>
+           </div>
 
         </chrome:division>
 
