@@ -19,6 +19,10 @@
 <tags:includeScriptaculous/>
 <tags:includePrototypeWindow/>
 
+<tags:stylesheetLink name="yui-autocomplete"/>
+<tags:javascriptLink name="yui-autocomplete"/>
+<tags:dwrJavascriptLink objects="organization"/>
+
 <script>
 
 var isUserNameError = false;
@@ -269,12 +273,46 @@ function getStudySites() {
     })
 }
 
+    function getOrgs(sQuery) {
+
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+        return aResults;
+    }
+
+    function handleSelect(stype, args) {
+        var ele = args[0];
+        var oData = args[2];
+        ele.getInputEl().value = oData.displayName;
+        var id = ele.getInputEl().id;
+        var hiddenInputId = id.substring(0, id.indexOf('-input'));
+//            Element.update(hiddenInputId + "-selected-name", oData.displayName)
+//            $(hiddenInputId + '-selected').show()
+//            new Effect.Highlight(hiddenInputId + "-selected")
+        $(hiddenInputId).value = oData.id;
+        getStudySites();
+
+    }
+
+   function clearInput(inputId) {
+        $(inputId).clear();
+        $(inputId + '-input').clear();
+        $(inputId + '-input').focus();
+        $(inputId + '-input').blur();
+    }
+
 Event.observe(window, 'load', function() {
 
 <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
     try {
-        acCreate(new siteAutoComplter('organizationId'));
-        initSearchField();
+//        acCreate(new siteAutoComplter('organizationId'));
+//        initSearchField();
+        new YUIAutoCompleter('organizationId-input', getOrgs, handleSelect);
+            $('organizationId-input').value = "${organization.displayName}";
+            $('organizationId-input').removeClassName('pending-search');
     } catch(err) {
     }
 </c:if>
@@ -676,9 +714,12 @@ function showOrHideEmail(value1, value2, id) {
                    <c:otherwise>
                        <c:choose>
                            <c:when test="${command.admin}">
-                               <tags:renderAutocompleter propertyName="organizationId"
-                                                         displayName="participant.label.site"
-                                                         required="true" size="70"/>
+
+                               <input name="organizationId" id="organizationId" class="validate-NOTEMPTY" style="display:none;"/>
+                               <tags:yuiAutocompleter inputName="organizationId-input" value="${organization.id}" required="false" hiddenInputName="organizationId"/>
+                               <%--<tags:renderAutocompleter propertyName="organizationId"--%>
+                                                         <%--displayName="participant.label.site"--%>
+                                                         <%--required="true" size="70"/>--%>
                            </c:when>
                            <c:otherwise>
                                <c:choose>
