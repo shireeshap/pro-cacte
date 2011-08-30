@@ -114,7 +114,6 @@ uniqueIdentifier"/>
                 $('study.leadStudySite.organizationInput').value = "${command.study.leadStudySite.organization.displayName}";
                 $('study.leadStudySite.organizationInput').removeClassName('pending-search');
 
-
         })
        ;
 
@@ -124,9 +123,6 @@ uniqueIdentifier"/>
             ele.getInputEl().value = oData.displayName;
             var id = ele.getInputEl().id;
             var hiddenInputId = id.substring(0, id.indexOf('Input'));
-//            Element.update(hiddenInputId + "-selected-name", oData.displayName)
-//            $(hiddenInputId + '-selected').show()
-//            new Effect.Highlight(hiddenInputId + "-selected")
             $(hiddenInputId).value = oData.id;
 
         }
