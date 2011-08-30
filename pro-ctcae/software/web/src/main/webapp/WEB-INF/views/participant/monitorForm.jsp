@@ -18,7 +18,57 @@
 <tags:includePrototypeWindow/>
 <tags:includeScriptaculous/>
 <tags:javascriptLink name="table_menu"/>
+<tags:stylesheetLink name="yui-autocomplete"/>
+<tags:javascriptLink name="yui-autocomplete"/>
+<tags:dwrJavascriptLink objects="study"/>
+
 <script type="text/javascript">
+     var managerAutoComp;
+     Event.observe(window, 'load', function() {
+         new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+         new YUIAutoCompleter('participantInput', getParticipants, handleSelect);
+         new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
+     });
+
+     function getStudies(sQuery) {
+         var callbackProxy = function(results) {
+             aResults = results;
+         };
+         var callMetaData = { callback:callbackProxy, async:false};
+         study.matchStudy(unescape(sQuery), callMetaData);
+         return aResults;
+     }
+
+     function handleSelect(stype, args) {
+         var ele = args[0];
+         var oData = args[2];
+         ele.getInputEl().value = oData.displayName;
+         var id = ele.getInputEl().id;
+         var hiddenInputId = id.substring(0, id.indexOf('Input'));
+         $(hiddenInputId).value = oData.id;
+
+	if(hiddenInputId == 'study'){
+	          displayForms();
+	          displaySites();
+	          displayParticipants();
+	}
+     }
+
+    function clearInput(inputId) {
+         $(inputId).clear();
+         $(inputId + 'Input').clear();
+         $(inputId + 'Input').focus();
+         $(inputId + 'Input').blur();
+     }
+
+    function getParticipants(sQuery) {
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = {callback:callbackProxy, async:false};
+        participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
+        return aResults;
+    }
 
 function hideme() {
     Element.hide($("dropnoteDiv"));
@@ -42,46 +92,22 @@ function completedForm(id) {
     })
 }
 
-Event.observe(window, "load", function () {
-    var sac = new studyAutoCompleter('study');
-    acCreateStudyMonitor(sac);
-    initSearchField();
-})
-
-function acCreateStudyMonitor(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice);
-            displayForms();
-            displaySites();
-            displayParticipants();
-        },
-        indicator: mode.basename + "-indicator"
-    })
-
-}
-
 function displaySites() {
-
-    organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-    })
-    var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
-    acCreate(myStudySiteAutoComplter);
-    initSearchField();
-    $('studySiteAutoCompleterDiv').show();
-
+	var aResults = getOrganizations('%');
+	$('studySiteAutoCompleterDiv').show();
 }
+
+function getOrganizations(sQuery) {
+    var callbackProxy = function(results) {
+        aResults = results;
+    };
+    var callMetaData = {callback:callbackProxy, async:false};
+    organization.matchOrganizationByStudyId(unescape(sQuery), $('study').value, callMetaData);
+    return aResults;
+}
+
 
 function displayParticipants() {
-    var myParticipantAutoCompleter = new participantAutoCompleter('participant', function(autocompleter, text) {
-        participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
-            autocompleter.setChoices(values)
-        })
-    });
-    acCreate(myParticipantAutoCompleter);
-    initSearchField();
     $('participantAutoCompleterDiv').show();
 }
 
@@ -313,16 +339,23 @@ function hideIndicator() {
         zoom: 0;
     }
 </style>
+
 </head>
 <body>
 <tags:instructions code="participant.monitor.instructions"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
-        <tags:renderAutocompleter propertyName="study"
-                                  displayName="Study"
-                                  required="true"
-                                  size="100"
-                                  noForm="true"/>
+                                  
+  		<div class="row" style="">
+			<div class="label">
+				<tags:requiredIndicator/><tags:message code='reports.label.study'/>
+			</div>
+			<div class="value">
+				<input id="study" class="validate-NOTEMPTY" type="hidden" value=""  title="Study" style="display: none;" name="study"/>                         
+         	   	<tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
+			</div>
+		</div> 
+        
         <div id="formDropDownDiv" class="row" style="display:none">
             <div class="label"><tags:requiredIndicator/>Form&nbsp;&nbsp;</div>
             <div class="value IEdivValueHack" id="formDropDown"></div>
@@ -342,16 +375,26 @@ function hideIndicator() {
             </div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
-            <tags:renderAutocompleter propertyName="studySite"
-                                      displayName="Study site"
-                                      size="100"
-                                      noForm="true"/>
+            <div class="row">
+				<div class="label">
+					<tags:requiredIndicator/><tags:message code='reports.label.site'/>
+				</div>
+				<div class="value">
+					<input id="studySite" class="validate-NOTEMPTY" type="hidden" value=""  title="Study site" style="display:none;" name="studySite"/>                         
+	         	   	<tags:yuiAutocompleter inputName="studySiteInput" value="" required="false" hiddenInputName="studySite"/>
+				</div>
+			</div> 
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">
-            <tags:renderAutocompleter propertyName="participant"
-                                      displayName="Participant"
-                                      size="70"
-                                      noForm="true"/>
+            <div class="row">
+				<div class="label">
+					<tags:requiredIndicator/><tags:message code='reports.label.participant'/>
+				</div>
+				<div class="value">
+					<input id="participant" class="validate-NOTEMPTY" type="hidden" value=""  title="Participant" style="display: none;" name="participant"/>                         
+	         	   	<tags:yuiAutocompleter inputName="participantInput" value="" required="false" hiddenInputName="participant"/>
+				</div>
+			</div> 
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
             <div class="label">Date range&nbsp;&nbsp;</div>
