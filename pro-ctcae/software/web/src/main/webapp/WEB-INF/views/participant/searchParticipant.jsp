@@ -4,8 +4,14 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
 <head>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="organization"/>
+    <tags:dwrJavascriptLink objects="study"/>
+
     <style type="text/css">
         body {
             margin: 0;
@@ -123,37 +129,82 @@
     function doSend() {
         submitForm();
     }
-    Event.observe(window, "load", function() {
-        var sac = new studyAutoCompleter('study');
-        acCreateStudy(sac);
-    <c:if test="${study ne null}">
-        initializeAutoCompleter('study',
-                "${study.displayName}", '${study.id}')
-    </c:if>
-        initSearchField();
-    })
+    <%--Event.observe(window, "load", function() {--%>
+        <%--var sac = new studyAutoCompleter('study');--%>
+        <%--acCreateStudy(sac);--%>
+    <%--<c:if test="${study ne null}">--%>
+        <%--initializeAutoCompleter('study',--%>
+                <%--"${study.displayName}", '${study.id}')--%>
+    <%--</c:if>--%>
+        <%--initSearchField();--%>
+    <%--})--%>
 
-    function acCreateStudy(mode) {
-        new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                mode.populator, {
-            valueSelector: mode.valueSelector,
-            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                acPostSelect(mode, selectedChoice);
-            },
-            indicator: mode.basename + "-indicator"
-        })
+    <%--function acCreateStudy(mode) {--%>
+        <%--new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",--%>
+                <%--mode.populator, {--%>
+            <%--valueSelector: mode.valueSelector,--%>
+            <%--afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {--%>
+                <%--acPostSelect(mode, selectedChoice);--%>
+            <%--},--%>
+            <%--indicator: mode.basename + "-indicator"--%>
+        <%--})--%>
 
+    <%--}--%>
+
+    <%--Event.observe(window, "load", function() {--%>
+        <%--acCreate(new siteAutoComplterWithSecurity('studySite'))--%>
+        <%--initializeAutoCompleter('studySite',--%>
+                <%--'${site.displayName}', '${site.id}')--%>
+
+        <%--initSearchField()--%>
+    <%--})--%>
+
+    function getStudies(sQuery) {
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = { callback:callbackProxy, async:false};
+        study.matchStudy(unescape(sQuery), callMetaData);
+        return aResults;
     }
 
-    Event.observe(window, "load", function() {
-        acCreate(new siteAutoComplterWithSecurity('studySite'))
-        initializeAutoCompleter('studySite',
-                '${site.displayName}', '${site.id}')
+    function getSites(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+            return aResults;
+        }
 
-        initSearchField()
-    })
+     var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('studySiteInput', getSites, handleSelect);
+                $('studySiteInput').value = "${studySite.displayName}";
+                $('studySiteInput').removeClassName('pending-search');
 
+            new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+                $('studyInput').value = "${study.displayName}";
+                $('studyInput').removeClassName('pending-search');
 
+        });
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+
+        }
+
+        function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
 
 
@@ -189,18 +240,37 @@
             </div>
         </div>
 
-        <tags:renderAutocompleter propertyName="study"
-                                  displayName="Study"
-                                  required="false"
-                                  size="95"
-                                  noForm="true"/>
+        <%--<tags:renderAutocompleter propertyName="study"--%>
+                                  <%--displayName="Study"--%>
+                                  <%--required="false"--%>
+                                  <%--size="95"--%>
+                                  <%--noForm="true"/>--%>
         <%--<tags:renderAutocompleter propertyName="site"--%>
                                   <%--displayName="study.label.study_site"--%>
                                   <%--required="false" size="70" noForm="true"/>--%>
-        <tags:renderAutocompleter propertyName="studySite"
-                                  displayName="Study site"
-                                  size="95"
-                                  noForm="true"/>
+        <%--<tags:renderAutocompleter propertyName="studySite"--%>
+                                  <%--displayName="Study site"--%>
+                                  <%--size="95"--%>
+                                  <%--noForm="true"/>--%>
+        <input type="hidden" id="study" name="study"/>
+        <div class="row">
+            <div class="label">
+                <tags:message code='form.label.study'/>
+            </div>
+            <div class="value">
+                <tags:yuiAutocompleter inputName="studyInput" value="${study.shortTitle}" required="false" hiddenInputName="study"/>
+             </div>
+        </div>
+
+        <input type="hidden" id="studySite" name="studySite"/>
+        <div class="row">
+            <div class="label">
+                <tags:message code='study.label.study_site'/>
+            </div>
+            <div class="value">
+                <tags:yuiAutocompleter inputName="studySiteInput" value="${studySite.displayName}" required="false" hiddenInputName="studySite"/>
+             </div>
+        </div>
 
         <c:if test="${mode eq 'N'}">
         <div class="row">
