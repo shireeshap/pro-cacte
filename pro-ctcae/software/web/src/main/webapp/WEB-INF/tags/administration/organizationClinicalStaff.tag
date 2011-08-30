@@ -1,14 +1,18 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@attribute name="organizationClinicalStaff" type="gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff"
-             required="true" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@attribute name="organizationClinicalStaff" type="gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff" required="true" %>
 <%@attribute name="organizationClinicalStaffIndex" type="java.lang.Integer" required="true" %>
 <%@attribute name="readOnly" type="java.lang.Boolean" required="false" %>
 
 <c:set var="propertyName"
-       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization"></c:set>
+       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization">
+</c:set>
+<c:set var="displayName2"
+       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization.displayName" >
+</c:set>
 
 <tr id="row-${organizationClinicalStaffIndex}">
     <td style="border-right:none;">
@@ -17,13 +21,15 @@
                 ${organizationClinicalStaff.organization.displayName}
             </c:when>
             <c:otherwise>
-                <tags:renderAutocompleter propertyName="${propertyName}" required="true"
+                <%--<form:input path="${propertyName}" id="${propertyName}" cssClass="validate-NOTEMPTY" cssStyle="display:none;"/>--%>
+                <input name="${propertyName}" id="${propertyName}" class="validate-NOTEMPTY" style="display:none;"/>
+                <tags:yuiAutocompleter inputName="${propertyName}Input" value="${displayName2}" required="false" hiddenInputName="${propertyName}"/>
+               <%-- <tags:renderAutocompleter propertyName="${propertyName}" required="true"
                                           displayName="clinicalStaff.division.site"
-                                          doNotshowLabel="true" noForm="true" size="100"/>
+                                          doNotshowLabel="true" noForm="true" size="100"/>--%>
+
             </c:otherwise>
         </c:choose>
-
-
     </td>
 
     <td style="border-left:none;">

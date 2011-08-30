@@ -6,7 +6,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <table>
     <tr>
-        <td>
+        <td style="border:0px;">
             <div class="yui-skin-sam">
                 <div id="midSize-AutoComplete">
                     <c:if test="${required}"><tags:requiredIndicator/></c:if>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </td>
-        <td style="vertical-align:top;padding-left:20px">
+        <td style="vertical-align:top;padding-left:10px;border:0px;">
             <a href="javascript:clearInput('${hiddenInputName}')">
                 <img id="${inputName}-clear" style="vertical-align: top;"
                      src="/proctcae/images/blue/clear-left-button.png"

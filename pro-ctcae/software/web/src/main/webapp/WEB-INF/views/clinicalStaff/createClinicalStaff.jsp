@@ -12,6 +12,11 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <tags:dwrJavascriptLink objects="nameValidator,userNameValidation,uniqueStaffEmailAddress"/>
 <tags:javascriptLink name="ui_fields_validation"/>
+
+<tags:stylesheetLink name="yui-autocomplete"/>
+<tags:javascriptLink name="yui-autocomplete"/>
+<tags:dwrJavascriptLink objects="organization"/>
+
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
@@ -20,22 +25,59 @@
 
     <script type="text/javascript">
 
+        function getOrgs(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            if(${cca}){
+                organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            }else{
+                organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+            }
+            return aResults;
+        }
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+    //            Element.update(hiddenInputId + "-selected-name", oData.displayName)
+    //            $(hiddenInputId + '-selected').show()
+    //            new Effect.Highlight(hiddenInputId + "-selected")
+            $(hiddenInputId).value = oData.id;
+        }
+
+       function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
+
+        var managerAutoComp;
         Event.observe(window, "load", function() {
             <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
-            <c:if test="${organizationClinicalStaff.id eq null}">
-            var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'
-            <c:choose>
-            <c:when test="${cca}">
-            acCreate(new siteAutoComplter(siteBaseName));
-            </c:when>
-            <c:otherwise>
-            acCreate(new siteAutoComplterWithSecurity(siteBaseName));
-            </c:otherwise>
-            </c:choose>
-            initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');
-            </c:if>
+                <c:if test="${organizationClinicalStaff.id eq null}">
+                    new YUIAutoCompleter('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput', getOrgs, handleSelect);
+                    $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').value = "${organizationClinicalStaff.organization.displayName}";
+                    $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').removeClassName('pending-search');
+
+                <%--var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'--%>
+                <%--<c:choose>--%>
+                <%--<c:when test="${cca}">--%>
+                <%--acCreate(new siteAutoComplter(siteBaseName));--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+                <%--acCreate(new siteAutoComplterWithSecurity(siteBaseName));--%>
+                <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
+                <%--initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');--%>
+                </c:if>
             </c:forEach>
-            initSearchField()
+//            initSearchField()
         })
 
 
