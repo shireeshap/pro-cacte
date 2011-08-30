@@ -56,14 +56,14 @@
         }
 
         .selected .label {
-            background: url(/proctcae/images/green-selected.png) -2px 0;
+            background:#477e20 url(/proctcae/images/green-selected.png) no-repeat 100% 0;
             cursor: pointer;
             color: white;
             text-shadow: 0 -1px #245808;
-            border: 1px solid #86bc56;
+            border: 1px solid #477e20;
             vertical-align: middle;
             display: table-cell;
-            padding: 0 15px 0 35px;
+            padding: 0 10px;
             text-align: center;
             line-height: 23px;
             height: 47px;
@@ -74,6 +74,7 @@
             -moz-box-shadow: 0 1px 1px white inset;
             -webkit-box-shadow: 0 1px 1px white inset;
             box-shadow: 0 1px 1px white inset;
+            width: 98px;
 
         }
 

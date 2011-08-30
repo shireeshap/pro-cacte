@@ -1838,9 +1838,21 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	display: table-cell;
 
 	}
+	
+.formbuilderboxTable td .norm .label, .formbuilderboxTable td .over .label, .formbuilderboxTable td .selected .label{
+	font-size: 17px;
+	line-height: 17px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+formbuilderboxTable td .selected .label{
+	line-height: 17px;
+	width: 96px;
+	}
 
 
-.norm .label {
+/* .norm .label {
     background: url(/proctcae/images/lightgray.png) repeat-x ;
     cursor: default;
     text-shadow: 0 1px white;
@@ -1849,18 +1861,17 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     display: table-cell;
     padding: 0px 15px;
     text-align: center;
-    line-height: 23px;
+    line-height: 17px;
     height: 47px;
     max-height: 47px;
+    width: 130px;
     -moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
 	-moz-box-shadow: 0 1px 1px white inset;
 	-webkit-box-shadow: 0 1px 1px white inset;
 	box-shadow: 0 1px 1px white inset;
-    
-}
-
+    }
 .over .label {
     background: url(/proctcae/images/lightblue.png) repeat-x ;
     cursor: pointer;
@@ -1871,7 +1882,55 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     display: table-cell;
     padding: 0px 15px;
     text-align: center;
-    line-height: 23px;
+    width: 130px;
+    line-height: 17px;
+    height: 47px;
+    max-height: 47px;
+    -moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0 1px 1px white inset;
+	-webkit-box-shadow: 0 1px 1px white inset;
+	box-shadow: 0 1px 1px white inset;
+    font-size: 19px;
+}     
+    
+    
+ */
+.norm .label {
+    background:#d6d6d6 url(/proctcae/images/lightgray.png) repeat-x ;
+    cursor: default;
+    text-shadow: 0 1px white;
+    border: 1px solid #d6d6d6;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0px 10px;
+    text-align: center;
+    line-height: 17px;
+    height: 47px;
+    max-height: 47px;
+    width: 98px;
+    -moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0 1px 1px white inset;
+	-webkit-box-shadow: 0 1px 1px white inset;
+	box-shadow: 0 1px 1px white inset;
+    
+}
+
+.over .label {
+    background:#90cbd9 url(/proctcae/images/lightblue.png) repeat-x ;
+    cursor: pointer;
+    color: #025468;
+    text-shadow: 0 1px white;
+    border: 1px solid #90cbd9;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0px 10px;
+    text-align: center;
+    width: 98px;
+    line-height: 17px;
     height: 47px;
     max-height: 47px;
     -moz-border-radius: 6px;
@@ -1882,6 +1941,11 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	box-shadow: 0 1px 1px white inset;
     font-size: 19px;
 } 
+
+
+.selected .label  {
+	padding: 0 5px 0 20px;
+}
 
 .addall {
     position: relative;
@@ -2013,10 +2077,4 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
     width: ${(command.currentPageIndex/command.totalPages)*150} px;
     height: 15px;
     
-}
-
- .divcontent{
-    display:block;
-    padding:0px;
-    margin:10px 0 10px 5px;
 }
