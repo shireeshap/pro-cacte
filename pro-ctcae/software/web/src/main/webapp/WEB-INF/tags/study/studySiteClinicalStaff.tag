@@ -21,9 +21,18 @@
                 ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
             </c:when>
             <c:otherwise>
-                <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
-                                          displayName="study.label.clinical.staff" noForm="true" required="true"
-                                          doNotshowLabel="true" size="70" doNotshowClear="true"/>
+                <form:input path="${propertyName}.organizationClinicalStaff"
+                       id="${propertyName}.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                       title="Staff"
+                       cssStyle="display:none;"/>
+
+                   <tags:yuiAutocompleter inputName="${propertyName}.organizationClinicalStaffInput"
+                                          value=" ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}" required="false"
+                                          hiddenInputName="${propertyName}.organizationClinicalStaff"/>
+
+                <%--<tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"--%>
+                                          <%--displayName="study.label.clinical.staff" noForm="true" required="true"--%>
+                                          <%--doNotshowLabel="true" size="70" doNotshowClear="true"/>--%>
 
 
             </c:otherwise>

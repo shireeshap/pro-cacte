@@ -17,6 +17,8 @@
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="clinicalStaff"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
 
 
     <script type="text/javascript">
@@ -30,25 +32,6 @@
             })
 
         }
-        Event.observe(window, "load", function() {
-        <c:forEach  items="${command.studyOrganizationClinicalStaffs}" var="studyOrganizationClinicalStaff" varStatus="status">
-            var studyOrganizationClinicalStafBaseName = 'studyOrganizationClinicalStaffs[${status.index}].organizationClinicalStaff'
-
-            if ($(studyOrganizationClinicalStafBaseName + "-input") != null) {
-
-                acCreate(new organizationClinicalStaffAutoComplter(studyOrganizationClinicalStafBaseName,
-                        '${studyOrganizationClinicalStaff.studyOrganization.id}'))
-
-                initializeAutoCompleter(studyOrganizationClinicalStafBaseName, '${studyOrganizationClinicalStaff.displayName}',
-                        '${studyOrganizationClinicalStaff.organizationClinicalStaff.id}');
-            }
-
-        </c:forEach>
-
-
-            initSearchField()
-
-        })
 
         function addClinicalStaff(studySiteId, role) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
@@ -117,28 +100,29 @@
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
-                    
+
                     <chrome:division title="study.label.clinical.staff.lead.site_cra">
                         <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
                 </chrome:box>
-                
+
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
-                	 <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
-	                    <chrome:division title="study.label.clinical.staff.lead.treating_physican">
-	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
-	                                                           roleStatusOptions="${roleStatusOptions}"
-	                                                           studyCommand="${command}"/>
-	                    </chrome:division>
-	                    
-	                    <chrome:division title="study.label.clinical.staff.lead.nurse">
-	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
-	                                                           roleStatusOptions="${roleStatusOptions}"
-	                                                           studyCommand="${command}" notifyOptions="${notifyOptions}"/>
-	                    </chrome:division>
-	                </chrome:box>
+                    <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
+                        <chrome:division title="study.label.clinical.staff.lead.treating_physican">
+                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
+                                                               roleStatusOptions="${roleStatusOptions}"
+                                                               studyCommand="${command}"/>
+                        </chrome:division>
+
+                        <chrome:division title="study.label.clinical.staff.lead.nurse">
+                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
+                                                               roleStatusOptions="${roleStatusOptions}"
+                                                               studyCommand="${command}"
+                                                               notifyOptions="${notifyOptions}"/>
+                        </chrome:division>
+                    </chrome:box>
                 </proctcae:urlAuthorize>
             </c:if>
 
