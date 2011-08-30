@@ -1,17 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
           prefix="decorator" %>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
+<%@ taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="ctcae"
-           uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -20,6 +19,9 @@
     <tags:dwrJavascriptLink objects="participant"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="study"/>
     <tags:javascriptLink name="reports_common"/>
     <script type="text/javascript">
         displayParticipants = true;
@@ -27,15 +29,13 @@
         studySiteMandatory = true;
         function initializeFields() {
         <c:if test="${study ne null}">
-            initializeAutoCompleter('study', '${study.displayName}', ${study.id});
             displayForms(${crf.id});
             displaySites();
-            initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});
             fnDisplayParticipants();
-            initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});
             setTimeout("participantCareResults();", 2000);
         </c:if>
         }
+        
         function participantCareResults(format, symptomId, selectedTypes) {
             if (!performValidations()) {
                 return;
@@ -122,42 +122,111 @@
             zoom: 0;
         }
     </style>
+    
+    <script type="text/javascript">
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+            new YUIAutoCompleter('participantInput', getParticipants, handleSelect);
+            new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
+        });
+
+        function getStudies(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            study.matchStudy(unescape(sQuery), callMetaData);
+            return aResults;
+        }
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+
+			if(hiddenInputId == 'study'){
+	            displayForms();
+	            displaySites();
+	            fnDisplayParticipants();
+			}
+        }
+
+       function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
+
+       function getParticipants(sQuery) {
+           var callbackProxy = function(results) {
+               aResults = results;
+           };
+           var callMetaData = {callback:callbackProxy, async:false};
+           participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
+           return aResults;
+       }
+    </script>
 </head>
 <body>
 <tags:instructions code="participantReportInstructions"/>
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
-        <tags:renderAutocompleter propertyName="study"
-                                  displayName="Study"
-                                  required="true"
-                                  size="100"
-                                  noForm="true"/>
+                                  
+		<div class="row" style="">
+			<div class="label">
+				<tags:requiredIndicator/><tags:message code='reports.label.study'/>
+			</div>
+			<div class="value">
+				<input id="study" class="validate-NOTEMPTY" type="hidden" value=""  title="Study" style="display: none;" name="study"/>                         
+         	   	<tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
+			</div>
+		</div> 
+           
         <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label"><tags:requiredIndicator/>&nbsp;Form&nbsp;&nbsp;</div>
+            <div class="label"><tags:requiredIndicator/><tags:message code='reports.label.form'/></div>
             <div class="value IEdivValueHack" id="formDropDown"></div>
         </div>
+        
         <div id="studySiteAutoCompleterDiv" style="display:none">
-            <tags:renderAutocompleter propertyName="studySite"
-                                      displayName="Study site"
-                                      size="60"
-                                      noForm="true" required="true"/>
+            <div class="row">
+				<div class="label">
+					<tags:requiredIndicator/><tags:message code='reports.label.site'/>
+				</div>
+				<div class="value">
+					<input id="studySite" class="validate-NOTEMPTY" type="hidden" value=""  title="Study site" style="display:none;" name="studySite"/>                         
+	         	   	<tags:yuiAutocompleter inputName="studySiteInput" value="" required="false" hiddenInputName="studySite"/>
+				</div>
+			</div> 
         </div>
+        
         <div id="studySiteDiv" style="display:none">
             <input id="studySite" name="studySite" type="hidden">
 
             <div class="row">
-                <div class="label">Study site&nbsp;&nbsp;</div>
+                <div class="label"><tags:requiredIndicator/><tags:message code='reports.label.site'/></div>
                 <div id="studySiteName" class="value"></div>
             </div>
         </div>
+        
         <div id="participantAutoCompleterDiv" style="display:none">
-            <tags:renderAutocompleter propertyName="participant"
-                                      displayName="Participant"
-                                      size="40"
-                                      noForm="true" required="true"/>
+            <div class="row">
+				<div class="label">
+					<tags:requiredIndicator/><tags:message code='reports.label.participant'/>
+				</div>
+				<div class="value">
+					<input id="participant" class="validate-NOTEMPTY" type="hidden" value=""  title="Participant" style="display: none;" name="participant"/>                         
+	         	   	<tags:yuiAutocompleter inputName="participantInput" value="" required="false" hiddenInputName="participant"/>
+				</div>
+			</div> 
         </div>
+        
         <div id="dateMenuDiv" style="display:none" class="row">
-            <div class="label">Visits&nbsp;&nbsp;</div>
+            <div class="label"><tags:message code='reports.label.visits'/></div>
             <div class="value IEdivValueHack">
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
@@ -188,8 +257,8 @@
             </div>
         </div>
 
+<br/>
         <div id="search" style="display:none" class="row">
-
             <div style="margin-left:9em"><tags:button color="blue" value="Generate Report"
                                                       onclick="participantCareResults('tabular')" size="big"
                                                       icon="search"/>

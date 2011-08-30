@@ -2551,7 +2551,7 @@ pro-ctcae/software/web/src/main/webapp/js/prototypewindow/window.js -text
 pro-ctcae/software/web/src/main/webapp/js/prototypewindow/window_effects.js -text
 pro-ctcae/software/web/src/main/webapp/js/prototypewindow/window_ext.js -text
 pro-ctcae/software/web/src/main/webapp/js/reports_common.js -text
-pro-ctcae/software/web/src/main/webapp/js/reports_common1.js -text
+pro-ctcae/software/web/src/main/webapp/js/reports_common_study.js -text
 pro-ctcae/software/web/src/main/webapp/js/scriptaculous/builder.js -text
 pro-ctcae/software/web/src/main/webapp/js/scriptaculous/controls.js -text
 pro-ctcae/software/web/src/main/webapp/js/scriptaculous/dragdrop.js -text

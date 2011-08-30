@@ -4,30 +4,6 @@ var displayDate = true;
 var studySiteMandatory = false;
 var displayParticipants = false;
 var selectedCrf = '';
-Event.observe(window, "load", function () {
-    var sac = new studyAutoCompleter('study');
-    acCreateStudyMonitor(sac);
-    initSearchField();
-    try {
-        initializeFields();
-    } catch(e) {
-    }
-})
-
-function acCreateStudyMonitor(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice);
-            displayForms();
-            displaySites();
-            fnDisplayParticipants();
-        },
-        indicator: mode.basename + "-indicator"
-    })
-}
-
 
 function displayForms(crfid) {
     selectedCrf = crfid;
@@ -95,27 +71,36 @@ function updateSymptomDropDown(symptoms) {
 }
 
 function displaySites() {
-
-    organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-        $('studySiteAutoCompleterDiv').hide();
-        $('studySiteDiv').hide();
-        var siteNum = 2;
-        if (values != '') {
-            var siteNum = values.length;
-        }
-        var myStudySiteAutoComplter = new studySiteAutoComplter
-                ('studySite', $('study').value);
-        acCreate(myStudySiteAutoComplter);
-        initSearchField();
-        if (siteNum > 1) {
-            $('studySiteAutoCompleterDiv').show();
-        } else {
-            $('studySite').value = values[0].id;
-            $('studySiteName').innerHTML = values[0].displayName;
-            $('studySiteDiv').show();
-        }
-    })
+	var aResults = getOrganizations('%');
+	postOrganizationFetch(aResults);
 }
+
+function getOrganizations(sQuery) {
+    var callbackProxy = function(results) {
+        aResults = results;
+    };
+    var callMetaData = {callback:callbackProxy, async:false};
+    organization.matchOrganizationByStudyId(unescape(sQuery), $('study').value, callMetaData);
+    return aResults;
+}
+
+function postOrganizationFetch(values) {
+    $('studySiteAutoCompleterDiv').hide();
+    $('studySiteDiv').hide();
+    var siteNum = 2;
+    if (values != '') {
+        var siteNum = values.length;
+    }
+    
+    if (siteNum > 1) {
+        $('studySiteAutoCompleterDiv').show();
+    } else {
+        $('studySite').value = values[0].id;
+        $('studySiteName').innerHTML = values[0].displayName;
+        $('studySiteDiv').show();
+    }
+}
+
 function customVisit(showVisit) {
     var myindex = showVisit.selectedIndex
     var selValue = showVisit.options[myindex].value
@@ -131,6 +116,7 @@ function customVisit(showVisit) {
     }
 
 }
+
 function performValidations() {
     hasError = false;
     var arr = new Array();
@@ -176,7 +162,6 @@ function showResults(transport) {
     $('reportInnerDiv').innerHTML = transport.responseText;
 }
 
-
 function hideHelp() {
     $('attribute-help-content').style.display = 'none';
 }
@@ -218,15 +203,6 @@ function getSelect(id) {
 
 function fnDisplayParticipants() {
     if (displayParticipants) {
-        var myParticipantAutoCompleter = new participantAutoCompleter
-                ('participant', function(autocompleter, text) {
-                    participant.matchParticipantByStudySiteId(text,
-                            $('studySite').value, $('study').value, function(values) {
-                        autocompleter.setChoices(values)
-                    })
-                });
-        acCreate(myParticipantAutoCompleter);
-        initSearchField();
         $('participantAutoCompleterDiv').show();
     }
 }

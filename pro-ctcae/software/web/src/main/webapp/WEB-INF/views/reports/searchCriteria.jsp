@@ -9,12 +9,15 @@
 <html>
 <head>
     <tags:dwrJavascriptLink objects="crf"/>
-    <tags:javascriptLink name="reports_common1"/>
     <tags:javascriptLink name="table_menu"/>
     <tags:stylesheetLink name="table_menu"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
     <tags:stylesheetLink name="reports"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:dwrJavascriptLink objects="study"/>
+    <tags:javascriptLink name="reports_common_study"/>
     <style type="text/css">
         table.report {
             width: 90%;
@@ -91,6 +94,51 @@
             window.location = '/proctcae/pages/reports/overallStudyExcel?id=' + sid;
         }
     </script>
+    
+    <script type="text/javascript">
+        var managerAutoComp;
+        Event.observe(window, 'load', function() {
+            new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+            new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
+        });
+
+        function getStudies(sQuery) {
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            study.matchStudy(unescape(sQuery), callMetaData);
+            return aResults;
+        }
+
+        function handleSelect(stype, args) {
+            var ele = args[0];
+            var oData = args[2];
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
+
+			if(hiddenInputId == 'study'){
+				if (displayForm) {
+	                displayForms();
+	                displaySites();
+	                if (displayFilterBy) {
+	                    $('filterByDiv').show();
+	                }
+	            }
+	            $('search').show();
+			}
+        }
+
+       function clearInput(inputId) {
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
+              
+    </script>
 </head>
 <body>
 <report:thirdlevelmenu selected="${param['rt']}"/>
@@ -113,12 +161,15 @@
             </c:when>
             <c:otherwise>
                 <div id="studyCompleter" style="margin-left:11px;">
-                    <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="100"
-                                              noForm="true"/>
-
-                    <script type="text/javascript">
-                        createStudyAutoCompleter();
-                    </script>
+					<div class="row" style="">
+						<div class="label">
+							<tags:requiredIndicator/><tags:message code='reports.label.study'/>
+						</div>
+						<div class="value">
+							<input id="study" class="validate-NOTEMPTY" type="hidden" value=""  title="Study" style="display: none;" name="study"/>                         
+			         	   	<tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
+						</div>
+					</div> 
                 </div>
 
                 <%--</div>--%>
@@ -129,15 +180,17 @@
                 <c:when test="${crfs ne null}">
                     <c:choose>
                         <c:when test="${fn:length(crfs)==1}">
-                            <div class="row">
+                        <div id="formDiv">
+                            <div class="row" style="margin-left:11px;">
                                 <div class="label"><tags:message code="reports.label.form"/></div>
                                 <div class="value">${crfs[0].title}</div>
                                 <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
 
                             </div>
+                           </div>
                         </c:when>
                         <c:otherwise>
-                            <div class="row">
+                            <div class="row" style="margin-left:11px;">
                                 <div class="label"><tags:requiredIndicator/><tags:message
                                         code="reports.label.form"/></div>
                                 <div class="value">
@@ -154,7 +207,7 @@
                     </c:choose>
                 </c:when>
                 <c:otherwise>
-                    <div class="row" id="divFormRow" style="display:none">
+                    <div class="row" id="divFormRow" style="display:none;margin-left:11px;">
                         <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
                         <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
@@ -192,12 +245,16 @@
                 </c:when>
                 <c:otherwise>
                     <div>
-                        <input type="hidden" id="studySite" name="studySite" value="" title="Study site"/>
-
                         <div id="studySiteAutoCompleter" style="display:none;margin-left:11px;">
-                            <tags:renderAutocompleter
-                                    propertyName="studySite" displayName="Study site" size="60"
-                                    noForm="true"/>
+				            <div class="row">
+								<div class="label">
+									<tags:requiredIndicator/><tags:message code='reports.label.site'/>
+								</div>
+								<div class="value">
+									<input id="studySite" class="validate-NOTEMPTY" type="hidden" value=""  title="Study site" style="display:none;" name="studySite"/>                         
+					         	   	<tags:yuiAutocompleter inputName="studySiteInput" value="" required="false" hiddenInputName="studySite"/>
+								</div>
+							</div> 
                         </div>
                         <div class="row" id="divStudySiteRow" style="display:none">
                             <div class="label"><tags:message code="reports.label.site"/></div>
