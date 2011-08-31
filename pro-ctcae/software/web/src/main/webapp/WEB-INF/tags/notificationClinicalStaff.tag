@@ -12,8 +12,8 @@
 <tr id="row-${index}-${notificationindex}">
     <td style="border-right:none;">
             <c:set var="property" value="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"/>
-
-            <form:input path="${property}" id="${property}" cssStyle="display:none;"/>
+            <input type="text" name="${property}"  id="${property}"  style="display:none;"/>
+            <%--<form:input path="${property}" id="${property}" cssStyle="display:none;"/>--%>
             <tags:yuiAutocompleter inputName="${property}Input"
                    value="${command.participant.studyParticipantAssignments[index].notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.displayName}" required="false"
                    hiddenInputName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"/>

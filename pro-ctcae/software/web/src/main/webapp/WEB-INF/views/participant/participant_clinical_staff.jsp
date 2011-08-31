@@ -305,13 +305,40 @@
                 <c:forEach items="${command.selectedStudyParticipantAssignment.notificationClinicalStaff}"
                            var="clinicalStaff"
                            varStatus="notificationstatus">
-                    <tags:notificationClinicalStaff index="${varIndex}"
+                   <%-- <tags:notificationClinicalStaff index="${varIndex}"
                                                     notificationindex="${notificationstatus.index}"
                                                     clinicalStaff="${clinicalStaff}"
                                                     studySiteId="${command.selectedStudyParticipantAssignment.studySite.id}"
                                                     notify="${clinicalStaff.notify}"
                                                     notifyOptions="${notifyOptions}"
-                                                    role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>
+                                                    role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>--%>
+                    <tr id="row-${varIndex}-${notificationstatus.index}">
+                        <td style="border-right:none;">
+                                <c:set var="property" value="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff"/>
+                                <%--<input type="text" name="${property}"  id="${property}"  style="display:none;"/>--%>
+                                <form:input path="${property}" id="${property}" cssStyle="display:none;"/>
+                                <tags:yuiAutocompleter inputName="${property}Input"
+                                       value="${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}" required="false"
+                                       hiddenInputName="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff"/>
+
+
+                        </td>
+                        <td style="border-right:none;">
+                            <tags:renderSelect
+                                    propertyName="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].notify"
+                                    displayName="participant.label.notification"
+                                    required="true" options="${notifyOptions}" noForm="true" propertyValue="${clinicalStaff.notify}"
+                                    doNotshowLabel="true"/>
+
+                        </td>
+                        <td style="border-left:none;">
+                            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+                               href="javascript:deleteNotification('${varIndex}','${notificationstatus.index}');">
+                                <img src="../../images/checkno.gif" border="0" alt="delete"
+                                     style="vertical-align:middle">
+                            </a>
+                        </td>
+                    </tr>
                 </c:forEach>
                 <tr id="hiddenDiv" align="center"></tr>
             </table>
