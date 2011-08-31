@@ -37,12 +37,6 @@
                $(hiddenInputId).value = oData.id;
            }
 
-           function clearInput(inputId) {
-               $(inputId).clear();
-               $(inputId + 'Input').clear();
-               $(inputId + 'Input').focus();
-               $(inputId + 'Input').blur();
-           }
           initializeAutoCompleter();
 
     <%--acCreate(new organizationClinicalStaffAutoComplter('studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}].organizationClinicalStaff',--%>

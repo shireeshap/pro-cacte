@@ -55,6 +55,13 @@
             })
         }
 
+        function clearInput(inputId) {
+               $(inputId).clear();
+               $(inputId + 'Input').clear();
+               $(inputId + 'Input').focus();
+               $(inputId + 'Input').blur();
+           }
+
         function changeStudySite() {
             $('_target').name = '_target' + $('_page').value;
             $('changingStudySite').value = true;
