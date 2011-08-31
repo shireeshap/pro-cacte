@@ -162,9 +162,12 @@
             <%--noForm="true"/>--%>
 
         <input type="hidden" id="study"/>
+        <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='form.label.study'/></div>
+            <div class="value">
         <tags:yuiAutocompleter inputName="studyInput" value="${study.shortTitle}" required="true"
                                hiddenInputName="study"/>
-
+         </div></div>
         <c:if test="${crfs ne null}">
             You have selected the study ${study.shortTitle}.
         </c:if>

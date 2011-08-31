@@ -89,8 +89,12 @@
                 <form:input path="crf.study" id="crf.study" cssClass="validate-NOTEMPTY"
                     title="Study"
                     cssStyle="display:none;"/>
+                <div class="row">
+            <div class="label"><tags:requiredIndicator/><tags:message code='form.label.study'/></div>
+            <div class="value">
                 <tags:yuiAutocompleter inputName="crf.studyInput" value="${command.crf.study.shortTitle}" required="true"
                                hiddenInputName="crf.study"/>
+                </div></div>
                 <p id="crf.study-selected" style="display: none">
                     You have selected the study <span id="crf.study-selected-name"></span>.
                 </p>
