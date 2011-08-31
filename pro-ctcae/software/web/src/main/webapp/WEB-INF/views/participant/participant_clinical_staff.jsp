@@ -255,7 +255,7 @@
                     </div>
 
                 </td>
-                <td style="border-right:none;">
+                <td style="border-right:none;" width="30%">
                     <tags:renderSelect
                             propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.notify"
                             displayName="participant.label.notification"
@@ -279,7 +279,7 @@
                         </div>
                     </div>
                 </td>
-                <td style="border-left:none;" align="left">
+                <td style="border-left:none;" width="30%">
                     <tags:renderSelect
                             propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurse.notify"
                             displayName="participant.label.notification"
