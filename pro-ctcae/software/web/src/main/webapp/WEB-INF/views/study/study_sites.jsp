@@ -39,6 +39,7 @@
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:function(transport) {
                     $('row-' + index).remove();
+
                 },
                 parameters:<tags:ajaxstandardparams/>+"&action=delete&siteIndexToRemove=" + index,
 

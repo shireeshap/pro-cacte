@@ -28,9 +28,9 @@
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
-        if(${cca}){
+        if (${cca}) {
             organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
-        }else{
+        } else {
             organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
         }
         return aResults;
@@ -49,20 +49,23 @@
 
     }
 
-   function clearInput(inputId) {
+    function clearInput(inputId) {
         $(inputId).clear();
         $(inputId + 'Input').clear();
         $(inputId + 'Input').focus();
         $(inputId + 'Input').blur();
     }
 
-   function initializeAutoCompleter(){
+    function initializeAutoCompleter() {
         new YUIAutoCompleter('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput', getOrgs, handleSelect);
+        var orgDisplayName = ${organizationClinicalStaff.organization.displayName};
+        if (orgDisplayName != "") {
             $('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput').value = "${organizationClinicalStaff.organization.displayName}";
             $('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput').removeClassName('pending-search');
-   }
+        }
+    }
 
-  initializeAutoCompleter();
+    initializeAutoCompleter();
 </script>
 
 <administration:organizationClinicalStaff organizationClinicalStaff="${organizationClinicalStaff}"

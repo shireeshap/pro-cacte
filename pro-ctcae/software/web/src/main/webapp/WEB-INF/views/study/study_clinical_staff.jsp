@@ -42,17 +42,20 @@
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('overallDataCoordinator.organizationClinicalStaffInput', getODCStaff, handleSelect);
+            if('${command.overallDataCoordinator.displayName}'!=''){
             $('overallDataCoordinator.organizationClinicalStaffInput').value = "${command.overallDataCoordinator.displayName}";
             $('overallDataCoordinator.organizationClinicalStaffInput').removeClassName('pending-search');
-
+            }
             new YUIAutoCompleter('leadCRA.organizationClinicalStaffInput', getLeadStaff, handleSelect);
+            if('${command.leadCRA.displayName}'!=""){
             $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
             $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
-
+            }
             new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff, handleSelect);
+            if('${command.principalInvestigator.displayName}'!=""){
             $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
             $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
-
+            }
         })
                 ;
 
