@@ -10,9 +10,7 @@
 <c:set var="propertyName"
        value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization">
 </c:set>
-<c:set var="displayName2"
-       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization.displayName" >
-</c:set>
+
 
 <tr id="row-${organizationClinicalStaffIndex}">
     <td style="border-right:none;">
@@ -23,7 +21,7 @@
             <c:otherwise>
                 <%--<form:input path="${propertyName}" id="${propertyName}" cssClass="validate-NOTEMPTY" cssStyle="display:none;"/>--%>
                 <input name="${propertyName}" id="${propertyName}" class="validate-NOTEMPTY" style="display:none;"/>
-                <tags:yuiAutocompleter inputName="${propertyName}Input" value="${displayName2}" required="false" hiddenInputName="${propertyName}"/>
+                <tags:yuiAutocompleter inputName="${propertyName}Input" value="${command.clinicalStaff.organizationClinicalStaffs[organizationClinicalStaffIndex].organization.displayName}" required="false" hiddenInputName="${propertyName}"/>
                <%-- <tags:renderAutocompleter propertyName="${propertyName}" required="true"
                                           displayName="clinicalStaff.division.site"
                                           doNotshowLabel="true" noForm="true" size="100"/>--%>
