@@ -7,7 +7,7 @@
 <html>
 <head>
     <tags:formActionMenu/>
-     <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
     <tags:javascriptLink name="yui-autocomplete"/>
     <tags:dwrJavascriptLink objects="organization"/>
     <style type="text/css">
@@ -57,51 +57,53 @@
 
 <script>
 
-     function getSites(sQuery) {
-            var callbackProxy = function(results) {
-                aResults = results;
-            };
-            var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
-            return aResults;
+    function getSites(sQuery) {
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = { callback:callbackProxy, async:false};
+        organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+        return aResults;
+    }
+
+    var managerAutoComp;
+    Event.observe(window, 'load', function() {
+        new YUIAutoCompleter('siteInput', getSites, handleSelect);
+        if ('${site.displayName}' != "") {
+            $('siteInput').value = "${site.displayName}";
+            $('siteInput').removeClassName('pending-search');
         }
+    })
+            ;
 
-     var managerAutoComp;
-        Event.observe(window, 'load', function() {
-            new YUIAutoCompleter('siteInput', getSites, handleSelect);
-                $('siteInput').value = "${site.displayName}";
-                $('siteInput').removeClassName('pending-search');
-        })
-                ;
+    function handleSelect(stype, args) {
+        var ele = args[0];
+        var oData = args[2];
+        ele.getInputEl().value = oData.displayName;
+        var id = ele.getInputEl().id;
+        var hiddenInputId = id.substring(0, id.indexOf('Input'));
+        $(hiddenInputId).value = oData.id;
 
-        function handleSelect(stype, args) {
-            var ele = args[0];
-            var oData = args[2];
-            ele.getInputEl().value = oData.displayName;
-            var id = ele.getInputEl().id;
-            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-            $(hiddenInputId).value = oData.id;
+    }
 
-        }
-
-        function clearInput(inputId) {
-            $(inputId).clear();
-            $(inputId + 'Input').clear();
-            $(inputId + 'Input').focus();
-            $(inputId + 'Input').blur();
-        }
+    function clearInput(inputId) {
+        $(inputId).clear();
+        $(inputId + 'Input').clear();
+        $(inputId + 'Input').focus();
+        $(inputId + 'Input').blur();
+    }
 
 
-//    Event.observe(window, "load", function() {
+    //    Event.observe(window, "load", function() {
 
-//        acCreate(new siteAutoComplterWithSecurity('site'))
+    //        acCreate(new siteAutoComplterWithSecurity('site'))
 
 
-//        initializeAutoCompleter('site',
-                <%--'${site.displayName}', '${site.id}')--%>
+    //        initializeAutoCompleter('site',
+    <%--'${site.displayName}', '${site.id}')--%>
 
-//        initSearchField()
-//    })
+    //        initSearchField()
+    //    })
 
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
@@ -160,15 +162,17 @@
                     <div id="error"></div>
                 </div>
                 <input type="hidden" id="site" name="site"/>
+
                 <div class="row">
-            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_site'/></div>
-            <div class="value">
-        <tags:yuiAutocompleter inputName="siteInput" value="${site.displayName}" required="false"
-                               hiddenInputName="site"/>
-             </div></div>
-                <%--<tags:renderAutocompleter propertyName="site"--%>
-                                          <%--displayName="study.label.study_site"--%>
-                                          <%--required="false" size="70" noForm="true"/>--%>
+                    <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_site'/></div>
+                    <div class="value">
+                        <tags:yuiAutocompleter inputName="siteInput" value="${site.displayName}" required="false"
+                                               hiddenInputName="site"/>
+                    </div>
+                </div>
+                    <%--<tags:renderAutocompleter propertyName="site"--%>
+                    <%--displayName="study.label.study_site"--%>
+                    <%--required="false" size="70" noForm="true"/>--%>
             </div>
             <div style="padding-left:140px">
                 <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
