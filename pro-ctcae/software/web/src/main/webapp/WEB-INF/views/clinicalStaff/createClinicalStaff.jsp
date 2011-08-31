@@ -58,12 +58,16 @@
         }
 
         var managerAutoComp;
+        var orgName;
         Event.observe(window, "load", function() {
             <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
                 <c:if test="${organizationClinicalStaff.id eq null}">
                     new YUIAutoCompleter('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput', getOrgs, handleSelect);
-                    $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').value = "${organizationClinicalStaff.organization.displayName}";
-                    $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').removeClassName('pending-search');
+                    orgName = "${organizationClinicalStaff.organization.displayName}";
+                    if(orgName != ''){
+                        $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').value = "${organizationClinicalStaff.organization.displayName}";
+                        $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').removeClassName('pending-search');
+                    }
 
                 <%--var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'--%>
                 <%--<c:choose>--%>
