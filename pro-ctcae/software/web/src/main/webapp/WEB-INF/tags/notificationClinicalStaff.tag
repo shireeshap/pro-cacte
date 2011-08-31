@@ -8,19 +8,23 @@
 <%@attribute name="notify" required="false" %>
 <%@attribute name="notifyOptions" required="true" type="java.util.List" %>
 <%@attribute name="role" required="false" %>
-<script type="text/javascript">
-    var baseNameNotification_${index}_${notificationindex} = 'participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff';
-    acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${index}_${notificationindex}, '${studySiteId}', 'TREATING_PHYSICIAN|NURSE'));
-    initSearchField()
-</script>
+
 <tr id="row-${index}-${notificationindex}">
     <td style="border-right:none;">
-        <tags:renderAutocompleter
-                propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"
-                displayName="participant.label.clinical.staff.notificationclinicalstaff" noForm="true"
-                doNotshowLabel="true"
-                propertyValue="${studyParticipantAssignment.notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}"
-                size="70"/>
+        <%--<tags:renderAutocompleter--%>
+                <%--propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"--%>
+                <%--displayName="participant.label.clinical.staff.notificationclinicalstaff" noForm="true"--%>
+                <%--doNotshowLabel="true"--%>
+                <%--propertyValue="${studyParticipantAssignment.notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}"--%>
+                <%--size="70"/>--%>
+            <c:set var="property" value="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"/>
+            <c:set var="propertyDisplayName" value="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff.displayName"/>
+            <input name="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"
+                   id="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff" class="validate-NOTEMPTY" style="display:none;"/>
+
+            <tags:yuiAutocompleter inputName="${property}Input" value="${propertyDisplayName}" required="false"
+                   hiddenInputName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"/>
+
 
     </td>
     <td style="border-right:none;">
