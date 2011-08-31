@@ -32,12 +32,10 @@
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('crf.studyInput', getStudies, handleSelect);
-
             if ("${command.crf.study.displayName}" != '') {
                 $('crf.studyInput').value = "${command.crf.study.displayName}";
                 $('crf.studyInput').removeClassName('pending-search');
             }
-
         })
        ;
 
@@ -92,7 +90,7 @@
                 <div class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='form.label.study'/></div>
             <div class="value">
-                <tags:yuiAutocompleter inputName="crf.studyInput" value="${command.crf.study.shortTitle}" required="true"
+                <tags:yuiAutocompleter inputName="crf.studyInput" value="${command.crf.study.shortTitle}" required="false"
                                hiddenInputName="crf.study"/>
                 </div></div>
                 <p id="crf.study-selected" style="display: none">

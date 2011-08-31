@@ -67,12 +67,10 @@
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('studyInput', getStudies, handleSelect);
-
-
+               if('${study.displayName}'!=""){
                 $('studyInput').value = "${study.displayName}";
                 $('studyInput').removeClassName('pending-search');
-
-
+               }
         })
                 ;
 
@@ -93,37 +91,11 @@
             $(inputId + 'Input').blur();
         }
 
-
-        //        Event.observe(window, "load", function () {
-        //            var sac = new studyAutoCompleter('study');
-        //            acCreateStudy(sac);
-        <%----%>
-        <%--<c:if test="${study ne null}">--%>
-        //            initializeAutoCompleter('study',
-        <%--'${study.displayName}', '${study.id}')--%>
-        <%--</c:if>--%>
-        //            initSearchField();
-        //        });
-
-
         function buildTable() {
             var id = $('study').value
             var url = window.location.href.substring(0, window.location.href.indexOf('?'));
             window.location.href = url + "?studyId=" + id;
         }
-
-        //        function acCreateStudy(mode) {
-        //            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-        //                    mode.populator, {
-        //                valueSelector: mode.valueSelector,
-        //                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-        //                    acPostSelect(mode, selectedChoice);
-        //                    buildTable();
-        //                },
-        //                indicator: mode.basename + "-indicator"
-        //            })
-        <%----%>
-        //        }
 
 
         function showVersionForm(crfId) {
@@ -165,7 +137,7 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='form.label.study'/></div>
             <div class="value">
-        <tags:yuiAutocompleter inputName="studyInput" value="${study.shortTitle}" required="true"
+        <tags:yuiAutocompleter inputName="studyInput" value="${study.shortTitle}" required="false"
                                hiddenInputName="study"/>
          </div></div>
         <c:if test="${crfs ne null}">
