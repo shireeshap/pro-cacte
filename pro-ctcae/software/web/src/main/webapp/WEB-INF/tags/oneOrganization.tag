@@ -17,11 +17,23 @@
                 ${studySite.organization.displayName}
             </c:when>
             <c:otherwise>
-                <tags:renderAutocompleter propertyName="${inputName}" displayName="${title}" required="${required}"
-                                          size="100" doNotshowLabel="true" noForm="true"/>
+   <form:input path="${inputName}"
+                       id="${inputName}" cssClass="validate-NOTEMPTY"
+                       title="Study site"
+                       cssStyle="display:none;"/>
+
+                   <tags:yuiAutocompleter inputName="${inputName}Input"
+                                          value=" ${studySite.organization.displayName}" required="false"
+                                          hiddenInputName="${inputName}"/>
+
+
+                <%--<tags:renderAutocompleter propertyName="${inputName}" displayName="${title}" required="${required}"--%>
+                                          <%--size="100" doNotshowLabel="true" noForm="true"/>--%>
+
+
                 <script type="text/javascript">
-                    acCreate(new siteAutoComplter('${inputName}'))
-                    initSearchField()
+                    <%--acCreate(new siteAutoComplter('${inputName}'))--%>
+//                    initSearchField()
                 </script>
 
             </c:otherwise>

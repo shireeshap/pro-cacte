@@ -26,7 +26,7 @@ public class AddStudySiteController extends AbstractController {
     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
-
+        request.setAttribute("command", studyCommand);
         String action = request.getParameter("action");
         if ("delete".equals(action)) {
             Integer siteIndexToRemove = Integer.parseInt(request.getParameter("siteIndexToRemove"));
@@ -38,7 +38,6 @@ public class AddStudySiteController extends AbstractController {
         studyRepository.addStudySite(study);
 
         int index = study.getStudySites().size() - 1;
-
         modelAndView.addObject("index", index);
 
         return modelAndView;

@@ -14,7 +14,9 @@
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
-
+    <tags:dwrJavascriptLink objects="organization"/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
 
     <script type="text/javascript">
 
@@ -43,6 +45,13 @@
                 method:'get'
             })
         }
+
+        function clearInput(inputId) {
+               $(inputId).clear();
+               $(inputId + 'Input').clear();
+               $(inputId + 'Input').focus();
+               $(inputId + 'Input').blur();
+           }
 
         Event.observe(window, "load", function() {
         <c:if test="${not empty command.study.studySites}">
