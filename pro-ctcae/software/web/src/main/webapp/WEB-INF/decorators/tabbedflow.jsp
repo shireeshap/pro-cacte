@@ -15,7 +15,7 @@
 	<standard:head/>
     <title>PRO-CTCAE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="icon" href="<chrome:imageUrl name='../ctcae.ico'/>"/>
+	<link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:javascriptLink name="tabbedflow"/>
 

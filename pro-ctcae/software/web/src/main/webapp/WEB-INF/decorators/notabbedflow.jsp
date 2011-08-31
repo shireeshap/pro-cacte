@@ -14,20 +14,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <%--<meta http-equiv="content-language" content="ES">--%>
 
 	<standard:head/>
 	<title>PRO-CTCAE</title>
-	<link rel="icon" href="<chrome:imageUrl name='../ctcae.ico'/>"/>
+	<link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
 	<tags:stylesheetLink name="tabbedflow"/>
 	<tags:javascriptLink name="tabbedflow"/>
-
-	<%--<link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>--%>
-
-	<%--<script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>--%>
-	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>--%>
-	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>--%>
-
 	<decorator:head/>
 </head>
 
