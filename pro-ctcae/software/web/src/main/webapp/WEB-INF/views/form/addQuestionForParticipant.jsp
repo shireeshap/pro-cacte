@@ -79,7 +79,7 @@
         }
 
         #mytable td:hover {
-            background: #d7ffb0 url(../../images/lightgreen-tall.png) repeat-x bottom;
+            background: #d7ffb0 url(../../images/lightblue-tall.png) repeat;
             color: #245808;
             text-shadow: 0 1px white;
             cursor: pointer;
