@@ -723,7 +723,7 @@ function showOrHideEmail(value1, value2, id) {
                                    </div>
                                    <div class="value">
                                <form:input path="organizationId" id="organizationId" cssClass="validate-NOTEMPTY"
-                                    title="Study sponsor"
+                                    title="Site"
                                     cssStyle="display:none;"/>
                                <tags:yuiAutocompleter inputName="organizationId-input" value="${organization.id}" required="false" hiddenInputName="organizationId"/>
                                <%--<tags:renderAutocompleter propertyName="organizationId"--%>
