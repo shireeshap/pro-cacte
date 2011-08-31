@@ -715,11 +715,23 @@ function showOrHideEmail(value1, value2, id) {
                        <c:choose>
                            <c:when test="${command.admin}">
 
-                               <input name="organizationId" id="organizationId" class="validate-NOTEMPTY" style="display:none;"/>
+                               <%--<input name="organizationId" id="organizationId" class="validate-NOTEMPTY" style="display:none;"/>--%>
+                               	  <div class="row">
+                                   <div class="label">
+                                       <tags:requiredIndicator/>
+                                       <tags:message code='participant.label.site'/>
+                                   </div>
+                                   <div class="value">
+                               <form:input path="organizationId" id="organizationId" cssClass="validate-NOTEMPTY"
+                                    title="Study sponsor"
+                                    cssStyle="display:none;"/>
                                <tags:yuiAutocompleter inputName="organizationId-input" value="${organization.id}" required="false" hiddenInputName="organizationId"/>
                                <%--<tags:renderAutocompleter propertyName="organizationId"--%>
                                                          <%--displayName="participant.label.site"--%>
                                                          <%--required="true" size="70"/>--%>
+                               </div>
+                                   </div>
+
                            </c:when>
                            <c:otherwise>
                                <c:choose>
