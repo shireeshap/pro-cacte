@@ -99,20 +99,31 @@ uniqueIdentifier"/>
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('study.studySponsor.organizationInput', getOrgs, handleSelect);
-                $('study.studySponsor.organizationInput').value = "${command.study.studySponsor.organization.displayName}";
-                $('study.studySponsor.organizationInput').removeClassName('pending-search');
+                var ssDisplayName = "${command.study.studySponsor.organization.displayName}";
+                if(ssDisplayName != ""){
+                	$('study.studySponsor.organizationInput').value = "${command.study.studySponsor.organization.displayName}";
+                	$('study.studySponsor.organizationInput').removeClassName('pending-search');
+                }
 
             new YUIAutoCompleter('study.dataCoordinatingCenter.organizationInput', getOrgs, handleSelect);
-                $('study.dataCoordinatingCenter.organizationInput').value = "${command.study.dataCoordinatingCenter.organization.displayName}";
-                $('study.dataCoordinatingCenter.organizationInput').removeClassName('pending-search');
-
+                var dccDisplayName = "${command.study.dataCoordinatingCenter.organization.displayName}";
+	            if(dccDisplayName != ""){
+	                $('study.dataCoordinatingCenter.organizationInput').value = "${command.study.dataCoordinatingCenter.organization.displayName}";
+	                $('study.dataCoordinatingCenter.organizationInput').removeClassName('pending-search');
+	            }
             new YUIAutoCompleter('study.fundingSponsor.organizationInput', getOrgs, handleSelect);
-                $('study.fundingSponsor.organizationInput').value = "${command.study.fundingSponsor.organization.displayName}";
-                $('study.fundingSponsor.organizationInput').removeClassName('pending-search');
+	            var fsDisplayName = "${command.study.fundingSponsor.organization.displayName}";
+	            if(fsDisplayName != ""){
+	                $('study.fundingSponsor.organizationInput').value = "${command.study.fundingSponsor.organization.displayName}";
+	                $('study.fundingSponsor.organizationInput').removeClassName('pending-search');
+	            }
 
             new YUIAutoCompleter('study.leadStudySite.organizationInput', getOrgs, handleSelect);
-                $('study.leadStudySite.organizationInput').value = "${command.study.leadStudySite.organization.displayName}";
-                $('study.leadStudySite.organizationInput').removeClassName('pending-search');
+	            var lssDisplayName = "${command.study.leadStudySite.organization.displayName}";
+	            if(lssDisplayName != ""){
+	                $('study.leadStudySite.organizationInput').value = "${command.study.leadStudySite.organization.displayName}";
+	                $('study.leadStudySite.organizationInput').removeClassName('pending-search');
+	            }
 
         })
        ;
@@ -245,8 +256,8 @@ uniqueIdentifier"/>
             <div class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_coordinating_center'/></div>
             <div class="value">
-            <tags:yuiAutocompleter inputName="study.dataCoordinatingCenter.organizationInput" value="${command.study.dataCoordinatingCenter.organization.displayName}" required="false"
-                               hiddenInputName="study.dataCoordinatingCenter.organization"/>
+            <tags:yuiAutocompleter inputName="study.dataCoordinatingCenter.organizationInput" value="" required="false"
+                               hiddenInputName="study.dataCoordinatingCenter.organization" />
 			</div>
 			</div>
 
