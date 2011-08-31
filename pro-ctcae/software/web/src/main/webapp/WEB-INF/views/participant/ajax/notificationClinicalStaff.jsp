@@ -8,9 +8,7 @@
 <tags:javascriptLink name="yui-autocomplete"/>
 
 <script type="text/javascript">
-    <%--var baseNameNotification_${index}_${notificationindex} = 'participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff';--%>
-    <%--acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${index}_${notificationindex}, '${studySiteId}', 'TREATING_PHYSICIAN|NURSE'));--%>
-    <%--initSearchField()--%>
+
      function handleSelect(stype, args) {
             var ele = args[0];
             var oData = args[2];
@@ -31,10 +29,11 @@
         }
 
     function initializeAutoCompleter1(){
-        var baseNameDisplayName = 'participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff.displayName';
+
         new YUIAutoCompleter('participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput',
                 getStudyOrganizationClinicalStaffForNurseAndTPRole1, handleSelect);
-            $('participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput').value = "${baseNameDisplayName}";
+            $('participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput').value
+                    = "${command.participant.studyParticipantAssignments[index].notificationClinicalStaff[notificationindex].studyOrganizationClinicalStaff.displayName}";
             $('participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
     }
 

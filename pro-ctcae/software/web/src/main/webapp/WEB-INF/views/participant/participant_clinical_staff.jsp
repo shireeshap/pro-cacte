@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -14,7 +15,7 @@
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="clinicalStaff"/>
     <tags:stylesheetLink name="yui-autocomplete"/>
-<tags:javascriptLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="yui-autocomplete"/>
     <c:set var="studyParticipantAssignment" value="${command.selectedStudyParticipantAssignment}"/>
     <c:set var="varIndex" value="0"/>
 
@@ -49,10 +50,10 @@
                 <%--initializeAutoCompleter(baseNamePhysician,--%>
                         <%--'${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',--%>
                         <%--'${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');--%>
-                var baseNamePhysicianDisplayName = 'participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff.displayName';
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForTreatingPhysicianRole, handleSelect);
-                    $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').value = "${baseNamePhysicianDisplayName}";
+                    $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').value
+                            = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}"
                     $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
 
                  function getStudyOrganizationClinicalStaffForTreatingPhysicianRole(sQuery) {
@@ -73,7 +74,8 @@
                 var baseNameNurseDisplayName = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName';
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForNurseRole, handleSelect);
-                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').value = "${baseNameNurseDisplayName}";
+                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').value =
+                            "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
                     $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
 
                  function getStudyOrganizationClinicalStaffForNurseRole(sQuery) {
@@ -92,10 +94,11 @@
                     <%--initializeAutoCompleter(baseNameNotification,--%>
                             <%--'${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}',--%>
                             <%--'${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.id}');--%>
-                    var baseNameDisplayName = 'participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff.displayName';
+
                     new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput',
                             getStudyOrganizationClinicalStaffForNurseAndTPRole, handleSelect);
-                        $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').value = "${baseNameDisplayName}";
+                        $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').value
+                                = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
                         $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
 
                      function getStudyOrganizationClinicalStaffForNurseAndTPRole(sQuery) {
@@ -236,25 +239,18 @@
     <chrome:box title="participant.primaryclinicalstaff">
         <table width="100%" cellpadding="0px" cellspacing="0px">
             <tr>
-                <td>
-                    <%--<tags:renderAutocompleter--%>
-                            <%--propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"--%>
-                            <%--displayName="participant.label.clinical.staff.treatingphysician" noForm="true"--%>
-                            <%--required="false"--%>
-                            <%--propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"--%>
-                            <%--size="50"/>--%>
+                <td width="60%">
                     <c:set var="treatingPhysican" value="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"/>
-                    <c:set var="treatingPhysicanDisplayName" value="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff.displayName"/>
 
-                    <input name="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"
-                           id="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff" class="validate-NOTEMPTY" style="display:none;"/>
+                    <form:input path="${treatingPhysican}" id="${treatingPhysican}" cssStyle="display:none;"/>
                     <div class="row">
                         <div class="label">
                             <tags:message code='participant.label.clinical.staff.treatingphysician'/>
                         </div>
                         <div class="value">
-                           <tags:yuiAutocompleter inputName="${treatingPhysican}Input" value="${treatingPhysicanDisplayName}" required="false"
-                                                      hiddenInputName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"/>
+                           <tags:yuiAutocompleter inputName="${treatingPhysican}Input"
+                                                 value="${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}" required="false"
+                                                 hiddenInputName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"/>
                         </div>
                     </div>
 
@@ -268,23 +264,17 @@
             </tr>
             <tr align="left">
                 <td>
-                    <%--<tags:renderAutocompleter--%>
-                            <%--propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"--%>
-                            <%--displayName="participant.label.clinical.staff.researchnurse" noForm="true"--%>
-                            <%--required="false"--%>
-                            <%--propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"--%>
-                            <%--size="50"/>--%>
                     <c:set var="nurse" value="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"/>
-                    <c:set var="nurseDisplayName" value="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName"/>
 
-                    <input name="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"
-                           id="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff" class="validate-NOTEMPTY" style="display:none;"/>
+                    <form:input path="${nurse}" id="${nurse}" cssStyle="display:none;"/>
                     <div class="row">
                         <div class="label">
                             <tags:message code='participant.label.clinical.staff.researchnurse'/>
                         </div>
                         <div class="value">
-                            <tags:yuiAutocompleter inputName="${nurse}Input" value="${nurseDisplayName}" required="false"
+                            <tags:yuiAutocompleter inputName="${nurse}Input"
+                                   value="${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}"
+                                   required="false"
                                    hiddenInputName="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"/>
                         </div>
                     </div>
