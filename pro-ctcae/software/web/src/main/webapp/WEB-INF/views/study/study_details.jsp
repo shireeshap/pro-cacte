@@ -98,13 +98,14 @@ uniqueIdentifier"/>
 
         var managerAutoComp;
         Event.observe(window, 'load', function() {
+            <c:if test="${command.admin eq true}">
             new YUIAutoCompleter('study.studySponsor.organizationInput', getOrgs, handleSelect);
                 var ssDisplayName = "${command.study.studySponsor.organization.displayName}";
                 if(ssDisplayName != ""){
                 	$('study.studySponsor.organizationInput').value = "${command.study.studySponsor.organization.displayName}";
                 	$('study.studySponsor.organizationInput').removeClassName('pending-search');
                 }
-
+             </c:if>
             new YUIAutoCompleter('study.dataCoordinatingCenter.organizationInput', getOrgs, handleSelect);
                 var dccDisplayName = "${command.study.dataCoordinatingCenter.organization.displayName}";
 	            if(dccDisplayName != ""){
@@ -145,39 +146,39 @@ uniqueIdentifier"/>
             $(inputId + 'Input').blur();
         }
 
+<%----%>
+//        Event.observe(window, "load", function() {
 
-        Event.observe(window, "load", function() {
+//                        $('study.callBackFrequency-row').addClassName('specialWidth');
 
-            //            $('study.callBackFrequency-row').addClassName('specialWidth');
-
-        <c:if test="${command.admin eq true}">
+        <%--<c:if test="${command.admin eq true}">--%>
 //            acCreate(new siteAutoComplter('study.studySponsor.organization'))
-        </c:if>
+        <%--</c:if>--%>
 //            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
 //            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
 //            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
-        <c:if test="${command.study.studySponsor ne null}">
-        <c:if test="${command.admin eq true}">
+        <%--<c:if test="${command.study.studySponsor ne null}">--%>
+        <%--<c:if test="${command.admin eq true}">--%>
 //            initializeAutoCompleter('study.studySponsor.organization',
                     <%--'${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')--%>
-        </c:if>
-        </c:if>
+        <%--</c:if>--%>
+        <%--</c:if>--%>
 
-        <c:if test="${command.study.dataCoordinatingCenter ne null}">
+        <%--<c:if test="${command.study.dataCoordinatingCenter ne null}">--%>
 //            initializeAutoCompleter('study.dataCoordinatingCenter.organization',
                     <%--'${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')--%>
-        </c:if>
-        <c:if test="${command.study.fundingSponsor ne null}">
+        <%--</c:if>--%>
+        <%--<c:if test="${command.study.fundingSponsor ne null}">--%>
 //            initializeAutoCompleter('study.fundingSponsor.organization',
                     <%--'${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')--%>
-        </c:if>
-        <c:if test="${command.study.leadStudySite ne null}">
-            initializeAutoCompleter('study.leadStudySite.organization',
-                    '${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')
-        </c:if>
-            initSearchField()
-        })
+        <%--</c:if>--%>
+        <%--<c:if test="${command.study.leadStudySite ne null}">--%>
+//            initializeAutoCompleter('study.leadStudySite.organization',
+                    <%--'${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')--%>
+        <%--</c:if>--%>
+//            initSearchField()
+//        })
     </script>
 </head>
 <body>
