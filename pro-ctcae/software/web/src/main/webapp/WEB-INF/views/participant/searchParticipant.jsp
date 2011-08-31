@@ -180,13 +180,18 @@
      var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('studySiteInput', getSites, handleSelect);
+            var studySiteName =  "${studySite.displayName}";
+            if(studySiteName != ''){
                 $('studySiteInput').value = "${studySite.displayName}";
                 $('studySiteInput').removeClassName('pending-search');
+            }
 
             new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+            var studySiteName =  "${study.displayName}";
+            if(studyName != ''){            
                 $('studyInput').value = "${study.displayName}";
                 $('studyInput').removeClassName('pending-search');
-
+            }
         });
 
         function handleSelect(stype, args) {
@@ -205,10 +210,6 @@
             $(inputId + 'Input').focus();
             $(inputId + 'Input').blur();
         }
-
-
-
-
 </script>
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">
