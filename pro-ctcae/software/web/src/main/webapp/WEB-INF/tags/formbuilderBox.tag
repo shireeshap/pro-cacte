@@ -17,7 +17,7 @@
         </tr>
         <tr>
             <td class="L"></td>
-            <td class="formbuilderboxContent" align="center">
+            <td class="formbuilderboxContent">
                 <jsp:doBody/>
             </td>
             <td class="R"></td>

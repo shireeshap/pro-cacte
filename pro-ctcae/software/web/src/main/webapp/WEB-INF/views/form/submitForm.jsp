@@ -257,7 +257,7 @@
                     </td>
                 </tr>
                 </table>
-                <table>
+                <table align="center">
                     <tr>
                     <c:forEach items="${displayQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
