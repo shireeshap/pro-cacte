@@ -311,8 +311,11 @@ Event.observe(window, 'load', function() {
 //        acCreate(new siteAutoComplter('organizationId'));
 //        initSearchField();
         new YUIAutoCompleter('organizationId-input', getOrgs, handleSelect);
+        var orgName = "${organization.displayName}";
+        if(orgName != ''){
             $('organizationId-input').value = "${organization.displayName}";
             $('organizationId-input').removeClassName('pending-search');
+        }
     } catch(err) {
     }
 </c:if>

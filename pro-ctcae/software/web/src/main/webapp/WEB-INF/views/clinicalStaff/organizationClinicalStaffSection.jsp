@@ -59,7 +59,7 @@
     function initializeAutoCompleter() {
         new YUIAutoCompleter('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput', getOrgs, handleSelect);
         var orgDisplayName = "${organizationClinicalStaff.organization.displayName}";
-        if (orgDisplayName != "") {
+        if (orgDisplayName != '') {
             $('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput').value = "${organizationClinicalStaff.organization.displayName}";
             $('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput').removeClassName('pending-search');
         }

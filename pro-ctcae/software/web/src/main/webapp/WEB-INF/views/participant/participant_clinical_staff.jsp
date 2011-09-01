@@ -52,10 +52,13 @@
                         <%--'${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');--%>
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForTreatingPhysicianRole, handleSelect);
-                    $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').value
-                            = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}"
-                    $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
-
+                    var treatingPhysician = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}";
+                    if(treatingPhysician != ''){
+                    	$('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').value
+        	                = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}"
+		                $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+                    }
+                    
                  function getStudyOrganizationClinicalStaffForTreatingPhysicianRole(sQuery) {
                     var callbackProxy = function(results) {
                         aResults = results;
@@ -74,9 +77,12 @@
                 var baseNameNurseDisplayName = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName';
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForNurseRole, handleSelect);
-                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').value =
+                	var nurseName = "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
+                	if(nurseName != ''){
+                        $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').value =
                             "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
-                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+	                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+                    }
 
                  function getStudyOrganizationClinicalStaffForNurseRole(sQuery) {
                     var callbackProxy = function(results) {
@@ -97,9 +103,12 @@
 
                     new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput',
                             getStudyOrganizationClinicalStaffForNurseAndTPRole, handleSelect);
-                        $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').value
-                                = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
-                        $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+                    	var staffName = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
+                    	if(staffName != ''){
+                            $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').value
+        	                    = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
+		                    $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+                        }
 
                      function getStudyOrganizationClinicalStaffForNurseAndTPRole(sQuery) {
                         var callbackProxy = function(results) {
