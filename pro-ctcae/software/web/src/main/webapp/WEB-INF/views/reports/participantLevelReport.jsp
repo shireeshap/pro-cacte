@@ -119,7 +119,7 @@
     </script>
     <style type="text/css">
         * {
-            zoom: 0;
+            zoom: 1;
         }
     </style>
     
