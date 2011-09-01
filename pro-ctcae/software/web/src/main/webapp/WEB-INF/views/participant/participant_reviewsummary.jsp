@@ -119,10 +119,10 @@
                 </div>
             </td>
             <td width="50%">
-                <div class="row">
-                    <div class="label"><spring:message code='participant.label.phone' text=''/>:</div>
-                    <div class="value">${command.participant.phoneNumber}</div>
-                </div>
+                <%--<div class="row">--%>
+                    <%--<div class="label"><spring:message code='participant.label.phone' text=''/>:</div>--%>
+                    <%--<div class="value">${command.participant.phoneNumber}</div>--%>
+                <%--</div>--%>
             </td>
         </tr>
     </table>
