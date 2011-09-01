@@ -28,9 +28,6 @@
             ele.getInputEl().value = oData.displayName;
             var id = ele.getInputEl().id;
             var hiddenInputId = id.substring(0, id.indexOf('Input'));
-    //            Element.update(hiddenInputId + "-selected-name", oData.displayName)
-    //            $(hiddenInputId + '-selected').show()
-    //            new Effect.Highlight(hiddenInputId + "-selected")
             $(hiddenInputId).value = oData.id;
         }
 
@@ -42,8 +39,7 @@
         }
 
         Event.observe(window, "load", function() {
-//            initSearchField()
-
+		
         <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
             <c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput',
@@ -153,11 +149,9 @@
         div.row div.value {
             margin-left: 3.5em;
         }
-        *{
-            zoom:0;
+        input.div > *{
+            zoom:1;
         }
-
-
     </style>
 </head>
 <body>
@@ -180,7 +174,7 @@
                 <tr>
                     <th class="tableHeader" width="70%">
                         <tags:message code="participant.label.name"/>
-                    </th class="tableHeader">
+                    </th>
                     <th width=30%>
                         <tags:message code="participant.label.notification"/>
                     </th>
@@ -208,7 +202,7 @@
                 <tr>
                     <th class="tableHeader" width="70%">
                         <tags:message code="participant.label.name"/>
-                    </th class="tableHeader">
+                    </th>
                     <th width=30%>
                         <tags:message code="participant.label.notification"/>
                     </th>
