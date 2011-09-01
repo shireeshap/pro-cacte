@@ -146,16 +146,16 @@ function checkParticipantEmailAddress(siteId) {
     if (email != "") {
         uniqueParticipantEmailAddress.validateEmail(email, participantId,
         {callback:
-                function(returnValue) {
-                    showOrHideErrorField(returnValue, '#emailError_' + siteId);
-                    if (returnValue) {
-                        isEmail = true;
-                    }
-                    else {
-                        isEmail = false;
-                    }
-                    checkError();
-                }});
+         function(returnValue) {
+             showOrHideErrorField(returnValue, '#emailError_' + siteId);
+             if (returnValue) {
+                 isEmail = true;
+             }
+             else {
+                 isEmail = false;
+             }
+             checkError();
+         }});
     }
     else {
         jQuery('#emailError_' + siteId).hide();
@@ -180,17 +180,17 @@ function checkParticipantUserNumber(siteId) {
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
-                    function(returnValue) {
-                        showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
-                        jQuery('#UserPatternError_' + siteId).hide();
-                        if (returnValue) {
-                            isUserIdError = true;
-                        }
-                        else {
-                            isUserIdError = false;
-                        }
-                        checkError();
-                    }});
+                                                                                       function(returnValue) {
+                                                                                           showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+                                                                                           jQuery('#UserPatternError_' + siteId).hide();
+                                                                                           if (returnValue) {
+                                                                                               isUserIdError = true;
+                                                                                           }
+                                                                                           else {
+                                                                                               isUserIdError = false;
+                                                                                           }
+                                                                                           checkError();
+                                                                                       }});
         }
     }
     else {
@@ -234,16 +234,16 @@ function checkParticipantStudyIdentifier(id, siteId) {
     if (identifier != "") {
         uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier,
                 participantId, {callback:
-                function(returnValue) {
-                    showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
-                    if (returnValue) {
-                        isIdentifierError = true;
-                    }
-                    else {
-                        isIdentifierError = false;
-                    }
-                    checkError();
-                }});
+                                function(returnValue) {
+                                    showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
+                                    if (returnValue) {
+                                        isIdentifierError = true;
+                                    }
+                                    else {
+                                        isIdentifierError = false;
+                                    }
+                                    checkError();
+                                }});
         return;
     }
     else {
@@ -273,52 +273,53 @@ function getStudySites() {
     })
 }
 
-    function getOrgs(sQuery) {
+function getOrgs(sQuery) {
 
-        var callbackProxy = function(results) {
-            aResults = results;
-        };
-        var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
-        return aResults;
-    }
+    var callbackProxy = function(results) {
+        aResults = results;
+    };
+    var callMetaData = { callback:callbackProxy, async:false};
+    organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+    return aResults;
+}
 
-    function handleSelect(stype, args) {
-        var ele = args[0];
-        var oData = args[2];
-        ele.getInputEl().value = oData.displayName;
-        var id = ele.getInputEl().id;
-        var hiddenInputId = id.substring(0, id.indexOf('-input'));
+function handleSelect(stype, args) {
+    var ele = args[0];
+    var oData = args[2];
+    ele.getInputEl().value = oData.displayName;
+    var id = ele.getInputEl().id;
+    var hiddenInputId = id.substring(0, id.indexOf('-input'));
 //            Element.update(hiddenInputId + "-selected-name", oData.displayName)
 //            $(hiddenInputId + '-selected').show()
 //            new Effect.Highlight(hiddenInputId + "-selected")
-        $(hiddenInputId).value = oData.id;
-        getStudySites();
+    $(hiddenInputId).value = oData.id;
+    getStudySites();
+    jQuery('#studies').show();
 
-    }
+}
 
-   function clearInput(inputId) {
-        $(inputId).clear();
-        $(inputId + '-input').clear();
-        $(inputId + '-input').focus();
-        $(inputId + '-input').blur();
-    }
+function clearInput(inputId) {
+    $(inputId).clear();
+    $(inputId + '-input').clear();
+    $(inputId + '-input').focus();
+    $(inputId + '-input').blur();
+}
 
 Event.observe(window, 'load', function() {
 
-<c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
+    <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
     try {
 //        acCreate(new siteAutoComplter('organizationId'));
 //        initSearchField();
         new YUIAutoCompleter('organizationId-input', getOrgs, handleSelect);
         var orgName = "${organization.displayName}";
-        if(orgName != ''){
+        if (orgName != '') {
             $('organizationId-input').value = "${organization.displayName}";
             $('organizationId-input').removeClassName('pending-search');
         }
     } catch(err) {
     }
-</c:if>
+    </c:if>
     Event.observe('organizationId', 'change', function() {
         getStudySites();
     })
@@ -513,7 +514,7 @@ function showEmail(id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#webLang_' + id).hide();
-        isEmail=false;
+        isEmail = false;
         removeEmailClassName(id);
     }
     checkError();
@@ -524,7 +525,7 @@ function showOrHideLanguage(value1, value2, id) {
         jQuery("#clinic_paper_lang_" + id).val('');
         jQuery('#web_clinic_header_' + id).show();
         jQuery('#clinicWeb_' + id).show();
-        jQuery('#paper_clinic_header_' +id).hide();
+        jQuery('#paper_clinic_header_' + id).hide();
         jQuery('#clinicPaper_' + id).hide();
         $('clinic_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('clinic_web_lang_' + id).addClassName("validate-NOTEMPTY");
@@ -719,21 +720,24 @@ function showOrHideEmail(value1, value2, id) {
                            <c:when test="${command.admin}">
 
                                <%--<input name="organizationId" id="organizationId" class="validate-NOTEMPTY" style="display:none;"/>--%>
-                               	  <div class="row">
+                               <div class="row">
                                    <div class="label">
                                        <tags:requiredIndicator/>
                                        <tags:message code='participant.label.site'/>
                                    </div>
                                    <div class="value">
-                               <form:input path="organizationId" id="organizationId" cssClass="validate-NOTEMPTY"
-                                    title="Site"
-                                    cssStyle="display:none;"/>
-                               <tags:yuiAutocompleter inputName="organizationId-input" value="${organization.id}" required="false" hiddenInputName="organizationId"/>
-                               <%--<tags:renderAutocompleter propertyName="organizationId"--%>
-                                                         <%--displayName="participant.label.site"--%>
-                                                         <%--required="true" size="70"/>--%>
-                               </div>
+                                       <form:input path="organizationId" id="organizationId"
+                                                   cssClass="validate-NOTEMPTY"
+                                                   title="Site"
+                                                   cssStyle="display:none;"/>
+                                       <tags:yuiAutocompleter inputName="organizationId-input"
+                                                              value="${organization.id}" required="false"
+                                                              hiddenInputName="organizationId"/>
+                                           <%--<tags:renderAutocompleter propertyName="organizationId"--%>
+                                           <%--displayName="participant.label.site"--%>
+                                           <%--required="true" size="70"/>--%>
                                    </div>
+                               </div>
 
                            </c:when>
                            <c:otherwise>
@@ -748,7 +752,7 @@ function showOrHideEmail(value1, value2, id) {
                                        </div>
                                        <script type="text/javascript">
                                            Event.observe(window, 'load', function() {
-                                                getStudySites();
+                                               getStudySites();
                                            });
                                        </script>
                                    </c:when>
@@ -813,7 +817,7 @@ function showOrHideEmail(value1, value2, id) {
                                                  displayName="participant.label.email_address"
                                                  required="false" size="35"/>
                            </td>
-                    <!--       <td width="50%">
+                           <!--       <td width="50%">
                                <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
                                                       displayName="participant.label.phone"
                                                       required="${required}"/>
@@ -876,10 +880,10 @@ function showOrHideEmail(value1, value2, id) {
                            </ul>
                        </td>
                        <td>
-                           <%--<c:if test="${empty command.participant.id}">
-                           (The minimum password length should
-                           be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
-                           </c:if>--%>
+                               <%--<c:if test="${empty command.participant.id}">
+                               (The minimum password length should
+                               be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
+                               </c:if>--%>
                        </td>
                    </tr>
                    <tr>
@@ -895,9 +899,11 @@ function showOrHideEmail(value1, value2, id) {
                </table>
 
            </div>
-
+       <br>
        </chrome:division>
-    <chrome:division title="participant.label.studies"/>
+       <div id="studies" style="display:none">
+           <chrome:division title="participant.label.studies"/>
+       </div>
         <div id="studysitestable">
 
             <c:if test="${not empty command.participant.id}">
