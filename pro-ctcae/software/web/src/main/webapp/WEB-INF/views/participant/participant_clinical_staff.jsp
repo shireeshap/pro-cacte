@@ -46,10 +46,6 @@
 
         <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
             <c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
-                <%--acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN'))--%>
-                <%--initializeAutoCompleter(baseNamePhysician,--%>
-                        <%--'${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',--%>
-                        <%--'${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');--%>
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForTreatingPhysicianRole, handleSelect);
                     var treatingPhysician = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}";
@@ -69,12 +65,7 @@
                     return aResults;
                  }
 
-                <%--var baseNameNurse = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff';--%>
-                <%--acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${studyParticipantAssignment.studySite.id}', 'NURSE'))--%>
-                <%--initializeAutoCompleter(baseNameNurse,--%>
-                       <%--'${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',--%>
-                       <%--'${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.id:""}');--%>
-                var baseNameNurseDisplayName = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName';
+               var baseNameNurseDisplayName = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName';
                 new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput',
                         getStudyOrganizationClinicalStaffForNurseRole, handleSelect);
                 	var nurseName = "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
@@ -95,13 +86,7 @@
                  }
 
                 <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}" var="clinicalStaff" varStatus="notificationstatus">
-                    <%--var baseNameNotification = 'participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff';--%>
-                    <%--acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN|NURSE'))--%>
-                    <%--initializeAutoCompleter(baseNameNotification,--%>
-                            <%--'${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}',--%>
-                            <%--'${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.id}');--%>
-
-                    new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput',
+                   new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput',
                             getStudyOrganizationClinicalStaffForNurseAndTPRole, handleSelect);
                     	var staffName = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
                     	if(staffName != ''){
