@@ -239,7 +239,7 @@
                     <form:input path="${treatingPhysican}" id="${treatingPhysican}" cssStyle="display:none;"/>
                     <div class="row">
                         <div class="label">
-                            <tags:message code='participant.label.clinical.staff.treatingphysician'/>
+                            <tags:message code='participant.label.clinical.staff.treatingphysician'/> &nbsp;
                         </div>
                         <div class="value">
                            <tags:yuiAutocompleter inputName="${treatingPhysican}Input"
@@ -263,7 +263,7 @@
                     <form:input path="${nurse}" id="${nurse}" cssStyle="display:none;"/>
                     <div class="row">
                         <div class="label">
-                            <tags:message code='participant.label.clinical.staff.researchnurse'/>
+                            <tags:message code='participant.label.clinical.staff.researchnurse'/> &nbsp;
                         </div>
                         <div class="value">
                             <tags:yuiAutocompleter inputName="${nurse}Input"
