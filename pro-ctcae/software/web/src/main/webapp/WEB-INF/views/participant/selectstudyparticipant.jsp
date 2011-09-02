@@ -79,25 +79,31 @@
 <div class="autoclear">
     <chrome:box title="schedulecrf.label.select_study" id="study-entry" cssClass="paired">
         <tags:instructions code="participant.schedule_crf.select_study"/>
-        <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
-                    title="Study"
-                    cssStyle="display:none;"/>
-        <tags:yuiAutocompleter inputName="studyInput" value="${command.study.shortTitle}" required="true"
-                               hiddenInputName="study"/>
+        <div class="row">
+	        <div class="label" style="width:0em;"></div>
+	        <div class="value" style="margin-left: 0;">
+	        	<form:input path="study" id="study" cssClass="validate-NOTEMPTY" title="Study" cssStyle="display:none;"/>
+	        	<tags:yuiAutocompleter inputName="studyInput" value="${command.study.shortTitle}" required="true" hiddenInputName="study"/>
+	        </div>
+        </div>
+        
         <p id="study-selected" style="display: none">
             You have selected the study <span id="study-selected-name"></span>.
         </p>
     </chrome:box>
 
-    <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired"
-            >
+    <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired">
         <tags:instructions code="participant.schedule_crf.select_participant"/>
-        <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
-                    title="Participant"
-                    cssStyle="display:none;"/>
-        <tags:yuiAutocompleter inputName="participantInput" value="${command.participant.displayName}" required="true"
-                               hiddenInputName="participant"/>
-
+        <div class="row">
+	        <div class="label" style="width:0em;"></div>
+	        <div class="value" style="margin-left: 0;">
+		        <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
+		                    title="Participant"
+		                    cssStyle="display:none;"/>
+		        <tags:yuiAutocompleter inputName="participantInput" value="${command.participant.displayName}" required="true"
+		                               hiddenInputName="participant"/>
+			</div>
+		</div>
         <p id="participant-selected" style="display: none">
             You have selected the subject <span id="participant-selected-name"></span>.
         </p>
