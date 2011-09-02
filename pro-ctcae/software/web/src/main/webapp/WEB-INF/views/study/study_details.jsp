@@ -7,8 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-<tags:dwrJavascriptLink objects="
-uniqueIdentifier"/>
+<tags:dwrJavascriptLink objects="uniqueIdentifier"/>
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
