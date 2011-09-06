@@ -60,7 +60,8 @@
 <jsp:attribute name="singleFields">
 
 <chrome:division title="participant.label.site">
-    <b>${command.siteName}</b>
+    <div style="font-weight:bold;margin-top:15px;margin-left:70px;margin-bottom:10px;">${command.siteName}</div>
+
 </chrome:division>
 <chrome:division title="participant.label.demographic_information" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
