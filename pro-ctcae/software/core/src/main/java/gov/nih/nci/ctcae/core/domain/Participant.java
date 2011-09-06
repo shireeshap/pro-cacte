@@ -101,6 +101,18 @@ public class Participant extends Person {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
+    private transient  List<StudyParticipantCrfSchedule> sortedStudyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
+
+    public List<StudyParticipantCrfSchedule> getSortedStudyParticipantCrfSchedules() {
+        return sortedStudyParticipantCrfSchedules;
+    }
+
+    public void setSortedStudyParticipantCrfSchedules(List<StudyParticipantCrfSchedule> sortedStudyParticipantCrfSchedules) {
+        this.sortedStudyParticipantCrfSchedules = sortedStudyParticipantCrfSchedules;
+    }
+
+
+
 
     public Participant() {
         this.creationDate = new Date();

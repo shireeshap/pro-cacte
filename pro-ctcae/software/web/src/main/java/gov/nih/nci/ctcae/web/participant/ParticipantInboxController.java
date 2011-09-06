@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -9,6 +8,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 //
@@ -45,7 +47,28 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
         if (participant == null) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());
         }
+        sortSchedules(participant);
         return participant;
+    }
+
+    private void sortSchedules(Participant participant){
+        List<StudyParticipantCrfSchedule>   inProgressStudyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
+         List<StudyParticipantCrfSchedule>   scheduledStudyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
+        for(StudyParticipantAssignment assignment: participant.getStudyParticipantAssignments()){
+              for(StudyParticipantCrf crf: assignment.getStudyParticipantCrfs()){
+                 for(StudyParticipantCrfSchedule schedule: crf.getStudyParticipantCrfSchedules()){
+                     if(schedule.getStatus().equals(CrfStatus.SCHEDULED))
+                      scheduledStudyParticipantCrfSchedules.add(schedule);
+                     if(schedule.getStatus().equals(CrfStatus.INPROGRESS))
+                         inProgressStudyParticipantCrfSchedules.add(schedule);
+                 }
+              }
+        }
+        Collections.sort(inProgressStudyParticipantCrfSchedules);
+        Collections.sort(scheduledStudyParticipantCrfSchedules);
+        inProgressStudyParticipantCrfSchedules.addAll(scheduledStudyParticipantCrfSchedules);
+
+        participant.setSortedStudyParticipantCrfSchedules(inProgressStudyParticipantCrfSchedules);
     }
 
     @Override
