@@ -151,6 +151,9 @@
 </c:forEach>
 
 <div id="inboxTitle">
+    <c:if test="${empty param.lang}">
+       <c:set var="currentEn" value="current"/>
+    </c:if>
     <c:if test="${param.lang eq 'en'}">
         <c:set var="currentEn" value="current"/>
         <c:set var="currentEs" value=""/>
@@ -221,10 +224,10 @@
 
                 </th>
             </tr>
-            <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-                <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+            <c:forEach items="${command.sortedStudyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
+               <%-- <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                               var="studyParticipantCrfSchedule">
+                               var="studyParticipantCrfSchedule">--%>
                         <c:set scope="page" var="remainingDays"
                                value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
                         <%--<c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">--%>
@@ -284,8 +287,8 @@
                                 </td>
                             </tr>
                         </c:if>
-                    </c:forEach>
-                </c:forEach>
+                    <%--</c:forEach>
+                </c:forEach>--%>
             </c:forEach>
 
         </table>
