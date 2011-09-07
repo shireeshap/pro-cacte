@@ -23,7 +23,6 @@
     } else {
         request.setAttribute("numrows", numOfRows);
     }
-
 %>
 <html>
 <head>
@@ -181,288 +180,316 @@
 <tags:includeScriptaculous/>
 <tags:dwrJavascriptLink objects="scheduleCrf"/>
 <script type="text/javascript">
-var oAC;
-function initializeAutoCompleter() {
-    var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
-    oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
-    oDS.responseSchema = {
-        recordDelim: ";",
-        fieldDelim: "\t"
-    };
-    oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
-    oAC.maxResultsDisplayed = 100;
-}
+    var oAC;
+    var greeting = "Begin typing here";
+    <c:if test="lang == 'es'"> greeting = "ola"; </c:if>
+     <c:if test="${param.lang eq 'en'}">
+        <c:set var="greeting" value="Begin typing here"/>
+    </c:if>
+    <c:if test="${param.lang eq 'es'}">
+        <c:set var="greeting" value="Comienza a escribir aqu?"/>
+    </c:if>
 
-var nextColumnIndex = 0;
-var tdCount = 0;
-function addNewSymptom(selectedChoice) {
-//    alert($F('participantSymptomInput'));
-    scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
-        if (values != '') {
+    function initializeAutoCompleter() {
+        var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
+        oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
+        oDS.responseSchema = {
+            recordDelim: ";",
+            fieldDelim: "\t"
+        };
+        oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
 
-            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 600, 250);
-                },
-                method:'post'
+        oAC.maxResultsDisplayed = 100;
+        $('participantSymptomInput').addClassName('pending-search');
+        $('participantSymptomInput').value = greeting;
+
+        Event.observe($('participantSymptomInput'), 'click', function() {
+            if ($('participantSymptomInput').value == greeting) {
+                $('participantSymptomInput').value = '';
+            }
+            $('participantSymptomInput').removeClassName('pending-search');
+        })
+        Event.observe($('participantSymptomInput'), 'blur', function() {
+            if ($('participantSymptomInput').value == '')
+            {
+                $('participantSymptomInput').value = greeting;
+                $('participantSymptomInput').addClassName('pending-search');
+            }
+        })
+    }
+
+    var nextColumnIndex = 0;
+    var tdCount = 0;
+    function addNewSymptom(selectedChoice) {
+        if($F('participantSymptomInput') != greeting){
+            scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
+                if (values != '') {
+
+                    var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
+                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
+                        onComplete:function(transport) {
+                            showConfirmationWindow(transport, 600, 250);
+                        },
+                        method:'post'
+                    })
+
+                } else {
+        //            alertForAdd();
+                    checkMapping(selectedChoice);
+                    addSymptom(selectedChoice);
+                }
+
             })
-
-        } else {
-//            alertForAdd();
-            checkMapping(selectedChoice);
-            addSymptom(selectedChoice);
-        }
-
-    })
-}
-
-function checkMapping(selectedChoice) {
-    scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
-        if (values != '') {
-            var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 500, 150);
-                },
-                method:'post'
-            })
-
-        }
-    })
-}
-
-function alertForAdd() {
-    var request = new Ajax.Request("<c:url value="/pages/participant/alertForAdd"/>", {
-        onComplete:function(transport) {
-            showConfirmationWindow(transport, 650, 180);
-        },
-        parameters:<tags:ajaxstandardparams/> +"&index=ind",
-        method:'get'
-    })
-}
-
-
-function addSymptom(escapedSelectedChoice) {
-    var selectedChoice = unescape(escapedSelectedChoice);
-    var checkboxitems = document.getElementsByName('symptomsByParticipants');
-    var itemfound = false;
-    for (var i = 0; i < checkboxitems.length; i++) {
-        if (checkboxitems[i].value == selectedChoice) {
-            checkboxitems[i].checked = true;
-            itemfound = true
-            changeClass(checkboxitems[i], checkboxitems[i].id);
-            break;
         }
     }
-    if (!itemfound) {
-        addCheckbox(selectedChoice);
+
+    function checkMapping(selectedChoice) {
+        scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
+            if (values != '') {
+                var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
+                    parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
+                    onComplete:function(transport) {
+                        showConfirmationWindow(transport, 500, 150);
+                    },
+                    method:'post'
+                })
+
+            }
+        })
     }
-    clearInput();
-    initSearchField();
 
-}
-function clearInput() {
-    $('participantSymptomInput').clear();
-}
-function addCheckbox(selectedChoice) {
-    clearInput();
-
-    if (selectedChoice == '') {
-        return;
+    function alertForAdd() {
+        var request = new Ajax.Request("<c:url value="/pages/participant/alertForAdd"/>", {
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 180);
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=ind",
+            method:'get'
+        })
     }
-//    if (nextColumnIndex % 3 == 0) {
-//        var idVar = Math.floor(nextColumnIndex / 3) * 3;
-      var idVar = nextColumnIndex ;
-        var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
-        var row = document.createElement("TR");
 
-        var td2 = document.createElement("TD");
-        td2.id = 'td_' + nextColumnIndex + '_b';
-        $(td2).addClassName('buttonLook');
-        td2.onmouseover = function() {
-            addHoverClass(idVar);
+
+    function addSymptom(escapedSelectedChoice) {
+        var selectedChoice = unescape(escapedSelectedChoice);
+        var checkboxitems = document.getElementsByName('symptomsByParticipants');
+        var itemfound = false;
+        for (var i = 0; i < checkboxitems.length; i++) {
+            if (checkboxitems[i].value == selectedChoice) {
+                checkboxitems[i].checked = true;
+                itemfound = true
+                changeClass(checkboxitems[i], checkboxitems[i].id);
+                break;
+            }
         }
-        td2.onmouseout = function() {
-            removeHoverClass(idVar);
+        if (!itemfound) {
+            addCheckbox(selectedChoice);
+        }
+        clearInput();
+        initSearchField();
+
+    }
+    function clearInput() {
+        $('participantSymptomInput').clear();
+        $('participantSymptomInput').value = greeting;
+    }
+    function addCheckbox(selectedChoice) {
+        clearInput();
+
+        if (selectedChoice == '') {
+            return;
+        }
+    //    if (nextColumnIndex % 3 == 0) {
+    //        var idVar = Math.floor(nextColumnIndex / 3) * 3;
+          var idVar = nextColumnIndex ;
+            var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
+            var row = document.createElement("TR");
+
+            var td2 = document.createElement("TD");
+            td2.id = 'td_' + nextColumnIndex + '_b';
+            $(td2).addClassName('buttonLook');
+            td2.onmouseover = function() {
+                addHoverClass(idVar);
+            }
+            td2.onmouseout = function() {
+                removeHoverClass(idVar);
+            }
+
+
+    //        var td4 = document.createElement("TD");
+    //        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
+    //        $(td4).addClassName('tdHoverLook');
+    //            td4.onmouseover = function() {
+    //                addHoverClass(idVar + 1);
+    //            }
+    //            td4.onmouseout = function() {
+    //                removeHoverClass(idVar + 1);
+    //            }
+
+    //        var td6 = document.createElement("TD");
+    //        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
+    //        $(td6).addClassName('tdHoverLook');
+    //            td6.onmouseover = function() {
+    //                addHoverClass(idVar + 2);
+    //            }
+    //            td6.onmouseout = function() {
+    //                removeHoverClass(idVar + 2);
+    //            }
+
+            tdCount = nextColumnIndex + 2;
+
+            row.appendChild(td2);
+    //        row.appendChild(td4);
+    //        row.appendChild(td6);
+            tbody.appendChild(row);
+
+            td2.onclick = function() {
+                var v = idVar;
+                changeTdClass(v);
+
+            }
+    //        td4.onclick = function() {
+    //            var v = idVar + 1;
+    //            changeTdClass(v);
+    //        }
+    //        td6.onclick = function() {
+    //            var v = idVar + 2;
+    //            changeTdClass(v);
+    //        }
+    //    }
+
+
+        var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
+        var chkbox = document.createElement('input');
+        chkbox.type = "checkbox";
+        chkbox.name = 'symptomsByParticipants';
+        chkbox.value = selectedChoice;
+        chkbox.id = nextColumnIndex;
+        chkbox.onchange = function() {
+            changeClass(chkbox, chkbox.id);
         }
 
-
-//        var td4 = document.createElement("TD");
-//        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
-//        $(td4).addClassName('tdHoverLook');
-//            td4.onmouseover = function() {
-//                addHoverClass(idVar + 1);
-//            }
-//            td4.onmouseout = function() {
-//                removeHoverClass(idVar + 1);
-//            }
-
-//        var td6 = document.createElement("TD");
-//        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
-//        $(td6).addClassName('tdHoverLook');
-//            td6.onmouseover = function() {
-//                addHoverClass(idVar + 2);
-//            }
-//            td6.onmouseout = function() {
-//                removeHoverClass(idVar + 2);
-//            }
-
-        tdCount = nextColumnIndex + 2;
-
-        row.appendChild(td2);
-//        row.appendChild(td4);
-//        row.appendChild(td6);
-        tbody.appendChild(row);
-
-        td2.onclick = function() {
-            var v = idVar;
-            changeTdClass(v);
-
+        var divTag = document.createElement("div");
+        divTag.id = "div1_" + nextColumnIndex;
+        divTag.setAttribute("align", "left");
+        divTag.style.margin = "0px auto";
+        divTag.className = "check";
+        divTag.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    //    alert(tdb.innerHTML);
+    //     if (tdb.innerHTML != '') {
+    //            tdb.onmouseover = function() {
+    //                addHoverClass(nextColumnIndex-1);
+    //            }
+    //            tdb.onmouseout = function() {
+    //                removeHoverClass(nextColumnIndex-1);
+    //            }
+    //        }
+        if (nextColumnIndex > 0) {
+            tdb.addClassName('buttonLook');
+    //        tdb.addClassName('showTd');
         }
-//        td4.onclick = function() {
-//            var v = idVar + 1;
-//            changeTdClass(v);
-//        }
-//        td6.onclick = function() {
-//            var v = idVar + 2;
-//            changeTdClass(v);
-//        }
-//    }
+        tdb.appendChild(chkbox);
+        tdb.appendChild(divTag);
+        selectCheckBox(nextColumnIndex);
 
-
-    var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
-    var chkbox = document.createElement('input');
-    chkbox.type = "checkbox";
-    chkbox.name = 'symptomsByParticipants';
-    chkbox.value = selectedChoice;
-    chkbox.id = nextColumnIndex;
-    chkbox.onchange = function() {
-        changeClass(chkbox, chkbox.id);
+        var div = document.createElement('div');
+        div.setAttribute('id', 'div_' + nextColumnIndex);
+        div.appendChild(document.createTextNode(selectedChoice));
+        tdb.appendChild(div);
+        changeClass(chkbox, nextColumnIndex);
+    //    alert(tdCount);
+    //    alert(nextColumnIndex);
+    //    if (tdCount != nextColumnIndex) {
+    //        removeTdClass(nextColumnIndex, tdCount);
+    //    }
+    //    alert(nextColumnIndex);
+        nextColumnIndex++;
     }
 
-    var divTag = document.createElement("div");
-    divTag.id = "div1_" + nextColumnIndex;
-    divTag.setAttribute("align", "left");
-    divTag.style.margin = "0px auto";
-    divTag.className = "check";
-    divTag.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
-//    alert(tdb.innerHTML);
-//     if (tdb.innerHTML != '') {
-//            tdb.onmouseover = function() {
-//                addHoverClass(nextColumnIndex-1);
-//            }
-//            tdb.onmouseout = function() {
-//                removeHoverClass(nextColumnIndex-1);
-//            }
-//        }
-    if (nextColumnIndex > 0) {
-        tdb.addClassName('buttonLook');
-//        tdb.addClassName('showTd');
-    }
-    tdb.appendChild(chkbox);
-    tdb.appendChild(divTag);
-    selectCheckBox(nextColumnIndex);
-
-    var div = document.createElement('div');
-    div.setAttribute('id', 'div_' + nextColumnIndex);
-    div.appendChild(document.createTextNode(selectedChoice));
-    tdb.appendChild(div);
-    changeClass(chkbox, nextColumnIndex);
-//    alert(tdCount);
-//    alert(nextColumnIndex);
-//    if (tdCount != nextColumnIndex) {
-//        removeTdClass(nextColumnIndex, tdCount);
-//    }
-//    alert(nextColumnIndex);
-    nextColumnIndex++;
-}
-
-function selectCheckBox(index) {
-    var x = document.getElementById(index);
-    var td = $('td_' + index + '_b');
-    x.checked = true;
-    td.addClassName("selected");
-}
-
-function changeTdClass(index) {
-//    alert(index-1);
-    var ind = index;
-//           alert(ind);
-    var x = $('' + ind);
-//    alert(x);
-    var td = $('td_' + ind + '_b');
-    var div = $('div1_' + ind);
-//    alert(td);
-    if (x.checked) {
-//            alert("checked");
-        x.checked = false;
-//            document.getElementById("img_"+index).style.display = "none";
-        $(td).removeClassName("selected");
-        $(td).addClassName('');
-        div.removeClassName('check');
-        div.addClassName('hideTd');
-    } else {
-//            alert("uncheck");
-//                document.getElementById("img_" + index).style.display = "block";
+    function selectCheckBox(index) {
+        var x = document.getElementById(index);
+        var td = $('td_' + index + '_b');
         x.checked = true;
-        td.removeClassName("");
         td.addClassName("selected");
-        div.addClassName('check');
     }
-}
 
-function removeTdClass(index, count) {
-    var columnIndex = index + 1;
-//            alert("a");
-    while (columnIndex <= count) {
-//                alert(columnIndex);
-//                alert(count);
-        $('td_' + columnIndex + '_b').removeClassName('buttonLook');
-//        $('td_' + columnIndex + '_b').addClassName('hideTd');
-        columnIndex++;
+    function changeTdClass(index) {
+    //    alert(index-1);
+        var ind = index;
+    //           alert(ind);
+        var x = $('' + ind);
+    //    alert(x);
+        var td = $('td_' + ind + '_b');
+        var div = $('div1_' + ind);
+    //    alert(td);
+        if (x.checked) {
+    //            alert("checked");
+            x.checked = false;
+    //            document.getElementById("img_"+index).style.display = "none";
+            $(td).removeClassName("selected");
+            $(td).addClassName('');
+            div.removeClassName('check');
+            div.addClassName('hideTd');
+        } else {
+    //            alert("uncheck");
+    //                document.getElementById("img_" + index).style.display = "block";
+            x.checked = true;
+            td.removeClassName("");
+            td.addClassName("selected");
+            div.addClassName('check');
+        }
     }
-}
 
-function addHoverClass(index) {
-//    alert(1);
-    var columnIndex = index;
-    $('td_' + columnIndex + '_b').addClassName('tdHoverLook');
-}
-function removeHoverClass(index) {
-    var columnIndex = index;
-    $('td_' + columnIndex + '_b').removeClassName('tdHoverLook');
-}
-
-Event.observe(window, "load", function() {
-    initializeAutoCompleter()
-})
-
-function changeClass(obj, index) {
-    var div = $('div_' + index);
-    if (obj.checked) {
-        $(div).removeClassName("norm");
-        $(div).addClassName('over');
-    } else {
-        div.removeClassName("over");
-        div.addClassName("norm");
+    function removeTdClass(index, count) {
+        var columnIndex = index + 1;
+    //            alert("a");
+        while (columnIndex <= count) {
+    //                alert(columnIndex);
+    //                alert(count);
+            $('td_' + columnIndex + '_b').removeClassName('buttonLook');
+    //        $('td_' + columnIndex + '_b').addClassName('hideTd');
+            columnIndex++;
+        }
     }
-}
-function submitForm(direction) {
-    if(($F('participantSymptomInput'))!=''){
-        alertForAdd();
-        return;
-    }
-    document.myForm.direction.value = direction;
-    document.myForm.submit();
-}
 
-function sendConfirmedSymptom() {
-    var selectedValueNew = escape($('participantSymptomInput').value);
-    addSymptom(selectedValueNew);
-    closeWindow();
-}
-</script>
+    function addHoverClass(index) {
+    //    alert(1);
+        var columnIndex = index;
+        $('td_' + columnIndex + '_b').addClassName('tdHoverLook');
+    }
+    function removeHoverClass(index) {
+        var columnIndex = index;
+        $('td_' + columnIndex + '_b').removeClassName('tdHoverLook');
+    }
+
+    Event.observe(window, "load", function() {
+        initializeAutoCompleter()
+    })
+
+    function changeClass(obj, index) {
+        var div = $('div_' + index);
+        if (obj.checked) {
+            $(div).removeClassName("norm");
+            $(div).addClassName('over');
+        } else {
+            div.removeClassName("over");
+            div.addClassName("norm");
+        }
+    }
+    function submitForm(direction) {
+        if(($F('participantSymptomInput'))!= greeting){
+            alertForAdd();
+            return;
+        }
+        document.myForm.direction.value = direction;
+        document.myForm.submit();
+    }
+
+    function sendConfirmedSymptom() {
+        var selectedValueNew = escape($('participantSymptomInput').value);
+        addSymptom(selectedValueNew);
+        closeWindow();
+    }
+    </script>
 </head>
 <body>
 <chrome:box autopad="true" message="false">
@@ -472,7 +499,6 @@ function sendConfirmedSymptom() {
 
     <div id="keyboardDiv"></div>
     <br/>
-
     <div class="yui-skin-sam">
         <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"
                var="lang"/>
