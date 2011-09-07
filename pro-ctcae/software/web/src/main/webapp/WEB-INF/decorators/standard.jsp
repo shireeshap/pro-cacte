@@ -12,7 +12,7 @@
 <head>
 	<standard:head/>
     <link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
-    <title>ProCtcAE</title>
+    <title>PRO-CTCAE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:stylesheetLink name="tabbedflow"/>
 

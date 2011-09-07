@@ -13,7 +13,7 @@
 <html>
 <head>
 
-    <title>ProCtcAE || ${flow.name} || ${tab.longTitle}</title>
+    <title>PRO-CTCAE || ${flow.name} || ${tab.longTitle}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <standard:mobilehead/>
     <decorator:head/>

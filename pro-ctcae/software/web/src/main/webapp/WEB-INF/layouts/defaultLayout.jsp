@@ -22,7 +22,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>--%>
 	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>--%>
 
-	<title>ProCtcAE</title>
+	<title>PRO-CTCAE</title>
 	<link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
