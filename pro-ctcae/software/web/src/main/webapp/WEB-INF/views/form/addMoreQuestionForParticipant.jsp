@@ -182,12 +182,8 @@
 <script type="text/javascript">
     var oAC;
     var greeting = "Begin typing here";
-    <c:if test="lang == 'es'"> greeting = "ola"; </c:if>
-     <c:if test="${param.lang eq 'en'}">
-        <c:set var="greeting" value="Begin typing here"/>
-    </c:if>
-    <c:if test="${param.lang eq 'es'}">
-        <c:set var="greeting" value="Comienza a escribir aqu?"/>
+    <c:if test="${pageContext.response.locale == 'es'}">
+         greeting = "Comienza a escribir aqu?";
     </c:if>
 
     function initializeAutoCompleter() {
