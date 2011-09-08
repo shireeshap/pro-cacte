@@ -460,6 +460,7 @@ public class ParticipantCommand {
 
             for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : notificationStaffToRemove) {
                 studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
+                studyParticipantAssignment.getNotificationClinicalStaff().remove(studyParticipantClinicalStaff);
             }
             notificationStaffToRemove.clear();
         }
