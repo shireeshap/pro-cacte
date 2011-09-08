@@ -333,13 +333,13 @@
         <location>/decorated-error.jsp</location>
     </error-page>
     <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>DisabledMethods</web-resource-name>
-            <url-pattern>/*</url-pattern>
-            <http-method>DELETE</http-method>
-            <http-method>PUT</http-method>
-            <http-method>TRACE</http-method>
-        </web-resource-collection>
-        <auth-constraint/>
+		<web-resource-collection>
+        <web-resource-name>Protected Context</web-resource-name>
+          <url-pattern>/*</url-pattern>
+     	</web-resource-collection>
+  		<!-- auth-constraint goes here if you require authentication -->
+     	<user-data-constraint>
+        	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+     	</user-data-constraint> 
     </security-constraint>
 </web-app>
