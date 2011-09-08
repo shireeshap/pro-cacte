@@ -191,11 +191,12 @@ public abstract class StudyOrganization extends BasePersistable {
 
     public String getDisplayName() {
         if (StringUtils.isBlank(displayName)) {
-            displayName = organization.getName();
+            displayName =  organization.getNciInstituteCode() == null ? "" : "( "
+        		+ organization.getNciInstituteCode() + " ) " + organization.getName();
         }
         return displayName;
     }
-
+    
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }

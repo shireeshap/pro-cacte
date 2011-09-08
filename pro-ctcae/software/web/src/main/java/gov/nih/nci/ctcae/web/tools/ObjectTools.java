@@ -1,8 +1,12 @@
 package gov.nih.nci.ctcae.web.tools;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.BeansException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,8 @@ import java.util.List;
  */
 public class ObjectTools {
 
+	private static Log log = LogFactory.getLog(ObjectTools.class);
+	
     /**
      * Creates a copy of the given object with only the listed properties included.
      *
@@ -41,7 +47,33 @@ public class ObjectTools {
 
         BeanWrapper source = new BeanWrapperImpl(src);
         BeanWrapper destination = new BeanWrapperImpl(dst);
+        //for (String property : properties) {
+          //  destination.setPropertyValue(property, source.getPropertyValue(property));
+        //}
         for (String property : properties) {
+            // only for nested props
+            String[] individualProps = property.split("\\.");
+            String temp = "";
+
+            for (int i = 0; i < individualProps.length - 1; i++) {
+                temp += (i != 0 ? "." : "") + individualProps[i];
+                Object o = source.getPropertyValue(temp);
+                if (destination.getPropertyValue(temp) == null) {
+                    try {
+                        destination.setPropertyValue(temp, o.getClass().newInstance());
+                    }
+                    catch (BeansException e) {
+                        log.error(e.getMessage());
+                    }
+                    catch (InstantiationException e) {
+                        log.error(e.getMessage());
+                    }
+                    catch (IllegalAccessException e) {
+                        log.error(e.getMessage());
+                    }
+                }
+            }
+            // for single and nested props
             destination.setPropertyValue(property, source.getPropertyValue(property));
         }
         return dst;

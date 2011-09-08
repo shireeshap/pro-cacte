@@ -42,16 +42,16 @@
      function handleSelect(stype, args) {
          var ele = args[0];
          var oData = args[2];
-         ele.getInputEl().value = oData.displayName;
          var id = ele.getInputEl().id;
+       	 ele.getInputEl().value = oData.displayName;
+         
          var hiddenInputId = id.substring(0, id.indexOf('Input'));
          $(hiddenInputId).value = oData.id;
-
-	if(hiddenInputId == 'study'){
+		 if(hiddenInputId == 'study'){
 	          displayForms();
 	          displaySites();
 	          displayParticipants();
-	}
+		 }
      }
 
     function clearInput(inputId) {

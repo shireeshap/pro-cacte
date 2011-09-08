@@ -32,6 +32,11 @@ public class StudyOrganizationQuery extends AbstractQuery {
      */
     private static final String STUDY_SITE = "studySite";
     private static final String ORGANIZATION_NAME = "name";
+    /**
+     * The NCI code.
+     */
+    private static String NCI_CODE = "nciInstituteCode";
+    
 
     /**
      * Instantiates a new study organization query.
@@ -78,5 +83,20 @@ public class StudyOrganizationQuery extends AbstractQuery {
     public void filterByOrganizationId(final int organizationId) {
         andWhere("o.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, new Integer(organizationId));
+    }    
+    
+    /**
+     * Filter by organization name or nci institute code.
+     *
+     * @param text the text
+     */
+    public void filterByOrganizationNameOrNciInstituteCode(final String text) {
+        String searchString = "%" + text.toLowerCase() + "%";
+        andWhere(String.format("(lower(o.organization.name) LIKE :%s or lower(o.organization.nciInstituteCode) LIKE :%s)", ORGANIZATION_NAME, NCI_CODE));
+        setParameter(ORGANIZATION_NAME, searchString);
+        setParameter(NCI_CODE, searchString);
     }
+   
+   
 }
+

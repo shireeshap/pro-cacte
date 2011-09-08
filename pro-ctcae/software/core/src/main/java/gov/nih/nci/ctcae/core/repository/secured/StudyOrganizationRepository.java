@@ -61,7 +61,7 @@ public class StudyOrganizationRepository implements Repository<StudyOrganization
 
     public List<StudyOrganization> findByStudyId(String text, Integer studyId) {
         StudyOrganizationQuery query = new StudyOrganizationQuery();
-        query.filterByOrganizationName(text);
+        query.filterByOrganizationNameOrNciInstituteCode(text);
         query.filterByStudyId(studyId);
         query.filterByStudySiteAndLeadSiteOnly();
         return (List<StudyOrganization>) find(query);

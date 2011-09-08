@@ -120,7 +120,7 @@ public class OrganizationAjaxFacade {
                 return object.toString();
             }
         });
-        return ObjectTools.reduceAll(organizations, "id", "displayName");
+        return ObjectTools.reduceAll(organizations, "id", "organization.name", "organization.nciInstituteCode");
 
     }
 
