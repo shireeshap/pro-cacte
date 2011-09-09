@@ -101,20 +101,23 @@
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
-                <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
-                    <chrome:division title="study.label.clinical.staff.lead.site_pi">
-                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
-                                                           roleStatusOptions="${roleStatusOptions}"
-                                                           studyCommand="${command}"/>
-                    </chrome:division>
-
-                    <chrome:division title="study.label.clinical.staff.lead.site_cra">
-                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
-                                                           roleStatusOptions="${roleStatusOptions}"
-                                                           studyCommand="${command}"/>
-                    </chrome:division>
-                </chrome:box>
-
+            	<proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff">
+	                <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
+	                    <chrome:division title="study.label.clinical.staff.lead.site_pi">
+	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
+	                                                           roleStatusOptions="${roleStatusOptions}"
+	                                                           studyCommand="${command}"/>
+	                    </chrome:division>
+						<br/>
+	                    <chrome:division title="study.label.clinical.staff.lead.site_cra">
+	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
+	                                                           roleStatusOptions="${roleStatusOptions}"
+	                                                           studyCommand="${command}"/>
+	                    </chrome:division>
+	                    <br/>
+	                </chrome:box>
+				</proctcae:urlAuthorize>
+				
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
                     <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
                         <chrome:division title="study.label.clinical.staff.lead.treating_physican">
@@ -122,13 +125,14 @@
                                                                roleStatusOptions="${roleStatusOptions}"
                                                                studyCommand="${command}"/>
                         </chrome:division>
-
+						<br/>
                         <chrome:division title="study.label.clinical.staff.lead.nurse">
                             <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
                                                                roleStatusOptions="${roleStatusOptions}"
                                                                studyCommand="${command}"
                                                                notifyOptions="${notifyOptions}"/>
                         </chrome:division>
+                        <br/>
                     </chrome:box>
                 </proctcae:urlAuthorize>
             </c:if>

@@ -77,7 +77,8 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     public String getRequiredPrivilege() {
         //return Privilege.PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF;
-    	return Privilege.PRIVILEGE_CREATE_CLINICAL_STAFF;
+    	//return Privilege.PRIVILEGE_CREATE_CLINICAL_STAFF;
+    	return Privilege.PRIVILEGE_ADD_STUDY_SITE_STAFF;
     }
 
     public void setStudyRepository(StudyRepository studyRepository) {

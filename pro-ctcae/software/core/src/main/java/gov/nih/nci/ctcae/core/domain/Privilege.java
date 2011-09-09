@@ -44,6 +44,10 @@ public class Privilege extends BasePersistable {
     public static final String PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF = "PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF";
     public static final String PRIVILEGE_ADD_FORM_RULES = "PRIVILEGE_ADD_FORM_RULES";
     public static final String PRIVILEGE_ADD_SITE_RULES = "PRIVILEGE_ADD_SITE_RULES";
+    
+    public static final String PRIVILEGE_ADD_STUDY_SITE_STAFF = "PRIVILEGE_ADD_STUDY_SITE_STAFF";
+    public static final String PRIVILEGE_ADD_STUDY_SITE_RESEARCH_STAFF = "PRIVILEGE_ADD_STUDY_SITE_RESEARCH_STAFF";
+    
 
     /**
      * The id.
