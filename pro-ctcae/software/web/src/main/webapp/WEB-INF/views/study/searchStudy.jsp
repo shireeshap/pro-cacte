@@ -185,7 +185,7 @@
         <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
 </chrome:box>
-<a name="searchResults"/>
+<%--<a name="searchResults"/>--%>
 <chrome:box title="Results">
 
     <table width="100%">

@@ -200,7 +200,7 @@
     </form>
 </chrome:box>
 <chrome:box title="Results">
-    <a name="searchResults"/>
+    <%--<a name="searchResults"/>--%>
     <table width="100%">
         <tr>
             <c:choose>
