@@ -43,15 +43,6 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/report">
-                <li id="thirdlevelnav-x" class="tab ${selected=='enrollmentReport'?'selected':''}">
-                    <div align="right">
-                        <a href="/proctcae/pages/reports/overallStudyExcel" target="_blank">
-                            Overall study data
-                        </a>
-                    </div>
-                </li>
-            </proctcae:urlAuthorize>
         </ul>
     </div>
 </div>
