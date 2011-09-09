@@ -176,7 +176,7 @@ public class StudyLevelReportResultsController extends AbstractController {
             ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proCtcQuestion, firstQuestion);
 //            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
 //            myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
-//            myProCtcValidValue.setDisplayOrder(0);
+            myProCtcValidValue.setDisplayOrder(0);
             validValue.add(myProCtcValidValue);
         } else {
             validValue.add(value);
