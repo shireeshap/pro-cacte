@@ -66,6 +66,7 @@ public class ReportSearchCriteriaController extends AbstractController {
             }
         }
         modelAndView.addObject("url", getUrlForReportType(request));
+        modelAndView.addObject("reportType", reportType);
         return modelAndView;
     }
 
