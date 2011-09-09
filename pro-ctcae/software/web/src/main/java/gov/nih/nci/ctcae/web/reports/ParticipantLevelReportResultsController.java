@@ -133,7 +133,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         }
         if (value == null) {
             ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, studyParticipantCrfItem);
-//            myProCtcValidValue.setDisplayOrder(0);
+            myProCtcValidValue.setDisplayOrder(0);
             validValue.add(myProCtcValidValue);
         } else {
             validValue.add(value);
