@@ -70,6 +70,18 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         return submitFormCommand;
     }
 
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand)request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        int currentPageIndex = 0;
+        currentPageIndex = submitFormCommand.getNewPageIndex();
+        ModelAndView mv;
+        if (submitFormCommand.getSortedSymptoms().size() == 0) {
+            mv = showForm(request, errors, "");
+            mv.setView(new RedirectView("addMorequestion?p=" + currentPageIndex));
+            return mv;
+        }
+        return showForm(request, errors, getFormView());
+    }
 
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
