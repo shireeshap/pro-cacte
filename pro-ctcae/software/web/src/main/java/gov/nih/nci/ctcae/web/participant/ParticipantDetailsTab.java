@@ -297,18 +297,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 } else {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
-//                    for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                     StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
                     if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate) != 0) {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
-                        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                                studyParticipantCrf.moveSingleSchedule(studyParticipantCrfSchedule, offSetDiff);
-                                //move the corresponding IvrsSchedules as well
-                                studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offSetDiff);
-                            }
-                        }
+                        studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
+                        command.assignCrfsToParticipant();
                     }
                     if (!studyParticipantAssignment.getArm().getId().equals(command.getArmId())) {
                         for (Arm arm : studyParticipantAssignment.getStudySite().getStudy().getArms()) {
@@ -316,7 +310,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                                 studyParticipantAssignment.setArm(arm);
                             }
                         }
-//                            studyParticipantAssignment.removeAllSchedules();
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
                         command.assignCrfsToParticipant();
                     }
