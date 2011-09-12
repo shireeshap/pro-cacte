@@ -225,6 +225,7 @@
                         parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
                         onComplete:function(transport) {
                             showConfirmationWindow(transport, 600, 250);
+                            clearInput();
                         },
                         method:'post'
                     })
