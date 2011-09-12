@@ -94,7 +94,7 @@
            </div>
            <form:input path="overallDataCoordinator.organizationClinicalStaff"
                        id="overallDataCoordinator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Staff"
+                       title="Overall Data Coordinator "
                        cssStyle="display:none;"/>
            <div class="row">
            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
@@ -116,7 +116,7 @@
 
              <form:input path="leadCRA.organizationClinicalStaff"
                        id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Staff"
+                       title="Lead Site CRA"
                        cssStyle="display:none;"/>
            <div class="row">
            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
@@ -136,7 +136,7 @@
             </div>
             <form:input path="principalInvestigator.organizationClinicalStaff"
                        id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Staff"
+                       title="Overall PI "
                        cssStyle="display:none;"/>
             <div class="row">
            <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
