@@ -28,14 +28,7 @@ import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +38,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -82,6 +76,8 @@ public class LoginController extends AbstractController {
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
             	//String lang = getParticipantsPreferredLanguage(user);
                 return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
+            } else {
+                request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.ENGLISH);
             }
             if (userRole.getRole().equals(Role.ADMIN)) {
                 return new ModelAndView("home");
