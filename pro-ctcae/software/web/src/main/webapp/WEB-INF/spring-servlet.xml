@@ -587,6 +587,7 @@
         <property name="userRepository" ref="userRepository"/>
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/home/notificationdetails" id="notificationdetails"
           class="gov.nih.nci.ctcae.web.clinicalStaff.NotificationDetailsController">
