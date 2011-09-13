@@ -598,14 +598,14 @@
                                     </c:if>
                                 </c:forEach>
                                 <tr align="right">                                   
-                                    <c:if test="${load eq 'all'}">
+                                    <c:if test="${loadOverdue == null || loadOverdue eq 'less'}">
                                         <td colspan="5">
-                                            <A HREF="./home?load=all">show more</A>
+                                            <A HREF="./home?loadOverdue=all&loadUpcoming=${loadUpcoming}">show more</A>
                                         </td>
                                     </c:if>
-                                    <c:if test="${load eq 'less'}">
+                                    <c:if test="${loadOverdue eq 'all'}">
                                         <td colspan="5">
-                                            <A HREF="./home?load=less">show less</A>
+                                            <A HREF="./home?loadOverdue=less&loadUpcoming=${loadUpcoming}">show less</A>
                                         </td>
                                     </c:if>
                                 </tr>
@@ -689,14 +689,14 @@
                                     </tr>
                                 </c:forEach>
                                 <tr align="right">
-                                    <c:if test="${load eq 'all'}">
+                                    <c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">
                                         <td colspan="5">
-                                            <A HREF="./home?load=all">show more</A>
+                                            <A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>
                                         </td>
                                     </c:if>
-                                    <c:if test="${load eq 'less'}">
+                                    <c:if test="${loadUpcoming eq 'all'}">
                                         <td colspan="5">
-                                            <A HREF="./home?load=less">show less</A>
+                                            <A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>
                                         </td>
                                     </c:if>
                                 </tr>
