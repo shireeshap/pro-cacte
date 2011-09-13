@@ -29,6 +29,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         setParameter("crfId", id);
     }
 
+    public void filterByStudyParticipantCRFId(Integer id) {
+        andWhere("spcs.studyParticipantCrf.id =:id");
+        setParameter("id", id);
+    }
+    
     public void filterByCRFIds(List<Integer> crfIds) {
         andWhere("spcs.studyParticipantCrf.crf.id in (:" + CRF_IDS + ")");
         setParameterList(CRF_IDS, crfIds);
