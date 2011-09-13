@@ -149,7 +149,7 @@
 
         <div class="content">
             <div class="row" name="inputs">
-                <div class="label"> Search By</div>
+                <div class="label"> <tags:message code='study.label.search_by'/></div>
                 <div class="value">
                     <select id="searchType" name="searchType">
                         <c:forEach items="${searchCriteria}" var="item">
