@@ -103,11 +103,13 @@
         });
 
         function getStudies(sQuery) {
+        	showIndicator("studyInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             study.matchStudy(unescape(sQuery), callMetaData);
+            hideIndicator("studyInput-indicator");
             return aResults;
         }
 

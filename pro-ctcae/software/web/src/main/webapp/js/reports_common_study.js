@@ -21,16 +21,14 @@
    		postOrganizationFetch(aResults);
    }
 
-
-
-
-
    function getOrganizations(sQuery) {
+	   showIndicator("studySiteInput-indicator");
        var callbackProxy = function(results) {
            aResults = results;
        };
        var callMetaData = {callback:callbackProxy, async:false};
        organization.matchOrganizationByStudyId(unescape(sQuery), $('study').value, callMetaData);
+       hideIndicator("studySiteInput-indicator");
        return aResults;
    }
 
@@ -158,18 +156,6 @@
    function removeError(element) {
        msgId = element.name + "-msg"
        $(msgId) != null ? new Element.remove(msgId) : null
-   }
-
-   function showIndicator() {
-
-       $('indicator').style.visibility = 'visible';
-       if (typeof(xMousePos) != 'undefined') {
-           $("indicator").style.left = xMousePos + 'px';
-           $("indicator").style.top = yMousePos + 'px';
-       }
-   }
-   function hideIndicator() {
-       $('indicator').style.visibility = 'hidden';
    }
 
    function fnDisplayParticipants() {

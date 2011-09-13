@@ -25,18 +25,20 @@
 
     <script type="text/javascript">
 
-        function getOrgs(sQuery) {
-            var callbackProxy = function(results) {
-                aResults = results;
-            };
-            var callMetaData = { callback:callbackProxy, async:false};
-            if(${cca}){
-                organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
-            }else{
-                organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
-            }
-            return aResults;
-        }
+	    function getOrgs(sQuery) {
+	        showIndicator('clinicalStaff.organizationClinicalStaffs[0].organizationInput-indicator');
+	        var callbackProxy = function(results) {
+	            aResults = results;
+	        };
+	        var callMetaData = { callback:callbackProxy, async:false};
+	        if(${cca}){
+	            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+	        }else{
+	            organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+	        }
+	        hideIndicator('clinicalStaff.organizationClinicalStaffs[0].organizationInput-indicator');
+	        return aResults;
+	    }
 
         function handleSelect(stype, args) {
             var ele = args[0];

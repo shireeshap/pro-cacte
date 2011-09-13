@@ -23,7 +23,7 @@
 
 
     function getOrgs(sQuery) {
-
+		showIndicator('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput-indicator');
         var callbackProxy = function(results) {
             aResults = results;
         };
@@ -33,6 +33,7 @@
         } else {
             organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
         }
+        hideIndicator('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput-indicator');
         return aResults;
     }
 

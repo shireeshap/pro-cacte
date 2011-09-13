@@ -132,11 +132,13 @@
         });
 
         function getStudies(sQuery) {
+        	showIndicator("studyInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             study.matchStudy(unescape(sQuery), callMetaData);
+            hideIndicator("studyInput-indicator");
             return aResults;
         }
 
@@ -163,11 +165,13 @@
         }
 
        function getParticipants(sQuery) {
+    	   showIndicator("participantInput-indicator");
            var callbackProxy = function(results) {
                aResults = results;
            };
            var callMetaData = {callback:callbackProxy, async:false};
            participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
+           hideIndicator("participantInput-indicator");
            return aResults;
        }
     </script>

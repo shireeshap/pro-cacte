@@ -613,3 +613,22 @@ function resetInputs(propertyName){
         elInput.className = 'pending-search';
     }
 }
+
+//the activity indicator methods
+function showIndicator(id) {
+	if(id == null || id == ''){
+		id = 'indicator';
+	}
+    $(id).style.visibility = 'visible';
+    if (typeof(xMousePos) != 'undefined') {
+        $(id).style.left = xMousePos + 'px';
+        $(id).style.top = yMousePos + 'px';
+    }
+}
+function hideIndicator(id) {
+	if(id == null || id == ''){
+		id = 'indicator';
+	}
+    $(id).style.visibility = 'hidden';
+}
+
