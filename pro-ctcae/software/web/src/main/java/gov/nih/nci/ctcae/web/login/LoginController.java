@@ -19,6 +19,9 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
@@ -54,12 +57,18 @@ public class LoginController extends AbstractController {
     UserRepository userRepository;
     ParticipantRepository participantRepository;
 	StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+	StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+	GenericRepository genericRepository;
+	
+	public static final int MAX_RESULTS_DISPLAYED = 25;
 
     protected LoginController() {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        String load = request.getParameter("load");
+        String loadUpcoming = request.getParameter("loadUpcoming");
+        String loadOverdue = request.getParameter("loadOverdue");
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new CtcAeSystemException("Cannot find not-null Authentication object. Make sure the user is logged in");
@@ -126,7 +135,7 @@ public class LoginController extends AbstractController {
             }
         }
 
-        List sortedCrfs = new ArrayList<CRF>(topLevelCrfs);
+        List<CRF> sortedCrfs = new ArrayList<CRF>(topLevelCrfs);
         Collections.sort(sortedCrfs, new CrfActivityDateComparator());
 
         if (studyLevelRole) {
@@ -138,17 +147,42 @@ public class LoginController extends AbstractController {
         mv.addObject("nurseLevelRole", nurseLevelRole);
         mv.addObject("odc", odc);
         mv.addObject("notifications", getNotifications(user));
-
+        mv.addObject("loadUpcoming", loadUpcoming);
+        mv.addObject("loadOverdue", loadOverdue);
+        
+        List<StudyParticipantCrfSchedule> previouslyEvaluatedOverdueList = (List<StudyParticipantCrfSchedule>)request.getSession().getAttribute("overdue");
+        List<StudyParticipantCrfSchedule> previouslyEvaluatedupcomingList = (List<StudyParticipantCrfSchedule>)request.getSession().getAttribute("upcoming");
+        
         if (siteLevelRole) {
-            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff, load);
-            if (load!=null && load.equals("all")){
-                load="less";
+            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff, loadUpcoming, loadOverdue);
+            
+            if(loadOverdue == null && previouslyEvaluatedOverdueList == null){
+            	//login case
+            	mv.addObject("overdue", schedules.get(0));
+                request.getSession().setAttribute("overdue", schedules.get(0));
+            } else if(loadOverdue != null){
+            	//all or less on overdue case
+            	mv.addObject("overdue", schedules.get(0));
+                request.getSession().setAttribute("overdue", schedules.get(0));
             } else {
-                load="all";
+            	mv.addObject("overdue", previouslyEvaluatedOverdueList);
+            	request.getSession().setAttribute("overdue", previouslyEvaluatedOverdueList);
             }
-            mv.addObject("overdue", schedules.get(0));
-            mv.addObject("upcoming", schedules.get(1));
-            mv.addObject("load", load);
+            
+            if(loadUpcoming == null && previouslyEvaluatedupcomingList == null){
+            	//login case
+            	mv.addObject("overdue", schedules.get(1));
+                request.getSession().setAttribute("upcoming", schedules.get(1));
+            } else if(loadUpcoming != null){
+            	//all or less on overdue case
+            	mv.addObject("upcoming", schedules.get(1));
+                request.getSession().setAttribute("upcoming", schedules.get(1));
+            } else {
+            	mv.addObject("upcoming", previouslyEvaluatedupcomingList);
+            	request.getSession().setAttribute("upcoming", previouslyEvaluatedupcomingList);
+            }
+            
+//            mv.addObject("load", load);
         }
         return mv;
     }
@@ -193,14 +227,22 @@ public class LoginController extends AbstractController {
         return user.getUserNotifications();
     }
 
-    public List<List<StudyParticipantCrfSchedule>> getOverdueAndUpcomingSchedules(ClinicalStaff clinicalStaff, String load) {
+    private List<List<StudyParticipantCrfSchedule>> getOverdueAndUpcomingSchedules(ClinicalStaff clinicalStaff, String loadUpcoming, String loadOverdue) {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
         int pastCount = 10;
         int upcomingCount = 10;
-        if (load != null && load.equals("all")) {
-            pastCount = 100;
-            upcomingCount = 100;
+        if(loadUpcoming == null && loadOverdue == null){
+        	//login case...hence set both to true
+        	loadUpcoming="less";
+        	loadOverdue="less";
         }
+        if (loadUpcoming != null && loadUpcoming.equals("all")) {
+            upcomingCount = MAX_RESULTS_DISPLAYED;
+        }
+        if (loadOverdue != null && loadOverdue.equals("all")) {
+            pastCount = MAX_RESULTS_DISPLAYED;
+        }
+        
         query.filterByClinicalStaffId(clinicalStaff.getId());
         List<StudyOrganizationClinicalStaff> socs = studyOrganizationClinicalStaffRepository.find(query);
         ArrayList<List<StudyParticipantCrfSchedule>> out = new ArrayList<List<StudyParticipantCrfSchedule>>();
@@ -210,31 +252,57 @@ public class LoginController extends AbstractController {
 //        out.add(upcoming);
         Date today = new Date();
         Date week = DateUtils.addDaysToDate(today, 6);
-        Date yesterday = DateUtils.addDaysToDate(today, -1);
+        StudyParticipantCrfScheduleQuery studyParticipantCrfScheduleQuery;
+        List<StudyParticipantCrfSchedule> spcsList = null;
 
         for (StudyOrganizationClinicalStaff staff : socs) {
             for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
                 for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                    for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-                        if (spcs.getStatus().equals(CrfStatus.PASTDUE)) {
-                            if (pastCount > 0) {
-                                overdue.add(spcs);
-                                pastCount--;
-                            }
-                        }
-                        if (spcs.getStartDate().after(yesterday) && spcs.getStartDate().before(week)) {
-                            if (upcomingCount > 0) {
-                                upcoming.add(spcs);
-                                upcomingCount--;
-                            }
-                        }
+                	
+                	if (loadOverdue != null && pastCount > 0) {
+                    	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
+                    	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFId(spc.getId());
+                    	studyParticipantCrfScheduleQuery.filterByStatus(CrfStatus.PASTDUE);
+                    	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
+                    	if(spcsList != null && spcsList.size() > 0){
+                        	for(StudyParticipantCrfSchedule spcs: spcsList){
+        	                	if (pastCount > 0) {
+        		                      overdue.add(spcs);
+        		                      pastCount--;
+        	                    }
+                        	}
+                    	}
+                	}
+
+                	if (loadUpcoming != null && upcomingCount > 0) {
+                    	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
+                    	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFId(spc.getId());
+                    	studyParticipantCrfScheduleQuery.filterByDate(today, week);
+                    	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
+                    	if(spcsList != null && spcsList.size() > 0){
+                        	for(StudyParticipantCrfSchedule spcs: spcsList){
+        	                	if (upcomingCount > 0) {
+        	                		  upcoming.add(spcs);
+        		                      upcomingCount--;
+        	                    }
+                        	}
+                    	}
+                	}
+                	if(pastCount == 0 && upcomingCount == 0){
+                    	break;
                     }
                 }
+                if(pastCount == 0 && upcomingCount == 0){
+                	break;
+                }
+            }
+            if(pastCount == 0 && upcomingCount == 0){
+            	break;
             }
         }
-        List sortedUpcoming = new ArrayList<StudyParticipantCrfSchedule>(upcoming);
+        List<StudyParticipantCrfSchedule> sortedUpcoming = new ArrayList<StudyParticipantCrfSchedule>(upcoming);
         Collections.sort(sortedUpcoming, new ParticipantDisplayNameComparator());
-        List sortedOverdue = new ArrayList<StudyParticipantCrfSchedule>(overdue);
+        List<StudyParticipantCrfSchedule> sortedOverdue = new ArrayList<StudyParticipantCrfSchedule>(overdue);
         Collections.sort(sortedOverdue, new ParticipantDisplayNameComparator());
         out.add(sortedOverdue);
         out.add(sortedUpcoming);
@@ -259,5 +327,14 @@ public class LoginController extends AbstractController {
     @Required
 	public void setParticipantRepository(ParticipantRepository participantRepository) {
 		this.participantRepository = participantRepository;
+	}
+
+	public void setStudyParticipantCrfScheduleRepository(
+			StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+		this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
+	}
+
+	public void setGenericRepository(GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
 	}
 }
