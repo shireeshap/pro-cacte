@@ -87,11 +87,46 @@
         }
 
         function getOrgs(sQuery) {
+            showIndicator("study.studySponsor.organizationInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            hideIndicator("study.studySponsor.organizationInput-indicator");
+            return aResults;
+        }
+
+         function getOrgs1(sQuery) {
+            showIndicator("study.dataCoordinatingCenter.organizationInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            hideIndicator("study.dataCoordinatingCenter.organizationInput-indicator");
+            return aResults;
+        }
+
+         function getOrgs2(sQuery) {
+            showIndicator("study.fundingSponsor.organizationInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            hideIndicator("study.fundingSponsor.organizationInput-indicator");
+            return aResults;
+        }
+
+         function getOrgs3(sQuery) {
+            showIndicator("study.leadStudySite.organizationInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            hideIndicator("study.leadStudySite.organizationInput-indicator");
             return aResults;
         }
 
@@ -105,20 +140,20 @@
                 $('study.studySponsor.organizationInput').removeClassName('pending-search');
             }
             </c:if>
-            new YUIAutoCompleter('study.dataCoordinatingCenter.organizationInput', getOrgs, handleSelect);
+            new YUIAutoCompleter('study.dataCoordinatingCenter.organizationInput', getOrgs1, handleSelect);
             var dccDisplayName = "${command.study.dataCoordinatingCenter.organization.displayName}";
             if (dccDisplayName != "") {
                 $('study.dataCoordinatingCenter.organizationInput').value = "${command.study.dataCoordinatingCenter.organization.displayName}";
                 $('study.dataCoordinatingCenter.organizationInput').removeClassName('pending-search');
             }
-            new YUIAutoCompleter('study.fundingSponsor.organizationInput', getOrgs, handleSelect);
+            new YUIAutoCompleter('study.fundingSponsor.organizationInput', getOrgs2, handleSelect);
             var fsDisplayName = "${command.study.fundingSponsor.organization.displayName}";
             if (fsDisplayName != "") {
                 $('study.fundingSponsor.organizationInput').value = "${command.study.fundingSponsor.organization.displayName}";
                 $('study.fundingSponsor.organizationInput').removeClassName('pending-search');
             }
 
-            new YUIAutoCompleter('study.leadStudySite.organizationInput', getOrgs, handleSelect);
+            new YUIAutoCompleter('study.leadStudySite.organizationInput', getOrgs3, handleSelect);
             var lssDisplayName = "${command.study.leadStudySite.organization.displayName}";
             if (lssDisplayName != "") {
                 $('study.leadStudySite.organizationInput').value = "${command.study.leadStudySite.organization.displayName}";
