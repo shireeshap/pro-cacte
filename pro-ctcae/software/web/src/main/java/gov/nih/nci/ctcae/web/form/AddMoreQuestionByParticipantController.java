@@ -32,17 +32,20 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-
+         SubmitFormCommand sCommand = (SubmitFormCommand) command;
         int pageNumber = Integer.parseInt(request.getParameter("p"));
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
-                SubmitFormCommand sCommand = (SubmitFormCommand) command;
+                 sCommand = (SubmitFormCommand) command;
                 sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true);
             }
             pageNumber++;
         } else {
             if ("back".equals(((SubmitFormCommand) command).getDirection())) {
+                 if (sCommand.getSortedSymptoms().size() == 0) {
+                    pageNumber--;
+                 }
                 pageNumber--;
             }
         }

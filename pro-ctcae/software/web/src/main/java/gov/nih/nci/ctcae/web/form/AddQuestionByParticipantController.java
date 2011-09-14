@@ -76,6 +76,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         currentPageIndex = submitFormCommand.getNewPageIndex();
         ModelAndView mv;
         if (submitFormCommand.getSortedSymptoms().size() == 0) {
+            currentPageIndex++;
             mv = showForm(request, errors, "");
             mv.setView(new RedirectView("addMorequestion?p=" + currentPageIndex));
             return mv;
