@@ -58,11 +58,13 @@
 <script>
 
     function getSites(sQuery) {
+        showIndicator("siteInput-indicator");
         var callbackProxy = function(results) {
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
         organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
+        hideIndicator("siteInput-indicator");
         return aResults;
     }
 
