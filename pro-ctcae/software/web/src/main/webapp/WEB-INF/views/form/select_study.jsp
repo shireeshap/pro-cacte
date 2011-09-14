@@ -21,11 +21,13 @@
     <script type="text/javascript">
 
         function getStudies(sQuery) {
+            showIndicator("crf.studyInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             study.matchStudy(unescape(sQuery), callMetaData);
+            hideIndicator("crf.studyInput-indicator");
             return aResults;
         }
 
