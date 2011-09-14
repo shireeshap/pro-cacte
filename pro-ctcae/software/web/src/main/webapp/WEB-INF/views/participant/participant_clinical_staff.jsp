@@ -52,12 +52,14 @@
                     }
                     
                  function getStudyOrganizationClinicalStaffForTreatingPhysicianRole(sQuery) {
+                    showIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput-indicator");
                     var callbackProxy = function(results) {
                         aResults = results;
                     };
                     var callMetaData = { callback:callbackProxy, async:false};
                     clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
                            ${studyParticipantAssignment.studySite.id}, 'TREATING_PHYSICIAN',callMetaData);
+                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput-indicator");
                     return aResults;
                  }
 
@@ -72,12 +74,14 @@
                     }
 
                  function getStudyOrganizationClinicalStaffForNurseRole(sQuery) {
+                    showIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput-indicator");
                     var callbackProxy = function(results) {
                         aResults = results;
                     };
                     var callMetaData = { callback:callbackProxy, async:false};
                     clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
                            ${studyParticipantAssignment.studySite.id}, 'NURSE',callMetaData);
+                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput-indicator");
                     return aResults;
                  }
 
@@ -92,12 +96,14 @@
                         }
 
                      function getStudyOrganizationClinicalStaffForNurseAndTPRole(sQuery) {
+                        showIndicator("participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput-indicator");
                         var callbackProxy = function(results) {
                             aResults = results;
                         };
                         var callMetaData = { callback:callbackProxy, async:false};
                         clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
                                ${studyParticipantAssignment.studySite.id}, 'TREATING_PHYSICIAN|NURSE',callMetaData);
+                        hideIndicator("participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput-indicator");
                         return aResults;
                      }
 
@@ -158,14 +164,16 @@
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 
-<div class="row">
-    <div class="label" style="width:4em"><spring:message code="participant.label.study"/>:</div>
-    <div class="value">${command.selectedStudyParticipantAssignment.studySite.study.displayName}</div>
-</div>
-<div class="row">
-    <div class="label" style="width:4em"><spring:message code="participant.label.site"/>:</div>
-    <div class="value">${command.selectedStudyParticipantAssignment.studySite.displayName}</div>
-</div>
+    <chrome:box title="participant.label.study">
+        <div class="row">
+            <div class="label" style="width:5em"><spring:message code="study.label.clinical.staff"/>:&nbsp;</div>
+            <div class="value">${command.selectedStudyParticipantAssignment.studySite.study.displayName}</div>
+        </div>
+        <div class="row">
+            <div class="label" style="width:7em"><spring:message code="participant.label.site"/>:&nbsp;</div>
+            <div class="value">${command.selectedStudyParticipantAssignment.studySite.displayName}</div>
+        </div>
+    </chrome:box>
 
     <chrome:box title="participant.label.researchstaff">
         <chrome:division title="participant.label.sitepi"/>

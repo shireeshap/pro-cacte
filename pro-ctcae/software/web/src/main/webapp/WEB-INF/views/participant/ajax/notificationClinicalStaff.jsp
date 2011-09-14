@@ -41,12 +41,14 @@
     }
 
     function getStudyOrganizationClinicalStaffForNurseAndTPRole1(sQuery) {
+        showIndicator("participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput-indicator");
         var callbackProxy = function(results) {
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
         clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
                ${studySiteId}, 'TREATING_PHYSICIAN|NURSE',callMetaData);
+        hideIndicator("participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaffInput-indicator");
         return aResults;
      }
 
