@@ -125,11 +125,11 @@
     /*}*/
 
     .tdHoverLook {
-        background: #d7ffb0 url(../../images/lightblue-tall.png) repeat-x bottom;
-        color: #245808;
+        background: #d3f8ff url(../../images/lightblue-tall.png) repeat-x bottom;
+        color: #245468;
         text-shadow: 0 1px white;
         cursor: pointer;
-        border-color: #86bc56;
+        border-color: #90cbd9;
 
     }
 
