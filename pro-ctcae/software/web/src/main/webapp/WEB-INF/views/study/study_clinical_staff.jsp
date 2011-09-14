@@ -22,20 +22,35 @@
     <script type="text/javascript">
 
         function getODCStaff(sQuery) {
+            showIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, callMetaData);
+            hideIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
             return aResults;
         }
 
         function getLeadStaff(sQuery) {
+            showIndicator("leadCRA.organizationClinicalStaffInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
+            hideIndicator("leadCRA.organizationClinicalStaffInput-indicator");
+            return aResults;
+        }
+
+         function getLeadStaff1(sQuery) {
+            showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
+            hideIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
             return aResults;
         }
 
@@ -51,7 +66,7 @@
             $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
             $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
             }
-            new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff, handleSelect);
+            new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff1, handleSelect);
             if('${command.principalInvestigator.displayName}'!=""){
             $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
             $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
