@@ -11,11 +11,13 @@
 
 <script type="text/javascript">
     function getStaff(sQuery) {
+        showIndicator("studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}].organizationClinicalStaffInput-indicator");
         var callbackProxy = function(results) {
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
         clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${studyOrganizationClinicalStaff.studyOrganization.id}, callMetaData);
+        hideIndicator("studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}].organizationClinicalStaffInput-indicator");
         return aResults;
     }
 
