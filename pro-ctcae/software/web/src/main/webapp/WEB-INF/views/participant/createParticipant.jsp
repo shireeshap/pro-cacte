@@ -274,12 +274,13 @@ function getStudySites() {
 }
 
 function getOrgs(sQuery) {
-
+    showIndicator("organizationId-input-indicator");
     var callbackProxy = function(results) {
         aResults = results;
     };
     var callMetaData = { callback:callbackProxy, async:false};
     organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+    hideIndicator("organizationId-input-indicator");
     return aResults;
 }
 
@@ -703,7 +704,7 @@ function showOrHideEmail(value1, value2, id) {
                <c:set var="maxLength" value="40"/>
            </c:otherwise>
        </c:choose>
-
+           <tags:instructions code="participant.participant_details.top"/><br/>
            <chrome:division title="participant.label.site">
                <c:choose>
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
@@ -711,7 +712,7 @@ function showOrHideEmail(value1, value2, id) {
                               value="${command.organizationId}"/>
 
                        <div class="row">
-                           <div class="label"><spring:message code="participant.label.site"/>:&nbsp;</div>
+                           <div class="label"><spring:message code="study.label.clinical.staff"/>:&nbsp;</div>
                            <div class="value">${command.siteName}</div>
                        </div>
                    </c:when>
