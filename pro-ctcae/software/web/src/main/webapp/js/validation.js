@@ -70,7 +70,7 @@ var ValidationManager = {
     registeredInvokes: new Array(),
     ERROR_STRATEGY:"text",
     ERROR_HIGHTLIGHT_COLOR:"red",
-    ERROR_MSG_REQUIRED:"Missing ",
+    ERROR_MSG_REQUIRED:"Missing: ",
     ERROR_MSG_PATTERN:"Invalid ",
     ERROR_MSG_MINLENGTH:"too short ",
     ERROR_MSG_MAXLENGTH:"too long ",
