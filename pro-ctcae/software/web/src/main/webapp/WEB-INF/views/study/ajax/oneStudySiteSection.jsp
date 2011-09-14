@@ -7,11 +7,13 @@
 
 <script type="text/javascript">
     function getOrgs(sQuery) {
+        showIndicator("study.studySites[${index}].organizationInput-indicator");
         var callbackProxy = function(results) {
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
         organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+        hideIndicator("study.studySites[${index}].organizationInput-indicator");
         return aResults;
     }
 
