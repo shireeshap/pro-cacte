@@ -17,19 +17,23 @@
     <script type="text/javascript">
 
         function getParticipants(sQuery) {
+            showIndicator("participantInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             scheduleCrf.matchParticipants(unescape(sQuery), $('study').value, callMetaData);
+            hideIndicator("participantInput-indicator");
             return aResults;
         }
         function getStudies(sQuery) {
+            showIndicator("studyInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
             scheduleCrf.matchStudies(unescape(sQuery), $('participant').value, callMetaData);
+            hideIndicator("studyInput-indicator");
             return aResults;
         }
 
