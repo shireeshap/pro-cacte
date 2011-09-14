@@ -104,6 +104,16 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
         }
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void deleteNoReload(Persistable persistable) {
+        if (persistable != null) {
+            if (persistable.isPersisted()) {
+                    getHibernateTemplate().delete(persistable);
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

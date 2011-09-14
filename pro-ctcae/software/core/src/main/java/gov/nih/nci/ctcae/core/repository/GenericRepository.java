@@ -48,6 +48,8 @@ public interface GenericRepository {
      */
     void delete(Persistable persistable);
 
+    void deleteNoReload(Persistable persistable);
+
     /**
      * Find persistable objects for a query.
      *

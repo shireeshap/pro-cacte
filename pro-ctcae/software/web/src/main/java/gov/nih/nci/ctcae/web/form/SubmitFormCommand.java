@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -260,11 +261,9 @@ public class SubmitFormCommand implements Serializable {
 
     private void deleteSingleQuestion(StudyParticipantCrfScheduleAddedQuestion spcsaq) {
         if (spcsaq != null) {
-            StudyParticipantCrfAddedQuestion spcaq = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, spcsaq.getStudyParticipantCrfAddedQuestionId());
-            if (spcaq != null) {
                 String symptom = spcsaq.getProCtcOrMeddraQuestion().getQuestionSymptom();
                 StudyParticipantCrf spc = schedule.getStudyParticipantCrf();
-//                spc.removeStudyParticipantCrfAddedQuestion(spcaq);   
+
                 List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : spc.getStudyParticipantCrfAddedQuestions()) {
                     if (studyParticipantCrfAddedQuestion.getProCtcOrMeddraQuestion().getQuestionSymptom().equals(symptom)) {
@@ -273,9 +272,8 @@ public class SubmitFormCommand implements Serializable {
                 }
                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
                     spc.removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                    genericRepository.delete(studyParticipantCrfAddedQuestion);
+                    genericRepository.deleteNoReload(studyParticipantCrfAddedQuestion);
                 }
-            }
         }
     }
 
