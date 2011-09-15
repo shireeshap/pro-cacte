@@ -188,13 +188,21 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("no response"));
-        int m = 0;
-        for (String value : ProCtcQuestionType.PRESENT.getValidValues()) {
-            cell = row.createCell((short) (4 + m));
-            cell.setCellStyle(aquaStyle);
-            cell.setCellValue(new HSSFRichTextString(value));
-            m++;
-        }
+//        int m = 0;
+        cell = row.createCell((short) (4));
+        cell.setCellStyle((aquaStyle));
+        cell.setCellValue(new HSSFRichTextString("No"));
+
+        cell = row.createCell((short) (5));
+        cell.setCellStyle((aquaStyle));
+        cell.setCellValue(new HSSFRichTextString("Yes"));
+
+//        for (String value : ProCtcQuestionType.PRESENT.getValidValues()) {
+//            cell = row.createCell((short) (4 + m));
+//            cell.setCellStyle(aquaStyle);
+//            cell.setCellValue(new HSSFRichTextString(value));
+//            m++;
+//        }
         for (int n = 0; n <= 2; n++) {
             cell = row.createCell((short) (6 + n));
             cell.setCellStyle(aquaStyle);
