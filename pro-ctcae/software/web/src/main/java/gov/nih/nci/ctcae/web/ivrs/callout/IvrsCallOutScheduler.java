@@ -143,7 +143,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			
 			//set the next CallTime as PrefCallTime + retry period in minutes
 			Calendar nextCallTime = Calendar.getInstance();
-			nextCallTime.setTime(ivrsSchedule.getPreferredCallTime());
+			nextCallTime.setTime(ivrsSchedule.getNextCallTime());
 			nextCallTime.add(Calendar.MINUTE, ivrsSchedule.getRetryPeriod());
 			ivrsSchedule.setNextCallTime(nextCallTime.getTime());
 			
