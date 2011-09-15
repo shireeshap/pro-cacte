@@ -250,7 +250,7 @@
                         <div id="studySiteAutoCompleter" style="display:none;margin-left:11px;">
 				            <div class="row">
 								<div class="label">
-									<tags:requiredIndicator/><tags:message code='reports.label.site'/>
+									<tags:message code='reports.label.site'/>
 								</div>
 								<div class="value">
 									<input id="studySite" class="validate-NOTEMPTY" type="hidden" value=""  title="Study site" style="display:none;" name="studySite"/>                         
