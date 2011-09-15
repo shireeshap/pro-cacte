@@ -79,12 +79,12 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("home", mv.getViewName());
         List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
         assertNotNull(noti);
-        List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) mv.getModel().get("overdue");
+        List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
         assertNotNull(over);
         for (StudyParticipantCrfSchedule spc : over) {
             assertTrue(spc.getStartDate().before(new Date()));
         }
-        List<StudyParticipantCrfSchedule> up = (List<StudyParticipantCrfSchedule>) mv.getModel().get("upcoming");
+        List<StudyParticipantCrfSchedule> up = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("upcoming");
         assertNotNull(up);
         for (StudyParticipantCrfSchedule spc : up) {
             assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
@@ -97,12 +97,12 @@ public class LoginControllerTest extends AbstractWebTestCase {
         noti = (List<UserNotification>) mv.getModel().get("notifications");
         assertNotNull(noti);
 //        assertEquals(2, noti.size());
-        over = (List<StudyParticipantCrfSchedule>) mv.getModel().get("overdue");
+        over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
         assertNotNull(over);
         for (StudyParticipantCrfSchedule spc : over) {
             assertTrue(spc.getStartDate().before(new Date()));
         }
-        up = (List<StudyParticipantCrfSchedule>) mv.getModel().get("upcoming");
+        up = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("upcoming");
         assertNotNull(up);
         for (StudyParticipantCrfSchedule spc : up) {
             assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
