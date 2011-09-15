@@ -41,7 +41,7 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         HSSFCell cell = row.createCell((short) 0);
         cell.setCellValue(new HSSFRichTextString("Study"));
         cell.setCellStyle(style);
-        
+
         cell = row.createCell((short) 1);
         cell.setCellValue(new HSSFRichTextString(study.getDisplayName()));
 //        Region region = new Region(row.getRowNum(), (short) 1, row.getRowNum(), (short) 20);
@@ -74,10 +74,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(""));
         cell = row.createCell((short) 2);
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(-9);
+        cell.setCellValue(-99);
         cell = row.createCell((short) 3);
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(-1);
+        cell.setCellValue(-55);
         for (int i = 0; i <= 4; i++) {
             cell = row.createCell((short) (4 + i));
             cell.setCellStyle(aquaStyle);
@@ -85,10 +85,13 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         }
         cell = row.createCell((short) (9));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(10);
+        cell.setCellValue(-77);
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(11);
+        cell.setCellValue(-88);
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(-66);
 
         row = hssfSheet.createRow(rownum++);
 
@@ -100,10 +103,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.FREQUENCY.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("N/A"));
+        cell.setCellValue(new HSSFRichTextString("Forced skip"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("no response"));
+        cell.setCellValue(new HSSFRichTextString("Manual skip"));
         int j = 0;
         for (String value : ProCtcQuestionType.FREQUENCY.getValidValues()) {
             cell = row.createCell((short) (4 + j));
@@ -116,7 +119,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString("Prefer not to answer"));
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Not active"));
+        cell.setCellValue(new HSSFRichTextString("Not applicable"));
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not sexually active"));
 
         row = hssfSheet.createRow(rownum++);
 
@@ -128,10 +134,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.SEVERITY.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("N/A"));
+        cell.setCellValue(new HSSFRichTextString("Forced skip"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("no response"));
+        cell.setCellValue(new HSSFRichTextString("Manual skip"));
         int k = 0;
         for (String value : ProCtcQuestionType.SEVERITY.getValidValues()) {
             cell = row.createCell((short) (4 + k));
@@ -144,7 +150,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString("Prefer not to answer"));
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Not active"));
+        cell.setCellValue(new HSSFRichTextString("Not applicable"));
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not sexually active"));
 
         row = hssfSheet.createRow(rownum++);
 
@@ -156,10 +165,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.INTERFERENCE.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("N/A"));
+        cell.setCellValue(new HSSFRichTextString("Forced skip"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("no response"));
+        cell.setCellValue(new HSSFRichTextString("Manual skip"));
         int l = 0;
         for (String value : ProCtcQuestionType.INTERFERENCE.getValidValues()) {
             cell = row.createCell((short) (4 + l));
@@ -172,7 +181,11 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString("Prefer not to answer"));
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Not active"));
+        cell.setCellValue(new HSSFRichTextString("Not applicable"));
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+
 
         row = hssfSheet.createRow(rownum++);
 
@@ -184,10 +197,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.PRESENT.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("N/A"));
+        cell.setCellValue(new HSSFRichTextString("Forced skip"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("no response"));
+        cell.setCellValue(new HSSFRichTextString("Manual skip"));
 //        int m = 0;
         cell = row.createCell((short) (4));
         cell.setCellStyle((aquaStyle));
@@ -213,7 +226,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString("Prefer not to answer"));
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Not active"));
+        cell.setCellValue(new HSSFRichTextString("Not applicable"));
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not sexually active"));
 
         row = hssfSheet.createRow(rownum++);
 
@@ -225,10 +241,10 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.AMOUNT.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("N/A"));
+        cell.setCellValue(new HSSFRichTextString("Forced skip"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("no response"));
+        cell.setCellValue(new HSSFRichTextString("Manual skip"));
         int p = 0;
         for (String value : ProCtcQuestionType.AMOUNT.getValidValues()) {
             cell = row.createCell((short) (4 + p));
@@ -241,10 +257,12 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString("Prefer not to answer"));
         cell = row.createCell((short) (10));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Not active"));
+        cell.setCellValue(new HSSFRichTextString("Not applicable"));
+        cell = row.createCell((short) (11));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not sexually active"));
 
         hssfSheet.createRow(rownum++);
-
 
         int numOfColumns = 0;
         for (Organization organization : results.keySet()) {
@@ -338,8 +356,8 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
             }
         }
         for (int i = 0; i < numOfColumns; i++) {
-              hssfSheet.setColumnWidth((short)i, (short)3555);
-           
+            hssfSheet.setColumnWidth((short) i, (short) 3555);
+
 //            hssfSheet.autoSizeColumn((short) i);
         }
     }
