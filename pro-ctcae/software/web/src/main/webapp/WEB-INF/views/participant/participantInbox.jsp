@@ -199,13 +199,15 @@
     <c:otherwise>
 <chrome:box title="${labelScheduledForms}">
     <c:if test="${numberofCrfs eq 0}">
-        <c:if test="${futureNumberofCrfs eq 0}">
-            <tags:message code="participant.noSurveyAvailable"/>
-        </c:if>
-        <c:if test="${futureNumberofCrfs gt 0}">
-            <tags:message code="participant.noSurveyAvailable"/> <tags:message code="participant.nextSurveyAvailable"/>
-            <tags:formatDate value="${futureSurveyAvailableDate}"/>.
-        </c:if>
+        <div style="margin-left:50px;">
+            <c:if test="${futureNumberofCrfs eq 0}">
+                <tags:message code="participant.noSurveyAvailable"/>
+            </c:if>
+            <c:if test="${futureNumberofCrfs gt 0}">
+                <tags:message code="participant.noSurveyAvailable"/> <tags:message code="participant.nextSurveyAvailable"/>
+                <tags:formatDate value="${futureSurveyAvailableDate}"/>.
+            </c:if>
+        </div>
     </c:if>
     <c:if test="${numberofCrfs gt 0}">
         <table id="inboxTable">
