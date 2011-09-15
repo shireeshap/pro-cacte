@@ -190,8 +190,10 @@ public class ReportResultsHelper {
             } else {
                 if (firstQuestion!=null&&firstQuestion.getProCtcValidValue()!=null&&firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
                     myProCtcValidValue.setValue(ResponseCode.FORCEDSKIP.getDisplayName());
+//                    myProCtcValidValue.setDisplayOrder(-99);
                 } else {
                     myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+//                    myProCtcValidValue.setDisplayOrder(-55);
                 }
             }
         return myProCtcValidValue;

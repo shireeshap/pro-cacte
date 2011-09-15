@@ -143,7 +143,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     
     public static final String HAWAII_ALEUTIAN = "America/Adak";
 
-    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
     
