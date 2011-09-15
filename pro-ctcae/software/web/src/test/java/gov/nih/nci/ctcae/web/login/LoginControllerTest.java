@@ -74,6 +74,7 @@ public class LoginControllerTest extends AbstractWebTestCase {
         controller.setClinicalStaffRepository(clinicalStaffRepository);
         controller.setUserRepository(userRepository);
         controller.setStudyOrganizationClinicalStaffRepository(studyOrganizationClinicalStaffRepository);
+        controller.setGenericRepository(genericRepository);
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertEquals("home", mv.getViewName());
         List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
