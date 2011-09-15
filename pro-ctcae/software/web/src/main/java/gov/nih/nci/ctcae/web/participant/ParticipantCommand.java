@@ -666,9 +666,6 @@ public class ParticipantCommand {
         if (participant.getStudyParticipantAssignments() != null) {
             participant.getStudyParticipantAssignments().size();
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                if (studyParticipantAssignment.getIvrsScheduleList() != null) {
-                    studyParticipantAssignment.getIvrsScheduleList().size();
-                    }
                 if (studyParticipantAssignment.getStudyParticipantCrfs() != null) {
                     for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                         if (studyParticipantCrf.getStudyParticipantCrfSchedules() != null)
