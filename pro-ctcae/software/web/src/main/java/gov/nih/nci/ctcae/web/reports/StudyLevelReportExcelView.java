@@ -335,7 +335,7 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
 
                             cell = row.createCell(cellNum);
                             cell.setCellStyle(centerStyle);
-                            cell.setCellValue(proCtcValidValue.getDisplayOrder());
+                            cell.setCellValue(proCtcValidValue.getResponseCode());
                             index++;
                         }
                         cellNum++;

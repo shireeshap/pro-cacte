@@ -46,7 +46,7 @@ public class ReportResultsHelper {
         CRF crf = genericRepository.findById(CRF.class, crfId);
         List<Integer> crfIds = new ArrayList();
         crfIds.add(crfId);
-        if (crf.getParentCrf()!=null) {
+        if (crf.getParentCrf() != null) {
             crfIds.add(crf.getParentCrf().getId());
         }
         query.filterByCRFIds(crfIds);
@@ -184,18 +184,21 @@ public class ReportResultsHelper {
 
     public static ProCtcValidValue getValidValueResponseCode(ProCtcQuestion proQuestion, StudyParticipantCrfItem firstQuestion) {
         ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-            if (proQuestion != null && proQuestion.getDisplayOrder() == 1) {
+        if (proQuestion != null && proQuestion.getDisplayOrder() == 1) {
 //                ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-                myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
-            } else {
-                if (firstQuestion!=null&&firstQuestion.getProCtcValidValue()!=null&&firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
-                    myProCtcValidValue.setValue(ResponseCode.FORCEDSKIP.getDisplayName());
+            myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+            myProCtcValidValue.setResponseCode(-55);
+        } else {
+            if (firstQuestion != null && firstQuestion.getProCtcValidValue() != null && firstQuestion.getProCtcValidValue().getDisplayOrder() == 0) {
+                myProCtcValidValue.setValue(ResponseCode.FORCEDSKIP.getDisplayName());
+                myProCtcValidValue.setResponseCode(-99);
 //                    myProCtcValidValue.setDisplayOrder(-99);
-                } else {
-                    myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+            } else {
+                myProCtcValidValue.setValue(ResponseCode.MANUALSKIP.getDisplayName());
+                myProCtcValidValue.setResponseCode(-55);
 //                    myProCtcValidValue.setDisplayOrder(-55);
-                }
             }
+        }
         return myProCtcValidValue;
     }
 
