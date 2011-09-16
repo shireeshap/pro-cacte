@@ -59,7 +59,7 @@ $x$ LANGUAGE plpgsql;
 	JOIN crfs c ON c.id=spc.crf_id
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
-	where spcs.start_date <=current_date  AND spcs.due_date > current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
+	where spcs.start_date <=current_date  AND spcs.due_date >= current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
 	and p.user_id=userid and c.is_hidden='FALSE';
    
 
@@ -1737,7 +1737,14 @@ BEGIN
 	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Problems with tasting food or drink');
 	UPDATE pro_ctc_terms SET file_name='cs_vomiting'
 	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Vomiting');
-
+	UPDATE pro_ctc_terms SET file_name='cs_numbness'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Numbness or tingling in your hands or feet');
+    UPDATE pro_ctc_terms SET file_name='cs_shortness_breath'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Shortness of breath');
+    UPDATE pro_ctc_terms SET file_name='cs_sad_feelings'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Sad or unhappy feelings');
+    UPDATE pro_ctc_terms SET file_name='cs_rash'
+	WHERE id=(SELECT pro_ctc_terms_id FROM pro_ctc_terms_vocab WHERE term_english='Rash');
 
 	return 0;
 
