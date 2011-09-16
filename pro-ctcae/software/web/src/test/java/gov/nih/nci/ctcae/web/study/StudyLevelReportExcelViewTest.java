@@ -53,17 +53,6 @@ public class StudyLevelReportExcelViewTest extends AbstractWebTestCase {
         TreeMap<Organization, TreeMap<Participant, String>> results = (TreeMap<Organization, TreeMap<Participant, String>>) map.get("table");
         assertEquals(2, results.size());
 
-
-
-        excelView = new StudyLevelReportExcelView();
-        HashMap dataMap = new HashMap();
-        Study study = new Study();
-
-        request.getSession().setAttribute("study", study);
-        CRF crf = new CRF();
-        request.getSession().setAttribute("crf", crf);
-        excelView.render(dataMap,request, response);
-
     }
 
 
