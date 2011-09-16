@@ -75,14 +75,17 @@ public class StudyLevelReportTest extends WebTestCase {
         ProCtcValidValue proCtcValidValue11 = new ProCtcValidValue();
         proCtcValidValue11.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[0], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue11.setDisplayOrder(0);
+        proCtcValidValue11.setResponseCode(0);
 
         ProCtcValidValue proCtcValidValue12 = new ProCtcValidValue();
         proCtcValidValue12.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[1], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue12.setDisplayOrder(1);
+        proCtcValidValue12.setResponseCode(2);
 
         ProCtcValidValue proCtcValidValue13 = new ProCtcValidValue();
         proCtcValidValue13.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue13.setDisplayOrder(3);
+        proCtcValidValue13.setResponseCode(3);
 
         proCtcValidValueList1.add(proCtcValidValue11);
         proCtcValidValueList1.add(proCtcValidValue12);
@@ -97,14 +100,17 @@ public class StudyLevelReportTest extends WebTestCase {
         ProCtcValidValue proCtcValidValue21 = new ProCtcValidValue();
         proCtcValidValue21.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[2], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue21.setDisplayOrder(2);
+        proCtcValidValue21.setResponseCode(2);
 
         ProCtcValidValue proCtcValidValue22 = new ProCtcValidValue();
         proCtcValidValue22.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[4], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue22.setDisplayOrder(4);
+        proCtcValidValue22.setResponseCode(4);
 
         ProCtcValidValue proCtcValidValue23 = new ProCtcValidValue();
         proCtcValidValue23.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue23.setDisplayOrder(3);
+        proCtcValidValue23.setResponseCode(3);
 
         proCtcValidValueList2.add(proCtcValidValue21);
         proCtcValidValueList2.add(proCtcValidValue22);
@@ -119,14 +125,17 @@ public class StudyLevelReportTest extends WebTestCase {
         ProCtcValidValue proCtcValidValue31 = new ProCtcValidValue();
         proCtcValidValue31.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[1], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue31.setDisplayOrder(1);
+        proCtcValidValue31.setResponseCode(1);
 
         ProCtcValidValue proCtcValidValue32 = new ProCtcValidValue();
         proCtcValidValue32.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[4], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue32.setDisplayOrder(4);
+        proCtcValidValue32.setResponseCode(4);
 
         ProCtcValidValue proCtcValidValue33 = new ProCtcValidValue();
         proCtcValidValue33.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[3], SupportedLanguageEnum.ENGLISH);
         proCtcValidValue33.setDisplayOrder(3);
+        proCtcValidValue33.setResponseCode(3);
 
         proCtcValidValueList3.add(proCtcValidValue31);
         proCtcValidValueList3.add(proCtcValidValue32);
@@ -164,25 +173,6 @@ public class StudyLevelReportTest extends WebTestCase {
         request.getSession().setAttribute("crf", Fixture.createCrf());
         request.getSession().setAttribute("studySite", study.getStudySites().get(0));
     }
-
-//    public void testPdfGeneration() throws Exception {
-//
-//        StudyLevelReportPdfController controller = new StudyLevelReportPdfController();
-//        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-//        StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
-//        view.render(null, request, response);
-//        assertEquals("application/pdf", response.getContentType());
-//        File f = new File("generatedpdf.pdf");
-//        if (f.exists()) {
-//            f.delete();
-//        }
-//        f.createNewFile();
-//        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
-//        bufferedOutputStream.write(response.getContentAsByteArray());
-//        bufferedOutputStream.close();
-//
-//
-//    }
 
     public void testExcelGeneration() throws Exception {
 
