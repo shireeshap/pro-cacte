@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import org.apache.commons.collections.CollectionUtils;
@@ -12,13 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.*;
 
-//
-
 /**
  * The Class ParticipantCommand.
  *
- * @author Mehul
- * @author Suneel
+ * @author Mehul, Suneel, Vinay G
  */
 public class ParticipantCommand {
 
@@ -56,7 +52,7 @@ public class ParticipantCommand {
     private boolean odc;
     private boolean admin;
     private boolean edit = false;
-    private List<String> participantModes = new ArrayList();
+    private List<String> participantModes = new ArrayList<String>();
 
     private boolean email = false;
     private boolean call = false;
@@ -255,13 +251,13 @@ public class ParticipantCommand {
         String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
         String homePaperLanguage = request.getParameter("home_paper_lang_" + studySite.getId());
         String homeWebLanguage = request.getParameter("home_web_lang_" + studySite.getId());
-        String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
-        Date updatedStartDate = null;
-        try{
-        	updatedStartDate =  DateUtils.parseDate(newStartDate);
-        } catch(Exception e){
+        //String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
+        //Date updatedStartDate = null;
+        //try{
+        	//updatedStartDate =  DateUtils.parseDate(newStartDate);
+        //} catch(Exception e){
         	//logger.error("error parsing start date");
-        }
+        //}
 //        SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.getByCode(homeWebLang);
         String ivrsLanguage = request.getParameter("ivrs_lang_" + studySite.getId());
         String clinicPaperLanguage = request.getParameter("clinic_paper_lang_" + studySite.getId());
@@ -310,8 +306,9 @@ public class ParticipantCommand {
 //            }
 //        }
 
-        //update pending IvrsSchedules if time has been updated
-        if(timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged){
+        //update pending IvrsSchedules if time has been updated and mode is IVRS
+        if((participantMode != null && participantMode.equals("IVRS")) && 
+        		(timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged)){
         	Date finalDate = null;
             for(IvrsSchedule ivrsSchedule: studyParticipantAssignment.getIvrsScheduleList()){
             	if(ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
@@ -353,7 +350,6 @@ public class ParticipantCommand {
             }
         }
         
-        
         studyParticipantAssignment.setCallAmPm(callAmPm);
         studyParticipantAssignment.setCallHour(callHour);
         studyParticipantAssignment.setCallMinute(callMinute);
@@ -383,7 +379,6 @@ public class ParticipantCommand {
                 }
             }
         }
-
     }
 
     public void setParticipantModeHistory(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
@@ -437,7 +432,6 @@ public class ParticipantCommand {
             hist.setMode(mode);
             studyParticipantAssignment.addStudyParticipantModeHistory(hist);
         }
-
     }
 
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
