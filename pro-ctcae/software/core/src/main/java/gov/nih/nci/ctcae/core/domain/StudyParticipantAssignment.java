@@ -635,6 +635,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
                 ivrsScheduleList.addAll(spCrfSchedule.getIvrsSchedules());
             }
         }
+
 		return ivrsScheduleList;
 	}
 }
