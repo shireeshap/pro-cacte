@@ -398,9 +398,9 @@
         <input type="checkbox" name="call_${studysite.id}" value="true"
                id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
         reminder via call if the patient hasn't already completed the form <br>
-        <input type="checkbox" name="text_${studysite.id}" value="true"
+        <!-- <input type="checkbox" name="text_${studysite.id}" value="true"
                id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>
-        reminder via text if the patient hasn't already completed the form
+        reminder via text if the patient hasn't already completed the form -->
     </td>
 </tr>
 
