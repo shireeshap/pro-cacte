@@ -1,0 +1,84 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    	http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/jms
+	    http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+        http://activemq.apache.org/schema/core
+   	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd ">
+        
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+        <list>
+        	<value>/WEB-INF/help</value>
+            <value>/WEB-INF/messages</value>
+            <value>/WEB-INF/version</value>
+        </list>
+        </property>
+        <property name="cacheSeconds" value="1"/>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+    
+    <bean id="localeChangeInterceptor"
+	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <property name="paramName" value="lang" />
+	</bean>
+	
+	<bean id="localeResolver"
+	    class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	    <property name="defaultLocale" value="en"/>
+	</bean>
+	
+    <bean id="notNullValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.NotNullValidator">
+    </bean>
+    
+    <bean id="notEmptyValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator">
+    </bean>
+    
+    <bean id="uniqueObjectInCollectionValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator">
+    </bean>
+    
+    <bean id="uniqueTitleForCrfValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
+        <property name="crfRepository" ref="crfRepository"/>
+    </bean>
+    
+    <bean id="uniqueParticipantUserNumberValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator">
+          <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+    
+    <bean id="uniqueParticipantEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+    
+     <bean id="uniqueStudyIdentifierForParticipantValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+    
+    <bean id="uniqueIdentifierForStudyValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+    
+    <bean id="webControllerValidator"
+          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"/>
+          
+    <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
+    </bean>
+    
+</beans>
