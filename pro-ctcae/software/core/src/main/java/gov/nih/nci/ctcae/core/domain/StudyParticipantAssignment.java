@@ -143,10 +143,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
     
     public static final String HAWAII_ALEUTIAN = "America/Adak";
 
-    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.EAGER)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
-    
     
     /**
      * Instantiates a new study participant assignment.
@@ -522,38 +518,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
         for (StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
     }
 
-//    public String getReminderTimeZone() {
-//        return reminderTimeZone;
-//    }
-//
-//    public void setReminderTimeZone(String reminderTimeZone) {
-//        this.reminderTimeZone = reminderTimeZone;
-//    }
-//
-//    public String getReminderAmPm() {
-//        return reminderAmPm;
-//    }
-//
-//    public void setReminderAmPm(String reminderAmPm) {
-//        this.reminderAmPm = reminderAmPm;
-//    }
-//
-//    public Integer getReminderHour() {
-//        return reminderHour;
-//    }
-//
-//    public void setReminderHour(Integer reminderHour) {
-//        this.reminderHour = reminderHour;
-//    }
-//
-//    public Integer getReminderMinute() {
-//        return reminderMinute;
-//    }
-//
-//    public void setReminderMinute(Integer reminderMinute) {
-//        this.reminderMinute = reminderMinute;
-//    }
-
     @Transient
     public List<AppMode> getSelectedAppModes() {
         List<AppMode> appModes = new ArrayList();
@@ -664,11 +628,13 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.studyParticipantReportingModeHistoryItems = studyParticipantReportingModeHistory;
     }
 
-
-	public void setIvrsScheduleList(List<IvrsSchedule> ivrsScheduleLsit) {
-		this.ivrsScheduleList = ivrsScheduleLsit;
-	}
 	public List<IvrsSchedule> getIvrsScheduleList() {
+        List<IvrsSchedule> ivrsScheduleList = new ArrayList<IvrsSchedule>();
+        for (StudyParticipantCrf spStudyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule spCrfSchedule : spStudyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                ivrsScheduleList.addAll(spCrfSchedule.getIvrsSchedules());
+            }
+        }
 		return ivrsScheduleList;
 	}
 }
