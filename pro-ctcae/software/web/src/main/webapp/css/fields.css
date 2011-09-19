@@ -96,6 +96,11 @@ input.pending-search {
     background-color: #CCE6FF;
 }
 
+li.no-results-found {
+    color: gray;
+    font-style: normal;
+}
+
 /*
     SELECT-equivalent groups of radio buttons
  */
