@@ -1,8 +1,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -278,7 +277,7 @@
     </div>
 </div>
 
-<form:form method="post" commandName="clinicalStaffCommand">
+<ctcae:form method="post" commandName="clinicalStaffCommand">
 <c:set var="hasUserAccount"
        value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
 <c:set var="isEdit"
@@ -490,7 +489,7 @@
 </chrome:division>
 </chrome:box>
 <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
-</form:form>
+</ctcae:form>
 <c:if test="${hasUserAccount && isEdit}">
     <script type="text/javascript">
         showOrHideUserAccountDetails(true);

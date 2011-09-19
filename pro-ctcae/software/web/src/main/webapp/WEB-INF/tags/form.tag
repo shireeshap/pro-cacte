@@ -5,6 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@attribute name="willSave" %>
 <%@attribute name="title" %>
 <%@attribute name="formName" %>
@@ -23,7 +24,7 @@
 <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
             noBackground="${noBackground}">
     <chrome:flashMessage/>
-    <form:form name="${formName}" enctype="${enctype}" id="${formId}">
+    <ctcae:form name="${formName}" enctype="${enctype}" id="${formId}">
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
             <c:if test="${not empty instructions}"><p class="instructions">
@@ -40,6 +41,6 @@
 
         </c:if>
 
-    </form:form>
+    </ctcae:form>
 </chrome:box>
 <!-- END tags\tabForm.tag -->

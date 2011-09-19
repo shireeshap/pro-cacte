@@ -2018,6 +2018,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySitesTab.j
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/FormTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text

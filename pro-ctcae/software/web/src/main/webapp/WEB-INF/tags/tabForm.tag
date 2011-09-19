@@ -2,6 +2,7 @@
 <!-- BEGIN tags\tabForm.tag -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@attribute name="tab" required="true" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
@@ -33,7 +34,7 @@
 <c:if test="${empty doNotShowSave}"><c:set var="doNotShowSave" value="false"/></c:if>
 <c:if test="${empty showFinish}"><c:set var="showFinish" value="false"/></c:if>
 <c:if test="${empty showCreate}"><c:set var="showCreate" value="false"/></c:if>
-<form:form name="${formName}" enctype="${enctype}" id="command">
+<ctcae:form name="${formName}" enctype="${enctype}" id="command">
     <chrome:flashMessage/>
 
     <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}" boxClass="${boxClass}">
@@ -65,4 +66,4 @@
 
     </c:if>
 
-</form:form>
+</ctcae:form>
