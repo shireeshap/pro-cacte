@@ -180,39 +180,6 @@
             $(inputId + 'Input').blur();
         }
 
-        <%----%>
-        //        Event.observe(window, "load", function() {
-
-        //                        $('study.callBackFrequency-row').addClassName('specialWidth');
-
-        <%--<c:if test="${command.admin eq true}">--%>
-        //            acCreate(new siteAutoComplter('study.studySponsor.organization'))
-        <%--</c:if>--%>
-        //            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
-        //            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
-        //            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
-
-        <%--<c:if test="${command.study.studySponsor ne null}">--%>
-        <%--<c:if test="${command.admin eq true}">--%>
-        //            initializeAutoCompleter('study.studySponsor.organization',
-        <%--'${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')--%>
-        <%--</c:if>--%>
-        <%--</c:if>--%>
-
-        <%--<c:if test="${command.study.dataCoordinatingCenter ne null}">--%>
-        //            initializeAutoCompleter('study.dataCoordinatingCenter.organization',
-        <%--'${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')--%>
-        <%--</c:if>--%>
-        <%--<c:if test="${command.study.fundingSponsor ne null}">--%>
-        //            initializeAutoCompleter('study.fundingSponsor.organization',
-        <%--'${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')--%>
-        <%--</c:if>--%>
-        <%--<c:if test="${command.study.leadStudySite ne null}">--%>
-        //            initializeAutoCompleter('study.leadStudySite.organization',
-        <%--'${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')--%>
-        <%--</c:if>--%>
-        //            initSearchField()
-        //        })
     </script>
 </head>
 <body>
@@ -259,10 +226,6 @@
                                               hiddenInputName="study.studySponsor.organization"/>
                    </div>
                </div>
-
-               <%--<tags:renderAutocompleter propertyName="study.studySponsor.organization"--%>
-               <%--displayName="study.label.study_sponsor"--%>
-               <%--required="true" size="70"/>--%>
            </c:when>
            <c:otherwise>
                <c:choose>
@@ -303,11 +266,7 @@
                 </div>
             </div>
 
-    <%--<tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"--%>
-    <%--displayName="study.label.study_coordinating_center"--%>
-    <%--required="true" size="70"/>--%>
-
-    <form:input path="study.fundingSponsor.organization" id="study.fundingSponsor.organization"
+     <form:input path="study.fundingSponsor.organization" id="study.fundingSponsor.organization"
                 cssClass="validate-NOTEMPTY"
                 title="Study funding sponsor"
                 cssStyle="display:none;"/>
@@ -322,10 +281,6 @@
                 </div>
             </div>
 
-    <%--<tags:renderAutocompleter propertyName="study.fundingSponsor.organization"--%>
-    <%--displayName="study.label.study_funding_sponsor"--%>
-    <%--required="true" size="70"/>--%>
-
     <form:input path="study.leadStudySite.organization" id="study.leadStudySite.organization"
                 cssClass="validate-NOTEMPTY"
                 title="Study funding sponsor"
@@ -339,9 +294,7 @@
                                            hiddenInputName="study.leadStudySite.organization"/>
                 </div>
             </div>
-    <%--<tags:renderAutocompleter propertyName="study.leadStudySite.organization"--%>
-    <%--displayName="study.label.study_lead_site"--%>
-    <%--required="true" size="70"/>--%>
+
     <br>
 
       <c:if test="${not command.activeDefaultArm}">
@@ -425,7 +378,7 @@
                                                3
                                            <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
                                                4
-                                           <option value="5" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                           <option value="5" ${command.study.callBackFrequency eq 5 ? "selected='selected'" : " "}>
                                                5
                                        </select>
                                    </td>
@@ -496,22 +449,23 @@
                                </tr>
                                <tr>
                                    <td>
-                                       <b>Number of reminders</b>
+                                       <b>Number of reminders${command.study.callBackFrequency}</b>
                                    </td>
                                    <td>
                                        <select id="call_back_frequency1" name="call_back_frequency">
+
                                            <option value=" ">Please select</option>
-                                           <option value="1" ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
+                                           <option value="1" selected ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
                                                1
                                            <option value="2"
-                                                   selected ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                                    ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
                                                2
                                            <option value="3"
                                                ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
                                                3
                                            <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
                                                4
-                                           <option value="5" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                           <option value="5" ${command.study.callBackFrequency eq 5 ? "selected='selected'" : " "}>
                                                5
                                        </select>
                                    </td>
@@ -569,17 +523,6 @@
            </tr>
        </table>
 
-       <%--<div class="row">--%>
-       <%--<div class="label"><tags:message code='study.label.home_reporting'/></div>--%>
-       <%--<div class="value">--%>
-       <%--<form:checkbox path="appModes" value="Web" label="Web"/> <br>--%>
-       <%--<form:checkbox path="appModes" value="IVRS" label="IVRS"/> <br>--%>
-       <%--<form:checkbox path="appModes" value="Booklet" label="Booklet"/> <br>--%>
-       <%--<form:checkbox path="appModes" value="Clinic" label="Clinic"/>--%>
-       <%--</div>--%>
-       <%--</div>--%>
-
-       <%--<tags:renderCheckBox displayName="Display Modes" propertyName="appModes" />--%>
        </chrome:division>
 
 </jsp:attribute>
