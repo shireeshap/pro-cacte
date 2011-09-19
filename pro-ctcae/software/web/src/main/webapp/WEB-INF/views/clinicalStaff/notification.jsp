@@ -25,6 +25,12 @@ ${notification.notification.text}
 <br>
 
 <a class="link" href="javascript:completedForm('${spCrfId}');">Show all responses</a>
+   <br><br><br>
+ <div style="float:right; padding-right:10px">
+<tags:button color="blue" type="button" id="flow-cancel"
+                                         cssClass="previous ibutton" value="Close" icon="x"
+                                         onclick="closeWindow()"/>
+ </div>
 
 </body>
 </html>
