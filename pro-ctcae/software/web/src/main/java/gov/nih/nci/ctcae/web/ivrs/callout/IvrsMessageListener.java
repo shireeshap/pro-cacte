@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.ivrs.callout;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
@@ -84,8 +85,6 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 			if(channel != null){
 				logger.debug("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
 				if(channel.wasInState(ChannelState.UP)){
-					//update to COMPLETED should be done by the stored procedure.
-					//ivrsSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
 					synchronized (channel){
 						channel.addPropertyChangeListener(AsteriskChannel.PROPERTY_STATE, new PropertyChangeListener()
 						{
@@ -141,7 +140,14 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 			logger.error("Exception occuerd -->> "+ e + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH EXCEPTION");
 		} finally {
-			ivrsScheduleRepository.save(ivrsSchedule);
+			//update to COMPLETED for all the ivrsSchedules related to the spCrfSchedule.
+			ivrsScheduleRepository.refresh(ivrsSchedule);
+			if(ivrsSchedule.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.COMPLETED)){
+				for(IvrsSchedule iSchedule : ivrsSchedule.getStudyParticipantCrfSchedule().getIvrsSchedules()){
+					iSchedule.setCallStatus(IvrsCallStatus.COMPLETED);
+					ivrsScheduleRepository.save(iSchedule);
+				}
+			}
 		}
 	}
 
