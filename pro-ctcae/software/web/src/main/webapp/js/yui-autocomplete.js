@@ -4968,7 +4968,6 @@ YAHOO.widget.AutoComplete.prototype._populateList = function(K, F, C) {
                     this._populateListItem(P, E, M);
                     P.style.display = "";
                 }
-
                 if (A < I.length) {
                     var G;
                     for (var O = I.length - 1; O >= A; O--) {
@@ -4989,22 +4988,7 @@ YAHOO.widget.AutoComplete.prototype._populateList = function(K, F, C) {
                 H = this._doBeforeExpandContainer(this._elTextbox, this._elContainer, K, R);
                 this._toggleContainer(H);
             } else {
-            	//custom added to display "No results found" message.
-                if(A == 0){
-                	var I = this._elList.childNodes;
-                	for (var O = I.length - 1; O >= A; O--) {
-                        G = I[O];
-                        G.style.display = "none";
-                    }
-                	var temp = document.createElement("li");
-                	temp.innerHTML = "No results found";
-                	temp.addClassName('no-results-found');
-                	this._elList.appendChild(temp);
-                    H = this._doBeforeExpandContainer(this._elTextbox, this._elContainer, K, R);
-                    this._toggleContainer(H);
-                } else {
-                	this._toggleContainer(false);
-                }
+                this._toggleContainer(false);
             }
             return;
         }
