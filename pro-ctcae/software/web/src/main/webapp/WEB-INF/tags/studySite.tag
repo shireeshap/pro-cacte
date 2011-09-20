@@ -63,11 +63,7 @@
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
     </td>
     <td width="50%">
-        <%--<c:choose>--%>
-            <%--<c:when test="${selected && studyParticipantAssignment.id != null}">--%>
-                <%--${studyParticipantAssignment.studyParticipantIdentifier}--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
+
                 <input type="text"
                        name="participantStudyIdentifier_${studysite.id}"
                        value="${studyParticipantAssignment.studyParticipantIdentifier}"
@@ -195,7 +191,7 @@
                         </div>
                     </c:if>
                     <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
-                        <div id="web_${studysite.id}" style="display:none">
+                        <div id="web_${studysite.id}" style="${showWeb eq true ? "":"display:none"}">
                             <input type="checkbox" name="email_${studysite.id}" value="true"
                                    onclick="javascript:showEmail(${studysite.id});"
                                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
@@ -203,7 +199,7 @@
 
                         </div>
 
-                        <div id="emailInput_${studysite.id}" style="display:none;">
+                        <div id="emailInput_${studysite.id}" style="${showWeb eq true ? "":"display:none"}">
                             <table>
                                 <c:if test="${command.mode eq 'Y'}">
                                     <tr>

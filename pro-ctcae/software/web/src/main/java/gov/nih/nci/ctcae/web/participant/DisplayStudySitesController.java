@@ -75,10 +75,14 @@ public class DisplayStudySitesController extends AbstractController {
             
             String[] timeZones = TimeZone.getAvailableIDs();
             boolean showTime = false;
+            boolean showWeb = false;
             if (participant.getStudyParticipantAssignments().size() > 0) {
                 for (AppMode appMode : participant.getStudyParticipantAssignments().get(0).getSelectedAppModes()) {
                     if (appMode.equals(AppMode.IVRS)) {
                         showTime = true;
+                    }
+                    if (appMode.equals(AppMode.HOMEWEB)) {
+                        showWeb = true;
                     }
                 }
             }
@@ -87,6 +91,7 @@ public class DisplayStudySitesController extends AbstractController {
             modelAndView.addObject("timezones", timeZones);
             modelAndView.addObject("minutes", minutes);
             modelAndView.addObject("showTime", showTime);
+            modelAndView.addObject("showWeb", showWeb);
             modelAndView.addObject("command",command);
         }
         List<String> participantModes = new ArrayList();
