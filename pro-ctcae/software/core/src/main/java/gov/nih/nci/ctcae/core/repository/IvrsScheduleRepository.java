@@ -46,5 +46,10 @@ public class IvrsScheduleRepository implements Repository<IvrsSchedule, IvrsSche
         this.genericRepository = genericRepository;
     }
     
+    @Transactional(readOnly = true)
+    public void refresh(IvrsSchedule ivrsSchedule) {
+        genericRepository.refresh(ivrsSchedule);
+    }
+    
 }
 

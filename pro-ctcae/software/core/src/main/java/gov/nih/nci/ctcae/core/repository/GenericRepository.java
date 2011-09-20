@@ -69,4 +69,7 @@ public interface GenericRepository {
     <T extends Persistable> T findSingle(Query query);
 
     void flush();
+    
+    void refresh(Persistable persistable);
+    
 }

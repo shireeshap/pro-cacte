@@ -153,8 +153,6 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
             }
 
         });
-
-
     }
 
 
@@ -165,7 +163,6 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
     public T findSingle(Query query) {
         List<T> persistables = find(query);
         return persistables != null && !persistables.isEmpty() ? persistables.get(0) : null;
-
     }
 
     @Required
@@ -175,5 +172,9 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 
     public void flush() {
         getHibernateTemplate().flush();
+    }
+    
+    public void refresh(Persistable persistable){
+    	getHibernateTemplate().refresh(persistable);
     }
 }
