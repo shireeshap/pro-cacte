@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.ivrs.callout;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.domain.Participant;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -110,21 +113,21 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		Calendar twoMinutesFromNow = Calendar.getInstance();
 		twoMinutesFromNow.add(Calendar.MINUTE, SCHEDULER_FREQUENCY);
 		
-		//add all ivrsSchedules with Status=PENDING
-		IvrsScheduleQuery ivrsScheduleQueryForPendingStatus = new IvrsScheduleQuery();
-		ivrsScheduleQueryForPendingStatus.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
-		ivrsScheduleQueryForPendingStatus.filterByStatus(IvrsCallStatus.PENDING);
-		//dont get the ones whose callCount is already Zero
-		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
-		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForPendingStatus));
+		//Get all ivrsSchedules with Status=PENDING/Scheduled/Failed
+		Set<IvrsCallStatus> statusSet = new HashSet<IvrsCallStatus>(); 
+		statusSet.add(IvrsCallStatus.PENDING);
+		statusSet.add(IvrsCallStatus.SCHEDULED);
+		statusSet.add(IvrsCallStatus.FAILED);
 		
-		//add all ivrsSchedules with Status=SCHEDULED
-		IvrsScheduleQuery ivrsScheduleQueryForScheduledStatus = new IvrsScheduleQuery();
-		ivrsScheduleQueryForScheduledStatus.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
-		ivrsScheduleQueryForScheduledStatus.filterByStatus(IvrsCallStatus.SCHEDULED);
-		//dont get the ones whose callCount is already Zero
-		ivrsScheduleQueryForPendingStatus.filterByCallCountGreaterThan(0);
-		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQueryForScheduledStatus));
+		IvrsScheduleQuery ivrsScheduleQuery = new IvrsScheduleQuery();
+		ivrsScheduleQuery.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
+		ivrsScheduleQuery.filterByStatuses(statusSet);
+		
+		//ensure the mode hasn't been switched to Non-IVRS as we don't support mixed modality
+		//ivrsScheduleQuery.filterByStudyParticipantAssignmentMode(AppMode.IVRS);
+		//don't get the ones whose callCount is already Zero
+		ivrsScheduleQuery.filterByCallCountGreaterThan(0);
+		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQuery));
 		
 		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleList.size());
 		return ivrsScheduleList;
