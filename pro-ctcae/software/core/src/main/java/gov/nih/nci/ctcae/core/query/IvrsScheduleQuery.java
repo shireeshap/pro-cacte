@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Vinay Gangoli
@@ -11,9 +13,19 @@ import java.util.Date;
 public class IvrsScheduleQuery extends AbstractQuery {
 
     private static String queryString = "SELECT ischd from IvrsSchedule ischd order by preferredCallTime";
+    
+    public static final String STATUSES = "Statuses";
+
+    public static final String APP_MODE = "appMode";
 
     public IvrsScheduleQuery() {
         super(queryString);
+    }
+    
+    public void filterByStudyParticipantAssignmentMode(AppMode appMode) {
+    	leftJoin("ischd.studyParticipantAssignment.studyParticipantModes as spModes ");
+        andWhere("spModes.mode =:" + APP_MODE);
+        setParameter(APP_MODE, appMode);
     }
 
     public void filterByStudyParticipantAssignment(Integer id) {
@@ -31,6 +43,12 @@ public class IvrsScheduleQuery extends AbstractQuery {
         setParameter("startDate", startDate);
         setParameter("endDate", endDate);
     }
+    
+    public void filterByStatuses(Set<IvrsCallStatus> statuses) {
+        andWhere("ischd.callStatus in (:" + STATUSES + ")");
+        setParameterList(STATUSES, statuses);
+    }
+
 
     public void filterByStatus(IvrsCallStatus status) {
         andWhere("ischd.callStatus =:status");
