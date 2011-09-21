@@ -124,7 +124,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		ivrsScheduleQuery.filterByStatuses(statusSet);
 		
 		//ensure the mode hasn't been switched to Non-IVRS as we don't support mixed modality
-		//ivrsScheduleQuery.filterByStudyParticipantAssignmentMode(AppMode.IVRS);
+		ivrsScheduleQuery.filterByStudyParticipantAssignmentMode(AppMode.IVRS);
 		//don't get the ones whose callCount is already Zero
 		ivrsScheduleQuery.filterByCallCountGreaterThan(0);
 		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQuery));

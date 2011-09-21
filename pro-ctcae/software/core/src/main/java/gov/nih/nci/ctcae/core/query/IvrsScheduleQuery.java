@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class IvrsScheduleQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT ischd from IvrsSchedule ischd order by preferredCallTime";
+    private static String queryString = "SELECT ischd from IvrsSchedule ischd order by ischd.preferredCallTime";
     
     public static final String STATUSES = "Statuses";
 
@@ -23,8 +23,8 @@ public class IvrsScheduleQuery extends AbstractQuery {
     }
     
     public void filterByStudyParticipantAssignmentMode(AppMode appMode) {
-    	leftJoin("ischd.studyParticipantAssignment.studyParticipantModes as spModes ");
-        andWhere("spModes.mode =:" + APP_MODE);
+    	leftJoin("ischd.studyParticipantAssignment.studyParticipantModes as spm ");
+        andWhere("spm.mode =:" + APP_MODE);
         setParameter(APP_MODE, appMode);
     }
 
