@@ -1,10 +1,13 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.CollectionUtils;
+import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 
 import java.util.Collection;
 
@@ -18,14 +21,22 @@ import java.util.Collection;
 public class UniqueParticipantEmailAddressValidator extends AbstractValidator<UniqueParticipantEmailAddress>{
     private String message;
     private ParticipantRepository participantRepository;
+    private ClinicalStaffRepository clinicalStaffRepository;
 
     public boolean validateEmail(String emailAddress, Integer participantID) {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByEmail(emailAddress);
         participantQuery.excludeByParticipantId(participantID);
-        
         Collection<Participant> participants = participantRepository.find(participantQuery);
         if(!CollectionUtils.isEmpty(participants)) {
+            return true;
+        }
+        //return false;
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByEmail(emailAddress);
+     //   clinicalStaffQuery.excludeByStaffId(participantID);
+        Collection<ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
+        if (clinicalStaffs != null && !clinicalStaffs.isEmpty()) {
             return true;
         }
         return false;
@@ -36,6 +47,11 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
 
     public String message() {
         return message;          
+    }
+
+    @Required
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+        this.clinicalStaffRepository = clinicalStaffRepository;
     }
 
     @Required

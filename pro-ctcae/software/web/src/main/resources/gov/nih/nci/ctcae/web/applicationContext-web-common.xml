@@ -63,6 +63,7 @@
     <bean id="uniqueParticipantEmailAddressValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
         <property name="participantRepository" ref="participantRepository"/>
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
     
      <bean id="uniqueStudyIdentifierForParticipantValidator"
