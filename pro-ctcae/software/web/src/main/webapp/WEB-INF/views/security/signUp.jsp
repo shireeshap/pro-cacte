@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <%@taglib prefix="ui" tagdir="/WEB-INF/tags/ui" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -67,7 +67,7 @@
 <body>
 
 
-<form:form method="post" cssClass="standard">
+<ctcae:form method="post" cssClass="standard">
 
     <chrome:box title="Contact Information">
 
@@ -106,7 +106,7 @@
     </chrome:box>
 
 
-</form:form>
+</ctcae:form>
 
 </body>
 </html>

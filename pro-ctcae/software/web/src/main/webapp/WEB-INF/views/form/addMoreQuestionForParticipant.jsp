@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%
     Object attribute = request.getAttribute("command");
     int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
@@ -539,7 +540,7 @@
         <spring:message code="virtualKeyboard"/>
 
     </div>
-    <form:form method="post" name="myForm">
+    <ctcae:form method="post" name="myForm">
         <table id="mytable" width="100%" border="0">
             <tbody>
             <tr>
@@ -577,7 +578,7 @@
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
-    </form:form>
+    </ctcae:form>
 </chrome:box>
 
 <table width="100%" cellspacing="10">

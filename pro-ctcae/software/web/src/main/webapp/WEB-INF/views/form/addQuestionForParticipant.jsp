@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%
     Object attribute = request.getAttribute("command");
     int numOfSymptoms = ((SubmitFormCommand) attribute).getDisplaySymptoms().size();
@@ -153,7 +154,7 @@
 </head>
 <body>
 <chrome:box autopad="true" message="false">
-    <form:form method="post" name="myForm">
+    <ctcae:form method="post" name="myForm">
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>
         </p>
@@ -195,7 +196,7 @@
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
-    </form:form>
+    </ctcae:form>
     <br/>
 
  <!--   <p>

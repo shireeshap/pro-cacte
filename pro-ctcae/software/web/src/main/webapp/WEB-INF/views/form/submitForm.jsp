@@ -9,6 +9,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <head>
 
     <style type="text/css">
@@ -162,7 +163,7 @@
     </script>
 </head>
 <body>
-<form:form method="post" name="myForm">
+<ctcae:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
 
    <%-- <div style="padding-left:796px;font-size:12px">
@@ -336,6 +337,6 @@
         </tr>
     </table>
 
-</form:form>
+</ctcae:form>
 </body>
 </html>

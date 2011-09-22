@@ -7,7 +7,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:javascriptLink name="submit_btn_animation"/>
@@ -59,7 +59,7 @@
     </script>
 </head>
 <body>
-<form:form method="post" name="myForm">
+<ctcae:form method="post" name="myForm">
     <br/><br/><br/>
     <div style="clear:both;">
         <div id="center-panel">
@@ -83,6 +83,6 @@
             </tr>
         </table>
     </div>
-</form:form>
+</ctcae:form>
 </body>
 </html>

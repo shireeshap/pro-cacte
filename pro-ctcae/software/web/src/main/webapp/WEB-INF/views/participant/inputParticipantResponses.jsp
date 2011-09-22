@@ -11,7 +11,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -55,7 +55,7 @@
 </c:if>
 
 <chrome:box>
-    <form:form method="post" name="myForm">
+    <ctcae:form method="post" name="myForm">
         <input type="hidden" name="submitType" value=""/>
         <tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrf.crf.recallPeriod}"/>
          <span style="float: right;position:relative;bottom:10px">
@@ -253,7 +253,7 @@
                 </tr>
             </table>
         </c:if>
-    </form:form>
+    </ctcae:form>
 </chrome:box>
 
 </body>

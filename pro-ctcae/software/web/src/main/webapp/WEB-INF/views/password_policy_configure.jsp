@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
     <%--<title>Configure Password Policy</title>--%>
@@ -49,7 +50,7 @@
 </head>
 <body>
 <c:if test="${updated}"><p class="updated">Settings saved</p></c:if>
-<form:form action="${action}">
+<ctcae:form action="${action}">
     <chrome:box title="Password Policy Configuration" autopad="true">
 
         <c:url value="/pages/admin/passwordPolicyConfigure" var="action"/>
@@ -216,6 +217,6 @@
     <div style="float: right;">
         <tags:button type="submit" value="Save" color="green" icon="save"/>
     </div>
-</form:form>
+</ctcae:form>
 </body>
 </html>

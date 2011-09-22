@@ -8,11 +8,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <table>
     <tr>
         <td>
-            <form:form method="post">
+            <ctcae:form method="post">
                 <c:choose>
                     <c:when test="${command.released}">
                         <div id="errorMessages">
@@ -63,7 +63,7 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-            </form:form>
+            </ctcae:form>
         </td>
     </tr>
 </table>

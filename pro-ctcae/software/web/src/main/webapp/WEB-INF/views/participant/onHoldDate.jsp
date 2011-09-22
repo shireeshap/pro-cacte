@@ -8,10 +8,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <body>
 
-<form:form method="post">
+<ctcae:form method="post">
     <chrome:box title="participant.label.on_hold_date">
         <chrome:division>
 
@@ -42,5 +42,5 @@
 
         </chrome:division>
     </chrome:box>
-</form:form>
+</ctcae:form>
 </body>

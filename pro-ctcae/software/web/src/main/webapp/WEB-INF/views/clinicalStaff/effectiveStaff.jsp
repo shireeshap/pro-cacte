@@ -8,11 +8,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <table>
     <tr>
         <td>
-            <form:form method="post">
+            <ctcae:form method="post">
             <div id="releaseForm">
                 <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     <c:choose>
@@ -46,7 +46,7 @@
                                  cssClass="previous ibutton" value="Cancel" icon="x"
                                  onclick="closeWindow()"/>
                 </div>
-                </form:form>
+                </ctcae:form>
         </td>
     </tr>
 </table>

@@ -3,14 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div style="width:590px;">
-    <form:form method="post">
+    <ctcae:form method="post">
         <chrome:box title="form.label.version_form">
             <chrome:division>
                 <div id="versionForm">
@@ -32,5 +32,5 @@
                 </div>
             </chrome:division>
         </chrome:box>
-    </form:form>
+    </ctcae:form>
 </div>

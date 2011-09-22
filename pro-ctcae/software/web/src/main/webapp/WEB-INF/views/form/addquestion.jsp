@@ -7,7 +7,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <tags:javascriptLink name="submit_btn_animation"/>
@@ -42,7 +42,7 @@
     </style>
 </head>
 <body>
-<form:form method="post" name="myForm">
+<ctcae:form method="post" name="myForm">
     <div style="clear:both;">
         <div id="left-panel">
             If you are experiencing any additional symptoms then please <a href="../form/addquestion">Click here</a> to add questions relating to them.
@@ -62,6 +62,6 @@
             </tr>
         </table>
     </div>
-</form:form>
+</ctcae:form>
 </body>
 </html>

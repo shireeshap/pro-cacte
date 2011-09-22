@@ -8,10 +8,12 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
 <html>
 <body>
 
-<form:form method="post">
+<ctcae:form method="post">
     <chrome:box title="Create the first administrative account" id="setup-input">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <p><tags:instructions code="clinicalStaff.sysadmin_details.top"/></p>
@@ -56,6 +58,6 @@
         </chrome:division>
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
-</form:form>
+</ctcae:form>
 </body>
 </html>

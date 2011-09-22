@@ -8,7 +8,7 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -24,7 +24,7 @@
         </chrome:box>
     </c:when>
     <c:otherwise>
-        <form:form method="post">
+        <ctcae:form method="post">
         	<spring:message code="rp.title" var="rpTitle" />
         	<spring:message code="rp.passwordPolicy" var="pwdPolicy" />
             <chrome:box title="${rpTitle}" autopad="true">
@@ -73,7 +73,7 @@
 
             </chrome:box>
 
-        </form:form>
+        </ctcae:form>
     </c:otherwise>
 </c:choose>
 </body>

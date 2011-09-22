@@ -9,7 +9,7 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="page" uri="http://www.opensymphony.com/sitemesh/page" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <page:applyDecorator name="standardNoHeader">
     <html>
@@ -24,7 +24,7 @@
     <c:set var="url"><c:url value="/pages/participant/participantOffHold"/>?id=${param.id}&subview=x</c:set>
         <%--${pageContext.request.requestURL}--%>
 
-    <form:form method="post" action="${url}">
+    <ctcae:form method="post" action="${url}">
         <chrome:box title="participant.label.remove_hold_date">
             <chrome:division>
                 <div id="offTreatment">
@@ -80,7 +80,7 @@
 
             </chrome:division>
         </chrome:box>
-    </form:form>
+    </ctcae:form>
     </body>
     </html>
 </page:applyDecorator>

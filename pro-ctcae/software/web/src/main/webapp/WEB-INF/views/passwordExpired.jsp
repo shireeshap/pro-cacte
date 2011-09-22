@@ -8,14 +8,14 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-
+<%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
 
 </head>
 <body>
-<form:form method="post">
+<ctcae:form method="post">
 	<spring:message code="expiredPassword" var="expiredPassword"/>
     <chrome:box title="${expiredPassword}" autopad="true">
 
@@ -52,7 +52,7 @@
         </table>
     </chrome:box>
 
-</form:form>
+</ctcae:form>
 </body>
 
 </html>
