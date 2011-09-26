@@ -61,7 +61,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<property name="pt.dir" location="${target.dir}/persistent-transient" />
 	<property name="working.dir" location="${target.dir}/working" />
 	<property name="cacore-sdk.dir" location="${target.dir}/${cacore-sdk.binaries.relative.dir}"/>
-
+ 
+    <!-- BDALite folder -->
+	<property name="bdalite.dir" location="${target.dir}/bda-lite" />
 
 	<!-- Ivy Related props -->
 	<property name="ivy.settings.file" value="ivy-settings.xml" />
@@ -216,6 +218,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<mkdir dir="${temp.dir}" />
 		<mkdir dir="${download.dir}" />
 		<mkdir dir="${pt.dir}" />
+		<mkdir dir="${bdalite.dir}" />
 
 		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
 		<!-- If jboss is required to build, then check for jboss in jboss.home, then check for in jboss in working directory, if not found then download it into this that directory.  If found at any point set local.jboss.home to where it is found.  This can be passed to sub-projects so then can compile code against distribution.  This is especially important on AntHillPro server which will not have jboss present, thus will have to use a copy in the working area.  This also makes it easier to start the project, if the developer does not yet have jboss installed, build will download it and install it so build can proceed. 
@@ -291,7 +294,30 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<fileset dir="${software.dir}/templates">
 			</fileset>
 		</copy>
+		<copy file="${software.dir}/web/build/dist/proctcae.war" todir="${bdalite.dir}" overwrite="true" />
+		<copy todir="${bdalite.dir}">
+			<fileset dir="${software.dir}/templates">
+			</fileset>
+		</copy>
+       <antcall target="proctcae:datasource:properties:config:lite"/>
+	</target>
+	
+	<target name="proctcae:datasource:properties:config:lite">
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_USER@" value="${database.user}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_PASSWORD@" value="${database.password}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_HOST@" value="${database.server}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_PORT@" value="${database.port}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_NAME@" value="${database.name}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@NONIDENTIFYING@" value="${mode.nonidentifying}"/>	
+		<replace file="${bdalite.dir}/datasource.properties" token="@LOCKOUT_ATTEMPTS@" value="${lockout.attempts}" />		
 
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_SERVER@" value="${smtp.address}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_USER@" value="${smtp.user}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_PORT@" value="${smtp.port}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_PASSWORD@" value="${smtp.password}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_SSL_ENABLED@" value="${smtp.ssl_enabled}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_FROM@" value="${smtp.from_email}" />		
+		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_IS_HTML@" value="${smtp.is_html}" />		
 	</target>
 
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
