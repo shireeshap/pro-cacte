@@ -218,19 +218,16 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         
         //default to English
         String contextToBeReturned = properties.getProperty(IVRS_CONTEXT_ENGLISH);
-//        participant.getStudyParticipantAssignments().iterator();
         participant = genericRepository.initialize(participant);
         
         StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
         if(studyParticipantAssignment != null){
-        	if(studyParticipantAssignment.getHomeWebLanguage() != null){
-        		if(studyParticipantAssignment.getHomeWebLanguage().equalsIgnoreCase("SPANISH")){
+        	if(studyParticipantAssignment.getIvrsLanguage() != null && studyParticipantAssignment.getIvrsLanguage().equalsIgnoreCase("SPANISH")){
         			contextToBeReturned = contextSpanish;
-            	}
-            } else if(studyParticipantAssignment.getIvrsLanguage().equalsIgnoreCase("SPANISH")){
-            	//only look for ivrsLang if homeWebLang is null.
-            	contextToBeReturned = contextSpanish;
-            }
+            } //else if(studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equalsIgnoreCase("SPANISH")){
+            	//look for home Web Lang if ivrsLang is not Spanish.
+            	//contextToBeReturned = contextSpanish;
+            //}
         }
 		return contextToBeReturned;
 	}
