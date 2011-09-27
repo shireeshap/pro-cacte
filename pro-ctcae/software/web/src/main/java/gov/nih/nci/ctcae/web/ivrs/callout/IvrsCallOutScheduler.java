@@ -46,9 +46,9 @@ import org.springframework.jms.core.JmsTemplate;
 public class IvrsCallOutScheduler implements ApplicationContextAware{
     
 	//specified in the datasource.props
-	public static final String CHANNEL_SOFTPHONE = "SIP/oneUser";
-	public static final String CHANNEL_VOIP      = "SIP/sipconnect.ipcomms.net.en";
-	public static final String CHANNEL_PSTN      = "DAHDI/G1";
+	public static final String CHANNEL_SOFTPHONE = "SOFTPHONE";
+	public static final String CHANNEL_VOIP      = "VOIP";
+	public static final String CHANNEL_PSTN      = "PSTN";
 	
 	public static final String MODE_IVRSCALLOUT  = "mode.ivrscallout";
 	public static final String IVRS_CONTEXT_ENGLISH  = "ivrs.context.english";
@@ -56,6 +56,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final String IVRS_EXTENSION  = "ivrs.extension";
 	public static final String IVRS_PRIORITY  = "ivrs.priority";
 	public static final String IVRS_TIMEOUT  = "ivrs.timeout";
+	public static final String IVRS_CHANNEL  = "ivrs.channel";
 	
 	public static final int SCHEDULER_FREQUENCY = 2;
 	
@@ -172,6 +173,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         String extension = properties.getProperty(IVRS_EXTENSION);
         int priority = Integer.valueOf(properties.getProperty(IVRS_PRIORITY)).intValue();
         long timeout = Long.valueOf(properties.getProperty(IVRS_TIMEOUT)).longValue();
+        String channel = properties.getProperty(IVRS_CHANNEL);
 		
         String context = null;
 		for(IvrsSchedule ivrsSchedule: ivrScheduleList){
@@ -189,17 +191,15 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			phoneNumber = buildPhoneNumber(participant);
 			context = getContext(participant);
 			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId)
-			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
+			if(channel.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
 				logger.debug("Adding CallAction for SoftPhone....");
-				callAction = new CallAction("" + 1, CHANNEL_SOFTPHONE, context, extension, priority, timeout, ivrsSchedule.getId());
-			}
-			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_VOIP)){
+				callAction = new CallAction("" + 1, ivrsCalloutMode, context, extension, priority, timeout, ivrsSchedule.getId());
+			} else if(channel.equalsIgnoreCase(CHANNEL_VOIP)){
 				logger.debug("Adding CallAction for VOIP....");
-				callAction = new CallAction("" + 1, CHANNEL_VOIP + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
-			}
-			if(ivrsCalloutMode.equalsIgnoreCase(CHANNEL_PSTN)){
+				callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
+			} else if(channel.equalsIgnoreCase(CHANNEL_PSTN)){
 				logger.debug("Adding CallAction for PSTN....");
-				callAction = new CallAction("" + 1, CHANNEL_PSTN + "/" + "226", context, extension, priority, timeout, ivrsSchedule.getId());
+				callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
 			}
 			callActionList.add(callAction);
 		}
