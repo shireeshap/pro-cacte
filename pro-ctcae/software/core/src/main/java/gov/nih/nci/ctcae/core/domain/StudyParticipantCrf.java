@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.text.ParseException;
 import java.util.*;
 
-//
-
 /**
  * The Class StudyParticipantCrf.
  *
@@ -142,13 +140,13 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param studyParticipantCrfSchedule the study participant crf schedule
      */
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
-            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
-            }
-        }
+//        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
+//            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+//                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+//                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+//                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
+//            }
+//        }
         studyParticipantCrfSchedule.setStudyParticipantCrf(this);
         studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
     }

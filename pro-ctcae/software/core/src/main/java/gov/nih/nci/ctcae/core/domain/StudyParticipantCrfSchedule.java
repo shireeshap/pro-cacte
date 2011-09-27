@@ -11,7 +11,6 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.*;
 
-//
 
 /**
  * The Class StudyParticipantCrfSchedule.
@@ -163,6 +162,15 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
      * @return the study participant crf items
      */
     public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
+    	if(studyParticipantCrfItems == null || studyParticipantCrfItems.size() == 0){
+    		for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
+                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                    studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                    this.addStudyParticipantCrfItem(studyParticipantCrfItem);
+                }
+            }
+    	}
         Collections.sort(studyParticipantCrfItems, new DisplayOrderComparator());
         return studyParticipantCrfItems;
     }
@@ -602,7 +610,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
 
     /**
      * Will populate the CRF items
-     */
+     
     public void scheduleStudyParticipantCRFItems() {
         for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
@@ -611,7 +619,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
                 addStudyParticipantCrfItem(studyParticipantCrfItem);
             }
         }
-    }
+    }*/
 
 
     /**
