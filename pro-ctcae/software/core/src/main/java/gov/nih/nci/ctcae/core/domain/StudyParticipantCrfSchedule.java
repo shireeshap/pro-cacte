@@ -190,7 +190,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
 
     private void mapQuestionAndAnswer(Map<String, List<List>> symptomMap, String symptom, String question, String answer) {
         List<List> questionsAndAnswers;
-        List questionAnswer = new ArrayList();
+        List<String> questionAnswer = new ArrayList<String>();
         questionAnswer.add(question);
         questionAnswer.add(answer);
         if (symptomMap.containsKey(symptom)) {
