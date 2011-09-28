@@ -689,6 +689,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     public void putOnHold(Date offHoldEffectiveDate) {
         if (DateUtils.compareDate(getStartDate(), offHoldEffectiveDate) > 0) {
             setStatus(CrfStatus.ONHOLD);
+            for (IvrsSchedule ivrsSchedule : getIvrsSchedules()) {
+                if (ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+                    ivrsSchedule.setCallStatus(IvrsCallStatus.ON_HOLD);
+                }
+            }
         }
     }
 

@@ -357,11 +357,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                 studyParticipantCrfSchedule.putOnHold(effectiveDate);
-                for (IvrsSchedule ivrsSchedule : studyParticipantCrfSchedule.getIvrsSchedules()) {
-                    if (ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
-                        ivrsSchedule.setCallStatus(IvrsCallStatus.ON_HOLD);
-                    }
-                }
             }
         }
     }
