@@ -163,13 +163,16 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
      */
     public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
     	if(studyParticipantCrfItems == null || studyParticipantCrfItems.size() == 0){
-    		for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
-                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-                    studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-                    this.addStudyParticipantCrfItem(studyParticipantCrfItem);
+    		if(studyParticipantCrf != null && studyParticipantCrf.getCrf() != null &&
+    			 studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber() != null){
+    			for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
+                    for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                        StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                        studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                        this.addStudyParticipantCrfItem(studyParticipantCrfItem);
+                    }
                 }
-            }
+    		}
     	}
         Collections.sort(studyParticipantCrfItems, new DisplayOrderComparator());
         return studyParticipantCrfItems;
