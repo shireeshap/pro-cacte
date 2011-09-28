@@ -195,6 +195,10 @@ public class ParticipantTestHelper {
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
                 spc.createSchedules();
+                //initialize the crfItems under every spcScheduleas crateSchedules does not crate crfItems
+                for(StudyParticipantCrfSchedule spcSchedule: spc.getStudyParticipantCrfSchedules()){
+                	spcSchedule.getStudyParticipantCrfItems();
+                }
             }
         }
     	System.out.println("end assignCrfToParticipantAndCreateSchedules");
