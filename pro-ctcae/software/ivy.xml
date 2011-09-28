@@ -31,7 +31,7 @@
         <conf name="jetty" extends="test,compile" description="Jetty Config"/>
     </configurations>
     <dependencies>
-         <dependency org="cobertura" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
+        <dependency org="net.sourceforge" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
         <dependency org="asm" name="asm" rev="3.0" conf="test->default(*)"/>
         <dependency org="asm" name="asm-tree" rev="3.0" conf="test->default(*)"/>
         <dependency org="oro" name="oro" rev="2.0.8" conf="test->default(*)"/>
