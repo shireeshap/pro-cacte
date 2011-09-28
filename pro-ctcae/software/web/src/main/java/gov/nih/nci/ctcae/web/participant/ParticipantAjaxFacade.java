@@ -71,6 +71,9 @@ public class ParticipantAjaxFacade {
         }
 //         participantQuery = new ParticipantQuery();
 
+        if (StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName) && StringUtils.isBlank(identifier) && StringUtils.isBlank(studyId) && StringUtils.isBlank(spIdentifier) && StringUtils.isBlank(siteId)) {
+            participantQuery.setMaximumResults(75);
+        }
         if (!StringUtils.isBlank(firstName)) {
             participantQuery.filterByParticipantFirstName(firstName);
         }
