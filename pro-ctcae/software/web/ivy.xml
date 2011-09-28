@@ -123,8 +123,13 @@
         <!-- JFree Dependency-->
         <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
         <dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
-        <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
+        <dependency org="cobertura" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
+        <dependency org="asm" name="asm" rev="3.0" conf="test->default(*)"/>
+        <dependency org="asm" name="asm-tree" rev="3.0" conf="test->default(*)"/>
+        <dependency org="oro" name="oro" rev="2.0.8" conf="test->default(*)"/>
+        <dependency org="ant" name="ant" rev="1.6.5" conf="test->master(*)"/>
         <dependency org="org.mvel" name="mvel" rev="1.2.22-java1.5" force="true"/>
+        <dependency org="log4j" name="log4j" rev="1.2.13" conf="test->default(*)"/>
 
         <!-- IVRS dependencies-->
         <dependency org="org.apache.xbean" name="xbean-spring" rev="3.6" force="true"/>

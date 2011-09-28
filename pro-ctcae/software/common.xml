@@ -607,9 +607,15 @@
     <!-- ==============================================================
                 target: corbetura-init
             ============================================================== -->
+    <path id="cobertura.classpath">
+        <fileset dir="${test.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
     <target name="cobertura-init" if="run.test" depends="clean-cobertura-dir, init.test">
-    <ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
-        <echo message="${test.lib.dir}/cobertura-1.8.jar"/>
+        <!--<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.9.2" inline="true" pathid="cobertura.classpath"/>-->
+        <!---->
+        <echo message="${test.lib.dir}/cobertura-1.9.2.jar"/>
         <mkdir dir="${cobertura.dir}"/>
         <mkdir dir="${cobertura.dir}/xmlreport"/>
         <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
@@ -623,15 +629,14 @@
     <target name="test" if="run.test" depends="clean-test-results, compile-test,resolve-test, cobertura-init"
             description="Runs the testcases">
         <echo message="Executing in ${ant.project.name}"/>
-        <echo
-                message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}"/>
         <mkdir dir="${test.results.dir}"/>
 
         <junit printsummary="withOutAndErr" errorproperty="test.failed" failureproperty="test.failed"
                showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000" filtertrace="off">
+            <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.dir}/cobertura.ser"/>
             <classpath location="${instrumented.classes.dir}"/>
             <classpath refid="test.run.classpath"/>
-            <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.dir}/cobertura.ser"/>
+            <classpath refid="cobertura.classpath"/>
             <formatter type="plain"/>
             <formatter type="xml"/>
             <batchtest fork="yes" todir="${test.results.dir}">

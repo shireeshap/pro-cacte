@@ -284,7 +284,12 @@
         </subant>
     </target>
 
-    <target name="coverage-report" depends="buildlist,clean-cobertura-dir,cobertura-init"
+    <path id="cobertura.classpath">
+        <fileset dir="${test.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <target name="coverage-report" depends="buildlist,clean-cobertura-dir,resolve-test,cobertura-init"
             description="--> Generates the cobertura report">
         <subant target="test-report" buildpathref="build-path"/>
 
