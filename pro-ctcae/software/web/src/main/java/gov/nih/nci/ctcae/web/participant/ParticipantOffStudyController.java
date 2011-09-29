@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Mehul Gulati
- * Date: Apr 7, 2009
+ *         Date: Apr 7, 2009
  */
 
 public class ParticipantOffStudyController extends CtcAeSimpleFormController {
@@ -48,6 +48,11 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 if (studyParticipantAssignment.getOffTreatmentDate().getTime() < studyParticipantCrfSchedule.getStartDate().getTime()) {
                     studyParticipantCrfSchedule.setStatus(CrfStatus.OFFSTUDY);
+                    for (IvrsSchedule ivrsSchedule : studyParticipantCrfSchedule.getIvrsSchedules()) {
+                        if (ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+                            ivrsSchedule.setCallStatus(IvrsCallStatus.ON_HOLD);
+                        }
+                    }
                     studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
                 }
             }
