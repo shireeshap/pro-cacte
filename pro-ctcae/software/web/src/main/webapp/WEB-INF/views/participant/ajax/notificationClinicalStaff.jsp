@@ -9,24 +9,27 @@
 
 <script type="text/javascript">
 
-     function handleSelect(stype, args) {
-            var ele = args[0];
-            var oData = args[2];
-            ele.getInputEl().value = oData.displayName;
-            var id = ele.getInputEl().id;
-            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-    //            Element.update(hiddenInputId + "-selected-name", oData.displayName)
-    //            $(hiddenInputId + '-selected').show()
-    //            new Effect.Highlight(hiddenInputId + "-selected")
-            $(hiddenInputId).value = oData.id;
-        }
+    function handleSelect(stype, args) {
+         var ele = args[0];
+         var oData = args[2];
+         if(oData == null){
+         	ele.getInputEl().value="(Begin typing here)";
+         	ele.getInputEl().addClassName('pending-search');
+         } else {
+			ele.getInputEl().value = oData.displayName;
+			ele.getInputEl().removeClassName('pending-search');
+			var id = ele.getInputEl().id;
+			var hiddenInputId = id.substring(0, id.indexOf('Input'));
+			$(hiddenInputId).value = oData.id;
+         }
+    }
 
-       function clearInput(inputId) {
-            $(inputId).clear();
-            $(inputId + 'Input').clear();
-            $(inputId + 'Input').focus();
-            $(inputId + 'Input').blur();
-        }
+    function clearInput(inputId) {
+        $(inputId).clear();
+        $(inputId + 'Input').clear();
+        $(inputId + 'Input').focus();
+        $(inputId + 'Input').blur();
+    }
 
     function initializeAutoCompleter1(){
 

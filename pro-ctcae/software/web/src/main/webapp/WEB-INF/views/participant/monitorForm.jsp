@@ -42,16 +42,21 @@
      function handleSelect(stype, args) {
          var ele = args[0];
          var oData = args[2];
-         var id = ele.getInputEl().id;
-       	 ele.getInputEl().value = oData.displayName;
-         
-         var hiddenInputId = id.substring(0, id.indexOf('Input'));
-         $(hiddenInputId).value = oData.id;
-		 if(hiddenInputId == 'study'){
-	          displayForms();
-	          displaySites();
-	          displayParticipants();
-		 }
+         if(oData == null){
+         	ele.getInputEl().value="(Begin typing here)";
+         	ele.getInputEl().addClassName('pending-search');
+         } else {
+	         var id = ele.getInputEl().id;
+	       	 ele.getInputEl().value = oData.displayName;
+	       	 ele.getInputEl().removeClassName('pending-search');
+	         var hiddenInputId = id.substring(0, id.indexOf('Input'));
+	         $(hiddenInputId).value = oData.id;
+			 if(hiddenInputId == 'study'){
+		          displayForms();
+		          displaySites();
+		          displayParticipants();
+			 }
+         }
      }
 
     function clearInput(inputId) {
