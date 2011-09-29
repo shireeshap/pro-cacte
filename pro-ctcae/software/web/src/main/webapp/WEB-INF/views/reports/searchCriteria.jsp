@@ -116,21 +116,27 @@
         function handleSelect(stype, args) {
             var ele = args[0];
             var oData = args[2];
-            ele.getInputEl().value = oData.displayName;
-            var id = ele.getInputEl().id;
-            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-            $(hiddenInputId).value = oData.id;
-
-			if(hiddenInputId == 'study'){
-				if (displayForm) {
-	                displayForms();
-	                displaySites();
-	                if (displayFilterBy) {
-	                    $('filterByDiv').show();
-	                }
-	            }
-	            $('search').show();
-			}
+            if(oData == null){
+            	ele.getInputEl().value="(Begin typing here)";
+            	ele.getInputEl().addClassName('pending-search');
+            } else {
+	            ele.getInputEl().value = oData.displayName;
+	            var id = ele.getInputEl().id;
+	            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+	            $(hiddenInputId).value = oData.id;
+	            ele.getInputEl().removeClassName('pending-search');
+	            
+				if(hiddenInputId == 'study'){
+					if (displayForm) {
+		                displayForms();
+		                displaySites();
+		                if (displayFilterBy) {
+		                    $('filterByDiv').show();
+		                }
+		            }
+		            $('search').show();
+				}
+            }
         }
 
        function clearInput(inputId) {
