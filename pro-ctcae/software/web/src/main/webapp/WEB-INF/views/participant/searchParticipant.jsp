@@ -191,7 +191,7 @@
             }
 
             new YUIAutoCompleter('studyInput', getStudies, handleSelect);
-            var studySiteName =  "${study.displayName}";
+            var studyName =  "${study.displayName}";
             if(studyName != ''){            
                 $('studyInput').value = "${study.displayName}";
                 $('studyInput').removeClassName('pending-search');

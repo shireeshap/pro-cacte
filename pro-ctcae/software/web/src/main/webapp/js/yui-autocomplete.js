@@ -4920,6 +4920,7 @@ YAHOO.widget.AutoComplete.prototype._sendQuery = function(D) {
 };
 YAHOO.widget.AutoComplete.prototype._populateListItem = function(B, A, C) {
     B.innerHTML = this.formatResult(A, C, B._sResultMatch);
+    B.className = "";
 };
 YAHOO.widget.AutoComplete.prototype._populateList = function(K, F, C) {
     if (this._nTypeAheadDelayID != -1) {
@@ -4988,7 +4989,23 @@ YAHOO.widget.AutoComplete.prototype._populateList = function(K, F, C) {
                 H = this._doBeforeExpandContainer(this._elTextbox, this._elContainer, K, R);
                 this._toggleContainer(H);
             } else {
-                this._toggleContainer(false);
+            	//custom added to display "No results found" message.
+                if(A == 0){
+                	var I = this._elList.childNodes;
+                	for (var O = I.length - 1; O >= A; O--) {
+                        G = I[O];
+                        G.style.display = "none";
+                    }
+                	var temp = document.createElement("li");
+                	temp.style.display="";
+                	temp.innerHTML = "No results found";
+                	temp.className = 'no-results-found';
+                	this._elList.appendChild(temp);
+                    H = this._doBeforeExpandContainer(this._elTextbox, this._elContainer, K, R);
+                    this._toggleContainer(H);
+                } else {
+                	this._toggleContainer(false);
+                }
             }
             return;
         }

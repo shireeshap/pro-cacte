@@ -619,16 +619,17 @@ function showIndicator(id) {
 	if(id == null || id == ''){
 		id = 'indicator';
 	}
-    $(id).style.visibility = 'visible';
+	$(id).style.visibility = "visible";
     if (typeof(xMousePos) != 'undefined') {
         $(id).style.left = xMousePos + 'px';
         $(id).style.top = yMousePos + 'px';
     }
 }
+
 function hideIndicator(id) {
 	if(id == null || id == ''){
 		id = 'indicator';
 	}
-    $(id).style.visibility = 'hidden';
+	$(id).style.visibility = "hidden";
 }
 
