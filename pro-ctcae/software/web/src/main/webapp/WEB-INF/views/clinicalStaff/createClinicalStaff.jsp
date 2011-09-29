@@ -73,19 +73,8 @@
                         $('clinicalStaff.organizationClinicalStaffs[${status.index}].organizationInput').removeClassName('pending-search');
                     }
 
-                <%--var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'--%>
-                <%--<c:choose>--%>
-                <%--<c:when test="${cca}">--%>
-                <%--acCreate(new siteAutoComplter(siteBaseName));--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                <%--acCreate(new siteAutoComplterWithSecurity(siteBaseName));--%>
-                <%--</c:otherwise>--%>
-                <%--</c:choose>--%>
-                <%--initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');--%>
                 </c:if>
             </c:forEach>
-//            initSearchField()
         })
 
 
