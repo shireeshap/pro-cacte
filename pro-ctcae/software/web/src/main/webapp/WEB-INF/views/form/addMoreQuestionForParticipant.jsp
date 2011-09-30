@@ -289,6 +289,7 @@
     function clearInput() {
         $('participantSymptomInput').clear();
         $('participantSymptomInput').value = greeting;
+        $('participantSymptomInput').className = "yui-ac-input pending-search";
     }
     function addCheckbox(selectedChoice) {
         clearInput();
