@@ -5534,7 +5534,9 @@ YAHOO.register("autocomplete", YAHOO.widget.AutoComplete, {version:"2.8.0r4",bui
 var AutoCompleter = Class.create();
 AutoCompleter.prototype = {
     initialize: function(basename, oDS, formatResult, handler) {
-        var oAC = new YAHOO.widget.AutoComplete(basename, basename + "Autocomplete", oDS);
+		configObj = new Object();
+		configObj.queryDelay = 0.5;
+        var oAC = new YAHOO.widget.AutoComplete(basename, basename + "Autocomplete", oDS, configObj);
         oAC.useShadow = true;
         oAC.resultTypeList = false;
         oAC.maxResultsDisplayed = 50;
