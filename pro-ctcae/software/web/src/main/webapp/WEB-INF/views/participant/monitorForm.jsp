@@ -31,11 +31,13 @@
      });
 
      function getStudies(sQuery) {
+         $('studyInput-indicator').style.visibility = 'visible';
          var callbackProxy = function(results) {
              aResults = results;
          };
          var callMetaData = { callback:callbackProxy, async:false};
          study.matchStudy(unescape(sQuery), callMetaData);
+         $('studyInput-indicator').style.visibility = 'hidden';
          return aResults;
      }
 
@@ -67,11 +69,13 @@
      }
 
     function getParticipants(sQuery) {
+    	$('participantInput-indicator').style.visibility = 'visible';
         var callbackProxy = function(results) {
             aResults = results;
         };
         var callMetaData = {callback:callbackProxy, async:false};
         participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
+        $('participantInput-indicator').style.visibility = 'hidden';
         return aResults;
     }
 
@@ -103,11 +107,13 @@ function displaySites() {
 }
 
 function getOrganizations(sQuery) {
+	$('studySiteInput-indicator').style.visibility = 'visible';
     var callbackProxy = function(results) {
         aResults = results;
     };
     var callMetaData = {callback:callbackProxy, async:false};
     organization.matchOrganizationByStudyId(unescape(sQuery), $('study').value, callMetaData);
+    $('studySiteInput-indicator').style.visibility = 'hidden';
     return aResults;
 }
 
