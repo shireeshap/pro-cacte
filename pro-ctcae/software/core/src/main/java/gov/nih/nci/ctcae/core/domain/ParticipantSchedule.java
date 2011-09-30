@@ -189,7 +189,7 @@ public class ParticipantSchedule {
 			//for everyday from startDate to endDate create a ivrsSchedule
 			Date startDate = studyParticipantCrfSchedule.getStartDate();
 			offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
-			for(int i = 0; i < offSetDiff; i++){
+			for(int i = 0; i <= offSetDiff; i++){
 				ivrsSchedule = new IvrsSchedule(studyParticipantAssignment, startDate);
 				ivrsSchedule.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 				studyParticipantCrfSchedule.getIvrsSchedules().add(ivrsSchedule);
