@@ -340,6 +340,15 @@ public class User extends BaseVersionable implements UserDetails {
         return false;
     }
 
+    public boolean isCCA() {
+        for (UserRole userRole : userRoles) {
+            if (Role.CCA.equals(userRole.getRole())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean isODCOnStudy(Study study) {
         if (study != null) {

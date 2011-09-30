@@ -107,7 +107,15 @@ public class SearchStudyController extends AbstractController {
         List<String[]> displayDataForPage = new ArrayList<String[]>();
         for (int index = 0; index < totalRecords; index++) {
             Study study = studies.get(index);
-            boolean odcOnStudy = user.isODCOnStudy(study);
+            boolean odcOnStudy = false;
+
+            if (user.isCCA()) {
+                odcOnStudy = false;
+            } else {
+                if (user.isODCOnStudy(study)) {
+                    odcOnStudy = true;
+                }
+            }
             String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + study.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + study.getId() + "','" + odcOnStudy + "');</script>";
             String[] row = new String[]{study.getAssignedIdentifier(), study.getShortTitle(), study.getFundingSponsor().getOrganization().getDisplayName(), study.getDataCoordinatingCenter().getOrganization().getDisplayName(), actions};
             displayData.add(row);
