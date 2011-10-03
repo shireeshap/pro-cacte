@@ -36,7 +36,7 @@ public class StudyOrganizationQuery extends AbstractQuery {
      * The NCI code.
      */
     private static String NCI_CODE = "nciInstituteCode";
-    
+
 
     /**
      * Instantiates a new study organization query.
@@ -84,7 +84,20 @@ public class StudyOrganizationQuery extends AbstractQuery {
         andWhere("o.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, new Integer(organizationId));
     }    
-    
+
+        /**
+     * Filter by data coordinating center id.
+     *
+     * @param organizationId the organization id
+     */
+    public void filterByDataCoordinatingCenterId(final int organizationId) {
+        andWhere("o.organization.id = :" + ORGANIZATION_ID);
+        List<String> siteTypes = new ArrayList<String>();
+        siteTypes.add("DCC");
+        andWhere("o.class in ( :" + STUDY_SITE + ")");
+        setParameterList(STUDY_SITE, siteTypes);
+        setParameter(ORGANIZATION_ID, new Integer(organizationId));
+    }
     /**
      * Filter by organization name or nci institute code.
      *

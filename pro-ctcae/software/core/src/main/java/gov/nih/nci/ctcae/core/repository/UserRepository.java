@@ -332,7 +332,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
      */
     public List<StudyOrganization> findStudyOrganizations(OrganizationClinicalStaff organizationClinicalStaff){
     	StudyOrganizationQuery organizationClinicalStaffQuery = new StudyOrganizationQuery();
-    	organizationClinicalStaffQuery.filterByOrganizationId(organizationClinicalStaff.getOrganization().getId());
+    	organizationClinicalStaffQuery.filterByDataCoordinatingCenterId(organizationClinicalStaff.getOrganization().getId());
     	return genericRepository.find(organizationClinicalStaffQuery);
     }
 
