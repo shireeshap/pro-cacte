@@ -43,7 +43,7 @@
         <property name="connectionFactory" ref="jmsFactory"/>
         <property name="messageListener" ref="simpleMessageListener"/>
         <property name="destination" ref="mydestination"/>
-        <property name="concurrentConsumers" value="${ivrs.total.phones.lines}"/>
+        <property name="concurrentConsumers" value="${ivrs.total.phonelines}"/>
     </bean>
     
 </beans>
