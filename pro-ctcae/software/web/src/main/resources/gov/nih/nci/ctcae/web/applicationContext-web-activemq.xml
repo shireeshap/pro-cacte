@@ -13,8 +13,7 @@
 	    http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
         http://activemq.apache.org/schema/core
    	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd ">
-        
-    
+
     <!--  lets create an embedded ActiveMQ Broker -->
     <amq:broker id="broker" useJmx="false" persistent="false">
         <amq:transportConnectors>
@@ -23,23 +22,14 @@
     </amq:broker>
 
     <!--  ActiveMQ destinations to use  -->
-    <amq:queue id="destination" physicalName="org.apache.activemq.spring.Test.spring.embedded"/>
+    <bean id="mydestination" class="org.apache.activemq.command.ActiveMQQueue">
+      <constructor-arg value="IVRS.DESTINATION" />
+   </bean>
 
     <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
     <amq:connectionFactory id="jmsFactory" brokerURL="tcp://localhost:61616"/>
 
     <!-- Spring JMS Template -->
-    <bean id="myJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory">
-            <!-- lets wrap in a pool to avoid creating a connection per send -->
-            <bean class="org.springframework.jms.connection.CachingConnectionFactory">
-                <property name="targetConnectionFactory">
-                    <ref local="jmsFactory"/>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
     <bean id="consumerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="jmsFactory"/>
     </bean>
@@ -48,13 +38,12 @@
     <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener">
         <property name="properties" ref="proCtcAeProperties"/>
 	</bean>
-	
-    <!-- The Spring message listener container configuration -->
-    <jms:listener-container container-type="default" connection-factory="jmsFactory" acknowledge="auto"
-                            concurrency="2-2">
-        <jms:listener destination="IVRS.DESTINATION" ref="simpleMessageListener" method="onMessage"/>
-    </jms:listener-container>
-    
-   
+
+    <bean id="container" class="org.springframework.jms.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="messageListener" ref="simpleMessageListener"/>
+        <property name="destination" ref="mydestination"/>
+        <property name="concurrentConsumers" value="${ivrs.total.phones.lines}"/>
+    </bean>
     
 </beans>
