@@ -661,7 +661,6 @@ pro-ctcae/software/IVRS-repo/proctcae-sound/es/mandatoryInstructions.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/monthlyRecallPeriod.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/newSurveyMessage.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/noFormsAvailable.gsm -text
-pro-ctcae/software/IVRS-repo/proctcae-sound/es/noFormsAvaliable.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/noMorePreviousQuestionsExist.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/optionNotAvailable.gsm -text
 pro-ctcae/software/IVRS-repo/proctcae-sound/es/optionNotSexualyActive.gsm -text
