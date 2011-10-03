@@ -105,6 +105,10 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (question instanceof ProCtcQuestion) {
             proQuestion = (ProCtcQuestion) question;
         }
+        boolean isMeddraQuestion = false;
+        if (question instanceof MeddraQuestion) {
+               isMeddraQuestion = true;
+        }
         ArrayList<ProCtcValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
@@ -131,7 +135,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             }
 
         }
-        if (value == null) {
+        if (value == null && !isMeddraQuestion) {
             ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, studyParticipantCrfItem);
             myProCtcValidValue.setDisplayOrder(0);
             validValue.add(myProCtcValidValue);

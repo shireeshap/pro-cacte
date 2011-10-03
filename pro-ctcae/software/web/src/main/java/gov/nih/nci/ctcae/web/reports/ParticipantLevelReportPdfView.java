@@ -99,7 +99,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                     Object[] validValuesArr = validValues.toArray();
                     for (int k = 0; k < numOfColsInCurrentTable; k++) {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
-                        if (validValuesArr.length > absIndex) {
+                        if (validValuesArr.length > absIndex && validValuesArr[absIndex]!=null) {
                             table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
                         } else {
                             table.addCell("");

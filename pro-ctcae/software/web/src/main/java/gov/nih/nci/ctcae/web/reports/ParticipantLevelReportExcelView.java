@@ -117,7 +117,11 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
                 ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
                 for (ProCtcValidValue proCtcValidValue : validValues) {
                     cell = row.createCell(i++);
+                    if (proCtcValidValue!=null) {
                     cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH)));
+                    } else {
+                        cell.setCellValue(new HSSFRichTextString(" "));
+                    }
                 }
                 row = hssfSheet.createRow(rownum++);
             }
