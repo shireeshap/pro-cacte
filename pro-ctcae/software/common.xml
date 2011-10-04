@@ -579,7 +579,7 @@
     <target name="find-datasource" unless="dsFile.loaded" description="Loads the datasource properties">
         <echo message="databaseConfigurationName : ${databaseConfigurationName}"/>
         <condition property="dsFile" value="${user.home}/.proctcae/${databaseConfigurationName}.properties"
-                   else="/etc/proctcae/${databaseConfigurationName}.properties">
+                   else="${env.CATALINA_HOME}/conf/proctcae/${databaseConfigurationName}.properties">
             <available file="${user.home}/.proctcae/${databaseConfigurationName}.properties"/>
         </condition>
         <property name="dsFile.loaded" value="true"/>
