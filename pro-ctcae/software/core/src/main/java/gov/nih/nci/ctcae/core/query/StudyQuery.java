@@ -82,7 +82,7 @@ public class StudyQuery extends SecuredQuery<Study> {
     public void filterStudiesByLongTitle(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
-        andWhere(String.format("lower(study.longTitle) LIKE :%s", LONG_TITLE));
+        andWhere(String.format("lower(study.longTitle) LIKE :%s)", LONG_TITLE));
         setParameter(LONG_TITLE, searchString);
 
     }
@@ -94,8 +94,8 @@ public class StudyQuery extends SecuredQuery<Study> {
      */
     public void filterStudiesByAssignedIdentifier(String text) {
         String searchString = text != null ? text.toLowerCase() : null;
-
-        andWhere(String.format("lower(study.assignedIdentifier) LIKE :%s", ASSIGNED_IDENTIFIER));
+        searchString = "%"+ searchString + "%";
+        andWhere(String.format("lower(study.assignedIdentifier) LIKE :%s)", ASSIGNED_IDENTIFIER));
         setParameter(ASSIGNED_IDENTIFIER, searchString);
 
     }
@@ -119,8 +119,9 @@ public class StudyQuery extends SecuredQuery<Study> {
      */
     public void filterStudiesByShortTitle(String text) {
         String searchString = text != null ? text.toLowerCase() : null;
+        searchString = "%"+ searchString + "%";
 
-        andWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
+        andWhere(String.format("lower(study.shortTitle) LIKE :%s)", SHORT_TITLE));
         setParameter(SHORT_TITLE, searchString);
 
     }
