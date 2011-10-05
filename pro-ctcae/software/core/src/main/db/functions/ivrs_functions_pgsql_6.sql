@@ -1707,238 +1707,30 @@ BEGIN
 END;
 $BODY$ LANGUAGE 'plpgsql' VOLATILE;
 
---Function: ivrs_updateques_filename()
-
---DROP FUNCTION ivrs_updateques_filename();
-
-CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
-  RETURNS integer AS
-$x$
-DECLARE
-	v_count integer :=1;
-	v_value text :='';
-BEGIN
-
-	FOR i IN 1..126 LOOP
-		v_value :='question'||i;
-		UPDATE pro_ctc_questions SET question_file_name=v_value WHERE id=i;
-
-
-	END LOOP;
-
-	return 0;
-	--WHILE v_count < 126 LOOP
-	--	UPDATE pro_ctc_questions SET question_file_name='question' WHERE id=v_count;
-	--	v_count := v_count + 1;
-	--END LOOP;
-
-EXCEPTION
-    WHEN OTHERS THEN
-    return -1;
-END;
-
-$x$
-  LANGUAGE 'plpgsql' VOLATILE;
-
-
+-- --Function: ivrs_updateques_filename()
+--
+-- --DROP FUNCTION ivrs_updateques_filename();
+--
 -- CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
 --   RETURNS integer AS
 -- $x$
 -- DECLARE
 -- 	v_count integer :=1;
 -- 	v_value text :='';
--- 	v_question_term text :='';
 -- BEGIN
---     UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question2'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='What was the SEVERITY of your ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) at their WORST)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question3'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How much did ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) INTERFERE with your usual or daily activities)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
--- 	UPDATE pro_ctc_questions SET question_file_name='question1'
--- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
--- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+--
+-- 	FOR i IN 1..126 LOOP
+-- 		v_value :='question'||i;
+-- 		UPDATE pro_ctc_questions SET question_file_name=v_value WHERE id=i;
 --
 --
+-- 	END LOOP;
 --
---
+-- 	return 0;
+-- 	--WHILE v_count < 126 LOOP
+-- 	--	UPDATE pro_ctc_questions SET question_file_name='question' WHERE id=v_count;
+-- 	--	v_count := v_count + 1;
+-- 	--END LOOP;
 --
 -- EXCEPTION
 --     WHEN OTHERS THEN
@@ -1947,6 +1739,401 @@ $x$
 --
 -- $x$
 --   LANGUAGE 'plpgsql' VOLATILE;
+
+
+CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
+  RETURNS integer AS
+$x$
+DECLARE
+	v_count integer :=1;
+	v_value text :='';
+	v_question_term text :='';
+BEGIN
+    UPDATE pro_ctc_questions SET question_file_name='question1'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+	UPDATE pro_ctc_questions SET question_file_name='question2'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) at their WORST)');
+	UPDATE pro_ctc_questions SET question_file_name='question3'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) INTERFERE with your usual or daily activities)');
+	UPDATE pro_ctc_questions SET question_file_name='question4'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have ACHING MUSCLES');
+	UPDATE pro_ctc_questions SET question_file_name='question5'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ACHING MUSCLES at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question6'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did ACHING MUSCLES INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question7'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ACNE OR PIMPLES ON THE FACE OR CHEST at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question8'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you FEEL ANXIETY');
+	UPDATE pro_ctc_questions SET question_file_name='question9'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ANXIETY at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question10'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did ANXIETY INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question11'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have ARM OR LEG SWELLING');
+	UPDATE pro_ctc_questions SET question_file_name='question12'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ARM OR LEG SWELLING at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question13'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did ARM OR LEG SWELLING INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question14'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any BED SORES');
+	UPDATE pro_ctc_questions SET question_file_name='question15'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have BLOATING OF THE ABDOMEN (BELLY)');
+	UPDATE pro_ctc_questions SET question_file_name='question16'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your BLOATING OF THE ABDOMEN (BELLY) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question17'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your BLURRY VISION at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question18'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did BLURRY VISION INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question19'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your BODY ODOR at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question20'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your BREAST AREA ENLARGEMENT OR TENDERNESS at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question21'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you BRUISE EASILY (BLACK AND BLUE MARKS))');
+	UPDATE pro_ctc_questions SET question_file_name='question22'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any CHANGE IN THE COLOR OF YOUR FINGERNAILS OR TOENAILS');
+	UPDATE pro_ctc_questions SET question_file_name='question23'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your CONSTIPATION at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question24'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your COUGH at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question25'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did COUGH INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question26'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DECREASED APPETITE at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question27'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did DECREASED APPETITE INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question28'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DECREASED SEXUAL INTEREST at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question29'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have an UNEXPECTED DECREASE IN SWEATING');
+	UPDATE pro_ctc_questions SET question_file_name='question30'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DIFFICULTY GETTING OR KEEPING AN ERECTION at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question31'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DIFFICULTY SWALLOWING at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question32'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DIZZINESS at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question33'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did DIZZINESS INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question34'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DRY MOUTH at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question35'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your DRY SKIN at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question36'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have EJACULATION PROBLEMS');
+	UPDATE pro_ctc_questions SET question_file_name='question37'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your FATIGUE, TIREDNESS, OR LACK OF ENERGY at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question38'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did FATIGUE, TIREDNESS, OR LACK OF ENERGY INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question39'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you FEEL THAT NOTHING COULD CHEER YOU UP');
+	UPDATE pro_ctc_questions SET question_file_name='question40'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your FEELINGS THAT NOTHING COULD CHEER YOU UP at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question41'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did FEELING THAT NOTHING COULD CHEER YOU UP INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question42'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any FLASHING LIGHTS IN FRONT OF YOUR EYES');
+	UPDATE pro_ctc_questions SET question_file_name='question43'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Were there times when you had to URINATE FREQUENTLY');
+	UPDATE pro_ctc_questions SET question_file_name='question44'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did FREQUENT URINATION INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question45'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any HAIR LOSS');
+	UPDATE pro_ctc_questions SET question_file_name='question46'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HAND-FOOT SYNDROME (A RASH OF THE HANDS OR FEET THAT CAN CAUSE CRACKING, PEELING, REDNESS, OR PAIN) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question47'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have HEARTBURN');
+	UPDATE pro_ctc_questions SET question_file_name='question48'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HEARTBURN at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question49'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have HICCUPS');
+	UPDATE pro_ctc_questions SET question_file_name='question50'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HICCUPS at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question51'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any HIVES (ITCHY RED BUMPS ON THE SKIN)');
+	UPDATE pro_ctc_questions SET question_file_name='question52'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HOARSE VOICE at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question53'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have HOT FLASHES');
+	UPDATE pro_ctc_questions SET question_file_name='question54'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HOT FLASHES at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question55'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any INCREASED PASSING OF GAS (FLATULENCE)');
+	UPDATE pro_ctc_questions SET question_file_name='question56'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any INCREASED SKIN SENSITIVITY TO SUNLIGHT');
+	UPDATE pro_ctc_questions SET question_file_name='question57'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your INSOMNIA (INCLUDING DIFFICULTLY FALLING ASLEEP, STAYING ASLEEP, OR WAKING UP EARLY) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question58'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did INSOMNIA (INCLUDING DIFFICULTY FALLING ASLEEP, STAYING ASLEEP, OR WAKING UP EARLY) INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question59'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any IRREGULAR MENSTRUAL PERIODS');
+	UPDATE pro_ctc_questions SET question_file_name='question60'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your ITCHY SKIN at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question61'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have LOOSE OR WATERY STOOLS (DIARRHEA)');
+	UPDATE pro_ctc_questions SET question_file_name='question62'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you LOSE ANY FINGERNAILS OR TOENAILS');
+	UPDATE pro_ctc_questions SET question_file_name='question63'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you LOSE CONTROL OF BOWEL MOVEMENTS');
+	UPDATE pro_ctc_questions SET question_file_name='question64'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did LOSS OF CONTROL OF BOWEL MOVEMENTS INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question65'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have LOSS OF CONTROL OF URINE (LEAKAGE)');
+	UPDATE pro_ctc_questions SET question_file_name='question66'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did LOSS OF CONTROL OF URINE (LEAKAGE) INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question67'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you MISS AN EXPECTED MENSTRUAL PERIOD');
+	UPDATE pro_ctc_questions SET question_file_name='question68'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your MOUTH OR THROAT SORES at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question69'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did MOUTH OR THROAT SORES INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question70'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have NAUSEA');
+	UPDATE pro_ctc_questions SET question_file_name='question71'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your NAUSEA at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question72'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have NOSEBLEEDS');
+	UPDATE pro_ctc_questions SET question_file_name='question73'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your NOSEBLEEDS at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question74'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your NUMBNESS OR TINGLING IN YOUR HANDS OR FEET at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question75'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did NUMBNESS OR TINGLING IN YOUR HANDS OR FEET INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question76'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Were you UNABLE TO HAVE AN ORGASM OR CLIMAX');
+	UPDATE pro_ctc_questions SET question_file_name='question77'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have PAIN');
+	UPDATE pro_ctc_questions SET question_file_name='question78'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PAIN at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question79'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did PAIN INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question80'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PAIN DURING VAGINAL SEX at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question81'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have PAIN IN THE ABDOMEN (BELLY AREA)');
+	UPDATE pro_ctc_questions SET question_file_name='question82'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PAIN IN THE ABDOMEN (BELLY AREA) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question83'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did PAIN IN THE ABDOMEN (BELLY AREA) INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question84'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PAIN OR BURNING WITH URINATION at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question85'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any PAIN, SWELLING, OR REDNESS AT A SITE OF DRUG INJECTION OR IV');
+	UPDATE pro_ctc_questions SET question_file_name='question86'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you feel a POUNDING OR RACING HEARTBEAT (PALPITATIONS)');
+	UPDATE pro_ctc_questions SET question_file_name='question87'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your POUNDING OR RACING HEARTBEAT (PALPITATIONS) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question88'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PROBLEMS WITH CONCENTRATION at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question89'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did PROBLEMS WITH CONCENTRATION INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question90'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PROBLEMS WITH MEMORY at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question91'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did PROBLEMS WITH MEMORY INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question92'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your PROBLEMS WITH TASTING FOOD OR DRINK at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question93'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any RASH');
+	UPDATE pro_ctc_questions SET question_file_name='question94'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any RIDGES OR BUMPS ON YOUR FINGERNAILS OR TOENAILS');
+	UPDATE pro_ctc_questions SET question_file_name='question95'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of RINGING IN YOUR EARS at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question96'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have SAD OR UNHAPPY FEELINGS');
+	UPDATE pro_ctc_questions SET question_file_name='question97'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your SAD OR UNHAPPY FEELINGS at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question98'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did SAD OR UNHAPPY FEELINGS INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question99'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have SHIVERING OR SHAKING CHILLS');
+	UPDATE pro_ctc_questions SET question_file_name='question100'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your SHIVERING OR SHAKING CHILLS at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question101'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your SHORTNESS OF BREATH at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question102'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did SHORTNESS OF BREATH INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question103'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your SKIN BURNS FROM RADIATION at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question104'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of SKIN CRACKING AT THE CORNERS OF YOUR MOUTH at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question105'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any SPOTS OR LINES (FLOATERS) THAT DRIFT IN FRONT OF YOUR EYES');
+	UPDATE pro_ctc_questions SET question_file_name='question106'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any STRETCH MARKS');
+	UPDATE pro_ctc_questions SET question_file_name='question107'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you feel an URGE TO URINATE ALL OF A SUDDEN');
+	UPDATE pro_ctc_questions SET question_file_name='question108'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did SUDDEN URGES TO URINATE INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question109'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you feel that it TOOK TOO LONG TO HAVE AN ORGASM OR CLIMAX');
+	UPDATE pro_ctc_questions SET question_file_name='question110'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have TREMORS');
+	UPDATE pro_ctc_questions SET question_file_name='question111'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your TREMORS at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question112'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have UNEXPECTED OR EXCESSIVE SWEATING DURING THE DAY OR NIGHTTIME (NOT RELATED TO HOT FLASHES)');
+	UPDATE pro_ctc_questions SET question_file_name='question113'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your UNEXPECTED OR EXCESSIVE SWEATING DURING THE DAY OR NIGHTTIME (NOT RELATED TO HOT FLASHES) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question114'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any UNUSUAL DARKENING OF THE SKIN');
+	UPDATE pro_ctc_questions SET question_file_name='question115'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any UNUSUAL VAGINAL DISCHARGE');
+	UPDATE pro_ctc_questions SET question_file_name='question116'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any URINE COLOR CHANGE');
+	UPDATE pro_ctc_questions SET question_file_name='question117'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your VAGINAL DRYNESS at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question118'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='Did you have any VOICE CHANGES');
+	UPDATE pro_ctc_questions SET question_file_name='question119'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have VOMITING');
+	UPDATE pro_ctc_questions SET question_file_name='question120'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your VOMITING at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question121'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your WATERY EYES (TEARING) at their WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question122'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did WATERY EYES (TEARING) INTERFERE with your usual or daily activities');
+	UPDATE pro_ctc_questions SET question_file_name='question123'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your WHEEZING (WHISTLING NOISE IN THE CHEST WITH BREATHING) at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question124'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How OFTEN did you have a HEADACHE');
+	UPDATE pro_ctc_questions SET question_file_name='question125'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='What was the SEVERITY of your HEADACHE at its WORST');
+	UPDATE pro_ctc_questions SET question_file_name='question126'
+	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+	question_text_english='How much did your HEADACHE INTERFERE with your usual or daily activities');
+EXCEPTION
+    WHEN OTHERS THEN
+    return -1;
+END;
+
+$x$
+  LANGUAGE 'plpgsql' VOLATILE;
 
 
 
