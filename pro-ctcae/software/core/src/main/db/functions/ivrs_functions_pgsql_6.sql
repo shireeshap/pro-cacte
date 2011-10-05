@@ -1649,6 +1649,54 @@ EXCEPTION
 END;
 $x$ LANGUAGE 'plpgsql' VOLATILE;
 
+-- Function: delete_participant_timestamp(userid integer)
+
+-- DROP FUNCTION delete_participant_timestamp(userid integer);
+-- Deletes the timestamp of a participant when IVRS call is dropped
+CREATE OR REPLACE FUNCTION delete_participant_timestamp(userid integer)
+  RETURNS integer AS
+$x$
+  DECLARE
+      v_ret integer :=0;
+  BEGIN
+	SELECT spa.id INTO v_ret FROM study_participant_assignments spa
+	JOIN participants p ON spa.participant_id=p.id
+	WHERE p.user_id = userid;
+
+	UPDATE study_participant_assignments SET live_access_timestamp = null WHERE id =v_ret;
+
+       return 0;
+  EXCEPTION
+      WHEN OTHERS THEN
+      return -1;
+  END;
+  $x$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+-- Function: set_participant_timestamp(userid integer)
+
+-- DROP FUNCTION set_participant_timestamp(userid integer);
+-- sets the timestamp of a participant when IVRS call got initiated
+CREATE OR REPLACE FUNCTION set_participant_timestamp(userid integer)
+  RETURNS integer AS
+$x$
+  DECLARE
+      v_ret integer :=0;
+  BEGIN
+	SELECT spa.id INTO v_ret FROM study_participant_assignments spa
+	JOIN participants p ON spa.participant_id=p.id
+	WHERE p.user_id = userid;
+	UPDATE study_participant_assignments SET live_access_timestamp = now() WHERE id =v_ret;
+
+       return 0;
+  EXCEPTION
+      WHEN OTHERS THEN
+      return -1;
+  END;
+  $x$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
 
 --Function: unaccent(text)
 -- replaces accented chars ()ONLY a,e,i,o,u and n with tilde) with the corresponding non accented chars.
@@ -1659,9 +1707,9 @@ BEGIN
 END;
 $BODY$ LANGUAGE 'plpgsql' VOLATILE;
 
--- Function: ivrs_updateques_filename()
+Function: ivrs_updateques_filename()
 
--- DROP FUNCTION ivrs_updateques_filename();
+DROP FUNCTION ivrs_updateques_filename();
 
 CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
   RETURNS integer AS
@@ -1674,6 +1722,7 @@ BEGIN
 	FOR i IN 1..126 LOOP
 		v_value :='question'||i;
 		UPDATE pro_ctc_questions SET question_file_name=v_value WHERE id=i;
+
 
 	END LOOP;
 
@@ -1690,6 +1739,216 @@ END;
 
 $x$
   LANGUAGE 'plpgsql' VOLATILE;
+
+
+-- CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
+--   RETURNS integer AS
+-- $x$
+-- DECLARE
+-- 	v_count integer :=1;
+-- 	v_value text :='';
+-- 	v_question_term text :='';
+-- BEGIN
+--     UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question2'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='What was the SEVERITY of your ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) at their WORST)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question3'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How much did ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) INTERFERE with your usual or daily activities)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+-- 	UPDATE pro_ctc_questions SET question_file_name='question1'
+-- 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
+-- 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
+--
+--
+--
+--
+--
+-- EXCEPTION
+--     WHEN OTHERS THEN
+--     return -1;
+-- END;
+--
+-- $x$
+--   LANGUAGE 'plpgsql' VOLATILE;
+
+
 
 
 SELECT ivrs_updateques_filename();
