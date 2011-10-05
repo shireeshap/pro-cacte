@@ -2127,6 +2127,7 @@ BEGIN
 	UPDATE pro_ctc_questions SET question_file_name='question126'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
 	question_text_english='How much did your HEADACHE INTERFERE with your usual or daily activities');
+	return 0;
 EXCEPTION
     WHEN OTHERS THEN
     return -1;
