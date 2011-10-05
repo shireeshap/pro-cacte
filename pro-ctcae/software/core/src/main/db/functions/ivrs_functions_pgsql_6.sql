@@ -1707,9 +1707,9 @@ BEGIN
 END;
 $BODY$ LANGUAGE 'plpgsql' VOLATILE;
 
-Function: ivrs_updateques_filename()
+--Function: ivrs_updateques_filename()
 
-DROP FUNCTION ivrs_updateques_filename();
+--DROP FUNCTION ivrs_updateques_filename();
 
 CREATE OR REPLACE FUNCTION ivrs_updateques_filename()
   RETURNS integer AS
