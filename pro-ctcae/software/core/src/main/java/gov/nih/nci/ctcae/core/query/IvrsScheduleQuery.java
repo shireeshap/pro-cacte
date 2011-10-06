@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class IvrsScheduleQuery extends AbstractQuery {
     private static String queryString = "SELECT ischd from IvrsSchedule ischd order by ischd.preferredCallTime";
     
     public static final String STATUSES = "Statuses";
+    public static final String SP_CRF_STATUSES = "SP_CRF_Statuses";
 
     public static final String APP_MODE = "appMode";
 
@@ -31,6 +33,11 @@ public class IvrsScheduleQuery extends AbstractQuery {
     public void filterByStudyParticipantAssignment(Integer id) {
         andWhere("ischd.studyParticipantAssignment.id =:spaId");
         setParameter("spaId", id);
+    }
+    
+    public void filterByStudyParticipantCrfScheduleStatus(Set<CrfStatus> spCrfStatuses) {
+        andWhere("ischd.studyParticipantCrfSchedule.status in (:" + SP_CRF_STATUSES + ")");
+        setParameterList(SP_CRF_STATUSES, spCrfStatuses);
     }
 
     public void filterByStudyParticipantCrfSchedule(Integer id) {

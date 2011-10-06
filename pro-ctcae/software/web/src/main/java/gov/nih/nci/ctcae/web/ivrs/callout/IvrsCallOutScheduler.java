@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.web.ivrs.callout;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.domain.Participant;
@@ -57,10 +59,13 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final String IVRS_PRIORITY  = "ivrs.priority";
 	public static final String IVRS_TIMEOUT  = "ivrs.timeout";
 	public static final String IVRS_CHANNEL  = "ivrs.channel";
+	//int denoting number of hours after which timestamp, if not null, will be ignored. Thereby allowing calls to go out.
+	public static final String LIVE_ACCESS_RESET_PERIOD = "live.access.reset.period";
 	
 	public static final int SCHEDULER_FREQUENCY = 2;
 	
 	protected static final Log logger = LogFactory.getLog(IvrsCallOutScheduler.class);
+	
     private JmsTemplate jmsTemplate;
     protected ApplicationContext applicationContext;
     private GenericRepository genericRepository;
@@ -77,7 +82,6 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
      * candidate jobs and then push them in the queue.
      */
     public void scheduleJobInQueue(){
-    	//applicationContext = (ApplicationContext) scheduler.getContext().get("applicationContext");
     	participantRepository = (ParticipantRepository) applicationContext.getBean("participantRepository");
     	ivrsScheduleRepository = (IvrsScheduleRepository) applicationContext.getBean("ivrsScheduleRepository");
     	genericRepository = (GenericRepository) applicationContext.getBean("genericRepository");
@@ -123,6 +127,14 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		IvrsScheduleQuery ivrsScheduleQuery = new IvrsScheduleQuery();
 		ivrsScheduleQuery.filterByDate(now.getTime(), twoMinutesFromNow.getTime());
 		ivrsScheduleQuery.filterByStatuses(statusSet);
+		
+		//Only get those with sp_crf_status as in-progress or scheduled. The stored functions update this status when form is completed.
+		//Hence if a form is completed by web or by call-in this will prevent the scheduler from unnecessarily calling out.
+		Set<CrfStatus> spCrfStatuses = new HashSet<CrfStatus>(); 
+		spCrfStatuses.add(CrfStatus.INPROGRESS);
+		spCrfStatuses.add(CrfStatus.SCHEDULED);
+		
+		ivrsScheduleQuery.filterByStudyParticipantCrfScheduleStatus(spCrfStatuses);
 		
 		//ensure the mode hasn't been switched to Non-IVRS as we don't support mixed modality
 		ivrsScheduleQuery.filterByStudyParticipantAssignmentMode(AppMode.IVRS);
@@ -174,34 +186,41 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         int priority = Integer.valueOf(properties.getProperty(IVRS_PRIORITY)).intValue();
         long timeout = Long.valueOf(properties.getProperty(IVRS_TIMEOUT)).longValue();
         String channel = properties.getProperty(IVRS_CHANNEL);
+        int resetPeriod = Integer.valueOf(properties.getProperty(LIVE_ACCESS_RESET_PERIOD));
 		
         String context = null;
 		for(IvrsSchedule ivrsSchedule: ivrScheduleList){
-			//Get the participant using the StudyParticipantAssignment and get the phoneNumber from the participant.
-			participantQuery = new ParticipantQuery();
-			participantQuery.filterByStudyParticipantAssignmentId(ivrsSchedule.getStudyParticipantAssignment().getId());
-			Collection<Participant> participantList = genericRepository.find(participantQuery);
-			if(participantList.size() > 1){
-				logger.error("Got more than 1 participant for a given StudyParticipantAssignment.");
+			//only schedule a call if the participant isn't currently on a proctcae call(incoming or callout). 
+			//This is determined by the saved live_access_timestamp. If present, this timestamp needs to be less than 1 hr old to be honored. 
+			//if its more than 1 hr old, we ignore it and go ahead with the call.
+			Date liveAccessTime = ivrsSchedule.getStudyParticipantAssignment().getLiveAccessTimestamp();
+			if(liveAccessTime == null  || (liveAccessTime != null && DateUtils.hoursBetweenDates(DateUtils.getCurrentDate(), liveAccessTime) > resetPeriod)){
+				//Get the participant using the StudyParticipantAssignment and get the phoneNumber from the participant.
+				participantQuery = new ParticipantQuery();
+				participantQuery.filterByStudyParticipantAssignmentId(ivrsSchedule.getStudyParticipantAssignment().getId());
+				Collection<Participant> participantList = genericRepository.find(participantQuery);
+				if(participantList.size() > 1){
+					logger.error("Got more than 1 participant for a given StudyParticipantAssignment.");
+				}
+				Iterator<Participant> pIter = participantList.iterator();
+				while(pIter.hasNext()){
+					participant = pIter.next();
+				}
+				phoneNumber = buildPhoneNumber(participant);
+				context = getContext(participant);
+				//new CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId)
+				if(channel.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
+					logger.debug("Adding CallAction for SoftPhone....");
+					callAction = new CallAction("" + 1, ivrsCalloutMode, context, extension, priority, timeout, ivrsSchedule.getId());
+				} else if(channel.equalsIgnoreCase(CHANNEL_VOIP)){
+					logger.debug("Adding CallAction for VOIP....");
+					callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
+				} else if(channel.equalsIgnoreCase(CHANNEL_PSTN)){
+					logger.debug("Adding CallAction for PSTN....");
+					callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
+				}
+				callActionList.add(callAction);				
 			}
-			Iterator<Participant> pIter = participantList.iterator();
-			while(pIter.hasNext()){
-				participant = pIter.next();
-			}
-			phoneNumber = buildPhoneNumber(participant);
-			context = getContext(participant);
-			//new CallAction(String id, String channel, String context, String extension, int priority, long timeout, int ivrsScheduleId)
-			if(channel.equalsIgnoreCase(CHANNEL_SOFTPHONE)){
-				logger.debug("Adding CallAction for SoftPhone....");
-				callAction = new CallAction("" + 1, ivrsCalloutMode, context, extension, priority, timeout, ivrsSchedule.getId());
-			} else if(channel.equalsIgnoreCase(CHANNEL_VOIP)){
-				logger.debug("Adding CallAction for VOIP....");
-				callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
-			} else if(channel.equalsIgnoreCase(CHANNEL_PSTN)){
-				logger.debug("Adding CallAction for PSTN....");
-				callAction = new CallAction("" + 1, ivrsCalloutMode + "/" + phoneNumber, context, extension, priority, timeout, ivrsSchedule.getId());
-			}
-			callActionList.add(callAction);
 		}
 		return callActionList;
 	}
@@ -224,10 +243,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
         if(studyParticipantAssignment != null){
         	if(studyParticipantAssignment.getIvrsLanguage() != null && studyParticipantAssignment.getIvrsLanguage().equalsIgnoreCase("SPANISH")){
         			contextToBeReturned = contextSpanish;
-            } //else if(studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equalsIgnoreCase("SPANISH")){
-            	//look for home Web Lang if ivrsLang is not Spanish.
-            	//contextToBeReturned = contextSpanish;
-            //}
+            }
         }
 		return contextToBeReturned;
 	}

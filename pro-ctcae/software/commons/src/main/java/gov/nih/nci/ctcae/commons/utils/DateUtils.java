@@ -90,8 +90,14 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
         return c.getTime();
     }
 
+    public static int hoursBetweenDates(Date first, Date second) {
+        long time = getCalendarForDate(first).getTimeInMillis();
+        long time1 = getCalendarForDate(second).getTimeInMillis();
+        long diff = time - time1;
+        return new Long(diff / (1000 * 60 * 60)).intValue();
+    }
+    
     public static int daysBetweenDates(Date first, Date second) {
-
         long time = getCalendarForDate(first).getTimeInMillis();
         long time1 = getCalendarForDate(second).getTimeInMillis();
         long diff = time - time1;

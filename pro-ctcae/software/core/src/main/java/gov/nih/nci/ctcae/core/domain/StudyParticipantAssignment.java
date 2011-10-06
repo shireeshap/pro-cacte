@@ -130,6 +130,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @OrderBy("id desc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantReportingModeHistory> studyParticipantReportingModeHistoryItems = new ArrayList<StudyParticipantReportingModeHistory>();
+    
+    @Column(name = "live_access_timestamp", nullable = true)
+    private Date liveAccessTimestamp;
 
     public static final String EASTERN = "America/New_York";
     
@@ -637,6 +640,16 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
 
 		return ivrsScheduleList;
+	}
+
+
+	public Date getLiveAccessTimestamp() {
+		return liveAccessTimestamp;
+	}
+
+
+	public void setLiveAccessTimestamp(Date liveAccessTimestamp) {
+		this.liveAccessTimestamp = liveAccessTimestamp;
 	}
 }
 
