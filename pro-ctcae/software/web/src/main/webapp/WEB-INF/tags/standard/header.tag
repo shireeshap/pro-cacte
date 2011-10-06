@@ -34,6 +34,10 @@
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
                            <c:if test="${empty param.lang}">
                                <c:set var="currentEn" value="current"/>
+                               <c:if test="${pageContext.response.locale == 'es'}">
+                                    <c:set var="currentEs" value="current"/>
+                                    <c:set var="currentEn" value=""/>
+                               </c:if>
                            </c:if>
 
                             <c:if test="${param.lang eq 'en'}">
