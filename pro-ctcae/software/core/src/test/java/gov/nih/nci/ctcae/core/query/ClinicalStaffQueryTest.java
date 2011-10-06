@@ -23,7 +23,7 @@ public class ClinicalStaffQueryTest extends TestCase {
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("firstName"));
-        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("firstName"), "john");
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("firstName"), "%john%");
     }
 
     public void testFilterByOrganizationId() throws Exception {
@@ -44,7 +44,7 @@ public class ClinicalStaffQueryTest extends TestCase {
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("nciIdentifier"));
-        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("nciIdentifier"), "john");
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("nciIdentifier"), "%john%");
     }
 
     public void testFilterByLastName() throws Exception {
@@ -54,7 +54,7 @@ public class ClinicalStaffQueryTest extends TestCase {
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("lastName"));
-        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("lastName"), "dow");
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("lastName"), "%dow%");
     }
 
     public void testFilterByFullName() throws Exception {
