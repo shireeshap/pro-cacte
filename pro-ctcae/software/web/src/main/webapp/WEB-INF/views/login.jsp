@@ -76,7 +76,7 @@
 		    <c:if test="${not empty param.error}">
 		        <c:choose>
 		            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
-		                <p class="errors">Incorrect username and/or password. Please try again.</p>
+		                <p class="errors"><spring:message code="user.incorrect.username.password" /></p>
 		            </c:when>
 		            <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'User account is locked'}">
 		                <p class="errors">
