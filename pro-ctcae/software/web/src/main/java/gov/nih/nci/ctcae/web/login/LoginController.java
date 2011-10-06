@@ -60,8 +60,8 @@ public class LoginController extends AbstractController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        String loadUpcoming = request.getParameter("loadUpcoming");
-        String loadOverdue = request.getParameter("loadOverdue");
+        String loadUpcoming = request.getParameter("loadUpcoming")==null?"less":request.getParameter("loadUpcoming");
+        String loadOverdue = request.getParameter("loadOverdue")==null?"less":request.getParameter("loadOverdue");
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
@@ -170,7 +170,7 @@ public class LoginController extends AbstractController {
             	mv.addObject("overdue", schedules.get(1));
                 request.getSession().setAttribute("upcoming", schedules.get(1));
             } else if(loadUpcoming != null){
-            	//all or less on overdue case
+            	//all or less on upcoming case
             	mv.addObject("upcoming", schedules.get(1));
                 request.getSession().setAttribute("upcoming", schedules.get(1));
             } else {
