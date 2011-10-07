@@ -170,14 +170,16 @@
 <jsp:attribute name="singleFields">
 
     <chrome:box title="participant.label.study">
-        <div class="row">
-            <div class="label" style="width:5em"><spring:message code="study.label.clinical.staff"/>:&nbsp;</div>
-            <div class="value">${command.selectedStudyParticipantAssignment.studySite.study.displayName}</div>
-        </div>
-        <div class="row">
-            <div class="label" style="width:7em"><spring:message code="participant.label.site"/>:&nbsp;</div>
-            <div class="value">${command.selectedStudyParticipantAssignment.studySite.displayName}</div>
-        </div>
+        <table>
+            <tr>
+                <td align="right" style="font-weight:bold;" width="25%"><spring:message code="study.label.clinical.staff"/>:&nbsp;&nbsp;</td>
+                <td>${command.selectedStudyParticipantAssignment.studySite.study.displayName}</td>
+            </tr>
+            <tr>
+                <td align="right" style="font-weight:bold;" width="25%"><spring:message code="participant.label.site"/>:&nbsp;&nbsp;</td>
+                <td>${command.selectedStudyParticipantAssignment.studySite.displayName}</td>
+            </tr>
+        </table>
     </chrome:box>
 
     <chrome:box title="participant.label.researchstaff">
