@@ -83,6 +83,9 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     @Column(name = "baseline", nullable = false)
     private boolean baseline = false;
 
+    @Column(name = "verbatim", nullable = true)
+    private String verbatim;
+
 
     /**
      * The study participant crf.
@@ -154,6 +157,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getVerbatim() {
+        return verbatim;
+    }
+
+    public void setVerbatim(String verbatim) {
+        this.verbatim = verbatim;
     }
 
     /**
