@@ -64,7 +64,7 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
 
         Collection<? extends ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
         assertFalse(clinicalStaffs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.last_name ) like 'd%'");
+        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.last_name ) like '%d%'");
         assertEquals(size, clinicalStaffs.size());
 
         for (ClinicalStaff clinicalStaff : clinicalStaffs) {

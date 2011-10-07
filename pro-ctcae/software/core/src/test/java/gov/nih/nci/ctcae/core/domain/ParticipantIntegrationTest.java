@@ -105,7 +105,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
                 .find(participantQuery);
         assertFalse(participants.isEmpty());
         int size = jdbcTemplate
-                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like 'd%'");
+                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like '%d%'");
 
         assertEquals(size, participants.size());
 
