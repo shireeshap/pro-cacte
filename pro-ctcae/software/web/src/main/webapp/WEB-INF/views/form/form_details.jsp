@@ -389,7 +389,12 @@ function showCrfItemProperties(selectedQuestionId) {
 
 
     addEditingDisplayToQuestion(selectedQuestionId);
-    var yPosition = parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1]);
+    var sortablePosition =  parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]);
+    var questionPropertyPosition =  parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1])
+    var yPosition =  sortablePosition - questionPropertyPosition;
+     if(sortablePosition<0){
+      $('questionProperties_' + selectedQuestionId).hide();
+    }
     new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
