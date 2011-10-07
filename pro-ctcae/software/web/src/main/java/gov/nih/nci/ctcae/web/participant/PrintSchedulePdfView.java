@@ -45,15 +45,8 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         ArrayList<ProCtcQuestion> participantAddedProctcQuestions;
         Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap();
         ArrayList<MeddraQuestion> participantAddedMeddraQuestions;
-//        document.add(new Paragraph("Study: " + study.getDisplayName()));
-//        document.add(new Paragraph("Survey: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
-//        document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
-//        document.add(new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
-//        document.add(new Paragraph("Survey start date: " + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
-//        document.add(new Paragraph("Survey due date: " + DateUtils.format(studyParticipantCrfSchedule.getDueDate())));
-//        document.add(new Paragraph(" "));
-//        document.add(new Paragraph(" "));
-        Table table1 = new Table(2, 8);//2 Columns and 8 line
+
+        Table table1 = new Table(2, 9);//2 Columns and 9 line
         table1.setWidth(100);
         table1.setWidths(new int[]{20, 80});
         table1.setBorderWidth(0);
@@ -105,13 +98,21 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c12.setBorderWidth(0);
         table1.addCell(c12);
 
-        Cell c13 = new Cell(new Paragraph("\n"));
+        Cell c13 = new Cell(new Paragraph("Please think back:"));
         c13.setBorderWidth(0);
         table1.addCell(c13);
 
-        Cell c14 = new Cell(new Paragraph("\n"));
+        Cell c14 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod()));
         c14.setBorderWidth(0);
         table1.addCell(c14);
+
+        Cell c15 = new Cell(new Paragraph("\n"));
+        c15.setBorderWidth(0);
+        table1.addCell(c15);
+
+        Cell c16 = new Cell(new Paragraph("\n"));
+        c16.setBorderWidth(0);
+        table1.addCell(c16);
         document.add(table1);
 
         HeaderFooter footer = new HeaderFooter(new Phrase("[ CONFIDENIAL ]                         ", new Font(Font.COURIER, 12, Font.NORMAL)), true);
@@ -317,7 +318,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         }
         PdfPTable table2 = new PdfPTable(new float[]{1f});
         table2.setWidthPercentage(98);
-        PdfPCell cell = new PdfPCell(new Paragraph("Notes"));
+        PdfPCell cell = new PdfPCell(new Paragraph("Please indicate any additional symptoms you have experienced " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " that you were not asked about:"));
         cell.setBackgroundColor(Color.lightGray);
         cell.setColspan(1);
         table2.addCell(cell);
