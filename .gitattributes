@@ -2051,7 +2051,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/dwr.xml -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/help.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/layouts/defaultLayout.jsp -text
-pro-ctcae/software/web/src/main/webapp/WEB-INF/log4j.xml -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/log4j.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/messages_en.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/messages_es.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/mobile-servlet.xml -text
