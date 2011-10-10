@@ -222,7 +222,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         participantEmailContent.append("<html><head></head><body>");
         // if preferred language is selected as spanish
         if(studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
-            participantEmailContent.append("?Hola " + studyParticipantAssignment.getParticipant().getDisplayName());
+            participantEmailContent.append("ÁHola " + studyParticipantAssignment.getParticipant().getDisplayName());
             //        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
             participantEmailContent.append("<br><b>Estudio: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
             participantEmailContent.append("<br><b>Sitio de estudio: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
@@ -236,7 +236,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 participantEmailContent.append("</table>");
                 participantEmailContent.append("</body></html>");
             }
-            participantEmailContent.append("<br>Este es un mensaje generado autom?ticamente a partir de PRO-CTCAE sistema. Por favor, no responder a ella.");
+            participantEmailContent.append("<br>Este es un mensaje generado autom‡ticamente a partir de PRO-CTCAE sistema. Por favor, no responder a ella.");
         } else {
             participantEmailContent.append("Hello " + studyParticipantAssignment.getParticipant().getDisplayName());
     //        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
