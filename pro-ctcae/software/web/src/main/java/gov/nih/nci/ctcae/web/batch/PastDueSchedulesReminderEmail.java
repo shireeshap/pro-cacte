@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.batch;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
 import org.apache.commons.lang.StringUtils;
@@ -95,7 +96,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 }
             }
 
-            String participantSubject = "List of surveys due";
+
             logger.error("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
@@ -105,6 +106,11 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                         System.out.println("Sending email to " + participantEmailAddress);
                         logger.error("Sending email to " + participantEmailAddress);
                         MimeMessage participantMessage = javaMailSender.createMimeMessage();
+                        String participantSubject = "List of surveys due";
+                        // if preferred language is selected as spanish
+                        if(studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
+                             participantSubject = "Lista de las encuestas por";
+                        }
                         participantMessage.setSubject(participantSubject);
                         participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
                         MimeMessageHelper helper = new MimeMessageHelper(participantMessage, true);
@@ -214,21 +220,40 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
 
         StringBuilder participantEmailContent = new StringBuilder();
         participantEmailContent.append("<html><head></head><body>");
-        participantEmailContent.append("Hello " + studyParticipantAssignment.getParticipant().getDisplayName());
-//        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
-        participantEmailContent.append("<br><b>Study: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
-        participantEmailContent.append("<br><b>Study site: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
-        for (CRF crf : participantCrfScheduleMap.keySet()) {
-            participantEmailContent.append("<br><b>Form: " + crf.getTitle());
-            participantEmailContent.append("<br><br><table border=\"1\">");
-            addRow(participantEmailContent, new String[]{"Schedule start date", "Schedule  due date"});
-            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-                addRow(participantEmailContent, new String[]{DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
+        // if preferred language is selected as spanish
+        if(studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
+            participantEmailContent.append("?Hola " + studyParticipantAssignment.getParticipant().getDisplayName());
+            //        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
+            participantEmailContent.append("<br><b>Estudio: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
+            participantEmailContent.append("<br><b>Sitio de estudio: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
+            for (CRF crf : participantCrfScheduleMap.keySet()) {
+                participantEmailContent.append("<br><b>Forma: " + crf.getTitle());
+                participantEmailContent.append("<br><br><table border=\"1\">");
+                addRow(participantEmailContent, new String[]{"Calendario de la fecha de inicio", "Calendario de la fecha de vencimiento"});
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+                    addRow(participantEmailContent, new String[]{DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
+                }
+                participantEmailContent.append("</table>");
+                participantEmailContent.append("</body></html>");
             }
-            participantEmailContent.append("</table>");
-            participantEmailContent.append("</body></html>");
+            participantEmailContent.append("<br>Este es un mensaje generado autom?ticamente a partir de PRO-CTCAE sistema. Por favor, no responder a ella.");
+        } else {
+            participantEmailContent.append("Hello " + studyParticipantAssignment.getParticipant().getDisplayName());
+    //        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
+            participantEmailContent.append("<br><b>Study: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
+            participantEmailContent.append("<br><b>Study site: </b>" + studyParticipantAssignment.getStudySite().getDisplayName());
+            for (CRF crf : participantCrfScheduleMap.keySet()) {
+                participantEmailContent.append("<br><b>Form: " + crf.getTitle());
+                participantEmailContent.append("<br><br><table border=\"1\">");
+                addRow(participantEmailContent, new String[]{"Schedule start date", "Schedule  due date"});
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+                    addRow(participantEmailContent, new String[]{DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
+                }
+                participantEmailContent.append("</table>");
+                participantEmailContent.append("</body></html>");
+            }
+            participantEmailContent.append("<br>This is an auto-generated email from PRO-CTCAE system. Please do not reply to it.");
         }
-        participantEmailContent.append("<br>This is an auto-generated email from PRO-CTCAE system. Please do not reply to it.");
         return participantEmailContent.toString();
     }
 
