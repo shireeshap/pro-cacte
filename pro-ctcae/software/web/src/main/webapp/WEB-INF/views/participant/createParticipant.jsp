@@ -482,6 +482,7 @@ function removeEmailClassName(id) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
+    $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
