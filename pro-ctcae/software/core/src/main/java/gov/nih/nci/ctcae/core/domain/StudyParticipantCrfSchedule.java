@@ -168,7 +168,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     }
 
     /**
-     * Gets the study participant crf items.
+     * Gets the study participant crf items and creates them if not present.
      *
      * @return the study participant crf items
      */
