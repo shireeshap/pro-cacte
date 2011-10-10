@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+
 import javax.persistence.*;
 import java.text.ParseException;
 import java.util.*;
@@ -140,13 +142,17 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param studyParticipantCrfSchedule the study participant crf schedule
      */
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-//        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
-//            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-//                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-//                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-//                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
-//            }
-//        }
+//    	if(DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
+//    			DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0 ){
+//          for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
+//	          for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+//	              StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+//	              studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+//	              studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
+//	          }
+//	      }    		
+//    	}
+
         studyParticipantCrfSchedule.setStudyParticipantCrf(this);
         studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
     }
