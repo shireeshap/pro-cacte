@@ -654,10 +654,25 @@
         <property name="targetObject" ref="pastDueSchedulesReminderEmailBean"/>
         <property name="targetMethod" value="generateEmailReports"/>
     </bean>
+    
+    <bean name="spCrfItemCreatorBean" class="gov.nih.nci.ctcae.web.batch.SpCrfItemCreator">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="spCrfItemCreatorJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="spCrfItemCreatorBean"/>
+        <property name="targetMethod" value="createSpCrfItemsForAvailableSchedules"/>
+    </bean>
 
     <bean id="nightlyTrigger" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
-        <property name="jobDetail" ref="pastDueSchedulesReminderEmailJob"/>
+    	<property name="jobDetail" ref="pastDueSchedulesReminderEmailJob" />
     </bean>
+    
+    <bean id="nightlyTriggerForObjectCreation" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
+ 		<property name="jobDetail" ref="spCrfItemCreatorJob" />
+    </bean>
+    
 
     <bean id="ivrsTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="callOutJob"/>
@@ -718,6 +733,7 @@
         <property name="triggers">
             <list>
                 <ref bean="nightlyTrigger"/>
+                <ref bean="nightlyTriggerForObjectCreation"/>
                 <ref bean="formSubmissionNotificationTrigger"/>
                 <ref bean="ivrsTrigger"/>
             </list>
