@@ -66,19 +66,19 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c4.setBorderWidth(0);
         table1.addCell(c4);
 
-        Cell c5 = new Cell(new Paragraph("Study site:"));
-        c5.setBorderWidth(0);
-        table1.addCell(c5);
-
-        Cell c6 = new Cell(new Paragraph("" + studySite.getDisplayName()));
-        c6.setBorderWidth(0);
-        table1.addCell(c6);
+//        Cell c5 = new Cell(new Paragraph("Study site:"));
+//        c5.setBorderWidth(0);
+//        table1.addCell(c5);
+//
+//        Cell c6 = new Cell(new Paragraph("" + studySite.getDisplayName()));
+//        c6.setBorderWidth(0);
+//        table1.addCell(c6);
 
         Cell c7 = new Cell(new Paragraph("Participant:"));
         c7.setBorderWidth(0);
         table1.addCell(c7);
 
-        Cell c8 = new Cell(new Paragraph("" + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
+        Cell c8 = new Cell(new Paragraph("" + participant.getDisplayNameForReports()));
         c8.setBorderWidth(0);
         table1.addCell(c8);
 
@@ -98,13 +98,13 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c12.setBorderWidth(0);
         table1.addCell(c12);
 
-        Cell c13 = new Cell(new Paragraph("Please think back:"));
-        c13.setBorderWidth(0);
-        table1.addCell(c13);
-
-        Cell c14 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod()));
-        c14.setBorderWidth(0);
-        table1.addCell(c14);
+//        Cell c13 = new Cell(new Paragraph("Please think back:"));
+//        c13.setBorderWidth(0);
+//        table1.addCell(c13);
+//
+//        Cell c14 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod()));
+//        c14.setBorderWidth(0);
+//        table1.addCell(c14);
 
         Cell c15 = new Cell(new Paragraph("\n"));
         c15.setBorderWidth(0);
@@ -115,15 +115,17 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         table1.addCell(c16);
         document.add(table1);
 
-        HeaderFooter footer = new HeaderFooter(new Phrase("[ CONFIDENIAL ]                         ", new Font(Font.COURIER, 12, Font.NORMAL)), true);
+        HeaderFooter footer = new HeaderFooter(new Phrase(" CONFIDENIAL                                                                                                                                      Page ", new Font(Font.TIMES_ROMAN, 12, Font.NORMAL)), true);
         document.setFooter(footer);
         Phrase p = new Phrase();
         p.clear();
         p.add(table1);
         HeaderFooter header = new HeaderFooter(p, false);
         document.setHeader(header);
-
-
+        Font font = new Font();
+        font.setStyle(Font.UNDERLINE);
+        document.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
+        document.add(new Paragraph(" "));
         studyParticipantCrfSchedule.addParticipantAddedQuestions();
         if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() > 0) {
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
@@ -165,8 +167,8 @@ public class PrintSchedulePdfView extends AbstractPdfView {
             }
             proCtcQuestions.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion());
         }
-        Font f = FontFactory.getFont("Arial", 9f);
-        Font f1 = FontFactory.getFont("Arial", 13f);
+        Font f = FontFactory.getFont("Arial", 14f);
+        Font f1 = FontFactory.getFont("Arial", 16f);
 
         for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
             PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f});
@@ -187,9 +189,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
             for (ProCtcQuestion proCtcQuestion : symptomMap.get(proCtcTerm)) {
                 PdfPCell cell2;
                 if (language.equals("en")) {
-                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
+                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH)+"?", f));
                 } else {
-                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
+                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH)+"?", f));
                 }
                 cell2.setColspan(8);
                 table.addCell(cell2);
@@ -238,9 +240,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 for (ProCtcQuestion proCtcQuestion : participantAddedProctcSymptomMap.get(proCtcTerm)) {
                     PdfPCell cell2;
                     if (language.equals("en")) {
-                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
+                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH)+"?", f));
                     } else {
-                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
+                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH)+"?", f));
                     }
                     cell2.setColspan(8);
                     table.addCell(cell2);
@@ -284,9 +286,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 for (MeddraQuestion meddraQuestion : participantAddedMeddraSymptomMap.get(meddraTerm)) {
                     PdfPCell cell2;
                     if (language.equals("en")) {
-                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH), f));
+                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH)+"?", f));
                     } else {
-                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH), f));
+                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH)+"?", f));
                     }
                     cell2.setColspan(8);
                     table.addCell(cell2);
