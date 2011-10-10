@@ -149,6 +149,7 @@ public class ParticipantSchedule {
                             dueDateNew = getDueDateForFormSchedule(c, studyParticipantCrf);
                         }
                         studyParticipantCrfSchedule.setDueDate(dueDateNew);
+                        
                         if (today.after(dueDateNew)) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
                         }
@@ -160,6 +161,10 @@ public class ParticipantSchedule {
                             studyParticipantCrfSchedule.setHoliday(true);
                         }
                         studyParticipantCrfSchedule.setBaseline(baseline);
+                        if(isSpCrfScheduleAvailable(studyParticipantCrfSchedule)){
+                        	//call getter on schedule for available forms
+                        	studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+                        }
                         addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
                     }
                 }
@@ -167,7 +172,16 @@ public class ParticipantSchedule {
         }
     }
 
-    /**
+    private boolean isSpCrfScheduleAvailable(
+			StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    	if(DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
+    			DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0 ){
+    		return true;
+    	}
+		return false;
+	}
+
+	/**
      * Adds the ivrs schedules.
      *
      * @param studyParticipantCrfSchedule the study participant crf schedule
@@ -186,7 +200,6 @@ public class ParticipantSchedule {
     	}
         if(isIvrs){
         	//for every sp_crf_schedule, create a new ivrsSchedule for every day from startDate to endDate
-			//for everyday from startDate to endDate create a ivrsSchedule
 			Date startDate = studyParticipantCrfSchedule.getStartDate();
 			offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
 			for(int i = 0; i <= offSetDiff; i++){
