@@ -243,6 +243,35 @@ public class Participant extends Person {
         return displayName.replace(")(", ", ");
     }
 
+    @Transient
+    public String getDisplayNameForReports() {
+
+        if (displayName == null) {
+            StringBuilder name = new StringBuilder();
+
+            if (studyParticipantAssignments != null && studyParticipantAssignments.size() > 0) {
+                String spid = studyParticipantAssignments.get(0).getStudyParticipantIdentifier();
+                if (!StringUtils.isBlank(spid)) {
+                    name.append("(" + spid + ") ");
+                }
+            }
+            boolean hasLastName = getLastName() != null;
+            if (getFirstName() != null) {
+                name.append(getFirstName());
+                if (hasLastName) {
+                    name.append(' ');
+                }
+            }
+            if (hasLastName) {
+                name.append(getLastName());
+            }
+
+            this.displayName = name.toString();
+        }
+        return displayName.replace(")(", ", ");
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
