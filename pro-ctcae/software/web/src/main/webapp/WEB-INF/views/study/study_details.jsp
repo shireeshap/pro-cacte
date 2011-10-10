@@ -455,7 +455,7 @@
                                </tr>
                                <tr>
                                    <td>
-                                       <b>Number of reminders${command.study.callBackFrequency}</b>
+                                       <b>Number of reminders</b>
                                    </td>
                                    <td>
                                        <select id="call_back_frequency1" name="call_back_frequency">
