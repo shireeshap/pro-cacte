@@ -243,7 +243,7 @@
             <td colspan="6"><br/></td>
         </tr>
         <tr style="background-color:#cccccc;">
-            <td colspan="6"><spring:message code="participant.verbatim"/></td>
+            <td colspan="6"><b><spring:message code="participant.verbatim"/></b></td>
         </tr>
         <tr>
             <td colspan="6">
@@ -252,7 +252,7 @@
                         ${command.verbatim}
                     </c:when>
                     <c:otherwise>
-                        <input type="text" id="verbatim" name="verbatim" size="120" value="${command.verbatim}"/>
+                        <form:textarea path="verbatim" cols="60" rows="2" id="verbatim"/>
                     </c:otherwise>
                 </c:choose>
             </td>
