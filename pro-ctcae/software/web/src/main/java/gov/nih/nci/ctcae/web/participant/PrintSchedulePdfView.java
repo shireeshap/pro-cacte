@@ -45,7 +45,15 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         ArrayList<ProCtcQuestion> participantAddedProctcQuestions;
         Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap();
         ArrayList<MeddraQuestion> participantAddedMeddraQuestions;
-
+        Font coverFont = new Font();
+        coverFont.setSize(22);
+        for (int i = 0; i < 20; i++) {
+             document.add(new Paragraph("\n"));
+        }
+        document.add(new Paragraph(new Chunk("                             Survey " +studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle(), coverFont)));
+        for (int i = 0; i < 20; i++) {
+             document.add(new Paragraph("\n"));
+        }
         Table table1 = new Table(2, 9);//2 Columns and 9 line
         table1.setWidth(100);
         table1.setWidths(new int[]{20, 80});
@@ -124,6 +132,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         document.setHeader(header);
         Font font = new Font();
         font.setStyle(Font.UNDERLINE);
+
         document.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
         document.add(new Paragraph(" "));
         studyParticipantCrfSchedule.addParticipantAddedQuestions();
@@ -341,6 +350,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         table2.addCell(cell3);
         document.add(table2);
         document.add(new Paragraph(" "));
+
     }
 
     static String cst(char c) {
