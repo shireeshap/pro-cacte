@@ -51,9 +51,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
              document.add(new Paragraph("\n"));
         }
         document.add(new Paragraph(new Chunk("                             Survey " +studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle(), coverFont)));
-        for (int i = 0; i < 20; i++) {
-             document.add(new Paragraph("\n"));
-        }
+
         Table table1 = new Table(2, 9);//2 Columns and 9 line
         table1.setWidth(100);
         table1.setWidths(new int[]{20, 80});
@@ -121,7 +119,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         Cell c16 = new Cell(new Paragraph("\n"));
         c16.setBorderWidth(0);
         table1.addCell(c16);
-        document.add(table1);
+//        document.add(table1);
 
         HeaderFooter footer = new HeaderFooter(new Phrase(" CONFIDENIAL                                                                                                                                      Page ", new Font(Font.TIMES_ROMAN, 12, Font.NORMAL)), true);
         document.setFooter(footer);
@@ -132,7 +130,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         document.setHeader(header);
         Font font = new Font();
         font.setStyle(Font.UNDERLINE);
-
+        for (int i = 0; i < 20; i++) {
+             document.add(new Paragraph("\n"));
+        }
         document.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
         document.add(new Paragraph(" "));
         studyParticipantCrfSchedule.addParticipantAddedQuestions();
