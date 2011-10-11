@@ -391,7 +391,7 @@ BEGIN
  return v_question_file;
 EXCEPTION
     WHEN OTHERS THEN
-    return 'Data Not Found';
+    return '-1';
 END;
 $x$ LANGUAGE plpgsql;
 
