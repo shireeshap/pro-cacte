@@ -336,7 +336,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         if(language.equals("en")){
         	cell = new PdfPCell(new Paragraph("Please indicate any additional symptoms you have experienced " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " that you were not asked about:"));
         } else {
-        	cell = new PdfPCell(new Paragraph("Por favor, indique cualquier síntoma adicional que han experimentado " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish() + " que no se les preguntó sobre:"));
+        	cell = new PdfPCell(new Paragraph("Por favor, indique cualquier s√≠ntoma adicional que han experimentado " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish() + " que no se les pregunt√≥ sobre:"));
         }
         
         cell.setBackgroundColor(Color.lightGray);
