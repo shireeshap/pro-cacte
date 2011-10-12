@@ -179,14 +179,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void validate(ParticipantCommand command, Errors errors) {
 
-        if (command.getStudySites() == null ||
-                command.getStudySites().size() == 0) {
-            if (command.getParticipant().getStudyParticipantAssignments() == null ||
-                    command.getParticipant().getStudyParticipantAssignments().size() == 0) {
-                errors.reject(
-                        "studyId", "Please select at least one study.");
-            }
+        if (command.getOrganizationId() == 0) {
+        	errors.reject("participant.site");
         }
+        if (command.getParticipant().getStudyParticipantAssignments() == null ||
+                command.getParticipant().getStudyParticipantAssignments().size() == 0) {
+            errors.reject("participant.study");
+        }
+        
         // checking for unique email address
         if (command.getParticipant().getEmailAddress() != null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
@@ -203,16 +203,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_userNumber");
             }
         }
-        //checking for unique user number
-//        if (command.getParticipant().getUserNumber() != null) {
-//
-//            String userNumber = command.getParticipant().getUserNumber().toString();
-//            boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
-//            if (validUserNumber) {
-//              //  errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
-//                errors.reject("participant.unique_userNumber");
-//            }
-//        }
+   
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
