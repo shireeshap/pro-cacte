@@ -29,8 +29,11 @@
 	<c:when test="${fn:contains(tenure,'4 weeks')}">
 		<tags:message code="past4weeks.I"/><b><u><tags:message code="past4weeks.II"/></u></b>
 	</c:when>
-	<c:otherwise>
+	<c:when test="${fn:contains(tenure,'last cancer treatment')}">
 		<tags:message code="lastTreatment.I"/><b><u><tags:message code="lastTreatment.II"/></u></b>
+	</c:when>
+	<c:otherwise>
+		<b><u>${fn:substring(desc,18,fn:length(desc))}</u></b>
 	</c:otherwise>
 </c:choose>
 
