@@ -315,9 +315,9 @@ Event.observe(window, 'load', function() {
 //        acCreate(new siteAutoComplter('organizationId'));
 //        initSearchField();
         new YUIAutoCompleter('organizationId-input', getOrgs, handleSelect);
-        var orgName = "${organization.displayName}";
+        var orgName = "${command.selectedOrganization.displayName}";
         if (orgName != '') {
-            $('organizationId-input').value = "${organization.displayName}";
+            $('organizationId-input').value = "${command.selectedOrganization.displayName}";
             $('organizationId-input').removeClassName('pending-search');
         }
     } catch(err) {
@@ -333,7 +333,7 @@ Event.observe(window, 'load', function() {
             //populate the site value-
             if ($('organizationId-input')) {
                 //admin user login
-                $('organizationId-input').value = '${command.siteName}'
+                $('organizationId-input').value = '${command.selectedOrganization.displayName}'
             }
             getStudySites();
         }
@@ -735,7 +735,7 @@ function showOrHideEmail(value1, value2, id) {
                                                    title="Site"
                                                    cssStyle="display:none;"/>
                                        <tags:yuiAutocompleter inputName="organizationId-input"
-                                                              value="${organization.id}" required="false"
+                                                              value="${command.selectedOrganization.displayName}" required="false"
                                                               hiddenInputName="organizationId"/>
                                            <%--<tags:renderAutocompleter propertyName="organizationId"--%>
                                            <%--displayName="participant.label.site"--%>

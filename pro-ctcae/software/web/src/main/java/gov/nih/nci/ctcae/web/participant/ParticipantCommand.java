@@ -36,6 +36,8 @@ public class ParticipantCommand {
 
     private Map<Integer, String> studySubjectIdentifierMap = new HashMap<Integer, String>();
 
+    private Organization selectedOrganization;
+
     /**
      * The site name.
      */
@@ -87,6 +89,14 @@ public class ParticipantCommand {
         super();
         participant = new Participant();
         participant.setUser(new User());
+    }
+
+    public Organization getSelectedOrganization() {
+        return selectedOrganization;
+    }
+
+    public void setSelectedOrganization(Organization selectedOrganization) {
+        this.selectedOrganization = selectedOrganization;
     }
 
     /**

@@ -84,6 +84,16 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         populateOrganizationsForUser(command);
         String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
         command.setMode(mode);
+
+        if(command.getSelectedOrganization() == null && command.getOrganizationId() != 0){
+            command.setSelectedOrganization((Organization) organizationRepository.findById(command.getOrganizationId()));
+        }
+
+
+        if(command.getSelectedStudyParticipantAssignment()!=null){
+            command.setSelectedOrganization(command.getSelectedStudyParticipantAssignment().getStudySite().getOrganization());
+        }
+
         return command;
     }
 
