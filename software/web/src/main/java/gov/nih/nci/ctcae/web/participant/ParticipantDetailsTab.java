@@ -28,18 +28,12 @@ import java.util.*;
  * @since Feb 19, 2009
  */
 public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
-    /**
-     * The organization repository.
-     */
-    /**
-     * The crf repository.
-     */
-    protected CRFRepository crfRepository;
+
+	protected CRFRepository crfRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
     private UniqueParticipantEmailAddressValidator uniqueParticipantEmailAddressValidator;
     private UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator;
-    //    protected Properties proCtcAEProperties;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
     private OrganizationRepository organizationRepository;
 
@@ -362,4 +356,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void setUniqueParticipantUserNumberValidator(UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator) {
         this.uniqueParticipantUserNumberValidator = uniqueParticipantUserNumberValidator;
     }
+
+	public OrganizationRepository getOrganizationRepository() {
+		return organizationRepository;
+	}
+
+	public void setOrganizationRepository(
+			OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
 }
