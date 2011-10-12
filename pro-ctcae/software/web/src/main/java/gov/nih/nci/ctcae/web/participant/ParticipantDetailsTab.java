@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator;
@@ -40,6 +41,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator;
     //    protected Properties proCtcAEProperties;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
+    private OrganizationRepository organizationRepository;
 
     /**
      * Instantiates a new participant details tab.
@@ -58,6 +60,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void onBind(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         super.onBind(request, command, errors);
         command.getStudySubjectIdentifierMap().clear();
+
+        if(command.getSelectedOrganization() == null && command.getOrganizationId() != 0){
+            command.setSelectedOrganization((Organization) organizationRepository.findById(command.getOrganizationId()));
+        }
 
         if (command.getParticipant().isPersisted()) {
             //Edit flow
