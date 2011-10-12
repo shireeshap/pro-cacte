@@ -190,11 +190,11 @@ public class CRF extends BaseVersionable {
     public String getRecallPeriodInSpanish() {
     	String recallPeriodInSpanish = "";
     	if(recallPeriod.trim().contains("7")){
-    		recallPeriodInSpanish = "en los últimos 7 días";
+    		recallPeriodInSpanish = "en los √∫ltimos 7 d√≠as";
     	} else if(recallPeriod.trim().contains("30")){
-    		recallPeriodInSpanish = "en los últimos 30 días";
+    		recallPeriodInSpanish = "en los √∫ltimos 30 d√≠as";
     	} else if(recallPeriod.trim().contains("last cancer treatment")){
-    		recallPeriodInSpanish = "desde el último tratamiento para el cáncer";
+    		recallPeriodInSpanish = "desde su √∫ltimo tratamiento para el c√°ncer";
     	} else {
     		recallPeriodInSpanish = recallPeriod.trim();
     	}
