@@ -182,6 +182,26 @@ public class CRF extends BaseVersionable {
     }
 
     /**
+     * Gets the recall period in spanish. Temporary arrangement. Only returns spanish for 7 days/30 days...everything else is mapped to 
+     * "since your last cancer treatment".
+     *
+     * @return the recall period
+     */
+    public String getRecallPeriodInSpanish() {
+    	String recallPeriodInSpanish = "";
+    	if(recallPeriod.trim().contains("7")){
+    		recallPeriodInSpanish = "en los œltimos 7 d’as";
+    	} else if(recallPeriod.trim().contains("30")){
+    		recallPeriodInSpanish = "en los œltimos 30 d’as";
+    	} else if(recallPeriod.trim().contains("last cancer treatment")){
+    		recallPeriodInSpanish = "desde el œltimo tratamiento para el c‡ncer";
+    	} else {
+    		recallPeriodInSpanish = recallPeriod.trim();
+    	}
+        return recallPeriodInSpanish;
+    }
+    
+    /**
      * Sets the recall period.
      *
      * @param recallPeriod the new recall period
