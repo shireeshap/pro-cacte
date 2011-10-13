@@ -25,6 +25,7 @@ public class SymptomOverTimeReportHelper {
             if (StringUtils.isBlank(group)) {
                 group = "cycle";
             }
+
         }
         String queryString = ControllersUtils.removeParameterFromQueryString(request.getQueryString(), "group");
         HashSet<Integer> selectedArms = ReportResultsHelper.getSelectedArms(request);
@@ -136,7 +137,7 @@ public class SymptomOverTimeReportHelper {
             TreeMap<Integer, Integer> map = results.get(period);
             if (map == null) {
                 map = new TreeMap<Integer, Integer>();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 7; i++) {
                     map.put(i, 0);
                 }
                 results.put(period, map);

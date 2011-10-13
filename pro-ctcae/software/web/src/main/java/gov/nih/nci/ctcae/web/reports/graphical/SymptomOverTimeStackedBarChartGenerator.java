@@ -38,6 +38,8 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
     Color level2 = new Color(244, 187, 89);
     Color level3 = new Color(235, 122, 107);
     Color level4 = new Color(255, 54, 54);
+    Color level5 = new Color(255, 200, 0);
+    Color level6 = new Color(255, 0, 0);
     private HashMap<String, String> armPeriodCount = new HashMap<String, String>();
 
     public SymptomOverTimeStackedBarChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
@@ -113,6 +115,8 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
             renderer.setSeriesPaint(i * 5 + 2, level2);
             renderer.setSeriesPaint(i * 5 + 3, level3);
             renderer.setSeriesPaint(i * 5 + 4, level4);
+            renderer.setSeriesPaint(i * 5 + 5, level5);
+            renderer.setSeriesPaint(i * 5 + 6, level6);
         }
         plot.setFixedLegendItems(createLegendItems());
 
@@ -126,11 +130,15 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
         LegendItem item3 = new LegendItem("2", "-", null, null, Plot.DEFAULT_LEGEND_ITEM_BOX, level2);
         LegendItem item4 = new LegendItem("3", "-", null, null, Plot.DEFAULT_LEGEND_ITEM_BOX, level3);
         LegendItem item5 = new LegendItem("4", "-", null, null, Plot.DEFAULT_LEGEND_ITEM_BOX, level4);
+        LegendItem item6 = new LegendItem("5", "-", null, null, Plot.DEFAULT_LEGEND_ITEM_BOX, level5);
+        LegendItem item7 = new LegendItem("6", "-", null, null, Plot.DEFAULT_LEGEND_ITEM_BOX, level6);
         result.add(item1);
         result.add(item2);
         result.add(item3);
         result.add(item4);
         result.add(item5);
+        result.add(item6);
+        result.add(item7);
         return result;
     }
 

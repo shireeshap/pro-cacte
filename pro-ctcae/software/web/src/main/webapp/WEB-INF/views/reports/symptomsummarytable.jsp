@@ -19,6 +19,8 @@
             <td>--</td>
             <td>--</td>
             <td>--</td>
+            <td>Not sexually active</td>
+            <td>Prefer not to answer</td>
         </tr>
         <c:forEach items="${questionTypes}" var="questionType">
             <tr>
@@ -27,12 +29,14 @@
                 <c:forEach items="${questionType.validValues}" var="validValue">
                     <td>${validValue}</td>
                 </c:forEach>
+                <td>Not sexually active</td>
+                <td>Prefer not to answer</td>
             </tr>
         </c:forEach>
         <tr>
             <td class="left bottom header">Item</td>
             <td class="bottom header">N</td>
-            <c:forEach begin="0" end="4" step="1">
+            <c:forEach begin="0" end="6" step="1">
                 <td class="bottom header">N(%)</td>
             </c:forEach>
         </tr>
@@ -62,7 +66,7 @@
                                     ${count.value} (<fmt:formatNumber pattern="0.0" value="${(count.value*100)/total}"/>)
                             </td>
                         </c:forEach>
-                        <c:if test="${fn:length(attribute.value)<5}">
+                        <c:if test="${fn:length(attribute.value)<6}">
                             <td class="${bottom}">--</td>
                             <td class="${bottom}">--</td>
                             <td class="${bottom}">--</td>
