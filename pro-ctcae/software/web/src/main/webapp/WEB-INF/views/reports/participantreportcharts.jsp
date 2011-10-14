@@ -4,6 +4,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <chrome:box title="Report">
+
     <tags:instructions code="participant.report.graph.instructions"/>
     <c:if test="${fn:length(allAttributes)>1}">
         &nbsp;&nbsp;<b>Display:</b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
@@ -22,5 +23,11 @@
     <div align="center">
         <img src="../../servlet/DisplayChart?filename=${participantReportChartFileName}" border=0/>
     </div>
+    <div style="float:right; padding-right:10px">
+        <tags:button color="blue" type="button" id="flow-cancel"
+                     cssClass="previous ibutton" value="Close" icon="x"
+                     onclick="closeWindow()" size="small"/>
+    </div>
     <br/>
+
 </chrome:box>

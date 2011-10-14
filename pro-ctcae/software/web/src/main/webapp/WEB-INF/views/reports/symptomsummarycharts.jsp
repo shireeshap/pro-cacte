@@ -39,9 +39,14 @@
             <img src="../../servlet/DisplayChart?filename=${charts[1]}" border=0
                  usemap="#${charts[1]}"/>
         </div>
-        <br/>
-    </c:forEach>
 
+    </c:forEach>
+    <div style="float:right; padding-right:10px">
+        <tags:button color="blue" type="button" id="flow-cancel"
+                     cssClass="previous ibutton" value="Close" icon="x"
+                     onclick="closeWindow()" size="small"/>
+    </div>
+    <br/>
     <%--${worstResponseChartImageMap}--%>
     <%--<chrome:division title="Participant reported worst responses for ${symptom} symptom"/>--%>
     <%--<br/>--%>
