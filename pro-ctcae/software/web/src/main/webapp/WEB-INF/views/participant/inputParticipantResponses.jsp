@@ -18,7 +18,8 @@
     <script type="text/javascript">
         function saveResponse(type) {
             if (type == 'submit') {
-                if (!confirm("You will not be able to make any changes to these responses after submitting the form. Press 'OK' to submit the form otherwise press 'Cancel'.")) {
+                var confirmStatus = confirm("You will not be able to make any changes to these responses after submitting the form. Press 'OK' to submit the form otherwise press 'Cancel'.");
+                if (!confirmStatus) {
                     return;
                 }
             }
@@ -28,7 +29,6 @@
 
         function playAudio(id) {
             var loc = window.location;
-            //alert(loc.protocol + "----" + loc.host);
             document.getElementById("audio").src = loc.protocol + "//" + loc.host + ":" + loc.port + "/proctcae/pages/participant/playFile.wav?id=" + id;
         }
     </script>
@@ -263,7 +263,7 @@
         <%--<tags:renderTextArea propertyName="verbatim" displayName="participant.verbatim" required="false"--%>
         <%--cols="97" />    </div>--%>
 </div>
-
+</ctcae:form>
 <c:if test="${command.status.displayName ne 'Completed'}">
     <table width="100%" style="margin-top:10px;">
         <tr>
@@ -277,7 +277,6 @@
         </tr>
     </table>
 </c:if>
-</ctcae:form>
 </chrome:box>
 
 </body>
