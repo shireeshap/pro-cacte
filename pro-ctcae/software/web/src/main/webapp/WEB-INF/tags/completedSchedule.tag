@@ -4,10 +4,10 @@
              required="true" %>
 <c:set var="myindex" value="1"/>
 
-<div style="float:right; padding-right:5px">
+<%--<div style="float:right; padding-right:5px">
     <tags:button color="blue" markupWithTag="a" value="Print"
                  onclick="window.print();return false;"/>
-</div>
+</div>--%>
 
 <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
     <c:set var="myindex" value="1"/>
