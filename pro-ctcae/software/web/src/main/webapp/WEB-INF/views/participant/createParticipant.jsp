@@ -167,21 +167,21 @@ function checkParticipantEmailAddress(siteId) {
 var pattern = /^\d+$/;
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber(siteId) {
-    var participantId = "${param['id']}";
+  /*  var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var userNumber = $('participant.userNumber_' + siteId).value;
+    var userNumber = $('participant.phoneNumber_' + siteId).value;
     if (userNumber != "") {
         if (!pattern.test(userNumber)) {
-            jQuery('#UserPatternError_' + siteId).show();
-            jQuery('#userNumberError_' + siteId).hide();
+    //        jQuery('#UserPatternError_' + siteId).show();
+    //        jQuery('#userNumberError_' + siteId).hide();
             isUserIdError = true;
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
                                                                                        function(returnValue) {
-                                                                                           showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+                                                                                   //        showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
                                                                                            jQuery('#UserPatternError_' + siteId).hide();
                                                                                            if (returnValue) {
                                                                                                isUserIdError = true;
@@ -199,7 +199,7 @@ function checkParticipantUserNumber(siteId) {
         isUserIdError = false;
         checkError();
     }
-    checkError();
+    checkError();*/
 }
 // validation check for participant pin number (IVRS)
 function checkParticipantPinNumber(siteId) {
@@ -353,9 +353,9 @@ function showForms(obj, id) {
         $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
         $('participantStudyIdentifier_' + sites[i].value).value = "";
         jQuery('#uniqueError_' + sites[i].value).hide();
-        jQuery('#UserPatternError_' + sites[i].value).hide();
+  //      jQuery('#UserPatternError_' + sites[i].value).hide();
         jQuery('#PinPatternError_' + sites[i].value).hide();
-        jQuery('#userNumberError_' + sites[i].value).hide();
+   //     jQuery('#userNumberError_' + sites[i].value).hide();
         jQuery('#emailError_' + sites[i].value).hide();
         try {
             $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
@@ -437,9 +437,10 @@ function addEmailRemoveIVRSClassName(id) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
-    $('web_lang_' + id).addClassName("validate-NOTEMPTY");
-    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+
+ //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
+    $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
+ //   $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
@@ -447,8 +448,9 @@ function addEmailRemoveIVRSClassName(id) {
     $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
     $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
+
     if (participantId == "") {
-        $('participant.userNumber_' + id).value = "";
+    //    $('participant.userNumber_' + id).value = "";
         $('participant.phoneNumber_' + id).value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
@@ -463,8 +465,10 @@ function addIVRSRemoveEmailClassName(id) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
+    if($('participant.emailAddress_' + id) != null){
+        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+    }
+ //   $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
     $('call_hour_' + id).addClassName("validate-NOTEMPTY");
@@ -472,6 +476,7 @@ function addIVRSRemoveEmailClassName(id) {
     $('call_ampm_' + id).addClassName("validate-NOTEMPTY");
     $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
+    $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
     if (participantId == "") {
         $('participant.emailAddress_' + id).value = "";
     }
@@ -484,7 +489,7 @@ function removeEmailClassName(id) {
     }
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+//    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
@@ -494,7 +499,7 @@ function removeEmailClassName(id) {
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
     if (participantId == "") {
         $('participant.emailAddress_' + id).value = "";
-        $('participant.userNumber_' + id).value = "";
+ //       $('participant.userNumber_' + id).value = "";
         $('participant.phoneNumber_' + id).value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
@@ -529,6 +534,7 @@ function showOrHideLanguage(value1, value2, id) {
         jQuery("#clinic_paper_lang_" + id).val('');
         jQuery('#web_clinic_header_' + id).show();
         jQuery('#clinicWeb_' + id).show();
+        jQuery('#clinic_paper_lang_' + id + '-msg').hide();
         jQuery('#paper_clinic_header_' + id).hide();
         jQuery('#clinicPaper_' + id).hide();
         $('clinic_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
@@ -537,6 +543,7 @@ function showOrHideLanguage(value1, value2, id) {
     }
     if (value1 && value2 == "CLINICBOOKLET") {
         jQuery("#clinic_web_lang_" + id).val('');
+        jQuery('#clinic_web_lang_' + id + '-msg').hide();
         jQuery('#web_clinic_header_' + id).hide();
         jQuery('#clinicWeb_' + id).hide();
         jQuery('#paper_clinic_header_' + id).show();
@@ -550,16 +557,29 @@ function showOrHideEmail(value1, value2, id) {
         jQuery("#ivrs_lang_" + id).val('');
         jQuery("#home_paper_lang_" + id).val('');
         jQuery('#div_contact').show();
-        jQuery('#div_contact_ivrs').hide();
+
         jQuery('#web_' + id).show();
         jQuery('#email_' + id).attr('checked', true);
         jQuery('#call_' + id).attr('checked', false);
         jQuery('#emailInput_' + id).show();
         jQuery('#webLang_' + id).show();
         jQuery('#emailHeader_' + id).show();
-        jQuery('#UserPatternError_' + id).hide();
+
+   //     jQuery('#UserPatternError_' + id).hide();
+                                           //       alert(jQuery('#participant.phoneNumber_' + id + '-msg') + abc);
+        jQuery('#home_paper_lang_'+ id + '-msg').hide();
+        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantPinNumber_' + id + '-msg').hide();
+        jQuery('#call_hour_' + id + '-msg').hide();
+        jQuery('#call_minute_' + id + '-msg').hide();
+        jQuery('#call_ampm_' + id + '-msg').hide();
+        jQuery('#call_timeZone_' + id + '-msg').hide();
+        jQuery('#ivrs_lang_' + id + '-msg').hide();
+
+        jQuery('#div_contact_ivrs').hide();
+
         jQuery('#PinPatternError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
+   //     jQuery('#userNumberError_' + id).hide();
         jQuery('#paper_home_header_' + id).hide();
         jQuery('#home_paper_' + id).hide();
         jQuery('#div_contact').hide();
@@ -575,25 +595,36 @@ function showOrHideEmail(value1, value2, id) {
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+
         addEmailRemoveIVRSClassName(id);
 
     } else {
         jQuery('#web_' + id).show();
         jQuery('#emailError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
+   //     jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
         jQuery("#home_web_lang_" + id).val('');
         jQuery("#ivrs_lang_" + id).val('');
         jQuery('#paper_home_header_' + id).show();
         jQuery('#home_paper_' + id).show();
+
+        jQuery('#home_web_lang_'+ id + '-msg').hide();
+        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantPinNumber_' + id + '-msg').hide();
+        jQuery('#call_hour_' + id + '-msg').hide();
+        jQuery('#call_minute_' + id + '-msg').hide();
+        jQuery('#call_ampm_' + id + '-msg').hide();
+        jQuery('#call_timeZone_' + id + '-msg').hide();
+        jQuery('#ivrs_lang_' + id + '-msg').hide();
+
         jQuery('#web_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#webLang_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
-        jQuery('#UserPatternError_' + id).hide();
+   //     jQuery('#userNumberError_' + id).hide();
+   //     jQuery('#UserPatternError_' + id).hide();
         jQuery('#PinPatternError_' + id).hide();
         jQuery('#div_contact').hide();
         jQuery('#div_contact_ivrs').hide();
@@ -625,6 +656,9 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#ivrsLang_' + id).show();
         jQuery('#call_' + id).attr('checked', true);
         jQuery('#email_' + id).attr('checked', false);
+
+        jQuery('#home_web_lang_'+ id + '-msg').hide();
+        jQuery('#home_paper_lang_'+ id + '-msg').hide();
         jQuery('#web_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#webLang_' + id).hide();
@@ -636,8 +670,20 @@ function showOrHideEmail(value1, value2, id) {
         $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+
         addIVRSRemoveEmailClassName(id);
+
     } else {
+        jQuery('#home_paper_lang_'+ id + '-msg').hide();
+        jQuery('#home_web_lang_'+ id + '-msg').hide();
+        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantPinNumber_' + id + '-msg').hide();
+        jQuery('#call_hour_' + id + '-msg').hide();
+        jQuery('#call_minute_' + id + '-msg').hide();
+        jQuery('#call_ampm_' + id + '-msg').hide();
+        jQuery('#call_timeZone_' + id + '-msg').hide();
+        jQuery('#ivrs_lang_' + id + '-msg').hide();
+
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();
@@ -647,7 +693,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
         jQuery('#emailError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
+    //    jQuery('#userNumberError_' + id).hide();
     }
     isUserIdError = false;
     isPinError = false;

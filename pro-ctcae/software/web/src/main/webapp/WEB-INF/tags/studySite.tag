@@ -257,7 +257,7 @@
         <input type="text" name="participant.phoneNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.phoneNumber}"
                id="participant.phoneNumber_${studysite.id}"
-               onblur="checkParticipantUserNumber(${studysite.id});"/>
+               onblur="checkParticipantUserNumber(${studysite.id});" title="Phone number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
         <span class="phone-number">###-###-####</span>
         <tags:errors path="participant.phoneNumber"/>
     </td>
@@ -283,7 +283,7 @@
         </ul>
     </td>
 </tr>   -->
-<tr id="c3_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
+<tr id="c3_${studysite.id}" style="${showTime eq true ? "":"display:none"}" >
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
         <b>PIN number</b>&nbsp;
@@ -292,7 +292,7 @@
         <input type="text" name="participantPinNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.pinNumber}"
                id="participant.pinNumber_${studysite.id}"
-               onblur="checkParticipantPinNumber(${studysite.id});"/>
+               onblur="checkParticipantPinNumber(${studysite.id});" title="Pin number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
         <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
             <li><spring:message code='participant.pinnumber_pattern'
                                 text='participant.pinnumber_pattern'/></li>
@@ -307,7 +307,8 @@
     <td valign="top" width="50%">
 
         <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
-            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}">
+            <table><tr><td>
+            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"  title="Hour" class="${showTime eq true ? "validate-NOTEMPTY":""}">
                 <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
                     Hr
                 </option>
@@ -317,7 +318,7 @@
                     <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}">
+            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"  title="Minute" class="${showTime eq true ? "validate-NOTEMPTY":""}">
                 <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
                     Min
                 </option>
@@ -327,7 +328,7 @@
                     <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}">
+            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"  title="AM PM" class="${showTime eq true ? "validate-NOTEMPTY":""}">
                 <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                     am
                 </option>
@@ -335,8 +336,9 @@
                     pm
                 </option>
             </select>&nbsp;&nbsp;&nbsp;
-            <b>Time zone</b>&nbsp;
-            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}">
+                </td><td>
+            <b> <span class="required-indicator">*&nbsp; </span>Time zone</b>&nbsp;
+            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"  title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
                 <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
                     Please select
                 </option>
@@ -359,7 +361,7 @@
                     Hawaii-Aleutian Time
                 </option>
             </select>
-
+                </td></tr></table>
         </div>
 
     </td>
@@ -370,7 +372,7 @@
         <b>Preferred language</b>
     </td>
     <td>
-        <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}">
+        <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}" title="Preferred language">
             <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
                 Please select
             </option>
