@@ -41,6 +41,12 @@
         </c:forEach>
     </table>
     <br/>
+    <div style="float:right; padding-right:10px">
+        <tags:button color="blue" type="button" id="flow-cancel"
+                     cssClass="previous ibutton" value="Close" icon="x"
+                     onclick="closeWindow()" size="small"/>
+    </div>
+    <br/>  <br/>
 </chrome:box>
 </body>
 </html>

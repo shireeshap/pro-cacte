@@ -29,5 +29,5 @@
                      onclick="closeWindow()" size="small"/>
     </div>
     <br/>
-
+    <br/>
 </chrome:box>
