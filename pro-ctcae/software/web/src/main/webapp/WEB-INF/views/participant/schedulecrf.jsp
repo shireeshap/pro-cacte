@@ -243,10 +243,18 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     if (scheduleid != '') {
                         var formName = forms[index][scheduleid];
                         html += '<li><hr></li>';
-                    <proctcae:urlAuthorize url="/pages/participant/enterResponses">
-                        html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-                        html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
-                    </proctcae:urlAuthorize>
+                        if (${command.studyParticipantAssignment.homeWebLanguage ne null && command.studyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
+                            <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+                                html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
+                                html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
+                            </proctcae:urlAuthorize>
+                        }else{
+                             <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+                                html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
+                                html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+                             </proctcae:urlAuthorize>
+                        }
+
                     }
                 }
             } else {
