@@ -171,7 +171,7 @@
                 <input type="hidden" id="site" name="site"/>
 
                 <div class="row">
-                    <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_site'/></div>
+                    <div class="label"><tags:message code='study.label.study_site'/></div>
                     <div class="value">
                         <tags:yuiAutocompleter inputName="siteInput" value="${site.displayName}" required="false"
                                                hiddenInputName="site"/>
