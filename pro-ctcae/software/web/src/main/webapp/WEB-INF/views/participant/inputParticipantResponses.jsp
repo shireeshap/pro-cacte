@@ -73,53 +73,55 @@
             <%--<c:set var="homeweblanguage" value="ENGLISH"/>--%>
             <%--</c:if>--%>
         <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
-            <tr>
-                <td colspan="6"><br/></td>
-            </tr>
-            <tr style="background-color:#cccccc;">
-                <td colspan="6">
-                    <c:if test="${language eq 'en'}">
-                        <b>${symptom.key.term} </b>
-                    </c:if>
-                    <c:if test="${language eq 'es'}">
-                        <b>${symptom.key.proCtcTermVocab.termSpanish} </b>
-                    </c:if>
-                </td>
-            </tr>
-            <c:forEach items="${symptom.value}" var="items">
+            <c:if test="${language eq 'en' || language eq 'es' && symptom.key.proCtcTermVocab.termSpanish ne null}">
                 <tr>
+                    <td colspan="6"><br/></td>
+                </tr>
+                <tr style="background-color:#cccccc;">
                     <td colspan="6">
                         <c:if test="${language eq 'en'}">
-                            <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
+                            <b>${symptom.key.term} </b>
                         </c:if>
                         <c:if test="${language eq 'es'}">
-                            <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
+                            <b>${symptom.key.proCtcTermVocab.termSpanish} </b>
                         </c:if>
                     </td>
                 </tr>
-                <tr>
-                    <c:forEach items="${items[0].crfPageItem.proCtcQuestion.validValues}" var="validValue">
-                        <c:set var="checked" value=""/>
-                        <c:set var="style" value=""/>
-                        <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.proCtcValidValueVocab.valueEnglish eq validValue.proCtcValidValueVocab.valueEnglish}">
-                            <c:set var="checked" value="checked "/>
-                            <c:set var="style" value="background-color:blue;color:white"/>
-                        </c:if>
-                        <td colspan="1">
-                            <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
-                                   type="radio"
-                                   value="${validValue.id}" ${checked} ${disabled}>
+                <c:forEach items="${symptom.value}" var="items">
+                    <tr>
+                        <td colspan="6">
                             <c:if test="${language eq 'en'}">
-                                <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
                             </c:if>
                             <c:if test="${language eq 'es'}">
-                                <span style="${style}">${validValue.proCtcValidValueVocab.valueSpanish} &nbsp;&nbsp;</span>
+                                <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.proCtcQuestionVocab.questionTextSpanish}</b>
                             </c:if>
                         </td>
-                    </c:forEach>
-                </tr>
-                <c:set var="myindex" value="${myindex + 1}"/>
-            </c:forEach>
+                    </tr>
+                    <tr>
+                        <c:forEach items="${items[0].crfPageItem.proCtcQuestion.validValues}" var="validValue">
+                            <c:set var="checked" value=""/>
+                            <c:set var="style" value=""/>
+                            <c:if test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.proCtcValidValueVocab.valueEnglish eq validValue.proCtcValidValueVocab.valueEnglish}">
+                                <c:set var="checked" value="checked "/>
+                                <c:set var="style" value="background-color:blue;color:white"/>
+                            </c:if>
+                            <td colspan="1">
+                                <input name="studyParticipantCrfItems[${items[1]}].proCtcValidValue"
+                                       type="radio"
+                                       value="${validValue.id}" ${checked} ${disabled}>
+                                <c:if test="${language eq 'en'}">
+                                    <span style="${style}">${validValue.value} &nbsp;&nbsp;</span>
+                                </c:if>
+                                <c:if test="${language eq 'es'}">
+                                    <span style="${style}">${validValue.proCtcValidValueVocab.valueSpanish} &nbsp;&nbsp;</span>
+                                </c:if>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                    <c:set var="myindex" value="${myindex + 1}"/>
+                </c:forEach>
+            </c:if>
         </c:forEach>
         <c:forEach items="${command.participantAddedProCtcQuestionsBySymptom}" var="symptom">
             <tr>
