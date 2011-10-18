@@ -307,11 +307,11 @@
                 <tags:indicator id="indicator"/>
             </div>
             <div id="studydata" align="right" style="display:none;">
+                <%--
                 <c:if test="${reportType eq 'overallStudy'}">
-                <tags:button value="Overall study data export" onclick="javascript:showExcelLink();" color="blue" size="small"/>
+                	<tags:button value="Overall study data export" onclick="javascript:showExcelLink();" color="blue" size="small"/>
                 </c:if>
-                <%--<a href="#" onclick="javascript:showExcelLink();">Overall study data</a>--%>
-                    <%--<a href="/proctcae/pages/reports/overallStudyExcel" target="_blank">Overall study data</a>--%>
+                --%>
             </div>
         </div>
     </div>
