@@ -221,7 +221,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         StringBuilder participantEmailContent = new StringBuilder();
         participantEmailContent.append("<html><head></head><body>");
         // if preferred language is selected as spanish
-        if(studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
+        if(studyParticipantAssignment.getHomeWebLanguage()!= null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
             participantEmailContent.append("¡Hola " + studyParticipantAssignment.getParticipant().getDisplayName());
             //        participantEmailContent.append("This is a reminder to login to the PRO-CTCAE website today to report your symptoms, at ")
             participantEmailContent.append("<br><b>Estudio: </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
