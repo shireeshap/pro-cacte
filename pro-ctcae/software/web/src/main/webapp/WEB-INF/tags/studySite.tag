@@ -339,9 +339,9 @@
                 </td><td>
             <b> <span class="required-indicator">*&nbsp; </span>Time zone</b>&nbsp;
             <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"  title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
-                <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
+               <%-- <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
                     Please select
-                </option>
+                </option>--%>
                 <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
                     Eastern Time
                 </option>
