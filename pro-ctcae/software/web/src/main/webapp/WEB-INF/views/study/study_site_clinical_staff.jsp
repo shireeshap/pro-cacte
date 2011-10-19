@@ -75,7 +75,7 @@
         }
 
         * {
-            zoom: 0;
+            zoom: 1;
         }
     </style>
 </head>
