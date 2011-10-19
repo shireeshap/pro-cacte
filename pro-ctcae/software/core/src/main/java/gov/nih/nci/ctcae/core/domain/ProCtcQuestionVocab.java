@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,6 +28,9 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
         @Parameter(name = "sequence", value = "seq_pro_ctc_questions_vocab_id")})
 public class ProCtcQuestionVocab extends BasePersistable {
+
+
+    protected static transient final Log logger = LogFactory.getLog(ProCtcQuestionVocab.class);
 
 	public ProCtcQuestionVocab(){
 		super();
@@ -97,8 +102,12 @@ public class ProCtcQuestionVocab extends BasePersistable {
 	}
 
 	public String getQuestionTextSpanish() {
-        if (questionTextSpanish.indexOf(":") != -1) {
-        	questionTextSpanish = questionTextSpanish.substring(0, questionTextSpanish.indexOf(":"));
+        if(questionTextSpanish == null){
+            logger.debug("##########Could not find spanish translation for Question: "+ questionTextEnglish);
+            questionTextSpanish = this.questionTextEnglish;
+        }
+        if ( questionTextSpanish.indexOf(":") != -1) {
+            questionTextSpanish = questionTextSpanish.substring(0, questionTextSpanish.indexOf(":"));
         }
         questionTextSpanish = questionTextSpanish.replaceAll("\\?", "");
         return questionTextSpanish;

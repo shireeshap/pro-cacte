@@ -99,6 +99,8 @@ public class ProCtcTermVocab extends BasePersistable {
 	}
 
 	public String getTermSpanish() {
+        if(termSpanish == null)
+            termSpanish = termEnglish;
 		return termSpanish;
 	}
 

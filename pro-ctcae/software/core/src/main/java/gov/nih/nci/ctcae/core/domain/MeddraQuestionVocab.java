@@ -97,8 +97,11 @@ public class MeddraQuestionVocab extends BasePersistable {
 	}
 
 	public String getQuestionTextSpanish() {
-        if (questionTextSpanish.indexOf(":") != -1) {
-        	questionTextSpanish = questionTextSpanish.substring(0, questionTextSpanish.indexOf(":"));
+         if(questionTextSpanish == null){
+            questionTextSpanish = this.questionTextEnglish;
+        }
+        if ( questionTextSpanish.indexOf(":") != -1) {
+            questionTextSpanish = questionTextSpanish.substring(0, questionTextSpanish.indexOf(":"));
         }
         questionTextSpanish = questionTextSpanish.replaceAll("\\?", "");
         return questionTextSpanish;

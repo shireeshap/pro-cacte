@@ -98,7 +98,9 @@ public class CtcTermVocab extends BasePersistable {
 	}
 
 	public String getTermSpanish() {
-		return termSpanish;
+        if(termSpanish == null)
+            termSpanish = termEnglish;
+        return termSpanish;
 	}
 
 	public void setTermSpanish(String termSpanish) {

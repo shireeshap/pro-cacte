@@ -101,7 +101,10 @@ public class ProCtcValidValueVocab extends BasePersistable {
 	}
 
 	public String getValueSpanish() {
-		return valueSpanish;
+        if(valueSpanish == null)
+            return valueEnglish;
+        else
+		    return valueSpanish;
 	}
 
 	public void setValueSpanish(String valueSpanish) {
