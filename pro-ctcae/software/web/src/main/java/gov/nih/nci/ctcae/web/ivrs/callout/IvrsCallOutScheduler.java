@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.IvrsScheduleQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
@@ -138,12 +139,22 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		
 		//ensure the mode hasn't been switched to Non-IVRS as we don't support mixed modality
 		ivrsScheduleQuery.filterByStudyParticipantAssignmentMode(AppMode.IVRS);
+		
 		//don't get the ones whose callCount is already Zero
 		ivrsScheduleQuery.filterByCallCountGreaterThan(0);
 		ivrsScheduleList.addAll(ivrsScheduleRepository.find(ivrsScheduleQuery));
 		
-		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleList.size());
-		return ivrsScheduleList;
+		//remove the schedules which have the offstudy, inactive and onhold spa's 
+		List<IvrsSchedule> ivrsScheduleListToBeReturned = new ArrayList<IvrsSchedule>();
+		for(IvrsSchedule iSchd : ivrsScheduleList){
+			if(iSchd.getStudyParticipantAssignment().getStatus() == null || 
+					iSchd.getStudyParticipantAssignment().getStatus().equals(RoleStatus.ACTIVE)){
+				ivrsScheduleListToBeReturned.add(iSchd);
+			}
+		}
+		
+		logger.debug("Number of calls to make in next 2 minutes: " + ivrsScheduleListToBeReturned.size());
+		return ivrsScheduleListToBeReturned;
 	}
 	
 
