@@ -73,7 +73,7 @@
             <%--<c:set var="homeweblanguage" value="ENGLISH"/>--%>
             <%--</c:if>--%>
         <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
-            <c:if test="${language eq 'en' || language eq 'es' && symptom.key.proCtcTermVocab.termSpanish ne null}">
+            <%--<c:if test="${language eq 'en' || language eq 'es' && symptom.key.proCtcTermVocab.termSpanish ne null}">--%>
                 <tr>
                     <td colspan="6"><br/></td>
                 </tr>
@@ -121,7 +121,7 @@
                     </tr>
                     <c:set var="myindex" value="${myindex + 1}"/>
                 </c:forEach>
-            </c:if>
+            <%--</c:if>--%>
         </c:forEach>
         <c:forEach items="${command.participantAddedProCtcQuestionsBySymptom}" var="symptom">
             <tr>
