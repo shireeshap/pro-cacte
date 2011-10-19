@@ -62,12 +62,14 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
 
     public ProCtcTerm findProCtcTermBySymptom(String symptom) {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByCurrency();
         proCtcTermQuery.filterByTerm(symptom);
         return genericRepository.findSingle(proCtcTermQuery);
     }
 
     public ProCtcTerm findSpanishProTermBySymptom(String symptom) {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByCurrency();
         proCtcTermQuery.filterBySpanishTerm(symptom);
         return genericRepository.findSingle(proCtcTermQuery);
     }

@@ -270,7 +270,7 @@ public class ScheduleCrfAjaxFacade {
             } else {
                 ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm.getMeddraTerm(SupportedLanguageEnum.SPANISH));
             }
-            if (ctcTerms != null && ctcTerms.size() > 0) {
+            if (ctcTerms != null && ctcTerms.size() > 0 && ctcTerms.get(0).getProCtcTerms().get(0).getCurrency() == "Y") {
                 if (language.equals("en")) {
                     return ctcTerms.get(0).getProCtcTerms().get(0).getTermEnglish(SupportedLanguageEnum.ENGLISH);
                 } else {

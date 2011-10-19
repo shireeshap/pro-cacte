@@ -77,8 +77,10 @@ public class MeddraQuery extends AbstractQuery {
         andWhere("(llt.meddraCode = ctcTerm.ctepCode)");
         andWhere("(ctcTerm.id = proCtcTerm.ctcTerm)");
         andWhere("(proCtcTerm.proCtcTermVocab.termEnglish IS NOT NULL)");
+        andWhere("(proCtcTerm.currency = :" + CURRENCY +")");
         andWhere(String.format("(lower(llt.lowLevelTermVocab.meddraTermEnglish) LIKE :%s)", MEDDRA_TERM));
         setParameter(MEDDRA_TERM, searchString);
+        setParameter(CURRENCY, "Y");
 
     }
 
