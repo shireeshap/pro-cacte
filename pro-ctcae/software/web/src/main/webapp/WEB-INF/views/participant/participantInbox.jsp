@@ -153,17 +153,13 @@
 </c:forEach>
 
 <div id="inboxTitle">
-    <c:if test="${empty param.lang}">
-       <c:set var="currentEn" value="current"/>
+    <c:set var="currentEn" value="current"/>
+    <c:set var="currentEs" value=""/>
+    <c:if test="${pageContext.response.locale == 'es' or param.lang eq 'es'}">
+       <c:set var="currentEs" value="current"/>
+       <c:set var="currentEn" value=""/>
     </c:if>
-    <c:if test="${param.lang eq 'en'}">
-        <c:set var="currentEn" value="current"/>
-        <c:set var="currentEs" value=""/>
-    </c:if>
-    <c:if test="${param.lang eq 'es'}">
-        <c:set var="currentEn" value=""/>
-        <c:set var="currentEs" value="current"/>
-    </c:if>
+
     <div class="language-toggle1" style="float:right">
         <a class="left ${currentEn}" href="?lang=en">English</a>
         <a class="right ${currentEs}" href="?lang=es">Español</a>
