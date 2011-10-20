@@ -184,7 +184,7 @@
     var oAC;
     var greeting = "Begin typing here";
     <c:if test="${pageContext.response.locale == 'es'}">
-         greeting = "Comienza a escribir aqu?";
+         greeting = "Comenzar a escribir aquí";
     </c:if>
 
     function initializeAutoCompleter() {
@@ -552,30 +552,7 @@
                         <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
                 <td width="32%" colspan="1">
             </tr>
-                <%--<c:set var="numrows" value="${numrows}"/>--%>
-                <%--<c:set var="displaySymptoms" value="${command.displaySymptoms}"/>--%>
-                <%--<c:forEach var="i" begin="0" end="${numrows}" varStatus="status">--%>
-                <%--<c:if test="${displaySymptoms[i*3+0] ne null}">--%>
-                <%--<tr id="tr_"${i}>--%>
-                <%--<c:forEach var="j" begin="0" end="2" varStatus="status">--%>
-                <%--<td id="td_${i + (numrows+1)*j}_a" class="" style="vertical-align:top" width="1%">--%>
-                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
-                <%--<input type="checkbox" name="symptomsByParticipants"--%>
-                <%--value="${displaySymptoms[i + (numrows+1)*j]}"--%>
-                <%--onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"--%>
-                <%--id="${i + (numrows+1)*j}"/>--%>
-                <%--</c:if>--%>
-                <%--</td>--%>
-                <%--<td id="td_${i + (numrows+1)*j}_b" class="value label" width="32%">--%>
-                <%--<c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">--%>
-                <%--<div id="div_${i + (numrows+1)*j}"--%>
-                <%--class="label">${displaySymptoms[i + (numrows+1)*j]}</div>--%>
-                <%--</c:if>--%>
-                <%--</td>--%>
-                <%--</c:forEach>--%>
-                <%--</tr>--%>
-                <%--</c:if>--%>
-                <%--</c:forEach>--%>
+
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
