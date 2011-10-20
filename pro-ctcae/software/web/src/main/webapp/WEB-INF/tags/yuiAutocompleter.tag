@@ -21,7 +21,7 @@
                     <c:if test="${required}"><tags:requiredIndicator/></c:if>
                     <input id="${inputName}" type="text" value="${value}" class="pending-search" />
                 </div>
-                <div id="${inputName}Autocomplete" style="z-index:300000;" class="yui-ac-container"></div>
+                <div id="${inputName}Autocomplete" style="z-index:300000;width:335px;" class="yui-ac-container"></div>
             </div>
         </td>
         <td style="vertical-align:top;padding-left:10px;border:0px;">
