@@ -313,49 +313,15 @@
                 removeHoverClass(idVar);
             }
 
-
-    //        var td4 = document.createElement("TD");
-    //        td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
-    //        $(td4).addClassName('tdHoverLook');
-    //            td4.onmouseover = function() {
-    //                addHoverClass(idVar + 1);
-    //            }
-    //            td4.onmouseout = function() {
-    //                removeHoverClass(idVar + 1);
-    //            }
-
-    //        var td6 = document.createElement("TD");
-    //        td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
-    //        $(td6).addClassName('tdHoverLook');
-    //            td6.onmouseover = function() {
-    //                addHoverClass(idVar + 2);
-    //            }
-    //            td6.onmouseout = function() {
-    //                removeHoverClass(idVar + 2);
-    //            }
-
             tdCount = nextColumnIndex + 2;
 
             row.appendChild(td2);
-    //        row.appendChild(td4);
-    //        row.appendChild(td6);
             tbody.appendChild(row);
 
             td2.onclick = function() {
                 var v = idVar;
                 changeTdClass(v);
-
             }
-    //        td4.onclick = function() {
-    //            var v = idVar + 1;
-    //            changeTdClass(v);
-    //        }
-    //        td6.onclick = function() {
-    //            var v = idVar + 2;
-    //            changeTdClass(v);
-    //        }
-    //    }
-
 
         var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
         var chkbox = document.createElement('input');
@@ -373,18 +339,8 @@
         divTag.style.margin = "0px auto";
         divTag.className = "check";
         divTag.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
-    //    alert(tdb.innerHTML);
-    //     if (tdb.innerHTML != '') {
-    //            tdb.onmouseover = function() {
-    //                addHoverClass(nextColumnIndex-1);
-    //            }
-    //            tdb.onmouseout = function() {
-    //                removeHoverClass(nextColumnIndex-1);
-    //            }
-    //        }
         if (nextColumnIndex > 0) {
             tdb.addClassName('buttonLook');
-    //        tdb.addClassName('showTd');
         }
         tdb.appendChild(chkbox);
         tdb.appendChild(divTag);
@@ -395,12 +351,6 @@
         div.appendChild(document.createTextNode(selectedChoice));
         tdb.appendChild(div);
         changeClass(chkbox, nextColumnIndex);
-    //    alert(tdCount);
-    //    alert(nextColumnIndex);
-    //    if (tdCount != nextColumnIndex) {
-    //        removeTdClass(nextColumnIndex, tdCount);
-    //    }
-    //    alert(nextColumnIndex);
         nextColumnIndex++;
     }
 
