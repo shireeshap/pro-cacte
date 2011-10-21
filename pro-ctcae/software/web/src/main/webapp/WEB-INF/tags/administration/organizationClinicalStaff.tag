@@ -21,7 +21,8 @@
             <c:otherwise>
                 <%--<form:input path="${propertyName}" id="${propertyName}" cssClass="validate-NOTEMPTY" cssStyle="display:none;"/>--%>
                 <input name="${propertyName}" id="${propertyName}" class="validate-NOTEMPTY" style="display:none;"/>
-                <tags:yuiAutocompleter inputName="${propertyName}Input" value="${command.clinicalStaff.organizationClinicalStaffs[organizationClinicalStaffIndex].organization.displayName}" required="false" hiddenInputName="${propertyName}"/>
+                <tags:yuiAutocompleter inputName="${propertyName}Input" value="${command.clinicalStaff.organizationClinicalStaffs[organizationClinicalStaffIndex].organization.displayName}"
+                                       required="false" hiddenInputName="${propertyName}" contentBoxMaxHeight="30"/>
                <%-- <tags:renderAutocompleter propertyName="${propertyName}" required="true"
                                           displayName="clinicalStaff.division.site"
                                           doNotshowLabel="true" noForm="true" size="100"/>--%>

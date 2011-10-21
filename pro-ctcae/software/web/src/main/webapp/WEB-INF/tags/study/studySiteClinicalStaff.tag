@@ -28,7 +28,7 @@
 
                    <tags:yuiAutocompleter inputName="${propertyName}.organizationClinicalStaffInput"
                                           value=" ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}" required="false"
-                                          hiddenInputName="${propertyName}.organizationClinicalStaff"/>
+                                          hiddenInputName="${propertyName}.organizationClinicalStaff" contentBoxMaxHeight="30"/>
 
                 <%--<tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"--%>
                                           <%--displayName="study.label.clinical.staff" noForm="true" required="true"--%>

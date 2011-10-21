@@ -4,15 +4,34 @@
 <%@ attribute name="value" %>
 <%@attribute name="inputName" required="true" %>
 <%@attribute name="required" required="false" %>
+<%@attribute name="contentBoxMaxHeight" required="false" %>
 
-<style>
-.yui-skin-sam .yui-ac-content {
-    max-height: 20em;
-    overflow-x: hidden;
-    overflow-y: auto;
-    width:335px;
-}
-</style>
+<c:if test="${contentBoxMaxHeight eq null}">
+     <c:set var="contentBoxMaxHeight" value="20"/>
+</c:if>
+
+    <!--[if !IE 7]><!-->
+        <style>
+            .yui-skin-sam .yui-ac-content {
+                max-height: 20em;
+                overflow-x: hidden;
+                overflow-y: auto;
+                width:335px;
+            }
+        </style>
+    <!--<![endif]-->
+
+    <!--[if IE 7]>
+        <style>
+            .yui-skin-sam .yui-ac-content {
+                max-height: ${contentBoxMaxHeight}em;
+                overflow-x: hidden;
+                overflow-y: auto;
+                width:335px;
+        }
+        </style>
+    <![endif]-->
+
 <table cellpadding="0" cellspacing="0">
     <tr height="0">
         <td height="0" style="vertical-align:top;border:0px;">
