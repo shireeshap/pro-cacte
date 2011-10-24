@@ -172,7 +172,7 @@ public class ParticipantSchedule {
         }
     }
 
-    private boolean isSpCrfScheduleAvailable(
+    public static boolean isSpCrfScheduleAvailable(
 			StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
     	if(DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
     			DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0 ){

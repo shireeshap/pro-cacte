@@ -1,7 +1,11 @@
 package gov.nih.nci.ctcae.core.security;
 
+import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -63,13 +67,32 @@ public class DomainObjectAuthorizationCheck {
 
 
     private boolean hasPermission(Authentication authentication, Persistable persistable, String privilege) {
-        for (GrantedAuthority grantedAuthority : ((User)authentication.getPrincipal()).getAuthorities()) {
-            if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
-                logger.debug(String.format("User %s is having privilege %s on %s object. So Returning this object.",
-                        authentication.getName(), privilege, persistable.getClass().getName()));
-                return true;
+    	
+    	User user = (User)authentication.getPrincipal();
+    	//if the user is a participant, the studyParticipantCrf.id has to exist in the grantedAuthorities
+    	if(isParticipant(user.getUserRoles())){
+    		if(persistable.getClass().isAssignableFrom(StudyParticipantCrfSchedule.class)){
+    			if(privilege.contains("gov.nih.nci.ctcae.core.domain.StudyParticipantCrf")){
+    				for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
+    	                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)  && 
+    	                		ParticipantSchedule.isSpCrfScheduleAvailable((StudyParticipantCrfSchedule)persistable)) {
+    	                    logger.debug(String.format("Participant %s is having privilege %s on %s object. So Returning this object.",
+    	                            authentication.getName(), privilege, persistable.getClass().getName()));
+    	                    return true;
+    	                }
+    	            }
+    			}
+    		}
+    	} else {
+            for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
+                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
+                    logger.debug(String.format("User %s is having privilege %s on %s object. So Returning this object.",
+                            authentication.getName(), privilege, persistable.getClass().getName()));
+                    return true;
+                }
             }
-        }
+    	}
+
 //        if (persistable.getClass().isAssignableFrom(Organization.class)) {
 //            User user = (User) authentication.getPrincipal();
 //            if (user.isLeadCRA() || user.isOverallPI()) {
@@ -78,6 +101,15 @@ public class DomainObjectAuthorizationCheck {
 //        }
 
         return false;
+    }
+    
+    public static boolean isParticipant(List<UserRole> roleList){
+    	for(UserRole uRole: roleList){
+    		if(uRole.getRole().equals(Role.PARTICIPANT)){
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     @Required
