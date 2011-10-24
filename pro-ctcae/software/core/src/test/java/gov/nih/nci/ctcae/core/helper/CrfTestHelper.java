@@ -130,6 +130,7 @@ public class CrfTestHelper {
 //        for (int i = 0; i < 3; i++) {
 //            crf.addProCtcTerm(proCtcTerms.get(i));
 //        }
+         setProCtcTermCurrencyForAllTerms();
          List<ProCtcTerm> proCtcTerms1 = new ArrayList<ProCtcTerm>();
          proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Anxiety or worry"));
          proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Shortness of breath"));
@@ -139,6 +140,15 @@ public class CrfTestHelper {
          }
         crf.updateCrfPageInstructions();
     }
+
+   private static void setProCtcTermCurrencyForAllTerms(){
+      ProCtcTermQuery query = new ProCtcTermQuery();
+      List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
+       for(ProCtcTerm term: proCtcTerms){
+           term.setCurrency("Y");
+           proCtcTermRepository.save(term);
+       }
+   }
 
     private static void thirdTab_ScheduleTemplate(CRF crf) {
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
