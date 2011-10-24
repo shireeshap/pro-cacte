@@ -25,7 +25,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -47,7 +47,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -68,7 +68,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
         String arms = "";
         for (Arm arm : study.getArms()) {
             arms += arm.getId() + "_";

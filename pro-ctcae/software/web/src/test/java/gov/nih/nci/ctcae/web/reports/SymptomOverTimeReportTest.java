@@ -22,7 +22,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -46,7 +46,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
             arms += arm.getId() + "_";
         }
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -71,7 +71,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
             arms += arm.getId() + "_";
         }
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -94,7 +94,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         Study study = StudyTestHelper.getDefaultStudy();
         String arms = study.getArms().get(0).getId() + "_";
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
         controller.setGenericRepository(genericRepository);
@@ -115,7 +115,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
 
         ReportDetailsController controller = new ReportDetailsController();
         controller.setGenericRepository(genericRepository);

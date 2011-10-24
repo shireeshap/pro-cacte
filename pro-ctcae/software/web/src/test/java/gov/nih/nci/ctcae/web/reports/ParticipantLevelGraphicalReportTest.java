@@ -27,7 +27,7 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
         List<String> dates = (List<String>) map.get("dates");
         assertEquals(schedules.size(), dates.size());
 
-        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
         request.setParameter("symptomId", symptomId.toString());
 
         ParticipantLevelGraphicalReportController controller1 = new ParticipantLevelGraphicalReportController();
