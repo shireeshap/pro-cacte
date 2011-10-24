@@ -132,6 +132,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             }
             if (!user.isAdmin()) {
                 rolePrivilegeQuery.filterByRoles(roles);
+            } else {
+            	rolePrivilegeQuery.filterForAdmin();
             }
             List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 
