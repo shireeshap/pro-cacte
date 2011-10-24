@@ -227,6 +227,7 @@
     <bean name="/form/submit" id="submitFormController"
           class="gov.nih.nci.ctcae.web.form.SubmitFormController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="meddraRepository" ref="meddraRepository"/>
     </bean>
