@@ -70,19 +70,17 @@ public class DomainObjectAuthorizationCheck {
     	
     	User user = (User)authentication.getPrincipal();
     	//if the user is a participant, the studyParticipantCrf.id has to exist in the grantedAuthorities
-    	if(isParticipant(user.getUserRoles())){
-    		if(persistable.getClass().isAssignableFrom(StudyParticipantCrfSchedule.class)){
-    			if(privilege.contains("gov.nih.nci.ctcae.core.domain.StudyParticipantCrf")){
-    				for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
-    	                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)  && 
-    	                		ParticipantSchedule.isSpCrfScheduleAvailable((StudyParticipantCrfSchedule)persistable)) {
-    	                    logger.debug(String.format("Participant %s is having privilege %s on %s object. So Returning this object.",
-    	                            authentication.getName(), privilege, persistable.getClass().getName()));
-    	                    return true;
-    	                }
-    	            }
-    			}
-    		}
+    	if(isParticipant(user.getUserRoles()) && persistable.getClass().isAssignableFrom(StudyParticipantCrfSchedule.class)){
+			if(privilege.contains("gov.nih.nci.ctcae.core.domain.StudyParticipantCrf")){
+				for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
+	                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)  && 
+	                		ParticipantSchedule.isSpCrfScheduleAvailable((StudyParticipantCrfSchedule)persistable)) {
+	                    logger.debug(String.format("Participant %s is having privilege %s on %s object. So Returning this object.",
+	                            authentication.getName(), privilege, persistable.getClass().getName()));
+	                    return true;
+	                }
+	            }
+			}
     	} else {
             for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
                 if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
@@ -92,13 +90,6 @@ public class DomainObjectAuthorizationCheck {
                 }
             }
     	}
-
-//        if (persistable.getClass().isAssignableFrom(Organization.class)) {
-//            User user = (User) authentication.getPrincipal();
-//            if (user.isLeadCRA() || user.isOverallPI()) {
-//                return true;
-//            }
-//        }
 
         return false;
     }

@@ -66,30 +66,5 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
         assertTrue(date[1].after(date[0]));
     }
 
-    public void testParticipantRepsonseReport() throws Exception {
-        Participant p = ParticipantTestHelper.getDefaultParticipant();
-        login(p.getUser().getUsername());
-        StudyParticipantCrf spc = p.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
-        StudyParticipantCrfSchedule spcs = spc.getStudyParticipantCrfSchedules().get(0);
-        spcs.setStatus(CrfStatus.COMPLETED);
-
-        StudyParticipantCrfSchedule spcs1 = spc.getStudyParticipantCrfSchedules().get(1);
-        spcs1.setStatus(CrfStatus.COMPLETED);
-
-        ParticipantResponseReportController controller = new ParticipantResponseReportController();
-        controller.setUserRepository(userRepository);
-        controller.setParticipantRepository(participantRepository);
-        controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
-        request.setMethod("GET");
-        request.setParameter("id", spcs.getId().toString());
-
-        ModelAndView mv = controller.handleRequest(request, response);
-
-        Map m = mv.getModel();
-        StudyParticipantCrfSchedule completedSchedule = (StudyParticipantCrfSchedule) m.get("completedSchedule");
-        assertNotNull(completedSchedule);
-
-    }
-
 
 }
