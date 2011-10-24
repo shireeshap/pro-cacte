@@ -12,7 +12,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;

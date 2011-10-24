@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
