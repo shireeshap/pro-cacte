@@ -1620,7 +1620,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyPar
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfAddedQuestionRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleAddedQuestionRepository.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/UserRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/CRFRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/ClinicalStaffRepository.java -text
@@ -1630,6 +1629,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyOrganizationClinicalStaffRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyOrganizationRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyParticipantAssignmentRepository.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyParticipantCrfScheduleRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/secured/StudyRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/JavaMailSender.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/rules/NotificationsEvaluationService.java -text
