@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -44,12 +46,14 @@ public class SubmitFormCommand implements Serializable {
     private Map<String, List<DisplayQuestion>> symptomQuestionMap = new HashMap<String, List<DisplayQuestion>>();
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
+    private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcTermRepository proCtcTermRepository, MeddraRepository meddraRepository) {
+    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository, ProCtcTermRepository proCtcTermRepository, MeddraRepository meddraRepository) {
         this.genericRepository = genericRepository;
+        this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
         this.proCtcTermRepository = proCtcTermRepository;
         this.meddraRepository = meddraRepository;
-        schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
+        schedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(crfScheduleId));
         lazyInitializeSchedule();
         schedule.addParticipantAddedQuestions();
         schedule = genericRepository.save(schedule);

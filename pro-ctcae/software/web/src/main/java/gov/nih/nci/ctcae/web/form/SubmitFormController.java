@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SubmitFormController extends SimpleFormController {
     private GenericRepository genericRepository;
+    private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
 
@@ -45,9 +48,8 @@ public class SubmitFormController extends SimpleFormController {
         if (submit) {
             return showConfirmationPage(sCommand);
         } else {
-            return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getNewPageIndex()));
+        	return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getNewPageIndex()));
         }
-
     }
 
     private ModelAndView showConfirmationPage(SubmitFormCommand sCommand) {
@@ -64,7 +66,7 @@ public class SubmitFormController extends SimpleFormController {
             // command.lazyInitializeSchedule();
             return command;
         }
-        command = new SubmitFormCommand(crfScheduleId, genericRepository, proCtcTermRepository, meddraRepository);
+        command = new SubmitFormCommand(crfScheduleId, genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
         return command;
     }
 
@@ -163,5 +165,10 @@ public class SubmitFormController extends SimpleFormController {
             }
         }
     }
+
+	public void setStudyParticipantCrfScheduleRepository(
+			StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+		this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
+	}
 }
 

@@ -269,7 +269,7 @@
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="studyParticipantCrfScheduleRepository"
-          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="formArmScheduleRepository"
