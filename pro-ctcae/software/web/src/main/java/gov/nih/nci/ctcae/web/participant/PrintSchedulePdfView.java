@@ -421,7 +421,12 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         p.add(table1);
         Font font = new Font();
         font.setStyle(Font.UNDERLINE);
-        dupe.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
+        if (language.equalsIgnoreCase("en")) {
+            p.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
+        } else {
+            p.add(new Paragraph(new Chunk("Por favor, piense de nuevo " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish(), font)));
+        }
+//        dupe.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
         HeaderFooter header = new HeaderFooter(p, false);
         dupe.setHeader(header);
         for (int i = 0; i < 20; i++) {
@@ -596,75 +601,6 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         dupe.add(new Paragraph(" "));
 
         return pdfWriter.getPageNumber();
-    }
-
-
-    private void addHeaderFooter(Document document, Study study, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Participant participant) throws Exception {
-        Table table1 = new Table(2, 9);//2 Columns and 9 line
-        table1.setWidth(100);
-        table1.setWidths(new int[]{20, 80});
-        table1.setBorderWidth(0);
-        Cell c1 = new Cell(new Paragraph("Study:"));
-        c1.setBorderWidth(0);
-        table1.addCell(c1);
-
-        Cell c2 = new Cell(new Paragraph("" + study.getDisplayName()));
-        c2.setBorderWidth(0);
-        table1.addCell(c2);
-
-        Cell c3 = new Cell(new Paragraph("Survey:"));
-        c3.setBorderWidth(0);
-        table1.addCell(c3);
-
-        Cell c4 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
-        c4.setBorderWidth(0);
-        table1.addCell(c4);
-
-        Cell c7 = new Cell(new Paragraph("Participant:"));
-        c7.setBorderWidth(0);
-        table1.addCell(c7);
-
-        Cell c8 = new Cell(new Paragraph("" + participant.getDisplayNameForReports()));
-        c8.setBorderWidth(0);
-        table1.addCell(c8);
-
-        Cell c9 = new Cell(new Paragraph("Survey start date:"));
-        c9.setBorderWidth(0);
-        table1.addCell(c9);
-
-        Cell c10 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
-        c10.setBorderWidth(0);
-        table1.addCell(c10);
-
-        Cell c11 = new Cell(new Paragraph("Survey due date:"));
-        c11.setBorderWidth(0);
-        table1.addCell(c11);
-
-        Cell c12 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getDueDate())));
-        c12.setBorderWidth(0);
-        table1.addCell(c12);
-
-        Cell c15 = new Cell(new Paragraph("\n"));
-        c15.setBorderWidth(0);
-        table1.addCell(c15);
-
-        Cell c16 = new Cell(new Paragraph("\n"));
-        c16.setBorderWidth(0);
-        table1.addCell(c16);
-        document.add(table1);
-
-        HeaderFooter footer = new HeaderFooter(new Phrase(" CONFIDENIAL                                                                                                                                     Page ", new Font(Font.TIMES_ROMAN, 12, Font.NORMAL)), true);
-        document.setFooter(footer);
-        Phrase p = new Phrase();
-        p.clear();
-        p.add(table1);
-        HeaderFooter header = new HeaderFooter(p, false);
-        document.setHeader(header);
-        Font font = new Font();
-        font.setStyle(Font.UNDERLINE);
-        document.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
-        document.add(new Paragraph(" "));
-
     }
 
     private void addParticipantAddedQuestionsToMap(String language, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Map<ProCtcTerm, ArrayList<ProCtcQuestion>> participantAddedProctcSymptomMap, ArrayList<ProCtcQuestion> participantAddedProctcQuestions, Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap, ArrayList<MeddraQuestion> participantAddedMeddraQuestions) {
