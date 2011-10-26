@@ -15,10 +15,8 @@
 <c:choose>
 <c:when test="${!setupNeeded}">
 	<chrome:box title="Initial setup complete" autopad="true">
-    <p>
-        Initial setup of this ProCtCAE instance is complete. For security reasons, you can't
-        repeat this initial setup. You can now login by
-        <a href="<c:url value="/public/login"/>">clicking here.</a>
+    <p> <tags:message code="setup.invalid.msg1" />
+        <a href="<c:url value="/public/login"/>"><tags:message code="setup.invalid.msg2" /></a>
     </p>
 	</chrome:box>
 </c:when>
