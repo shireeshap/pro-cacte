@@ -28,7 +28,6 @@
         pageTracker._trackPageview();
     } catch(err) {
     }
-
 </script>
 
 <div id="header">
