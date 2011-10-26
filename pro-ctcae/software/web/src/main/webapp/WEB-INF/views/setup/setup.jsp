@@ -12,8 +12,18 @@
 
 <html>
 <body>
-
-<ctcae:form method="post">
+<c:choose>
+<c:when test="${!setupNeeded}">
+	<chrome:box title="Initial setup complete" autopad="true">
+    <p>
+        Initial setup of this ProCtCAE instance is complete. For security reasons, you can't
+        repeat this initial setup. You can now login by
+        <a href="<c:url value="/public/login"/>">clicking here.</a>
+    </p>
+	</chrome:box>
+</c:when>
+<c:otherwise>
+	<ctcae:form method="post">
     <chrome:box title="Create the first administrative account" id="setup-input">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <p><tags:instructions code="clinicalStaff.sysadmin_details.top"/></p>
@@ -58,6 +68,9 @@
         </chrome:division>
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
-</ctcae:form>
+	</ctcae:form>
+</c:otherwise>
+</c:choose>
+
 </body>
 </html>
