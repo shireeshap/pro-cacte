@@ -29,13 +29,14 @@ public class ApplicationListener implements org.springframework.context.Applicat
                     user = userRepository.findById(user.getId());
                     user.setNumberOfAttempts(0);
                     userRepository.save(user);
-                    String password = (String) auth.getCredentials();
-                    userRepository.setCheckAccountLockout(false);
-                    user = userRepository.loadUserByUsername(user.getUsername());
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(token);
-                    userRepository.setCheckAccountLockout(true);
-
+                    if(!auth.isAuthenticated()){
+                        String password = (String) auth.getCredentials();
+                        userRepository.setCheckAccountLockout(false);
+                        user = userRepository.loadUserByUsername(user.getUsername());
+                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(token);
+                        userRepository.setCheckAccountLockout(true);
+                    }
                 }
             }
         }
