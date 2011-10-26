@@ -28,6 +28,9 @@ public class SetupController extends CtcAeSimpleFormController {
     private UserRepository userRepository;
     private SetupStatus setupStatus;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+    
+    /*Used on the jsp to determine of the setup has already run. */
+    public static final String SETUP_NEEDED = "setupNeeded";
 
     protected SetupController() {
         super();
@@ -39,6 +42,11 @@ public class SetupController extends CtcAeSimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest httpServletRequest) throws Exception {
+    	if (!setupStatus.isSetupNeeded()) {
+    		httpServletRequest.setAttribute(SETUP_NEEDED, false);
+    	} else {
+    		httpServletRequest.setAttribute(SETUP_NEEDED, true);
+    	}
         ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
         clinicalStaffCommand.getClinicalStaff().setUser(new User());
         return clinicalStaffCommand;
