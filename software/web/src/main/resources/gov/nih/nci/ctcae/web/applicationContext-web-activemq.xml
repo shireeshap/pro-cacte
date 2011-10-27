@@ -1,0 +1,49 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    	http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/jms
+	    http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+        http://activemq.apache.org/schema/core
+   	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd ">
+
+    <!--  lets create an embedded ActiveMQ Broker -->
+    <amq:broker id="broker" useJmx="false" persistent="false">
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:61616?wireFormat.maxInactivityDuration=0"/>
+        </amq:transportConnectors>
+    </amq:broker>
+
+    <!--  ActiveMQ destinations to use  -->
+    <bean id="mydestination" class="org.apache.activemq.command.ActiveMQQueue">
+      <constructor-arg value="IVRS.DESTINATION" />
+   </bean>
+
+    <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+    <amq:connectionFactory id="jmsFactory" brokerURL="tcp://localhost:61616"/>
+
+    <!-- Spring JMS Template -->
+    <bean id="consumerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"/>
+    </bean>
+
+    <!-- A POJO that implements the JMS message listener -->
+    <bean id="simpleMessageListener" class="gov.nih.nci.ctcae.web.ivrs.callout.IvrsMessageListener">
+        <property name="properties" ref="proCtcAeProperties"/>
+	</bean>
+
+    <bean id="container" class="org.springframework.jms.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="messageListener" ref="simpleMessageListener"/>
+        <property name="destination" ref="mydestination"/>
+        <property name="concurrentConsumers" value="${ivrs.total.phonelines}"/>
+    </bean>
+    
+</beans>
