@@ -187,8 +187,8 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     public void filterByStudyParticipantIdentifier(String spIdentifier) {
         if (spIdentifier != null) {
             leftJoin("p.studyParticipantAssignments as spa");
-            andWhere("spa.studyParticipantIdentifier LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
-            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier);
+            andWhere("lower(spa.studyParticipantIdentifier) LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
+            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier.toLowerCase());
         }
     }
 
