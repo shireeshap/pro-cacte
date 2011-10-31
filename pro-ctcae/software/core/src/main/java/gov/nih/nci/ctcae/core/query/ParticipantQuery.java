@@ -87,7 +87,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     }
 
     /**
-     * Filter by participant identifier.
+     * Filter by participant identifier(also referred to as assigned identifier/MRN).
      *
      * @param identifier the identifier
      */

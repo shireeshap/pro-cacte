@@ -253,6 +253,36 @@ function checkParticipantStudyIdentifier(id, siteId) {
     }
 }
 
+//validation check for participant  identifier
+function checkParticipantMrn() {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    var mrn = $('participant.assignedIdentifier').value;
+    var siteId = $('organizationId').value;
+    if (siteId != "" && mrn != "") {
+        uniqueParticipantIdentifier.validateUniqueParticipantMrn(siteId, mrn,
+                participantId, {callback:
+                                function(returnValue) {
+                                    showOrHideErrorField(returnValue, '#uniqueError_mrn');
+                                    if (returnValue) {
+                                        isIdentifierError = true;
+                                    }
+                                    else {
+                                        isIdentifierError = false;
+                                    }
+                                    checkError();
+                                }});
+        return;
+    }
+    else {
+        jQuery('#uniqueError_mrn').hide();
+        isIdentifierError = false;
+        checkError();
+    }
+}
+
 function getStudySites() {
     var organizationId = $('organizationId').value;
     if (organizationId == '') {
@@ -299,6 +329,7 @@ function handleSelect(stype, args) {
 	    getStudySites();
 	    jQuery('#studies').show();
     }
+    checkParticipantMrn();
 }
 
 function clearInput(inputId) {
@@ -825,7 +856,7 @@ function showOrHideEmail(value1, value2, id) {
                </c:if>
                <table border="0" style="width:100%">
 
-                   <tr>
+                   <tr valign="top">
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
@@ -840,7 +871,7 @@ function showOrHideEmail(value1, value2, id) {
                                             required="true" maxLength="${maxLength}" size="${maxLength}"/>
                        </td>
 
-                       <td width="50%" valign="top">
+                       <td width="50%" >
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderDate propertyName="participant.birthDate"
                                                 displayName="participant.label.date_of_birth" required="true"/>
@@ -850,7 +881,10 @@ function showOrHideEmail(value1, value2, id) {
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier"
                                                 displayName="participant.label.participant_identifier"
-                                                required="true"/>
+                                                required="true" onblur="checkParticipantMrn();"/>
+                               <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
+				                    <li><spring:message code='participant.unique_mrn' /></li>
+				                </ul>
                            </c:if>
                        </td>
                    </tr>

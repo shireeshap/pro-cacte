@@ -3,13 +3,12 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
-import org.aspectj.util.CollectionUtil;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 
-//
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.util.CollectionUtils;
+
 /**
  * The Class UniqueStudyIdentifierForParticipantValidator.
  *
@@ -18,19 +17,20 @@ import java.util.Collection;
  */
 public class UniqueStudyIdentifierForParticipantValidator extends AbstractValidator<UniqueStudyIdentifierForParticipant> {
 
-    /**
-     * The message.
-     */
     private String message;
 
-    /**
-     * The study repository.
-     */
     private ParticipantRepository participantRepository;
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
+
+    /**
+     * Validate unique participant identifier.
+     * Study Participant Identifier has to be unique for a given study.
+     *
+     * @param studyId the study id
+     * @param assignedIdentifier the assigned identifier
+     * @param participantID the participant id
+     * @return true, if successful
      */
-   public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
+    public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
             participantQuery.filterByStudyParticipantIdentifier(assignedIdentifier);
@@ -43,10 +43,31 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
 
         return false;
     }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
+   
+    /**
+     * Validate unique participant mrn.
+     * Participant MRN(or assigned identifier) has to be unique for a site.
+     *
+     * @param siteId the site id
+     * @param mrn the mrn
+     * @param participantID the participant id
+     * @return true, if successful
      */
+    public boolean validateUniqueParticipantMrn(Integer siteId, String mrn, Integer participantID) {
+	       ParticipantQuery participantQuery = new ParticipantQuery();
+	       participantQuery.filterBySite(siteId);
+	       participantQuery.filterByParticipantIdentifier(mrn);
+	       participantQuery.excludeByParticipantId(participantID);
+	
+	       Collection<Participant> participants = participantRepository.find(participantQuery);
+	       if(!CollectionUtils.isEmpty(participants)){
+	           return true;
+	       }
+	
+	   return false;
+	}
+
+
     public void initialize(UniqueStudyIdentifierForParticipant parameters) {
          message = parameters.message();
     }
