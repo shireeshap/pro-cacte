@@ -79,14 +79,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (armId != null) {
                 command.setArmId(Integer.parseInt(armId));
             }
-//            String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
-//                if (!StringUtils.isBlank(userNumber)) {
-//                    try {
-//                        command.getParticipant().setUserNumber(Integer.parseInt(userNumber));
-//                    } catch (Exception e) {
-//                        command.getParticipant().setUserNumber(null);
-//                    }
-//                }
+            String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
+            if (!StringUtils.isBlank(userNumber)) {
+                try {
+                    command.getParticipant().setUserNumber(userNumber);
+              } catch (Exception e) {
+                    command.getParticipant().setUserNumber(null);
+                }
+            }
             String pinNumber = request.getParameter("participantPinNumber_" + studySite.getId());
             if (!StringUtils.isBlank(pinNumber)) {
                 try {
@@ -107,8 +107,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (!StringUtils.isBlank(phone)) {
                 try {
                     command.getParticipant().setPhoneNumber(phone);
-                    String userNumber = phone.replaceAll("-", "");
-                    command.getParticipant().setUserNumber(userNumber);
+ //                   String userNumber = phone.replaceAll("-", "");
+ //                   command.getParticipant().setUserNumber(userNumber);
                 } catch (Exception e) {
                     command.getParticipant().setPhoneNumber(null);
                 }
@@ -133,14 +133,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         studyParticipantAssignment.setStudyStartDate(null);
                     }
                 }
-//                String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
-//                if (!StringUtils.isBlank(userNumber)) {
-//                    try {
-//                        command.getParticipant().setUserNumber(Integer.parseInt(userNumber));
-//                    } catch (Exception e) {
-//                        command.getParticipant().setUserNumber(null);
-//                    }
-//                }
+                String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
+                if (!StringUtils.isBlank(userNumber)) {
+                    try {
+                        command.getParticipant().setUserNumber(userNumber);
+                    } catch (Exception e) {
+                        command.getParticipant().setUserNumber(null);
+                    }
+                }
                 String pinNumber = request.getParameter("participantPinNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(pinNumber)) {
                     try {
@@ -161,8 +161,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 if (!StringUtils.isBlank(phone)) {
                     try {
                         command.getParticipant().setPhoneNumber(phone);
-                        String userNumber = phone.replaceAll("-", "");
-                        command.getParticipant().setUserNumber(userNumber);
+ //                       String userNumber = phone.replaceAll("-", "");
+ //                       command.getParticipant().setUserNumber(userNumber);
                     } catch (Exception e) {
                         command.getParticipant().setPhoneNumber(null);
                     }
@@ -198,6 +198,16 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if (command.getParticipant().getPhoneNumber() != null) {
             String phoneNumber = command.getParticipant().getPhoneNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validatePhoneNumber(phoneNumber, command.getParticipant().getId());
+            if (validUserNumber) {
+                //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
+                errors.reject("participant.unique_userNumber");
+            }
+        }
+
+         //checking for unique phone number
+        if (command.getParticipant().getUserNumber() != null) {
+            String userNumber = command.getParticipant().getPhoneNumber().toString();
+            boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
                 errors.reject("participant.unique_userNumber");

@@ -1,13 +1,13 @@
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <tags:dwrJavascriptLink
         objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
@@ -32,6 +32,7 @@ var isIdentifierError = false;
 var isPasswordError = false;
 var isConfirmPassError = false;
 var isEmail = false;
+var isPhoneNumberError = false;
 
 // validation check for username
 function checkParticipantUserName() {
@@ -71,7 +72,7 @@ function userReturnValue(returnValue) {
 }
 
 function checkError() {
-    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError) {
+    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError) {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
     }
@@ -164,24 +165,67 @@ function checkParticipantEmailAddress(siteId) {
     }
 }
 
-var pattern = /^\d+$/;
-// validation check for participant user number (IVRS)
-function checkParticipantUserNumber(siteId) {
-  /*  var participantId = "${param['id']}";
+
+var phoneNumberPattern =  /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
+function checkParticipantPhoneNumber(siteId){
+    var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var userNumber = $('participant.phoneNumber_' + siteId).value;
+    var phoneNumber = $('participant.phoneNumber_'+ siteId).value;
+    if (phoneNumber != "") {
+        if (!phoneNumberPattern.test(phoneNumber)) {
+            jQuery('#PhonePatternError_' + siteId).show();
+            jQuery('#phoneNumberError_' + siteId).hide();
+            isPhoneNumberError = true;
+        }
+        else {
+            uniqueParticipantUserNumber.validatePhoneNumber(phoneNumber, participantId, {callback:
+                                                                                       function(returnValue) {
+                                                                                           showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
+                                                                                           jQuery('#PhonePatternError_' + siteId).hide();
+                                                                                           if (returnValue) {
+                                                                                               isPhoneNumberError = true;
+                                                                                           }
+                                                                                           else {
+                                                                                                isPhoneNumberError = false;
+                                                                                                var userNumber = $('participant.userNumber_' + siteId).value;
+                                                                                                if (userNumber==null || userNumber=="") {
+                                                                                                    var re = /[-]/g;
+                                                                                                    $('participant.userNumber_' + siteId).value = phoneNumber.replace(re,"");
+                                                                                                }
+                                                                                           }
+                                                                                           checkError();
+                                                                                       }});
+        }
+    }
+    else {
+        jQuery('#phoneNumberError_' + siteId).hide();
+        jQuery('#PhonePatternError_' + siteId).hide();
+        isPhoneNumberError = false;
+        checkError();
+    }
+    checkError();
+}
+
+var userNumberPattern = /^[0-9]{10}$/;;
+// validation check for participant user number (IVRS)
+function checkParticipantUserNumber(siteId) {
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    var userNumber = $('participant.userNumber_' + siteId).value;
     if (userNumber != "") {
-        if (!pattern.test(userNumber)) {
-    //        jQuery('#UserPatternError_' + siteId).show();
-    //        jQuery('#userNumberError_' + siteId).hide();
+        if (!userNumberPattern.test(userNumber)) {
+            jQuery('#UserPatternError_' + siteId).show();
+            jQuery('#userNumberError_' + siteId).hide();
             isUserIdError = true;
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
                                                                                        function(returnValue) {
-                                                                                   //        showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
+                                                                                           showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
                                                                                            jQuery('#UserPatternError_' + siteId).hide();
                                                                                            if (returnValue) {
                                                                                                isUserIdError = true;
@@ -199,8 +243,9 @@ function checkParticipantUserNumber(siteId) {
         isUserIdError = false;
         checkError();
     }
-    checkError();*/
+    checkError();
 }
+var pinPattern =  /^[0-9]{4}$/;
 // validation check for participant pin number (IVRS)
 function checkParticipantPinNumber(siteId) {
     var participantId = "${param['id']}";
@@ -208,13 +253,15 @@ function checkParticipantPinNumber(siteId) {
         participantId = "${patientId}";
     }
     var pinNumber = $('participant.pinNumber_' + siteId).value;
+ //   jQuery('#PinPatternError_' + siteId).hide();
     if (pinNumber != "") {
-        if (!pattern.test(pinNumber)) {
+        if (!pinPattern.test(pinNumber)) {
             jQuery('#PinPatternError_' + siteId).show();
             isPinError = true;
         }
         else {
             isPinError = false;
+            jQuery('#PinPatternError_' + siteId).hide();
         }
     }
     else {
@@ -471,7 +518,7 @@ function addEmailRemoveIVRSClassName(id) {
 
  //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
     $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
- //   $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
@@ -481,7 +528,7 @@ function addEmailRemoveIVRSClassName(id) {
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
 
     if (participantId == "") {
-    //    $('participant.userNumber_' + id).value = "";
+        $('participant.userNumber_' + id).value = "";
         $('participant.phoneNumber_' + id).value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
@@ -499,7 +546,7 @@ function addIVRSRemoveEmailClassName(id) {
     if($('participant.emailAddress_' + id) != null){
         $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
     }
- //   $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
     $('call_hour_' + id).addClassName("validate-NOTEMPTY");
@@ -520,7 +567,7 @@ function removeEmailClassName(id) {
     }
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
-//    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
@@ -530,7 +577,7 @@ function removeEmailClassName(id) {
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
     if (participantId == "") {
         $('participant.emailAddress_' + id).value = "";
- //       $('participant.userNumber_' + id).value = "";
+        $('participant.userNumber_' + id).value = "";
         $('participant.phoneNumber_' + id).value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
@@ -600,6 +647,7 @@ function showOrHideEmail(value1, value2, id) {
                                            //       alert(jQuery('#participant.phoneNumber_' + id + '-msg') + abc);
         jQuery('#home_paper_lang_'+ id + '-msg').hide();
         jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantUserNumber_' + id + '-msg').hide();
         jQuery('#participantPinNumber_' + id + '-msg').hide();
         jQuery('#call_hour_' + id + '-msg').hide();
         jQuery('#call_minute_' + id + '-msg').hide();
@@ -610,7 +658,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#div_contact_ivrs').hide();
 
         jQuery('#PinPatternError_' + id).hide();
-   //     jQuery('#userNumberError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
         jQuery('#paper_home_header_' + id).hide();
         jQuery('#home_paper_' + id).hide();
         jQuery('#div_contact').hide();
@@ -632,7 +680,7 @@ function showOrHideEmail(value1, value2, id) {
     } else {
         jQuery('#web_' + id).show();
         jQuery('#emailError_' + id).hide();
-   //     jQuery('#userNumberError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
         jQuery("#home_web_lang_" + id).val('');
@@ -642,6 +690,7 @@ function showOrHideEmail(value1, value2, id) {
 
         jQuery('#home_web_lang_'+ id + '-msg').hide();
         jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantUserNumber_' + id + '-msg').hide();
         jQuery('#participantPinNumber_' + id + '-msg').hide();
         jQuery('#call_hour_' + id + '-msg').hide();
         jQuery('#call_minute_' + id + '-msg').hide();
@@ -654,8 +703,8 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailInput_' + id).hide();
         jQuery('#webLang_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-   //     jQuery('#userNumberError_' + id).hide();
-   //     jQuery('#UserPatternError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
+        jQuery('#UserPatternError_' + id).hide();
         jQuery('#PinPatternError_' + id).hide();
         jQuery('#div_contact').hide();
         jQuery('#div_contact_ivrs').hide();
@@ -708,6 +757,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#home_paper_lang_'+ id + '-msg').hide();
         jQuery('#home_web_lang_'+ id + '-msg').hide();
         jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantUserNumber_' + id + '-msg').hide();
         jQuery('#participantPinNumber_' + id + '-msg').hide();
         jQuery('#call_hour_' + id + '-msg').hide();
         jQuery('#call_minute_' + id + '-msg').hide();
@@ -724,7 +774,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
         jQuery('#emailError_' + id).hide();
-    //    jQuery('#userNumberError_' + id).hide();
+        jQuery('#userNumberError_' + id).hide();
     }
     isUserIdError = false;
     isPinError = false;
