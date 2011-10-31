@@ -257,12 +257,20 @@
         <input type="text" name="participant.phoneNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.phoneNumber}"
                id="participant.phoneNumber_${studysite.id}"
-               onblur="checkParticipantUserNumber(${studysite.id});" title="Phone number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+               onblur="checkParticipantPhoneNumber(${studysite.id});" title="Phone number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
         <span class="phone-number">###-###-####</span>
         <tags:errors path="participant.phoneNumber"/>
+         <ul id="phoneNumberError_${studysite.id}" style="display:none;" class="errors">
+            <li><spring:message code='participant.unique_phoneNumber'
+                                text='participant.unique_phoneNumber'/></li>
+        </ul>
+        <ul id="PhonePatternError_${studysite.id}" style="display:none;" class="errors">
+            <li><spring:message code='participant.phonenumber_pattern'
+                                text='participant.phonenumber_pattern'/></li>
+        </ul>
     </td>
 </tr>
-<!--
+
 <tr id="c2_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
@@ -271,8 +279,8 @@
     <td>
         <input type="text" name="participantUserNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.userNumber}"
-               id="participant.userNumber_${studysite.id}"
-               onblur="checkParticipantUserNumber(${studysite.id});"/>
+               id="participant.userNumber_${studysite.id}" title="User Number"
+               onblur="checkParticipantUserNumber(${studysite.id});" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
         <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
             <li><spring:message code='participant.unique_userNumber'
                                 text='participant.unique_userNumber'/></li>
@@ -282,7 +290,7 @@
                                 text='participant.usernumber_pattern'/></li>
         </ul>
     </td>
-</tr>   -->
+</tr>
 <tr id="c3_${studysite.id}" style="${showTime eq true ? "":"display:none"}" >
     <td align="right" class="data" valign="top" width="30%">
         <span class="required-indicator">*&nbsp;&nbsp; </span>
