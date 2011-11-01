@@ -254,7 +254,7 @@
         <b>Phone</b>&nbsp;
     </td>
     <td valign="top" width="50%">
-        <input type="text" name="participant.phoneNumber_${studysite.id}"
+        <input type="text" name="participantPhoneNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.phoneNumber}"
                id="participant.phoneNumber_${studysite.id}"
                onblur="checkParticipantPhoneNumber(${studysite.id});" title="Phone number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>

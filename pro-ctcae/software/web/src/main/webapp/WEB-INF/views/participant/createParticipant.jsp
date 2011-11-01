@@ -431,9 +431,11 @@ function showForms(obj, id) {
         $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
         $('participantStudyIdentifier_' + sites[i].value).value = "";
         jQuery('#uniqueError_' + sites[i].value).hide();
-  //      jQuery('#UserPatternError_' + sites[i].value).hide();
+        jQuery('#UserPatternError_' + sites[i].value).hide();
         jQuery('#PinPatternError_' + sites[i].value).hide();
-   //     jQuery('#userNumberError_' + sites[i].value).hide();
+        jQuery('#userNumberError_' + sites[i].value).hide();
+        jQuery('#PhonePatternError_' + sites[i].value).hide();
+        jQuery('#phoneNumberError_' + sites[i].value).hide();
         jQuery('#emailError_' + sites[i].value).hide();
         try {
             $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
@@ -631,22 +633,9 @@ function showOrHideLanguage(value1, value2, id) {
     }
 }
 function showOrHideEmail(value1, value2, id) {
-    if (value1 && value2 == "HOMEWEB") {
-        jQuery("#ivrs_lang_" + id).val('');
-        jQuery("#home_paper_lang_" + id).val('');
-        jQuery('#div_contact').show();
-
-        jQuery('#web_' + id).show();
-        jQuery('#email_' + id).attr('checked', true);
-        jQuery('#call_' + id).attr('checked', false);
-        jQuery('#emailInput_' + id).show();
-        jQuery('#webLang_' + id).show();
-        jQuery('#emailHeader_' + id).show();
-
-   //     jQuery('#UserPatternError_' + id).hide();
-                                           //       alert(jQuery('#participant.phoneNumber_' + id + '-msg') + abc);
+        jQuery('#home_web_lang_'+ id + '-msg').hide();
         jQuery('#home_paper_lang_'+ id + '-msg').hide();
-        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
+        jQuery('#participantPhoneNumber_' + id + '-msg').hide();
         jQuery('#participantUserNumber_' + id + '-msg').hide();
         jQuery('#participantPinNumber_' + id + '-msg').hide();
         jQuery('#call_hour_' + id + '-msg').hide();
@@ -655,10 +644,24 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#call_timeZone_' + id + '-msg').hide();
         jQuery('#ivrs_lang_' + id + '-msg').hide();
 
-        jQuery('#div_contact_ivrs').hide();
-
+        jQuery('#UserPatternError_' + id).hide();
+        jQuery('#PhonePatternError_' + id).hide();
+        jQuery('#phoneNumberError_' + id).hide();
         jQuery('#PinPatternError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
+        jQuery('#emailError_' + id).hide();
+
+    if (value1 && value2 == "HOMEWEB") {
+        jQuery("#ivrs_lang_" + id).val('');
+        jQuery("#home_paper_lang_" + id).val('');
+        jQuery('#div_contact').show();
+        jQuery('#web_' + id).show();
+        jQuery('#email_' + id).attr('checked', true);
+        jQuery('#call_' + id).attr('checked', false);
+        jQuery('#emailInput_' + id).show();
+        jQuery('#webLang_' + id).show();
+        jQuery('#emailHeader_' + id).show();
+        jQuery('#div_contact_ivrs').hide();
         jQuery('#paper_home_header_' + id).hide();
         jQuery('#home_paper_' + id).hide();
         jQuery('#div_contact').hide();
@@ -674,38 +677,19 @@ function showOrHideEmail(value1, value2, id) {
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
-
         addEmailRemoveIVRSClassName(id);
-
     } else {
         jQuery('#web_' + id).show();
-        jQuery('#emailError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
     }
     if (value1 && value2 == "HOMEBOOKLET") {
         jQuery("#home_web_lang_" + id).val('');
         jQuery("#ivrs_lang_" + id).val('');
         jQuery('#paper_home_header_' + id).show();
         jQuery('#home_paper_' + id).show();
-
-        jQuery('#home_web_lang_'+ id + '-msg').hide();
-        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
-        jQuery('#participantUserNumber_' + id + '-msg').hide();
-        jQuery('#participantPinNumber_' + id + '-msg').hide();
-        jQuery('#call_hour_' + id + '-msg').hide();
-        jQuery('#call_minute_' + id + '-msg').hide();
-        jQuery('#call_ampm_' + id + '-msg').hide();
-        jQuery('#call_timeZone_' + id + '-msg').hide();
-        jQuery('#ivrs_lang_' + id + '-msg').hide();
-
         jQuery('#web_' + id).hide();
-        jQuery('#emailError_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#webLang_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
-        jQuery('#UserPatternError_' + id).hide();
-        jQuery('#PinPatternError_' + id).hide();
         jQuery('#div_contact').hide();
         jQuery('#div_contact_ivrs').hide();
         jQuery('#ivrs_' + id).hide();
@@ -737,34 +721,18 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#call_' + id).attr('checked', true);
         jQuery('#email_' + id).attr('checked', false);
 
-        jQuery('#home_web_lang_'+ id + '-msg').hide();
-        jQuery('#home_paper_lang_'+ id + '-msg').hide();
         jQuery('#web_' + id).hide();
         jQuery('#emailInput_' + id).hide();
         jQuery('#webLang_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-        jQuery('#emailError_' + id).hide();
         jQuery('#paper_home_header_' + id).hide();
         jQuery('#home_paper_' + id).hide();
 
         $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
-
         addIVRSRemoveEmailClassName(id);
-
     } else {
-        jQuery('#home_paper_lang_'+ id + '-msg').hide();
-        jQuery('#home_web_lang_'+ id + '-msg').hide();
-        jQuery('#participant.phoneNumber_' + id + '-msg').hide();
-        jQuery('#participantUserNumber_' + id + '-msg').hide();
-        jQuery('#participantPinNumber_' + id + '-msg').hide();
-        jQuery('#call_hour_' + id + '-msg').hide();
-        jQuery('#call_minute_' + id + '-msg').hide();
-        jQuery('#call_ampm_' + id + '-msg').hide();
-        jQuery('#call_timeZone_' + id + '-msg').hide();
-        jQuery('#ivrs_lang_' + id + '-msg').hide();
-
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();
@@ -773,12 +741,11 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c1_' + id).hide();
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
-        jQuery('#emailError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
     }
     isUserIdError = false;
     isPinError = false;
     isEmail = false;
+    isPhoneNumberError = false;
     checkError();
 }
 
