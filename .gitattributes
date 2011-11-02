@@ -2854,6 +2854,8 @@ pro-ctcae/software/web/src/main/webapp/images/blue/ftsecondlevelnav_hover_gt4.pn
 pro-ctcae/software/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/header-btns.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/header_bg.jpg -text
+pro-ctcae/software/web/src/main/webapp/images/blue/help_btn.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/home_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/html_bg.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/16px/Thumbs.db -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/16px/basicFormController.png -text
@@ -2897,6 +2899,7 @@ pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchClinicalStaffCont
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchParticipantController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchStudyController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/studyController_icon.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/logout_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/logout_tab.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/blue/logout_tab.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/mailbox.jpg -text

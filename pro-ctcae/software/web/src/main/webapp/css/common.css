@@ -436,92 +436,69 @@ button:focus {
 
 	}
 
+    .top-btns {
+	    position: absolute;
+	    top: 6px;
+	    right: 0px;
+	    font-size: 12px;
+	    text-shadow: 0 1px #fff;
+	    font-weight: bold;
+	    margin-right: 15px;
+	    z-index:2;
+    }
 
-#logout {
-    background: url(../images/blue/header-btns.png) no-repeat -84px -26px;
-    position: absolute;
-    height: 21px;
-    width: 81px;
-    top: 6px;
-    right: 0px;
-    padding-top: 5px;
-    padding-right: 12px;
-    background-repeat: no-repeat;
-    text-align: right;
-    margin-right: 15px;
-    color: #085EB3;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 12px;
-    text-shadow: 0 1px #fff;
-    
-}
+    #logout, #home, #help {
+	    height: 24px;
+	    width: auto;  
+	    line-height: 24px;
+	    text-align: right;
+	    color: #085EB3;
+	    text-decoration: none;
+	    float:left; 
+	    padding: 0 10px 0 30px;
+	    -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset;
+	    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset;
+	    box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset;
+        border: 1px solid #8dccff;
+    }
 
-#home {
-    background: url(../images/blue/header-btns.png) no-repeat 0 -26px ;
-    position: absolute;
-    height: 21px;
-    width:71px;
-    top: 6px;
-    right: 108px;
-    padding-top: 5px;
-    padding-right: 13px;
-    background-repeat: no-repeat;
-    text-align: right;
-    color: #085EB3;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 12px;
-    text-shadow: 0 1px #fff;
-}
+    #logout {
+	  background: url(../images/blue/logout_btn.png) no-repeat 0px -24px;  
+	  -moz-border-radius: 0 6px 6px 0;
+	  -webkit-border-radius: 0 6px 6px 0;
+	  border-radius: 0 6px 6px 0;   
+      border-left: 1px solid #e3f5ff; 
+    }
 
-a#logout:hover {
-    text-decoration: none;
-    background-position:-84px -52px;
-}
+    #home {
+	    background: url(../images/blue/home_btn.png) no-repeat 0 -24px ;  
+	    -moz-border-radius: 6px 0 0 6px;
+	    -webkit-border-radius: 6px 0 0 6px;
+	    border-radius: 6px 0 0 6px;   
+	    border-right: 1px solid #699ac4;
+    }
 
-a#home:hover {
-    background-position:0 -52px;
-}
-a#logout:active{
-    text-decoration: none;
-    background-position:-84px 0;
-}
+    #help {
+	    background: url(../images/blue/help_btn.png) no-repeat 0px -24px;  
+	    -moz-border-radius: 6px 0 0 6px;
+	    -webkit-border-radius: 6px 0 0 6px;
+	    border-radius: 6px 0 0 6px;   
+	    border-right: 1px solid #699ac4;
+    }
 
-a#home:active {
-    background-position:0 0;
-}
+    a#logout:hover, a#home:hover, a#help:hover {
+        background-position:0 -48px;
+    }
 
-#skipnav {
-    text-indent: -9999px;
-    position: absolute;
-}
+    a#logout:active, a#home:active, a#help:active{
+        background-position:0 0;
+    }
 
-#help {
-     background: url(../images/blue/header-btns.png) no-repeat 0 -104px ;
-    position: absolute;
-    height: 21px;
-    width:66px;
-    top: 6px;
-    right: 108px;
-    padding-top: 5px;
-    padding-right: 13px;
-    background-repeat: no-repeat;
-    text-align: right;
-    color: #085EB3;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 12px;
-    text-shadow: 0 1px #fff;
-}
+    #skipnav {
+        text-indent: -9999px;
+        position: absolute;
+    }
 
-a#help:hover {
-    background-position:0 -130px;
-}
-
-a#help:active{
-    background-position:0 -78px;
-}
 
 /***
 The following are the rules for 1st level navigation tabs:

@@ -39,10 +39,12 @@ body {
         	</tr>
         </table>
         </div>
-        <a href="/proctcae" id="home"><spring:message code='label.home'/></a>
-        <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
-            <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>"><spring:message code='label.logout'/></a>
-        </proctcae:urlAuthorize>
+        <div class="top-btns">
+        	<a href="/proctcae" id="home"><spring:message code='label.home'/></a>
+	        <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
+	            <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>"><spring:message code='label.logout'/></a>
+	        </proctcae:urlAuthorize>
+	    </div>
     </div>
     
     <tags:includePrototypeWindow/>
