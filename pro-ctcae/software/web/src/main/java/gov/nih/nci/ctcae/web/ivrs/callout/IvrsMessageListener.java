@@ -38,6 +38,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 	public static final String ASTERISK_IP = "asterisk.ip";
 	public static final String ASTERISK_USERNAME = "asterisk.username";
 	public static final String ASTERISK_PASSWORD = "asterisk.password";
+	public static final String IVRS_CALLER_ID = "ivrs.callerid";
 	public static final int port = 5038;
 	
 	protected static final Log logger = LogFactory.getLog(IvrsMessageListener.class);
@@ -51,13 +52,13 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     static private DefaultAsteriskServer defaultAsteriskServer = null;
     
     public IvrsMessageListener(){
-    	
     }
     
     public void onMessage(Message message) {
     	String asteriskIp = properties.getProperty(ASTERISK_IP);
     	String asteriskUsername = properties.getProperty(ASTERISK_USERNAME);
     	String asteriskPassword = properties.getProperty(ASTERISK_PASSWORD);
+    	String callerId = properties.getProperty(IVRS_CALLER_ID) == null? "PRO-CTCAE" : properties.getProperty(IVRS_CALLER_ID);
     	
     	defaultAsteriskServer = new DefaultAsteriskServer(asteriskIp, IvrsMessageListener.port, asteriskUsername, asteriskPassword);
     	
@@ -78,7 +79,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 			OriginateAction originateAction = callAction.getOriginateAction();
 			originateAction.setAsync(false);
 			//CallerId is mandatory for VOIP
-			originateAction.setCallerId("ProCtcAE");
+			originateAction.setCallerId(callerId);
 
 			final AsteriskChannel channel = defaultAsteriskServer.originate(originateAction);
 			logger.debug("*****channel created-->> " + channel);
@@ -107,37 +108,37 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 				}
 			} else {
 				logger.error("The channel returned by the Server was null.");
-				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+				markScheduleAsFailed(ivrsSchedule);
 			}
 			logger.debug("*****CALL OVER*****" +  callAction.getOriginateAction().getChannel());
 		} catch (JMSException e) {
 			if(ivrsSchedule != null){
-				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+				markScheduleAsFailed(ivrsSchedule);
 			}
 			e.printStackTrace();
 			logger.error("JMSException occurred -->> "+ e  + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH JMSException");
 		}catch(ManagerCommunicationException e){
 			if(ivrsSchedule != null){
-				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+				markScheduleAsFailed(ivrsSchedule);
 			}
 			e.printStackTrace();
-			logger.error("ManagerCommunicationException occuerd -->> "+ e  + " --cause-->>" + e.getCause());
+			logger.error("ManagerCommunicationException occurred -->> "+ e  + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH ManagerCommunicationException");
 		}catch(NoSuchChannelException e){
 			if(ivrsSchedule != null){
-				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+				markScheduleAsFailed(ivrsSchedule);
 			}
 			e.printStackTrace();
-			logger.error("NoSuchChannelException occuerd -->> "+ e + " --cause-->>" + e.getCause());
+			logger.error("NoSuchChannelException occurred -->> "+ e + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH NoSuchChannelException for user-->" + callAction.getOriginateAction().getChannel());
 		}
 		catch (Exception e){
 			if(ivrsSchedule != null){
-				ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+				markScheduleAsFailed(ivrsSchedule);
 			}
 			e.printStackTrace();
-			logger.error("Exception occuerd -->> "+ e + " --cause-->>" + e.getCause());
+			logger.error("Exception occurred -->> "+ e + " --cause-->>" + e.getCause());
 			logger.error("*****CALL OVER*****WITH EXCEPTION");
 		} finally {
 			//update to COMPLETED for all the ivrsSchedules related to the spCrfSchedule.
@@ -152,6 +153,18 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 	}
 
     
+	/**
+	 * Mark schedule as failed and reset the callcount as the call never went through.
+	 *
+	 * @param ivrsSchedule the ivrs schedule
+	 */
+	private void markScheduleAsFailed(IvrsSchedule ivrsSchedule) {
+		ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
+		//increment the callCount by one as technical failures dont count
+		ivrsSchedule.setCallCount(ivrsSchedule.getCallCount() + 1);
+		
+	}
+
 	public IvrsScheduleRepository getIvrsScheduleRepository() {
 		return ivrsScheduleRepository;
 	}
