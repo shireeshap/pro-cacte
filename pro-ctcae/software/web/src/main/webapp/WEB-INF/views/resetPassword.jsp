@@ -29,19 +29,19 @@
         	<spring:message code="rp.passwordPolicy" var="pwdPolicy" />
             <chrome:box title="${rpTitle}" autopad="true">
                 <chrome:division title="${pwdPolicy}">
-                     <spring:message code="rp.minlength" />${passwordPolicy.passwordCreationPolicy.minPasswordLength}
-                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired}">
-                    <spring:message code="rp.uppercase" />
-                </c:if>  <br/>
-                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.lowerCaseAlphabetRequired}">
-                    <spring:message code="rp.lowercase" />
-                </c:if>  <br/>
-                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.nonAlphaNumericRequired}">
-                    <spring:message code="rp.alphanumeric" />
-                </c:if>  <br/>
-                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.baseTenDigitRequired}">
-                    <spring:message code="rp.tendigit" />
-                </c:if>
+                    <spring:message code="rp.minlength" />${passwordPolicy.passwordCreationPolicy.minPasswordLength}&nbsp;<spring:message code="rp.characters" />
+	                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired}">
+	                    <spring:message code="rp.uppercase" />
+	                </c:if>  <br/>
+	                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.lowerCaseAlphabetRequired}">
+	                    <spring:message code="rp.lowercase" />
+	                </c:if>  <br/>
+	                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.nonAlphaNumericRequired}">
+	                    <spring:message code="rp.alphanumeric" />
+	                </c:if>  <br/>
+	                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.baseTenDigitRequired}">
+	                    <spring:message code="rp.tendigit" />
+	                </c:if>
                 </chrome:division>
                 <tags:hasErrorsMessage hideErrorDetails="false"/>
                 <table width="100%" align="center">
