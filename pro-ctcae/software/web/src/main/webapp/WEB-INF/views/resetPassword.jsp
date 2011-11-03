@@ -30,6 +30,7 @@
             <chrome:box title="${rpTitle}" autopad="true">
                 <chrome:division title="${pwdPolicy}">
                     <spring:message code="rp.minlength" />${passwordPolicy.passwordCreationPolicy.minPasswordLength}&nbsp;<spring:message code="rp.characters" />
+                    <br/>
 	                <c:if test="${passwordPolicy.passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired}">
 	                    <spring:message code="rp.uppercase" />
 	                </c:if>  <br/>

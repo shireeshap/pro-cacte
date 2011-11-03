@@ -67,11 +67,12 @@ public class ResetPasswordController extends SimpleFormController {
         User cmdUser = command.getUser();
 
         User user = new User();
-        user.setUsername(cmdUser.getUsername().toLowerCase());
+        user.setUsername(command.getUsername().toLowerCase());
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
+        user.setUserRoles(cmdUser.getUserRoles());
 
-        if (!user.getUsername().equals(command.getUsername().toLowerCase())) {
+        if (!cmdUser.getUsername().equals(command.getUsername().toLowerCase())) {
         	Locale locale = LocaleContextHolder.getLocale();
         	String errorMsg = messageSource.getMessage("resetpwd.error.1", null, locale);
             e.reject("username", errorMsg);
