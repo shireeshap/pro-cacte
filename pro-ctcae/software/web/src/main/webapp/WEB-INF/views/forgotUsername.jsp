@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <spring:message code="submit" var="buttonsubmit"/>
+                        <spring:message code="retrieve.username" var="buttonsubmit"/>
                         <td>&nbsp;&nbsp;&nbsp;<tags:button type="submit" value="${buttonsubmit}" color="green"/></td>
                     </tr>
                 </table>
