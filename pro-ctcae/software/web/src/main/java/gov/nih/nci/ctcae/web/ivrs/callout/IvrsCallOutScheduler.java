@@ -61,8 +61,8 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	public static final String IVRS_TIMEOUT  = "ivrs.timeout";
 	public static final String IVRS_CHANNEL  = "ivrs.channel";
 	//int denoting number of hours after which timestamp, if not null, will be ignored. Thereby allowing calls to go out.
-	public static final String LIVE_ACCESS_RESET_PERIOD = "live.access.reset.period";
-	
+	public static final String LIVE_ACCESS_RESET_PERIOD = "ivrs.live.access.reset.period";
+	public static final String PHONE_NUMBER_PREFIX = "ivrs.phone.prefix";
 	public static final int SCHEDULER_FREQUENCY = 2;
 	
 	protected static final Log logger = LogFactory.getLog(IvrsCallOutScheduler.class);
@@ -291,13 +291,17 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 	/**
 	 * Builds the phone number. Wont work if number is a 11 digit number including the country code 1.
 	 * Basically returns only the digits from the string.
-	 * e.g: converts 908-887-0987 to 19088870987
+	 * e.g: converts 908-887-0987 to prefix + 9088870987
 	 *
 	 * @param participant the participant
 	 * @return the string
 	 */
 	private String buildPhoneNumber(Participant participant) {
-		return "1" + participant.getPhoneNumber().replaceAll( "[^\\d]", "" );
+		String phoneNumberPrefix = "1";
+		if(properties.getProperty(PHONE_NUMBER_PREFIX) != null){
+			phoneNumberPrefix = properties.getProperty(PHONE_NUMBER_PREFIX);
+		}
+		return phoneNumberPrefix + participant.getPhoneNumber().replaceAll( "[^\\d]", "" );
 	}
 	
 
