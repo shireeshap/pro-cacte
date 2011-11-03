@@ -82,8 +82,12 @@ public class ForgotPasswordController extends AbstractFormController {
         }
 
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        resetPasswordAndSendEmail(clinicalStaff, request);
-        mv.addObject("Message", "user.forgotpassword.clinicalstaff");
+        if(clinicalStaff !=null && clinicalStaff.getEmailAddress() != null){
+              resetPasswordAndSendEmail(clinicalStaff, request);
+              mv.addObject("Message", "user.forgotpassword.clinicalstaff");
+        }else{
+              mv.addObject("Message", "user.forgotpassword.participant");
+        }
         return mv;
     }
 
