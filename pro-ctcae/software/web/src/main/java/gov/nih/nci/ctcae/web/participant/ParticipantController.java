@@ -107,7 +107,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
             times.add(j);
         }
         List<Integer> minutes = new ArrayList();
-        for (int i = 0; i <= 60; i += 5) {
+        for (int i = 0; i <= 60; i += 15) {
             minutes.add(i);
         }
 
