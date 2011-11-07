@@ -21,7 +21,6 @@
           ====================================================================== -->
     <target name="publish-all" depends="buildlist, clean-all, clean-repo"
             description="compile, jar and publish all projects in the right order, publishes them into local repository">
-        <subant target="publish-local" buildpathref="build-path"/>
     	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
 
@@ -256,7 +255,9 @@
         <subant target="migrate" buildpath=".">
             <property name="db" value="test-db"/>
         </subant>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
+	
     <target name="recreate-test-db-oracle" description="drop and create test database and populate with data">
         <subant target="recreate-db-oracle" buildpath="core/ivy-build.xml">
             <property name="db" value="test-db-oracle"/>
