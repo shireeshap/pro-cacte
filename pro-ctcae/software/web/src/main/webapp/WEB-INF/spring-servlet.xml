@@ -648,6 +648,8 @@
 
     <bean name="pastDueSchedulesReminderEmailBean" class="gov.nih.nci.ctcae.web.batch.PastDueSchedulesReminderEmail">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="messageSource" ref="messageSource"/>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
 
     <bean id="pastDueSchedulesReminderEmailJob"
