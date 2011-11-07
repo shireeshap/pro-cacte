@@ -316,7 +316,9 @@
 
         <div id="ivrs_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
             <table><tr><td>
-            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"  title="Hour" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+            <c:set var="blackout"><tags:message code="callout.blackouttime"/></c:set>
+            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"  title="Hour" class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                    onblur="validateCalloutTime(${studysite.id},${blackout});">
                 <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
                     Hr
                 </option>
@@ -326,7 +328,8 @@
                     <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"  title="Minute" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"  title="Minute" class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                    onblur="validateCalloutTime(${studysite.id},${blackout});">
                 <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
                     Min
                 </option>
@@ -336,7 +339,8 @@
                     <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
                 </c:forEach>
             </select>&nbsp;
-            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"  title="AM PM" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"  title="AM PM" class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                    onblur="validateCalloutTime(${studysite.id},${blackout});">
                 <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                     am
                 </option>

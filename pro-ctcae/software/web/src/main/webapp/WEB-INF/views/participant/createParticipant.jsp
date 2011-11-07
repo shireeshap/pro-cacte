@@ -136,6 +136,26 @@ function checkPasswordMatch() {
     checkError();
 }
 
+function validateCalloutTime(siteId, message){
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    var callHour = $('call_hour_' + siteId).value;
+    var callMin = $('call_minute_' + siteId).value;
+    var callAmPm = $('call_ampm_' + siteId).value;
+
+    if(callHour==null || callHour=="" || callMin==null || callMin==""){
+        // no action
+    }else{
+       if((callAmPm=="pm" && callHour>8) || (callAmPm=="am" && callHour<5)){
+            // error
+           alert(""+ message);
+           $('call_hour_' + siteId).value = "";
+           $('call_minute_' + siteId).value = "";
+       }
+    }
+}
 
 //validation check for participant email address
 function checkParticipantEmailAddress(siteId) {
