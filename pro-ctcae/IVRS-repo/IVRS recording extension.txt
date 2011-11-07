@@ -1,0 +1,850 @@
+exten => 1,1,Answer()
+exten => 1,n,Record(presentOption1:gsm) 
+exten => 1,n,hangup
+
+exten => 2,1,Answer()
+exten => 2,n,Record(presentOption2:gsm)
+exten => 2,n,hangup
+
+exten => 3,1,Answer()
+exten => 3,n,Record(frequencyOption1:gsm) 
+exten => 3,n,hangup
+
+exten => 4,1,Answer()
+exten => 4,n,Record(frequencyOption2:gsm) 
+exten => 4,n,hangup
+
+exten => 5,1,Answer()
+exten => 5,n,Record(frequencyOption3:gsm) 
+exten => 5,n,hangup
+
+exten => 6,1,Answer()
+exten => 6,n,Record(frequencyOption4:gsm) 
+exten => 6,n,hangup
+
+exten => 7,1,Answer()
+exten => 7,n,Record(frequencyOption5:gsm)
+exten => 7,n,hangup
+
+exten => 8,1,Answer()
+exten => 8,n,Record(severityOption1:gsm)
+exten => 8,n,hangup
+
+exten => 9,1,Answer()
+exten => 9,n,Record(severityOption2:gsm)
+exten => 9,n,hangup
+
+exten => 10,1,Answer()
+exten => 10,n,Record(severityOption3:gsm)
+exten => 10,n,hangup
+
+exten => 11,1,Answer()
+exten => 11,n,Record(severityOption4:gsm) 
+exten => 11,n,hangup
+
+exten => 12,1,Answer()
+exten => 12,n,Record(severityOption5:gsm)
+exten => 12,n,hangup
+
+exten => 13,1,Answer()
+exten => 13,n,Record(interferenceOption1:gsm)
+exten => 13,n,hangup
+
+exten => 14,1,Answer()
+exten => 14,n,Record(interferenceOption2:gsm) 
+exten => 14,n,hangup
+
+exten => 15,1,Answer()
+exten => 15,n,Record(interferenceOption3:gsm) 
+exten => 15,n,hangup
+
+exten => 16,1,Answer()
+exten => 16,n,Record(interferenceOption4:gsm)
+exten => 16,n,hangup
+
+exten => 17,1,Answer()
+exten => 17,n,Record(interferenceOption5:gsm) 
+exten => 17,n,hangup
+
+exten => 18,1,Answer()
+exten => 18,n,Record(amountOption1:gsm) 
+exten => 18,n,hangup
+
+exten => 19,1,Answer()
+exten => 19,n,Record(amountOption2:gsm)
+exten => 19,n,hangup
+
+exten => 20,1,Answer()
+exten => 20,n,Record(amountOption3:gsm)
+exten => 20,n,hangup
+
+exten => 21,1,Answer()
+exten => 21,n,Record(amountOption4:gsm)
+exten => 21,n,hangup
+
+exten => 22,1,Answer()
+exten => 22,n,Record(amountOption5:gsm) 
+exten => 22,n,hangup
+
+exten => 23,1,Answer()
+exten => 23,n,Record(confirmOrChangeThisAnswerYN:gsm) 
+exten => 23,n,hangup
+
+exten => 24,1,Answer()
+exten => 24,n,Record(welcome:gsm) 
+exten => 24,n,hangup
+
+exten => 25,1,Answer()
+exten => 25,n,Record(aboutToFillForm:gsm)
+exten => 25,n,hangup
+
+exten => 26,n,Answer()
+exten => 26,n,Record(26:gsm)
+exten => 26,n,hangup
+
+exten => 27,1,Answer()
+exten => 27,n,Record(noMorePreviousQuestionsExist:gsm)
+exten => 27,n,hangup
+
+exten => 28,1,Answer()
+exten => 28,n,Record(instructions:gsm)
+exten => 28,n,hangup
+
+exten => 29,1,Answer()
+exten => 29,n,Record(presentOptions:gsm)
+exten => 29,n,hangup
+
+exten => 30,1,Answer()
+exten => 30,n,Record(frequencyOptions:gsm)
+exten => 30,n,hangup
+
+exten => 31,1,Answer()
+exten => 31,n,Record(severityOptions:gsm)
+exten => 31,n,hangup
+
+exten => 32,1,Answer()
+exten => 32,n,Record(interferenceOptions:gsm)
+exten => 32,n,hangup
+
+exten => 33,1,Answer()
+exten => 33,n,Record(amountOptions:gsm)
+exten => 33,n,hangup
+
+exten => 34,1,Answer()
+exten => 34,n,Record(recordingInstructions:gsm)
+exten => 34,n,hangup
+
+exten => 35,1,Answer()
+exten => 35,n,Record(recordAdditionalSymptomInstructions:gsm)
+exten => 35,n,hangup
+
+exten => 36,1,Answer()
+exten => 36,n,Record(playInstructionOption:gsm)
+exten => 36,n,hangup
+
+exten => 37,1,Answer()
+exten => 37,n,Record(calloutMessage:gsm)
+exten => 37,n,hangup
+
+exten => 38,1,Swift(This text is going to get spoken by the Swift engine to the caller|1000|1) 
+exten => 38,n,Swift(my name is gaurav gupta. I work for a company called semanticbits LLC. do you see the flashing lights in front of your eyes.) 
+exten => 38,n,hangup
+
+exten => 39,1,Answer()
+exten => 39,n,Record(newSurveyMessage:gsm)
+exten => 39,n,hangup
+
+exten => 40,1,Answer()
+exten => 40,n,Record(inProgressSurveyMessage:gsm)
+exten => 40,n,hangup
+
+exten => 41,1,Answer()
+exten => 41,n,Record(mandatoryInstructions:gsm)
+exten => 41,n,hangup
+
+exten => 42,1,Answer()
+exten => 42,n,Record(10minsClip:gsm)
+exten => 42,n,hangup
+
+exten => 43,1,Answer()
+exten => 43,n,Record(20minsClip:gsm)
+exten => 43,n,hangup
+
+exten => 44,1,Answer()
+exten => 44,n,Record(30minsClip:gsm)
+exten => 44,n,hangup
+
+exten => 45,1,Answer()
+exten => 45,n,Record(halfWayDoneMessage:gsm)
+exten => 45,n,hangup
+
+exten => 46,n,Answer()
+exten => 46,n,Record(30minsClip:wav)
+exten => 46,n,hangup
+
+exten => 47,1,Answer()
+exten => 47,n,Record(monthlyRecallPeriod:gsm)
+exten => 47,n,hangup
+
+exten => 48,1,Answer()
+exten => 48,n,Record(calloutMessage:gsm)
+exten => 48,n,hangup
+
+exten => 49,1,Answer()
+exten => 49,n,Record(incorrectIdOrPin:gsm)
+exten => 49,n,hangup
+
+exten => 50,1,Answer()
+exten => 50,n,Record(contactAdmin:gsm)
+exten => 50,n,hangup
+
+exten => 51,1,Answer()
+exten => 51,n,Record(lastTreatmentRecallPeriod:gsm)
+exten => 51,n,hangup
+
+exten => 52,1,Answer()
+exten => 52,n,Record(languageOption:gsm)
+exten => 52,n,hangup
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+exten => 62,1,Answer()
+exten => 62,n,Record(question8:gsm)
+exten => 62,n,hangup
+
+exten => 63,1,Answer()
+exten => 63,n,Record(question9:gsm)
+exten => 63,n,hangup
+
+exten => 64,1,Answer()
+exten => 64,n,Record(question10:gsm)
+exten => 64,n,hangup
+
+exten => 65,1,Answer()
+exten => 65,n,Record(question11:gsm)
+exten => 65,n,hangup
+
+exten => 66,1,Answer()
+exten => 66,n,Record(question12:gsm)
+exten => 66,n,hangup
+
+exten => 67,1,Answer()
+exten => 67,n,Record(question13:gsm)
+exten => 67,n,hangup
+
+exten => 68,1,Answer()
+exten => 68,n,Record(question23:gsm)
+exten => 68,n,hangup
+
+exten => 69,1,Answer()
+exten => 69,n,Record(question26:gsm)
+exten => 69,n,hangup
+
+exten => 70,1,Answer()
+exten => 70,n,Record(question27:gsm)
+exten => 70,n,hangup
+
+exten => 71,1,Answer()
+exten => 71,n,Record(question34:gsm)
+exten => 71,n,hangup
+
+exten => 72,1,Answer()
+exten => 72,n,Record(question37:gsm)
+exten => 72,n,hangup
+
+exten => 73,1,Answer()
+exten => 73,n,Record(question38:gsm)
+exten => 73,n,hangup
+
+exten => 74,1,Answer()
+exten => 74,n,Record(question57:gsm)
+exten => 74,n,hangup
+
+exten => 75,1,Answer()
+exten => 75,n,Record(question58:gsm)
+exten => 75,n,hangup
+
+exten => 76,1,Answer()
+exten => 76,n,Record(question61:gsm)
+exten => 76,n,hangup
+
+exten => 77,1,Answer()
+exten => 77,n,Record(question68:gsm)
+exten => 77,n,hangup
+
+exten => 78,1,Answer()
+exten => 78,n,Record(question69:gsm)
+exten => 78,n,hangup
+
+exten => 79,1,Answer()
+exten => 79,n,Record(question70:gsm)
+exten => 79,n,hangup
+
+exten => 80,1,Answer()
+exten => 80,n,Record(question71:gsm)
+exten => 80,n,hangup
+
+exten => 81,1,Answer()
+exten => 81,n,Record(question74:gsm)
+exten => 81,n,hangup
+
+exten => 82,1,Answer()
+exten => 82,n,Record(question75:gsm)
+exten => 82,n,hangup
+
+exten => 83,1,Answer()
+exten => 83,n,Record(question77:gsm)
+exten => 83,n,hangup
+
+exten => 84,1,Answer()
+exten => 84,n,Record(question78:gsm)
+exten => 84,n,hangup
+
+exten => 85,1,Answer()
+exten => 85,n,Record(question79:gsm)
+exten => 85,n,hangup
+
+exten => 86,1,Answer()
+exten => 86,n,Record(question88:gsm)
+exten => 86,n,hangup
+
+exten => 87,1,Answer()
+exten => 87,n,Record(question89:gsm)
+exten => 87,n,hangup
+
+exten => 88,1,Answer()
+exten => 88,n,Record(question92:gsm)
+exten => 88,n,hangup
+
+exten => 89,1,Answer()
+exten => 89,n,Record(question93:gsm)
+exten => 89,n,hangup
+
+exten => 90,1,Answer()
+exten => 90,n,Record(question96:gsm)
+exten => 90,n,hangup
+
+exten => 91,1,Answer()
+exten => 91,n,Record(question97:gsm)
+exten => 91,n,hangup
+
+exten => 92,1,Answer()
+exten => 92,n,Record(question98:gsm)
+exten => 92,n,hangup
+
+exten => 93,1,Answer()
+exten => 93,n,Record(question101:gsm)
+exten => 93,n,hangup
+
+exten => 94,1,Answer()
+exten => 94,n,Record(question102:gsm)
+exten => 94,n,hangup
+
+exten => 95,1,Answer()
+exten => 95,n,Record(question119:gsm)
+exten => 95,n,hangup
+
+exten => 96,1,Answer()
+exten => 96,n,Record(question120:gsm)
+exten => 96,n,hangup
+
+exten => 97,1,Answer()
+exten => 97,n,Record(question124:gsm)
+exten => 97,n,hangup
+
+exten => 98,1,Answer()
+exten => 98,n,Record(question125:gsm)
+exten => 98,n,hangup
+
+exten => 99,1,Answer()
+exten => 99,n,Record(question126:gsm)
+exten => 99,n,hangup
+
+exten => 100,1,Answer()
+exten => 100,n,Record(question1:gsm)
+exten => 100,n,hangup
+
+exten => 101,1,Answer()
+exten => 101,n,Record(question2:gsm)
+exten => 101,n,hangup
+
+exten => 102,1,Answer()
+exten => 102,n,Record(question3:gsm)
+exten => 102,n,hangup
+
+exten => 103,1,Answer()
+exten => 103,n,Record(question4:gsm)
+exten => 103,n,hangup
+
+exten => 104,1,Answer()
+exten => 104,n,Record(question5:gsm)
+exten => 104,n,hangup
+
+exten => 105,1,Answer()
+exten => 105,n,Record(question6:gsm)
+exten => 105,n,hangup
+
+exten => 106,1,Answer()
+exten => 106,n,Record(question7:gsm)
+exten => 106,n,hangup
+
+exten => 107,1,Answer()
+exten => 107,n,Record(question14:gsm)
+exten => 107,n,hangup
+
+exten => 108,1,Answer()
+exten => 108,n,Record(question15:gsm)
+exten => 108,n,hangup
+
+exten => 109,1,Answer()
+exten => 109,n,Record(question16:gsm)
+exten => 109,n,hangup
+
+exten => 110,1,Answer()
+exten => 110,n,Record(question17:gsm)
+exten => 110,n,hangup
+
+exten => 111,1,Answer()
+exten => 111,n,Record(question18:gsm)
+exten => 111,n,hangup
+
+exten => 112,1,Answer()
+exten => 112,n,Record(question19:gsm)
+exten => 112,n,hangup
+
+exten => 113,1,Answer()
+exten => 113,n,Record(question20:gsm)
+exten => 113,n,hangup
+
+exten => 114,1,Answer()
+exten => 114,n,Record(question21:gsm)
+exten => 114,n,hangup
+
+exten => 115,1,Answer()
+exten => 115,n,Record(question22:gsm)
+exten => 115,n,hangup
+
+exten => 116,1,Answer()
+exten => 116,n,Record(question24:gsm)
+exten => 116,n,hangup
+
+exten => 117,1,Answer()
+exten => 117,n,Record(question25:gsm)
+exten => 117,n,hangup
+
+exten => 118,1,Answer()
+exten => 118,n,Record(question28:gsm)
+exten => 118,n,hangup
+
+exten => 119,1,Answer()
+exten => 119,n,Record(question29:gsm)
+exten => 119,n,hangup
+
+exten => 120,1,Answer()
+exten => 120,n,Record(question30:gsm)
+exten => 120,n,hangup
+
+exten => 121,1,Answer()
+exten => 121,n,Record(question31:gsm)
+exten => 121,n,hangup
+
+exten => 122,1,Answer()
+exten => 122,n,Record(question32:gsm)
+exten => 122,n,hangup
+
+exten => 123,1,Answer()
+exten => 123,n,Record(question33:gsm)
+exten => 123,n,hangup
+
+exten => 124,1,Answer()
+exten => 124,n,Record(question35:gsm)
+exten => 124,n,hangup
+
+exten => 125,1,Answer()
+exten => 125,n,Record(question36:gsm)
+exten => 125,n,hangup
+
+exten => 126,1,Answer()
+exten => 126,n,Record(question39:gsm)
+exten => 126,n,hangup
+
+exten => 127,1,Answer()
+exten => 127,n,Record(question40:gsm)
+exten => 127,n,hangup
+
+exten => 128,1,Answer()
+exten => 128,n,Record(question41:gsm)
+exten => 128,n,hangup
+
+exten => 129,1,Answer()
+exten => 129,n,Record(question42:gsm)
+exten => 129,n,hangup
+
+exten => 130,1,Answer()
+exten => 130,n,Record(question43:gsm)
+exten => 130,n,hangup
+
+exten => 131,1,Answer()
+exten => 131,n,Record(question44:gsm)
+exten => 131,n,hangup
+
+exten => 132,1,Answer()
+exten => 132,n,Record(question45:gsm)
+exten => 132,n,hangup
+
+exten => 133,1,Answer()
+exten => 133,n,Record(question46:gsm)
+exten => 133,n,hangup
+
+exten => 134,1,Answer()
+exten => 134,n,Record(question47:gsm)
+exten => 134,n,hangup
+
+exten => 135,1,Answer()
+exten => 135,n,Record(question48:gsm)
+exten => 135,n,hangup
+
+exten => 136,1,Answer()
+exten => 136,n,Record(question49:gsm)
+exten => 136,n,hangup
+
+exten => 137,1,Answer()
+exten => 137,n,Record(question50:gsm)
+exten => 137,n,hangup
+
+exten => 138,1,Answer()
+exten => 138,n,Record(question51:gsm)
+exten => 138,n,hangup
+
+exten => 139,1,Answer()
+exten => 139,n,Record(question52:gsm)
+exten => 139,n,hangup
+
+exten => 140,1,Answer()
+exten => 140,n,Record(question53:gsm)
+exten => 140,n,hangup
+
+exten => 141,1,Answer()
+exten => 141,n,Record(question54:gsm)
+exten => 141,n,hangup
+
+exten => 142,1,Answer()
+exten => 142,n,Record(question55:gsm)
+exten => 142,n,hangup
+
+exten => 143,1,Answer()
+exten => 143,n,Record(question56:gsm)
+exten => 143,n,hangup
+
+exten => 144,1,Answer()
+exten => 144,n,Record(question59:gsm)
+exten => 144,n,hangup
+
+exten => 145,1,Answer()
+exten => 145,n,Record(question60:gsm)
+exten => 145,n,hangup
+
+exten => 146,1,Answer()
+exten => 146,n,Record(question62:gsm)
+exten => 146,n,hangup
+
+exten => 147,1,Answer()
+exten => 147,n,Record(question63:gsm)
+exten => 147,n,hangup
+
+exten => 148,1,Answer()
+exten => 148,n,Record(question64:gsm)
+exten => 148,n,hangup
+
+exten => 149,1,Answer()
+exten => 149,n,Record(question65:gsm)
+exten => 149,n,hangup
+
+exten => 150,1,Answer()
+exten => 150,n,Record(question66:gsm)
+exten => 150,n,hangup
+
+exten => 151,1,Answer()
+exten => 151,n,Record(question67:gsm)
+exten => 151,n,hangup
+
+exten => 152,1,Answer()
+exten => 152,n,Record(question72:gsm)
+exten => 152,n,hangup
+
+exten => 153,1,Answer()
+exten => 153,n,Record(question73:gsm)
+exten => 153,n,hangup
+
+exten => 154,1,Answer()
+exten => 154,n,Record(question76:gsm)
+exten => 154,n,hangup
+
+exten => 155,1,Answer()
+exten => 155,n,Record(question80:gsm)
+exten => 155,n,hangup
+
+exten => 156,1,Answer()
+exten => 156,n,Record(question81:gsm)
+exten => 156,n,hangup
+
+exten => 157,1,Answer()
+exten => 157,n,Record(question82:gsm)
+exten => 157,n,hangup
+
+exten => 158,1,Answer()
+exten => 158,n,Record(question83:gsm)
+exten => 158,n,hangup
+
+exten => 159,1,Answer()
+exten => 159,n,Record(question84:gsm)
+exten => 159,n,hangup
+
+exten => 160,1,Answer()
+exten => 160,n,Record(question85:gsm)
+exten => 160,n,hangup
+
+exten => 161,1,Answer()
+exten => 161,n,Record(question86:gsm)
+exten => 161,n,hangup
+
+exten => 162,1,Answer()
+exten => 162,n,Record(question87:gsm)
+exten => 162,n,hangup
+
+exten => 163,1,Answer()
+exten => 163,n,Record(question90:gsm)
+exten => 163,n,hangup
+
+exten => 164,1,Answer()
+exten => 164,n,Record(question91:gsm)
+exten => 164,n,hangup
+
+exten => 165,1,Answer()
+exten => 165,n,Record(question94:gsm)
+exten => 165,n,hangup
+
+exten => 166,1,Answer()
+exten => 166,n,Record(question95:gsm)
+exten => 166,n,hangup
+
+exten => 167,1,Answer()
+exten => 167,n,Record(question99:gsm)
+exten => 167,n,hangup
+
+exten => 168,1,Answer()
+exten => 168,n,Record(question100:gsm)
+exten => 168,n,hangup
+
+exten => 169,1,Answer()
+exten => 169,n,Record(question103:gsm)
+exten => 169,n,hangup
+
+exten => 170,1,Answer()
+exten => 170,n,Record(question104:gsm)
+exten => 170,n,hangup
+
+exten => 171,1,Answer()
+exten => 171,n,Record(question105:gsm)
+exten => 171,n,hangup
+
+exten => 172,1,Answer()
+exten => 172,n,Record(question106:gsm)
+exten => 172,n,hangup
+
+exten => 173,1,Answer()
+exten => 173,n,Record(question107:gsm)
+exten => 173,n,hangup
+
+exten => 174,1,Answer()
+exten => 174,n,Record(question108:gsm)
+exten => 174,n,hangup
+
+exten => 175,1,Answer()
+exten => 175,n,Record(question109:gsm)
+exten => 175,n,hangup
+
+exten => 176,1,Answer()
+exten => 176,n,Record(question110:gsm)
+exten => 176,n,hangup
+
+exten => 177,1,Answer()
+exten => 177,n,Record(question111:gsm)
+exten => 177,n,hangup
+
+exten => 178,1,Answer()
+exten => 178,n,Record(question112:gsm)
+exten => 178,n,hangup
+
+exten => 179,1,Answer()
+exten => 179,n,Record(question113:gsm)
+exten => 179,n,hangup
+
+exten => 180,1,Answer()
+exten => 180,n,Record(question114:gsm)
+exten => 180,n,hangup
+
+exten => 181,1,Answer()
+exten => 181,n,Record(question115:gsm)
+exten => 181,n,hangup
+
+exten => 182,1,Answer()
+exten => 182,n,Record(question116:gsm)
+exten => 182,n,hangup
+
+exten => 183,1,Answer()
+exten => 183,n,Record(question117:gsm)
+exten => 183,n,hangup
+
+exten => 184,1,Answer()
+exten => 184,n,Record(question118:gsm)
+exten => 184,n,hangup
+
+exten => 185,1,Answer()
+exten => 185,n,Record(question121:gsm)
+exten => 185,n,hangup
+
+exten => 186,1,Answer()
+exten => 186,n,Record(question122:gsm)
+exten => 186,n,hangup
+
+exten => 187,1,Answer()
+exten => 187,n,Record(question123:gsm)
+exten => 187,n,hangup
+
+;;;;;;;;;;; core symptoms ;;;;;;;;;
+
+exten => 188,1,Answer()
+exten => 188,n,Record(cs_vomiting:gsm)
+exten => 188,n,hangup
+
+exten => 189,1,Answer()
+exten => 189,n,Record(cs_tasting_problem:gsm)
+exten => 189,n,hangup
+
+exten => 190,1,Answer()
+exten => 190,n,Record(cs_shortness_breath:gsm)
+exten => 190,n,hangup
+
+exten => 191,1,Answer()
+exten => 191,n,Record(cs_sad_feelings:gsm)
+exten => 191,n,hangup
+
+exten => 192,1,Answer()
+exten => 192,n,Record(cs_rash:gsm)
+exten => 192,n,hangup
+
+exten => 193,1,Answer()
+exten => 193,n,Record(cs_pain:gsm)
+exten => 193,n,hangup
+
+exten => 194,1,Answer()
+exten => 194,n,Record(cs_numbness:gsm)
+exten => 194,n,hangup
+
+exten => 195,1,Answer()
+exten => 195,n,Record(cs_nausea:gsm)
+exten => 195,n,hangup
+
+exten => 196,1,Answer()
+exten => 196,n,Record(cs_mouth_throat_sores:gsm)
+exten => 196,n,hangup
+
+exten => 197,1,Answer()
+exten => 197,n,Record(cs_loose_watery:gsm)
+exten => 197,n,hangup
+
+exten => 198,1,Answer()
+exten => 198,n,Record(cs_insomnia:gsm)
+exten => 198,n,hangup
+
+exten => 199,1,Answer()
+exten => 199,n,Record(cs_headache:gsm)
+exten => 199,n,hangup
+
+exten => 200,1,Answer()
+exten => 200,n,Record(cs_fatigue:gsm)
+exten => 200,n,hangup
+
+exten => 201,1,Answer()
+exten => 201,n,Record(cs_dry_mouth:gsm)
+exten => 201,n,hangup
+
+exten => 202,1,Answer()
+exten => 202,n,Record(cs_decreased_appetite:gsm)
+exten => 202,n,hangup
+
+exten => 203,1,Answer()
+exten => 203,n,Record(cs_constipation:gsm)
+exten => 203,n,hangup
+
+exten => 204,1,Answer()
+exten => 204,n,Record(cs_concentration_problem:gsm)
+exten => 204,n,hangup
+
+exten => 205,1,Answer()
+exten => 205,n,Record(cs_arm_leg_swelling:gsm)
+exten => 205,n,hangup
+
+exten => 206,1,Answer()
+exten => 206,n,Record(cs_anxiety:gsm)
+exten => 206,n,hangup
+
+exten => 207,1,Answer()
+exten => 207,n,Record(coreSymptomInstructionsMessage:gsm)
+exten => 207,n,hangup
+
+exten => 208,1,Answer()
+exten => 208,n,Record(askCallerId:gsm)
+exten => 208,n,hangup
+
+exten => 209,1,Answer()
+exten => 209,n,Record(askCallerPin:gsm)
+exten => 209,n,hangup
+
+exten => 210,1,Answer()
+exten => 210,n,Record(askForFormSubmission:gsm)
+exten => 210,n,hangup
+
+exten => 211,1,Answer()
+exten => 211,n,Record(invalidOption:gsm)
+exten => 211,n,hangup
+
+exten => 212,1,Answer()
+exten => 212,n,Record(noFormsAvailable:gsm)
+exten => 212,n,hangup
+
+exten => 213,1,Answer()
+exten => 213,n,Record(sorryCouldNotHear:gsm)
+exten => 213,n,hangup
+
+exten => 214,1,Answer()
+exten => 214,n,Record(spanishSupport:gsm)
+exten => 214,n,hangup
+
+exten => 215,1,Answer()
+exten => 215,n,Record(technicalIssue:gsm)
+exten => 215,n,hangup
+
+exten => 216,1,Answer()
+exten => 216,n,Record(thankyou:gsm)
+exten => 216,n,hangup
+
+exten => 217,1,Answer()
+exten => 217,n,Record(tryLater:gsm)
+exten => 217,n,hangup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
