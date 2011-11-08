@@ -69,10 +69,14 @@
                        value="${studyParticipantAssignment.studyParticipantIdentifier}"
                        title="identifier"
                        id="participantStudyIdentifier_${studysite.id}"
-                       onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"/>
+                       onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});" class="validate-NOTEMPTY"/>
                 <ul id="uniqueError_${studysite.id}" style="display:none" class="errors">
                     <li><spring:message code='participant.unique_assignedIdentifier'
                                         text='participant.unique_assignedIdentifier'/></li>
+                </ul>
+                <ul id="participantStudyIdentifier_${studysite.id}.error" style="display:none;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
                 </ul>
             <%--</c:otherwise>--%>
         <%--</c:choose>--%>

@@ -298,6 +298,9 @@ function checkParticipantStudyIdentifier(id, siteId) {
         participantId = "${patientId}";
     }
     var identifier = $('participantStudyIdentifier_' + siteId).value;
+    if(isSpclChar('participantStudyIdentifier_' + siteId)){
+        return;
+    }
     if (identifier != "") {
         uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier,
                 participantId, {callback:
@@ -327,6 +330,9 @@ function checkParticipantMrn() {
         participantId = "${patientId}";
     }
     var mrn = $('participant.assignedIdentifier').value;
+     if(isSpclChar('participant.assignedIdentifier')){
+        return;
+    }
     var siteId = $('organizationId').value;
     if (siteId != "" && mrn != "") {
         uniqueParticipantIdentifier.validateUniqueParticipantMrn(siteId, mrn,
@@ -769,6 +775,23 @@ function showOrHideEmail(value1, value2, id) {
     checkError();
 }
 
+    function isSpclChar(fieldName){
+        var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
+        var fieldValue = $(fieldName).value;
+        jQuery('#'+ fieldName + '.error').hide();
+        $(fieldName + '.error').hide();
+        for (var i = 0; i < fieldValue.length; i++) {
+            if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+               // alert ("The box has special characters. \nThese are not allowed.\n");
+                jQuery('#'+ fieldName + '.error').show();
+                $(fieldName + '.error').show();
+                $(fieldName).value="";
+                return false;
+            }
+        }
+        return true;
+}
+
 
 </script>
 <style type="text/css">
@@ -809,7 +832,7 @@ function showOrHideEmail(value1, value2, id) {
 <![endif]-->
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" formName="createPartForm">
 <jsp:attribute name="singleFields">
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
@@ -897,15 +920,27 @@ function showOrHideEmail(value1, value2, id) {
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="isSpclChar('participant.firstName');"/>
+                           <ul id="participant.firstName.error" style="display:none;left-padding:8em;" class="errors">
+                                <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                           </ul>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"
-                                                size="${maxLength}"/>
+                                                size="${maxLength}" onblur="isSpclChar('participant.middleName');"/>
+                               <ul id="participant.middleName.error" style="display:none;" class="errors">
+                                    <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                               </ul>
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="isSpclChar('participant.lastName');"/>
+                           <ul id="participant.lastName.error" style="display:none;" class="errors">
+                                    <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                           </ul>
                        </td>
 
                        <td width="50%" >
@@ -921,7 +956,11 @@ function showOrHideEmail(value1, value2, id) {
                                                 required="true" onblur="checkParticipantMrn();"/>
                                <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
 				                    <li><spring:message code='participant.unique_mrn' /></li>
-				                </ul>
+				               </ul>
+                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;" class="errors">
+                                    <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                               </ul>
                            </c:if>
                        </td>
                    </tr>
