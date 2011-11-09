@@ -1,14 +1,22 @@
-    package gov.nih.nci.ctcae.web.filter;
+package gov.nih.nci.ctcae.web.filter;
 
-    import org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    import javax.servlet.*;
-    import javax.servlet.http.HttpServletRequest;
-    import javax.servlet.http.HttpServletResponse;
-    import java.io.IOException;
-    import java.util.Enumeration;
-    import java.util.regex.Matcher;
-    import java.util.regex.Pattern;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 
     /**
      * Created by IntelliJ IDEA.
@@ -25,6 +33,8 @@
 
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private FilterConfig filterConfig = null;
+    List<String> allowedParams = Arrays.asList("participant.user.confirmPassword", "participant.user.password");
+    List<String> urlsToSanitizeForHttpPost = Arrays.asList("/proctcae/pages/participant/create");
 
     public void destroy() {
     }
@@ -49,13 +59,13 @@
         String uri = request.getRequestURI();
         Pattern p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\]%, ]");
         Matcher m = p.matcher(uri);
+        
         if (m.find()) {
             return true;
         }
 
+        Enumeration parameterNames = request.getParameterNames();
         if (request.getMethod().toUpperCase().equals("GET")) {
-//            if (StringUtils.isBlank(request.getParameter("subview"))) {
-            Enumeration parameterNames = request.getParameterNames();
             while (parameterNames.hasMoreElements()) {
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
@@ -66,8 +76,21 @@
                     }
                 }
             }
-//            }
+        } else if(request.getMethod().toUpperCase().equals("POST") && urlsToSanitizeForHttpPost.contains(uri)){
+        	//not allowing % for post urls in urlsToSanitizeForHttpPost (barring allowedParams)
+        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ]");
+            while (parameterNames.hasMoreElements()) {
+                String param = (String) parameterNames.nextElement();
+                String paramValue = request.getParameter(param);
+                if (!StringUtils.isBlank(paramValue) && (!allowedParams.contains(param))) {
+                    m = p.matcher(paramValue);
+                    if (m.find()) {
+                        return true;
+                    }
+                }
+            }
         }
+        
         return false;
     }
 
