@@ -26,9 +26,16 @@ import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
-import gov.nih.nci.ctcae.web.ControllersUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
