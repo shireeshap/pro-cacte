@@ -136,7 +136,7 @@ function checkPasswordMatch() {
     checkError();
 }
 
-function validateCalloutTime(siteId, message){
+function validateCalloutTime(siteId, startTime, endTime){
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
@@ -146,16 +146,18 @@ function validateCalloutTime(siteId, message){
     var callMin = $('call_minute_' + siteId).value;
     var callAmPm = $('call_ampm_' + siteId).value;
 
-    if(callHour==null || callHour=="" || callMin==null || callMin==""){
-        // no action
-    }else{
-       if((callAmPm=="pm" && callHour>8) || (callAmPm=="am" && callHour<5)){
-            // error
-           //alert(""+ message);
+     if(callHour==null || callHour=="" || callMin==null || callMin=="" || callAmPm==null || callAmPm==""){
+            // no action
+    } else{
+        var selectedTime =  callHour + ":" + callMin + " " + callAmPm;
+        var selectedDate = new Date("1/1/2007 " + selectedTime);
+        var blackoutStartTime = new Date("1/1/2007 " + startTime);
+        var blackoutEndTime = new Date("1/1/2007 " + endTime);
+        if((blackoutStartTime-selectedDate<=0) || (selectedDate-blackoutEndTime<=0)){
            $('preferred.calltime.error_' + siteId).show();
            $('call_hour_' + siteId).value = "";
            $('call_minute_' + siteId).value = "";
-       }
+        }
     }
 }
 

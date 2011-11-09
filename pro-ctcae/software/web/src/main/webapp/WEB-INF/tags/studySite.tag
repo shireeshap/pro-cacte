@@ -322,7 +322,7 @@
             <table><tr><td>
             <c:set var="blackout"><tags:message code="callout.blackouttime"/></c:set>
             <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"  title="Hour" class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                    onblur="validateCalloutTime(${studysite.id},${blackout});">
+                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                 <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
                     Hr
                 </option>
@@ -333,7 +333,7 @@
                 </c:forEach>
             </select>&nbsp;
             <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"  title="Minute" class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                    onblur="validateCalloutTime(${studysite.id},${blackout});">
+                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                 <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
                     Min
                 </option>
@@ -344,7 +344,7 @@
                 </c:forEach>
             </select>&nbsp;
             <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"  title="AM PM" class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                    onblur="validateCalloutTime(${studysite.id},${blackout});">
+                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                 <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                     am
                 </option>
@@ -381,7 +381,7 @@
             </table>
                 <ul id="preferred.calltime.error_${studysite.id}" style="display:none;" name="preferredcalltime.error_${studysite.id}" class="errors">
                                 <li><spring:message code='callout.blackouttime'
-                                                    text='callout.blackouttime'/></li>
+                                                    text='callout.blackouttime' arguments="${blackoutStartTime},${blackoutEndTime}"/></li>
                 </ul>
         </div>
 

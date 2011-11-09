@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 //
 
@@ -35,6 +36,11 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     protected ParticipantRepository participantRepository;
     protected UserRepository userRepository;
     protected PasswordPolicyServiceImpl passwordPolicyService;
+
+    private Properties properties;
+
+    public static final String IVRS_BLACKOUT_START_TIME  = "ivrs.blackout.start";
+    public static final String IVRS_BLACKOUT_END_TIME  = "ivrs.blackout.end";
 
     /**
      * Instantiates a new participant controller.
@@ -107,7 +113,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
             times.add(j);
         }
         List<Integer> minutes = new ArrayList();
-        for (int i = 0; i <= 60; i += 15) {
+        for (int i = 0; i < 60; i += 15) {
             minutes.add(i);
         }
 
@@ -122,6 +128,17 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
                 }
             }
         }
+
+        String blackoutStartTime = properties.getProperty(IVRS_BLACKOUT_START_TIME);
+        String blackoutEndTime = properties.getProperty(IVRS_BLACKOUT_END_TIME);
+        // Assigning default value for blackout period
+        if(blackoutStartTime == null || blackoutStartTime.equals("") || blackoutEndTime ==null || blackoutEndTime.equals("") || !blackoutStartTime.contains(":") || !blackoutEndTime.contains(":")){
+            blackoutStartTime = "21:00";
+            blackoutEndTime = "04:59";
+        }
+        modelAndView.put("blackoutStartTime", DateUtils.getFormattedTime(blackoutStartTime));
+        modelAndView.put("blackoutEndTime", DateUtils.getFormattedTime(blackoutEndTime));
+
         modelAndView.put("hours", times);
         modelAndView.put("timezones", timeZones);
         modelAndView.put("minutes", minutes);
@@ -131,6 +148,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         return modelAndView;
 
     }
+
 
     protected final void populateOrganizationsForUser(ParticipantCommand command) {
         if (!command.isAdmin()) {
@@ -175,5 +193,13 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Required
     public void setPasswordPolicyService(PasswordPolicyServiceImpl passwordPolicyService) {
         this.passwordPolicyService = passwordPolicyService;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 }

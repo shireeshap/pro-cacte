@@ -351,6 +351,7 @@
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="userRepository" ref="userRepository"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
 
     <bean name="/participant/create" id="createParticipantController"
@@ -532,6 +533,7 @@
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelGraphicalReportController"

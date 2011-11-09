@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
@@ -11,10 +12,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 //
 
@@ -26,6 +24,11 @@ public class DisplayStudySitesController extends AbstractController {
 
     private StudyOrganizationRepository studyOrganizationRepository;
     private ParticipantRepository participantRepository;
+
+    private Properties properties;
+
+    public static final String IVRS_BLACKOUT_START_TIME  = "ivrs.blackout.start";
+    public static final String IVRS_BLACKOUT_END_TIME  = "ivrs.blackout.end";
 
 
     /* (non-Javadoc)
@@ -86,6 +89,17 @@ public class DisplayStudySitesController extends AbstractController {
                     }
                 }
             }
+
+            String blackoutStartTime = properties.getProperty(IVRS_BLACKOUT_START_TIME);
+            String blackoutEndTime = properties.getProperty(IVRS_BLACKOUT_END_TIME);
+             // Assigning default value for blackout period
+            if(blackoutStartTime == null || blackoutStartTime.equals("") || blackoutEndTime ==null || blackoutEndTime.equals("") || !blackoutStartTime.contains(":") || !blackoutEndTime.contains(":")){
+                blackoutStartTime = "21:00";
+                blackoutEndTime = "04:59";
+            }
+            modelAndView.addObject("blackoutStartTime", DateUtils.getFormattedTime(blackoutStartTime));
+            modelAndView.addObject("blackoutEndTime", DateUtils.getFormattedTime(blackoutEndTime));
+
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
             modelAndView.addObject("hours", times);
             modelAndView.addObject("timezones", timeZones);
@@ -116,5 +130,13 @@ public class DisplayStudySitesController extends AbstractController {
     @Required
     public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 }

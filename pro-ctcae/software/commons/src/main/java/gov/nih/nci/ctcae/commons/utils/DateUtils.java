@@ -163,4 +163,23 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 	    return cal.getTime();
     }
 
+    // input timeString format 23:59
+    public static String getFormattedTime(String timeString){
+          String finalTimeString ="";
+          String time[] = timeString.split(":");
+          String hour = time[0].trim();
+          String min = time[1].trim();
+          if(Integer.parseInt(hour) <12){
+              finalTimeString = hour + ":"+ min + " AM";
+          }else{
+              int hourInt = Integer.parseInt(hour) - 12;
+              if(hourInt < 10)
+                  hour = "0" + hourInt;
+              else
+                  hour = "" + hourInt;
+              finalTimeString =  hour + ":" + min + " PM";
+          }
+        return finalTimeString;
+    }
+
 }
