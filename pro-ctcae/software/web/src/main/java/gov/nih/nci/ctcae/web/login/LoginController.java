@@ -250,44 +250,49 @@ public class LoginController extends AbstractController {
         Date week = DateUtils.addDaysToDate(today, 6);
         StudyParticipantCrfScheduleQuery studyParticipantCrfScheduleQuery;
         List<StudyParticipantCrfSchedule> spcsList = null;
-
+        List<Integer> spCrfIdList = new ArrayList<Integer>();
+        
         for (StudyOrganizationClinicalStaff staff : socs) {
             for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
-                for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
+            	
+            	spCrfIdList.clear();
+            	for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
+            		spCrfIdList.add(spc.getId());
+            	}
                 	
-                	if (loadOverdue != null && pastCount > 0) {
-                    	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
-                    	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFId(spc.getId());
-                    	studyParticipantCrfScheduleQuery.filterByStatus(CrfStatus.PASTDUE);
-                    	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
-                    	if(spcsList != null && spcsList.size() > 0){
-                        	for(StudyParticipantCrfSchedule spcs: spcsList){
-        	                	if (pastCount > 0) {
-        		                      overdue.add(spcs);
-        		                      pastCount--;
-        	                    }
-                        	}
+            	if (loadOverdue != null && pastCount > 0) {
+                	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
+                	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFIds(spCrfIdList);
+                	studyParticipantCrfScheduleQuery.filterByStatus(CrfStatus.PASTDUE);
+                	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
+                	if(spcsList != null && spcsList.size() > 0){
+                    	for(StudyParticipantCrfSchedule spcs: spcsList){
+    	                	if (pastCount > 0) {
+    		                      overdue.add(spcs);
+    		                      pastCount--;
+    	                    } else {
+    	                    	break;
+    	                    }
                     	}
                 	}
+            	}
 
-                	if (loadUpcoming != null && upcomingCount > 0) {
-                    	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
-                    	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFId(spc.getId());
-                    	studyParticipantCrfScheduleQuery.filterByDate(today, week);
-                    	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
-                    	if(spcsList != null && spcsList.size() > 0){
-                        	for(StudyParticipantCrfSchedule spcs: spcsList){
-        	                	if (upcomingCount > 0) {
-        	                		  upcoming.add(spcs);
-        		                      upcomingCount--;
-        	                    }
-                        	}
+            	if (loadUpcoming != null && upcomingCount > 0) {
+                	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
+                	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFIds(spCrfIdList);
+                	studyParticipantCrfScheduleQuery.filterByDate(today, week);
+                	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
+                	if(spcsList != null && spcsList.size() > 0){
+                    	for(StudyParticipantCrfSchedule spcs: spcsList){
+    	                	if (upcomingCount > 0) {
+    	                		  upcoming.add(spcs);
+    		                      upcomingCount--;
+    	                    } else {
+    	                    	break;
+    	                    }
                     	}
                 	}
-                	if(pastCount == 0 && upcomingCount == 0){
-                    	break;
-                    }
-                }
+            	}
                 if(pastCount == 0 && upcomingCount == 0){
                 	break;
                 }

@@ -14,6 +14,7 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
     private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by startDate";
     private static String CRF_IDS = "ids";
+    private static String SP_CRF_IDS = "sp_crf_ids";
 
     public StudyParticipantCrfScheduleQuery() {
         super(queryString);
@@ -32,6 +33,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     public void filterByStudyParticipantCRFId(Integer id) {
         andWhere("spcs.studyParticipantCrf.id =:id");
         setParameter("id", id);
+    }
+    
+    public void filterByStudyParticipantCRFIds(List<Integer> spcrfIds) {
+        andWhere("spcs.studyParticipantCrf.id in (:" + SP_CRF_IDS + ")");
+        setParameterList(SP_CRF_IDS, spcrfIds);
     }
     
     public void filterByCRFIds(List<Integer> crfIds) {
