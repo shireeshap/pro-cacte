@@ -377,7 +377,12 @@
                     Hawaii-Aleutian Time
                 </option>
             </select>
-                </td></tr></table>
+            </td></tr>
+            </table>
+                <ul id="preferred.calltime.error_${studysite.id}" style="display:none;" name="preferredcalltime.error_${studysite.id}" class="errors">
+                                <li><spring:message code='callout.blackouttime'
+                                                    text='callout.blackouttime'/></li>
+                </ul>
         </div>
 
     </td>

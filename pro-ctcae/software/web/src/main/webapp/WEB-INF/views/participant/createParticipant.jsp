@@ -141,6 +141,7 @@ function validateCalloutTime(siteId, message){
     if (participantId == "") {
         participantId = "${patientId}";
     }
+    $('preferred.calltime.error_' + siteId).hide();
     var callHour = $('call_hour_' + siteId).value;
     var callMin = $('call_minute_' + siteId).value;
     var callAmPm = $('call_ampm_' + siteId).value;
@@ -150,7 +151,8 @@ function validateCalloutTime(siteId, message){
     }else{
        if((callAmPm=="pm" && callHour>8) || (callAmPm=="am" && callHour<5)){
             // error
-           alert(""+ message);
+           //alert(""+ message);
+           $('preferred.calltime.error_' + siteId).show();
            $('call_hour_' + siteId).value = "";
            $('call_minute_' + siteId).value = "";
        }
@@ -461,6 +463,7 @@ function showForms(obj, id) {
         jQuery('#PinPatternError_' + sites[i].value).hide();
         jQuery('#userNumberError_' + sites[i].value).hide();
         jQuery('#PhonePatternError_' + sites[i].value).hide();
+        jQuery('#preferred.calltime.error_' + sites[i].value).hide();
         jQuery('#phoneNumberError_' + sites[i].value).hide();
         jQuery('#emailError_' + sites[i].value).hide();
         try {
@@ -676,6 +679,8 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#PinPatternError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
         jQuery('#emailError_' + id).hide();
+        jQuery('#preferred.calltime.error_' + id).hide();
+        $('preferred.calltime.error_' + id).hide();
 
     if (value1 && value2 == "HOMEWEB") {
         jQuery("#ivrs_lang_" + id).val('');
