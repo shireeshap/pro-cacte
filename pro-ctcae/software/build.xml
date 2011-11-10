@@ -22,7 +22,7 @@
     <target name="publish-all" depends="buildlist, clean-all, clean-repo"
             description="compile, jar and publish all projects in the right order, publishes them into local repository">
         <subant target="publish-local" buildpathref="build-path"/>
-    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
+    <!--	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/> -->
     </target>
 
     <!-- =================================================================== -->
@@ -95,6 +95,7 @@
           =============================================================-->
     <target name="migrate" description="this is added to do migrate and build as a single job using hudson">
         <subant target="migrate" buildpath="core/ivy-build.xml"/>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
 
     <target name="migrate-selenium-data" description="this for migrating sample data for selenium">
@@ -266,6 +267,7 @@
         <subant target="migrate" buildpath=".">
             <property name="db" value="test-db-oracle"/>
         </subant>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
 
     <path id="cobertura.classpath">
