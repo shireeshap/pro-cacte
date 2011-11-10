@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
+import java.util.Properties;
+
 /**
  * @author Vinay Kumar
  * @since Nov 4, 2008
@@ -16,6 +18,7 @@ public class ParticipantInboxControllerTest extends AbstractWebTestCase {
         ParticipantInboxController controller = new ParticipantInboxController();
         request.setMethod("GET");
         controller.setUserRepository(userRepository);
+        controller.setProperties(new Properties());
         controller.handleRequest(request, response);
         assertEquals(gov.nih.nci.ctcae.core.domain.Participant.class, controller.getCommandClass());
     }
@@ -24,7 +27,7 @@ public class ParticipantInboxControllerTest extends AbstractWebTestCase {
         ParticipantInboxController controller = new ParticipantInboxController();
         request.setMethod("GET");
         controller.setUserRepository(userRepository);
-
+        controller.setProperties(new Properties());
         login(ClinicalStaffTestHelper.getDefaultClinicalStaff().getUser().getUsername());
         try {
             controller.handleRequest(request, response);
