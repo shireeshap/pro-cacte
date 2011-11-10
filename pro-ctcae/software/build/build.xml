@@ -300,7 +300,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			</fileset>
 		</copy>
        <antcall target="proctcae:datasource:properties:config:lite"/>
-       <antcall target="lite:loadPlpgsqlFunctions"/>
 	</target>
 	
 	<target name="proctcae:datasource:properties:config:lite">
@@ -330,7 +329,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
     <!-- ==========================================================
               target : load PLPGSQL functions
               This is added to load the ivrs related stored procedures into the database along with the install.
-          =============================================================-->
+          =============================================================
     <target name="lite:loadPlpgsqlFunctions" description="This is added to load the ivrs related stored procedures into the database" >
     	<echo message="Looking up the script at: ${basedir}/src/main/db/functions/${database.script}" />
     	<sql keepformat="yes" 
@@ -340,7 +339,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
     	    password="${database.password}" 
     		delimiter="/" delimitertype="row"
     	    src="${basedir}/src/main/db/functions/${database.script}" />
-    </target>
+    </target>  -->
 
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
 		build:all,
