@@ -379,6 +379,7 @@
         <property name="formView" value="participant/participantInbox"/>
         <property name="userRepository" ref="userRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
 
     <!--<bean name="/participant/showParticipantScheduleTable" id="showParticipantScheduleController"-->

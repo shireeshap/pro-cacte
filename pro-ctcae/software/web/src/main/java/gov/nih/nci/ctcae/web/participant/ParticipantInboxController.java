@@ -6,12 +6,11 @@ import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //
 /**
@@ -26,6 +25,11 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
      * The participant repository.
      */
     private UserRepository userRepository;
+
+    private Properties properties;
+
+    public static final String HELP_VIDEO_URL_EN  = "help.video.url.en";
+    public static final String HELP_VIDEO_URL_ES  = "help.video.url.es";
 
     /**
      * Instantiates a new participant inbox controller.
@@ -72,13 +76,34 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request) throws Exception {
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+        Map<String, Object> modelAndView = super.referenceData(request,command, errors);
         String lang = request.getParameter("lang");
-        return super.referenceData(request);    //To change body of overridden methods use File | Settings | File Templates.
+        if(lang==null || lang.equals("")){
+            Locale locale = RequestContextUtils.getLocale(request);
+            if(locale != null && locale.equals(new Locale("es"))){
+                lang="es";
+            }else{
+                lang="en";
+            }
+        }
+        String videoUrl = properties.getProperty(HELP_VIDEO_URL_EN);
+        if(lang.equals("es"))
+            videoUrl = properties.getProperty(HELP_VIDEO_URL_ES);
+        modelAndView.put("videoUrl",videoUrl);
+        return modelAndView;    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 }

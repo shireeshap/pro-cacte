@@ -101,6 +101,11 @@
             var x = document.getElementsByClassName('right');
             x.className = 'current';
         }
+        function openNewWindow(url) {
+             popupWin = window.open(url,
+             'open_window',
+             'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=640, height=480, left=0, top=0')
+         }
     </script>
 
 </head>
@@ -152,7 +157,7 @@
     </c:forEach>
 </c:forEach>
 
-<div id="inboxTitle">
+<div id="inboxTitle" style="height:39px;">
     <c:set var="currentEn" value="current"/>
     <c:set var="currentEs" value=""/>
     <c:if test="${pageContext.response.locale == 'es' or param.lang eq 'es'}">
@@ -160,7 +165,7 @@
        <c:set var="currentEn" value=""/>
     </c:if>
 
-    <div class="language-toggle1" style="float:right">
+    <div class="language-toggle1" style="float:right;height:0px;">
         <a class="left ${currentEn}" href="?lang=en">English</a>
         <a class="right ${currentEs}" href="?lang=es">Español</a>
     </div>
@@ -168,7 +173,9 @@
     <img src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
     <h1><tags:message code="participant.box.inbox"/>(${numberofCrfs})</h1>
-	<span style="font-size:13pt; margin-left:10px;">
+</div>
+<table><tr><td width="778px">
+    <span style="font-size:13pt; margin-left:10px;">
     <c:choose>
         <c:when test="${numberofCrfs gt 0}">
             <c:if test="${numberofCrfs != 1}"><tags:message
@@ -182,10 +189,20 @@
         </c:otherwise>
     </c:choose>
     </span>
-</div>
+    </td><td>
+
+             <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;">
+                <table><tr><td>
+                        <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.jpg"/>" alt="" />
+                    </td><td valign="middle" style="text-decoration:underline;">
+                        <spring:message code="help.video"/>
+                </td></tr></table>
+
+            </a>
+</td></tr></table>
+
 
 <tags:instructions code="participant.instruction"/><br/>
-
     <%--<div style="text-align:right;font-weight:bold;"><a href="../participant/responseReport">View old responses</a></div>--%>
 <spring:message code="label.scheduledForms" var="labelScheduledForms"/>
 <c:choose>
