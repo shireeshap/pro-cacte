@@ -136,8 +136,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
             blackoutStartTime = "21:00";
             blackoutEndTime = "04:59";
         }
-        modelAndView.put("blackoutStartTime", DateUtils.getFormattedTime(blackoutStartTime));
-        modelAndView.put("blackoutEndTime", DateUtils.getFormattedTime(blackoutEndTime));
+        modelAndView.put("blackoutStartTime", blackoutStartTime);
+        modelAndView.put("blackoutEndTime", blackoutEndTime);
 
         modelAndView.put("hours", times);
         modelAndView.put("timezones", timeZones);

@@ -136,7 +136,7 @@ function checkPasswordMatch() {
     checkError();
 }
 
-function validateCalloutTime(siteId, startTime, endTime){
+function validateCalloutTime(siteId, startTime, endTime) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
@@ -146,17 +146,64 @@ function validateCalloutTime(siteId, startTime, endTime){
     var callMin = $('call_minute_' + siteId).value;
     var callAmPm = $('call_ampm_' + siteId).value;
 
-     if(callHour==null || callHour=="" || callMin==null || callMin=="" || callAmPm==null || callAmPm==""){
-            // no action
-    } else{
-        var selectedTime =  callHour + ":" + callMin + " " + callAmPm;
+    if (callHour == null || callHour == "" || callMin == null || callMin == "" || callAmPm == null || callAmPm == "") {
+        // no action
+    } else {
+        var selectedTime = callHour + ":" + callMin + " " + callAmPm;
         var selectedDate = new Date("1/1/2007 " + selectedTime);
         var blackoutStartTime = new Date("1/1/2007 " + startTime);
         var blackoutEndTime = new Date("1/1/2007 " + endTime);
-        if((blackoutStartTime-selectedDate<=0) || (selectedDate-blackoutEndTime<=0)){
-           $('preferred.calltime.error_' + siteId).show();
-           $('call_hour_' + siteId).value = "";
-           $('call_minute_' + siteId).value = "";
+        var start = startTime.split(":");
+        var end = endTime.split(":");
+        var hhStart = parseInt(start[0],10);
+        var mmStart = parseInt(start[1],10);
+        var hhEnd = parseInt(end[0],10);
+        var mmEnd = parseInt(end[1],10);
+
+        var callHour = parseInt(callHour, 10);
+        var callMin = parseInt(callMin, 10);
+
+        if (callAmPm == 'pm') {
+            var callHour = callHour + 12;
+        }
+        var blockPrefferedTime = false;
+
+        if (hhStart < hhEnd) {
+            if (hhStart < callHour && callHour < hhEnd) {
+                //error
+                var blockPrefferedTime = true;
+            } else if (callHour == hhStart) {
+                if (callMin >= mmStart) {
+                    //error
+                    var blockPrefferedTime = true;
+                }
+            } else if (callHour == hhEnd) {
+                if (callMin <= mmEnd) {
+                    //error
+                    var blockPrefferedTime = true;
+                }
+            }
+        } else if (hhStart > hhEnd) {
+            if (callHour > hhStart || callHour < hhEnd) {
+                //error
+                var blockPrefferedTime = true;
+            } else if (callHour == hhStart) {
+                if (callMin >= mmStart) {
+                    //error
+                    var blockPrefferedTime = true;
+                }
+            } else if (callHour == hhEnd) {
+                if (callMin <= mmEnd) {
+                    //error
+                    var blockPrefferedTime = true;
+                }
+            }
+        }
+
+        if (blockPrefferedTime) {
+            $('preferred.calltime.error_' + siteId).show();
+            $('call_hour_' + siteId).value = "";
+            $('call_minute_' + siteId).value = "";
         }
     }
 }
