@@ -37,10 +37,11 @@
     </bean>
 
     <bean name="/login" id="loginController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+          class="gov.nih.nci.ctcae.web.login.LoginParameterizableViewController">
         <property name="viewName">
             <value>login</value>
         </property>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
     <bean name="/accessDenied" id="accessDeniedController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">

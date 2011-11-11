@@ -8,6 +8,7 @@
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
 <tags:javascriptLink name="ga"/>
 <tags:includeVirtualKeyboard/>
@@ -28,6 +29,12 @@
         pageTracker._trackPageview();
     } catch(err) {
     }
+
+    function openNewWindow(url) {
+         popupWin = window.open(url,
+         'open_window',
+         'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=640, height=480, left=0, top=0')
+    }
 </script>
 
 <div id="header">
@@ -35,14 +42,14 @@
     <div class="background-R">
         <div id="login-action">
             <br/>
-            <table>
+            <table width="100%">
                 <tr>
                     <td><a href="/proctcae" title="Home"><img
                             src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
-                    <td width="65%" style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
+                    <td width="50%" style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
                         <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>&nbsp;&nbsp;&nbsp;
                     </td>
-                    <td align="right">
+                    <td align="right" width="200px">
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
                            <c:if test="${empty param.lang}">
                                <c:set var="currentEn" value="current"/>
@@ -64,6 +71,15 @@
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
                                 <a class="right ${currentEs}" href="?lang=es">Español</a>
                             </div>
+                            <div style="margin-top:37px;color:white;margin-left:27px;">
+                                 <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;color:white;">
+                                    <table width="100%"><tr><td width="40px;">
+                                            <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.jpg"/>" alt="" />
+                                        </td><td valign="middle">
+                                            <spring:message code="help.video"/>
+                                    </td></tr></table>
+                                </a>
+                             </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
 							    <%--<a style="color:white" href="?lang=en">English</a>--%>
 							   <%--<span style="color:white">|</span>--%>
