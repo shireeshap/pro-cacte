@@ -74,7 +74,7 @@
                             <div style="margin-top:37px;color:white;margin-left:27px;">
                                  <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;color:white;">
                                     <table width="100%"><tr><td width="40px;">
-                                            <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.jpg"/>" alt="" />
+                                            <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
                                         </td><td valign="middle">
                                             <spring:message code="help.video"/>
                                     </td></tr></table>
