@@ -217,27 +217,27 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     	//isSameDay == false means timings like 21:00 to 04:59
     	if(!isSameDay){
     		if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) > hhStart || currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) < hhEnd){
-    			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call hour in blackout range.");
+    			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ".  Call hour in blackout range (" + blackoutStartTime + "-" + blackoutEndTime + ").");
     			blackoutIndicator = true;
     		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhStart){
     			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) >= mmStart){
-    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call min in blackout range.");
+    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Call min in blackout range (" + blackoutStartTime + "-" + blackoutEndTime + ").");
     				blackoutIndicator = true;
     			}
     		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhEnd){
     			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) <= mmEnd){
-    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() +". Reason:Call min in blackout range.");
+    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() +". Call min in blackout range (" + blackoutStartTime + "-" + blackoutEndTime + ").");
     				blackoutIndicator = true;
     			}
     		}    		
     	} else {
         	//isSameDay == true means timings like 01:00 to 04:59
     		if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) > hhStart && currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) < hhEnd){
-    			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call hour in blackout range.");
+    			logger.error("Aborting same day call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Call hour in blackout range (" + blackoutStartTime + "-" + blackoutEndTime + ").");
     			blackoutIndicator = true;
     		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhStart || currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhEnd){
     			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) >= mmStart && currentTimeInParticipantTimeZone.get(Calendar.MINUTE) <= mmEnd){
-    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call min in blackout range.");
+    				logger.error("Aborting same day call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Call min in blackout range (" + blackoutStartTime + "-" + blackoutEndTime + ").");
     				blackoutIndicator = true;
     			}
     		}
@@ -269,6 +269,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 				isSameDay = true;
 			} 
 		}
+		logger.debug("Same day value evaluated to: "+isSameDay);
 		return isSameDay;
 	}
 
@@ -278,6 +279,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 	 * @param ivrsSchedule the ivrs schedule
 	 */
 	private void markScheduleAsFailed(IvrsSchedule ivrsSchedule) {
+		logger.debug("Updating status and call count for Failed call. IvrsSchedule.id = " + ivrsSchedule.getId());
 		ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
 		//increment the callCount by one as technical failures dont count
 		ivrsSchedule.setCallCount(ivrsSchedule.getCallCount() + 1);
