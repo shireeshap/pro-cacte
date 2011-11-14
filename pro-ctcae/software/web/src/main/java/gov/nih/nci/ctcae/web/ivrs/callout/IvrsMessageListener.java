@@ -168,7 +168,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     
 	/**
 	 * Checks if the call is a spillover from yesterday or earlier. This can happen in case of an outage. 
-	 * If call was originally scheduled for yesterday or earlier then do not make it.
+	 * If call was originally scheduled for yesterday or earlier but was backed up in the queue due to an outage then do not make it.
 	 * Note that the callCount is not reverted in this case.
 	 *
 	 * @param spa the spa
@@ -197,7 +197,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 	private boolean isCurrentTimeInBlackoutRange(IvrsSchedule ivrsSchedule) {
 		
 		StudyParticipantAssignment spa = ivrsSchedule.getStudyParticipantAssignment();
-		boolean returnBool = false;
+		boolean blackoutIndicator = false;
 		String blackoutStartTime = properties.getProperty(BLACKOUT_START);
     	String blackoutEndTime = properties.getProperty(BLACKOUT_END);
     	
@@ -211,23 +211,65 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     	hhEnd = Integer.valueOf(eTokens[0]);
     	mmEnd = Integer.valueOf(eTokens[1]);
     	
-    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(spa.getCallTimeZone()));
-		if(cal.get(Calendar.HOUR_OF_DAY) > hhStart || cal.get(Calendar.HOUR_OF_DAY) < hhEnd){
-			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call hour in blackout range.");
-			returnBool = true;
-		} else if(cal.get(Calendar.HOUR_OF_DAY) == hhStart){
-			if(cal.get(Calendar.MINUTE) >= mmStart){
-				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call min in blackout range.");
-				returnBool = true;
-			}
-		} else if(cal.get(Calendar.HOUR_OF_DAY) == hhEnd){
-			if(cal.get(Calendar.MINUTE) <= mmEnd){
-				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() +". Reason:Call min in blackout range.");
-				returnBool = true;
-			}
-		}
+    	boolean isSameDay = isSameDay(hhStart, mmStart, hhEnd, mmEnd);
+    	
+    	Calendar currentTimeInParticipantTimeZone = Calendar.getInstance(TimeZone.getTimeZone(spa.getCallTimeZone()));
+    	//isSameDay == false means timings like 21:00 to 04:59
+    	if(!isSameDay){
+    		if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) > hhStart || currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) < hhEnd){
+    			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call hour in blackout range.");
+    			blackoutIndicator = true;
+    		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhStart){
+    			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) >= mmStart){
+    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call min in blackout range.");
+    				blackoutIndicator = true;
+    			}
+    		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhEnd){
+    			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) <= mmEnd){
+    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() +". Reason:Call min in blackout range.");
+    				blackoutIndicator = true;
+    			}
+    		}    		
+    	} else {
+        	//isSameDay == true means timings like 01:00 to 04:59
+    		if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) > hhStart && currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) < hhEnd){
+    			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call hour in blackout range.");
+    			blackoutIndicator = true;
+    		} else if(currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhStart || currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY) == hhEnd){
+    			if(currentTimeInParticipantTimeZone.get(Calendar.MINUTE) >= mmStart && currentTimeInParticipantTimeZone.get(Calendar.MINUTE) <= mmEnd){
+    				logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call min in blackout range.");
+    				blackoutIndicator = true;
+    			}
+    		}
+    	}
 		
-		return returnBool;
+		return blackoutIndicator;
+	}
+
+	/**
+	 * Based on the start and end of the blackout period, determines if the period starts and ends on the same day or 
+	 * starts on one day and ends on the next day.
+	 *
+	 * @param hhStart the hh start
+	 * @param mmStart the mm start
+	 * @param hhEnd the hh end
+	 * @param mmEnd the mm end
+	 * @return true, if is same day
+	 */
+	private boolean isSameDay(int hhStart, int mmStart, int hhEnd, int mmEnd) {
+		boolean isSameDay = false;
+		if(hhStart > hhEnd){
+			isSameDay = false;
+		} else if(hhStart < hhEnd){
+			isSameDay = true;
+		} else {
+			if(mmStart > mmEnd){
+				isSameDay = false;
+			} else if(mmStart < mmEnd){
+				isSameDay = true;
+			} 
+		}
+		return isSameDay;
 	}
 
 	/**
