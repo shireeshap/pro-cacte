@@ -166,45 +166,55 @@ function validateCalloutTime(siteId, startTime, endTime) {
         if (callAmPm == 'pm') {
             var callHour = callHour + 12;
         }
-        var blockPrefferedTime = false;
+        var blockPreferredTime = false;
+        var isSameDay = isSameDay1(hhStart, mmStart, hhEnd, mmEnd);
 
-        if (hhStart < hhEnd) {
-            if (hhStart < callHour && callHour < hhEnd) {
-                //error
-                var blockPrefferedTime = true;
+        //isSameDay == false means timings like 21:00 to 04:59
+        if (!isSameDay) {
+            if (callHour > hhStart || callHour < hhEnd) {
+                var blockPreferredTime = true;
             } else if (callHour == hhStart) {
                 if (callMin >= mmStart) {
-                    //error
-                    var blockPrefferedTime = true;
+                    var blockPreferredTime = true;
                 }
             } else if (callHour == hhEnd) {
                 if (callMin <= mmEnd) {
-                    //error
-                    var blockPrefferedTime = true;
+                    var blockPreferredTime = true;
                 }
             }
-        } else if (hhStart > hhEnd) {
-            if (callHour > hhStart || callHour < hhEnd) {
-                //error
-                var blockPrefferedTime = true;
-            } else if (callHour == hhStart) {
-                if (callMin >= mmStart) {
-                    //error
-                    var blockPrefferedTime = true;
-                }
-            } else if (callHour == hhEnd) {
-                if (callMin <= mmEnd) {
-                    //error
-                    var blockPrefferedTime = true;
+        } else{
+            //isSameDay == true means timings like 01:00 to 04:59
+            if (callHour > hhStart && callHour < hhEnd) {
+                var blockPreferredTime = true;
+            } else if (callHour == hhStart || callHour == hhEnd) {
+                if (callMin >= mmStart && callMin <= mmEnd) {
+                    var blockPreferredTime = true;
                 }
             }
         }
 
-        if (blockPrefferedTime) {
+        if (blockPreferredTime) {
             $('preferred.calltime.error_' + siteId).show();
             $('call_hour_' + siteId).value = "";
             $('call_minute_' + siteId).value = "";
         }
+    }
+
+
+    function isSameDay1(hhStart, mmStart, hhEnd, mmEnd) {
+        var isSameDay = false;
+        if (hhStart > hhEnd) {
+            isSameDay = false;
+        } else if (hhStart < hhEnd) {
+            isSameDay = true;
+        } else {
+            if (mmStart > mmEnd) {
+                isSameDay = false;
+            } else if (mmStart < mmEnd) {
+                isSameDay = true;
+            }
+        }
+        return isSameDay;
     }
 }
 
