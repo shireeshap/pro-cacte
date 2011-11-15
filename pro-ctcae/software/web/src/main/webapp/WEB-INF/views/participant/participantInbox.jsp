@@ -194,7 +194,7 @@
              <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;">
                 <table><tr><td>
                         <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
-                    </td><td valign="middle" style="text-decoration:underline;">
+                    </td><td valign="middle" style="color:#006CD7">
                         <spring:message code="help.video"/>
                 </td></tr></table>
 
