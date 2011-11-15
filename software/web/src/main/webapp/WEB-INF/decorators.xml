@@ -1,0 +1,63 @@
+<!-- Note: although the syntax is the same, this file is interpreted by
+           edu.nwu.bioinformatics.commons.sitemesh.PathInfoDecoratorMapper,
+           not SiteMesh's standard ConfigDecoratorMapper.
+-->
+
+<decorators defaultdir="/WEB-INF/decorators">
+    <decorator name="standard" page="standard.jsp">
+        <pattern>/pages/*</pattern>
+        <pattern>/public/*</pattern>
+        <pattern>/public/login</pattern>
+        <pattern>/public/accessDenied</pattern>
+        <pattern>/setup/*</pattern>
+    </decorator>
+
+    <decorator name="standardNoHeader" page="standard-no-header.jsp">
+       <pattern>/pages/rule/notification/createReportType</pattern>
+   </decorator>
+
+    <decorator name="tabbedflow" page="tabbedflow.jsp">
+        <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/study/createStudy</pattern>
+        <pattern>/pages/participant/create</pattern>
+        <pattern>/pages/participant/edit</pattern>
+        <pattern>/pages/participant/assignStudy</pattern>
+        <pattern>/pages/participant/assignParticipant</pattern>
+        <pattern>/pages/form/createForm</pattern>
+        <pattern>/pages/form/editForm</pattern>
+        <pattern>/pages/form/basicForm</pattern>
+        <pattern>/pages/participant/schedulecrf</pattern>
+    </decorator>
+
+    <decorator name="notabbedflow" page="notabbedflow.jsp">
+        <pattern>/pages/form/submit</pattern>
+        <pattern>/pages/participant/participantInbox</pattern>
+        <pattern>/pages/participant/displaycalendar</pattern>
+        <pattern>/pages/form/addquestion</pattern>
+        <pattern>/pages/participant/displaycalendar</pattern>
+        <pattern>/pages/form/addMorequestion</pattern>
+    </decorator>
+
+    <decorator name="mobilelite" page="mobilelite.jsp">
+        <pattern>/mobile/*</pattern>
+    </decorator>
+
+
+    <excludes>
+        <pattern>*subview*</pattern>
+        <pattern>/*/image/*</pattern>
+        <pattern>/*/js/*</pattern>
+        <pattern>/*/css/*</pattern>
+        <pattern>/*/decorated-error.jsp</pattern>
+        <pattern>*subview*</pattern>
+
+        <pattern>/*/*/image/*</pattern>
+        <pattern>/*/*/js/*</pattern>
+        <pattern>/*/*/css/*</pattern>
+        <pattern>/*/decorated-error.jsp</pattern>
+
+    </excludes>
+
+</decorators>
+
+
