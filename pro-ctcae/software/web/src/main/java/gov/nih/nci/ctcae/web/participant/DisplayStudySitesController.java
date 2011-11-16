@@ -97,8 +97,8 @@ public class DisplayStudySitesController extends AbstractController {
                 blackoutStartTime = "21:00";
                 blackoutEndTime = "04:59";
             }
-            modelAndView.addObject("blackoutStartTime", DateUtils.getFormattedTime(blackoutStartTime));
-            modelAndView.addObject("blackoutEndTime", DateUtils.getFormattedTime(blackoutEndTime));
+            modelAndView.addObject("blackoutStartTime", blackoutStartTime);
+            modelAndView.addObject("blackoutEndTime", blackoutEndTime);
 
             modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
             modelAndView.addObject("hours", times);
