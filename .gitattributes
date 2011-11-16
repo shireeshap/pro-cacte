@@ -10,6 +10,7 @@ pro-ctcae/IVRS-repo/asterisk-configuration/func_odbc.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/manager.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/res_odbc.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/sip.conf -text
+pro-ctcae/IVRS-repo/asterisk-configuration/sip_NCI.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/swift.conf -text
 pro-ctcae/IVRS-repo/dahdi-configuration/genconf_parameters -text
 pro-ctcae/IVRS-repo/dahdi-configuration/init.conf -text
