@@ -33,6 +33,7 @@ var isPasswordError = false;
 var isConfirmPassError = false;
 var isEmail = false;
 var isPhoneNumberError = false;
+var isBlackoutCallTime = false;
 
 // validation check for username
 function checkParticipantUserName() {
@@ -72,7 +73,7 @@ function userReturnValue(returnValue) {
 }
 
 function checkError() {
-    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError) {
+    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime) {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
     }
@@ -141,6 +142,7 @@ function validateCalloutTime(siteId, startTime, endTime) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
+    isBlackoutCallTime = false;
     $('preferred.calltime.error_' + siteId).hide();
     var callHour = $('call_hour_' + siteId).value;
     var callMin = $('call_minute_' + siteId).value;
@@ -195,9 +197,12 @@ function validateCalloutTime(siteId, startTime, endTime) {
 
         if (blockPreferredTime) {
             $('preferred.calltime.error_' + siteId).show();
-            $('call_hour_' + siteId).value = "";
-            $('call_minute_' + siteId).value = "";
+            isBlackoutCallTime = true;
+       //     $('call_hour_' + siteId).value = "";
+        //    $('call_minute_' + siteId).value = "";
         }
+
+        checkError();
     }
 
 
@@ -536,6 +541,7 @@ function showForms(obj, id) {
     isUserIdError = false;
     isPinError = false;
     isEmail = false;
+    isBlackoutCallTime = false;
     checkError();
     try {
         $('arm_' + id).addClassName("validate-NOTEMPTY");
@@ -741,6 +747,13 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#preferred.calltime.error_' + id).hide();
         $('preferred.calltime.error_' + id).hide();
 
+        isUserIdError = false;
+        isPinError = false;
+        isEmail = false;
+        isPhoneNumberError = false;
+        isBlackoutCallTime = false;
+        checkError();
+
     if (value1 && value2 == "HOMEWEB") {
         jQuery("#ivrs_lang_" + id).val('');
         jQuery("#home_paper_lang_" + id).val('');
@@ -832,11 +845,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
     }
-    isUserIdError = false;
-    isPinError = false;
-    isEmail = false;
-    isPhoneNumberError = false;
-    checkError();
+
 }
 
     function isSpclChar(fieldName){
