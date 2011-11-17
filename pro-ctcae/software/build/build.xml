@@ -318,13 +318,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<replace file="${bdalite.dir}/datasource.properties" token="@DB_NAME@" value="${database.name}" />
 		<replace file="${bdalite.dir}/datasource.properties" token="@NONIDENTIFYING@" value="${mode.nonidentifying}"/>	
 		<replace file="${bdalite.dir}/datasource.properties" token="@LOCKOUT_ATTEMPTS@" value="${lockout.attempts}" />
-        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCONTEXT_ENGLISH@" value="${ivrs.context.english}" />	
-		<replace file="${bdalite.dir}/datasource.properties" token="@IVRSCONTEXT_SPANISH@" value="${ivrs.context.spanish}" />
-        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSTIMEOUT@" value="${ivrs.timeout}" /> 
-        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSPRIORITY@" value="${ivrs.priority}" />
-        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSEXTENSION@" value="${ivrs.extension}" />
         <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCALLOUTMODE@" value="${mode.ivrscallout}" />		
-		
+        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCHANNEL@" value="${ivrs.channel}" />		
+		<replace file="${bdalite.dir}/datasource.properties" token="@IVRSPHONELINES@" value="${ivrs.total.phonelines}" />	
+        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSPHONEPREFIX@" value="${ivrs.phone.prefix}" /> 
+        <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCALLERID@" value="${ivrs.callerid}" />
+        <replace file="${bdalite.dir}/datasource.properties" token="@BASEURL@" value="${base.url}" />
+
 		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_SERVER@" value="${smtp.address}" />		
 		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_USER@" value="${smtp.user}" />		
 		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_PORT@" value="${smtp.port}" />		
