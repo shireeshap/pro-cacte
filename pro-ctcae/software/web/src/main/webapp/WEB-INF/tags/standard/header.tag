@@ -42,7 +42,7 @@
     <div class="background-R">
         <div id="login-action">
             <br/>
-            <table width="100%">
+            <table width="100%" height="78px">
                 <tr>
                     <td><a href="/proctcae" title="Home"><img
                             src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
@@ -68,18 +68,18 @@
                                 <c:set var="currentEs" value="current"/>
                             </c:if>
                             <div class="language-toggle1" style="float:right">
-                                <a class="left ${currentEn}" href="?lang=en">English</a>
-                                <a class="right ${currentEs}" href="?lang=es">Español</a>
-                            </div>
-                            <div style="margin-top:37px;color:white;margin-left:27px;">
-                                 <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;color:white;">
-                                    <table width="100%"><tr><td width="40px;">
-                                            <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
-                                        </td><td valign="middle">
-                                            <spring:message code="help.video"/>
-                                    </td></tr></table>
-                                </a>
-                             </div>
+                               <a class="left ${currentEn}" href="?lang=en">English</a>
+                               <a class="right ${currentEs}" href="?lang=es">Español</a>
+                               <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
+                                   <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;color:white;border:0px;background:none; ">
+                                      <table width="100%"><tr><td width="40px;">
+                                              <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
+                                          </td><td valign="middle" align="left">
+                                              <spring:message code="help.video"/>
+                                      </td></tr></table>
+                                  </a>
+                               </div>
+                           </div>
 	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
 							    <%--<a style="color:white" href="?lang=en">English</a>--%>
 							   <%--<span style="color:white">|</span>--%>
