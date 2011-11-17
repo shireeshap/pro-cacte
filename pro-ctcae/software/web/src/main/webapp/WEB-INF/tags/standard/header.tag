@@ -72,7 +72,7 @@
                                <a class="right ${currentEs}" href="?lang=es">Español</a>
                                <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
                                    <a onclick="openNewWindow('${videoUrl}');" style="cursor:pointer;color:white;border:0px;background:none; ">
-                                      <table width="100%"><tr><td width="40px;">
+                                      <table width="100%"><tr><td width="35px;" align="left"> 
                                               <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
                                           </td><td valign="middle" align="left">
                                               <spring:message code="help.video"/>
