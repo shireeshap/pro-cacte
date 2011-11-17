@@ -279,10 +279,12 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 	 * @param ivrsSchedule the ivrs schedule
 	 */
 	private void markScheduleAsFailed(IvrsSchedule ivrsSchedule) {
+		ivrsScheduleRepository.refresh(ivrsSchedule);
 		logger.debug("Updating status and call count for Failed call. IvrsSchedule.id = " + ivrsSchedule.getId());
 		ivrsSchedule.setCallStatus(IvrsCallStatus.FAILED);
 		//increment the callCount by one as technical failures dont count
 		ivrsSchedule.setCallCount(ivrsSchedule.getCallCount() + 1);
+		ivrsScheduleRepository.save(ivrsSchedule);
 		
 	}
 
