@@ -124,6 +124,7 @@ public class UpdateProCtcTermsImporterV4 {
                     }
                 }
                 ctcQuestion.getProCtcTerm().setCurrency("Y");
+                ctcQuestion.getProCtcTerm().setCore(!StringUtils.isBlank(core));
                 proCtcQuestionRepository.save(ctcQuestion);
             } else {
                 CtcQuery ctcQuery = new CtcQuery();
