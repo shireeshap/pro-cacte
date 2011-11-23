@@ -4,6 +4,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
+import com.lowagie.text.Element;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
@@ -42,6 +43,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         PdfPTable table = new PdfPTable(6);
         PdfPCell cell = new PdfPCell(new Paragraph("Symptom"));
         cell.setBackgroundColor(Color.lightGray);
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
 
         for (ProCtcQuestionType proCtcQuestionType : questionTypes) {
@@ -53,12 +55,13 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         for (String[] term : results.keySet()) {
             cell = new PdfPCell(new Paragraph(term[1]));
             cell.setBackgroundColor(Color.lightGray);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.addCell(cell);
 
             HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
             boolean addCellFlag = false;
             // For frequency type
-            String frequencyValue = "";
+            String frequencyValue = "-";
             for (Question question : questionMap.keySet()) {
                 if (question.getQuestionType().getDisplayName().equals("Frequency")) {
                     List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
@@ -67,9 +70,10 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             }
             cell = new PdfPCell(new Paragraph(frequencyValue));
             cell.setBackgroundColor(new Color(161, 218, 215));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             // For Interference type
-            String interferenceValue = "";
+            String interferenceValue = "-";
             for (Question question : questionMap.keySet()) {
                 if (question.getQuestionType().getDisplayName().equals("Interference")) {
                     List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
@@ -78,9 +82,10 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             }
             cell = new PdfPCell(new Paragraph(interferenceValue));
             cell.setBackgroundColor(new Color(161, 218, 215));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             // For Severity type
-            String severityValue = "";
+            String severityValue = "-";
             for (Question question : questionMap.keySet()) {
                 if (question.getQuestionType().getDisplayName().equals("Severity")) {
                     List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
@@ -89,9 +94,10 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             }
             cell = new PdfPCell(new Paragraph(severityValue));
             cell.setBackgroundColor(new Color(161, 218, 215));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             // For Amount type
-            String amountValue = "";
+            String amountValue = "-";
             for (Question question : questionMap.keySet()) {
                 if (question.getQuestionType().getDisplayName().equals("Amount")) {
                     List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
@@ -100,9 +106,10 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             }
             cell = new PdfPCell(new Paragraph(amountValue));
             cell.setBackgroundColor(new Color(161, 218, 215));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             // For Amount type
-            String presentValue = "";
+            String presentValue = "-";
             for (Question question : questionMap.keySet()) {
                 if (question.getQuestionType().getDisplayName().equals("Present/Absent")) {
                     List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
@@ -111,6 +118,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             }
             cell = new PdfPCell(new Paragraph(presentValue));
             cell.setBackgroundColor(new Color(161, 218, 215));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
         }
         document.add(table);
