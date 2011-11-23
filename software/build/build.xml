@@ -316,6 +316,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<replace file="${bdalite.dir}/datasource.properties" token="@DB_HOST@" value="${database.server}" />
 		<replace file="${bdalite.dir}/datasource.properties" token="@DB_PORT@" value="${database.port}" />
 		<replace file="${bdalite.dir}/datasource.properties" token="@DB_NAME@" value="${database.name}" />
+		<replace file="${bdalite.dir}/datasource.properties" token="@DB_SCRIPT@" value="${database.script}" />
 		<replace file="${bdalite.dir}/datasource.properties" token="@NONIDENTIFYING@" value="${mode.nonidentifying}"/>	
 		<replace file="${bdalite.dir}/datasource.properties" token="@LOCKOUT_ATTEMPTS@" value="${lockout.attempts}" />
         <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCALLOUTMODE@" value="${mode.ivrscallout}" />		
