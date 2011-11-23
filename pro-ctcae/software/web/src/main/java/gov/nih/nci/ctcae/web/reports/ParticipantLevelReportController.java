@@ -23,6 +23,10 @@ public class ParticipantLevelReportController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("reports/participantLevelReport");
         String scheduleId = request.getParameter("sid");
+        String reportType = request.getParameter("rt");
+        if(reportType!=null && reportType.equals("worstSymptom")){
+            modelAndView = new ModelAndView("reports/participantLevelWorstSymptomReport");
+        }
 
         if (!StringUtils.isBlank(scheduleId)) {
             StudyParticipantCrfSchedule schedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(scheduleId));

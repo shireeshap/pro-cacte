@@ -2812,6 +2812,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLe
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportPdfController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportPdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportResultsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportPdfView.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantReportExcelController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportDetailsController.java -text
@@ -2988,6 +2990,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reports/displayarms.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reports/participantReportThirdlevelMenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reports/reportSpecificJS.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reports/thirdlevelmenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
@@ -3109,6 +3112,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQue
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReportResults.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelWorstSymptomReport.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelWorstSymptomReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantreportcharts.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/reportDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/reportDetails_participantItems.jsp -text

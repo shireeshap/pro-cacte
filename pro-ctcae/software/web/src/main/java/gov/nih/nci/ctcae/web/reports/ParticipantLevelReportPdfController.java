@@ -14,7 +14,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ParticipantLevelReportPdfController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        ParticipantLevelReportPdfView participantLevelReportPdfView = new ParticipantLevelReportPdfView();
-        return new ModelAndView(participantLevelReportPdfView);
+        ModelAndView mv;
+        String reportType = request.getParameter("rt");
+        if (reportType != null && "worstSymptom".equals(reportType)) {
+            ParticipantLevelWorstSymptomReportPdfView worstSymptomReportPdfView = new ParticipantLevelWorstSymptomReportPdfView();
+            mv = new ModelAndView(worstSymptomReportPdfView);
+        } else {
+            ParticipantLevelReportPdfView participantLevelReportPdfView = new ParticipantLevelReportPdfView();
+            mv = new ModelAndView(participantLevelReportPdfView);
+        }
+        return mv;
     }
 }

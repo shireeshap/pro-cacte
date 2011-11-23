@@ -19,7 +19,7 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     /**
      * The PRESENT.
      */
-    PRESENT("Present/Absent", new String[]{"Yes", "No"}),
+    PRESENT("Present/Absent", new String[]{"No", "Yes"}),
 
     /**
      * The AMOUNT.
@@ -117,6 +117,7 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
         proCtcQuestionTypes.add(ProCtcQuestionType.INTERFERENCE);
         proCtcQuestionTypes.add(ProCtcQuestionType.SEVERITY);
         proCtcQuestionTypes.add(ProCtcQuestionType.AMOUNT);
+        proCtcQuestionTypes.add(ProCtcQuestionType.PRESENT);
 
         return proCtcQuestionTypes;
     }

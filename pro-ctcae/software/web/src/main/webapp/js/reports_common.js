@@ -132,6 +132,7 @@ function performValidations() {
     if (displayParticipants) {
         arr[6] = 'participant';
     }
+    arr[7]='study';
 
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
