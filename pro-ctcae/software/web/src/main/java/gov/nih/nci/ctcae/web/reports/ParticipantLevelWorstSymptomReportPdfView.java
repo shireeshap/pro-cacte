@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Element;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.Font;
 import java.util.*;
 import java.util.List;
 
@@ -59,7 +59,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             table.addCell(cell);
 
             HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
-            boolean addCellFlag = false;
             // For frequency type
             String frequencyValue = "-";
             for (Question question : questionMap.keySet()) {
@@ -122,90 +121,27 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             table.addCell(cell);
         }
         document.add(table);
+        document.newPage();
 
+        FontFactory.getFont("Times-Roman", 12, Font.BOLD);
 
-//        Object[] datesArr = dates.toArray();
-//
-//        int numOfMaxColsInTable = 4;
-//        int currentIteration = 0;
-//        while (true) {
-//            int numOfColsInCurrentTable;
-//            int alreadyDisplayedDates = currentIteration * numOfMaxColsInTable;
-//            int remainingDates = datesArr.length - alreadyDisplayedDates;
-//            if (remainingDates == 0 || remainingDates < 0) {
-//                break;
-//            }
-//            if (remainingDates / numOfMaxColsInTable > 0) {
-//                numOfColsInCurrentTable = numOfMaxColsInTable;
-//            } else {
-//                numOfColsInCurrentTable = remainingDates % numOfMaxColsInTable;
-//            }
-//
-//            PdfPTable table = new PdfPTable(numOfColsInCurrentTable + 2);
-//            PdfPCell cell = new PdfPCell(new Paragraph("Symptom"));
-//            cell.setBackgroundColor(Color.lightGray);
-//            table.addCell(cell);
-//
-//            cell = new PdfPCell(new Paragraph("Attribute"));
-//            cell.setBackgroundColor(Color.lightGray);
-//            table.addCell(cell);
-//
-//            for (int j = 0; j < numOfColsInCurrentTable; j++) {
-//                int absIndex = currentIteration * numOfMaxColsInTable + j;
-//                cell = new PdfPCell(new Paragraph((String) datesArr[absIndex]));
-//                cell.setBackgroundColor(Color.lightGray);
-//                table.addCell(cell);
-//            }
-//
-//            for (String[] term : results.keySet()) {
-//                cell = new PdfPCell(new Paragraph(term[1]));
-//                cell.setBackgroundColor(Color.lightGray);
-//                table.addCell(cell);
-//                boolean first = true;
-//                HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
-//                for (Question question : questionMap.keySet()) {
-//                    if (!first) {
-//                        table.addCell("");
-//                    }
-//                    first = false;
-//                    cell = new PdfPCell(new Paragraph(question.getQuestionType().getDisplayName()));
-//                    cell.setBackgroundColor(new Color(161, 218, 215));
-//                    table.addCell(cell);
-//                    ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
-//                    Object[] validValuesArr = validValues.toArray();
-//                    for (int k = 0; k < numOfColsInCurrentTable; k++) {
-//                        int absIndex = currentIteration * numOfMaxColsInTable + k;
-//                        if (validValuesArr.length > absIndex && validValuesArr[absIndex]!=null) {
-//                            table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
-//                        } else {
-//                            table.addCell("");
-//                        }
-//                    }
-//                }
-//            }
-//            document.add(table);
-//            document.add(new Paragraph(" "));
-//            currentIteration++;
-//
-//        }
-//        float height = PageSize.A4.height() / 2;
-//        float width = PageSize.A4.width();
-//        int i = 0;
-//        for (String[] term : results.keySet()) {
-//            if (i % 2 == 0) {
-//                document.newPage();
-//                i = 0;
-//            }
-//            ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
-//            PdfContentByte cb = pdfWriter.getDirectContent();
-//            PdfTemplate tp = cb.createTemplate(width, height);
-//            Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-//            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, term[0], null, baselineDate);
-//            Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
-//            chart.draw(g2, r2D);
-//            g2.dispose();
-//            cb.addTemplate(tp, 0, i * height);
-//            i++;
-//        }
+        document.add(new Paragraph("STAFF FEEDBACK QUESTIONS", FontFactory.getFont("Times-Roman", 12, Font.BOLD)));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("1. Was the patient-reported symptom information used by clinical staff to information the CTCAE grading?"));
+        document.add(new Paragraph("    O YES             O NO"));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("2. Who completed this form?"));
+        document.add(new Paragraph("    O Clinician (MD/RN/PA)"));
+        document.add(new Paragraph("    O Non-Clinical Research Staff"));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("3. Did the person completing this form see the patient?"));
+        document.add(new Paragraph("    O YES             O NO"));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("4. Was the patient?s medical chart used to complete this form?"));
+        document.add(new Paragraph("    O YES             O NO"));
     }
 }
