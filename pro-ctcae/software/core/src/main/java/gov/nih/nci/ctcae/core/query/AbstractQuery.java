@@ -108,8 +108,17 @@ public abstract class AbstractQuery implements Query {
             } else {
                 queryBuffer.append(" " + AND + " " + conditon);
             }
-
         }
+        
+        for (String conditon : orConditions) {
+            if (queryBuffer.toString().toUpperCase().indexOf(WHERE) < 0) {
+                queryBuffer.append(" " + WHERE + " " + conditon);
+            } else {
+                queryBuffer.append(" " + OR + " " + conditon);
+            }
+        }
+        
+        
         if (!groupByString.equalsIgnoreCase("")) {
             // finally add group by
             queryBuffer.append(" " + groupByString);
@@ -150,7 +159,20 @@ public abstract class AbstractQuery implements Query {
         andConditions.add(condition);
     }
 
-
+    /**
+     * add the 'Where' condition to the existing Query String.
+     * <p>
+     * For example if for the queryString is "Select * from Article a order by a.id";
+     * andWhere("a.name=:name") will append queryString to "Select * from Article a WHERE
+     * a.name=:name order by a.id"
+     * </p>
+     *
+     * @param condition the condition
+     */
+    protected void orWhere(final String condition) {
+        orConditions.add(condition);
+    }
+    
     /**
      * Gets the parameter map.
      *

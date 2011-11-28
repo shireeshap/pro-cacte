@@ -16,7 +16,7 @@ public class StudyQuery extends SecuredQuery<Study> {
     /**
      * The query string.
      */
-    private static String queryString = "Select study from Study study order by study.shortTitle ";
+    private static String queryString = "Select distinct study from Study study order by study.shortTitle ";
 
     /**
      * The Constant SHORT_TITLE.
@@ -42,6 +42,8 @@ public class StudyQuery extends SecuredQuery<Study> {
      * The ORGANIZATIO n_ id.
      */
     private static String ORGANIZATION_ID = "organizationId";
+    
+    private static String ORGANIZATION_NAME = "organizationName";
 
     /**
      * The Constant STUDY_SITE.
@@ -155,16 +157,28 @@ public class StudyQuery extends SecuredQuery<Study> {
         andWhere("p.id =:" + PARTICIPANT_ID);
         setParameter(PARTICIPANT_ID, participantId);
     }
+    
+    public void filterByAll(String text){
+        String searchString = text != null ? "%"+text.toLowerCase()+"%" : "%";
+
+        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
+        setParameter(SHORT_TITLE, searchString);
+        
+        orWhere(String.format("lower(study.assignedIdentifier) LIKE :%s", ASSIGNED_IDENTIFIER));
+        setParameter(ASSIGNED_IDENTIFIER, searchString);
+        
+        leftJoin("study.studyOrganizations as sso");
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s or sso.class = :%s )" , STUDY_SITE, LEAD_SITE));
+        setParameter(ORGANIZATION_NAME, text);
+        setParameter(STUDY_SITE, "SST");
+        setParameter(LEAD_SITE, "LSS");
+    }
 
     public Class<Study> getPersistableClass() {
         return Study.class;
-
-
     }
 
     protected String getObjectIdQueryString() {
         return "study.id";
-
-
     }
 }
