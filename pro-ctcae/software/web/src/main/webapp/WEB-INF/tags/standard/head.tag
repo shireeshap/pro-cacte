@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta http-equiv="X-UA-Compatible" content="text/html;charset=utf-8;IE=EmulateIE7">
+<tags:stylesheetLink name="datatable"/>
 
 <tags:stylesheetLink name="tree"/>
 <tags:stylesheetLink name="debug"/>
@@ -70,7 +71,17 @@
 <tags:javascriptLink name="jQuery/fg.menu"/>
 <tags:stylesheetLink name="jQuery-theme/fg.menu"/>
 <tags:stylesheetLink name="jQuery-theme/jquery-ui-1.7.2.custom"/>
+
 <script>
 	jQuery.noConflict();
 </script>
+<script src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/json/json-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/get/get-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/dragdrop/dragdrop-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/calendar/calendar-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>
 
