@@ -3151,6 +3151,7 @@ pro-ctcae/software/web/src/main/webapp/css/calendar/calendar-blue.css -text
 pro-ctcae/software/web/src/main/webapp/css/common-search.css -text
 pro-ctcae/software/web/src/main/webapp/css/common.css -text
 pro-ctcae/software/web/src/main/webapp/css/cycledefinitions.css -text
+pro-ctcae/software/web/src/main/webapp/css/datatable.css -text
 pro-ctcae/software/web/src/main/webapp/css/debug.css -text
 pro-ctcae/software/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/software/web/src/main/webapp/css/fields.css -text
