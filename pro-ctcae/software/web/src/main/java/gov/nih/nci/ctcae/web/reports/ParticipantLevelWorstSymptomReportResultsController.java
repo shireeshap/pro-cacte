@@ -35,6 +35,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
 
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
+        setReportStartDateEndDate(request, filteredSchedules);
         TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(null, filteredSchedules, request);
 
         modelAndView.addObject("resultsMap", results);
@@ -43,6 +44,28 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
         return modelAndView;
+    }
+
+    private void setReportStartDateEndDate(final HttpServletRequest request,  List<StudyParticipantCrfSchedule> schedules){
+        String visitRange = request.getParameter("visitRange");
+        String startDate = "";
+        String endDate = "";
+        if ("dateRange".equals(visitRange)) {
+            startDate = request.getParameter("startDate");
+            endDate = request.getParameter("endDate");
+        }else {
+            List<Date> dates = new ArrayList<Date>();
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
+                dates.add(studyParticipantCrfSchedule.getStartDate());
+            }
+            Collections.sort(dates);
+            if(dates.size()>0){
+                startDate = DateUtils.format(dates.get(0));
+                endDate = DateUtils.format(dates.get(dates.size()-1));
+            }
+        }
+        request.getSession().setAttribute("reportStartDate",startDate);
+        request.getSession().setAttribute("reportEndDate", endDate);
     }
 
 
@@ -60,7 +83,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 if (value != null) {
                     buildMap(proCtcQuestion,
-                            new String[]{"P_" + symptomId, symptom},
+                            new String[]{"P_" + symptomId, symptom,""},
                             value,
                             symptomMap,
                             careResults,
@@ -75,7 +98,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                 ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 if (value != null) {
                     buildMap(question,
-                            new String[]{symptomId, symptom},
+                            new String[]{symptomId, symptom,""},
                             value,
                             symptomMap,
                             careResults,
@@ -98,6 +121,16 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                           boolean participantAddedQuestion,
                           Integer arraySize,
                           StudyParticipantCrfItem studyParticipantCrfItem) {
+        String meddraCode = " ";
+        if (question instanceof ProCtcQuestion) {
+            ProCtcQuestion proQuestion = (ProCtcQuestion) question;
+            meddraCode = proQuestion.getProCtcTerm().getCtcTerm().getCtepCode();
+        }
+        if (question instanceof MeddraQuestion) {
+            MeddraQuestion meddraQuestion = (MeddraQuestion) question;
+            meddraCode = meddraQuestion.getLowLevelTerm().getMeddraCode();
+        }
+        symptomArr[2] = meddraCode;
         ArrayList<ProCtcValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
