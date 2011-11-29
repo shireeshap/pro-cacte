@@ -45,18 +45,29 @@
         </property>
     </bean>
 
+	<bean id="xmlFileViewResolver2" class="org.springframework.web.servlet.view.XmlViewResolver">
+	    <property name="location">
+	        <value>/WEB-INF/views.xml</value>
+	    </property>
+	    <property name="order">
+	        <value>0</value>
+	    </property>
+	</bean>
 
     <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver"
           p:servletName="pages"/>
 
-
     <bean id="irViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:viewClass="org.springframework.web.servlet.view.InternalResourceView"
-          p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp">
+    	<property name="order">
+	        <value>1</value>
+	    </property>
+    </bean>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="10000000"/>
+        <property name="maxUploadSize" value="10000000" />
     </bean>
 
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" lazy-init="true">
@@ -341,6 +352,7 @@
         <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
 
+    
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
     </bean>
