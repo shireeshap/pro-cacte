@@ -15,6 +15,7 @@
         <br/>
     </div>
     <form method="POST" action="password">
+       	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <b><spring:message code="login.username" /></b>&nbsp;&nbsp;<input type="text" name="username" value=""/>
         <spring:message code="fp.submit" var="fpSubmit" />
         <tags:button type="submit" value="${fpSubmit}" color="green"/>
