@@ -17,6 +17,8 @@
 <body>
 <ctcae:form method="post">
 	<spring:message code="expiredPassword" var="expiredPassword"/>
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+	
     <chrome:box title="${expiredPassword}" autopad="true">
 
         <tags:instructions code="password.expired"/>

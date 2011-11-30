@@ -52,11 +52,43 @@
         .even {
             background-color: white;
         }
+        
+        .yui-skin-sam .yui-dt-liner { white-space: }  
     </style>
 </head>
+	
+<script>
+	YAHOO.util.Event.addListener(window, "load", function() {
+	    YAHOO.example.Basic = function() {
+	        var myColumnDefs = [ 
+	            {key:"studyAssignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140}, 
+	            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:140}, 
+	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:true, resizeable:false, width:235}, 
+	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:true, resizeable:false, width:235}, 
+	            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80} 
+	        ];
+
+	        var myDataSource = new YAHOO.util.DataSource("https://localhost:8443/proctcae/pages/study/fetchStudy");
+	        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+	        myDataSource.responseSchema = {
+       		    resultsList: "shippedRecordSet.searchStudyDTO", 
+	            fields: ["studyAssignedIdentifier", "shortTitle","fundingSponsorDisplayName", "coordinatingCenterDisplayName", "actions"]
+	        };
+
+	        var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, {caption:""});
+	                
+	        return {
+	            oDS: myDataSource,
+	            oDT: myDataTable
+	        };
+	    }();
+	});
+
+
+	
+		</script>
 
 <script>
-
     function getSites(sQuery) {
         showIndicator("siteInput-indicator");
         var callbackProxy = function(results) {
@@ -75,8 +107,7 @@
             $('siteInput').value = "${site.displayName}";
             $('siteInput').removeClassName('pending-search');
         }
-    })
-            ;
+    });
 
     function handleSelect(stype, args) {
         var ele = args[0];
@@ -99,18 +130,6 @@
         $(inputId + 'Input').focus();
         $(inputId + 'Input').blur();
     }
-
-
-    //    Event.observe(window, "load", function() {
-
-    //        acCreate(new siteAutoComplterWithSecurity('site'))
-
-
-    //        initializeAutoCompleter('site',
-    <%--'${site.displayName}', '${site.id}')--%>
-
-    //        initSearchField()
-    //    })
 
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
@@ -147,11 +166,12 @@
         submitForm();
     }
 </script>
+
 <body>
 <chrome:box title="study.label.search" autopad="true">
     <form method="POST" action="searchStudy#searchResults">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <input name="useReqParam" value="true" type="hidden"/>
-
         <p><tags:instructions code="study.search.top"/></p>
 
         <div class="content">
@@ -177,12 +197,9 @@
                                                hiddenInputName="site"/>
                     </div>
                 </div>
-                    <%--<tags:renderAutocompleter propertyName="site"--%>
-                    <%--displayName="study.label.study_site"--%>
-                    <%--required="false" size="70" noForm="true"/>--%>
             </div>
             <div style="padding-left:140px">
-                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                <tags:button color="blue" icon="search" type="button" value='Search' onclick="filterAndRefreshYuiTableForUser();"/>
             </div>
         </div>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
@@ -193,76 +210,12 @@
     </form>
 </chrome:box>
 <%--<a name="searchResults"/>--%>
+
 <chrome:box title="Results">
-
-    <table width="100%">
-        <tr>
-            <c:choose>
-                <c:when test="${totalRecords eq 0}">
-                    <td colspan="5">No results found</td>
-                </c:when>
-                <c:otherwise>
-                    <td style="white-space:nowrap;font-size:10px;">${totalRecords} results found, displaying ${begin}
-                        to ${end}</td>
-                    <td colspan="3" style="text-align:center;font-size:12px;"> Page:
-                        <c:if test="${page > 1}"><a
-                                href="javascript:setPage(${page-1})"><img
-                                src="../../images/table/prevPage.gif" height="12" width="15"></a>&nbsp;&nbsp;</c:if>
-                        <c:forEach var="pageNumber" begin="1" end="${numberOfPages}" step="1">
-                            <c:choose>
-                                <c:when test="${pageNumber eq page}">
-                                    <b>${pageNumber}</b>&nbsp;
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="javascript:setPage(${pageNumber})">${pageNumber}</a>&nbsp;
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:if test="${page < numberOfPages}">&nbsp;&nbsp;<a
-                            href="javascript:setPage(${page+1})"><img src="../../images/table/nextPage.gif" height="12" width="15"></a></c:if>
-                    </td>
-                    <td style="white-space:nowrap;vertical-align:top;font-size:10px;">Display
-                        <select name="rowsPerPageDisplay" onchange="setRowsPerPage(this.value)">
-                            <option value="5" <c:if test="${rowsPerPage eq 5}">selected</c:if>>5</option>
-                            <option value="15" <c:if test="${rowsPerPage eq 15}">selected</c:if>>15</option>
-                            <option value="25" <c:if test="${rowsPerPage eq 25}">selected</c:if>>25</option>
-                            <option value="50" <c:if test="${rowsPerPage eq 50}">selected</c:if>>50</option>
-                            <option value="75" <c:if test="${rowsPerPage eq 75}">selected</c:if>>75</option>
-                        </select>
-                        rows per page
-                    </td>
-
-                </c:otherwise>
-            </c:choose>
-        </tr>
-        <tr>
-            <td colspan="5"/>
-            &nbsp;</tr>
-        <tr>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Study identifier" name="studyIdentifier"/>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Short title" name="shortTitle"/>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Funding sponsor" name="fundingSponsor"/>
-            <tags:sortablecolumn sortDir="${sortDir}" sort="${sort}" title="Coordinating center"
-                                 name="coordinatingCenter"/>
-            <td class="tableHeader" width="80px">Actions</td>
-        </tr>
-        <c:forEach items="${searchResults}" var="row" varStatus="status">
-            <c:set var="class" value="odd"/>
-            <c:if test="${status.index%2==0}">
-                <c:set var="class" value="even"/>
-            </c:if>
-            <tr class="${class}">
-                <td>${row[0]}</td>
-                <td>${row[1]}</td>
-                <td>${row[2]}</td>
-                <td>${row[3]}</td>
-                <td>${row[4]}</td>
-            </tr>
-
-        </c:forEach>
-    </table>
+<div class="yui-skin-sam">
+<div id="basic">
+</div>
+</div>
 </chrome:box>
-
-
 </body>
 </html>

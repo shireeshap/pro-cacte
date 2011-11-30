@@ -25,6 +25,8 @@
     </c:when>
     <c:otherwise>
         <ctcae:form method="post">
+        	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+        
         	<spring:message code="rp.title" var="rpTitle" />
         	<spring:message code="rp.passwordPolicy" var="pwdPolicy" />
             <chrome:box title="${rpTitle}" autopad="true">
