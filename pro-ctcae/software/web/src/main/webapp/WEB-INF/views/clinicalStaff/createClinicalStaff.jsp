@@ -270,6 +270,8 @@
 </div>
 
 <ctcae:form method="post" commandName="clinicalStaffCommand">
+<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+
 <c:set var="hasUserAccount"
        value="${clinicalStaffCommand.clinicalStaff.user ne null}"/>
 <c:set var="isEdit"
