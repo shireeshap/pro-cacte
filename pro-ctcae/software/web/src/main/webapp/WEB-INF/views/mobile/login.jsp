@@ -28,6 +28,7 @@
 <chrome:box title="Please log in" autopad="true">
 
     <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
         <c:if test="${not empty param.error}">
             <c:choose>
