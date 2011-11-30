@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private FilterConfig filterConfig = null;
-    List<String> allowedParams = Arrays.asList("email", "participant.user.confirmPassword", "participant.user.password", "participant.emailAddress", "clinicalStaff.emailAddress");
+    List<String> allowedParams = Arrays.asList("username", "password", "confirmPassword", "email", "participant.user.confirmPassword", "participant.user.password", "participant.emailAddress", "clinicalStaff.emailAddress");
     List<String> urlsToSanitizeForHttpPost = Arrays.asList("/proctcae/pages/participant/create");
 
     public void destroy() {
