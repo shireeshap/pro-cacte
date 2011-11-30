@@ -2699,6 +2699,7 @@ software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaff
 software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CachingFilter.java -text
+software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CsrfPreventionFilter.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPFilter.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/filter/HTMLInputFilter.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityFilter.java -text
