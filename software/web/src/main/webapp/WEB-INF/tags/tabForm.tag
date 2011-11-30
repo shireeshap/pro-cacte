@@ -36,6 +36,7 @@
 <c:if test="${empty showCreate}"><c:set var="showCreate" value="false"/></c:if>
 <ctcae:form name="${formName}" enctype="${enctype}" id="command">
     <chrome:flashMessage/>
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
     <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}" boxClass="${boxClass}">
         <jsp:attribute name="tabContent">
