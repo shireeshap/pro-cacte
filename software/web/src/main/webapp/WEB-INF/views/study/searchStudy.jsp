@@ -150,6 +150,7 @@
 <body>
 <chrome:box title="study.label.search" autopad="true">
     <form method="POST" action="searchStudy#searchResults">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <input name="useReqParam" value="true" type="hidden"/>
 
         <p><tags:instructions code="study.search.top"/></p>

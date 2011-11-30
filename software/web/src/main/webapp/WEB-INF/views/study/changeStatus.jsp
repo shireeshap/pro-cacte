@@ -14,6 +14,8 @@
     <tr>
         <td>
             <ctcae:form method="post">
+           	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+            
             <div id="releaseForm">
                 <div style="border:1px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     Please provide the date on which new status will be made effective.
