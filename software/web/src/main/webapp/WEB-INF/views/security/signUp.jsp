@@ -68,6 +68,7 @@
 
 
 <ctcae:form method="post" cssClass="standard">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
     <chrome:box title="Contact Information">
 

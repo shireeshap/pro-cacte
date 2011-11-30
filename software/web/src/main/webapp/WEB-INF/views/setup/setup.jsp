@@ -22,6 +22,8 @@
 </c:when>
 <c:otherwise>
 	<ctcae:form method="post">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+	
     <chrome:box title="Create the first administrative account" id="setup-input">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <p><tags:instructions code="clinicalStaff.sysadmin_details.top"/></p>
