@@ -12,6 +12,8 @@
 <div style="width:590px;">
     <ctcae:form method="post">
         <chrome:box title="form.label.version_form">
+        	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+        
             <chrome:division>
                 <div id="versionForm">
                 	<p>

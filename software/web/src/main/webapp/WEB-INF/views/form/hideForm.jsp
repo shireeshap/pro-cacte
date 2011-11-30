@@ -11,6 +11,8 @@
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <div style="width:590px;">
     <ctcae:form method="post">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+    
         <chrome:box title="form.label.hide_form">
             <chrome:division>
                 <div id="releaseForm">

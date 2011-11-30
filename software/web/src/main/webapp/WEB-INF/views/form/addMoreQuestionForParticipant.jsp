@@ -1,4 +1,4 @@
-﻿<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
+<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -184,7 +184,7 @@
     var oAC;
     var greeting = "Begin typing here";
     <c:if test="${pageContext.response.locale == 'es'}">
-         greeting = "Comenzar a escribir aquí";
+         greeting = "Comenzar a escribir aqu�";
     </c:if>
 
     function initializeAutoCompleter() {
@@ -492,6 +492,7 @@
 
     </div>
     <ctcae:form method="post" name="myForm">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <table id="mytable" width="100%" border="0">
             <tbody>
             <tr>

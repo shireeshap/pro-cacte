@@ -60,6 +60,8 @@
 </head>
 <body>
 <ctcae:form method="post" name="myForm">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+
     <br/><br/><br/>
     <div style="clear:both;">
         <div id="center-panel">

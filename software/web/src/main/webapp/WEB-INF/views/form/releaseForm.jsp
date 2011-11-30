@@ -13,6 +13,8 @@
     <tr>
         <td>
             <ctcae:form method="post">
+            	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+            
                 <c:choose>
                     <c:when test="${command.released}">
                         <div id="errorMessages">
