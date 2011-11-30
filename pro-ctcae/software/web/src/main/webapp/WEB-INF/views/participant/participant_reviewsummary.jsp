@@ -65,7 +65,8 @@
 </chrome:division>
 <chrome:division title="participant.label.demographic_information" linkontitle="${linkDetails}"
                  linkurl="/pages/participant/create">
-
+   	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+	
     <table border="0" style="width:100%">
         <tr>
             <td>

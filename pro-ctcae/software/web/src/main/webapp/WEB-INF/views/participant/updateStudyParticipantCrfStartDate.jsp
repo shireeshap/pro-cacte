@@ -10,6 +10,8 @@
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <div style="width:650px;">
     <ctcae:form method="post">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+    
         <div id="releaseForm">
             <div style="border:1px solid #ccc; height:85px; padding:9px; margin-bottom:10px;">
                 <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
