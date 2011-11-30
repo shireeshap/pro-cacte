@@ -164,7 +164,8 @@
 <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
     <form method="POST" action="searchClinicalStaff#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
-
+		<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+		
         <tags:instructions code="clinicalStaff.search.top"/>
 
         <div class="row">

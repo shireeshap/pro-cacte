@@ -13,6 +13,8 @@
     <tr>
         <td>
             <ctcae:form method="post">
+           	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+            
             <div id="releaseForm">
                 <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     <c:choose>
