@@ -56,6 +56,8 @@
 
 <chrome:box>
 <ctcae:form method="post" name="myForm">
+<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+
 <input type="hidden" name="submitType" value=""/>
 <tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrf.crf.recallPeriod}"/>
          <span style="float: right;position:relative;bottom:10px">

@@ -224,6 +224,7 @@
 <chrome:box title="participant.label.search_criteria" autopad="true">
     <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
+       	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
         <tags:instructions code="participant.search.top"/>
 

@@ -25,6 +25,8 @@
         <%--${pageContext.request.requestURL}--%>
 
     <ctcae:form method="post" action="${url}">
+   		<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+    	
         <chrome:box title="participant.label.remove_hold_date">
             <chrome:division>
                 <div id="offTreatment">

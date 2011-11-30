@@ -12,6 +12,8 @@
 <body>
 
 <ctcae:form method="post">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+	
     <chrome:box title="participant.label.on_hold_date">
         <chrome:division>
 
