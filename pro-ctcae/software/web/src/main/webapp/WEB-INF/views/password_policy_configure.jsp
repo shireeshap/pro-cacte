@@ -52,7 +52,8 @@
 <c:if test="${updated}"><p class="updated">Settings saved</p></c:if>
 <ctcae:form action="${action}">
     <chrome:box title="Password Policy Configuration" autopad="true">
-
+		<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+		
         <c:url value="/pages/admin/passwordPolicyConfigure" var="action"/>
         <p><tags:instructions code="passwordconfig"/></p>
 
