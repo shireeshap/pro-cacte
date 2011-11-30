@@ -155,6 +155,8 @@
 <body>
 <chrome:box autopad="true" message="false">
     <ctcae:form method="post" name="myForm">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+    
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>
         </p>

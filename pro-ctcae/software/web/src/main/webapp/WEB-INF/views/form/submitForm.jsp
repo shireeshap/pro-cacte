@@ -164,6 +164,8 @@
 </head>
 <body>
 <ctcae:form method="post" name="myForm">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+
     <tags:hasErrorsMessage hideErrorDetails="false"/>
 
    <%-- <div style="padding-left:796px;font-size:12px">

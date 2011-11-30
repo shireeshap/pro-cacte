@@ -13,6 +13,8 @@
     <tr>
         <td>
             <ctcae:form method="post">
+            	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+            
                 <c:choose>
                     <c:when test="${command.released}">
                         <div id="errorMessages">
@@ -23,9 +25,7 @@
                             </div>
                             <p>
                                 Please
-                                <a href="<c:url value="/pages/form/manageForm?studyId=${command.study.id}"/>">return
-                                    to
-                                    the form</a>.
+                                <a href="<c:url value="/pages/form/manageForm?studyId=${command.study.id}"/>">return to the form</a>.
                             </p>
                         </div>
                     </c:when>

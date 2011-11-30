@@ -43,6 +43,8 @@
 </head>
 <body>
 <ctcae:form method="post" name="myForm">
+	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+
     <div style="clear:both;">
         <div id="left-panel">
             If you are experiencing any additional symptoms then please <a href="../form/addquestion">Click here</a> to add questions relating to them.

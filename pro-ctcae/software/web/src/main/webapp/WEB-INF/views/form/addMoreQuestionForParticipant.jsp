@@ -492,6 +492,7 @@
 
     </div>
     <ctcae:form method="post" name="myForm">
+    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <table id="mytable" width="100%" border="0">
             <tbody>
             <tr>
