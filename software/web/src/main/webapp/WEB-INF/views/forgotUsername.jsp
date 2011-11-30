@@ -23,6 +23,8 @@
                 <spring:message code="fun.instructions"/>
             </div>
             <form method="POST" action="forgotusername">
+               	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+            
                 <table>
                     <tr>
                         <td style="text-align:right"><b><spring:message code="fun.email"/></b></td>
