@@ -2769,6 +2769,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/FetchParticipantController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MatchSymptomsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
@@ -2794,6 +2795,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleC
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text

@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Organization;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
+import java.util.jar.Attributes;
 
 //
 
@@ -48,6 +49,9 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static String PHONENUMBER = "phoneNumber";
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
+    private static final String SHORT_TITLE = "shortTitle";
+    private static final String LONG_TITLE = "longTitle";
+    private static final String NAME = "name";
 
     /**
      * Instantiates a new participant query.
@@ -137,6 +141,27 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
                 setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
             }
         }
+    }
+
+    public void filterByAll(String text) {
+        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+
+        andWhere(String.format("(lower(p.firstName) LIKE :%s " +
+                "or lower(p.lastName) LIKE :%s " +
+                "or lower(p.assignedIdentifier) LIKE :%s " +
+                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
+        setParameter(IDENTIFIER, searchString);
+        setParameter(FIRST_NAME, searchString);
+        setParameter(LAST_NAME, searchString);
+        setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
+
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
+        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
+        setParameter(SHORT_TITLE, searchString);
+
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+        orWhere(String.format("lower(ss.organization.name) LIKE :%s", NAME));
+        setParameter(NAME, searchString);
     }
 
     /**

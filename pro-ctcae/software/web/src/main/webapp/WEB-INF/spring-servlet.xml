@@ -381,6 +381,14 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
+    <bean name="/participant/fetchParticipant" id="fetchParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.FetchParticipantController">
+        <property name="participantAjaxFacade" ref="participantAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
+        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+    </bean>
+
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
           class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="securedTabbedFlowFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
