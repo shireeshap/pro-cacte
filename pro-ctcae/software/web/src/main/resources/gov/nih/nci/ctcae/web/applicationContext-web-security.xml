@@ -5,8 +5,7 @@
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 
-    <http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp">
-
+    <http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp" session-fixation-protection="newSession">
 
         <intercept-url pattern="/public/login" filters="none"/>
         <intercept-url pattern="/public/logout" filters="none"/>
