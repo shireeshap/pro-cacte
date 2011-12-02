@@ -35,7 +35,7 @@
 <chrome:box title="Report - ${participant.displayName}">
     <c:choose>
         <c:when test="${fn:length(resultsMap) > 0}">
-            <tags:instructions code="participant.report.result.instructions"/>
+            <tags:instructions code="participant.report.worst.symptom.instructions"/>
             <div align="right">
                 <a href="<c:url value='/pages/reports/participantCarePdf?rt=worstSymptom'/>" target="_blank">
                     <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>

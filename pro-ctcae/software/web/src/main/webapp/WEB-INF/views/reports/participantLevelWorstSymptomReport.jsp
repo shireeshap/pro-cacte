@@ -177,7 +177,7 @@
 </head>
 <body>
 <report:participantReportThirdlevelMenu selected="worstSymptom"/>
-<tags:instructions code="participantReportInstructions"/>
+<tags:instructions code="participantReport.worst.symptom.instructions"/>
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
 
