@@ -43,12 +43,21 @@ public class ParticipantAjaxFacade {
         return participants;
     }
 
-    public List<Participant> searchParticipants(String searchString) {
-        List<Participant> participants = getParticipantObjects(searchString);
+    public List<Participant> searchParticipants(String searchString, Integer startIndex, Integer results) {
+        List<Participant> participants = getParticipantObjects(searchString, startIndex, results);
         return participants;
     }
 
-    public List<Participant> getParticipantObjects(String searchText) {
+    public Long resultCount(String searchText) {
+        ParticipantQuery participantQuery = new ParticipantQuery(true, true);
+        if (!StringUtils.isBlank(searchText)) {
+            participantQuery.filterByAll(searchText);
+        }
+        return participantRepository.findWithCount(participantQuery);
+
+    }
+
+    public List<Participant> getParticipantObjects(String searchText, Integer startIndex, Integer results) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         boolean siteStaff = false;
@@ -66,6 +75,9 @@ public class ParticipantAjaxFacade {
         } else {
             participantQuery = new ParticipantQuery(true);
         }
+//
+            participantQuery.setFirstResult(startIndex);
+            participantQuery.setMaximumResults(results);
         if (!StringUtils.isBlank(searchText)) {
             participantQuery.filterByAll(searchText);
         }

@@ -39,6 +39,10 @@ public class ParticipantRepository implements Repository<Participant, Participan
 
     }
 
+    public Long findWithCount(ParticipantQuery query) {
+        return genericRepository.findWithCount(query);
+    }
+
     private void initialzeParticipant(Participant participant) {
         for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
             StudyOrganization studyOrganization = studyParticipantAssignment.getStudySite();

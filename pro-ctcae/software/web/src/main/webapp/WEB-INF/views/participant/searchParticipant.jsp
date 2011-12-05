@@ -55,7 +55,7 @@
             background-color: white;
         }
 
-        .yui-skin-sam .yui-dt-liner { white-space: }
+
     </style>
 </head>
 
@@ -97,52 +97,73 @@
             showSpeed: 300
         });
     }
-//    function sortResults(sort, currentSort) {
-//        $('sort').value = sort;
-//        $('sortDir').value = currentSort;
-//        $('doSort').value = true;
-//        submitForm();
-<%----%>
-//    }
-//    function setPage(page) {
-//        $('page').value = page;
-//        submitForm();
-//    }
-//    function setRowsPerPage(rowsPerPage) {
-//        $('rowsPerPage').value = rowsPerPage;
-//        submitForm();
-//    }
 
     function submitForm() {
         document.forms[0].submit();
     }
 
-YAHOO.util.Event.addListener(window, "load", function() {
-	    YAHOO.example.Basic = function() {
-	        var myColumnDefs = [
-	            {key:"studyParticipantIdentifier", label:"Identifier",sortable:true, resizeable:false, width:100},
-	            {key:"lastName", label:"Last name", sortable:true,resizeable:false, width:100},
-	            {key:"firstName", label:"First name", sortable:true, resizeable:false, width:100},
-	            {key:"organizationName", label:"Site", sortable:true, resizeable:false, width:180},
-	            {key:"studyShortTitle", label:"Study", sortable:true, resizeable:false, width:220},
-               {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
-	        ];
+    YAHOO.util.Event.addListener(window, "load", function() {
+        YAHOO.example.Basic = function() {
+            var myColumnDefs = [
+                {key:"studyParticipantIdentifier", label:"Identifier",sortable:true, resizeable:false, width:100},
+                {key:"lastName", label:"Last name", sortable:true, resizeable:false, width:100},
+                {key:"firstName", label:"First name", sortable:true, resizeable:false, width:100},
+                {key:"organizationName", label:"Site", sortable:true, resizeable:false, width:180},
+                {key:"studyShortTitle", label:"Study", sortable:true, resizeable:false, width:220},
+                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            ];
 
-	        var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/participant/fetchParticipant");
-	        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
-	        myDataSource.responseSchema = {
-       		    resultsList: "shippedRecordSet.searchParticipantDTOs",
-	            fields: ["studyParticipantIdentifier", "lastName","firstName", "organizationName", "studyShortTitle", "actions"]
-	        };
 
-	        var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, {caption:""});
+            var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/participant/fetchParticipant?");
+            myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+            myDataSource.responseSchema = {
+                resultsList: "shippedRecordSet.searchParticipantDTOs",
+                fields: ["studyParticipantIdentifier", "lastName","firstName", "organizationName", "studyShortTitle", "actions"],
+                metaFields: {
+                    totalRecords: "shippedRecordSet.totalRecords",
+                    startIndex: "shippedRecordSet.startIndex"
+                }
+            };
 
-	        return {
-	            oDS: myDataSource,
-	            oDT: myDataTable
-	        };
-	    }();
-	});
+                var generateRequest = function(oState, oSelf) {
+	        // Get states or use defaults
+	        oState = oState || { pagination: null, sortedBy: null };
+	        var sort = (oState.sortedBy) ? oState.sortedBy.key : "firstName";
+	        var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+	        var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+	        var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+
+	        // Build custom request
+	        return  "sort=" + sort +
+                    "&dir=" + dir +
+	                "&startIndex=" + startIndex +
+	                "&results=" + (startIndex + results)
+	    };
+
+             var myConfigs = {
+	        generateRequest: generateRequest,
+	        initialRequest: generateRequest(), // Initial request for first page of data
+	        dynamicData: true, // Enables dynamic server-driven data
+	        sortedBy : {key:"firstName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+	        paginator: new YAHOO.widget.Paginator({ rowsPerPage:25 }) // Enables pagination
+	    };
+
+
+            var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+
+            // Update totalRecords on the fly with values from server
+            myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+                oPayload.totalRecords = oResponse.meta.totalRecords;
+                oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+                return oPayload;
+            };
+
+            return {
+                oDS: myDataSource,
+                oDT: myDataTable
+            };
+        }();
+    });
 
 
 </script>
@@ -150,10 +171,10 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <chrome:box title="participant.label.search_criteria" autopad="true">
     <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
-       	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+        <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
 
         <tags:instructions code="participant.search.top"/>
-       <div class="row">
+        <div class="row">
             <div class="label"><spring:message code='participant.label.search_string' text=''/></div>
             <div class="value IEdivValueHack">
                 <input type="text" id="searchString" name="searchString"
@@ -161,21 +182,24 @@ YAHOO.util.Event.addListener(window, "load", function() {
                        value="${searchString}"/>
             </div>
         </div>
-            <div class="row">
-                <div class="label"></div>
-                <div class="value">
-                    <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-                    <tags:indicator id="indicator"/>
-                </div>
+        <div class="row">
+            <div class="label"></div>
+            <div class="value">
+                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                <tags:indicator id="indicator"/>
             </div>
+        </div>
     </form>
 </chrome:box>
 
 <chrome:box title="Results">
-<div class="yui-skin-sam">
-<div id="basic">
-</div>
-</div>
+    <div class="yui-skin-sam">
+        <%--<p>Total records (between 0 and 1000): <input type="text" id="total" value="100"> <input type="button"--%>
+                                                                                                  <%--id="update"--%>
+                                                                                                  <%--value="Update"></p>--%>
+
+        <div id="basic"></div>
+    </div>
 </chrome:box>
 
 

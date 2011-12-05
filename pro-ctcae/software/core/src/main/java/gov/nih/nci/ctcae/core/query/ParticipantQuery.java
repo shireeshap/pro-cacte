@@ -21,6 +21,8 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
      */
     private static String queryString = "SELECT p from Participant p order by p.id";
 
+    private static String queryString1 = "SELECT count(*) from Participant p";
+
     /**
      * The FIRS t_ name.
      */
@@ -67,6 +69,15 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
             leftJoinStudySites();
         }
     }
+
+    public ParticipantQuery(boolean count, boolean secure) {
+        super(queryString1, secure);
+        if (secure) {
+            leftJoinStudySites();
+        }
+
+    }
+
 
     /**
      * Filter by participant first name.

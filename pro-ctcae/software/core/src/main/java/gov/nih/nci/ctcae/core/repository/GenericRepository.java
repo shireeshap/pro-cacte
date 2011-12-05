@@ -57,6 +57,8 @@ public interface GenericRepository {
      * @return the collection of persistable objects
      */
 
+    Long findWithCount(final Query query);
+
     <T extends Persistable> List<T> find(Query query);
 
     /**

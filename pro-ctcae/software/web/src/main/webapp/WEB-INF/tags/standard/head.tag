@@ -3,15 +3,28 @@
 
 <meta http-equiv="X-UA-Compatible" content="text/html;charset=utf-8;IE=EmulateIE7">
 
-<script src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/json/json-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/get/get-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/dragdrop/dragdrop-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/calendar/calendar-min.js"></script>
-<script src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/json/json-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/get/get-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/dragdrop/dragdrop-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/calendar/calendar-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>--%>
+<%--<script src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator-min.js"></script>--%>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/connection/connection-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datatable/datatable-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/json/json-min.js"></script>
+
 <tags:stylesheetLink name="datatable"/>
 
 <tags:stylesheetLink name="tree"/>

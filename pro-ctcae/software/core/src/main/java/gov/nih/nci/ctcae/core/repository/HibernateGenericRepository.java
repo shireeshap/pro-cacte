@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.validation.BeanValidator;
 
@@ -122,6 +123,30 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
         return id != null && classArg != null ? (T) getHibernateTemplate().get(classArg, id) : null;
     }
 
+    public Long findWithCount(final Query query){
+        return (Long) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(final Session session) throws HibernateException,
+                    SQLException {
+                org.hibernate.Query hiberanteQuery = session.createQuery(query.getQueryString());
+                Map<String, Object> queryParameterMap = ((AbstractQuery) query).getParameterMap();
+                Map<String, Collection> parameterListMap = ((AbstractQuery) query).getQueryParameterListMap();
+                for (String key : queryParameterMap.keySet()) {
+                    Object value = queryParameterMap.get(key);
+                    hiberanteQuery.setParameter(key, value);
+
+                }
+                for (String key : parameterListMap.keySet()) {
+                    Collection value = parameterListMap.get(key);
+                    hiberanteQuery.setParameterList(key, value);
+
+                }
+                return hiberanteQuery.uniqueResult();
+            }
+
+        });
+
+    }
     /**
      * {@inheritDoc}
      */
@@ -147,6 +172,11 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
                 }
                 if (query.getMaximumResults() != null) {
                     hiberanteQuery.setMaxResults(query.getMaximumResults());
+
+                }
+
+                if (query.getFirstResult() != null) {
+                    hiberanteQuery.setFirstResult(query.getFirstResult());
                 }
 
                 return hiberanteQuery.list();

@@ -66,6 +66,8 @@ public abstract class AbstractQuery implements Query {
      */
     private Integer maximumResults;
 
+    private Integer firstResult;
+
     /**
      * Instantiates a new abstract query.
      *
@@ -250,5 +252,11 @@ public abstract class AbstractQuery implements Query {
         this.maximumResults = maximumResults;
     }
 
+    public Integer getFirstResult() {
+        return firstResult;
+    }
 
+    public void setFirstResult(Integer firstResult) {
+        this.firstResult = firstResult;
+    }
 }

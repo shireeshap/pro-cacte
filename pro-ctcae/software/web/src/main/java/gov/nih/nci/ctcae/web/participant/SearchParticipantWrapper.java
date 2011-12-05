@@ -9,8 +9,12 @@ public class SearchParticipantWrapper {
     SearchParticipantDTO[] searchParticipantDTOs;
 
     int recordsReturned;
-    int totalRecords;
-    int startIndex = 0;
+    Long totalRecords;
+    int startIndex = 27;
+    int pageSize;
+    String dir;
+    String sort;
+
 
     public SearchParticipantDTO[] getSearchParticipantDTOs() {
         return searchParticipantDTOs;
@@ -28,11 +32,11 @@ public class SearchParticipantWrapper {
         this.recordsReturned = recordsReturned;
     }
 
-    public int getTotalRecords() {
+    public Long getTotalRecords() {
         return totalRecords;
     }
 
-    public void setTotalRecords(int totalRecords) {
+    public void setTotalRecords(Long totalRecords) {
         this.totalRecords = totalRecords;
     }
 
@@ -42,5 +46,29 @@ public class SearchParticipantWrapper {
 
     public void setStartIndex(int startIndex) {
         this.startIndex = startIndex;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getDir() {
+        return dir;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

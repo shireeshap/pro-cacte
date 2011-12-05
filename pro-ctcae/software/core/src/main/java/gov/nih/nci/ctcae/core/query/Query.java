@@ -19,4 +19,6 @@ public interface Query {
      * @return the maximum results
      */
     Integer getMaximumResults();
+
+    Integer getFirstResult();
 }
