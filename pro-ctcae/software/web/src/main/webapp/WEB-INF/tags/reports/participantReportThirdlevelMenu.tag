@@ -18,7 +18,7 @@
             <proctcae:urlAuthorize url="/pages/reports/participantReport">
                 <li id="thirdlevelnav-x" class="tab ${selected=='worstSymptom'?'selected':''}">
                     <div>
-                        <a href="participantReport?rt=worstSymptom">Worst Symptom Response</a>
+                        <a href="participantReport?rt=worstSymptom">Shared AE Form</a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
