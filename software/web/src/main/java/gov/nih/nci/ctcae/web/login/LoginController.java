@@ -266,6 +266,10 @@ public class LoginController extends AbstractController {
             	for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
             		spCrfIdList.add(spc.getId());
             	}
+            	
+            	if(spCrfIdList.size() == 0){
+            		continue;
+            	}
                 	
             	if (loadOverdue != null && pastCount > 0) {
                 	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
