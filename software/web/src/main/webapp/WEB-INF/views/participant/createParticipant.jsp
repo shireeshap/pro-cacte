@@ -285,7 +285,7 @@ function checkParticipantPhoneNumber(siteId){
                                                                                                     $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
                                                                                                 }
                                                                                            }
-                                                                                      //     checkError();
+                                                                                           checkError();
                                                                                        }});
         }
     }
@@ -293,7 +293,7 @@ function checkParticipantPhoneNumber(siteId){
         jQuery('#phoneNumberError_' + siteId).hide();
         jQuery('#PhonePatternError_' + siteId).hide();
         isPhoneNumberError = false;
-   //     checkError();
+        checkError();
     }
     checkError();
 }
@@ -323,7 +323,7 @@ function checkParticipantUserNumber(siteId) {
                                                                                            else {
                                                                                                isUserIdError = false;
                                                                                            }
-                                                                                  //         checkError();
+                                                                                           checkError();
                                                                                        }});
         }
     }
@@ -331,7 +331,7 @@ function checkParticipantUserNumber(siteId) {
         jQuery('#userNumberError_' + siteId).hide();
         jQuery('#UserPatternError_' + siteId).hide();
         isUserIdError = false;
-  //      checkError();
+        checkError();
     }
     checkError();
 }
