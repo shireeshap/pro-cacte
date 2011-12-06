@@ -10,7 +10,7 @@ public class SearchParticipantWrapper {
 
     int recordsReturned;
     Long totalRecords;
-    int startIndex = 27;
+    int startIndex;
     int pageSize;
     String dir;
     String sort;
