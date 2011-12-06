@@ -200,13 +200,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validatePhoneNumber(phoneNumber, command.getParticipant().getId());
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
-                errors.reject("participant.unique_userNumber");
+                errors.reject("participant.unique_phoneNumber");
             }
         }
 
          //checking for unique phone number
         if (command.getParticipant().getUserNumber() != null) {
-            String userNumber = command.getParticipant().getPhoneNumber().toString();
+            String userNumber = command.getParticipant().getUserNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
