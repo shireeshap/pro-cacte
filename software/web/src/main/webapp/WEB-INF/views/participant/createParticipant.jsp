@@ -266,10 +266,14 @@ function checkParticipantPhoneNumber(siteId){
             isPhoneNumberError = true;
         }
         else {
+            var re = /[-]/g;
+            var nonFormattedPhoneNumber = phoneNumber.replace(re,"");
+            phoneNumber = nonFormattedPhoneNumber.substring(0,3)+"-"+nonFormattedPhoneNumber.substring(3,6)+"-"+nonFormattedPhoneNumber.substring(6,10);
+            $('participant.phoneNumber_'+ siteId).value = phoneNumber;
             uniqueParticipantUserNumber.validatePhoneNumber(phoneNumber, participantId, {callback:
                                                                                        function(returnValue) {
-                                                                                           showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
                                                                                            jQuery('#PhonePatternError_' + siteId).hide();
+                                                                                           showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
                                                                                            if (returnValue) {
                                                                                                isPhoneNumberError = true;
                                                                                            }
@@ -278,10 +282,10 @@ function checkParticipantPhoneNumber(siteId){
                                                                                                 var userNumber = $('participant.userNumber_' + siteId).value;
                                                                                                 if (userNumber==null || userNumber=="") {
                                                                                                     var re = /[-]/g;
-                                                                                                    $('participant.userNumber_' + siteId).value = phoneNumber.replace(re,"");
+                                                                                                    $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
                                                                                                 }
                                                                                            }
-                                                                                           checkError();
+                                                                                      //     checkError();
                                                                                        }});
         }
     }
@@ -289,12 +293,12 @@ function checkParticipantPhoneNumber(siteId){
         jQuery('#phoneNumberError_' + siteId).hide();
         jQuery('#PhonePatternError_' + siteId).hide();
         isPhoneNumberError = false;
-        checkError();
+   //     checkError();
     }
     checkError();
 }
 
-var userNumberPattern = /^[0-9]{10}$/;;
+var userNumberPattern = /^[0-9]{10}$/;
 // validation check for participant user number (IVRS)
 function checkParticipantUserNumber(siteId) {
     var participantId = "${param['id']}";
@@ -311,15 +315,15 @@ function checkParticipantUserNumber(siteId) {
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
                                                                                        function(returnValue) {
-                                                                                           showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
                                                                                            jQuery('#UserPatternError_' + siteId).hide();
+                                                                                           showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
                                                                                            if (returnValue) {
                                                                                                isUserIdError = true;
                                                                                            }
                                                                                            else {
                                                                                                isUserIdError = false;
                                                                                            }
-                                                                                           checkError();
+                                                                                  //         checkError();
                                                                                        }});
         }
     }
@@ -327,7 +331,7 @@ function checkParticipantUserNumber(siteId) {
         jQuery('#userNumberError_' + siteId).hide();
         jQuery('#UserPatternError_' + siteId).hide();
         isUserIdError = false;
-        checkError();
+  //      checkError();
     }
     checkError();
 }

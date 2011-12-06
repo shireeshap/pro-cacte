@@ -186,7 +186,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 command.getParticipant().getStudyParticipantAssignments().size() == 0) {
             errors.reject("participant.study");
         }
-        
+
         // checking for unique email address
         if (command.getParticipant().getEmailAddress() != null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
@@ -200,20 +200,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validatePhoneNumber(phoneNumber, command.getParticipant().getId());
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
-                errors.reject("participant.unique_userNumber");
+                errors.reject("participant.unique_phoneNumber");
             }
         }
 
          //checking for unique phone number
         if (command.getParticipant().getUserNumber() != null) {
-            String userNumber = command.getParticipant().getPhoneNumber().toString();
+            String userNumber = command.getParticipant().getUserNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
                 errors.reject("participant.unique_userNumber");
             }
         }
-   
+
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
