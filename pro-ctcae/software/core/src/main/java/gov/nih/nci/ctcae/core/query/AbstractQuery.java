@@ -68,6 +68,10 @@ public abstract class AbstractQuery implements Query {
 
     private Integer firstResult;
 
+    private String sortBy;
+
+    private String sortDirection;
+
     /**
      * Instantiates a new abstract query.
      *
@@ -128,6 +132,10 @@ public abstract class AbstractQuery implements Query {
         if (!orderByString.equalsIgnoreCase("")) {
             // finally add order by
             queryBuffer.append(" " + orderByString);
+        }
+
+        if (this.getSortBy() != null && this.getSortDirection() != null) {
+            queryBuffer.append(" order by " + this.getSortBy() + " " + this.getSortDirection());
         }
 
         return queryBuffer.toString();
@@ -258,5 +266,21 @@ public abstract class AbstractQuery implements Query {
 
     public void setFirstResult(Integer firstResult) {
         this.firstResult = firstResult;
+    }
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public String getSortDirection() {
+        return sortDirection;
+    }
+
+    public void setSortDirection(String sortDirection) {
+        this.sortDirection = sortDirection;
     }
 }
