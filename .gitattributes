@@ -2693,8 +2693,11 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/Clinica
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffSearchResultsComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/EffectiveStaffController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/FetchClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/NotificationDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text

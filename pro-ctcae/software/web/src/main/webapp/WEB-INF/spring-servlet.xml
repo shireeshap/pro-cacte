@@ -389,6 +389,13 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
+     <bean name="/clinicalStaff/fetchClinicalStaff" id="fetchClinicalStaffController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.FetchClinicalStaffController">
+        <property name="clinicalStaffAjaxFacade" ref="clinicalStaffAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+    </bean>
+
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
           class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="securedTabbedFlowFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
@@ -461,8 +468,6 @@
     </bean>
     <bean name="/admin/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
-        <property name="clinicalStaffAjaxFacade" ref="clinicalStaffAjaxFacade"/>
-        <property name="studyRepository" ref="studyRepository"/>
     </bean>
     <bean name="/participant/monitorForm" id="monitorFormController"
           class="gov.nih.nci.ctcae.web.participant.MonitorFormController">

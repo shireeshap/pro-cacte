@@ -25,6 +25,10 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     private GenericRepository genericRepository;
     private UserRepository userRepository;
 
+    public Long findWithCount(ClinicalStaffQuery query) {
+        return genericRepository.findWithCount(query);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
