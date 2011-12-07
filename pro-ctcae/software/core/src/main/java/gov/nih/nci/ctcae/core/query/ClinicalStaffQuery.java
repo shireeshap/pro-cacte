@@ -38,10 +38,12 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * The NC i_ identifier.
      */
     private static String NCI_IDENTIFIER = "nciIdentifier";
+    private static String STUDY_ASSIGNED_IDENTIFIER = "assignedIdentifier";
     private String ROLES = "roles";
 
     private static final String NAME = "name";
     private static final String SHORT_TITLE = "shortTitle";
+    private static final String NCI_INSTITUTIONAL_CODE = "nciInstituteCode";
 
 
 
@@ -163,9 +165,13 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
             leftJoin("cs.organizationClinicalStaffs as orgcs left join orgcs.studyOrganizationClinicalStaff as storgcs join storgcs.studyOrganization as storg");
             orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
+            orWhere(String.format("lower(storg.organization.nciInstituteCode) LIKE :%s", NCI_INSTITUTIONAL_CODE));
             setParameter(NAME, searchString);
+            setParameter(NCI_INSTITUTIONAL_CODE, searchString);
             orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
+            orWhere(String.format("lower(storg.study.assignedIdentifier) LIKE :%s", STUDY_ASSIGNED_IDENTIFIER));
             setParameter(SHORT_TITLE, searchString);
+            setParameter(STUDY_ASSIGNED_IDENTIFIER, searchString);
         }
 
 
