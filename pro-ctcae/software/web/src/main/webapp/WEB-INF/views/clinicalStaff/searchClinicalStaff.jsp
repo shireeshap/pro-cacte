@@ -150,8 +150,8 @@
                     rowsPerPage:25,
                     template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
 	                rowsPerPageOptions: [10,25,50,100]
-                }) // Enables pagination
-
+                }), // Enables pagination
+                draggableColumns:true
             };
 
             var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
