@@ -52,7 +52,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>(new MyArraySorter());
         HashMap<Question, ArrayList<ProCtcValidValue>> careResults = new HashMap<Question, ArrayList<ProCtcValidValue>>();
         boolean participantAddedQuestion;
-
+        Integer dateIndex = 0;
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
             String displayDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
             if (studyParticipantCrfSchedule.getCycleNumber() != null) {
@@ -76,7 +76,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 participantAddedQuestion = false;
 //                if (value != null){
-                buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, firstQuestion);
+                buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, firstQuestion, dateIndex);
 //                }
             }
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
@@ -93,14 +93,15 @@ public class ParticipantLevelReportResultsController extends AbstractController 
                 String symptom = question.getQuestionSymptom();
                 ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 participantAddedQuestion = true;
-                buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, null);
+                buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, null, dateIndex);
             }
+            dateIndex++;
         }
 
         return symptomMap;
     }
 
-    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize, StudyParticipantCrfItem studyParticipantCrfItem) {
+    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize, StudyParticipantCrfItem studyParticipantCrfItem, Integer dateIndex) {
         ProCtcQuestion proQuestion = new ProCtcQuestion();
         if (question instanceof ProCtcQuestion) {
             proQuestion = (ProCtcQuestion) question;
@@ -120,17 +121,22 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (careResults.containsKey(question)) {
             validValue = careResults.get(question);
         } else {
+            validValue = new ArrayList<ProCtcValidValue>();
+            for(int j=0;j<=dateIndex;j++){
+            	if(validValue.size() < j){
+            		validValue.add(null);
+            	}
+            }
             if (participantAddedQuestion) {
-                validValue = new ArrayList<ProCtcValidValue>();
                 for (int i = 0; i < arraySize - 1; i++) {
                     ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
                     myProCtcValidValue.setDisplayOrder(0);
-                    validValue.add(myProCtcValidValue);
+
+                    validValue.add(dateIndex, myProCtcValidValue);
                 }
                 careResults.put(question, validValue);
 
             } else {
-                validValue = new ArrayList<ProCtcValidValue>();
                 careResults.put(question, validValue);
             }
 
@@ -138,9 +144,9 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (value == null && !isMeddraQuestion) {
             ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, studyParticipantCrfItem);
             myProCtcValidValue.setDisplayOrder(0);
-            validValue.add(myProCtcValidValue);
+            validValue.add(dateIndex, myProCtcValidValue);
         } else {
-            validValue.add(value);
+            validValue.add(dateIndex, value);
         }
     }
 
