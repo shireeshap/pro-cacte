@@ -193,7 +193,7 @@
         <input name="useReqParam" value="true" type="hidden"/>
         <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
 
-        <tags:instructions code="participant.search.top"/>
+        <tags:instructions code="clinicalStaff.search.top"/>
 
         <div class="row">
             <div class="label"><spring:message code='participant.label.search_string' text=''/></div>
