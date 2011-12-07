@@ -162,10 +162,10 @@ public class ClinicalStaffQuery extends AbstractQuery {
             setParameter(NCI_IDENTIFIER, searchString);
 
             leftJoin("cs.organizationClinicalStaffs as orgcs left join orgcs.studyOrganizationClinicalStaff as storgcs join storgcs.studyOrganization as storg");
-//            orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
-//            setParameter(NAME, searchString);
-//            orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
-//            setParameter(SHORT_TITLE, searchString);
+            orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
+            setParameter(NAME, searchString);
+            orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
+            setParameter(SHORT_TITLE, searchString);
         }
 
 

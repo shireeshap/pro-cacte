@@ -75,7 +75,23 @@ public class FetchClinicalStaffController extends AbstractController {
             dto.setSite(getSiteNames(clinicalStaff));
             dto.setNciIdentifier(clinicalStaff.getNciIdentifier());
 
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + clinicalStaff.getId() + "\",\"" + "--"+ "\");</script>";
+
+            boolean odc = false;
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            for (OrganizationClinicalStaff site : clinicalStaff.getOrganizationClinicalStaffs()) {
+                for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : site.getStudyOrganizationClinicalStaff()) {
+                    Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
+                    if (user.isODCOnStudy(study)) {
+                        odc = true;
+                        break;
+                    }
+                }
+                if (odc) {
+                    break;
+                }
+            }
+            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"clinicalStaffActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script type=\"text/javascript\">showPopUpMenuClinicalStaff(\"" + clinicalStaff.getId() + "\",\"" + clinicalStaff.getStatus() + "\",\"" + odc + "\");</script>";
+
             dto.setActions(actions);
 
             searchClinicalStaffWrapper.getSearchClinicalStaffDTOs()[index] = dto;
@@ -100,13 +116,17 @@ public class FetchClinicalStaffController extends AbstractController {
     }
 
     private String getStudyNames(ClinicalStaff clinicalStaff){
-        String studyNames="";
-        for(OrganizationClinicalStaff organizationClinicalStaff: clinicalStaff.getOrganizationClinicalStaffs()){
-            for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff: organizationClinicalStaff.getStudyOrganizationClinicalStaff()){
-                studyNames = studyNames + studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getDisplayName() + "</br>";
+        String studyNames = "";
+        Set<Study> studiesSet = new HashSet<Study>();
+        for (OrganizationClinicalStaff site : clinicalStaff.getOrganizationClinicalStaffs()) {
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : site.getStudyOrganizationClinicalStaff()) {
+                studiesSet.add(studyOrganizationClinicalStaff.getStudyOrganization().getStudy());
             }
         }
-         return studyNames;
+        for (Study study : studiesSet) {
+            studyNames += study.getDisplayName() + "<br>";
+        }
+        return studyNames;
     }
 
     @Required
