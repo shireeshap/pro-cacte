@@ -57,6 +57,7 @@
             font-weight: bold;
             text-decoration: underline;
         }
+
     </style>
 </head>
 
@@ -145,10 +146,16 @@
                 initialRequest: generateRequest(), // Initial request for first page of data
                 dynamicData: true, // Enables dynamic server-driven data
                 sortedBy : {key:"lastName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
-                paginator: new YAHOO.widget.Paginator({ rowsPerPage:25 }) // Enables pagination
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage:25,
+                    template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+	                rowsPerPageOptions: [10,25,50,100]
+                }) // Enables pagination
+
             };
 
             var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+            myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
             // Update totalRecords on the fly with values from server
             myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
                 oPayload.totalRecords = oResponse.meta.totalRecords;
