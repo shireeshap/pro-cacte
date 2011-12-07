@@ -156,6 +156,8 @@
 
             var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
             myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
+            myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
+	        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
             // Update totalRecords on the fly with values from server
             myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
                 oPayload.totalRecords = oResponse.meta.totalRecords;
