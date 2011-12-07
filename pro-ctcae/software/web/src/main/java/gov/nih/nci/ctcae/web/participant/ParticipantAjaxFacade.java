@@ -76,7 +76,7 @@ public class ParticipantAjaxFacade {
             participantQuery = new ParticipantQuery(true, false, true);
         }
 //
-            participantQuery.setSortBy(sortField);
+            participantQuery.setSortBy("p."+sortField);
             participantQuery.setSortDirection(direction);
             participantQuery.setFirstResult(startIndex);
             participantQuery.setMaximumResults(results);

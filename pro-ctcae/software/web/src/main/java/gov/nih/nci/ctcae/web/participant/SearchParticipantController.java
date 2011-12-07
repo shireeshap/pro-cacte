@@ -40,6 +40,9 @@ public class SearchParticipantController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("participant/searchParticipant");
+        String searchString = request.getParameter("searchString");
+        modelAndView.addObject("searchString",searchString);
+        request.getSession().setAttribute("ParticipantSearchString", searchString);
         return modelAndView;
     }
 
