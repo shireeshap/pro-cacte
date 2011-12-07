@@ -84,7 +84,7 @@ public class ClinicalStaffAjaxFacade {
 
        clinicalStaffQuery.setFirstResult(startIndex);
        clinicalStaffQuery.setMaximumResults(results);
-       clinicalStaffQuery.setSortBy(sort);
+       clinicalStaffQuery.setSortBy("cs."+sort);
        clinicalStaffQuery.setSortDirection(dir);
 
        clinicalStaffQuery.filterByAll(searchString);

@@ -72,6 +72,8 @@ public class FetchClinicalStaffController extends AbstractController {
             dto.setStatus(clinicalStaff.getStatus().getDisplayName() + " from " + DateUtils.format(clinicalStaff.getEffectiveDate()));
             String studyNames = getStudyNames(clinicalStaff);
             dto.setStudy(studyNames);
+            dto.setSite(getSiteNames(clinicalStaff));
+            dto.setNciIdentifier(clinicalStaff.getNciIdentifier());
 
             String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + clinicalStaff.getId() + "\",\"" + "--"+ "\");</script>";
             dto.setActions(actions);
@@ -86,6 +88,15 @@ public class FetchClinicalStaffController extends AbstractController {
         modelAndView.addObject("totalRecords", totalRecords);
 
         return new ModelAndView("jsonView", modelMap);
+    }
+
+    private String getSiteNames(ClinicalStaff clinicalStaff){
+        String siteNames="";
+        for(OrganizationClinicalStaff organizationClinicalStaff: clinicalStaff.getOrganizationClinicalStaffs()){
+                siteNames = siteNames + organizationClinicalStaff.getOrganization().getDisplayName() + "</br>";
+        }
+        return siteNames;
+
     }
 
     private String getStudyNames(ClinicalStaff clinicalStaff){

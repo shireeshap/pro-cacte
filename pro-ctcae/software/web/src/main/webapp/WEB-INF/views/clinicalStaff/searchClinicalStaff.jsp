@@ -106,16 +106,18 @@
             var myColumnDefs = [
                 {key:"lastName", label:"Last name", sortable:true,resizeable:false, width:100},
                 {key:"firstName", label:"First name", sortable:true, resizeable:false, width:100},
-                {key:"study", label:"Study", sortable:false, resizeable:false, width:180},
-                {key:"status", label:"Status", sortable:true, resizeable:false, width:220},
-                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+                {key:"nciIdentifier", label:"NCI Identifier", sortable:true, resizeable:false, width:70},
+                {key:"site", label:"Site", sortable:false, resizeable:false, width:180},
+                {key:"study", label:"Study", sortable:false, resizeable:false, width:185},
+                {key:"status", label:"Status", sortable:true, resizeable:false, width:80},
+                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80}
             ];
 
             var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/clinicalStaff/fetchClinicalStaff?");
             myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
             myDataSource.responseSchema = {
                 resultsList: "shippedRecordSet.searchClinicalStaffDTOs",
-                fields: ["lastName","firstName", "study", "status", "actions"],
+                fields: ["lastName","firstName","nciIdentifier", "site", "study", "status", "actions"],
                 metaFields: {
                     totalRecords: "shippedRecordSet.totalRecords",
                     startIndex: "shippedRecordSet.startIndex"
@@ -126,7 +128,7 @@
             var generateRequest = function(oState, oSelf) {
                 // Get states or use defaults
                 oState = oState || { pagination: null, sortedBy: null };
-                var sort = (oState.sortedBy) ? oState.sortedBy.key : "firstName";
+                var sort = (oState.sortedBy) ? oState.sortedBy.key : "lastName";
                 var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
                 var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
                 var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;

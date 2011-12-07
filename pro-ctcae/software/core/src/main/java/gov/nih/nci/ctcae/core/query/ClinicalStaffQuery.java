@@ -152,7 +152,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
      public void filterByAll(String text) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-        if(searchString != null){
+        if(!(searchString == null || "".equals(searchString))){
             orWhere(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME));
             orWhere(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME));
             orWhere(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER));
@@ -162,10 +162,10 @@ public class ClinicalStaffQuery extends AbstractQuery {
             setParameter(NCI_IDENTIFIER, searchString);
 
             leftJoin("cs.organizationClinicalStaffs as orgcs left join orgcs.studyOrganizationClinicalStaff as storgcs join storgcs.studyOrganization as storg");
-            orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
-            setParameter(NAME, searchString);
-            orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
-            setParameter(SHORT_TITLE, searchString);
+//            orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
+//            setParameter(NAME, searchString);
+//            orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
+//            setParameter(SHORT_TITLE, searchString);
         }
 
 

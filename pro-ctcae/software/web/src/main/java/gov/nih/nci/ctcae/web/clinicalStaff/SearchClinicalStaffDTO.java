@@ -10,9 +10,10 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 public class SearchClinicalStaffDTO {
     private String firstName;
     private String lastName;
-    private String identifier;
+    private String nciIdentifier;
     private String status;
     private String study;
+    private String site;
     private String actions;
 
     public String getLastName() {
@@ -23,12 +24,12 @@ public class SearchClinicalStaffDTO {
         this.lastName = lastName;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getNciIdentifier() {
+        return nciIdentifier;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setNciIdentifier(String nciIdentifier) {
+        this.nciIdentifier = nciIdentifier;
     }
 
     public String getStatus() {
@@ -61,5 +62,13 @@ public class SearchClinicalStaffDTO {
 
     public void setActions(String actions) {
         this.actions = actions;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
 }
