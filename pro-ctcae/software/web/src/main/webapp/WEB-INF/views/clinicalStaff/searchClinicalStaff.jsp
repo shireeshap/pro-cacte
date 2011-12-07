@@ -172,7 +172,7 @@
 
 </script>
 <body>
-<%--<div class="tabpane">
+<div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
             <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
@@ -194,7 +194,7 @@
 
         </ul>
     </div>
-</div>--%>
+</div>
 <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
     <form method="POST" action="searchClinicalStaff">
         <input name="useReqParam" value="true" type="hidden"/>
