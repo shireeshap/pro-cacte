@@ -235,7 +235,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
                 answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             if (q instanceof MeddraQuestion) {
-                question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
+                question =  ((MeddraQuestion) q).getMeddraQuestionVocab().getQuestionTextEnglish();
                 symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
