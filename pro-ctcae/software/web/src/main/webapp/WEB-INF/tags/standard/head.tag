@@ -92,8 +92,10 @@
 <tags:javascriptLink name="jQuery/jquery-1.3.2.min"/>
 <tags:javascriptLink name="jQuery/jquery-ui-1.7.2.custom.min"/>
 <tags:javascriptLink name="jQuery/fg.menu"/>
+<tags:javascriptLink name="jQuery/jquery.multiSelect"/>
 <tags:stylesheetLink name="jQuery-theme/fg.menu"/>
 <tags:stylesheetLink name="jQuery-theme/jquery-ui-1.7.2.custom"/>
+<tags:stylesheetLink name="jQuery-theme/jQuery.multiSelect/jquery.multiSelect"/>
 
 <script>
 	jQuery.noConflict();

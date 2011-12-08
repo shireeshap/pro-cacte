@@ -7,8 +7,6 @@
 <html>
 <head>
     <tags:includePrototypeWindow/>
-    <tags:dwrJavascriptLink objects="clinicalStaff"/>
-    <tags:dwrJavascriptLink objects="study"/>
     <style type="text/css">
         body {
             margin: 0;
@@ -102,6 +100,7 @@
         document.forms[0].submit();
     }
 
+    var myDataTable;
     YAHOO.util.Event.addListener(window, "load", function() {
         YAHOO.example.Basic = function() {
             var myColumnDefs = [
@@ -149,12 +148,13 @@
                 paginator: new YAHOO.widget.Paginator({
                     rowsPerPage:25,
                     template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-	                rowsPerPageOptions: [10,25,50,100]
+	                rowsPerPageOptions: [10,25,50,100],
+                    containers  : 'pag'
                 }), // Enables pagination
                 draggableColumns:true
             };
 
-            var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+            myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
             myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
             myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
 	        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
@@ -170,6 +170,32 @@
                 oDT: myDataTable
             };
         }();
+    });
+
+
+    function showHideColumnsForYUITable(columnKey) {
+        var column = myDataTable.getColumn(columnKey);
+        if (column.hidden) {
+            // Shows a Column
+            myDataTable.showColumn(columnKey);
+        }
+        else {
+            // Hides a Column
+            myDataTable.hideColumn(columnKey);
+        }
+        myDataTable.refreshView();
+    }
+
+    jQuery(function(){
+       jQuery("#columnOptionsForCaseTable").multiSelect({
+           header: "Choose an Option!",
+           selectAll: false,
+           noneSelected: 'Show columns',
+           oneOrMoreSelected: '% visible'
+                  },function(event) {
+                   showHideColumnsForYUITable(event.val())
+               }
+);
     });
 
 </script>
@@ -222,7 +248,30 @@
     </form>
 </chrome:box>
 <chrome:box title="Results">
+
     <div class="yui-skin-sam">
+        <table width="100%">
+            <tr>
+                <td width="73%">
+                    <div id="pag"></div>
+                </td>
+                <td width="27%">
+                     <div> Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
+                            <option value="lastName" selected="selected">Last name</option>
+                            <option value="firstName" selected="selected">First name</option>
+                            <option value="nciIdentifier" selected="selected">NCI identifier</option>
+                            <option value="site" selected="selected">Site</option>
+                            <option value="study" selected="selected">Study</option>
+                            <option value="status" selected="selected">Status</option>
+                        </select>
+                     </div>
+                </td>
+            </tr>
+        </table>
+
+
+
         <div id="basic">
         </div>
     </div>
