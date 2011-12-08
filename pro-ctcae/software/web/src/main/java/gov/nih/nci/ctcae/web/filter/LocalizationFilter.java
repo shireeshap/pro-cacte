@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.filter;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,9 +8,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 
 
@@ -31,14 +30,15 @@ public class LocalizationFilter implements Filter {
 
     	String lang = req.getParameter("lang");
     	lang = StringUtils.isBlank(lang) ? "en":lang;
+    	
+    	chain.doFilter(req, resp);
     	//we only support en or es for now.
     	if(lang.equalsIgnoreCase("en") || 
     			lang.equalsIgnoreCase("es")){
-        	//use LocaleContextHolder to set the display using the language selected on the login screen
-        	LocaleContextHolder.setLocale(new Locale(lang));
+        	((HttpServletRequest)req).getSession().setAttribute("lang", lang);
+    	} else {
+    		((HttpServletRequest)req).getSession().setAttribute("lang", "en");
     	}
-    	
-    	chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {
