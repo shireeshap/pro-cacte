@@ -82,7 +82,9 @@ import org.apache.commons.lang.StringUtils;
             while (parameterNames.hasMoreElements()) {
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
-                if (!StringUtils.isBlank(paramValue) && (!allowedParams.contains(param))) {
+                //Change to do a param.contains() on an array of strings ["email, "password", "user"].
+                if (!StringUtils.isBlank(paramValue) && 
+                		(!allowedParams.contains(param)  || !param.contains("email")) ) {
                     m = p.matcher(paramValue);
                     if (m.find()) {
                         return true;
