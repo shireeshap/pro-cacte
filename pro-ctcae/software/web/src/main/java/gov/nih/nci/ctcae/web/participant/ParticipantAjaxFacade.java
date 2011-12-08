@@ -76,7 +76,13 @@ public class ParticipantAjaxFacade {
             participantQuery = new ParticipantQuery(true, false, true);
         }
 //
+//        if (sortField.equals("studyShortTitle")) {
+//            participantQuery.setSortBy("p.studyParticipantAssignments.studySite.study.studyShortTitle");
+        if (sortField.equals("studyParticipantIdentifier")) {
+            participantQuery.setSortBy("p.studyParticipantAssignments.studyParticipantIdentifier");
+        } else {
             participantQuery.setSortBy("p."+sortField);
+        }
             participantQuery.setSortDirection(direction);
             participantQuery.setFirstResult(startIndex);
             participantQuery.setMaximumResults(results);
