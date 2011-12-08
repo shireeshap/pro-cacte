@@ -252,10 +252,10 @@
     <div class="yui-skin-sam">
         <table width="100%">
             <tr>
-                <td width="73%">
+                <td width="72%">
                     <div id="pag"></div>
                 </td>
-                <td width="27%">
+                <td width="28%">
                      <div> Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
                             <option value="lastName" selected="selected">Last name</option>
