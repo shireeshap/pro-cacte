@@ -130,6 +130,15 @@
     </servlet-mapping>
 
     <filter>
+        <filter-name>LocalizationFilter</filter-name>
+        <filter-class>gov.nih.nci.ctcae.web.filter.LocalizationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LocalizationFilter</filter-name>
+        <url-pattern>/pages/j_spring_security_check</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>SetCharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -196,16 +205,6 @@
     <filter-mapping>
         <filter-name>setup-or-not</filter-name>
         <url-pattern>/public/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>LocalizationFilter</filter-name>
-        <filter-class>gov.nih.nci.ctcae.web.filter.LocalizationFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>LocalizationFilter</filter-name>
-        <url-pattern>/pages/j_spring_security_check</url-pattern>
     </filter-mapping>
 
     <filter>

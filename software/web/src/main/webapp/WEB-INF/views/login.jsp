@@ -72,6 +72,8 @@
     
         <div id="wrapper">
         <form method="POST" name="loginForm" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
+        
+        	<input type="hidden" id="lang" name="lang" value="${param.lang}" /> 
 		    <c:set var="showLogin" value="true"/>
 		    <c:if test="${not empty param.error}">
 		        <c:choose>

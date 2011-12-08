@@ -41,12 +41,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
@@ -76,10 +76,11 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
+        RequestContextUtils.getLocale(request);
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
             	//use LocaleContextHolder to set the display using the language selected on the login screen
-            	String lang = LocaleContextHolder.getLocale().getLanguage();
+            	String lang = request.getSession().getAttribute("lang").toString();
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
             	//String lang = getParticipantsPreferredLanguage(user);
                 return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
