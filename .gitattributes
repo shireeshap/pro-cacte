@@ -2705,6 +2705,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CachingFilter.
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CsrfPreventionFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/HTMLInputFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/LocalizationFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityRequestWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityResponseWrapper.java -text

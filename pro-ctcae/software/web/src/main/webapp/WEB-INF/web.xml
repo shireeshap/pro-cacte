@@ -198,7 +198,16 @@
         <url-pattern>/public/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>LocalizationFilter</filter-name>
+        <filter-class>gov.nih.nci.ctcae.web.filter.LocalizationFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>LocalizationFilter</filter-name>
+        <url-pattern>/pages/j_spring_security_check</url-pattern>
+    </filter-mapping>
+    
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
