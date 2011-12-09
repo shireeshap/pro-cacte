@@ -101,7 +101,7 @@
     function submitForm() {
         document.forms[0].submit();
     }
-
+    var myDataTable;
     YAHOO.util.Event.addListener(window, "load", function() {
         YAHOO.example.Basic = function() {
             var myColumnDefs = [
@@ -125,32 +125,40 @@
                 }
             };
 
-                var generateRequest = function(oState, oSelf) {
-	        // Get states or use defaults
-	        oState = oState || { pagination: null, sortedBy: null };
-	        var sort = (oState.sortedBy) ? oState.sortedBy.key : "firstName";
-	        var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
-	        var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
-	        var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+            var generateRequest = function(oState, oSelf) {
+                // Get states or use defaults
+                oState = oState || { pagination: null, sortedBy: null };
+                var sort = (oState.sortedBy) ? oState.sortedBy.key : "firstName";
+                var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+                var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+                var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
 
-	        // Build custom request
-	        return  "sort=" + sort +
-                    "&dir=" + dir +
-	                "&startIndex=" + startIndex +
-	                "&results=" + (startIndex + results)
-	    };
+                // Build custom request
+                return  "sort=" + sort +
+                        "&dir=" + dir +
+                        "&startIndex=" + startIndex +
+                        "&results=" + (startIndex + results)
+            };
 
-             var myConfigs = {
-	        generateRequest: generateRequest,
-	        initialRequest: generateRequest(), // Initial request for first page of data
-	        dynamicData: true, // Enables dynamic server-driven data
-	        sortedBy : {key:"firstName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
-	        paginator: new YAHOO.widget.Paginator({ rowsPerPage:25 }) // Enables pagination
-	    };
+            var myConfigs = {
+                generateRequest: generateRequest,
+                initialRequest: generateRequest(), // Initial request for first page of data
+                dynamicData: true, // Enables dynamic server-driven data
+                sortedBy : {key:"firstName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage:25,
+                    template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+                    rowsPerPageOptions: [10,25,50,100],
+                    containers  : 'pag'
+                }), // Enables pagination
+                draggableColumns:true
+            };
 
 
-            var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
-
+            myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+            myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow);
+            myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
+            myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
             // Update totalRecords on the fly with values from server
             myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
                 oPayload.totalRecords = oResponse.meta.totalRecords;
@@ -165,6 +173,30 @@
         }();
     });
 
+    function showHideColumnsForYUITable(columnKey) {
+        var column = myDataTable.getColumn(columnKey);
+        if (column.hidden) {
+            // Shows a Column
+            myDataTable.showColumn(columnKey);
+        }
+        else {
+            // Hides a Column
+            myDataTable.hideColumn(columnKey);
+        }
+        myDataTable.refreshView();
+    }
+
+    jQuery(function() {
+        jQuery("#columnOptionsForCaseTable").multiSelect({
+            header: "Choose an Option!",
+            selectAll: false,
+            noneSelected: 'Show columns',
+            oneOrMoreSelected: '% visible'
+        }, function(event) {
+            showHideColumnsForYUITable(event.val())
+        }
+                );
+    });
 
 </script>
 <body>
@@ -194,9 +226,25 @@
 
 <chrome:box title="Results">
     <div class="yui-skin-sam">
-        <%--<p>Total records (between 0 and 1000): <input type="text" id="total" value="100"> <input type="button"--%>
-                                                                                                  <%--id="update"--%>
-                                                                                                  <%--value="Update"></p>--%>
+        <table width="100%">
+            <tr>
+                <td width="72%">
+                    <div id="pag"></div>
+                </td>
+                <td width="28%">
+                    <div> Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
+                                title="Show/Hide Columns">
+                            <option value="studyParticipantIdentifier" selected="selected">Identifier</option>
+                            <option value="lastName" selected="selected">Last name</option>
+                            <option value="firstName" selected="selected">First name</option>
+                            <option value="organizationName" selected="selected">Site</option>
+                            <option value="studyShortTitle" selected="selected">Study</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
         <div id="basic"></div>
     </div>
