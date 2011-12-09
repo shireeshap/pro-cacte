@@ -1754,10 +1754,10 @@ BEGIN
 	question_text_english='How OFTEN did you have ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS)');
 	UPDATE pro_ctc_questions SET question_file_name='question2'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
-	question_text_english='What was the SEVERITY of your ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) at their WORST)');
+	question_text_english='What was the SEVERITY of your ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) at their WORST');
 	UPDATE pro_ctc_questions SET question_file_name='question3'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
-	question_text_english='How much did ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) INTERFERE with your usual or daily activities)');
+	question_text_english='How much did ACHING JOINTS (SUCH AS ELBOWS, KNEES, SHOULDERS) INTERFERE with your usual or daily activities');
 	UPDATE pro_ctc_questions SET question_file_name='question4'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
 	question_text_english='How OFTEN did you have ACHING MUSCLES');
@@ -1811,7 +1811,7 @@ BEGIN
 	question_text_english='What was the SEVERITY of your BREAST AREA ENLARGEMENT OR TENDERNESS at its WORST');
 	UPDATE pro_ctc_questions SET question_file_name='question21'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
-	question_text_english='Did you BRUISE EASILY (BLACK AND BLUE MARKS))');
+	question_text_english='Did you BRUISE EASILY (BLACK AND BLUE MARKS)');
 	UPDATE pro_ctc_questions SET question_file_name='question22'
 	WHERE id=(SELECT pro_ctc_questions_id FROM pro_ctc_questions_vocab WHERE
 	question_text_english='Did you have any CHANGE IN THE COLOR OF YOUR FINGERNAILS OR TOENAILS');
