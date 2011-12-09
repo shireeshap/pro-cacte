@@ -165,8 +165,11 @@ function validateCalloutTime(siteId, startTime, endTime) {
         var callHour = parseInt(callHour, 10);
         var callMin = parseInt(callMin, 10);
 
-        if (callAmPm == 'pm') {
+        if (callHour < 12 &&callAmPm == 'pm') {
             var callHour = callHour + 12;
+        }
+        if(callHour == 12 && callAmPm == 'am'){
+           callHour=callHour-12;
         }
         var blockPreferredTime = false;
         var isSameDay = isSameDay1(hhStart, mmStart, hhEnd, mmEnd);
