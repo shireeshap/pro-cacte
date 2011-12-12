@@ -24,7 +24,7 @@ import java.util.*;
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
         @Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
-public class StudyParticipantCrfSchedule extends BasePersistable implements Comparable<StudyParticipantCrfSchedule>{
+public class StudyParticipantCrfSchedule extends BasePersistable implements Comparable<StudyParticipantCrfSchedule> {
 
     /**
      * The id.
@@ -173,18 +173,18 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
      * @return the study participant crf items
      */
     public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
-    	if(studyParticipantCrfItems == null || studyParticipantCrfItems.size() == 0){
-    		if(studyParticipantCrf != null && studyParticipantCrf.getCrf() != null &&
-    			 studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber() != null){
-    			for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
+        if (studyParticipantCrfItems == null || studyParticipantCrfItems.size() == 0) {
+            if (studyParticipantCrf != null && studyParticipantCrf.getCrf() != null &&
+                    studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber() != null) {
+                for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
                     for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                         StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
                         studyParticipantCrfItem.setCrfPageItem(crfPageItem);
                         this.addStudyParticipantCrfItem(studyParticipantCrfItem);
                     }
                 }
-    		}
-    	}
+            }
+        }
         Collections.sort(studyParticipantCrfItems, new DisplayOrderComparator());
         return studyParticipantCrfItems;
     }
@@ -235,7 +235,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
                 answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
             if (q instanceof MeddraQuestion) {
-                question = ((ProCtcQuestion) q).getProCtcQuestionVocab().getQuestionTextEnglish();
+                question = ((MeddraQuestion) q).getMeddraQuestionVocab().getQuestionTextEnglish();
                 symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue(SupportedLanguageEnum.ENGLISH);
             }
@@ -566,55 +566,49 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     }
 
     public Map getParticipantAddedProCtcQuestionsBySymptom() {
-        Map<ProCtcTerm, List<List>> symptomMap = new LinkedHashMap();
+        Map<String, List<List>> symptomMap = new LinkedHashMap();
         addParticipantAddedQuestions();
         List<List> studyParticipantCrfScheduleAddedQuestions;
         Integer counter = 0;
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
             ArrayList itemCounter = new ArrayList();
+            boolean isProTerm = false;
             if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
-                ProCtcTerm symptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm();
-                if (symptomMap.containsKey(symptom)) {
-                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
+                String proSymptom;
+                isProTerm = true;
+                if (language.equals("en")) {
+                    proSymptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+                } else {
+                    proSymptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermSpanish();
+                }
+                if (symptomMap.containsKey(proSymptom)) {
+                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(proSymptom);
                 } else {
                     studyParticipantCrfScheduleAddedQuestions = new ArrayList();
-                    symptomMap.put(symptom, studyParticipantCrfScheduleAddedQuestions);
+                    symptomMap.put(proSymptom, studyParticipantCrfScheduleAddedQuestions);
                 }
                 itemCounter.add(studyParticipantCrfScheduleAddedQuestion);
                 itemCounter.add(counter);
+                itemCounter.add(isProTerm);
                 studyParticipantCrfScheduleAddedQuestions.add(itemCounter);
                 counter++;
             }
-        }
-        return symptomMap;
-    }
-
-    public Map getParticipantAddedMeddraQuestionsBySymptom() {
-        addParticipantAddedQuestions();
-        String language = this.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage();
-        if (language == null || language == "") {
-            language = SupportedLanguageEnum.ENGLISH.getName();
-        }
-        Map<String, List<List>> symptomMap = new LinkedHashMap();
-        List<List> studyParticipantCrfScheduleAddedQuestions;
-        Integer counter = 0;
-        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
-            ArrayList itemCounter = new ArrayList();
             if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
-                String symptom;
-                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
-                    symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
+                String meddraSymptom;
+                if (language.equals("en")) {
+                    meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName(SupportedLanguageEnum.ENGLISH);
                 } else {
-                    symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getLowLevelTermVocab().getMeddraTermSpanish();
+                    meddraSymptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getLowLevelTermVocab().getMeddraTermSpanish();
                 }
-                if (symptomMap.containsKey(symptom)) {
-                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
+                if (symptomMap.containsKey(meddraSymptom)) {
+                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(meddraSymptom);
                 } else {
                     studyParticipantCrfScheduleAddedQuestions = new ArrayList();
-                    symptomMap.put(symptom, studyParticipantCrfScheduleAddedQuestions);
+                    symptomMap.put(meddraSymptom, studyParticipantCrfScheduleAddedQuestions);
                 }
                 itemCounter.add(studyParticipantCrfScheduleAddedQuestion);
                 itemCounter.add(counter);
+                itemCounter.add(isProTerm);
                 studyParticipantCrfScheduleAddedQuestions.add(itemCounter);
                 counter++;
             }
@@ -624,16 +618,16 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
 
     /**
      * Will populate the CRF items
-     
-    public void scheduleStudyParticipantCRFItems() {
-        for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
-            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-                addStudyParticipantCrfItem(studyParticipantCrfItem);
-            }
-        }
-    }*/
+
+     public void scheduleStudyParticipantCRFItems() {
+     for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
+     for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+     StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+     studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+     addStudyParticipantCrfItem(studyParticipantCrfItem);
+     }
+     }
+     }*/
 
 
     /**
