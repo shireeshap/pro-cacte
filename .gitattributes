@@ -1313,6 +1313,7 @@ IVRS-repo/proctcae-sound/proctcae/en/gsm/technicalIssue.gsm -text
 IVRS-repo/proctcae-sound/proctcae/en/gsm/thankyou.gsm -text
 IVRS-repo/proctcae-sound/proctcae/en/gsm/tryLater.gsm -text
 IVRS-repo/proctcae-sound/proctcae/en/gsm/welcome.gsm -text
+IVRS-repo/proctcae-sound/proctcae/en/gsm/whiteNoise.gsm -text
 IVRS-repo/proctcae-sound/proctcae/es/MP3/10minsClip.mp3 -text
 IVRS-repo/proctcae-sound/proctcae/es/MP3/20minsClip.mp3 -text
 IVRS-repo/proctcae-sound/proctcae/es/MP3/30minsClip.mp3 -text
