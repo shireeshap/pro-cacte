@@ -24,7 +24,7 @@ import java.util.*;
 public class ParticipantLevelReportPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
@@ -86,7 +86,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
                 boolean first = true;
-                HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                HashMap<Question, ArrayList<ValidValue>> questionMap = results.get(term);
                 for (Question question : questionMap.keySet()) {
                     if (!first) {
                         table.addCell("");
@@ -95,12 +95,12 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                     cell = new PdfPCell(new Paragraph(question.getQuestionType().getDisplayName()));
                     cell.setBackgroundColor(new Color(161, 218, 215));
                     table.addCell(cell);
-                    ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
+                    ArrayList<ValidValue> validValues = questionMap.get(question);
                     Object[] validValuesArr = validValues.toArray();
                     for (int k = 0; k < numOfColsInCurrentTable; k++) {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
                         if (validValuesArr.length > absIndex && validValuesArr[absIndex]!=null) {
-                            table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
+                            table.addCell(((ValidValue)validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
                         } else {
                             table.addCell("");
                         }

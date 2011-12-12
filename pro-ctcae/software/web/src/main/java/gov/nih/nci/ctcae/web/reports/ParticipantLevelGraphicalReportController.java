@@ -57,7 +57,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
             arrSelectedTypes.addAll(allAttributes);
         }
         ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         String baselineDate = (String) request.getSession().getAttribute("baselineDate");
 

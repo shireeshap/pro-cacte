@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -64,9 +65,9 @@ public class ParticipantLevelChartGenerator {
     ArrayList<String> typesInSymptom = new ArrayList<String>();
     ArrayList<String> validValueType = new ArrayList<String>();
 
-    public JFreeChart getChartForSymptom(TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
+    public JFreeChart getChartForSymptom(TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results, ArrayList<String> dates, String inputTerm, ArrayList<String> arrSelectedTypes, String baselineDate) {
         String selectedTerm = null;
-        HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart = null;
+        HashMap<Question, ArrayList<ValidValue>> dataForChart = null;
         for (String[] term : results.keySet()) {
             if (term[0].equals(inputTerm)) {
                 selectedTerm = term[1];
@@ -89,7 +90,7 @@ public class ParticipantLevelChartGenerator {
      * @param baselineDataSet
      * @return the category dataset
      */
-    private CategoryDataset createDataset(HashMap<Question, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes, String baselineDate, DefaultCategoryDataset baselineDataSet) {
+    private CategoryDataset createDataset(HashMap<Question, ArrayList<ValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes, String baselineDate, DefaultCategoryDataset baselineDataSet) {
 
         int i = 0;
         HashMap<String, Integer> baselineValues = new HashMap<String, Integer>();
@@ -97,8 +98,8 @@ public class ParticipantLevelChartGenerator {
             for (String date : dates) {
                 if (date.indexOf(baselineDate) > -1) {
                     for (Question question : dataForChart.keySet()) {
-                        ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(question);
-                        ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
+                        ArrayList<ValidValue> proCtcValidValues = dataForChart.get(question);
+                        ValidValue proCtcValidValue = proCtcValidValues.get(i);
                         String questionType = question.getQuestionType().getDisplayName();
                         baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
                     }
@@ -110,10 +111,10 @@ public class ParticipantLevelChartGenerator {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String date : dates) {
             for (Question question : dataForChart.keySet()) {
-                ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(question);
+                ArrayList<ValidValue> proCtcValidValues = dataForChart.get(question);
                 int displayOrder = 0;
                 if (proCtcValidValues.size() > i) {
-                    ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
+                    ValidValue proCtcValidValue = proCtcValidValues.get(i);
                     if (proCtcValidValue != null) {
                         displayOrder = proCtcValidValue.getDisplayOrder();
                         validValueType.add(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH));

@@ -19,7 +19,7 @@ import java.util.*;
 public class ParticipantLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
@@ -108,14 +108,14 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
             cell.setCellStyle(style);
 
 
-            HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+            HashMap<Question, ArrayList<ValidValue>> questionMap = results.get(term);
             for (Question question : questionMap.keySet()) {
                 i = 1;
                 cell = row.createCell(i++);
                 cell.setCellValue(new HSSFRichTextString(question.getQuestionType().getDisplayName()));
                 cell.setCellStyle(style1);
-                ArrayList<ProCtcValidValue> validValues = questionMap.get(question);
-                for (ProCtcValidValue proCtcValidValue : validValues) {
+                ArrayList<ValidValue> validValues = questionMap.get(question);
+                for (ValidValue proCtcValidValue : validValues) {
                     cell = row.createCell(i++);
                     if (proCtcValidValue!=null) {
                     cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH)));

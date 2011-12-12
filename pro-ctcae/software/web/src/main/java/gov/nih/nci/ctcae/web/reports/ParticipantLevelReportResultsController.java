@@ -33,7 +33,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         List<String> dates = new ArrayList<String>();
 
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules, request);
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = getCareResults(dates, filteredSchedules, request);
 
 
         modelAndView.addObject("resultsMap", results);
@@ -47,10 +47,10 @@ public class ParticipantLevelReportResultsController extends AbstractController 
     }
 
 
-    private TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
+    private TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
 
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>(new MyArraySorter());
-        HashMap<Question, ArrayList<ProCtcValidValue>> careResults = new HashMap<Question, ArrayList<ProCtcValidValue>>();
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>(new MyArraySorter());
+        HashMap<Question, ArrayList<ValidValue>> careResults = new HashMap<Question, ArrayList<ValidValue>>();
         boolean participantAddedQuestion;
         Integer dateIndex = 0;
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
@@ -92,7 +92,12 @@ public class ParticipantLevelReportResultsController extends AbstractController 
 //                }
                 String symptomId = question.getStringId();
                 String symptom = question.getQuestionSymptom();
-                ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                ValidValue value;
+                if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
+                     value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                } else {
+                    value = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
+                }
                 participantAddedQuestion = true;
                 buildMap(question, new String[]{symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, null, dateIndex);
             }
@@ -102,7 +107,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         return symptomMap;
     }
 
-    private void buildMap(Question question, String[] symptomArr, ProCtcValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<Question, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize, StudyParticipantCrfItem studyParticipantCrfItem, Integer dateIndex) {
+    private void buildMap(Question question, String[] symptomArr, ValidValue value, TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap, HashMap<Question, ArrayList<ValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize, StudyParticipantCrfItem studyParticipantCrfItem, Integer dateIndex) {
         ProCtcQuestion proQuestion = new ProCtcQuestion();
         if (question instanceof ProCtcQuestion) {
             proQuestion = (ProCtcQuestion) question;
@@ -111,7 +116,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (question instanceof MeddraQuestion) {
                isMeddraQuestion = true;
         }
-        ArrayList<ProCtcValidValue> validValue;
+        ArrayList<ValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
         } else {
@@ -122,7 +127,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (careResults.containsKey(question)) {
             validValue = careResults.get(question);
         } else {
-        	validValue = new ArrayList<ProCtcValidValue>();
+        	validValue = new ArrayList<ValidValue>();
             for(int j=0;j<=dateIndex;j++){
             	if(validValue.size() < j){
             		validValue.add(null);
