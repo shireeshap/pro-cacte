@@ -152,7 +152,6 @@
 
     <bean id="wavFileController" name="/participant/playFile.wav" class="gov.nih.nci.ctcae.web.form.AudioFileController">
         <property name="contentType" value="audio/x-wav"/>
-        <property name="properties" ref="proCtcAeProperties"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
