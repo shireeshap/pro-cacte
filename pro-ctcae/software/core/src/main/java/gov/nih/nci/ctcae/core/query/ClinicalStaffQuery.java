@@ -15,9 +15,9 @@ public class ClinicalStaffQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT cs from ClinicalStaff cs order by cs.id";
-    private static String queryString1 = "SELECT count(*) from ClinicalStaff cs";
-    private static String queryString2 = "SELECT cs from ClinicalStaff cs ";
+    private static String queryString = "SELECT distinct cs from ClinicalStaff cs order by cs.id";
+    private static String queryString1 = "SELECT count(distinct cs) from ClinicalStaff cs";
+    private static String queryString2 = "SELECT distinct cs from ClinicalStaff cs ";
 
     private static String ORGANIZATION_ID = "organizationId";
     private static String ORGANIZATION_CLASS = "domainObjectClass";
