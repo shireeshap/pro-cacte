@@ -38,7 +38,7 @@ public class EnrollmentReportResultsController extends AbstractController {
             Collections.sort(participantAssignmentList, new StudyParticipantAssignmentComparator());
             enrollmentReportLine.setNumberOfParticipants(participantAssignmentList.size());
             if (participantAssignmentList.size() > 0) {
-                enrollmentReportLine.setLastEnrollment(participantAssignmentList.get(0).getParticipant().getCreationDate());
+                enrollmentReportLine.setLastEnrollment(participantAssignmentList.get(participantAssignmentList.size()-1).getParticipant().getCreationDate());
             }
             enrollmentReport.add(enrollmentReportLine);
         }
