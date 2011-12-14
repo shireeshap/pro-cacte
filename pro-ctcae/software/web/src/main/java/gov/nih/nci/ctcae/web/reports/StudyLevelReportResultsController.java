@@ -72,13 +72,16 @@ public class StudyLevelReportResultsController extends AbstractController {
             }
             dates.add(studyParticipantCrfSchedule.getStartDate());
             StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
+            ProCtcQuestion proCtcQuestion;
+            ProCtcTerm symptom;
+            ProCtcValidValue value;
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                 if (proCtcQuestion.getDisplayOrder() == 1) {
                     firstQuestion = studyParticipantCrfItem;
                 }
-                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
-                ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+                symptom = proCtcQuestion.getProCtcTerm();
+                value = studyParticipantCrfItem.getProCtcValidValue();
                 buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() -1);
             }
         }
@@ -153,7 +156,6 @@ public class StudyLevelReportResultsController extends AbstractController {
                 }
 
                 table.append("</table>");
-
                 tableMap.put(participant, table.toString());
             }
         }
