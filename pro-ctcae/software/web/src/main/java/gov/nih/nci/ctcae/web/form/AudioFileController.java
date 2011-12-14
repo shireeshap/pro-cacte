@@ -5,12 +5,9 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepo
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.SocketException;
-import java.util.Properties;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -19,27 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
- * The Class AudioFileController. Responsible for fetching the audio file from the asterisk server location by using ftp and streaming the audio as a 
+ * The Class AudioFileController. Responsible for fetching the audio file from the asterisk server location and streaming the audio as a 
  * byte array to the jsp.
  */
 public class AudioFileController extends AbstractController {
 
-	public static final String FTP_IP = "ftp.server.name";
-	public static final String FTP_USERNAME = "ftp.username";
-	public static final String FTP_PASSWORD = "ftp.password";
-	
-//	public static final String ftpFilePath = "/var/lib/asterisk/sounds/sampleWavFile30Sec.wav";
 	protected static final Log logger = LogFactory.getLog(AudioFileController.class);
 	
 	private String contentType;
-	private Properties properties;
 	
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
@@ -89,12 +77,12 @@ public class AudioFileController extends AbstractController {
 	 * @return the file path
 	 */
 	private String getFilePath(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-		logger.debug("filepath: "+ studyParticipantCrfSchedule.getFilePath());
+		logger.error("filepath: "+ studyParticipantCrfSchedule.getFilePath());
 		return studyParticipantCrfSchedule.getFilePath();
 	}
 
 	/**
-	 * Gets the audio file from the remote server and converts it to a byte array for the UI.
+	 * Gets the audio file from the astersik location (on the same machine as tomcat) and converts it to a byte array for the UI.
 	 * returns null in case of some exception.
 	 *
 	 * @return the file data
@@ -102,50 +90,19 @@ public class AudioFileController extends AbstractController {
 	 */
 	protected byte[] getFileData(String filePath) throws Exception{
 		logger.debug("Entering getFileData");
-    	String ftpIp = properties.getProperty(FTP_IP);
-    	String ftpUsername = properties.getProperty(FTP_USERNAME);
-    	String ftpPassword = properties.getProperty(FTP_PASSWORD);
-    	
-    	FTPClient ftp = new FTPClient();
-    	boolean isSuccess = false;
     	byte[] bytes = null;
     	
-    	//this will create a file in $CATALINA_HOME/bin
-    	File file = new File("prt_rec.wav");
-    	FileOutputStream dfile = new FileOutputStream(file);
-    	try {
-	          ftp.connect(ftpIp);
-	          int reply = ftp.getReplyCode();
-	          if(FTPReply.isPositiveCompletion(reply)){
-	        	  ftp.login(ftpUsername, ftpPassword);
-	        	  ftp.enterLocalPassiveMode();
-	        	  ftp.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
-	        	  ftp.setFileType(FTP.BINARY_FILE_TYPE);
-	        	  logger.debug("Connected Successfully to ftp server");
-	        	  
-	        	  isSuccess = ftp.retrieveFile(filePath, dfile);
-              } else {
-	            logger.error("Connection Failed to ftp server");
-	          }
-	          
-	          if(isSuccess){
-	        	  logger.debug("successfully retrieved file from ftp server...populating buffer now.");
-		  	      InputStream fis = new FileInputStream(file);
-		  	      bytes = new byte[(int) file.length()];
-		  	      
-		  	      fis.read(bytes);
-		  	      fis.close();
-		  	  } 
-        } catch (SocketException ex) {
-        	logger.error("contentType property must be set"+ ex.getMessage());
-	    } catch (IOException ex) {
-	    	logger.error("contentType property must be set"+ ex.getMessage());
-	    } finally {
-	    	ftp.disconnect();
-	    	//delete the file from $CATALINA_HOME/bin
-  	    	file.delete();
-	    }
-	    logger.debug("Exiting getFileData");
+    	try{
+        	File file = new File(filePath);
+    	    InputStream fis = new FileInputStream(file);
+    	    bytes = new byte[(int) file.length()];
+    	      
+    	    fis.read(bytes);
+    	    fis.close();
+    	} catch(IOException ioe){
+    		logger.error(ioe.getMessage());
+    	}
+    	
 	    return bytes;
     }
 
@@ -155,10 +112,6 @@ public class AudioFileController extends AbstractController {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
-	}
-
-	public void setProperties(Properties properties) {
-		this.properties = properties;
 	}
 
 	public StudyParticipantCrfScheduleRepository getStudyParticipantCrfScheduleRepository() {
