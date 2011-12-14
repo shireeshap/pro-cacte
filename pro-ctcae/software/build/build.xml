@@ -325,6 +325,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
         <replace file="${bdalite.dir}/datasource.properties" token="@IVRSPHONEPREFIX@" value="${ivrs.phone.prefix}" /> 
         <replace file="${bdalite.dir}/datasource.properties" token="@IVRSCALLERID@" value="${ivrs.callerid}" />
         <replace file="${bdalite.dir}/datasource.properties" token="@BASEURL@" value="${base.url}" />
+        <replace file="${bdalite.dir}/datasource.properties" token="@ASTERISK_IP@" value="${asterisk.ip}" /> 
+        <replace file="${bdalite.dir}/datasource.properties" token="@ASTERISK_USERNAME@" value="${asterisk.username}" />
+        <replace file="${bdalite.dir}/datasource.properties" token="@ASTERISK_PASSWORD@" value="${asterisk.password}" />
 
 		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_SERVER@" value="${smtp.address}" />		
 		<replace file="${bdalite.dir}/mail.properties" token="@SMTP_USER@" value="${smtp.user}" />		
