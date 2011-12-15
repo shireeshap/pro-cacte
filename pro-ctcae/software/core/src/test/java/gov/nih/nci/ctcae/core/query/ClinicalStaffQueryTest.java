@@ -11,7 +11,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testQueryConstructor() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffFirstName("John");
-        assertEquals("SELECT cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
                 clinicalStaffQuery.getQueryString());
 
     }
@@ -19,7 +19,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testFilterByFirstName() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffFirstName("John");
-        assertEquals("SELECT cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("firstName"));
@@ -29,7 +29,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testFilterByOrganizationId() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByOrganization(1);
-        assertEquals("SELECT cs from ClinicalStaff cs left join cs.organizationClinicalStaffs as scs WHERE scs.organization.id = :organizationId AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs left join cs.organizationClinicalStaffs as scs WHERE scs.organization.id = :organizationId AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("organizationId"));
@@ -40,7 +40,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testFilterByNciIdentifier() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByNciIdentifier("John");
-        assertEquals("SELECT cs from ClinicalStaff cs WHERE lower(cs.nciIdentifier) LIKE :nciIdentifier AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs WHERE lower(cs.nciIdentifier) LIKE :nciIdentifier AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("nciIdentifier"));
@@ -50,7 +50,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testFilterByLastName() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffLastName("Dow");
-        assertEquals("SELECT cs from ClinicalStaff cs WHERE ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) AND lower(cs.lastName) LIKE :lastName order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs WHERE ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) AND lower(cs.lastName) LIKE :lastName order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 4);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("lastName"));
@@ -61,7 +61,7 @@ public class ClinicalStaffQueryTest extends TestCase {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffFirstName("John");
         clinicalStaffQuery.filterByClinicalStaffLastName("Dow");
-        assertEquals("SELECT cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) AND lower(cs.lastName) LIKE :lastName order by cs.id",
+        assertEquals("SELECT distinct cs from ClinicalStaff cs WHERE lower(cs.firstName) LIKE :firstName AND ((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate)) AND lower(cs.lastName) LIKE :lastName order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 5);
 
