@@ -77,12 +77,14 @@ public class LoginController extends AbstractController {
 
         User user = (User) auth.getPrincipal();
         RequestContextUtils.getLocale(request);
+        String lang  = "en";
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
             	//use LocaleContextHolder to set the display using the language selected on the login screen
-            	String lang = request.getSession().getAttribute("lang").toString();
+            	if(request.getSession().getAttribute("lang") != null){
+            		lang = request.getSession().getAttribute("lang").toString();
+            	}
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
-            	//String lang = getParticipantsPreferredLanguage(user);
                 return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
             } else {
                 request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.ENGLISH);
