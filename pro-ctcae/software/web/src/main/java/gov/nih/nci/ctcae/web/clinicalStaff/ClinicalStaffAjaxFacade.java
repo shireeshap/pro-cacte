@@ -74,29 +74,42 @@ public class ClinicalStaffAjaxFacade {
      * @param searchString
      * @return the string
      */
-    public List<ClinicalStaff> searchClinicalStaff(String searchString, Integer startIndex, Integer results, String sort, String dir) {
+    public List<ClinicalStaff> searchClinicalStaff(String[] searchString, Integer startIndex, Integer results, String sort, String dir) {
         List<ClinicalStaff> clinicalStaffs = getClinicalStaffObjects(searchString, startIndex,results,sort,dir,true);
         return clinicalStaffs;
     }
 
-    public List<ClinicalStaff> getClinicalStaffObjects(String searchString, Integer startIndex, Integer results, String sort, String dir, boolean showInactive) {
+    public List<ClinicalStaff> getClinicalStaffObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, boolean showInactive) {
        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(true,true,true);
 
        clinicalStaffQuery.setFirstResult(startIndex);
        clinicalStaffQuery.setMaximumResults(results);
        clinicalStaffQuery.setSortBy("cs."+sort);
        clinicalStaffQuery.setSortDirection(dir);
-
-       clinicalStaffQuery.filterByAll(searchString);
+       if(searchStrings != null){
+           clinicalStaffQuery.setLeftJoin();
+           int index = 0;
+           for(String searchString: searchStrings){
+               clinicalStaffQuery.filterByAll(searchString,""+index);
+               index++;
+           }
+       }
        List<ClinicalStaff> clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
        return clinicalStaffs;
     }
 
 
-    public Long resultCount(String searchText) {
+    public Long resultCount(String[] searchTexts) {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(true, true);
-        if (!StringUtils.isBlank(searchText)) {
-            clinicalStaffQuery.filterByAll(searchText);
+        if(searchTexts != null){
+            clinicalStaffQuery.setLeftJoin();
+            int index = 0;
+            for(String searchText: searchTexts){
+                if (!StringUtils.isBlank(searchText)) {
+                    clinicalStaffQuery.filterByAll(searchText,""+index);
+                    index++;
+                }
+            }
         }
         return clinicalStaffRepository.findWithCount(clinicalStaffQuery);
 

@@ -152,30 +152,30 @@ public class ClinicalStaffQuery extends AbstractQuery {
         setParameter("effectiveDate",  new Date());
     }
 
-     public void filterByAll(String text) {
+
+    public void setLeftJoin(){
+        leftJoin("cs.organizationClinicalStaffs as orgcs left outer join orgcs.studyOrganizationClinicalStaff as storgcs left outer join orgcs.organization as org left outer join storgcs.studyOrganization as studyOrg left outer join studyOrg.study as std");
+    }
+
+     public void filterByAll(String text, String key) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-        if(!(searchString == null || "".equals(searchString))){
-            orWhere(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME));
-            orWhere(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME));
-            orWhere(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER));
+        orWhereList(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME+key));
+        orWhereList(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME+key));
+        orWhereList(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER+key));
 
-            setParameter(FIRST_NAME, searchString);
-            setParameter(LAST_NAME, searchString);
-            setParameter(NCI_IDENTIFIER, searchString);
-
-            leftJoin("cs.organizationClinicalStaffs as orgcs left join orgcs.studyOrganizationClinicalStaff as storgcs join storgcs.studyOrganization as storg");
-            orWhere(String.format("lower(storg.organization.name) LIKE :%s", NAME));
-            orWhere(String.format("lower(storg.organization.nciInstituteCode) LIKE :%s", NCI_INSTITUTIONAL_CODE));
-            setParameter(NAME, searchString);
-            setParameter(NCI_INSTITUTIONAL_CODE, searchString);
-            orWhere(String.format("lower(storg.study.shortTitle) LIKE :%s", SHORT_TITLE));
-            orWhere(String.format("lower(storg.study.assignedIdentifier) LIKE :%s", STUDY_ASSIGNED_IDENTIFIER));
-            setParameter(SHORT_TITLE, searchString);
-            setParameter(STUDY_ASSIGNED_IDENTIFIER, searchString);
-        }
+        setParameter(FIRST_NAME+key, searchString);
+        setParameter(LAST_NAME+key, searchString);
+        setParameter(NCI_IDENTIFIER+key, searchString);
 
 
-
+        orWhere(String.format("lower(org.name) LIKE :%s", NAME+key));
+        orWhere(String.format("lower(org.nciInstituteCode) LIKE :%s", NCI_INSTITUTIONAL_CODE+key));
+        setParameter(NAME+key, searchString);
+        setParameter(NCI_INSTITUTIONAL_CODE+key, searchString);
+        orWhere(String.format("lower(std.shortTitle) LIKE :%s", SHORT_TITLE+key));
+        orWhere(String.format("lower(std.assignedIdentifier) LIKE :%s", STUDY_ASSIGNED_IDENTIFIER+key));
+        setParameter(SHORT_TITLE+key, searchString);
+        setParameter(STUDY_ASSIGNED_IDENTIFIER+key, searchString);
     }
 
 

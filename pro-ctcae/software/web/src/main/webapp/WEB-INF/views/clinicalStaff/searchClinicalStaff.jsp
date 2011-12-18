@@ -142,7 +142,7 @@
             // DataTable configuration
             var myConfigs = {
                 generateRequest: generateRequest,
-                initialRequest: generateRequest(), // Initial request for first page of data
+                initialRequest: generateRequest()+"&first=yes", // Initial request for first page of data
                 dynamicData: true, // Enables dynamic server-driven data
                 sortedBy : {key:"lastName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
                 paginator: new YAHOO.widget.Paginator({

@@ -38,43 +38,87 @@ public class FetchClinicalStaffController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/searchClinicalStaff");
-        String useReqParam = request.getParameter("useReqParam");
         String startIndex = request.getParameter("startIndex");
+        Integer startIndexInt = Integer.parseInt(startIndex);
+
         String results = request.getParameter("results");
+        Integer resultsInt = Integer.parseInt(results);
+
         String sort = request.getParameter("sort");
         String dir = request.getParameter("dir");
-        String searchString = "";
+        String[] searchStrings= null;
 
-//        if (StringUtils.isBlank(useReqParam)) {
-        searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
-//        } else {
-        //    searchString = request.getParameter("searchString");
-         //   request.getSession().setAttribute("ParticipantSearchString", searchString);
-        //    request.getSession().removeAttribute("ParticipantSearchString");
-//        }
+        String first = request.getParameter("first");
 
-        List<ClinicalStaff> clinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchString,Integer.parseInt(startIndex),Integer.parseInt(results),sort,dir);
-        Long totalRecords = clinicalStaffAjaxFacade.resultCount(searchString);
+        String searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
+        if(!StringUtils.isBlank(searchString)){
+            searchString.trim();
+            String[] splitSearchStrings = searchString.split("\\s+");
+            if(splitSearchStrings.length >1){
+                searchStrings = new String[splitSearchStrings.length + 1];
+                searchStrings[0] = searchString;
+                for(int i=0;i<splitSearchStrings.length;i++){
+                   searchStrings[i+1] = splitSearchStrings[i];
+                }
+            }else{
+                searchStrings = splitSearchStrings;
+            }
 
-        List<SearchClinicalStaffDTO> jsonListOfObjects = new ArrayList<SearchClinicalStaffDTO>();
+        }
+        Long totalRecords = clinicalStaffAjaxFacade.resultCount(searchStrings);
+        List<ClinicalStaff>  finalClinicalStaffs = new ArrayList<ClinicalStaff>();
+        if(first != null && searchStrings!=null && searchStrings.length>1){
+            Set<ClinicalStaff> clinicalStaffsSet = new LinkedHashSet<ClinicalStaff>();
+            for(String str:searchStrings){
+                String searchStringArray[] = new String[1];
+                searchStringArray[0] = str;
+                List<ClinicalStaff> clinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStringArray,startIndexInt,resultsInt,sort,dir);
+                for(ClinicalStaff staff: clinicalStaffs)
+                clinicalStaffsSet.add(staff);
+                if(clinicalStaffsSet.size() >= resultsInt) {
+                    break;
+                }
+            }
+            List<ClinicalStaff> tempList = new ArrayList<ClinicalStaff>();
+            tempList.addAll(clinicalStaffsSet);
+            for(int index=0;index<tempList.size();index++){
+                finalClinicalStaffs.add(tempList.get(index));
+                if(finalClinicalStaffs.size()== resultsInt){
+                    break;
+                }
+            }
+        }else{
+            finalClinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStrings,startIndexInt,resultsInt,sort,dir);
+        }
+
+//        List<SearchClinicalStaffDTO> jsonListOfObjects = new ArrayList<SearchClinicalStaffDTO>();
         SearchClinicalStaffWrapper searchClinicalStaffWrapper = new SearchClinicalStaffWrapper();
         searchClinicalStaffWrapper.setTotalRecords(totalRecords);
         searchClinicalStaffWrapper.setRecordsReturned(25);
         searchClinicalStaffWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchClinicalStaffWrapper.setPageSize(25);
         searchClinicalStaffWrapper.setDir("asc");
-        searchClinicalStaffWrapper.setSearchClinicalStaffDTOs(new SearchClinicalStaffDTO[clinicalStaffs.size()]);
+        searchClinicalStaffWrapper.setSearchClinicalStaffDTOs(new SearchClinicalStaffDTO[finalClinicalStaffs.size()]);
         int index = 0;
-        for(ClinicalStaff clinicalStaff: clinicalStaffs){
+        for(ClinicalStaff clinicalStaff: finalClinicalStaffs){
             SearchClinicalStaffDTO dto = new SearchClinicalStaffDTO();
-            dto.setFirstName(clinicalStaff.getFirstName());
-            dto.setLastName(clinicalStaff.getLastName());
-            dto.setStatus(clinicalStaff.getStatus().getDisplayName() + " from " + DateUtils.format(clinicalStaff.getEffectiveDate()));
-            String studyNames = getStudyNames(clinicalStaff);
-            dto.setStudy(studyNames);
-            dto.setSite(getSiteNames(clinicalStaff));
-            dto.setNciIdentifier(clinicalStaff.getNciIdentifier());
 
+            String firstName = clinicalStaff.getFirstName();
+            dto.setFirstName(searchStringHighlight(firstName,searchStrings));
+
+            String lastName = clinicalStaff.getLastName();
+            dto.setLastName(searchStringHighlight(lastName,searchStrings));
+
+            dto.setStatus(clinicalStaff.getStatus().getDisplayName() + " from " + DateUtils.format(clinicalStaff.getEffectiveDate()));
+
+            String studyNames = getStudyNames(clinicalStaff);
+            dto.setStudy(searchStringHighlight(studyNames,searchStrings));
+
+            String siteNames = getSiteNames(clinicalStaff);
+            dto.setSite(searchStringHighlight(siteNames,searchStrings));
+
+            String identifier = clinicalStaff.getNciIdentifier();
+            dto.setNciIdentifier(searchStringHighlight(identifier,searchStrings));
 
             boolean odc = false;
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -104,6 +148,16 @@ public class FetchClinicalStaffController extends AbstractController {
         modelAndView.addObject("totalRecords", totalRecords);
 
         return new ModelAndView("jsonView", modelMap);
+    }
+
+    private String searchStringHighlight(String string,String[] stringArray){
+       String highlightedString = string;
+        if(highlightedString!= null && stringArray != null){
+            for(String str: stringArray){
+                highlightedString = highlightedString.replaceAll("(?i)"+str,"<b>"+str+"</b>");
+            }
+        }
+       return highlightedString;
     }
 
     private String getSiteNames(ClinicalStaff clinicalStaff){
