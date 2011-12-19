@@ -351,6 +351,12 @@
         <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
 
+    <bean name="/study/fetchStudy" id="fetchStudyController"
+          class="gov.nih.nci.ctcae.web.study.FetchStudyController">
+        <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
+    </bean>
     
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
