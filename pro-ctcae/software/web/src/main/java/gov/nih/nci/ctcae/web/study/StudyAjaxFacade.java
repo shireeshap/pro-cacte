@@ -1,17 +1,17 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
 import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
 
 //
 /**
@@ -51,43 +51,23 @@ public class StudyAjaxFacade {
 
     }
 
-    /**
-     * Search studies.
-     *
-     * @param type the type
-     * @param text the text
-     * @return the string
-     */
-    public List<Study> searchStudies(String type, String text, String siteId) {
-        List<Study> studies = getObjects(type, text, siteId);
+    public List<Study> searchStudies(String searchString, Integer startIndex, Integer results, String sort, String dir) {
+        List<Study> studies = getObjects(searchString, startIndex, results, sort, dir);
         return studies;
     }
 
-
-    /**
-     * Gets the objects.
-     *
-     * @param type the type
-     * @param text the text
-     * @return the objects
-     */
-    private List<Study> getObjects(String type, String text, String siteId) {
-        StudyQuery studyQuery = new StudyQuery();
-
-        if (!StringUtils.isBlank(text)) {
-            if ("shortTitle".equals(type)) {
-                studyQuery.filterStudiesByShortTitle(text);
-            } else if ("assignedIdentifier".equals(type)) {
-                studyQuery.filterStudiesByAssignedIdentifier(text);
-            }
-        }
-        if (!StringUtils.isBlank(siteId)){
-             studyQuery.filterStudiesForStudySite(Integer.parseInt(siteId));
-        }
-        List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
-
-        return studies;
+    private List<Study> getObjects(String searchString, Integer startIndex, Integer results, String sort, String dir) {
+        StudyQuery studyQuery = new StudyQuery(true, true);
+        
+        studyQuery.setFirstResult(startIndex);
+        studyQuery.setMaximumResults(results);
+        studyQuery.setSortBy("study." + sort);
+        studyQuery.setSortDirection(dir);
+        studyQuery.filterByAll(searchString);
+        
+        return (List<Study>) studyRepository.find(studyQuery);
     }
+    
 
     /**
      * Sets the study repository.
@@ -99,5 +79,12 @@ public class StudyAjaxFacade {
         this.studyRepository = studyRepository;
     }
 
+    public Long resultCount(String searchText) {
+    	StudyQuery studyQuery = new StudyQuery(true);
+        if (!StringUtils.isBlank(searchText)) {
+        	studyQuery.filterByAll(searchText);
+        }
+        return studyRepository.findWithCount(studyQuery);
+    }
 
 }

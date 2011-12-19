@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.StudyMode;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
@@ -43,8 +44,10 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
     public Study findSingle(StudyQuery query) {
         return genericRepository.findSingle(query);
-
-
+    }
+    
+    public Long findWithCount(StudyQuery query) {
+        return genericRepository.findWithCount(query);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

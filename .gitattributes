@@ -2854,7 +2854,10 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/ChangeStatusCon
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/EditStudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/FetchStudyController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyClinicalStaffTab.java -text

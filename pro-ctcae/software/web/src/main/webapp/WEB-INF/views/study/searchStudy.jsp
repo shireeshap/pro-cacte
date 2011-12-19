@@ -58,25 +58,69 @@
 </head>
 	
 <script>
+	var myDataTable;
 	YAHOO.util.Event.addListener(window, "load", function() {
 	    YAHOO.example.Basic = function() {
 	        var myColumnDefs = [ 
-	            {key:"studyAssignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140}, 
+	            {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140}, 
 	            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:140}, 
 	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:true, resizeable:false, width:235}, 
 	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:true, resizeable:false, width:235}, 
 	            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80} 
 	        ];
 
-	        var myDataSource = new YAHOO.util.DataSource("https://localhost:8443/proctcae/pages/study/fetchStudy");
+	        var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/study/fetchStudy?");
 	        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
 	        myDataSource.responseSchema = {
        		    resultsList: "shippedRecordSet.searchStudyDTO", 
-	            fields: ["studyAssignedIdentifier", "shortTitle","fundingSponsorDisplayName", "coordinatingCenterDisplayName", "actions"]
+	            fields: ["assignedIdentifier", "shortTitle","fundingSponsorDisplayName", "coordinatingCenterDisplayName", "actions"],
+	            metaFields: {
+                    totalRecords: "shippedRecordSet.totalRecords",
+                    startIndex: "shippedRecordSet.startIndex"
+                }
 	        };
 
-	        var myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, {caption:""});
-	                
+            // Customize request sent to server to be able to set total # of records
+            var generateRequest = function(oState, oSelf) {
+                // Get states or use defaults
+                oState = oState || { pagination: null, sortedBy: null };
+                var sort = (oState.sortedBy) ? oState.sortedBy.key : "shortTitle";
+                var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+                var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+                var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+                // Build custom request
+                return  "sort=" + sort +
+                        "&dir=" + dir +
+                        "&startIndex=" + startIndex +
+                        "&results=" + (startIndex + results)
+            };
+
+            // DataTable configuration
+            var myConfigs = {
+                generateRequest: generateRequest,
+                initialRequest: generateRequest(), // Initial request for first page of data
+                dynamicData: true, // Enables dynamic server-driven data
+                sortedBy : {key:"shortTitle", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage:25,
+                    template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+	                rowsPerPageOptions: [10,25,50,100],
+	                containers  : 'pag'
+                }), // Enables pagination
+                draggableColumns:true
+            };
+            
+	        myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+	        myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
+            myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
+	        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
+            // Update totalRecords on the fly with values from server
+            myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+                oPayload.totalRecords = oResponse.meta.totalRecords;
+                oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+                return oPayload;
+            };
+                 
 	        return {
 	            oDS: myDataSource,
 	            oDT: myDataTable
@@ -84,9 +128,31 @@
 	    }();
 	});
 
+    function showHideColumnsForYUITable(columnKey) {
+        var column = myDataTable.getColumn(columnKey);
+        if (column.hidden) {
+            // Shows a Column
+            myDataTable.showColumn(columnKey);
+        }
+        else {
+            // Hides a Column
+            myDataTable.hideColumn(columnKey);
+        }
+        myDataTable.refreshView();
+    }
 
-	
-		</script>
+    jQuery(function(){
+       jQuery("#columnOptionsForCaseTable").multiSelect({
+           header: "Choose an Option!",
+           selectAll: false,
+           noneSelected: 'Show columns',
+           oneOrMoreSelected: '% visible'
+                  },function(event) {
+                   showHideColumnsForYUITable(event.val())
+               }
+		);
+    });
+</script>
 
 <script>
     function getSites(sQuery) {
@@ -178,28 +244,12 @@
             <div class="row" name="inputs">
                 <div class="label"> <tags:message code='study.label.search_by'/></div>
                 <div class="value">
-                    <select id="searchType" name="searchType">
-                        <c:forEach items="${searchCriteria}" var="item">
-                            <option value="${item.code}"
-                                    <c:if test="${searchType eq item.code}">selected</c:if>>${item.desc}</option>
-                        </c:forEach>
-                    </select>
                     <input type="text" id="searchText" name="searchText" size="25" value="${searchText}">
-
                     <div id="error"></div>
-                </div>
-                <input type="hidden" id="site" name="site"/>
-
-                <div class="row">
-                    <div class="label"><tags:message code='study.label.study_site'/></div>
-                    <div class="value">
-                        <tags:yuiAutocompleter inputName="siteInput" value="${site.displayName}" required="false"
-                                               hiddenInputName="site"/>
-                    </div>
                 </div>
             </div>
             <div style="padding-left:140px">
-                <tags:button color="blue" icon="search" type="button" value='Search' onclick="filterAndRefreshYuiTableForUser();"/>
+                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
             </div>
         </div>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
@@ -212,10 +262,28 @@
 <%--<a name="searchResults"/>--%>
 
 <chrome:box title="Results">
-<div class="yui-skin-sam">
-<div id="basic">
-</div>
-</div>
+	<div class="yui-skin-sam">
+		<table width="100%">
+            <tr>
+                <td width="72%">
+                    <div id="pag"></div>
+                </td>
+                <td width="28%">
+                     <div> Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
+                            <option value="assignedIdentifier" selected="selected">Study identifier</option>
+                            <option value="shortTitle" selected="selected">Short title</option>
+                            <option value="fundingSponsorDisplayName" selected="selected">Funding sponsor</option>
+                            <option value="coordinatingCenterDisplayName" selected="selected">Coordinating center</option>
+                        </select>
+                     </div>
+                </td>
+            </tr>
+        </table>
+	
+		<div id="basic">
+		</div>
+	</div>
 </chrome:box>
 </body>
 </html>

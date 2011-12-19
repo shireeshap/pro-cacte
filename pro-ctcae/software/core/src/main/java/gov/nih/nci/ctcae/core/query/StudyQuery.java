@@ -17,6 +17,8 @@ public class StudyQuery extends SecuredQuery<Study> {
      * The query string.
      */
     private static String queryString = "Select distinct study from Study study order by study.shortTitle ";
+    private static String queryString1 = "SELECT count(*) from Study study ";
+    private static String queryString2 = "SELECT distinct study from Study study ";
 
     /**
      * The Constant SHORT_TITLE.
@@ -39,7 +41,7 @@ public class StudyQuery extends SecuredQuery<Study> {
     private static final String PARTICIPANT_ID = "participantId";
 
     /**
-     * The ORGANIZATIO n_ id.
+     * The ORGANIZATION id.
      */
     private static String ORGANIZATION_ID = "organizationId";
     
@@ -56,8 +58,14 @@ public class StudyQuery extends SecuredQuery<Study> {
      */
     public StudyQuery() {
         super(queryString);
+    }
+    
+    public StudyQuery(boolean count){
+        super(queryString1);
+    }
 
-
+    public StudyQuery(boolean sort, boolean count){
+        super(queryString2);
     }
 
     /**
@@ -159,7 +167,7 @@ public class StudyQuery extends SecuredQuery<Study> {
     }
     
     public void filterByAll(String text){
-        String searchString = text != null ? "%"+text.toLowerCase()+"%" : "%";
+        String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
 
         orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
         setParameter(SHORT_TITLE, searchString);
@@ -168,9 +176,12 @@ public class StudyQuery extends SecuredQuery<Study> {
         setParameter(ASSIGNED_IDENTIFIER, searchString);
         
         leftJoin("study.studyOrganizations as sso");
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s or sso.class = :%s )" , STUDY_SITE, LEAD_SITE));
-        setParameter(ORGANIZATION_NAME, text);
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s )" , STUDY_SITE));
+        setParameter(ORGANIZATION_NAME, searchString);
         setParameter(STUDY_SITE, "SST");
+        
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s )" , LEAD_SITE));
+        setParameter(ORGANIZATION_NAME, searchString);
         setParameter(LEAD_SITE, "LSS");
     }
 
