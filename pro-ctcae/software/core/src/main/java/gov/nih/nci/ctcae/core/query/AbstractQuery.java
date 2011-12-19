@@ -30,8 +30,6 @@ public abstract class AbstractQuery implements Query {
      */
     private final Set<String> orConditions = new HashSet<String>();
 
-    private final List<String> orConditionsList = new ArrayList<String>();
-
     /**
      * The joins.
      */
@@ -125,14 +123,6 @@ public abstract class AbstractQuery implements Query {
                 queryBuffer.append(" " + OR + " " + conditon);
             }
         }
-
-        for (String conditon : orConditionsList) {
-            if (queryBuffer.toString().toUpperCase().indexOf(WHERE) < 0) {
-                queryBuffer.append(" " + WHERE + " " + conditon);
-            } else {
-                queryBuffer.append(" " + OR + " " + conditon);
-            }
-        }
         
         if (!groupByString.equalsIgnoreCase("")) {
             // finally add group by
@@ -192,10 +182,6 @@ public abstract class AbstractQuery implements Query {
         orConditions.add(condition);
     }
 
-    protected void orWhereList(final String condition) {
-        orConditionsList.add(condition);
-    }
-    
     /**
      * Gets the parameter map.
      *

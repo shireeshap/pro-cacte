@@ -159,9 +159,9 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
      public void filterByAll(String text, String key) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-        orWhereList(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME+key));
-        orWhereList(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME+key));
-        orWhereList(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER+key));
+        orWhere(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME+key));
+        orWhere(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME+key));
+        orWhere(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER+key));
 
         setParameter(FIRST_NAME+key, searchString);
         setParameter(LAST_NAME+key, searchString);
