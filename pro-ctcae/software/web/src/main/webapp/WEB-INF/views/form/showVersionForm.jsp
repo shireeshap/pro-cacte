@@ -13,16 +13,36 @@
 </head>
 <body>
 
-
-<c:forEach items="${crfs}" var="crf">
-    <tr class="even childTableRow_${parentCrfId}">
-        <td class="data"></td>
-        <td class="data"></td>
-        <td class="data"><a href="viewForm?crfId=${crf.id}">View form</a></td>
-        <td class="data shaded">${crf.crfVersion}</td>
-        <td class="data shaded"><tags:formatDate value="${crf.effectiveStartDate}"/></td>
-        <td class="data shaded">${crf.status}</td>
+<table width="100%">
+    <tr>
+        <td>
+            <b>Version</b>
+        </td>
+        <td>
+            <b>Effective date</b>
+        </td>
+        <td>
+            <b>Status</b>
+        </td>
+        <td>
+            <b>Action</b>
+        </td>
     </tr>
-</c:forEach>
+    <c:forEach items="${crfs}" var="crf">
+        <tr class="even childTableRow_${parentCrfId}">
+            <td class="data">${crf.crfVersion}</td>
+            <td class="data"><tags:formatDate value="${crf.effectiveStartDate}"/></td>
+            <td class="data">${crf.status}</td>
+            <td class="data"><a href="viewForm?crfId=${crf.id}"><u>View form</u></a></td>
+        </tr>
+    </c:forEach>
+</table>
+<br><br>
+
+<div style="float:right;">
+    <tags:button color="blue" type="button" id="flow-cancel" size="small"
+                 cssClass="previous ibutton" value="Close" icon="x"
+                 onclick="closeWindow()"/>
+</div>
 </body>
 </html>

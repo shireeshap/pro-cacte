@@ -40,23 +40,8 @@ public class HiddenFormController extends AbstractController {
 
 
         ModelAndView modelAndView = new ModelAndView("form/hiddenForms");
-        Study study = null;
-        String studyId = request.getParameter("studyId");
-        if (StringUtils.isBlank(studyId)) {
-            List<Study> studies = studyAjaxFacade.matchStudy("%");
-            if (studies.size() == 1) {
-                study = studies.get(0);
-            }
-        } else {
-            study = studyRepository.findById(Integer.parseInt(studyId));
-        }
-        if (study == null) {
-            study = (Study) request.getSession().getAttribute("study");
-        }
-        if (study != null) {
-            modelAndView.getModel().put("study", study);
-            modelAndView.getModel().put("crfs", crfAjaxFacade.getHiddenCrfs(study.getId()));
-        }
+        modelAndView.getModel().put("crfs", crfAjaxFacade.getHiddenCrfs());
+
         return modelAndView;
     }
 

@@ -2730,6 +2730,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormContro
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DisplayQuestion.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EmptyFormTab.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FetchCrfController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
@@ -2737,6 +2738,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HiddenFormContro
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HideFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCRFWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCrfDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text

@@ -467,7 +467,7 @@
                                        id="crfActions${crf.id}"><span
                                             class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
                                     <script>
-                                        showPopUpMenu('${crf.id}', '${crf.status.displayName}');
+                                        showPopUpMenu('${crf.id}', '${crf.status.displayName}', false);
                                     </script>
                                 </td>
 

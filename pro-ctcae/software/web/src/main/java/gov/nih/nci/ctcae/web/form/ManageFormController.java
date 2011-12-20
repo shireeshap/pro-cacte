@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 //
+
 /**
  * The Class ManageFormController.
  *
@@ -28,35 +29,21 @@ public class ManageFormController extends AbstractController {
     /**
      * Instantiates a new manage form controller.
      */
-    public ManageFormController() {
-        super();
-        setSupportedMethods(new String[]{"GET"});
-    }
+//    public ManageFormController() {
+//        super();
+//        setSupportedMethods(new String[]{"GET"});
+//    }
 
     /* (non-Javadoc)
       * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
       */
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
 
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
-        Study study = null;
-        String studyId = request.getParameter("studyId");
-        if (StringUtils.isBlank(studyId)) {
-            List<Study> studies = studyAjaxFacade.matchStudy("%");
-            if (studies.size() == 1) {
-                study = studies.get(0);
-            }
-        } else {
-            study = studyRepository.findById(Integer.parseInt(studyId));
-        }
-        if (study == null) {
-            study = (Study) request.getSession().getAttribute("study");
-        }
-        if (study != null) {
-            modelAndView.getModel().put("study", study);
-            modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(study.getId()));
-        }
+        String searchString = request.getParameter("searchString");
+        modelAndView.addObject("searchString", searchString);
+        request.getSession().setAttribute("crfSearchString", searchString);
         return modelAndView;
     }
 

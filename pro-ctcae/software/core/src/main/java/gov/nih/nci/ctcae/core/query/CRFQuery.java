@@ -17,6 +17,8 @@ public class CRFQuery extends AbstractQuery {
      * The query string.
      */
     private static String queryString = "SELECT o from CRF o order by o.id";
+    private static String queryString1 = "SELECT count(distinct o) from CRF o";
+    private static String queryString2 = "SELECT distinct o from CRF o";
 
     /**
      * The Constant TITLE.
@@ -36,6 +38,8 @@ public class CRFQuery extends AbstractQuery {
     private static String CRF_IDS = "ids";
 
     private static String IS_HIDDEN = "hidden";
+    private static final String SHORT_TITLE = "shortTitle";
+    private static final String DISPLAY_TEXT = "displayText";
 
     /**
      * The Constant CRF_VERSION.
@@ -49,6 +53,14 @@ public class CRFQuery extends AbstractQuery {
     public CRFQuery() {
 
         super(queryString);
+    }
+
+    public CRFQuery(boolean count) {
+        super(queryString1);
+    }
+
+    public CRFQuery(boolean sort, boolean count) {
+        super(queryString2);
     }
 
     public void filterByCRFIds(List<Integer> crfIds) {
@@ -125,6 +137,18 @@ public class CRFQuery extends AbstractQuery {
     public void filterByHidden(final Boolean hidden) {
         andWhere("o.hidden =:" + IS_HIDDEN);
         setParameter(IS_HIDDEN, hidden);
+    }
+
+    public void filterByAll(String text) {
+        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+
+        andWhere(String.format("(lower(o.title) LIKE :%s " +
+        "or lower(o.crfVersion) LIKE :%s " +
+        "or lower(o.study.shortTitle) LIKE :%s )", TITLE, CRF_VERSION, SHORT_TITLE));
+        setParameter(TITLE, searchString);
+        setParameter(CRF_VERSION, searchString);
+        setParameter(SHORT_TITLE, searchString);
+
     }
 
 }

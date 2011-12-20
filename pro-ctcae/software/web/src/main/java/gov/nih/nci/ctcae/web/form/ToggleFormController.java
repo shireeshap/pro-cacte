@@ -36,10 +36,9 @@ public abstract class ToggleFormController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CRF crf = (CRF) command;
-        Integer studyId = crf.getStudy().getId();
         updateStatusCRF(crf);
         crfRepository.save(crf);
-        RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
+        RedirectView redirectView = new RedirectView("manageForm");
         return new ModelAndView(redirectView);
     }
 

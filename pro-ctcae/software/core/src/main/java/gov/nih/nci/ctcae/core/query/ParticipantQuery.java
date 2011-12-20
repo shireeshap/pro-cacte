@@ -21,7 +21,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
      */
     private static String queryString = "SELECT p from Participant p order by p.id";
 
-    private static String queryString1 = "SELECT count(*) from Participant p";
+    private static String queryString1 = "SELECT count(distinct p) from Participant p";
 
     private static String queryString2 = "SELECT p from Participant p";
 

@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,28 @@ public class CrfAjaxFacade {
         return crfs;
     }
 
+    public List<CRF> searchCrfs(String searchString, Integer startIndex, Integer results, String sortField, String direction) {
+        CRFQuery crfQuery = new CRFQuery(true, false);
+        crfQuery.setFirstResult(startIndex);
+        crfQuery.setMaximumResults(results);
+        crfQuery.setSortBy("o."+sortField);
+        crfQuery.setSortDirection(direction);
+        crfQuery.filterByHidden(false);
+        crfQuery.filterByNullNextVersionId();
+        if (!StringUtils.isBlank(searchString)) {
+            crfQuery.filterByAll(searchString);
+        }
+        return (List<CRF>)crfRepository.find(crfQuery);
+    }
+
+    public Long resultCount(String searchText) {
+        CRFQuery crfQuery = new CRFQuery(true);
+        if (!StringUtils.isBlank(searchText)) {
+            crfQuery.filterByAll(searchText);
+        }
+        return crfRepository.findWithCount(crfQuery);
+    }
+
     /**
      * Gets the objects.
      *
@@ -61,13 +84,11 @@ public class CrfAjaxFacade {
         return ObjectTools.reduceAll(releasedCrfs, "id", "title");
     }
 
-    public List<CRF> getHiddenCrfs(Integer studyId) throws Exception {
+    public List<CRF> getHiddenCrfs() throws Exception {
         CRFQuery crfQuery = new CRFQuery();
-        if (studyId != null) {
-            crfQuery.filterByStudyId(studyId);
             crfQuery.filterByNullNextVersionId();
             crfQuery.filterByHidden(true);           
-        }
+
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
     }

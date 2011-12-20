@@ -240,6 +240,10 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         }
     }
 
+    public Long findWithCount(CRFQuery query) {
+        return genericRepository.findWithCount(query);
+    }
+
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;

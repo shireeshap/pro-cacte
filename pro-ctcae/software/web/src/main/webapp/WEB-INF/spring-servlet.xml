@@ -401,6 +401,11 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
+     <bean name="/form/fetchCrf" id="fetchCrfController"
+          class="gov.nih.nci.ctcae.web.form.FetchCrfController">
+        <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
+    </bean>
+
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
           class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="securedTabbedFlowFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>

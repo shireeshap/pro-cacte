@@ -32,7 +32,21 @@
             method:'get'
         })
     }
-    function showPopUpMenu(cid, status) {
+
+     function showVersionForm(crfId) {
+            var request = new Ajax.Request("<c:url value="/pages/form/showVersionForm"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 600, 150);
+//                    var response = transport.responseText;
+//                    new Insertion.After('details_row_' + crfId, response);
+//                    $('crfVersionShowImage_' + crfId).hide();
+//                    $('crfVersionHideImage_' + crfId).show();
+                },
+                method:'get'
+            })
+        }
+    function showPopUpMenu(cid, status, showVersion) {
         var html = '<div id="search-engines"><ul>';
         if (status == 'Final') {
         <proctcae:urlAuthorize url="/pages/form/versionForm">
@@ -46,6 +60,11 @@
         </proctcae:urlAuthorize>
             if (showruleslink) {
                 html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit notifications</a></li>';
+            }
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/form/versionForm">
+            if (showVersion) {
+            html += '<li><a href="#" onclick="javascript:showVersionForm(' + cid + ')">Show versions</a></li>';
             }
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/viewForm">
