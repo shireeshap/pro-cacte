@@ -43,6 +43,7 @@ public class FetchParticipantController extends AbstractController {
         String sortField = request.getParameter("sort");
         String direction = request.getParameter("dir");
         String searchString = "";
+        String[] searchStrings = null;
 
         if (StringUtils.isBlank(useReqParam)) {
             searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
@@ -50,11 +51,14 @@ public class FetchParticipantController extends AbstractController {
             searchString = request.getParameter("searchString");
             request.getSession().setAttribute("ParticipantSearchString", searchString);
         }
-
         modelAndView.addObject("searchString", searchString);
+        if (!StringUtils.isEmpty(searchString)) {
+             searchString.trim();
+             searchStrings = searchString.split("\\s+");
+        }
 
-        List<Participant> participants = participantAjaxFacade.searchParticipants(searchString, Integer.valueOf(startIndex), Integer.valueOf(results), sortField, direction);
-        Long totalRecords = participantAjaxFacade.resultCount(searchString);
+        List<Participant> participants = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), Integer.valueOf(results), sortField, direction);
+        Long totalRecords = participantAjaxFacade.resultCount(searchStrings);
 //        List<Participant> sortedParticipants = participantAjaxFacade.getSortedParticipants();
 
         Participant participant;

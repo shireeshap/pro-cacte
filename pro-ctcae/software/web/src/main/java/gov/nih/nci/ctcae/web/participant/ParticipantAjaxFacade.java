@@ -43,21 +43,29 @@ public class ParticipantAjaxFacade {
         return participants;
     }
 
-    public List<Participant> searchParticipants(String searchString, Integer startIndex, Integer results, String sortField, String direction) {
-        List<Participant> participants = getParticipantObjects(searchString, startIndex, results, sortField, direction);
+    public List<Participant> searchParticipants(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction) {
+        List<Participant> participants = getParticipantObjects(searchStrings, startIndex, results, sortField, direction);
         return participants;
     }
 
-    public Long resultCount(String searchText) {
+    public Long resultCount(String[] searchTexts) {
         ParticipantQuery participantQuery = new ParticipantQuery(true, true);
-        if (!StringUtils.isBlank(searchText)) {
-            participantQuery.filterByAll(searchText);
+        if (searchTexts != null) {
+
+            participantQuery.setLeftJoin();
+            int index = 0;
+            for (String searchText : searchTexts) {
+                if (!StringUtils.isBlank(searchText)) {
+                    participantQuery.filterByAll(searchText, ""+index);
+                    index++;
+                }
+            }
         }
         return participantRepository.findWithCount(participantQuery);
 
     }
 
-    public List<Participant> getParticipantObjects(String searchText, Integer startIndex, Integer results, String sortField, String direction) {
+    public List<Participant> getParticipantObjects(String[] searchTexts, Integer startIndex, Integer results, String sortField, String direction) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         boolean siteStaff = false;
@@ -81,14 +89,24 @@ public class ParticipantAjaxFacade {
         if (sortField.equals("studyParticipantIdentifier")) {
             participantQuery.setSortBy("p.studyParticipantAssignments.studyParticipantIdentifier");
         } else {
-            participantQuery.setSortBy("p."+sortField);
+            participantQuery.setSortBy("p." + sortField);
         }
-            participantQuery.setSortDirection(direction);
-            participantQuery.setFirstResult(startIndex);
-            participantQuery.setMaximumResults(results);
-        if (!StringUtils.isBlank(searchText)) {
-            participantQuery.filterByAll(searchText);
+        participantQuery.setSortDirection(direction);
+        participantQuery.setFirstResult(startIndex);
+        participantQuery.setMaximumResults(results);
+        if (searchTexts != null) {
+            participantQuery.setLeftJoin();
+            int index = 0;
+            for (String searchText : searchTexts) {
+                if (!StringUtils.isBlank(searchText)) {
+                    participantQuery.filterByAll(searchText, ""+index);
+                    index++;
+                }
+            }
         }
+//        if (!StringUtils.isBlank(searchText)) {
+//            participantQuery.filterByAll(searchText);
+//        }
 
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);

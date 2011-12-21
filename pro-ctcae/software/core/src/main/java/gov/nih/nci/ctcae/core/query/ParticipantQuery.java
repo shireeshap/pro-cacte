@@ -163,25 +163,31 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         }
     }
 
-    public void filterByAll(String text) {
+    public void setLeftJoin() {
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+
+    }
+
+    public void filterByAll(String text, String key) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
 
         andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                 "or lower(p.lastName) LIKE :%s " +
                 "or lower(p.assignedIdentifier) LIKE :%s " +
-                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s )", FIRST_NAME, LAST_NAME, IDENTIFIER, STUDY_PARTICIPANT_IDENTIFIER));
-        setParameter(IDENTIFIER, searchString);
-        setParameter(FIRST_NAME, searchString);
-        setParameter(LAST_NAME, searchString);
-        setParameter(STUDY_PARTICIPANT_IDENTIFIER, searchString);
+                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, STUDY_PARTICIPANT_IDENTIFIER+key));
+        setParameter(IDENTIFIER+key, searchString);
+        setParameter(FIRST_NAME+key, searchString);
+        setParameter(LAST_NAME+key, searchString);
+        setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, searchString);
 
-        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
-        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
-        setParameter(SHORT_TITLE, searchString);
 
-        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
-        orWhere(String.format("lower(ss.organization.name) LIKE :%s", NAME));
-        setParameter(NAME, searchString);
+        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE+key));
+        setParameter(SHORT_TITLE+key, searchString);
+
+
+        orWhere(String.format("lower(ss.organization.name) LIKE :%s", NAME+key));
+        setParameter(NAME+key, searchString);
     }
 
     /**
