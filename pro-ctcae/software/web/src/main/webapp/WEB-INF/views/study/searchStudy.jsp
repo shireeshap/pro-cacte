@@ -64,8 +64,8 @@
 	        var myColumnDefs = [ 
 	            {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140}, 
 	            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:140}, 
-	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:true, resizeable:false, width:235}, 
-	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:true, resizeable:false, width:235}, 
+	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:false, resizeable:false, width:235}, 
+	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:false, resizeable:false, width:235}, 
 	            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80} 
 	        ];
 
