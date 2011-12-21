@@ -2,6 +2,12 @@
 pro-ctcae/.classpath -text
 pro-ctcae/.project -text
 pro-ctcae/IVRS-repo/IVRS[!!-~]recording[!!-~]extension.txt -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/PROCTCAE_Dialplan.conf -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/extensions.conf -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/func_odbc.conf -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/manager.conf -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/res_odbc.conf -text
+pro-ctcae/IVRS-repo/NCI[!!-~]Prod[!!-~]configuration/sip.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/PROCTCAE_Dialplan.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/Record-Test_dialplan.conf -text
 pro-ctcae/IVRS-repo/asterisk-configuration/chan_dahdi.conf -text
