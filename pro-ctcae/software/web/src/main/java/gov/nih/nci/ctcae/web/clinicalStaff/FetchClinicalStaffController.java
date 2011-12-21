@@ -48,48 +48,49 @@ public class FetchClinicalStaffController extends AbstractController {
         String dir = request.getParameter("dir");
         String[] searchStrings= null;
 
-        String first = request.getParameter("first");
+//        String first = request.getParameter("first");
 
         String searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
         if(!StringUtils.isBlank(searchString)){
             searchString.trim();
-            String[] splitSearchStrings = searchString.split("\\s+");
-            if(splitSearchStrings.length >1){
-                searchStrings = new String[splitSearchStrings.length + 1];
-                searchStrings[0] = searchString;
-                for(int i=0;i<splitSearchStrings.length;i++){
-                   searchStrings[i+1] = splitSearchStrings[i];
-                }
-            }else{
-                searchStrings = splitSearchStrings;
-            }
-
+        //    String[] splitSearchStrings = searchString.split("\\s+");
+            searchStrings = searchString.split("\\s+");
+//            if(splitSearchStrings.length >1){
+//                searchStrings = new String[splitSearchStrings.length + 1];
+//                searchStrings[0] = searchString;
+//                for(int i=0;i<splitSearchStrings.length;i++){
+//                   searchStrings[i+1] = splitSearchStrings[i];
+//                }
+//            }else{
+//                searchStrings = splitSearchStrings;
+//            }
+//
         }
         Long totalRecords = clinicalStaffAjaxFacade.resultCount(searchStrings);
-        List<ClinicalStaff>  finalClinicalStaffs = new ArrayList<ClinicalStaff>();
-        if(first != null && searchStrings!=null && searchStrings.length>1){
-            Set<ClinicalStaff> clinicalStaffsSet = new LinkedHashSet<ClinicalStaff>();
-            for(String str:searchStrings){
-                String searchStringArray[] = new String[1];
-                searchStringArray[0] = str;
-                List<ClinicalStaff> clinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStringArray,startIndexInt,resultsInt,sort,dir);
-                for(ClinicalStaff staff: clinicalStaffs)
-                clinicalStaffsSet.add(staff);
-                if(clinicalStaffsSet.size() >= resultsInt) {
-                    break;
-                }
-            }
-            List<ClinicalStaff> tempList = new ArrayList<ClinicalStaff>();
-            tempList.addAll(clinicalStaffsSet);
-            for(int index=0;index<tempList.size();index++){
-                finalClinicalStaffs.add(tempList.get(index));
-                if(finalClinicalStaffs.size()== resultsInt){
-                    break;
-                }
-            }
-        }else{
-            finalClinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStrings,startIndexInt,resultsInt,sort,dir);
-        }
+//        List<ClinicalStaff>  finalClinicalStaffs = new ArrayList<ClinicalStaff>();
+//        if(first != null && searchStrings!=null && searchStrings.length>1){
+//            Set<ClinicalStaff> clinicalStaffsSet = new LinkedHashSet<ClinicalStaff>();
+//            for(String str:searchStrings){
+//                String searchStringArray[] = new String[1];
+//                searchStringArray[0] = str;
+//                List<ClinicalStaff> clinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStringArray,startIndexInt,resultsInt,sort,dir);
+//                for(ClinicalStaff staff: clinicalStaffs)
+//                clinicalStaffsSet.add(staff);
+//                if(clinicalStaffsSet.size() >= resultsInt) {
+//                    break;
+//                }
+//            }
+//            List<ClinicalStaff> tempList = new ArrayList<ClinicalStaff>();
+//            tempList.addAll(clinicalStaffsSet);
+//            for(int index=0;index<tempList.size();index++){
+//                finalClinicalStaffs.add(tempList.get(index));
+//                if(finalClinicalStaffs.size()== resultsInt){
+//                    break;
+//                }
+//            }
+//        }else{
+          List<ClinicalStaff>  finalClinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStrings,startIndexInt,resultsInt,sort,dir);
+//        }
 
 //        List<SearchClinicalStaffDTO> jsonListOfObjects = new ArrayList<SearchClinicalStaffDTO>();
         SearchClinicalStaffWrapper searchClinicalStaffWrapper = new SearchClinicalStaffWrapper();
