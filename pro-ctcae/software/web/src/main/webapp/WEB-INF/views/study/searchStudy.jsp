@@ -265,10 +265,10 @@
 	<div class="yui-skin-sam">
 		<table width="100%">
             <tr>
-                <td width="72%">
+                <td width="68%">
                     <div id="pag"></div>
                 </td>
-                <td width="28%">
+                <td width="32%">
                      <div> Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
                             <option value="assignedIdentifier" selected="selected">Study identifier</option>
