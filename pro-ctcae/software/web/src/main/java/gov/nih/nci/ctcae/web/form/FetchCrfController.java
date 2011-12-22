@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.User;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -32,10 +33,14 @@ public class FetchCrfController extends AbstractController {
         String sort = request.getParameter("sort");
         String dir = request.getParameter("dir");
         String searchString = "";
-
+        String[] searchStrings = null;
         searchString = (String) request.getSession().getAttribute("crfSearchString");
-        List<CRF> crfs = crfAjaxFacade.searchCrfs(searchString, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
-        Long totalRecords = crfAjaxFacade.resultCount(searchString);
+        if(!StringUtils.isBlank(searchString)) {
+            searchString.trim();
+            searchStrings = searchString.split("\\s+");
+        }
+        List<CRF> crfs = crfAjaxFacade.searchCrfs(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
+        Long totalRecords = crfAjaxFacade.resultCount(searchStrings);
         SearchCRFWrapper searchCRFWrapper = new SearchCRFWrapper();
         searchCRFWrapper.setTotalRecords(totalRecords);
         searchCRFWrapper.setRecordsReturned(25);

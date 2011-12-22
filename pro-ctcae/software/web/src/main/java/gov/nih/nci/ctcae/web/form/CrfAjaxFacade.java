@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 //
+
 /**
  * The Class CrfAjaxFacade.
  *
@@ -45,25 +46,34 @@ public class CrfAjaxFacade {
         return crfs;
     }
 
-    public List<CRF> searchCrfs(String searchString, Integer startIndex, Integer results, String sortField, String direction) {
+    public List<CRF> searchCrfs(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction) {
         CRFQuery crfQuery = new CRFQuery(true, false);
         crfQuery.setFirstResult(startIndex);
         crfQuery.setMaximumResults(results);
-        crfQuery.setSortBy("o."+sortField);
+        crfQuery.setSortBy("o." + sortField);
         crfQuery.setSortDirection(direction);
-        crfQuery.filterByHidden(false);
-        crfQuery.filterByNullNextVersionId();
-        if (!StringUtils.isBlank(searchString)) {
-            crfQuery.filterByAll(searchString);
+
+        if (searchStrings != null) {
+            int index = 0;
+            for (String searchString : searchStrings) {
+                crfQuery.filterByAll(searchString, "" + index, false);
+                index++;
+            }
         }
-        return (List<CRF>)crfRepository.find(crfQuery);
+        return (List<CRF>) crfRepository.find(crfQuery);
     }
 
-    public Long resultCount(String searchText) {
+    public Long resultCount(String[] searchTexts) {
         CRFQuery crfQuery = new CRFQuery(true);
-        if (!StringUtils.isBlank(searchText)) {
-            crfQuery.filterByAll(searchText);
+        if (searchTexts != null) {
+            int index = 0;
+            for (String searchText : searchTexts) {
+                if (!StringUtils.isBlank(searchText)) {
+                    crfQuery.filterByAll(searchText, "" + index, false);
+                }
+            }
         }
+
         return crfRepository.findWithCount(crfQuery);
     }
 
@@ -86,8 +96,8 @@ public class CrfAjaxFacade {
 
     public List<CRF> getHiddenCrfs() throws Exception {
         CRFQuery crfQuery = new CRFQuery();
-            crfQuery.filterByNullNextVersionId();
-            crfQuery.filterByHidden(true);           
+        crfQuery.filterByNullNextVersionId();
+        crfQuery.filterByHidden(true);
 
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;

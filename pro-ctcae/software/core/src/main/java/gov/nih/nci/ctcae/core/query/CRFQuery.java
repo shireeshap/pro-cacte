@@ -139,15 +139,18 @@ public class CRFQuery extends AbstractQuery {
         setParameter(IS_HIDDEN, hidden);
     }
 
-    public void filterByAll(String text) {
-        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+    public void filterByHiddenKey(final Boolean hidden, String key) {
+        andWhere("o.hidden =:" + IS_HIDDEN+key);
+        setParameter(IS_HIDDEN+key, hidden);
+    }
 
-        andWhere(String.format("(lower(o.title) LIKE :%s " +
-        "or lower(o.crfVersion) LIKE :%s " +
-        "or lower(o.study.shortTitle) LIKE :%s )", TITLE, CRF_VERSION, SHORT_TITLE));
-        setParameter(TITLE, searchString);
-        setParameter(CRF_VERSION, searchString);
-        setParameter(SHORT_TITLE, searchString);
+    public void filterByAll(String text, String key, Boolean hidden) {
+        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+        orWhere(String.format("(lower(o.title) LIKE :%s " +
+        "or lower(o.study.shortTitle) LIKE :%s and o.hidden = :%s and o.childCrf.id is null)", TITLE+key, SHORT_TITLE+key, IS_HIDDEN));
+        setParameter(TITLE+key, searchString);
+        setParameter(SHORT_TITLE+key, searchString);
+        setParameter(IS_HIDDEN, hidden);
 
     }
 
