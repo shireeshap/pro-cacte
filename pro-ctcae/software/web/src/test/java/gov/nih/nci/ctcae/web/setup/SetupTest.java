@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.setup;
 
 import gov.nih.nci.ctcae.core.SetupStatus;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
