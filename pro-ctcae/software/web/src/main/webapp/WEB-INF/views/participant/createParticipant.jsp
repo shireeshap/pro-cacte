@@ -10,7 +10,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <tags:dwrJavascriptLink
-        objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
+        objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation,uniqueParticipantEmailAddress"/>
 <tags:javascriptLink name="ui_fields_validation"/>
 
 <html>
@@ -34,6 +34,7 @@ var isConfirmPassError = false;
 var isEmail = false;
 var isPhoneNumberError = false;
 var isBlackoutCallTime = false;
+var isEmailError = false;
 
 // validation check for username
 function checkParticipantUserName() {
@@ -61,6 +62,37 @@ function checkParticipantUserName() {
     }
     checkError();
 }
+
+// validation check for email address
+function checkParticipantEmail() {
+    var emailAddress = $('participant.emailAddress').value;
+    var participantId = "${param['id']}";
+    if (participantId == "") {
+        participantId = "${patientId}";
+    }
+    isEmailError = false;
+    jQuery('#userEmailError').hide();
+    if (emailAddress != "") {
+            uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId,{callback:
+                                                                                function(returnValue) {
+                                                                                       if (returnValue) {
+                                                                                           jQuery('#userEmailError').show();
+                                                                                           isEmailError = true;
+                                                                                       }
+                                                                                       else {
+                                                                                           isEmailError = false;
+                                                                                       }
+                                                                                       checkError();
+                                                                                }
+                                                                            }
+                                                );
+    }
+    else {
+        checkError();
+    }
+    checkError();
+}
+
 function userReturnValue(returnValue) {
     showOrHideErrorField(returnValue, '#userNameError');
     if (returnValue) {
@@ -73,7 +105,7 @@ function userReturnValue(returnValue) {
 }
 
 function checkError() {
-    if (isUserNameError || isPasswordError || isConfirmPassError || isEmail || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime) {
+    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError) {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
     }
@@ -227,7 +259,7 @@ function validateCalloutTime(siteId, startTime, endTime) {
 }
 
 //validation check for participant email address
-function checkParticipantEmailAddress(siteId) {
+/*function checkParticipantEmailAddress(siteId) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
@@ -252,7 +284,7 @@ function checkParticipantEmailAddress(siteId) {
         isEmail = false;
         checkError();
     }
-}
+}*/
 
 
 var phoneNumberPattern =  /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
@@ -1055,7 +1087,12 @@ function showOrHideEmail(value1, value2, id) {
                            <td width="50%">
                                <tags:renderEmail propertyName="participant.emailAddress"
                                                  displayName="participant.label.email_address"
-                                                 required="false" size="35"/>
+                                                 required="false" size="35" onblur="checkParticipantEmail();"/>
+                                <ul id="userEmailError" style="display:none; padding-left:12em " class="errors">
+                                   <li><spring:message code='participant.unique_emailAddress'
+                                                       text='participant.unique_emailAddress'/>
+                                   </li>
+                               </ul>
                            </td>
                            <!--       <td width="50%">
                                <tags:renderPhoneOrFax propertyName="participant.phoneNumber"

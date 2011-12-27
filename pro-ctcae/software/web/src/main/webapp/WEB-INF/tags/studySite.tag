@@ -211,7 +211,7 @@
                                             <input type="text" name="participant.emailAddress_${studysite.id}"
                                                    value="${studyParticipantAssignment.participant.emailAddress}"
                                                    id="participant.emailAddress_${studysite.id}"
-                                                   onblur="javascript:checkParticipantEmailAddress(${studysite.id});"
+                                                   <%--onblur="javascript:checkParticipantEmailAddress(${studysite.id});"--%>
                                                    size="35"/>
                                             <ul id="emailError_${studysite.id}" style="display:none;"
                                                 class="errors">
