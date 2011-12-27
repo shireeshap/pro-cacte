@@ -8,18 +8,18 @@ import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
 import gov.nih.nci.ctcae.web.form.FetchCrfController;
 import gov.nih.nci.ctcae.web.form.ManageFormController;
 import org.apache.commons.lang.StringUtils;
-import org.iso._21090.CR;
+
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.EasyMock.aryEq;
+
 import static org.easymock.EasyMock.eq;
 
 /**
