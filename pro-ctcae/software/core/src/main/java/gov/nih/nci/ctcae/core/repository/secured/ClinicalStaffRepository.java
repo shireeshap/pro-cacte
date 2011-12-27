@@ -1,17 +1,22 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 //
 /**

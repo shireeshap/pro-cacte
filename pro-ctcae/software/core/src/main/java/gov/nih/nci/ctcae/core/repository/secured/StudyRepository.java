@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.StudyMode;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;

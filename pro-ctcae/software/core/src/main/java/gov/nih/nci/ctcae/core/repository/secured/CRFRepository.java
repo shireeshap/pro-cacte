@@ -1,19 +1,32 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CRFCalendar;
+import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.FormArmSchedule;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 //
 
