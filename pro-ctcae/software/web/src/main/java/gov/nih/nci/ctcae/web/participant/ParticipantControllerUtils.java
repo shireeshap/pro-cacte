@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.participant;
 
 
-import org.apache.commons.lang.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 //
 /**
