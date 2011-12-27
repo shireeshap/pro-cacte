@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
@@ -52,11 +51,16 @@ public class FetchStudyController extends AbstractController {
         String dir = request.getParameter("dir");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        String[] searchStrings= null;
         searchText = (String) request.getSession().getAttribute("searchText");
         modelAndView.addObject("searchText", searchText);
+        if(!StringUtils.isBlank(searchText)){
+        	searchText.trim();
+            searchStrings = searchText.split("\\s+");
+        }
 
-        List<Study> studies = studyAjaxFacade.searchStudies(searchText, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
-        Long totalRecords = studyAjaxFacade.resultCount(searchText);
+        List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
+        Long totalRecords = studyAjaxFacade.resultCount(searchStrings);
         
         Study study;
         SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();

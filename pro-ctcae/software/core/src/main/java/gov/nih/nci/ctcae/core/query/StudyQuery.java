@@ -18,7 +18,7 @@ public class StudyQuery extends SecuredQuery<Study> {
      * The query string.
      */
     private static String queryString = "Select distinct study from Study study order by study.shortTitle ";
-    private static String queryString1 = "SELECT count(*) from Study study ";
+    private static String queryString1 = "SELECT count(distinct study) from Study study ";
     private static String queryString2 = "SELECT distinct study from Study study ";
 
     /**
@@ -53,6 +53,9 @@ public class StudyQuery extends SecuredQuery<Study> {
      */
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
+    private static final String F_SPONSOR = "fundingSponsor";
+    private static final String DCC = "dataCoordinatingCenter";
+    private static final String S_SPONSOR = "studySponsor";
 
     /**
      * Instantiates a new study query.
@@ -154,6 +157,10 @@ public class StudyQuery extends SecuredQuery<Study> {
         }
     }
 
+    
+    public void setLeftJoin(){
+        leftJoin("study.studyOrganizations as sso");
+    }
 
     /**
      * Filter by participant.
@@ -161,29 +168,40 @@ public class StudyQuery extends SecuredQuery<Study> {
      * @param participantId the participant id
      */
     public void filterByParticipant(Integer participantId) {
-
         leftJoin("study.studyOrganizations as ss join ss.studyParticipantAssignments as spa join spa.participant as p");
         andWhere("p.id =:" + PARTICIPANT_ID);
         setParameter(PARTICIPANT_ID, participantId);
     }
     
-    public void filterByAll(String text){
+    public void filterByAll(String text, String key){
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
 
-        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE));
-        setParameter(SHORT_TITLE, searchString);
+        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE+key));
+        setParameter(SHORT_TITLE+key, searchString);
         
-        orWhere(String.format("lower(study.assignedIdentifier) LIKE :%s", ASSIGNED_IDENTIFIER));
-        setParameter(ASSIGNED_IDENTIFIER, searchString);
+        orWhere(String.format("lower(study.assignedIdentifier) LIKE :%s", ASSIGNED_IDENTIFIER+key));
+        setParameter(ASSIGNED_IDENTIFIER+key, searchString);
         
         leftJoin("study.studyOrganizations as sso");
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s )" , STUDY_SITE));
-        setParameter(ORGANIZATION_NAME, searchString);
-        setParameter(STUDY_SITE, "SST");
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , STUDY_SITE+key));
+        setParameter(ORGANIZATION_NAME+key, searchString);
+        setParameter(STUDY_SITE+key, "SST");
         
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME) + " and " + String.format("(sso.class = :%s )" , LEAD_SITE));
-        setParameter(ORGANIZATION_NAME, searchString);
-        setParameter(LEAD_SITE, "LSS");
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , LEAD_SITE+key));
+        setParameter(ORGANIZATION_NAME+key, searchString);
+        setParameter(LEAD_SITE+key, "LSS");
+        
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , DCC+key));
+        setParameter(ORGANIZATION_NAME+key, searchString);
+        setParameter(DCC+key, "DCC");
+        
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , F_SPONSOR+key));
+        setParameter(ORGANIZATION_NAME+key, searchString);
+        setParameter(F_SPONSOR+key, "FSP");
+        
+        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , S_SPONSOR+key));
+        setParameter(ORGANIZATION_NAME+key, searchString);
+        setParameter(S_SPONSOR+key, "SSP");
     }
 
     public Class<Study> getPersistableClass() {
