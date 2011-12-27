@@ -1,15 +1,22 @@
 package gov.nih.nci.ctcae.core;
 
-import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.easymock.classextension.EasyMock;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.CtcCategory;
+import gov.nih.nci.ctcae.core.domain.CtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 
 /**
  * @author Vinay Kumar
