@@ -1,17 +1,23 @@
 package gov.nih.nci.ctcae.core.validation;
 
-import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import org.springframework.beans.BeanWrapperImpl;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
+
+import org.springframework.beans.BeanWrapperImpl;
+
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 /**
  * @author Vinay Kumar
