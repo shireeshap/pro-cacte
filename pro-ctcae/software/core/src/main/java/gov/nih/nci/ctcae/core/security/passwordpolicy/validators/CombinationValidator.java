@@ -1,10 +1,9 @@
 package gov.nih.nci.ctcae.core.security.passwordpolicy.validators;
 
-import gov.nih.nci.ctcae.core.validation.ValidationErrors;
-import gov.nih.nci.ctcae.core.security.user.Credential;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.validation.ValidationErrors;
 
 /**
  * Created by IntelliJ IDEA.

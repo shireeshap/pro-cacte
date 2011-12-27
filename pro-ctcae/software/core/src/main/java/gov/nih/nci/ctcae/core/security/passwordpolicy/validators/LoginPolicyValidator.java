@@ -1,13 +1,14 @@
 package gov.nih.nci.ctcae.core.security.passwordpolicy.validators;
 
-import org.acegisecurity.AuthenticationException;
-import org.acegisecurity.DisabledException;
-import org.acegisecurity.LockedException;
-import org.acegisecurity.CredentialsExpiredException;
-import gov.nih.nci.ctcae.core.security.user.Credential;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.LoginPolicy;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
+import gov.nih.nci.ctcae.core.security.user.Credential;
 import gov.nih.nci.ctcae.core.validation.ValidationErrors;
+
+import org.acegisecurity.AuthenticationException;
+import org.acegisecurity.CredentialsExpiredException;
+import org.acegisecurity.DisabledException;
+import org.acegisecurity.LockedException;
 
 public class LoginPolicyValidator {
 
