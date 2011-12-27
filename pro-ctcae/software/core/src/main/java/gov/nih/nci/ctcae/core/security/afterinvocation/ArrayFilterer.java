@@ -1,13 +1,13 @@
 package gov.nih.nci.ctcae.core.security.afterinvocation;
 
-import org.apache.commons.collections.iterators.ArrayIterator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.commons.collections.iterators.ArrayIterator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Vinay Kumar

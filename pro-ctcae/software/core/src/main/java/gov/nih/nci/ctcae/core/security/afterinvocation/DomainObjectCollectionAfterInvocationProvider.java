@@ -2,12 +2,13 @@ package gov.nih.nci.ctcae.core.security.afterinvocation;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.domain.User;
-import org.springframework.security.AccessDeniedException;
-import org.springframework.security.Authentication;
-import org.springframework.security.ConfigAttributeDefinition;
 
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.springframework.security.AccessDeniedException;
+import org.springframework.security.Authentication;
+import org.springframework.security.ConfigAttributeDefinition;
 
 /**
  * @author Vinay Kumar

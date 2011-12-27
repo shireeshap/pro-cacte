@@ -1,10 +1,9 @@
 package gov.nih.nci.ctcae.core.security.passwordpolicy;
 
-import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.ProCtcSystemException;
-import gov.nih.nci.ctcae.core.security.user.Credential;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 
 public interface PasswordPolicyService {
     /**

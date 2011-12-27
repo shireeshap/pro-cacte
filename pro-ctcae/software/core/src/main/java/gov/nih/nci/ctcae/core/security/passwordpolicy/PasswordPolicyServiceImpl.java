@@ -9,9 +9,10 @@ import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.LoginPolicyVali
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyValidator;
 import gov.nih.nci.ctcae.core.validation.ValidationErrors;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
 
 public class PasswordPolicyServiceImpl implements PasswordPolicyService {
     PasswordCreationPolicyValidator passwordCreationPolicyValidator;
