@@ -13,7 +13,7 @@ public class SearchCrfDTO {
 
     private String title;
     private String version;
-    private String effectiveDate;
+    private String effectiveStartDate;
     private String status;
     private String studyShortTitle;
     private String actions;
@@ -34,12 +34,12 @@ public class SearchCrfDTO {
         this.version = version;
     }
 
-    public String getEffectiveDate() {
-        return effectiveDate;
+    public String getEffectiveStartDate() {
+        return effectiveStartDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public void setEffectiveStartDate(String effectiveDate) {
+        this.effectiveStartDate = effectiveDate;
     }
 
     public String getStatus() {

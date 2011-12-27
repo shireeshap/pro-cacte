@@ -125,7 +125,7 @@
             var myColumnDefs = [
                 {key:"title", label:"Title", sortable:true,resizeable:false, width:225},
                 {key:"version", label:"Version", sortable:true, resizeable:false, width:70},
-                {key:"effectiveDate", label:"Effective date", formatter:"date", sortable:true, resizeable:false, width:100},
+                {key:"effectiveStartDate", label:"Effective date", formatter:"date", sortable:true, resizeable:false, width:100},
                 {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:225},
                 {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
                 {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
@@ -135,7 +135,7 @@
             myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
             myDataSource.responseSchema = {
                 resultsList: "shippedRecordSet.searchCrfDTOs",
-                fields: ["title","version","effectiveDate", "site", "studyShortTitle", "status", "actions"],
+                fields: ["title","version","effectiveStartDate", "site", "studyShortTitle", "status", "actions"],
                 metaFields: {
                     totalRecords: "shippedRecordSet.totalRecords",
                     startIndex: "shippedRecordSet.startIndex"
@@ -276,7 +276,7 @@
                                 title="Show/Hide Columns">
                             <option value="title" selected="selected">Title</option>
                             <option value="version" selected="selected">Version</option>
-                            <option value="effectiveDate" selected="selected">Effective date</option>
+                            <option value="effectiveStartDate" selected="selected">Effective date</option>
                             <option value="studyShortTitle" selected="selected">Study</option>
                             <option value="status" selected="selected">Status</option>
                         </select>

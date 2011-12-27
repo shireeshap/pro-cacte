@@ -53,7 +53,7 @@ public class FetchCrfController extends AbstractController {
 
             SearchCrfDTO dto = new SearchCrfDTO();
             if (crf.getEffectiveStartDate()!=null) {
-            dto.setEffectiveDate(DateUtils.format(crf.getEffectiveStartDate()));
+            dto.setEffectiveStartDate(DateUtils.format(crf.getEffectiveStartDate()));
             }
             dto.setStatus(crf.getStatus().getCode());
             dto.setStudyShortTitle(crf.getStudy().getShortTitle());
