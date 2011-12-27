@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.web.study;
 
+import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertEqualArrays;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.ControllersUtils;
-import org.springframework.web.servlet.ModelAndView;
 
-import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertEqualArrays;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
