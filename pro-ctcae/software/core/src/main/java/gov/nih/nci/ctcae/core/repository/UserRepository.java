@@ -1,13 +1,37 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
-import gov.nih.nci.ctcae.core.query.*;
+import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
+import gov.nih.nci.ctcae.core.query.SecuredQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,9 +45,6 @@ import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Timestamp;
-import java.util.*;
 
 //
 

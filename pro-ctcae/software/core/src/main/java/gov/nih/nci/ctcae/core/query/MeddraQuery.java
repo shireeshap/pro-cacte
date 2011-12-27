@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.query;
 
-import java.util.Currency;
 
 /**
  * @aurthor Mehul Gulati

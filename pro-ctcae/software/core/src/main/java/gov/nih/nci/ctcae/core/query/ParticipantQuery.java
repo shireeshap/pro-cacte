@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
-import org.apache.commons.lang.StringUtils;
 
-import java.util.Arrays;
-import java.util.jar.Attributes;
+import org.apache.commons.lang.StringUtils;
 
 //
 

@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
-import org.hibernate.type.NullableType;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.hibernate.type.NullableType;
 
 /**
  *  User: Suneel Allareddy

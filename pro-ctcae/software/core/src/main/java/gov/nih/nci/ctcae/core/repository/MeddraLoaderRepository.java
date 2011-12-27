@@ -1,13 +1,10 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import java.util.List;
+
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

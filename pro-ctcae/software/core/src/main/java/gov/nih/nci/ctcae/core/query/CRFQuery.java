@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 //
 /**

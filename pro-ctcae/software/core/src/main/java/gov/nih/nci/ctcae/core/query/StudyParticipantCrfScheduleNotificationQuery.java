@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 
-import java.util.Date;
-
 //
 
 /**

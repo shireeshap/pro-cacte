@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+
 import org.apache.commons.lang.StringUtils;
 
 //

@@ -1,9 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 
 //
 /**

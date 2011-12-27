@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
 
-import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * The Class ProCtcTermQuery.
