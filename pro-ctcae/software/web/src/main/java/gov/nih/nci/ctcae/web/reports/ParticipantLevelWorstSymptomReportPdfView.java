@@ -1,19 +1,38 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
-import org.springframework.web.servlet.view.document.AbstractPdfView;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.Study;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.AttributeSet;
-import java.awt.*;
-import java.awt.Font;
-import java.io.ByteArrayOutputStream;
-import java.util.*;
-import java.util.List;
+
+import org.springframework.web.servlet.view.document.AbstractPdfView;
+
+import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.HeaderFooter;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Table;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Created by IntelliJ IDEA.

@@ -4,15 +4,17 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.WorstResponsesDetailsQuery;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * User: Harsh
