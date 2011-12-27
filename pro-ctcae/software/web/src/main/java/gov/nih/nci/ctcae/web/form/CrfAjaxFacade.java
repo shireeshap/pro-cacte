@@ -40,7 +40,7 @@ public class CrfAjaxFacade {
         if (studyId != null) {
             crfQuery.filterByStudyId(studyId);
             crfQuery.filterByNullNextVersionId();
-            crfQuery.filterByHidden(false);
+//            crfQuery.filterByHidden(false);
         }
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
@@ -59,6 +59,9 @@ public class CrfAjaxFacade {
                 crfQuery.filterByAll(searchString, "" + index, false);
                 index++;
             }
+        } else {
+            crfQuery.filterByHidden(false);
+            crfQuery.filterByNullNextVersionId();
         }
         return (List<CRF>) crfRepository.find(crfQuery);
     }
@@ -87,7 +90,7 @@ public class CrfAjaxFacade {
         List<CRF> crfs = searchCrf(id);
         List<CRF> releasedCrfs = new ArrayList();
         for (CRF crf : crfs) {
-            if (crf.getStatus().equals(CrfStatus.RELEASED) && !crf.isHidden()) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED) ) {
                 releasedCrfs.add(crf);
             }
         }
