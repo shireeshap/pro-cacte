@@ -1,22 +1,33 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
-import com.csvreader.CsvReader;
-
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtc;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValueVocab;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.core.io.ClassPathResource;
+
+import com.csvreader.CsvReader;
 
 /**
  * @author mehul gulati

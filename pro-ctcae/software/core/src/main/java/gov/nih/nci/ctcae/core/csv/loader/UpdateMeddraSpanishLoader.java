@@ -1,21 +1,17 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
-import com.csvreader.CsvReader;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.springframework.core.io.ClassPathResource;
+
+import com.csvreader.CsvReader;
 
 /**
  * @author mehul
