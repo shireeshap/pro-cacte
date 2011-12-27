@@ -5,6 +5,17 @@ import gov.nih.nci.ctcae.core.dao.LowLevelTermDao;
 import gov.nih.nci.ctcae.core.dao.MedDRADao;
 import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
+
+import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -12,11 +23,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
