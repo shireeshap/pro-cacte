@@ -1,11 +1,11 @@
 package gov.nih.nci.ctcae.commons.utils;
 
-import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
 /**
  * @author
