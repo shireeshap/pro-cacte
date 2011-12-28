@@ -54,6 +54,12 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
         StudyParticipantCrfSchedule spcSchedule = (StudyParticipantCrfSchedule) command;
+        String study = spcSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy().getShortTitle();
+        String crf = spcSchedule.getStudyParticipantCrf().getCrf().getTitle();
+        String spId = spcSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudyParticipantIdentifier();
+        String participantName = spcSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName();
+        Date startDate = spcSchedule.getStartDate();
+        Date dueDate = spcSchedule.getDueDate();
        Map<String, Object> map = super.referenceData(request, command, errors);
         String language = request.getParameter("lang");
         if (language == null || language == "") {
@@ -61,6 +67,12 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         }
         spcSchedule.setLanguage(language);
         map.put("language", language);
+        map.put("study", study);
+        map.put("crf", crf);
+        map.put("spId", spId);
+        map.put("participantName", participantName);
+        map.put("startDate", startDate);
+        map.put("dueDate", dueDate);
         return map;
     }
 
