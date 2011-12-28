@@ -220,7 +220,11 @@
 </head>
 <body>
 <%--<chrome:box title="crf.label.search_criteria" autopad="true">--%>
-<form method="POST" action="manageForm">
+
+<%--</chrome:box>--%>
+
+<chrome:box title=" ">
+    <form method="POST" action="manageForm">
     <input name="useReqParam" value="true" type="hidden"/>
     <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
 
@@ -241,9 +245,8 @@
         </div>
     </div>
 </form>
-<%--</chrome:box>--%>
 
-<chrome:box title="Results">
+    <br>
     <div id="noForm">
         <proctcae:urlAuthorize url="/pages/form/basicForm">
             <table width="100%">
