@@ -122,10 +122,10 @@
         <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
             <%--<c:if test="${language eq 'en' || language eq 'es' && symptom.key.proCtcTermVocab.termSpanish ne null}">--%>
             <tr>
-                <td colspan="6"><br/></td>
+                <td colspan="7"><br/></td>
             </tr>
             <tr style="background-color:#cccccc;">
-                <td colspan="6">
+                <td colspan="7">
                     <c:if test="${language eq 'en'}">
                         <b>${symptom.key.term} </b>
                     </c:if>
@@ -136,7 +136,7 @@
             </tr>
             <c:forEach items="${symptom.value}" var="items">
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <c:if test="${language eq 'en'}">
                             <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
                         </c:if>
@@ -175,7 +175,7 @@
                 <td><br/></td>
             </tr>
             <tr style="background-color:#cccccc;">
-                <td colspan="6">
+                <td colspan="7">
                     <b>${symptom.key} </b>
                 </td>
             </tr>
@@ -193,7 +193,7 @@
                             </td>
                         </c:when>
                         <c:otherwise>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <c:if test="${language eq 'en'}">
                                     <b>${myindex}. ${items[0].meddraQuestion.meddraQuestionVocab.questionTextEnglish}</b>
                                 </c:if>
@@ -259,11 +259,11 @@
             </tr>
 
             <tr style="background-color:#cccccc;">
-                <td colspan="6"><b><tags:message code="participant.recording.title"/></b>
+                <td colspan="7"><b><tags:message code="participant.recording.title"/></b>
                 </td>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <a href="#" onclick="playAudio('${command.id}')">
                         <img id="pShowImage_${command.id}" src="../../images/play_audio.png" height="45"
                              style=""/>
@@ -276,13 +276,13 @@
 
         </c:if>
         <tr>
-            <td colspan="6"><br/></td>
+            <td colspan="7"><br/></td>
         </tr>
         <tr style="background-color:#cccccc;">
-            <td colspan="6"><b><spring:message code="participant.verbatim"/></b></td>
+            <td colspan="7"><b><spring:message code="participant.verbatim"/></b></td>
         </tr>
         <tr>
-            <td colspan="6">
+            <td colspan="7">
                 <c:choose>
                     <c:when test="${command.status.displayName eq 'Completed'}">
                         ${command.verbatim}
