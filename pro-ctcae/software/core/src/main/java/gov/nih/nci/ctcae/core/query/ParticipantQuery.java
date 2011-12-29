@@ -284,8 +284,10 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
      */
     public void filterByPhoneNumber(final String phoneNumber) {
         if (phoneNumber != null) {
-            andWhere("p.phoneNumber =:" + PHONENUMBER);
-            setParameter(PHONENUMBER, phoneNumber);
+            String plainPhoneNumber = phoneNumber.replaceAll("-", "");
+            String phoneString = "('"+phoneNumber + "','"+ plainPhoneNumber + "')";
+            andWhere("p.phoneNumber IN " + phoneString);
+         //   setParameter(PHONENUMBER, phoneString);
         }
     }
 
