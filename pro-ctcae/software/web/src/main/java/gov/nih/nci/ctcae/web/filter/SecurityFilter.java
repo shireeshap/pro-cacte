@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
     private FilterConfig filterConfig = null;
-    List<String> allowedParams = Arrays.asList("username", "password", "newPassword", "confirmPassword", "email", "participant.user.confirmPassword", "participant.user.password", "participant.emailAddress", "clinicalStaff.emailAddress");
+    List<String> allowedParams = Arrays.asList("values", "mappedValues", "symptomsByParticipants","selectedChoice", "username", "password", "newPassword", "confirmPassword", "email", "participant.user.confirmPassword", "participant.user.password", "participant.emailAddress", "clinicalStaff.emailAddress");
     List<String> urlsToSanitizeForHttpPost = Arrays.asList("/proctcae/pages/participant/create");
 
     public void destroy() {
@@ -78,7 +78,7 @@ import org.apache.commons.lang.StringUtils;
             }
         } else if(request.getMethod().toUpperCase().equals("POST")){
         	//not allowing % for post urls in urlsToSanitizeForHttpPost (barring allowedParams)
-        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ()]");
+        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ]");
             while (parameterNames.hasMoreElements()) {
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
