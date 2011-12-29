@@ -95,6 +95,16 @@
         });
     }
 
+    function effectiveStaff(cId, status) {
+        var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 500, 200);
+                AE.registerCalendarPopups();
+            },
+            method:'get'
+        })
+    }
 
     function submitForm() {
         document.forms[0].submit();
