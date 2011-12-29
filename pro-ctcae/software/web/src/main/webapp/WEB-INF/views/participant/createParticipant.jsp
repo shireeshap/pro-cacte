@@ -35,6 +35,7 @@ var isEmail = false;
 var isPhoneNumberError = false;
 var isBlackoutCallTime = false;
 var isEmailError = false;
+var isConfirmPinError = false;
 
 // validation check for username
 function checkParticipantUserName() {
@@ -105,7 +106,7 @@ function userReturnValue(returnValue) {
 }
 
 function checkError() {
-    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError) {
+    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError || isConfirmPinError) {
         jQuery('#flow-update').attr('disabled', true);
         jQuery('#flow-next').attr('disabled', true);
     }
@@ -143,6 +144,20 @@ function passReturnValue(returnValue) {
     else {
         jQuery('#passwordError').hide();
         isPasswordError = false;
+    }
+    checkError();
+}
+
+function checkPinMatch(siteId) {
+    var password = $('participant.pinNumber_'+siteId).value;
+    var confirmPassword = $('participant.confirmPinNumber_'+siteId).value;
+    jQuery('#confirmPinError_'+siteId).hide();
+    isConfirmPassError = false;
+    if (password != "" && confirmPassword != "") {
+        if (password != confirmPassword) {
+            jQuery('#confirmPinError_'+siteId).show();
+            isConfirmPassError = true;
+        }
     }
     checkError();
 }
@@ -564,6 +579,7 @@ function showForms(obj, id) {
         jQuery('#uniqueError_' + sites[i].value).hide();
         jQuery('#UserPatternError_' + sites[i].value).hide();
         jQuery('#PinPatternError_' + sites[i].value).hide();
+        jQuery('#confirmPinError_' + sites[i].value).hide();
         jQuery('#userNumberError_' + sites[i].value).hide();
         jQuery('#PhonePatternError_' + sites[i].value).hide();
         jQuery('#preferred.calltime.error_' + sites[i].value).hide();
@@ -743,6 +759,19 @@ function showEmail(id) {
 }
 <%--var clickCount = ${homeModeCount};--%>
 function showOrHideLanguage(value1, value2, id) {
+    jQuery("#clinic_paper_lang_" + id).val('');
+    jQuery('#clinic_paper_lang_' + id + '-msg').hide();
+    jQuery('#paper_clinic_header_' + id).hide();
+    jQuery('#clinicPaper_' + id).hide();
+    $('clinic_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+    jQuery('#participantClinicModes_'+id).attr("checked",false);
+    jQuery(this).attr();
+    jQuery("#clinic_web_lang_" + id).val('');
+    jQuery('#clinic_web_lang_' + id + '-msg').hide();
+    jQuery('#web_clinic_header_' + id).hide();
+    jQuery('#clinicWeb_' + id).hide();
+    $('clinic_web_lang_' + id).removeClassName("validate-NOTEMPTY");
+
     if (value1 && value2 == "CLINICWEB") {
         jQuery("#clinic_paper_lang_" + id).val('');
         jQuery('#web_clinic_header_' + id).show();
@@ -752,7 +781,6 @@ function showOrHideLanguage(value1, value2, id) {
         jQuery('#clinicPaper_' + id).hide();
         $('clinic_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('clinic_web_lang_' + id).addClassName("validate-NOTEMPTY");
-
     }
     if (value1 && value2 == "CLINICBOOKLET") {
         jQuery("#clinic_web_lang_" + id).val('');
@@ -781,6 +809,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#PhonePatternError_' + id).hide();
         jQuery('#phoneNumberError_' + id).hide();
         jQuery('#PinPatternError_' + id).hide();
+        jQuery('#confirmPinError_' + id).hide();
         jQuery('#userNumberError_' + id).hide();
         jQuery('#emailError_' + id).hide();
         jQuery('#preferred.calltime.error_' + id).hide();
@@ -813,6 +842,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c1_' + id).hide();
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
+        jQuery('#c4_' + id).hide();
         jQuery('#reminder_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#ivrsLang_' + id).hide();
@@ -839,6 +869,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c1_' + id).hide();
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
+        jQuery('#c4_' + id).hide();
         jQuery('#reminder_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#ivrsLang_' + id).hide();
@@ -857,6 +888,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c1_' + id).show();
         jQuery('#c2_' + id).show();
         jQuery('#c3_' + id).show();
+        jQuery('#c4_' + id).show();
         jQuery('#reminder_' + id).show();
         jQuery('#ivrs_reminder_' + id).show();
         jQuery('#ivrsLang_' + id).show();
@@ -883,6 +915,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#c1_' + id).hide();
         jQuery('#c2_' + id).hide();
         jQuery('#c3_' + id).hide();
+        jQuery('#c4_' + id).hide();
     }
 
 }
@@ -898,10 +931,10 @@ function showOrHideEmail(value1, value2, id) {
                 jQuery('#'+ fieldName + '.error').show();
                 $(fieldName + '.error').show();
                 $(fieldName).value="";
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
 }
 
 

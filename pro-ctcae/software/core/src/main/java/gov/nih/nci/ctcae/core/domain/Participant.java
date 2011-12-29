@@ -75,6 +75,9 @@ public class Participant extends Person {
 
     @Column(name = "pin_number", nullable = true)
     private Integer pinNumber;
+
+    @Transient
+    private Integer confirmPinNumber;
     
     public User getUser() {
         return user;
@@ -355,5 +358,13 @@ public class Participant extends Person {
 
     public void setPinNumber(Integer pinNumber) {
         this.pinNumber = pinNumber;
+    }
+
+    public Integer getConfirmPinNumber() {
+        return confirmPinNumber;
+    }
+
+    public void setConfirmPinNumber(Integer confirmPinNumber) {
+        this.confirmPinNumber = confirmPinNumber;
     }
 }

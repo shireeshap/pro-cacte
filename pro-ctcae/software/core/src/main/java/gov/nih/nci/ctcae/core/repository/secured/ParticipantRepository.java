@@ -92,6 +92,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
         initialzeParticipant(participant);
 
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
+        participant.setConfirmPinNumber(participant.getPinNumber());
         return participant;
     }
 

@@ -301,13 +301,29 @@
         <b>PIN number</b>&nbsp;
     </td>
     <td>
-        <input type="text" name="participantPinNumber_${studysite.id}"
+        <input type="password" name="participantPinNumber_${studysite.id}"
                value="${studyParticipantAssignment.participant.pinNumber}"
                id="participant.pinNumber_${studysite.id}"
                onblur="checkParticipantPinNumber(${studysite.id});" title="Pin number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
         <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
             <li><spring:message code='participant.pinnumber_pattern'
                                 text='participant.pinnumber_pattern'/></li>
+        </ul>
+    </td>
+</tr>
+<tr id="c4_${studysite.id}" style="${showTime eq true ? "":"display:none"}" >
+    <td align="right" class="data" valign="top" width="30%">
+        <span class="required-indicator">*&nbsp;&nbsp; </span>
+        <b>Confirm PIN number</b>&nbsp;
+    </td>
+    <td>
+        <input type="password" name="participantPinNumberConfirm_${studysite.id}"
+               value="${studyParticipantAssignment.participant.confirmPinNumber}"
+               id="participant.confirmPinNumber_${studysite.id}"
+               onblur="checkPinMatch(${studysite.id});" title="Confirm Pin number" class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+        <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
+            <li><spring:message code='participant.confirm_pinnumber'
+                                text='participant.confirm_pinnumber'/></li>
         </ul>
     </td>
 </tr>
