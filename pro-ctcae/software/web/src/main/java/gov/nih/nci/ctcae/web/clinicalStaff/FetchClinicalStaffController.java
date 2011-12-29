@@ -142,7 +142,24 @@ public class FetchClinicalStaffController extends AbstractController {
                     break;
                 }
             }
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"clinicalStaffActions" + clinicalStaff.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script type=\"text/javascript\">showPopUpMenuClinicalStaff(\"" + clinicalStaff.getId() + "\",\"" + clinicalStaff.getStatus() + "\",\"" + odc + "\");</script>";
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='clinicalStaffActions"
+                    + clinicalStaff.getId() + "'"
+                    + " onclick=\"javascript:showPopUpMenuClinicalStaff('"
+                    + clinicalStaff.getId()
+                    + "','"
+                    + clinicalStaff.getStatus()
+                    + "','"
+                    + odc
+                    + "');\">"
+                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>"
+
+                    + "<script type=\"text/javascript\">showPopUpMenuClinicalStaff(\""
+                    + clinicalStaff.getId()
+                    + "\",\""
+                    + clinicalStaff.getStatus()
+                    + "\",\""
+                    + odc
+                    + "\");</script>";
 
             dto.setActions(actions);
 
