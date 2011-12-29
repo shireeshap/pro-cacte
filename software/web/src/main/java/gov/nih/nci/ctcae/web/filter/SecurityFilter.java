@@ -78,7 +78,7 @@ import org.apache.commons.lang.StringUtils;
             }
         } else if(request.getMethod().toUpperCase().equals("POST")){
         	//not allowing % for post urls in urlsToSanitizeForHttpPost (barring allowedParams)
-        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ]");
+        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ()]");
             while (parameterNames.hasMoreElements()) {
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
