@@ -223,7 +223,7 @@
                 if (values != '') {
 
                     var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
-                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false,
+                        parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false +"&CSRF_TOKEN=${sessionScope.CSRF_TOKEN}",
                         onComplete:function(transport) {
                             showConfirmationWindow(transport, 600, 250);
                             clearInput();
@@ -244,8 +244,9 @@
     function checkMapping(selectedChoice) {
         scheduleCrf.checkIfSymptomMapsToProctc(selectedChoice, function(values) {
             if (values != '') {
+
                 var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
-                    parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true,
+                    parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true +"&CSRF_TOKEN=${sessionScope.CSRF_TOKEN}",
                     onComplete:function(transport) {
                         showConfirmationWindow(transport, 500, 150);
                     },

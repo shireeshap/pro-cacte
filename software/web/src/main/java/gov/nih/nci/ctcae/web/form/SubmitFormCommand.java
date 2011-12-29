@@ -419,7 +419,7 @@ public class SubmitFormCommand implements Serializable {
                         addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                     } else {
                         List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
-                        if (proCtcTerms.size() > 0 && proCtcTerms.get(0).getCurrency() == "Y") {
+                        if (proCtcTerms.size() > 0 && "Y".equalsIgnoreCase(ctcTerms.get(0).getProCtcTerms().get(0).getCurrency())) {
                             addProCtcQuestion(proCtcTerms.get(0), newlyAddedQuestions);
                             } else {
                             addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
