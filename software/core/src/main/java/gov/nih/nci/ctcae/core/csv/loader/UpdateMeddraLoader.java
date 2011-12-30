@@ -39,7 +39,7 @@ public class UpdateMeddraLoader  {
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
-        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_EN_prelim.csv");
+        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv");
 //        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF8"));
         reader.readHeaders();
