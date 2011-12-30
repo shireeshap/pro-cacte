@@ -18,7 +18,7 @@
             <div id="releaseForm">
                 <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     <c:choose>
-                        <c:when test="${command.status eq 'ACTIVE'}">
+                        <c:when test="${command.status eq 'Active'}">
                             Please provide the date on which this Clinical staff will be effectively deactivated.
                         </c:when>
                         <c:otherwise>
@@ -33,7 +33,7 @@
 
                 <div class="flow-buttons">
                     <c:choose>
-                        <c:when test="${command.status eq 'ACTIVE'}">
+                        <c:when test="${command.status eq 'Active'}">
                             <tags:button color="orange" type="submit" id="flow-update"
                                          cssClass="next" value="De-activate" icon="check"
                                     />
