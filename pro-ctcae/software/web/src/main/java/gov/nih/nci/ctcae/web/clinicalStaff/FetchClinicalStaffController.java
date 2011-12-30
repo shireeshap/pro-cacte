@@ -151,15 +151,7 @@ public class FetchClinicalStaffController extends AbstractController {
                     + "','"
                     + odc
                     + "');\">"
-                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>"
-
-                    + "<script type=\"text/javascript\">showPopUpMenuClinicalStaff(\""
-                    + clinicalStaff.getId()
-                    + "\",\""
-                    + clinicalStaff.getStatus()
-                    + "\",\""
-                    + odc
-                    + "\");</script>";
+                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
 
             dto.setActions(actions);
 
