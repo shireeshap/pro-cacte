@@ -82,7 +82,7 @@ public class FetchStudyController extends AbstractController {
             studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
             
             boolean odcOnStudy = false;
-            if (user.isCCA()) {
+            if (user.isCCA() || user.isAdmin()) {
                 odcOnStudy = false;
             } else {
                 if (user.isODCOnStudy(study)) {
