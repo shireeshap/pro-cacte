@@ -51,7 +51,14 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
         }
 
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
-        RedirectView redirectView = new RedirectView("../searchClinicalStaff");
+        String searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
+        RedirectView redirectView ;
+        if(searchString!= null && !searchString.equals("")){
+             redirectView = new RedirectView("../searchClinicalStaff?searchString="+searchString);
+        }else{
+             redirectView = new RedirectView("../searchClinicalStaff");
+        }
+
         return new ModelAndView(redirectView);
     }
 
