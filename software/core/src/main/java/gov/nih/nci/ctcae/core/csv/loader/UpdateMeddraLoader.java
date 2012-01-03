@@ -47,8 +47,11 @@ public class UpdateMeddraLoader  {
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");
         List existingMeddraCodes = genericRepository.find(meddraQuery);
         List<String> existingMeddra = (List<String>) existingMeddraCodes;
+        List<String> csvMeddraCodes = new ArrayList<String>();
         List<String> updateTerms = new ArrayList<String>();
         List<String> insertTerms = new ArrayList<String>();
+        List<String> updateExistingMeddra = new ArrayList<String>();
+        String notCurrent = "N";
         int i = 0;
         while (reader.readRecord()) {
 
@@ -67,10 +70,20 @@ public class UpdateMeddraLoader  {
                 insertTerms.add("insert into meddra_llt (meddra_code, currency, meddra_pt_id, participant_added) values ('" + meddraCode + "','" + currency + "','" + meddraPtId + "','FALSE')");
                 insertTerms.add("insert into meddra_llt_vocab (meddra_llt_id, meddra_term_english) values ((select meddra_llt.id from meddra_llt where meddra_llt.meddra_code='" + meddraCode + "'),'"+meddraTerm+"')");
             }
+            csvMeddraCodes.add(meddraCode);
         }
 
+        for (String currentMeddra : existingMeddra) {
+            if (currentMeddra != null) {
+                currentMeddra.trim();
+            if (!csvMeddraCodes.contains(currentMeddra)) {
+                updateExistingMeddra.add("update meddra_llt set currency='"+notCurrent+"' where meddra_code='" + currentMeddra +"'");
+            }
+        }
+        }
         meddraLoaderRepository.batchExecute(updateTerms);
         meddraLoaderRepository.batchExecute(insertTerms);
+        meddraLoaderRepository.batchExecute(updateExistingMeddra);
 //        meddraLoaderRepository.batchExecute(updateTerms, "update meddra_llt set meddra_code=?, currency=?, meddra_pt_id=?, participant_added='FALSE' where meddra_code=?", true);
 //        meddraLoaderRepository.batchExecute(updateTerms, "update meddra_llt_vocab set meddra_term_english=? where meddra_llt_id=(select id from meddra_llt where meddra_code=?)", false);
 //        meddraLoaderRepository.batchExecute(insertTerms, "insert into meddra_llt (meddra_code, currency, meddra_pt_id, participant_added) values (?,?,?,'FALSE')", true);
