@@ -16,6 +16,9 @@
 <table width="100%">
     <tr>
         <td>
+            <b>Title</b>
+        </td>
+        <td>
             <b>Version</b>
         </td>
         <td>
@@ -30,6 +33,7 @@
     </tr>
     <c:forEach items="${crfs}" var="crf">
         <tr class="even childTableRow_${parentCrfId}">
+            <td class="data">${crf.title}</td>
             <td class="data">${crf.crfVersion}</td>
             <td class="data"><tags:formatDate value="${crf.effectiveStartDate}"/></td>
             <td class="data">${crf.status}</td>

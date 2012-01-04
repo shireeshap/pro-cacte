@@ -139,16 +139,6 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
-        CRF tmp = crf;
-        while (tmp.getParentCrf() != null) {
-            tmp = tmp.getParentCrf();
-        }
-
-        if (!tmp.equals(crf)) {
-            if (!tmp.getTitle().equals(crf.getTitle())) {
-                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
-            }
-        }
         crf.setActivityDate(new Date());
         crf = genericRepository.save(crf);
         initializeCollections(crf);

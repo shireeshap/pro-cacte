@@ -791,7 +791,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                     </c:when>
                     <c:otherwise>
                         <div style="padding-top:7px">
-                                ${command.crf.title}
+                                <%--${command.crf.title}--%>
+                             <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;"
+                               size="60"/>
                         </div>
                     </c:otherwise>
                 </c:choose>
