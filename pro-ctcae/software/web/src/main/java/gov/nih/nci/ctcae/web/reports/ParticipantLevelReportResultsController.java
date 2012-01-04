@@ -84,7 +84,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             dates.add(displayDate);
 
             Integer arraySize = dates.size();
-            
+
             StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
@@ -113,7 +113,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
                 String symptom = question.getQuestionSymptom();
                 ValidValue value;
                 if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
-                     value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                    value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 } else {
                     value = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
                 }
@@ -133,7 +133,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         }
         boolean isMeddraQuestion = false;
         if (question instanceof MeddraQuestion) {
-               isMeddraQuestion = true;
+            isMeddraQuestion = true;
         }
         ArrayList<ValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
@@ -146,11 +146,11 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (careResults.containsKey(question)) {
             validValue = careResults.get(question);
         } else {
-        	validValue = new ArrayList<ValidValue>();
-            for(int j=0;j<=dateIndex;j++){
-            	if(validValue.size() < j){
-            		validValue.add(null);
-            	}
+            validValue = new ArrayList<ValidValue>();
+            for (int j = 0; j <= dateIndex; j++) {
+                if (validValue.size() < j) {
+                    validValue.add(null);
+                }
             }
             if (participantAddedQuestion) {
                 for (int i = 0; i < arraySize - 1; i++) {
@@ -167,8 +167,18 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         if (value == null && !isMeddraQuestion) {
             ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, studyParticipantCrfItem);
             myProCtcValidValue.setDisplayOrder(0);
+            if (dateIndex > validValue.size()) {
+                for (int j = validValue.size(); j < dateIndex; j++) {
+                    validValue.add(null);
+                }
+            }
             validValue.add(dateIndex, myProCtcValidValue);
         } else {
+            if (dateIndex > validValue.size()) {
+                for (int j = validValue.size(); j < dateIndex; j++) {
+                    validValue.add(null);
+                }
+            }
             validValue.add(dateIndex, value);
         }
     }
@@ -222,7 +232,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         CRF crf = genericRepository.findById(CRF.class, crfId);
         List<Integer> crfIds = new ArrayList();
         crfIds.add(crfId);
-        if (crf.getParentCrf()!=null) {
+        if (crf.getParentCrf() != null) {
             crfIds.add(crf.getParentCrf().getId());
         }
         query.filterByCRFIds(crfIds);

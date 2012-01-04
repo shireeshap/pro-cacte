@@ -206,8 +206,18 @@ public class StudyLevelReportResultsController extends AbstractController {
 //            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
 //            myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
             myProCtcValidValue.setDisplayOrder(0);
+            if (dateIndex > validValue.size()) {
+                for (int j = validValue.size(); j < dateIndex; j++) {
+                    validValue.add(null);
+                }
+            }
             validValue.add(dateIndex, myProCtcValidValue);
         } else {
+            if (dateIndex > validValue.size()) {
+                for (int j = validValue.size(); j < dateIndex; j++) {
+                    validValue.add(null);
+                }
+            }
             validValue.add(dateIndex, value);
         }
 
