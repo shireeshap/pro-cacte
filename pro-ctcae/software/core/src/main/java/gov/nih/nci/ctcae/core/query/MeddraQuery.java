@@ -9,7 +9,7 @@ public class MeddraQuery extends AbstractQuery {
 
     private static String queryString = "SELECT llt.lowLevelTermVocab.meddraTermEnglish from LowLevelTerm llt order by llt.id";
     private static String queryString2 = "SELECT llt.lowLevelTermVocab.meddraTermEnglish from LowLevelTerm llt, CtcTerm ctcTerm, ProCtcTerm proCtcTerm order by llt.id";
-//    private static String queryString2 = "SELECT llt.lowLevelTermVocab.meddraTermEnglish || " + "' ('" + " || proCtcTerm.proCtcTermVocab.termEnglish || " + "')'" + " from LowLevelTerm llt, CtcTerm ctcTerm, ProCtcTerm proCtcTerm order by llt.id";
+    //    private static String queryString2 = "SELECT llt.lowLevelTermVocab.meddraTermEnglish || " + "' ('" + " || proCtcTerm.proCtcTermVocab.termEnglish || " + "')'" + " from LowLevelTerm llt, CtcTerm ctcTerm, ProCtcTerm proCtcTerm order by llt.id";
     private static String queryString1 = "SELECT llt from LowLevelTerm llt order by llt.id";
     private static String queryString3 = "SELECT llt.lowLevelTermVocab.meddraTermSpanish from LowLevelTerm llt order by llt.id";
     private static String queryString4 = "select llt.meddraCode from LowLevelTerm llt";
@@ -26,15 +26,15 @@ public class MeddraQuery extends AbstractQuery {
         super(queryString);
     }
 
-    public MeddraQuery(boolean proCtc, boolean meddra){
+    public MeddraQuery(boolean proCtc, boolean meddra) {
         super(queryString2);
     }
 
-    public MeddraQuery (String language) {
+    public MeddraQuery(String language) {
         super(queryString3);
     }
 
-    public MeddraQuery (boolean allCode, String language) {
+    public MeddraQuery(boolean allCode, String language) {
         super(queryString4);
     }
 
@@ -59,8 +59,8 @@ public class MeddraQuery extends AbstractQuery {
         setParameter(CURRENCY, "Y");
     }
 
-    public void filterMeddraWithSpanishText (String text) {
-         String searchString = text != null ? "%" + text.toLowerCase() + "%" : "%";
+    public void filterMeddraWithSpanishText(String text) {
+        String searchString = text != null ? "%" + text.toLowerCase() + "%" : "%";
         andWhere("(llt.participantAdded IS NULL OR llt.participantAdded = FALSE)");
 //        andWhere("(llt.meddraCode = ctcTerm.ctepCode)");
 //        andWhere("(ctcTerm.id = proCtcTerm.ctcTerm)");
@@ -76,7 +76,7 @@ public class MeddraQuery extends AbstractQuery {
         andWhere("(llt.meddraCode = ctcTerm.ctepCode)");
         andWhere("(ctcTerm.id = proCtcTerm.ctcTerm)");
         andWhere("(proCtcTerm.proCtcTermVocab.termEnglish IS NOT NULL)");
-        andWhere("(proCtcTerm.currency = :" + CURRENCY +")");
+        andWhere("(proCtcTerm.currency = :" + CURRENCY + ")");
         andWhere(String.format("(lower(llt.lowLevelTermVocab.meddraTermEnglish) LIKE :%s)", MEDDRA_TERM));
         setParameter(MEDDRA_TERM, searchString);
         setParameter(CURRENCY, "Y");
@@ -86,7 +86,9 @@ public class MeddraQuery extends AbstractQuery {
     public void filterByMeddraTerm(final String term) {
         String searchString = term.toLowerCase();
         andWhere("lower(llt.lowLevelTermVocab.meddraTermEnglish) = :" + MEDDRA_TERM);
+        andWhere("llt.currency = :" + CURRENCY);
         setParameter(MEDDRA_TERM, searchString);
+        setParameter(CURRENCY, "Y");
     }
 
     public void filterBySpanishMeddraTerm(final String term) {
