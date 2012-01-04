@@ -67,7 +67,17 @@ public class FetchCrfController extends AbstractController {
                  showVersion = true;
             }
 
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"crfActions" + crf.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenu(\"" + crf.getId() + "\",\"" + crf.getStatus().getDisplayName() + "\","+showVersion+");</script>";
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='crfActions"
+                    + crf.getId() + "'"
+                    + " onclick=\"javascript:showPopUpMenu('"
+                    + crf.getId()
+                    + "','"
+                    + crf.getStatus().getDisplayName()
+                    + "','"
+                    + showVersion
+                    +"');\">"
+                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+
             dto.setActions(actions);
             searchCRFWrapper.getSearchCrfDTOs()[index] = dto;
             index++;

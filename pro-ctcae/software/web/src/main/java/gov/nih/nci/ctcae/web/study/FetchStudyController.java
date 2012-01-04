@@ -89,8 +89,15 @@ public class FetchStudyController extends AbstractController {
                     odcOnStudy = true;
                 }
             }
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"studyActions" + study.getId() +
-            				"\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuStudy('" + study.getId() + "','" + odcOnStudy + "');</script>";
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
+                    + study.getId() + "'"
+                    + " onclick=\"javascript:showPopUpMenuStudy('"
+                    + study.getId()
+                    + "','"
+                    + odcOnStudy
+                    + "');\">"
+                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+
             studyCommand.setActions(actions);
             
             searchStudyWrapper.getSearchStudyDTO()[index] = studyCommand;

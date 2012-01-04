@@ -91,7 +91,16 @@ public class FetchParticipantController extends AbstractController {
                 odc = user.isODCOnStudy(study);
             }
 
-            String actions = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + participant.getId() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant(\"" + participant.getId() + "\",\"" + odc + "\");</script>";
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
+                    + participant.getId() + "'"
+                    + " onclick=\"javascript:showPopUpMenuParticipant('"
+                    + participant.getId()
+                    + "','"
+                    + odc
+                    + "');\">"
+                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+
+
             searchParticipantDTO.setActions(actions);
             searchParticipantWrapper.getSearchParticipantDTOs()[index] = searchParticipantDTO;
         }
