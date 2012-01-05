@@ -921,7 +921,7 @@ function showOrHideEmail(value1, value2, id) {
 }
 
     function isSpclChar(fieldName){
-        var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
+        var iChars = "!@#$%^&*+=[]\\\';,./{}|\":<>?";
         var fieldValue = $(fieldName).value;
         jQuery('#'+ fieldName + '.error').hide();
         $(fieldName + '.error').hide();
