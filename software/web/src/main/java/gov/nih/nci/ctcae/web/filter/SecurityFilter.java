@@ -57,7 +57,7 @@ import org.apache.commons.lang.StringUtils;
 
     private boolean uriContainsIllegalCharacters(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        Pattern p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\]%, ]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\]%,();: ]");
         Matcher m = p.matcher(uri);
         
         if (m.find()) {
@@ -78,7 +78,7 @@ import org.apache.commons.lang.StringUtils;
             }
         } else if(request.getMethod().toUpperCase().equals("POST")){
         	//not allowing % for post urls in urlsToSanitizeForHttpPost (barring allowedParams)
-        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\], ]");
+        	p = Pattern.compile("[^a-zA-Z0-9?'/=\\.\\-_\\[\\]%,();: ]");
             while (parameterNames.hasMoreElements()) {
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
