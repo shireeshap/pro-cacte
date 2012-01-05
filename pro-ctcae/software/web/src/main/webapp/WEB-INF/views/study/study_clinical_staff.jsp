@@ -43,7 +43,7 @@
             return aResults;
         }
 
-         function getLeadStaff1(sQuery) {
+        function getLeadStaff1(sQuery) {
             showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
@@ -57,19 +57,19 @@
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('overallDataCoordinator.organizationClinicalStaffInput', getODCStaff, handleSelect);
-            if('${command.overallDataCoordinator.displayName}'!=''){
-            $('overallDataCoordinator.organizationClinicalStaffInput').value = "${command.overallDataCoordinator.displayName}";
-            $('overallDataCoordinator.organizationClinicalStaffInput').removeClassName('pending-search');
+            if ('${command.overallDataCoordinator.displayName}' != '') {
+                $('overallDataCoordinator.organizationClinicalStaffInput').value = "${command.overallDataCoordinator.displayName}";
+                $('overallDataCoordinator.organizationClinicalStaffInput').removeClassName('pending-search');
             }
             new YUIAutoCompleter('leadCRA.organizationClinicalStaffInput', getLeadStaff, handleSelect);
-            if('${command.leadCRA.displayName}'!=""){
-            $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
-            $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
+            if ('${command.leadCRA.displayName}' != "") {
+                $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
+                $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
             }
             new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff1, handleSelect);
-            if('${command.principalInvestigator.displayName}'!=""){
-            $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
-            $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
+            if ('${command.principalInvestigator.displayName}' != "") {
+                $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
+                $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
             }
         })
                 ;
@@ -77,15 +77,15 @@
         function handleSelect(stype, args) {
             var ele = args[0];
             var oData = args[2];
-            if(oData == null){
-            	ele.getInputEl().value="(Begin typing here)";
-            	ele.getInputEl().addClassName('pending-search');
+            if (oData == null) {
+                ele.getInputEl().value = "(Begin typing here)";
+                ele.getInputEl().addClassName('pending-search');
             } else {
-	            ele.getInputEl().value = oData.displayName;
-	            var id = ele.getInputEl().id;
-	            ele.getInputEl().removeClassName('pending-search');
-	            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-	            $(hiddenInputId).value = oData.id;
+                ele.getInputEl().value = oData.displayName;
+                var id = ele.getInputEl().id;
+                ele.getInputEl().removeClassName('pending-search');
+                var hiddenInputId = id.substring(0, id.indexOf('Input'));
+                $(hiddenInputId).value = oData.id;
             }
         }
 
@@ -106,6 +106,16 @@
 
 
     <jsp:attribute name="repeatingFields">
+        <chrome:division title="Study details">
+            <div class="row">
+                <div class="label"><spring:message code="form.label.study"/></div>
+                <div class="value">${command.study.shortTitle} </div>
+            </div>
+            <div class="row">
+                <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
+                <div class="value">${command.study.assignedIdentifier} </div>
+            </div>
+        </chrome:division>
        <chrome:division title="study.label.clinical.staff.odc">
 
            <div class="row">
@@ -117,7 +127,7 @@
                        title="Overall Data Coordinator "
                        cssStyle="display:none;"/>
            <div class="row">
-           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+               <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
                <div class="value">
                    <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
                                           value="${command.overallDataCoordinator.displayName}" required="false"
@@ -134,18 +144,18 @@
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
 
-             <form:input path="leadCRA.organizationClinicalStaff"
-                       id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Lead Site CRA"
-                       cssStyle="display:none;"/>
-           <div class="row">
-           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-               <div class="value">
-                   <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
-                                          value="${command.leadCRA.displayName}" required="false"
-                                          hiddenInputName="leadCRA.organizationClinicalStaff"/>
-               </div>
-           </div>
+            <form:input path="leadCRA.organizationClinicalStaff"
+                        id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                        title="Lead Site CRA"
+                        cssStyle="display:none;"/>
+            <div class="row">
+                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+                <div class="value">
+                    <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
+                                           value="${command.leadCRA.displayName}" required="false"
+                                           hiddenInputName="leadCRA.organizationClinicalStaff"/>
+                </div>
+            </div>
 
         </chrome:division>
         <chrome:division title="study.label.clinical.staff.pi">
@@ -155,17 +165,17 @@
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
             <form:input path="principalInvestigator.organizationClinicalStaff"
-                       id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Overall PI "
-                       cssStyle="display:none;"/>
+                        id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                        title="Overall PI "
+                        cssStyle="display:none;"/>
             <div class="row">
-           <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-               <div class="value">
-                   <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
-                                          value="${command.principalInvestigator.displayName}" required="false"
-                                          hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
-               </div>
-           </div>
+                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+                <div class="value">
+                    <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
+                                           value="${command.principalInvestigator.displayName}" required="false"
+                                           hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
+                </div>
+            </div>
 
         </chrome:division>
 

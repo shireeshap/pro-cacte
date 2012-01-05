@@ -56,11 +56,11 @@
         }
 
         function clearInput(inputId) {
-               $(inputId).clear();
-               $(inputId + 'Input').clear();
-               $(inputId + 'Input').focus();
-               $(inputId + 'Input').blur();
-           }
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
         function changeStudySite() {
             $('_target').name = '_target' + $('_page').value;
@@ -83,41 +83,54 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
     <jsp:attribute name="singleFields">
+
         <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
                                               propertyName="selectedStudySite" required="true"
                                               onchange="changeStudySite()" itemLabel="organization.displayName"/>
 
-        <chrome:box title="study.tab.clinical_staff">
-            <div class="row">
-                <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>
-                <div class="value">${leadCRA.displayName}</div>
-            </div>
-            <div class="row">
-                <div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>
-                <div class="value">${OverallPI.displayName}</div>
-            </div>
+        <chrome:box>
+            <chrome:division title="Study details">
+                <div class="row">
+                    <div class="label"><spring:message code="form.label.study"/>: &nbsp;</div>
+                    <div class="value">${command.study.shortTitle} </div>
+                </div>
+                <div class="row">
+                    <div class="label"><spring:message code="study.label.assigned_identifier"/>: &nbsp;</div>
+                    <div class="value">${command.study.assignedIdentifier} </div>
+                </div>
+            </chrome:division>
+            <chrome:division title="study.tab.clinical_staff">
+                <div class="row">
+                    <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>
+                    <div class="value">${leadCRA.displayName}</div>
+                </div>
+                <div class="row">
+                    <div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>
+                    <div class="value">${OverallPI.displayName}</div>
+                </div>
+            </chrome:division>
         </chrome:box>
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
-            	<proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff">
-	                <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
-	                    <chrome:division title="study.label.clinical.staff.lead.site_pi">
-	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
-	                                                           roleStatusOptions="${roleStatusOptions}"
-	                                                           studyCommand="${command}"/>
-	                    </chrome:division>
-						<br/>
-	                    <chrome:division title="study.label.clinical.staff.lead.site_cra">
-	                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
-	                                                           roleStatusOptions="${roleStatusOptions}"
-	                                                           studyCommand="${command}"/>
-	                    </chrome:division>
-	                    <br/>
-	                </chrome:box>
-				</proctcae:urlAuthorize>
-				
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff">
+                    <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
+                        <chrome:division title="study.label.clinical.staff.lead.site_pi">
+                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
+                                                               roleStatusOptions="${roleStatusOptions}"
+                                                               studyCommand="${command}"/>
+                        </chrome:division>
+                        <br/>
+                        <chrome:division title="study.label.clinical.staff.lead.site_cra">
+                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
+                                                               roleStatusOptions="${roleStatusOptions}"
+                                                               studyCommand="${command}"/>
+                        </chrome:division>
+                        <br/>
+                    </chrome:box>
+                </proctcae:urlAuthorize>
+
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
                     <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
                         <chrome:division title="study.label.clinical.staff.lead.treating_physican">
@@ -125,7 +138,7 @@
                                                                roleStatusOptions="${roleStatusOptions}"
                                                                studyCommand="${command}"/>
                         </chrome:division>
-						<br/>
+                        <br/>
                         <chrome:division title="study.label.clinical.staff.lead.nurse">
                             <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
                                                                roleStatusOptions="${roleStatusOptions}"

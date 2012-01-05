@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -48,16 +47,16 @@
         }
 
         function clearInput(inputId) {
-               $(inputId).clear();
-               $(inputId + 'Input').clear();
-               $(inputId + 'Input').focus();
-               $(inputId + 'Input').blur();
-           }
+            $(inputId).clear();
+            $(inputId + 'Input').clear();
+            $(inputId + 'Input').focus();
+            $(inputId + 'Input').blur();
+        }
 
         Event.observe(window, "load", function() {
-        <c:if test="${not empty command.study.studySites}">
+            <c:if test="${not empty command.study.studySites}">
             $('studySiteTable').show()
-        </c:if>
+            </c:if>
         })
     </script>
 
@@ -65,8 +64,23 @@
 </head>
 <body>
 
+<%--<chrome:box title="Study details">--%>
+
+<%--</chrome:box>--%>
+
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+
     <jsp:attribute name="singleFields">
+         <%--<chrome:division title="Study details">--%>
+        <div class="row">
+            <div class="label"><spring:message code="form.label.study"/></div>
+            <div class="value">${command.study.shortTitle} </div>
+        </div>
+        <div class="row">
+            <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
+            <div class="value">${command.study.assignedIdentifier} </div>
+        </div>
+    <%--</chrome:division>--%>
             <tags:instructions code="study.study_sites.top"/>
             <div align="left" style="margin-left: 50px">
                 <table width="75%" class="tablecontent" style="display:none;" id="studySiteTable">
@@ -87,6 +101,7 @@
                     <tr id="hiddenDiv" align="center"></tr>
                 </table>
                 <br/>
+
                 <div style="width:110px;">
                     <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
                                  value="study.button.add_study_site" icon="add" size="small"/>
