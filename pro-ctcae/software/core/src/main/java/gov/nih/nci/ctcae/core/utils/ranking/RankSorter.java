@@ -19,7 +19,11 @@ public class RankSorter {
       //sorts based on descending order of rank i.e. lowest rank first. 
        Collections.sort(list, new Comparator<RankedObject<T>>(){
         public int compare(RankedObject o1, RankedObject o2) {
-            return o2.getRank() - o1.getRank();  
+            if (o2.getRank() == o1.getRank()) {
+                return  o1.getObject().toString().compareTo(o2.getObject().toString());
+            } else {
+                return o2.getRank() - o1.getRank();
+            }
         }
       });
       
