@@ -98,7 +98,9 @@
     <script type="text/javascript">
         var managerAutoComp;
         Event.observe(window, 'load', function() {
-            new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+            if (${study eq null}) {
+                new YUIAutoCompleter('studyInput', getStudies, handleSelect);
+            }
             new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
         });
 
