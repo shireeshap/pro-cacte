@@ -135,6 +135,18 @@ public class StudyParticipantCrf extends BaseVersionable {
         Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleDueDateComparator());
         return studyParticipantCrfSchedules;
     }
+    
+
+    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(List<CrfStatus> crfStatusList) {
+    	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedulesWithSpecifiedStatuses = new ArrayList<StudyParticipantCrfSchedule>();
+    	for(StudyParticipantCrfSchedule spcrfSchd : studyParticipantCrfSchedules){
+    		if(crfStatusList.contains(spcrfSchd.getStatus())){
+    			studyParticipantCrfSchedulesWithSpecifiedStatuses.add(spcrfSchd);
+    		}
+    	}
+        return studyParticipantCrfSchedulesWithSpecifiedStatuses;
+    }
+    
 
     /**
      * Adds the study participant crf schedule.

@@ -19,7 +19,7 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
+import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
@@ -252,59 +252,41 @@ public class LoginController extends AbstractController {
         ArrayList<List<StudyParticipantCrfSchedule>> out = new ArrayList<List<StudyParticipantCrfSchedule>>();
         Set<StudyParticipantCrfSchedule> overdue = new HashSet<StudyParticipantCrfSchedule>();
         Set<StudyParticipantCrfSchedule> upcoming = new HashSet<StudyParticipantCrfSchedule>();
-//        out.add(overdue);
-//        out.add(upcoming);
         Date today = new Date();
         Date week = DateUtils.addDaysToDate(today, 6);
-        StudyParticipantCrfScheduleQuery studyParticipantCrfScheduleQuery;
-        List<StudyParticipantCrfSchedule> spcsList = null;
-        List<Integer> spCrfIdList = new ArrayList<Integer>();
+        
+        List<CrfStatus> crfStatusList = new ArrayList<CrfStatus>();
+        crfStatusList.add(CrfStatus.PASTDUE);
+        crfStatusList.add(CrfStatus.INPROGRESS);
+        crfStatusList.add(CrfStatus.SCHEDULED);
         
         for (StudyOrganizationClinicalStaff staff : socs) {
-            for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
+            StudyParticipantAssignmentQuery studyParticipantAssignmentQuery = new StudyParticipantAssignmentQuery(true);
+            studyParticipantAssignmentQuery.filterBySpcrfSchedulesStatus(crfStatusList, staff.getStudyOrganization().getId());
+        	List<StudyParticipantAssignment> spaList = genericRepository.find(studyParticipantAssignmentQuery);
+        	
+            for (StudyParticipantAssignment studyParticipantAssignment : spaList) {
             	
-            	spCrfIdList.clear();
             	for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            		spCrfIdList.add(spc.getId());
-            	}
-            	
-            	if(spCrfIdList.size() == 0){
-            		continue;
-            	}
-                	
-            	if (loadOverdue != null && pastCount > 0) {
-                	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
-                	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFIds(spCrfIdList);
-                	studyParticipantCrfScheduleQuery.filterByStatus(CrfStatus.PASTDUE);
-                	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
-                	if(spcsList != null && spcsList.size() > 0){
-                    	for(StudyParticipantCrfSchedule spcs: spcsList){
-    	                	if (pastCount > 0) {
-    		                      overdue.add(spcs);
-    		                      pastCount--;
-    	                    } else {
-    	                    	break;
-    	                    }
-                    	}
-                	}
-            	}
-
-            	if (loadUpcoming != null && upcomingCount > 0) {
-                	studyParticipantCrfScheduleQuery = new StudyParticipantCrfScheduleQuery();
-                	studyParticipantCrfScheduleQuery.filterByStudyParticipantCRFIds(spCrfIdList);
-                	studyParticipantCrfScheduleQuery.filterByDate(today, week);
-                	spcsList = genericRepository.find(studyParticipantCrfScheduleQuery); 
-                	if(spcsList != null && spcsList.size() > 0){
-                    	for(StudyParticipantCrfSchedule spcs: spcsList){
-    	                	if (upcomingCount > 0) {
+            		for(StudyParticipantCrfSchedule spcs:spc.getStudyParticipantCrfSchedules(crfStatusList)) {
+            			if(spcs.getStatus().equals(CrfStatus.PASTDUE)){
+            				if (loadOverdue != null && pastCount > 0) {
+  		                      overdue.add(spcs);
+  		                      pastCount--;
+	  	                    } else {
+	  	                    	break;
+	  	                    }
+            			} else if(DateUtils.daysBetweenDates(spcs.getStartDate(), today) >= 0  && DateUtils.daysBetweenDates(spcs.getStartDate(), week) < 0 ){
+            				if (loadUpcoming != null && upcomingCount > 0) {
     	                		  upcoming.add(spcs);
     		                      upcomingCount--;
-    	                    } else {
-    	                    	break;
-    	                    }
-                    	}
-                	}
+  	  	                    } else {
+  	  	                    	break;
+  	  	                    }
+              			}
+            		}
             	}
+            	
                 if(pastCount == 0 && upcomingCount == 0){
                 	break;
                 }
