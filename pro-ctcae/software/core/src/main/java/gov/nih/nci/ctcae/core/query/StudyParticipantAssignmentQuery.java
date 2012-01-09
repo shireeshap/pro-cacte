@@ -1,5 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
+import java.util.List;
+
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+
 //
 /**
  * The Class StudyParticipantAssignmentQuery.
@@ -13,11 +17,17 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
      * The query string.
      */
     private static String queryString = "SELECT o from StudyParticipantAssignment o";
+    
+    private static String queryStringDistinct = "SELECT distinct o from StudyParticipantAssignment o";
+    
+    private static String CRF_STATUSES = "crf_statuses";
+
 
     /**
      * The STUD y_ id.
      */
     private static String STUDY_ID = "studyId";
+    private static String STUDY_SITE_ID = "studySiteId";
 
     /**
      * The PARTICIPAN t_ id.
@@ -29,6 +39,13 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
      */
     public StudyParticipantAssignmentQuery() {
         super(queryString);
+    }
+    
+    /**
+     * Instantiates a new study participant assignment query.
+     */
+    public StudyParticipantAssignmentQuery(boolean isDistinct) {
+            super(queryStringDistinct);
     }
 
 
@@ -52,4 +69,13 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
         andWhere("o.participant.id = :" + PARTICIPANT_ID);
         setParameter(PARTICIPANT_ID, new Integer(participantId));
     }
+    
+    public void filterBySpcrfSchedulesStatus(List<CrfStatus> spCrfScheduleStatusList, int orgId){
+    	leftJoin("o.studyParticipantCrfs as spcrf join spcrf.studyParticipantCrfSchedules as spcrfs");
+        andWhere("spcrfs.status in (:" + CRF_STATUSES + ")");
+        andWhere("o.studySite.id =:" + STUDY_SITE_ID);
+        setParameter(STUDY_SITE_ID, new Integer(orgId));
+        setParameterList(CRF_STATUSES, spCrfScheduleStatusList);
+    }
+    
 }
