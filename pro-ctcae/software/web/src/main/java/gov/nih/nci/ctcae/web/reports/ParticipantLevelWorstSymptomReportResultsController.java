@@ -115,7 +115,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                 ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
                 if (value != null) {
                     buildMap(question,
-                            new String[]{symptomId, symptom,""},
+                            new String[]{"A_" + symptomId, symptom,""},
                             value,
                             symptomMap,
                             careResults,
