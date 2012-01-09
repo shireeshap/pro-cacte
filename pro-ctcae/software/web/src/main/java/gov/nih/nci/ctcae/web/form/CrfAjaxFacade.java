@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.security.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,8 @@ public class CrfAjaxFacade {
         crfQuery.setMaximumResults(results);
         crfQuery.setSortBy("o." + sortField);
         crfQuery.setSortDirection(direction);
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = user.getUsername();
         if (searchStrings != null) {
             int index = 0;
             for (String searchString : searchStrings) {
@@ -63,11 +65,39 @@ public class CrfAjaxFacade {
             crfQuery.filterByHidden(false);
             crfQuery.filterByNullNextVersionId();
         }
-        return (List<CRF>) crfRepository.find(crfQuery);
+        List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
+        if (!user.isAdmin()) {
+            Long searchCount = resultCount(searchStrings);
+
+            if (crfs.size() == results) {
+                return crfs;
+            } else {
+                int i=0;
+                int index = startIndex;
+                while (crfs.size() != results && crfs.size() != searchCount && i<5) {
+                    index = startIndex + results;
+                    crfQuery.setFirstResult(index);
+                    List<CRF> l = (List<CRF>) crfRepository.find(crfQuery);
+                    for (CRF crf : l) {
+                        crfs.add(crf);
+                    }
+                    l.clear();
+                    i++;
+                }
+                return crfs;
+            }
+        }
+        return crfs;
     }
 
     public Long resultCount(String[] searchTexts) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = user.getUsername();
         CRFQuery crfQuery = new CRFQuery(true);
+        crfQuery.filterByNullNextVersionId();
+        if (!user.isAdmin()) {
+            crfQuery.filterByUsername(userName);
+        }
         if (searchTexts != null) {
             int index = 0;
             for (String searchText : searchTexts) {
@@ -90,7 +120,7 @@ public class CrfAjaxFacade {
         List<CRF> crfs = searchCrf(id);
         List<CRF> releasedCrfs = new ArrayList();
         for (CRF crf : crfs) {
-            if (crf.getStatus().equals(CrfStatus.RELEASED) ) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 releasedCrfs.add(crf);
             }
         }

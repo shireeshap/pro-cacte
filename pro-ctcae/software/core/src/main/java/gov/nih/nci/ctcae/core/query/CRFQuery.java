@@ -40,7 +40,7 @@ public class CRFQuery extends AbstractQuery {
     private static String IS_HIDDEN = "hidden";
     private static final String SHORT_TITLE = "shortTitle";
     private static final String DISPLAY_TEXT = "displayText";
-
+    private static final String USERNAME = "username";
     /**
      * The Constant CRF_VERSION.
      */
@@ -116,6 +116,9 @@ public class CRFQuery extends AbstractQuery {
         }
 
     }
+    public void filterByTest() {
+
+    }
 
     /**
      * Filter by null next version id.
@@ -152,6 +155,21 @@ public class CRFQuery extends AbstractQuery {
         setParameter(SHORT_TITLE+key, searchString);
         setParameter(IS_HIDDEN, hidden);
 
+    }
+
+    public void setLeftJoin() {
+        leftJoin("o.study as study " +
+                "left outer join study.studyOrganizations as so " +
+                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join socs.organizationClinicalStaff as oc " +
+                "left outer join oc.clinicalStaff as cs " +
+                "left outer join cs.user as user");
+    }
+
+    public void filterByUsername(final String userName) {
+        setLeftJoin();
+        andWhere("user.username = :" + USERNAME);
+        setParameter(USERNAME, userName);
     }
 
 }
