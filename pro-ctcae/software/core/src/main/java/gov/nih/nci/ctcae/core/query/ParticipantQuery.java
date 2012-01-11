@@ -72,9 +72,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
 
     public ParticipantQuery(boolean count, boolean secure) {
         super(queryString1, secure);
-        if (secure) {
-            leftJoinStudySites();
-        }
+
 
     }
 
@@ -118,6 +116,8 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         andWhere("lower(p.assignedIdentifier) LIKE :" + IDENTIFIER);
         setParameter(IDENTIFIER, searchString);
     }
+
+
 
 
     /**
@@ -301,6 +301,23 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
             andWhere("p.id <> :id");
             setParameter("id", participantId);
         }
+    }
+
+    public void setLeftJoinForUserName() {
+        leftJoin("p.studyParticipantAssignments as spa " +
+                "left outer join spa.studySite as ss join ss.study as study " +
+                "left outer join ss.study as study " +
+                "left outer join study.studyOrganizations as so " +
+                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join socs.organizationClinicalStaff as oc " +
+                "left outer join oc.clinicalStaff as cs " +
+                "left outer join cs.user as user");
+        }
+
+    public void filterByStaffUsername(final String userName) {
+        setLeftJoinForUserName();
+        andWhere("user.username = :" + USERNAME);
+        setParameter(USERNAME, userName);
     }
 
     public Class<Organization> getPersistableClass() {

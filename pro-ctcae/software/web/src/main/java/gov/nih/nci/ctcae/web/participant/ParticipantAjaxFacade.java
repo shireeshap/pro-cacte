@@ -51,24 +51,31 @@ public class ParticipantAjaxFacade {
 
     public Long resultCount(String[] searchTexts) {
         ParticipantQuery participantQuery = new ParticipantQuery(true, true);
-        if (searchTexts != null) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = user.getUsername();
+        if (!user.isAdmin()) {
+            participantQuery.filterByStaffUsername(userName);
+        } else {
+            if (searchTexts != null) {
 
-            participantQuery.setLeftJoin();
-            int index = 0;
-            for (String searchText : searchTexts) {
-                if (!StringUtils.isBlank(searchText)) {
-                    participantQuery.filterByAll(searchText, ""+index);
-                    index++;
+                participantQuery.setLeftJoin();
+                int index = 0;
+
+                for (String searchText : searchTexts) {
+                    if (!StringUtils.isBlank(searchText)) {
+                        participantQuery.filterByAll(searchText, "" + index);
+                        index++;
+                    }
                 }
             }
         }
         return participantRepository.findWithCount(participantQuery);
-
     }
 
     public List<Participant> getParticipantObjects(String[] searchTexts, Integer startIndex, Integer results, String sortField, String direction) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
+        String userName = user.getUsername();
         boolean siteStaff = false;
         boolean leadStaff = false;
         for (UserRole userRole : user.getUserRoles()) {
@@ -100,7 +107,7 @@ public class ParticipantAjaxFacade {
             int index = 0;
             for (String searchText : searchTexts) {
                 if (!StringUtils.isBlank(searchText)) {
-                    participantQuery.filterByAll(searchText, ""+index);
+                    participantQuery.filterByAll(searchText, "" + index);
                     index++;
                 }
             }
@@ -111,6 +118,25 @@ public class ParticipantAjaxFacade {
 
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
+
+        if (!user.isAdmin()) {
+            Long searchCount = resultCount(searchTexts);
+            if (participants.size() == results) {
+                return participants;
+            } else {
+                int index = startIndex;
+                while (participants.size() != results && participants.size() != searchCount) {
+                    index = results + index;
+                    participantQuery.setFirstResult(index);
+                    List<Participant> l = (List<Participant>) participantRepository.find(participantQuery);
+                    for (Participant participant : l) {
+                        participants.add(participant);
+                    }
+                    l.clear();
+                }
+                return participants;
+            }
+        }
         return participants;
     }
 
