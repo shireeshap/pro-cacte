@@ -87,7 +87,9 @@ public class MeddraQuery extends AbstractQuery {
     public void filterByMeddraTerm(final String term) {
         String searchString = term.toLowerCase();
         andWhere("lower(llt.lowLevelTermVocab.meddraTermEnglish) = :" + MEDDRA_TERM);
+        andWhere("llt.currency = :" + CURRENCY);
         setParameter(MEDDRA_TERM, searchString);
+        setParameter(CURRENCY, "Y");
     }
 
     public void filterBySpanishMeddraTerm(final String term) {
