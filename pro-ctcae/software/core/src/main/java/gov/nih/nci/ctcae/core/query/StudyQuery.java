@@ -56,6 +56,7 @@ public class StudyQuery extends SecuredQuery<Study> {
     private static final String F_SPONSOR = "fundingSponsor";
     private static final String DCC = "dataCoordinatingCenter";
     private static final String S_SPONSOR = "studySponsor";
+    private static final String USERNAME = "username";
 
     /**
      * Instantiates a new study query.
@@ -160,6 +161,20 @@ public class StudyQuery extends SecuredQuery<Study> {
     
     public void setLeftJoin(){
         leftJoin("study.studyOrganizations as sso");
+    }
+
+    public void setLeftJoinForUserName() {
+        leftJoin("study.studyOrganizations as so " +
+                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join socs.organizationClinicalStaff as oc " +
+                "left outer join oc.clinicalStaff as cs " +
+                "left outer join cs.user as user");
+    }
+
+    public void filterByUsername(final String userName) {
+        setLeftJoinForUserName();
+        andWhere("user.username = :" + USERNAME);
+        setParameter(USERNAME, userName);
     }
 
     /**
