@@ -91,9 +91,7 @@ public class ParticipantAjaxFacade {
         } else {
             participantQuery = new ParticipantQuery(true, false, true);
         }
-//
-//        if (sortField.equals("studyShortTitle")) {
-//            participantQuery.setSortBy("p.studyParticipantAssignments.studySite.study.studyShortTitle");
+
         if (sortField.equals("studyParticipantIdentifier")) {
             participantQuery.setSortBy("p.studyParticipantAssignments.studyParticipantIdentifier");
         } else {
