@@ -67,7 +67,7 @@ public class ResetPasswordController extends SimpleFormController {
         User cmdUser = command.getUser();
 
         User user = new User();
-        user.setUsername(command.getUsername().toLowerCase());
+        user.setUsername(command.getUsername().toLowerCase().trim());
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
         user.setUserRoles(cmdUser.getUserRoles());

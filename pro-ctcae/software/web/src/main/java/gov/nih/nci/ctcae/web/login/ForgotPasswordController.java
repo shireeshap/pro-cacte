@@ -56,7 +56,7 @@ public class ForgotPasswordController extends AbstractFormController {
         User user;
         ModelAndView mv;
         UserQuery userQuery = new UserQuery();
-        userQuery.filterByUserName(userName);
+        userQuery.filterByUserName(userName.trim());
         user = userRepository.findSingle(userQuery);
 
         if (user == null) {
