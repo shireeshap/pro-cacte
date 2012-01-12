@@ -88,50 +88,51 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
 
-        ClinicalStaff clinicalStaff = findClinicalStaffForUser(user);
-
-        if (clinicalStaff != null) {
-            List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
-            for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-                Set<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
-                privileges.addAll(privilegeGenerator.generatePrivilege(organizationClinicalStaff.getOrganization()));
-                for (String privilege : privileges) {
-                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+        ClinicalStaff clinicalStaff = null;
+        //only need to load orgs and studies for non admin staff
+        if(!roles.contains(Role.ADMIN)){
+        	clinicalStaff = findClinicalStaffForUser(user);
+            if (clinicalStaff != null) {
+            	//assign all the orgs the staff can access
+                List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
+                for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+                    Set<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
+                    privileges.addAll(privilegeGenerator.generatePrivilege(organizationClinicalStaff.getOrganization()));
+                    for (String privilege : privileges) {
+                        instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                    }
+                }
+                
+                //To allow CCA's access to only studies that are associated with their organization
+                if(roles.contains(Role.CCA)){
+                	for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+                		List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
+                		for (StudyOrganization studyOrganization : studyOrganizationList) {
+                			Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
+                            for (String privilege : privileges) {
+                                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                            }
+                		}
+                    }
+                } else {
+                	//for non-cca, non-admin staff assign studies based on their studyOrg assignments
+                    StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
+                    if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+                        throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+                    }
+                    studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
+                    studyOrganizationClinicalStaffQuery.filterByActiveStatus();
+                    List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
+                    Set<String> privileges;
+    	            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
+    	                roles.add(studyOrganizationClinicalStaff.getRole());
+    	                privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
+    	                for (String privilege : privileges) {
+    	                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+    	                }
+    	            }
                 }
             }
-            
-            //To allow CCA's access to only studies that are associated with their organization
-            if(roles.contains(Role.CCA)){
-            	for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-            		List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
-            		for (StudyOrganization studyOrganization : studyOrganizationList) {
-            			Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
-                        for (String privilege : privileges) {
-                            instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
-                        }
-            		}
-                }
-            }
-
-            StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
-
-            if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
-                throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
-            }
-            studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
-            studyOrganizationClinicalStaffQuery.filterByActiveStatus();
-            List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
-
-            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
-                Role role = studyOrganizationClinicalStaff.getRole();
-                roles.add(role);
-                Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
-                for (String privilege : privileges) {
-                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
-                }
-            }
-
-
         }
 
         //check for participant
@@ -177,14 +178,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new MyException("User is inactive");
         }
 
-//        if (participant != null){
-//            for(StudyParticipantMode mode : participant.getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
-//                if (mode.getMode().equals(AppMode.IVRS)){
-//                      throw new MyException("Use of web not activated");
-//                }
-//            }
-//        }
-      
         return findByUserName(user.getUsername()).get(0);
     }
 
