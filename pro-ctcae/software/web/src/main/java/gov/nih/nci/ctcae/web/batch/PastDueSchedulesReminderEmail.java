@@ -32,13 +32,13 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
 
     public static final String BASE_URL = "base.url";
 
-     public void setMessageSource(DelegatingMessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
+    public void setMessageSource(DelegatingMessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
+        this.properties = properties;
+    }
 
 
     @Transactional
@@ -55,13 +55,17 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DATE, -2);
+        Date yesterday = ProCtcAECalendar.getCalendarForDate(cal.getTime()).getTime();
         boolean web = false;
         for (Study study : studies) {
             for (StudySite studySite : study.getStudySites()) {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                    if (studyParticipantAssignment.getStatus()!=null&&studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
+                    if (studyParticipantAssignment.getStatus() != null && studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
                         for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
                             if (mode.getMode().equals(AppMode.HOMEWEB)) {
                                 if (mode.getEmail()) {
@@ -71,7 +75,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                         }
                         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                                if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                                if (today.after(studyParticipantCrfSchedule.getDueDate()) && yesterday.before(studyParticipantCrfSchedule.getDueDate())) {
                                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
                                         studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                                         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
@@ -97,21 +101,22 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             String subject = "List of past due surveys";
             JavaMailSender javaMailSender = new JavaMailSender();
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : siteClincalStaffAndParticipantAssignmentMap.keySet()) {
-                String emailAddress = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
-                String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
-                if (StringUtils.isNotBlank(emailAddress)) {
-                    System.out.println("Sending ClinicalStaff email to " + emailAddress);
-                    logger.error("Sending ClinicalStaff email to " + emailAddress);
-                    MimeMessage message = javaMailSender.createMimeMessage();
-                    message.setSubject(subject);
-                    message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-                    MimeMessageHelper helper = new MimeMessageHelper(message, true);
-                    helper.setTo(emailAddress);
-                    helper.setText(content, javaMailSender.isHtml());
-                    javaMailSender.send(message);
+                if (siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff).size() > 0) {
+                    String emailAddress = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
+                    String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
+                    if (StringUtils.isNotBlank(emailAddress)) {
+                        System.out.println("Sending ClinicalStaff email to " + emailAddress);
+                        logger.error("Sending ClinicalStaff email to " + emailAddress);
+                        MimeMessage message = javaMailSender.createMimeMessage();
+                        message.setSubject(subject);
+                        message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+                        helper.setTo(emailAddress);
+                        helper.setText(content, javaMailSender.isHtml());
+                        javaMailSender.send(message);
+                    }
                 }
             }
-
 
             logger.error("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
@@ -123,7 +128,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                         logger.error("Sending Survey Reminder email to " + participantEmailAddress);
                         MimeMessage participantMessage = javaMailSender.createMimeMessage();
                         Locale locale = Locale.ENGLISH;
-                        if(studyParticipantAssignment.getHomeWebLanguage()!= null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
+                        if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
                             locale = new Locale("es");
                         }
                         String participantSubject = messageSource.getMessage("participant.email.comp7", null, locale);
@@ -237,7 +242,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Collections.sort(sortedStudyParticipantCrfSchedules);
 
         Locale locale = Locale.ENGLISH;
-        if(studyParticipantAssignment.getHomeWebLanguage()!= null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")){
+        if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
             locale = new Locale("es");
         }
 
@@ -261,12 +266,12 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
 //            participantEmailContent.append("FROM TITLE=>" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle() + "<br/>");
 //            participantEmailContent.append("  due date ->" + studyParticipantCrfSchedule.getDueDate() + "<br/><br/>");
 //        }
-        Date earliestDueDate = ((StudyParticipantCrfSchedule)sortedStudyParticipantCrfSchedules.get(0)).getDueDate();
-        String baseUrl =  properties.getProperty(BASE_URL);
+        Date earliestDueDate = ((StudyParticipantCrfSchedule) sortedStudyParticipantCrfSchedules.get(0)).getDueDate();
+        String baseUrl = properties.getProperty(BASE_URL);
 
         participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp4", null, locale) + "  : <b>" + DateUtils.format(earliestDueDate) + "</b><br/>");
         participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp5", null, locale) + ": ");
-        participantEmailContent.append("<p style='text-decoration:underline,color=blue'>"+ baseUrl + "</p><br/>");
+        participantEmailContent.append("<p style='text-decoration:underline,color=blue'>" + baseUrl + "</p><br/>");
         participantEmailContent.append("</body></html>");
         participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp6", null, locale));
         return participantEmailContent.toString();
