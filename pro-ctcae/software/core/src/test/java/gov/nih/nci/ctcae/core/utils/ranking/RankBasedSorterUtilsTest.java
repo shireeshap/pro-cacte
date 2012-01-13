@@ -55,9 +55,9 @@ public class RankBasedSorterUtilsTest extends TestCase {
         });
 
 
-        assertEquals("(MD53) hello suneel", sortedList.get(0));
-        assertEquals("(MD5) cannot be empty", sortedList.get(1));
-        assertEquals("Some one name Suneel Allareddy has it", sortedList.get(7));
+        assertEquals("(MD5) cannot be empty", sortedList.get(0));
+        assertEquals("(MD53) hello suneel", sortedList.get(1));
+        assertEquals("hello suneel", sortedList.get(7));
         assertEquals("( MD5 ) hello suneel", sortedList.get(2));
         assertEquals("hello ( MD5 )", sortedList.get(3));
     }
