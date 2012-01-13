@@ -132,7 +132,7 @@ public class DateUtilsTest extends CoreTestCase {
 
         c.add(Calendar.DATE, 27);
         d2 = c.getTime();
-        assertEquals(3, DateUtils.monthsBetweenDates(d2, d1));
+        assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
 
     }
 
