@@ -1,11 +1,6 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
-import gov.nih.nci.ctcae.core.domain.LeadStudySite;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyMode;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
@@ -20,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 //
+
 /**
  * The Class StudyRepository.
  *
@@ -31,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudyRepository implements Repository<Study, StudyQuery> {
     private GenericRepository genericRepository;
 
-	public void delete(Study study) {
+    public void delete(Study study) {
         genericRepository.delete(study);
     }
 
@@ -44,7 +40,7 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
     public Study findSingle(StudyQuery query) {
         return genericRepository.findSingle(query);
     }
-    
+
     public Long findWithCount(StudyQuery query) {
         return genericRepository.findWithCount(query);
     }
@@ -60,7 +56,7 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
     }
 
 
-	private void removeLeadStudySiteFromStudySites(Study study) {
+    private void removeLeadStudySiteFromStudySites(Study study) {
         List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
         for (StudySite studySite : study.getStudySites()) {
             if (studySite != null && studySite.getOrganization() != null) {
@@ -101,8 +97,15 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
             }
         }
 
-        for(StudyMode studyMode:savedStudy.getStudyModes()){
+        for (StudyMode studyMode : savedStudy.getStudyModes()) {
             studyMode.getMode();
+        }
+
+        for (CRF crf : savedStudy.getCrfs()) {
+            crf.getTitle();
+            for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
+                formArmSchedule.getArm();
+            }
         }
 
 

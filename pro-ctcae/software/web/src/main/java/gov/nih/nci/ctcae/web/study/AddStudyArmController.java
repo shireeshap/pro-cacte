@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +31,11 @@ public class AddStudyArmController extends AbstractController {
         Study study = studyCommand.getStudy();
         Arm arm = new Arm();
         study.addArm(arm);
+        if (study.getCrfs().size()>0) {
+            for (CRF crf : study.getCrfs()) {
+                crf.addFormArmSchedule(arm);
+            }
+        }
 
         int index = study.getArms().size() - 1;
         modelAndView.addObject("index", index);
