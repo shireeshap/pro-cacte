@@ -100,14 +100,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 		<!-- Causes IVY to check last-modified http header to determine if it is going to download the file.  This can be modified on the resolver (settings file) with the resolve attribute of checkmodified.  It can also be set on the dependency level with the dependency attibute changing. If the web server does not send the http header last-modified it will never detect updates and you have to resort to clean cache to get the updated artifact and depeencies to download.-->
 		<property name="ivy.resolver.default.check.modified" value="true" />
 		<ivy:settings file="${ivy.settings.file}" />
-		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${bda-utils.dir}/[artifact]-[revision].[ext]" conf="runtime" sync="true" />
-		<echoproperties prefix="ivy."/>
-		<unzip dest="${bda-utils.dir}">
-			<fileset dir="${bda-utils.dir}">
-				<include name="bda-build-utils*.zip" />
-			</fileset>
-		</unzip>
+
 	</target>
 
 	<target name="ivy-cleancache" description="Cleans ivy cache, only required if getting ivy errors.">
