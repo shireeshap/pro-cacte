@@ -135,7 +135,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	-->
 	<ant inheritAll="false" inheritRefs="false" antfile="${bda-download.file}" target="retrieve-bda" dir="${bda-download.dir}">
 		<property name="bda.version" value="${bda.version}" />
-		<property name="bda-utils.dir" location="${bda-utils.dir}" />
+		<!-- <property name="bda-utils.dir" location="${bda-utils.dir}" /> -->
 		<property name="lib.dir" location="${lib.dir}" />
 		<property name="software.dir" location="${software.dir}" />
 		<property name="commonlibrary.dir" location="${commonlibrary.dir}" />
@@ -167,17 +167,17 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 	<!-- Task definitions -->
 	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath" />
-	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" classpathref="bda-utils.classpath"/>
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="bda-utils.classpath"/>
+	<!--  <taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" classpathref="bda-utils.classpath"/> 
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="bda-utils.classpath"/>-->
 
-	<!-- Includes- include BDA marcos -->
+	<!-- Includes- include BDA marcos 
 	<if>
 		<equals arg1="${bda.debug}" arg2="true"/>
 		<then>
 			<echoproperties/>
 		</then>
 	</if>
-	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
+	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />-->
 
 	<!-- Start logging -->
 	<mkdir dir="${log.dir}" />
@@ -186,13 +186,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</tstamp>
 	<record name="${log.dir}/install-${install.time}.log" action="start" />
 	
-	<!-- Echo properties to catch AHP variables at build time-->
+	<!-- Echo properties to catch AHP variables at build time
 	<if>
 		<equals arg1="${bda.debug}" arg2="true"/>
 		<then>
 			<echoproperties/>
 		</then>
-	</if>
+	</if>-->
 	<!-- Fix first time build issue -->
 	<mkdir dir="${download.dir}"/>
 
@@ -267,13 +267,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		-->
 	</target>
 
-	<target name="validate:pre:build">
+	<!--<target name="validate:pre:build">
 		<validate-pre-build
 			/>
-	</target>
+	</target>-->
 
 	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
-		validate:pre:build,
  		clean,
  		init,
  		build:proctcae
