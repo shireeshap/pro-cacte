@@ -301,8 +301,8 @@
              </fileset>
         </copy>
 
-        <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.6"
-               target="1.6">
+        <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5"
+               target="1.5">
         </javac>
     </target>
 
