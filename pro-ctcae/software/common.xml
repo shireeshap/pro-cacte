@@ -236,7 +236,7 @@
               =======================================================-->
     <target name="load-online-settings" if="online">
         <echo message="Going for online settings"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ivy.instance" />
+        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ivy.instance" override="true"/>
         <property name="loaded.ivy.settings" value="true"/>
     </target>
     <target name="load-offline-settings" unless="loaded.ivy.settings">
