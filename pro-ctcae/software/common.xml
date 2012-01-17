@@ -40,6 +40,8 @@
             <filter token="buildNumber" value="${today}"/>
             <copy todir="@{dest}" filtering="@{filter}">
                 <fileset dir="@{src}" includes="**/*.*">
+    	            <exclude name="jsp-api*.jar" />
+    	        	<exclude name="servlet-api*.jar" />
                     <exclude name=".svn"/>
                     <exclude name="applicationContext-test.xml"/>
                 </fileset>
