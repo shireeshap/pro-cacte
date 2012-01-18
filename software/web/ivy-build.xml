@@ -45,6 +45,12 @@
 
     <!--<target name="war" depends="clean-war, init-war">-->
     <target name="war" depends="clean-war, init-war, resolve-dist">
+    	<delete>
+    		<fileset dir="${war.dir}/WEB-INF/lib">
+	            <include name="jsp-api*.jar" />
+	        	<include name="servlet-api*.jar" />
+	        </fileset>
+    	</delete>
         <copy-resources src="${classes.dir}" dest="${war.dir}/WEB-INF/classes" filter="false"/>
         <copy-resources src="${main.src}/../webapp" dest="${war.dir}" filter="false"/>
         <!--<copy file="${classes.dir}/*.csv" todir="${war.dir}/WEB-INF/classes" overwrite="true" failonerror="false"/>-->
