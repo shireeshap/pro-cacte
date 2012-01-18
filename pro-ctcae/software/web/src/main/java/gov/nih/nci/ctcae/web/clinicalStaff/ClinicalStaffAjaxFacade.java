@@ -138,8 +138,6 @@ public class ClinicalStaffAjaxFacade {
 
                 clinicalStaffQuery.filterByOrganization(orgs);
 
-
-//            clinicalStaffQuery.filterByUserName(userName);
         } else {
             if (searchTexts != null) {
                 clinicalStaffQuery.setLeftJoin();
