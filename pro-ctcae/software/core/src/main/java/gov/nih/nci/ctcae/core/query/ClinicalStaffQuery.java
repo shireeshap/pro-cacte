@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
-
+import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -144,6 +146,18 @@ public class ClinicalStaffQuery extends AbstractQuery {
         leftJoin("cs.organizationClinicalStaffs as scs");
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
+    }
+
+    public void filterByOrganization(final Integer organizationId, String key) {
+        leftJoin("cs.organizationClinicalStaffs as scs");
+        andWhere("scs.organization.id = :" + ORGANIZATION_ID+key);
+        setParameter(ORGANIZATION_ID+key, organizationId);
+    }
+
+    public void filterByOrganization(List<Integer> ids) {
+        leftJoin("cs.organizationClinicalStaffs as scs");
+        andWhere("scs.organization.id IN (:ids)");
+        setParameterList("ids", ids);
     }
 
     public void filterByActive() {
