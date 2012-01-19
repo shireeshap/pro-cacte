@@ -358,33 +358,33 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     </div>
 
                 </chrome:division>
-                <c:forEach items="${participantSchedule.studyParticipantCrfs}" var="participantCrf"
-                           varStatus="crfIndex">
-                    <table class="top-widget" cellspacing="0" align="center">
-                        <tr>
-                            <td>
-                                <b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>
-                                <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;
-                            </td>
-                        </tr>
-                        <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"
-                                   varStatus="statuscycledefinition">
-                            <tr>
-                                <td>
-                                    <tags:formScheduleCycleDefinition
-                                            cycleDefinitionIndex="${statuscycledefinition.index}"
-                                            crfCycleDefinition="${crfCycleDefinition}"
-                                            readonly="true"
-                                            crfIndex="${status.index}_${crfIndex.index}"/>
-                                    <script type="text/javascript">
-                                        showCyclesForDefinition('${status.index}_${crfIndex.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
-                                    </script>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                    <br/>
-                </c:forEach>
+                <%--<c:forEach items="${participantSchedule.studyParticipantCrfs}" var="participantCrf"--%>
+                           <%--varStatus="crfIndex">--%>
+                    <%--<table class="top-widget" cellspacing="0" align="center">--%>
+                        <%--<tr>--%>
+                            <%--<td>--%>
+                                <%--<b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>--%>
+                                <%--<b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;--%>
+                            <%--</td>--%>
+                        <%--</tr>--%>
+                        <%--<c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"--%>
+                                   <%--varStatus="statuscycledefinition">--%>
+                            <%--<tr>--%>
+                                <%--<td>--%>
+                                    <%--<tags:formScheduleCycleDefinition--%>
+                                            <%--cycleDefinitionIndex="${statuscycledefinition.index}"--%>
+                                            <%--crfCycleDefinition="${crfCycleDefinition}"--%>
+                                            <%--readonly="true"--%>
+                                            <%--crfIndex="${status.index}_${crfIndex.index}"/>--%>
+                                    <%--<script type="text/javascript">--%>
+                                        <%--showCyclesForDefinition('${status.index}_${crfIndex.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');--%>
+                                    <%--</script>--%>
+                                <%--</td>--%>
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
+                    <%--</table>--%>
+                    <%--<br/>--%>
+                <%--</c:forEach>--%>
 
             </c:forEach>
 </jsp:attribute>
