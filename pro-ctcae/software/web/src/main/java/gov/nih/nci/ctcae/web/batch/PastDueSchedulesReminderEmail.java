@@ -44,7 +44,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     @Transactional
     public void generateEmailReports() {
 
-        Map<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap = new HashMap<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>>();
+        Map<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap = new HashMap<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>>();
         Map<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>> studyParticipantAndSchedulesMap = new HashMap<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>>();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
@@ -152,10 +152,10 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         logger.error("Nightly trigger bean job ends....");
     }
 
-    private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, Set<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        Set<StudyParticipantCrfSchedule> participantAssignmentSet = siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff);
+    private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        SortedSet<StudyParticipantCrfSchedule> participantAssignmentSet = siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff);
         if (participantAssignmentSet == null) {
-            participantAssignmentSet = new HashSet<StudyParticipantCrfSchedule>();
+            participantAssignmentSet = new TreeSet<StudyParticipantCrfSchedule>();
             siteClincalStaffAndParticipantAssignmentMap.put(studyOrganizationClinicalStaff, participantAssignmentSet);
         }
         participantAssignmentSet.add(studyParticipantCrfSchedule);
@@ -170,31 +170,31 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         studyParticipantCrfScheduleSet.add(studyParticipantCrfSchedule);
     }
 
-    private String getHtmlContent(Set<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        Map<Study, Map<StudySite, Map<CRF, Set<StudyParticipantCrfSchedule>>>> studySiteScehduleMap = new LinkedHashMap<Study, Map<StudySite, Map<CRF, Set<StudyParticipantCrfSchedule>>>>();
+    private String getHtmlContent(SortedSet<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        Map<Study, Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>> studySiteScehduleMap = new LinkedHashMap<Study, Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
             StudySite studySite = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite();
             Study study = studySite.getStudy();
             CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
-            Map<StudySite, Map<CRF, Set<StudyParticipantCrfSchedule>>> map;
+            Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>> map;
             if (studySiteScehduleMap.containsKey(study)) {
                 map = studySiteScehduleMap.get(study);
             } else {
-                map = new LinkedHashMap<StudySite, Map<CRF, Set<StudyParticipantCrfSchedule>>>();
+                map = new LinkedHashMap<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>();
                 studySiteScehduleMap.put(study, map);
             }
-            Map<CRF, Set<StudyParticipantCrfSchedule>> formschedules;
+            Map<CRF, SortedSet<StudyParticipantCrfSchedule>> formschedules;
             if (map.containsKey(studySite)) {
                 formschedules = map.get(studySite);
             } else {
-                formschedules = new LinkedHashMap<CRF, Set<StudyParticipantCrfSchedule>>();
+                formschedules = new LinkedHashMap<CRF, SortedSet<StudyParticipantCrfSchedule>>();
                 map.put(studySite, formschedules);
             }
-            Set<StudyParticipantCrfSchedule> participantCrfScheduleSet;
+            SortedSet<StudyParticipantCrfSchedule> participantCrfScheduleSet;
             if (formschedules.containsKey(crf)) {
                 participantCrfScheduleSet = formschedules.get(crf);
             } else {
-                participantCrfScheduleSet = new LinkedHashSet<StudyParticipantCrfSchedule>();
+                participantCrfScheduleSet = new TreeSet<StudyParticipantCrfSchedule>();
                 formschedules.put(crf, participantCrfScheduleSet);
             }
             participantCrfScheduleSet.add(studyParticipantCrfSchedule);
