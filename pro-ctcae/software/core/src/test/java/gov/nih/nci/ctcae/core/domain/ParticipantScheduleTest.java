@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class ParticipantScheduleTest extends TestCase {
         crfPages = new ArrayList<CRFPage>();
         crfPages.add(crfPage);
         crf.setCrfPages(crfPages);
+
         studyParticipantCrf = new StudyParticipantCrf();
         studyParticipantCrf.setCrf(crf);
         studyParticipantCrf.setId(1);
@@ -85,6 +87,16 @@ public class ParticipantScheduleTest extends TestCase {
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
         participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE);
         System.out.println("for break point purposes");
+
+    }
+
+    public void testCreateSchedule() throws Exception {
+        proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
+        studyParticipantCrfs.add(studyParticipantCrf);
+        participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
+        participantSchedule.createSchedule(proCtcAECalendar.getCalendar(), new Date(), 1, 1, null, false);
+        assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+        assertEquals(Integer.valueOf(1), studyParticipantCrf.getStudyParticipantCrfSchedules().get(0).getCycleNumber());
 
     }
 }
