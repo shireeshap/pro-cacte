@@ -75,7 +75,7 @@ public class CrfAjaxFacade {
                 int i=0;
                 int index = startIndex;
                 while (crfs.size() != results && crfs.size() != searchCount && i<5) {
-                    index = startIndex + results;
+                    index = results + index;
                     crfQuery.setFirstResult(index);
                     List<CRF> l = (List<CRF>) crfRepository.find(crfQuery);
                     for (CRF crf : l) {

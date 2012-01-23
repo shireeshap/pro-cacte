@@ -5,191 +5,334 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
-    <tags:stylesheetLink
-            name="table_menu"/><tags:includeScriptaculous/><tags:includePrototypeWindow/><tags:formBuilder/><tags:formActionMenu/>
-    <style type="text/css">
+<tags:stylesheetLink
+        name="table_menu"/><tags:includeScriptaculous/><tags:includePrototypeWindow/><tags:formBuilder/><tags:formActionMenu/>
+<style type="text/css">
 
-        .quicklink {
-            border-bottom: 1px solid #cccccc;
-            padding-left: 15px;
-        }
+    .quicklink {
+        border-bottom: 1px solid #cccccc;
+        padding-left: 15px;
+    }
 
-        .bold {
-            font-weight: bold;
-            color: black;
-        }
+    .bold {
+        font-weight: bold;
+        color: black;
+    }
 
-        .bold a {
-            font-weight: bold;
-        }
+    .bold a {
+        font-weight: bold;
+    }
 
-        table.outer td {
-            width: 50%;
-            vertical-align: top;
-        }
+    table.outer td {
+        width: 50%;
+        vertical-align: top;
+    }
 
-        .delete {
-            font-weight: bold;
-            color: red;
-            text-decoration: none;
-        }
+    .delete {
+        font-weight: bold;
+        color: red;
+        text-decoration: none;
+    }
 
-        .even {
-            background-color: #ffffff;
-        }
+    .even {
+        background-color: #ffffff;
+    }
 
-        * {
-            zoom: 1;
-        }
+    * {
+        zoom: 1;
+    }
 
-        /*#alertsdiv {*/
-        /*width: 455px;*/
-        /*overflow-y: auto;*/
-        /*max-height: 400px;*/
-        /*}*/
+    /*#alertsdiv {*/
+    /*width: 455px;*/
+    /*overflow-y: auto;*/
+    /*max-height: 400px;*/
+    /*}*/
 
-        table.widget {
-            border: none;
-        }
+    table.widget {
+        border: none;
+    }
 
-        .panel {
-            width: 470px;
-            float: left;
-            margin: 4px;
-            display: inline;
-        }
+    .panel {
+        width: 470px;
+        float: left;
+        margin: 4px;
+        display: inline;
+    }
 
-        a.quickLink, a.quickLink:visited {
-            color: #518EC2;
-            font-weight: bold;
-            font-size: 14px;
-            text-decoration: none;
-        }
+    a.quickLink, a.quickLink:visited {
+        color: #518EC2;
+        font-weight: bold;
+        font-size: 14px;
+        text-decoration: none;
+    }
 
-        img.quickLink {
-            /*
-                    padding-right: 20px;
-                    padding-left: 20px;
-            */
-        }
+    img.quickLink {
+        /*
+                padding-right: 20px;
+                padding-left: 20px;
+        */
+    }
 
-        div.quickLinkRow {
-            display: block;
-            clear: both;
-        }
+    div.quickLinkRow {
+        display: block;
+        clear: both;
+    }
 
-        div.quickLinkRow div.quickLinkPicture {
-            float: left;
-            width: 40px;
-            text-align: right;
-        }
+    div.quickLinkRow div.quickLinkPicture {
+        float: left;
+        width: 40px;
+        text-align: right;
+    }
 
-        div.quickLinkRow div.quickLinkLabel {
-            margin-left: 50px;
-            text-align: left;
-            vertical-align: middle;
-        }
+    div.quickLinkRow div.quickLinkLabel {
+        margin-left: 50px;
+        text-align: left;
+        vertical-align: middle;
+    }
 
-        td.quickLinkBGon {
-            background-image: url("../images/blue/icons/quickLinkBGon.png")
-        }
+    td.quickLinkBGon {
+        background-image: url("../images/blue/icons/quickLinkBGon.png")
+    }
 
-        td.quickLinkBGoff {
-            background-image: url("../images/blue/icons/quickLinkBGoff.png")
-        }
+    td.quickLinkBGoff {
+        background-image: url("../images/blue/icons/quickLinkBGoff.png")
+    }
 
-        tr.taskTitleRow th {
-            color: #518EC2;
-            font-weight: bold;
-        }
+    tr.taskTitleRow th {
+        color: #518EC2;
+        font-weight: bold;
+    }
 
-        td.header-top1 {
-            font-weight: bold;
-        }
+    td.header-top1 {
+        font-weight: bold;
+    }
 
-        tr.taskTitleRow td, tr.taskTitleRow th {
-            border-bottom: 1px #ccc solid;
-        }
+    tr.taskTitleRow td, tr.taskTitleRow th {
+        border-bottom: 1px #ccc solid;
+    }
 
-        a.linkHere, a.linkHere:hover {
-            color: blue;
-            text-decoration: underline;
-        }
+    a.linkHere, a.linkHere:hover {
+        color: blue;
+        text-decoration: underline;
+    }
 
 
-    </style>
-    <!--[if IE]>
-        <style>
-        div.row div.value {
-        margin-left:7px;
-        }
-        a.fg-button {
-        display:block;
-        position:static;
-        width:65px;
-        padding-right:0;
-        padding-left:0;
-        }
-        .fg-button-icon-right .ui-icon {
-        position:static;
-        float:right;
-        padding:0;
-        margin:0;
-        left:auto;
-        right;auto;
-        }
-        </style>
-    <![endif]-->
-    <script type="text/javascript">
+</style>
+<!--[if IE]>
+<style>
+    div.row div.value {
+        margin-left: 7px;
+    }
 
-        function showMessage(id) {
-            var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
+    a.fg-button {
+        display: block;
+        position: static;
+        width: 65px;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .fg-button-icon-right .ui-icon {
+        position: static;
+        float: right;
+        padding: 0;
+        margin: 0;
+        left: auto;
+        right;
+        auto;
+    }
+</style>
+<![endif]-->
+<script type="text/javascript">
+
+    function showMessage(id) {
+        var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
+            onComplete:function(transport) {
+                $('tr_' + id).removeClassName('bold');
+                showConfirmationWindow(transport, 700, 500);
+            },
+            method:'get'
+        })
+    }
+    function completedForm(id) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
+            onComplete:function(transport) {
+                showConfirmationWindow(transport, 700, 500);
+            },
+            method:'get'
+        })
+    }
+
+    function deleteMsg(id, uuid) {
+        if (uuid != '') {
+            var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&uuid=" + uuid,
                 onComplete:function(transport) {
-                    $('tr_' + id).removeClassName('bold');
-                    showConfirmationWindow(transport, 700, 500);
+                    $('tr_' + id).remove();
                 },
                 method:'get'
             })
         }
-        function completedForm(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 700, 500);
-                },
-                method:'get'
-            })
-        }
+    }
 
-        function deleteMsg(id, uuid) {
-            if (uuid != '') {
-                var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
-                    parameters:<tags:ajaxstandardparams/>+"&uuid=" + uuid,
-                    onComplete:function(transport) {
-                        $('tr_' + id).remove();
-                    },
-                    method:'get'
-                })
-            }
-        }
+    jQuery("td.quickLinkBGon").mouseover(function() {
+        jQuery(this).removeClass('quickLinkBGon');
+        jQuery(this).addClass('quickLinkBGoff');
+    });
 
-        jQuery("td.quickLinkBGon").mouseover(function() {
-            jQuery(this).removeClass('quickLinkBGon');
-            jQuery(this).addClass('quickLinkBGoff');
-        });
+    jQuery("td.quickLinkBGon").mouseout(function() {
+        jQuery(this).removeClass('quickLinkBGoff');
+        jQuery(this).addClass('quickLinkBGon');
+    });
 
-        jQuery("td.quickLinkBGon").mouseout(function() {
-            jQuery(this).removeClass('quickLinkBGoff');
-            jQuery(this).addClass('quickLinkBGon');
-        });
+    function moreRows() {
+    <c:set var="showMore" value="false"/>
+        refreshPage();
+    }
 
-        function moreRows() {
-        <c:set var="showMore" value="false"/>
-            refreshPage();
-        }
 
-    </script>
+    var myDataTable;
+    YAHOO.util.Event.addListener(window, "load", function() {
+        YAHOO.example.Basic = function() {
+            var myColumnDefs = [
+                {key:"title", label:"Title", sortable:true,resizeable:false, width:238},
+                {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:245},
+                {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
+                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            ];
+
+            var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/form/fetchCrf?");
+            myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+            myDataSource.responseSchema = {
+                resultsList: "shippedRecordSet.searchCrfDTOs",
+                fields: ["title", "studyShortTitle", "status", "actions"],
+                metaFields: {
+                    totalRecords: "shippedRecordSet.totalRecords",
+                    startIndex: "shippedRecordSet.startIndex"
+                }
+            };
+
+            // Customize request sent to server to be able to set total # of records
+            var generateRequest = function(oState, oSelf) {
+                // Get states or use defaults
+                oState = oState || { pagination: null, sortedBy: null };
+                var sort = (oState.sortedBy) ? oState.sortedBy.key : "title";
+                var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+                var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+                var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+                // Build custom request
+                return  "sort=" + sort +
+                        "&dir=" + dir +
+                        "&startIndex=" + startIndex +
+                        "&results=" + (startIndex + results)
+            };
+
+            // DataTable configuration
+            var myConfigs = {
+                generateRequest: generateRequest,
+                initialRequest: generateRequest(), // Initial request for first page of data
+                dynamicData: true, // Enables dynamic server-driven data
+                sortedBy : {key:"title", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage:25,
+                    template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+                    rowsPerPageOptions: [10,25,50,100],
+                    containers  : 'pag'
+                }), // Enables pagination
+                draggableColumns:true
+            };
+
+            myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+            myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow);
+            myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
+            myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
+            // Update totalRecords on the fly with values from server
+            myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+                oPayload.totalRecords = oResponse.meta.totalRecords;
+                oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+                return oPayload;
+            };
+
+            return {
+                oDS: myDataSource,
+                oDT: myDataTable
+            };
+        }();
+    });
+
+    var myStudyDataTable;
+	YAHOO.util.Event.addListener(window, "load", function() {
+	    YAHOO.example.Basic = function() {
+	        var myColumnDefs = [
+//	            {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140},
+	            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:605},
+//	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:false, resizeable:false, width:235},
+//	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:false, resizeable:false, width:235},
+	            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+	        ];
+
+	        var myStudyDataSource = new YAHOO.util.DataSource("/proctcae/pages/study/fetchStudy?");
+	        myStudyDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+	        myStudyDataSource.responseSchema = {
+       		    resultsList: "shippedRecordSet.searchStudyDTO",
+	            fields: ["shortTitle", "actions"],
+	            metaFields: {
+                    totalRecords: "shippedRecordSet.totalRecords",
+                    startIndex: "shippedRecordSet.startIndex"
+                }
+	        };
+
+            // Customize request sent to server to be able to set total # of records
+            var generateRequest = function(oState, oSelf) {
+                // Get states or use defaults
+                oState = oState || { pagination: null, sortedBy: null };
+                var sort = (oState.sortedBy) ? oState.sortedBy.key : "shortTitle";
+                var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+                var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+                var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+                // Build custom request
+                return  "sort=" + sort +
+                        "&dir=" + dir +
+                        "&startIndex=" + startIndex +
+                        "&results=" + (startIndex + results)
+            };
+
+            // DataTable configuration
+            var myConfigs = {
+                generateRequest: generateRequest,
+                initialRequest: generateRequest(), // Initial request for first page of data
+                dynamicData: true, // Enables dynamic server-driven data
+                sortedBy : {key:"shortTitle", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage:25,
+                    template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+	                rowsPerPageOptions: [10,25,50,100],
+	                containers  : 'pagStudy'
+                }), // Enables pagination
+                draggableColumns:true
+            };
+
+	        myStudyDataTable = new YAHOO.widget.DataTable("basicStudy", myColumnDefs, myStudyDataSource, myConfigs);
+	        myStudyDataTable.subscribe("rowClickEvent",myStudyDataTable.onEventSelectRow);
+            myStudyDataTable.subscribe("rowMouseoverEvent", myStudyDataTable.onEventHighlightRow);
+	        myStudyDataTable.subscribe("rowMouseoutEvent", myStudyDataTable.onEventUnhighlightRow);
+            // Update totalRecords on the fly with values from server
+            myStudyDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+                oPayload.totalRecords = oResponse.meta.totalRecords;
+                oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+                return oPayload;
+            };
+
+	        return {
+	            oDS: myStudyDataSource,
+	            oDT: myStudyDataTable
+	        };
+	    }();
+	});
+
+</script>
 </head>
 <body>
 <c:forEach items="${notifications}" var="usernotification">
@@ -435,47 +578,58 @@
     <td>
         <c:if test="${studyLevelRole}">
             <chrome:box title="My Forms" collapsable="true" id="myforms" collapsed="false">
-                <div id="alertsdiv">
-                    <table class="widget" width="100%" border="0">
+                <div class="yui-skin-sam">
+                    <table width="100%">
                         <tr>
-                            <td class="header-top1" width="50%" style="text-align:left">
-                                Study Title
+                            <td width="68%">
+                                <div id="pag"></div>
                             </td>
-                            <td class="header-top1" width="30%" style="text-align:left">
-                                Form Title
-                            </td>
-                            <td class="header-top1" width="10%" style="text-align:left">
-                                Status
-                            </td>
-                            <td class="header-top1" width="10%">
-                            </td>
-
                         </tr>
-                        <c:forEach items="${recentCrfs}" var="crf">
-                            <tr>
-                                <td style="text-align:left" width="50%">
-                                        ${crf.study.displayName}
-                                </td>
-                                <td style="text-align:left" width="30%">
-                                        ${crf.title}
-                                </td>
-                                <td class="data" style="text-align:left" width="10%">
-                                        ${crf.status}
-                                </td>
-                                <td>
-                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                       id="crfActions${crf.id}"><span
-                                            class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                    <script>
-                                        showPopUpMenu('${crf.id}', '${crf.status.displayName}', false);
-                                    </script>
-                                </td>
-
-                            </tr>
-                        </c:forEach>
                     </table>
-                    <br/>
+                    <div id="basic">
+                    </div>
                 </div>
+                <%--<div id="alertsdiv">--%>
+                <%--<table class="widget" width="100%" border="0">--%>
+                <%--<tr>--%>
+                <%--<td class="header-top1" width="50%" style="text-align:left">--%>
+                <%--Study Title--%>
+                <%--</td>--%>
+                <%--<td class="header-top1" width="30%" style="text-align:left">--%>
+                <%--Form Title--%>
+                <%--</td>--%>
+                <%--<td class="header-top1" width="10%" style="text-align:left">--%>
+                <%--Status--%>
+                <%--</td>--%>
+                <%--<td class="header-top1" width="10%">--%>
+                <%--</td>--%>
+                <%----%>
+                <%--</tr>--%>
+                <%--<c:forEach items="${recentCrfs}" var="crf">--%>
+                <%--<tr>--%>
+                <%--<td style="text-align:left" width="50%">--%>
+                <%--${crf.study.displayName}--%>
+                <%--</td>--%>
+                <%--<td style="text-align:left" width="30%">--%>
+                <%--${crf.title}--%>
+                <%--</td>--%>
+                <%--<td class="data" style="text-align:left" width="10%">--%>
+                <%--${crf.status}--%>
+                <%--</td>--%>
+                <%--<td>--%>
+                <%--<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"--%>
+                <%--id="crfActions${crf.id}"><span--%>
+                <%--class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>--%>
+                <%--<script>--%>
+                <%--showPopUpMenu('${crf.id}', '${crf.status.displayName}', false);--%>
+                <%--        </script>  --%>
+                <%--</td>--%>
+                <%----%>
+                <%--</tr>--%>
+                <%--</c:forEach>--%>
+                <%--</table>--%>
+                <%--<br/>--%>
+                <%--</div>--%>
             </chrome:box>
         </c:if>
 
@@ -485,35 +639,47 @@
     <td>
         <c:if test="${studyLevelRole}">
             <chrome:box title="My Studies" collapsable="true" id="mystudies" collapsed="false">
-                <div id="alertsdiv">
-                    <table class="widget">
+                 <div class="yui-skin-sam">
+                    <table width="100%">
                         <tr>
-                            <td class="header-top1" width="90%" style="text-align:left">
-                                Short Title
+                            <td width="68%">
+                                <div id="pagStudy"></div>
                             </td>
-                            <td class="header-top1" width="10%">
-                            </td>
-
                         </tr>
-                        <c:forEach items="${studyWithoutForm}" var="study">
-                            <tr>
-                                <td style="width:90%">
-                                        ${study.displayName}
-                                </td>
-                                <td>
-                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                       id="studyActions${study.id}"><span
-                                            class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                    <script>
-                                        showPopUpMenuStudy('${study.id}');
-                                    </script>
-                                </td>
-
-                            </tr>
-                        </c:forEach>
                     </table>
-                    <br/>
+                    <div id="basicStudy">
+                    </div>
                 </div>
+
+                <%--<div id="alertsdiv">--%>
+                    <%--<table class="widget">--%>
+                        <%--<tr>--%>
+                            <%--<td class="header-top1" width="90%" style="text-align:left">--%>
+                                <%--Short Title--%>
+                            <%--</td>--%>
+                            <%--<td class="header-top1" width="10%">--%>
+                            <%--</td>--%>
+
+                        <%--</tr>--%>
+                        <%--<c:forEach items="${studyWithoutForm}" var="study">--%>
+                            <%--<tr>--%>
+                                <%--<td style="width:90%">--%>
+                                        <%--${study.displayName}--%>
+                                <%--</td>--%>
+                                <%--<td>--%>
+                                    <%--<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"--%>
+                                       <%--id="studyActions${study.id}"><span--%>
+                                            <%--class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>--%>
+                                    <%--<script>--%>
+                                        <%--showPopUpMenuStudy('${study.id}');--%>
+                                   <%--</script>--%>
+                               <%--</td>--%>
+
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
+                    <%--</table>--%>
+                    <%--<br/>--%>
+                <%--</div>--%>
             </chrome:box>
         </c:if>
     </td>
@@ -597,7 +763,7 @@
 
                                     </c:if>
                                 </c:forEach>
-                                <tr align="right">                                   
+                                <tr align="right">
                                     <c:if test="${loadOverdue == null || loadOverdue eq 'less'}">
                                         <td colspan="5">
                                             <A HREF="./home?loadOverdue=all&loadUpcoming=${loadUpcoming}">show more</A>
