@@ -69,7 +69,19 @@
                                 ${symptomMap.key[1]}
                         </td>
 
-
+                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
+                            <c:set var="flag" value="false"/>
+                            <c:forEach items="${symptomMap.value}" var="careResults">
+                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Severity'}">
+                                    <%--${fn:toUpperCase(careResults.key.displayName)}
+                                  ${careResults.value[0].proCtcQuestion.proCtcQuestionType.displayName}  --%>
+                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                    <c:set var="flag" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${!flag}">-</c:if>
+                        </td>
+                        
                         <td class="data displayOrder1" style="white-space:normal;" width="30px">
                             <c:set var="flag" value="false"/>
                             <c:forEach items="${symptomMap.value}" var="careResults">
@@ -92,18 +104,7 @@
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
                         </td>
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Severity'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}
-                                  ${careResults.value[0].proCtcQuestion.proCtcQuestionType.displayName}  --%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
+
                         <td class="data displayOrder1" style="white-space:normal;" width="30px">
                             <c:set var="flag" value="false"/>
                             <c:forEach items="${symptomMap.value}" var="careResults">

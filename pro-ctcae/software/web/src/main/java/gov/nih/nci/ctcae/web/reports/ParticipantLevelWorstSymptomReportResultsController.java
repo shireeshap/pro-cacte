@@ -56,10 +56,10 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(null, filteredSchedules, request);
 
         modelAndView.addObject("resultsMap", results);
-        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypesForSharedAEReport());
 
         request.getSession().setAttribute("sessionResultsMap", results);
-        request.getSession().setAttribute("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        request.getSession().setAttribute("questionTypes", ProCtcQuestionType.getAllDisplayTypesForSharedAEReport());
         return modelAndView;
     }
 
@@ -96,7 +96,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
 
                 String symptomId = proCtcQuestion.getProCtcTerm().getId().toString();
-                String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+                String symptom = proCtcQuestion.getProCtcTerm().getCtcTerm().getCtcTermVocab().getTermEnglish();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 if (value != null) {
                     buildMap(proCtcQuestion,

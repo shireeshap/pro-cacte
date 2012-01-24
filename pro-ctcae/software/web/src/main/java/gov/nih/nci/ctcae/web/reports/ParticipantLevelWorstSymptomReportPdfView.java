@@ -156,13 +156,40 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         table.setPadding(1);
         table.setCellsFitPage(true);
 
-        Cell cell = new Cell(new Paragraph("MedDRA Code", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        //metadata row
+        Cell cell = new Cell(new Paragraph(" ", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        cell.setBackgroundColor(new Color(201, 201, 201));
+        cell.setColspan(2);
+        table.addCell(cell);
+        
+        cell = new Cell(new Paragraph("Patient Reported", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        cell.setBackgroundColor(new Color(201, 201, 201));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setColspan(3);
+        table.addCell(cell);
+        
+        cell = new Cell(new Paragraph("Clinicians: please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        cell.setBackgroundColor(new Color(201, 201, 201));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setColspan(2);
+        table.addCell(cell);
+        //metadata row
+        
+        cell = new Cell(new Paragraph("MedDRA Code", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
         cell.setBackgroundColor(new Color(201, 201, 201));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
 
         cell = new Cell(new Paragraph("Symptom", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        cell.setBackgroundColor(new Color(201, 201, 201));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+        
+        cell = new Cell(new Paragraph("Severity", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
         cell.setBackgroundColor(new Color(201, 201, 201));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -175,12 +202,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         table.addCell(cell);
 
         cell = new Cell(new Paragraph("Interference", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
-        cell.setBackgroundColor(new Color(201, 201, 201));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
-
-        cell = new Cell(new Paragraph("Severity", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
         cell.setBackgroundColor(new Color(201, 201, 201));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -215,6 +236,24 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                 table.addCell(cell);
 
                 HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                
+                // For Severity type
+                String severityValue = "-";
+                for (Question question : questionMap.keySet()) {
+                    if (question.getQuestionType().getDisplayName().equals("Severity")) {
+                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
+                        severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                    }
+                    if (question.getQuestionType().getDisplayName().equals("Amount")) {
+                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
+                        severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                    }
+                }
+                cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+                
+                
                 // For frequency type
                 String frequencyValue = "-";
                 for (Question question : questionMap.keySet()) {
@@ -248,22 +287,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                // For Severity type
-                String severityValue = "-";
-                for (Question question : questionMap.keySet()) {
-                    if (question.getQuestionType().getDisplayName().equals("Severity")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
-                    }
-                    if (question.getQuestionType().getDisplayName().equals("Amount")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        severityValue = "AMT-" + proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
-                    }
-                }
-                cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
-
                 cell = new Cell(new Paragraph(" "));
                 table.addCell(cell);
 
@@ -285,6 +308,27 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             table.setAlignment(Element.ALIGN_MIDDLE);
             table.setPadding(1);
             table.setCellsFitPage(true);
+            
+            //metadata row
+            cell = new Cell(new Paragraph(" ", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+            cell.setBackgroundColor(new Color(201, 201, 201));
+            cell.setColspan(2);
+            table.addCell(cell);
+            
+            cell = new Cell(new Paragraph("Patient Reported", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+            cell.setBackgroundColor(new Color(201, 201, 201));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setColspan(3);
+            table.addCell(cell);
+            
+            cell = new Cell(new Paragraph("Clinicians: please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+            cell.setBackgroundColor(new Color(201, 201, 201));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setColspan(2);
+            table.addCell(cell);
+            //metadata row
 
             cell = new Cell(new Paragraph("MedDRA Code", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
             cell.setBackgroundColor(new Color(201, 201, 201));
@@ -297,6 +341,12 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.addCell(cell);
+            
+            cell = new Cell(new Paragraph("Severity", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+            cell.setBackgroundColor(new Color(201, 201, 201));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            table.addCell(cell);
 
             cell = new Cell(new Paragraph("Frequency", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
             cell.setBackgroundColor(new Color(201, 201, 201));
@@ -305,12 +355,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             table.addCell(cell);
 
             cell = new Cell(new Paragraph("Interference", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
-            cell.setBackgroundColor(new Color(201, 201, 201));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
-
-            cell = new Cell(new Paragraph("Severity", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
             cell.setBackgroundColor(new Color(201, 201, 201));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -341,6 +385,22 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                     table.addCell(cell);
 
                     HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                    // For Severity type
+                    String severityValue = "-";
+                    for (Question question : questionMap.keySet()) {
+                        if (question.getQuestionType().getDisplayName().equals("Severity")) {
+                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
+                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        }
+                        if (question.getQuestionType().getDisplayName().equals("Amount")) {
+                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
+                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        }
+                    }
+                    cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
+                    
                     // For frequency type
                     String frequencyValue = "-";
                     for (Question question : questionMap.keySet()) {
@@ -374,22 +434,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(cell);
 
-                    // For Severity type
-                    String severityValue = "-";
-                    for (Question question : questionMap.keySet()) {
-                        if (question.getQuestionType().getDisplayName().equals("Severity")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
-                        }
-                        if (question.getQuestionType().getDisplayName().equals("Amount")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
-                        }
-                    }
-                    cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-
                     cell = new Cell(new Paragraph(" "));
                     table.addCell(cell);
 
@@ -404,7 +448,30 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
         // Next Page - Clinician reported symptoms
         document.newPage();
+        // feedback Questions
+        document.add(new Paragraph("STAFF FEEDBACK QUESTIONS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        document.add(new Paragraph("1. Was the patient-reported symptom information used by clinical staff to information the CTCAE grading?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("2. Who completed this form?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O Clinician (MD/RN/PA)", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O Non-Clinical Research Staff", FontFactory.getFont("Times-Roman", 10)));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("3. Did the person completing this form see the patient?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
+
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("4. Was the patients medical chart used to complete this form?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+
+
+        document.add(new Paragraph("Please use the following section to document additional symptoms that were not reported by the patient.", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
         document.add(new Paragraph("Clinician Reported Symptoms ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+
         table = new Table(4);
         table.setWidth(110);
         table.setWidths(new int[]{12, 73, 13, 12});
@@ -445,24 +512,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             table.addCell(cell);
         }
         document.add(table);
-        document.add(new Paragraph(" "));
 
-        // feedback Questions
-        document.add(new Paragraph("STAFF FEEDBACK QUESTIONS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
-        document.add(new Paragraph("1. Was the patient-reported symptom information used by clinical staff to information the CTCAE grading?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
-
-        document.add(new Paragraph(" "));
-        document.add(new Paragraph("2. Who completed this form?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Clinician (MD/RN/PA)", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Non-Clinical Research Staff", FontFactory.getFont("Times-Roman", 10)));
-
-        document.add(new Paragraph(" "));
-        document.add(new Paragraph("3. Did the person completing this form see the patient?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
-
-        document.add(new Paragraph(" "));
-        document.add(new Paragraph("4. Was the patients medical chart used to complete this form?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
     }
 }
