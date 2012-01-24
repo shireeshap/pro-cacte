@@ -150,6 +150,7 @@
                 if (hiddenInputId == 'study') {
                     $('search').show();
                     $('dateMenuDiv').show();
+                    $('dateRange').show();
                     displayParticipants = true;
                     fnDisplayParticipants();
                 }
@@ -210,12 +211,12 @@
             <div class="label"><tags:message code='reports.label.visits'/></div>
             <div class="value IEdivValueHack">
                 <select id="visitOptions" name="visitOptions" onChange="customVisit(this)">
+                	<option value="dateRange">Date range</option>
                     <option value="all">All</option>
                     <option value="currentPrev">Current & Previous</option>
                     <option value="lastFour">Last four</option>
                     <option value="currentLast">Current & First</option>
                     <option value="custom">Custom</option>
-                    <option value="dateRange">Date range</option>
                 </select>
             </div>
 
