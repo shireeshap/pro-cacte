@@ -2815,6 +2815,8 @@ software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportE
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportPdfController.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportPdfView.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportResultsController.java -text
+software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportPdfView.java -text
+software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportResultsController.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantNameComparator.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantReportExcelController.java -text
 software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportDetailsController.java -text
@@ -2991,6 +2993,7 @@ software/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 software/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 software/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
 software/web/src/main/webapp/WEB-INF/tags/reports/displayarms.tag -text
+software/web/src/main/webapp/WEB-INF/tags/reports/participantReportThirdlevelMenu.tag -text
 software/web/src/main/webapp/WEB-INF/tags/reports/reportSpecificJS.tag -text
 software/web/src/main/webapp/WEB-INF/tags/reports/thirdlevelmenu.tag -text
 software/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
@@ -3112,6 +3115,8 @@ software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDeta
 software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReportResults.jsp -text
+software/web/src/main/webapp/WEB-INF/views/reports/participantLevelWorstSymptomReport.jsp -text
+software/web/src/main/webapp/WEB-INF/views/reports/participantLevelWorstSymptomReportResults.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/participantreportcharts.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/reportDetails.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/reportDetails_participantItems.jsp -text

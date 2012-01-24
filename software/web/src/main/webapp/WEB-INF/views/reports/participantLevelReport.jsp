@@ -1,17 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-          prefix="decorator" %>
+<%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-
+<%@ taglib prefix="report" tagdir="/WEB-INF/tags/reports" %>
 <html>
 <head>
     <tags:stylesheetLink name="reports"/>
@@ -183,6 +181,7 @@
     </script>
 </head>
 <body>
+<report:participantReportThirdlevelMenu selected="overallParticipant"/>
 <tags:instructions code="participantReportInstructions"/>
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
