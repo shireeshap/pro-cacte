@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
+import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
@@ -12,6 +14,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -53,7 +56,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
 
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
         setReportStartDateEndDate(request, filteredSchedules);
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = getCareResults(null, filteredSchedules, request);
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = getCareResults(null, filteredSchedules, request);
 
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypesForSharedAEReport());
@@ -86,10 +89,10 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
     }
 
 
-    private TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
+    private TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
 
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>(new MyArraySorter());
-        HashMap<Question, ArrayList<ProCtcValidValue>> careResults = new HashMap<Question, ArrayList<ProCtcValidValue>>();
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>(new MyArraySorter());
+        HashMap<Question, ArrayList<ValidValue>> careResults = new HashMap<Question, ArrayList<ValidValue>>();
 
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
@@ -97,7 +100,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
 
                 String symptomId = proCtcQuestion.getProCtcTerm().getId().toString();
                 String symptom = proCtcQuestion.getProCtcTerm().getCtcTerm().getCtcTermVocab().getTermEnglish();
-                ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+                ValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 if (value != null) {
                     buildMap(proCtcQuestion,
                             new String[]{"P_" + symptomId, symptom,""},
@@ -111,8 +114,22 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
                 Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
                 String symptomId = question.getStringId();
-                String symptom = question.getQuestionSymptom();
-                ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                String symptom;
+                if(question instanceof MeddraQuestion){
+                	symptom = ((MeddraQuestion)question).getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH);
+                } else if(question instanceof ProCtcQuestion){
+                	//ctcTerm same as meddraTerm
+                	symptom = ((ProCtcQuestion)question).getProCtcTerm().getCtcTerm().getCtcTermVocab().getTermEnglish();
+                	//proTerm
+                	//symptom = ((ProCtcQuestion)question).getProCtcTerm().getTerm();
+                } else {
+                	symptom = question.getQuestionSymptom();
+                }
+                
+                ValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                if(value == null){
+                	value = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
+                }
                 if (value != null) {
                     buildMap(question,
                             new String[]{"A_" + symptomId, symptom,""},
@@ -132,9 +149,9 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
 
     private void buildMap(Question question,
                           String[] symptomArr,
-                          ProCtcValidValue value,
-                          TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> symptomMap,
-                          HashMap<Question, ArrayList<ProCtcValidValue>> careResults,
+                          ValidValue value,
+                          TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap,
+                          HashMap<Question, ArrayList<ValidValue>> careResults,
                           boolean participantAddedQuestion,
                           Integer arraySize,
                           StudyParticipantCrfItem studyParticipantCrfItem) {
@@ -145,10 +162,14 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         }
         if (question instanceof MeddraQuestion) {
             MeddraQuestion meddraQuestion = (MeddraQuestion) question;
-            meddraCode = meddraQuestion.getLowLevelTerm().getMeddraCode();
+            if(meddraQuestion.getLowLevelTerm().getId() > 10000000){
+            	meddraCode = "N/A";
+            } else {
+            	meddraCode = meddraQuestion.getLowLevelTerm().getMeddraCode();
+            }
         }
         symptomArr[2] = meddraCode;
-        ArrayList<ProCtcValidValue> validValue;
+        ArrayList<ValidValue> validValue;
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
         } else {
@@ -159,15 +180,28 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         if (careResults.containsKey(question)) {
             validValue = careResults.get(question);
         } else {
-            validValue = new ArrayList<ProCtcValidValue>();
+            validValue = new ArrayList<ValidValue>();
             careResults.put(question, validValue);
         }
 
-        if (validValue.size() == 0 && value.getResponseCode() != null)
-            validValue.add(value);
-        else if (validValue.size() > 0 && (validValue.get(0).getResponseCode() < value.getResponseCode())) {
-            validValue.set(0, value);
+        ProCtcValidValue pValue;
+        MeddraValidValue mValue;
+        if(value instanceof ProCtcValidValue){
+        	pValue = (ProCtcValidValue)value;
+        	if (validValue.size() == 0 && pValue.getResponseCode() != null)
+                validValue.add(value);
+            else if (validValue.size() > 0 && (((ProCtcValidValue)validValue.get(0)).getResponseCode() < pValue.getResponseCode())) {
+                validValue.set(0, value);
+            }
+        } else if(value instanceof MeddraValidValue){
+        	mValue = (MeddraValidValue) value;
+        	if (validValue.size() == 0 && mValue.getDisplayOrder() != null)
+                validValue.add(value);
+            else if (validValue.size() > 0 && (((MeddraValidValue)validValue.get(0)).getDisplayOrder() < mValue.getDisplayOrder())) {
+                validValue.set(0, value);
+            }
         }
+
     }
 
 

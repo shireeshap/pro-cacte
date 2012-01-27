@@ -1,11 +1,13 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -57,7 +59,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
     private void buildDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse, int totalPages) throws Exception {
         int total = totalPages;
-        TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         List<ProCtcQuestionType> questionTypes = (List<ProCtcQuestionType>) request.getSession().getAttribute("questionTypes");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
@@ -71,8 +73,8 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         // Header table
         Table insideTable = new Table(2);
         insideTable.setWidth(110);
-        insideTable.setWidths(new int[]{40, 70});
-        insideTable.setPadding(1);
+        insideTable.setWidths(new int[]{45, 65});
+        insideTable.setPadding(5);
 
         Cell headerCell = new Cell(new Paragraph("  Study: ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
         headerCell.setBorderWidthBottom(0);
@@ -100,7 +102,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         insideTable.addCell(headerCell);
 
-        headerCell = new Cell(new Paragraph("  Report begin date(mm/dd/yyyy): ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        headerCell = new Cell(new Paragraph("  Reporting period begin date(mm/dd/yyyy): ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
         headerCell.setBorderWidthBottom(0);
         headerCell.setBorderWidthTop(0);
         headerCell.setBorderWidthRight(0);
@@ -114,7 +116,8 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         insideTable.addCell(headerCell);
 
-        headerCell = new Cell(new Paragraph("  Report end date(mm/dd/yyyy): ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        headerCell = new Cell(new Paragraph("  Reporting period end date(mm/dd/yyyy): ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        headerCell.setBorderWidthBottom(0);
         headerCell.setBorderWidthTop(0);
         headerCell.setBorderWidthRight(0);
         headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -134,19 +137,32 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         instructionsTable.setWidth(110);
         instructionsTable.setBorderWidth(0);
 
-        Paragraph instructionalParagraph = new Paragraph("INSTRUCTIONS: Complete and submit this form as required by the protocol.  Information in the upper right box must be completed.\n" +
-                "1.MedDRA code: Use NCI CTCAE v4.x or most current version with MedDRA codes to grade each adverse event.  Grade = (-1) if not evaluated.  Grade = 0 if evaluated but not reported.\n" +
-                "2.AE is defined as adverse event.\n" +
-                "3.TREATMENT ATTRIBUTION CODES: \n" +
-                "1 = unrelated, 2 = unlikely, 3 = possible, 4 = probable, 5 = definite     ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        Paragraph instructionalParagraph = new Paragraph("INSTRUCTIONS: ", FontFactory.getFont("Times-Roman", 10, Font.BOLD));
+        instructionalParagraph.add(new Phrase("Complete and submit this form as required by the protocol.  Grade each symptom for the reporting period dates specified above. Please record additional symptoms under the section titled \"Clinician Reported Symptoms\".\n" +
+                "Use " , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        instructionalParagraph.add(new Phrase(" NCI CTCAE v4.x " , FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        instructionalParagraph.add(new Phrase("or most current version with MedDRA codes to grade each adverse event.  Grade = (-1) category not evaluated.", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+
+        
+        instructionalParagraph.add(new Paragraph("TREATMENT ATTRIBUTION CODES:" , FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        instructionalParagraph.add(new Phrase("1 = unrelated, 2 = unlikely, 3 = possible, 4 = probable, 5 = definite     ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         headerCell = new Cell(instructionalParagraph);
         headerCell.setBorderWidth(0);
         instructionsTable.addCell(headerCell);
         document.add(instructionsTable);
         document.add(Chunk.NEWLINE);
 
-        // Table header
-        document.add(new Paragraph("Survey Solicited Symptoms ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        // survey solicited symptoms section header
+        Table sssTitleTable = new Table(1);
+        sssTitleTable.setWidth(110);
+        sssTitleTable.setBorderWidth(0);
+        Paragraph p = new Paragraph("SURVEY SOLICITED SYMPTOMS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD | com.lowagie.text.Font.UNDERLINE));
+        
+        headerCell = new Cell(p);
+        headerCell.setBorderWidth(0);
+        sssTitleTable.addCell(headerCell);
+        document.add(sssTitleTable);
+
         // Data Table
         Table table = new Table(7);
         table.setWidth(110);
@@ -169,7 +185,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         cell.setColspan(3);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("Clinicians: please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+        cell = new Cell(new Paragraph("Clinicians: Please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
         cell.setBackgroundColor(new Color(201, 201, 201));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -235,18 +251,18 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.addCell(cell);
 
-                HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                HashMap<Question, ArrayList<ValidValue>> questionMap = results.get(term);
                 
                 // For Severity type
                 String severityValue = "-";
                 for (Question question : questionMap.keySet()) {
                     if (question.getQuestionType().getDisplayName().equals("Severity")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        List<ValidValue> proCtcValidValues = questionMap.get(question);
+                        severityValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                     }
                     if (question.getQuestionType().getDisplayName().equals("Amount")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        List<ValidValue> proCtcValidValues = questionMap.get(question);
+                        severityValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                     }
                 }
                 cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
@@ -258,13 +274,18 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                 String frequencyValue = "-";
                 for (Question question : questionMap.keySet()) {
                     if (question.getQuestionType().getDisplayName().equals("Frequency")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        frequencyValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        List<ValidValue> proCtcValidValues = questionMap.get(question);
+                        frequencyValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                     }
                     if (question.getQuestionType().getDisplayName().equals("Present/Absent")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        String presentValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
-                        if (presentValue.equals("Yes")) {
+                        List<ValidValue> proCtcValidValues = questionMap.get(question);
+                        String presentValue = "";
+                        if(proCtcValidValues.get(0) instanceof ProCtcValidValue){
+                        	presentValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
+                        } else if(proCtcValidValues.get(0) instanceof MeddraValidValue){
+                            presentValue = ((MeddraValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
+                        }
+                        if (presentValue.trim().equals("Yes")) {
                             frequencyValue = "Present";
                         } else {
                             frequencyValue = "Absent";
@@ -279,8 +300,8 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                 String interferenceValue = "-";
                 for (Question question : questionMap.keySet()) {
                     if (question.getQuestionType().getDisplayName().equals("Interference")) {
-                        List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                        interferenceValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                        List<ValidValue> proCtcValidValues = questionMap.get(question);
+                        interferenceValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                     }
                 }
                 cell = new Cell(new Paragraph(interferenceValue, FontFactory.getFont("Times-Roman", 10)));
@@ -299,8 +320,17 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         // Patient Added Symptoms
         document.add(Chunk.NEWLINE);
         if (additionalQuestionsPresent) {
-            // Table header
-            document.add(new Paragraph("Patient Added Symptoms ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+            // patient added symptoms section header
+            Table patientTitleTable = new Table(1);
+            patientTitleTable.setWidth(110);
+            patientTitleTable.setBorderWidth(0);
+            Paragraph patientTitle = new Paragraph("PATIENT ADDED SYMPTOMS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD | com.lowagie.text.Font.UNDERLINE));
+            
+            headerCell = new Cell(patientTitle);
+            headerCell.setBorderWidth(0);
+            patientTitleTable.addCell(headerCell);
+            document.add(patientTitleTable);
+            
             table = new Table(7);
             table.setWidth(110);
             table.setWidths(new int[]{12, 32, 14, 14, 14, 10, 10});
@@ -322,7 +352,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             cell.setColspan(3);
             table.addCell(cell);
             
-            cell = new Cell(new Paragraph("Clinicians: please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
+            cell = new Cell(new Paragraph("Clinicians: Please complete", FontFactory.getFont("Times-Roman", 10, Font.BOLD)));
             cell.setBackgroundColor(new Color(201, 201, 201));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -384,17 +414,17 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                     cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                     table.addCell(cell);
 
-                    HashMap<Question, ArrayList<ProCtcValidValue>> questionMap = results.get(term);
+                    HashMap<Question, ArrayList<ValidValue>> questionMap = results.get(term);
                     // For Severity type
                     String severityValue = "-";
                     for (Question question : questionMap.keySet()) {
                         if (question.getQuestionType().getDisplayName().equals("Severity")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                            List<ValidValue> proCtcValidValues = questionMap.get(question);
+                            severityValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                         }
                         if (question.getQuestionType().getDisplayName().equals("Amount")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            severityValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                            List<ValidValue> proCtcValidValues = questionMap.get(question);
+                            severityValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                         }
                     }
                     cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
@@ -405,12 +435,18 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                     String frequencyValue = "-";
                     for (Question question : questionMap.keySet()) {
                         if (question.getQuestionType().getDisplayName().equals("Frequency")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            frequencyValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                            List<ValidValue> proCtcValidValues = questionMap.get(question);
+                            frequencyValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                         }
                         if (question.getQuestionType().getDisplayName().equals("Present/Absent")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            String presentValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                            List<ValidValue> proCtcValidValues = questionMap.get(question);
+                            String presentValue = "";
+                            if(proCtcValidValues.get(0) instanceof ProCtcValidValue){
+                            	presentValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
+                            } else if(proCtcValidValues.get(0) instanceof MeddraValidValue){
+                                presentValue = ((MeddraValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
+                            }
+                            
                             if (presentValue.equals("Yes")) {
                                 frequencyValue = "Present";
                             } else {
@@ -426,8 +462,8 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
                     String interferenceValue = "-";
                     for (Question question : questionMap.keySet()) {
                         if (question.getQuestionType().getDisplayName().equals("Interference")) {
-                            List<ProCtcValidValue> proCtcValidValues = questionMap.get(question);
-                            interferenceValue = proCtcValidValues.get(0).getValue(SupportedLanguageEnum.ENGLISH);
+                            List<ValidValue> proCtcValidValues = questionMap.get(question);
+                            interferenceValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
                         }
                     }
                     cell = new Cell(new Paragraph(interferenceValue, FontFactory.getFont("Times-Roman", 10)));
@@ -447,9 +483,20 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
 
         // Next Page - Clinician reported symptoms
-        document.newPage();
+        //document.newPage();
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
         // feedback Questions
-        document.add(new Paragraph("STAFF FEEDBACK QUESTIONS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        Table sfqTitleTable = new Table(1);
+        sfqTitleTable.setWidth(110);
+        sfqTitleTable.setBorderWidth(0);
+        Paragraph sfqTitle = new Paragraph("STAFF FEEDBACK QUESTIONS ", FontFactory.getFont("Times-Roman", 11, Font.BOLD | com.lowagie.text.Font.UNDERLINE));
+        
+        headerCell = new Cell(sfqTitle);
+        headerCell.setBorderWidth(0);
+        sfqTitleTable.addCell(headerCell);
+        document.add(sfqTitleTable);
+        
         document.add(new Paragraph("1. Was the patient-reported symptom information used by clinical staff to information the CTCAE grading?", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
 
@@ -465,12 +512,28 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         document.add(new Paragraph(" "));
         document.add(new Paragraph("4. Was the patients medical chart used to complete this form?", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O YES             O NO", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph(" "));
+        
+        Table noteTitleTable = new Table(1);
+        noteTitleTable.setWidth(110);
+        noteTitleTable.setBorderWidth(0);
+        Paragraph noteTitle = new Paragraph(new Paragraph("NOTE: ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        noteTitle.add(new Phrase("Please use the \"CLINICIAN REPORTED SYMPTOMS\" section below to document additional symptoms that were not reported by the patient.", FontFactory.getFont("Times-Roman", 11)));
+        headerCell = new Cell(noteTitle);
+        headerCell.setBorderWidth(0);
+        noteTitleTable.addCell(headerCell);
+        
+        document.add(noteTitleTable);
         document.add(new Paragraph(" "));
 
-
-        document.add(new Paragraph("Please use the following section to document additional symptoms that were not reported by the patient.", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
-        document.add(new Paragraph("Clinician Reported Symptoms ", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
+        Table crsTitleTable = new Table(1);
+        crsTitleTable.setWidth(110);
+        crsTitleTable.setBorderWidth(0);
+        Paragraph crsTitle = new Paragraph("CLINICIAN REPORTED SYMPTOMS", FontFactory.getFont("Times-Roman", 11, Font.BOLD | com.lowagie.text.Font.UNDERLINE));
+        headerCell = new Cell(crsTitle);
+        headerCell.setBorderWidth(0);
+        crsTitleTable.addCell(headerCell);
+        
+        document.add(crsTitleTable);
 
         table = new Table(4);
         table.setWidth(110);

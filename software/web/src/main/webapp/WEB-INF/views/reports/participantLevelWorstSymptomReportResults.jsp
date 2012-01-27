@@ -73,10 +73,13 @@
                             <c:set var="flag" value="false"/>
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Severity'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}
-                                  ${careResults.value[0].proCtcQuestion.proCtcQuestionType.displayName}  --%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
+                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
+                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:set var="flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
@@ -87,8 +90,13 @@
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Frequency'}">
                                     <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
+                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
+                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:set var="flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
@@ -98,8 +106,13 @@
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Interference'}">
                                     <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
+                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
+                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:set var="flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
@@ -109,9 +122,13 @@
                             <c:set var="flag" value="false"/>
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Amount'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
+                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
+                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:set var="flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
@@ -121,8 +138,13 @@
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Present/Absent'}">
                                     <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                    ${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                    <c:set var="flag" value="true"/>
+                                 <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
+                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
+                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
+                                  </c:if>
+                                  <c:set var="flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${!flag}">-</c:if>
