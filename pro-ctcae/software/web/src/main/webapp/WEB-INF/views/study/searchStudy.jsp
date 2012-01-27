@@ -238,19 +238,17 @@
     <form method="POST" action="searchStudy#searchResults">
     	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <input name="useReqParam" value="true" type="hidden"/>
-        <p><tags:instructions code="study.search.top"/></p>
+        <tags:instructions code="study.search.top"/>
 
-        <div class="content">
-            <div class="row" name="inputs">
-                <div class="label"> <tags:message code='study.label.search_by'/></div>
-                <div class="value">
-                    <input type="text" id="searchText" name="searchText" size="25" value="${searchText}">
-                    <div id="error"></div>
-                </div>
+        <div class="row" name="inputs">
+            <div class="label"> <tags:message code='study.label.search_by'/></div>
+            <div class="value">
+                <input type="text" id="searchText" name="searchText" size="25" value="${searchText}">
+                <div id="error"></div>
             </div>
-            <div style="padding-left:140px">
-                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-            </div>
+        </div>
+        <div style="padding-left:140px">
+            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
         </div>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
         <input type="hidden" name="page" value="${page}" id="page"/>
