@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository.secured;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.query.Query;
+import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 
@@ -39,15 +40,17 @@ public class StudyParticipantCrfScheduleRepository implements Repository<StudyPa
     }
 
     public List<StudyParticipantCrfSchedule> find(Query query) {
-        return null;
-
-
+        return genericRepository.find(query);
     }
 
     public StudyParticipantCrfSchedule findSingle(Query query) {
         return null;
 
 
+    }
+
+    public Long findWithCount(StudyParticipantCrfScheduleQuery query) {
+        return genericRepository.findWithCount(query);
     }
 
     @Required

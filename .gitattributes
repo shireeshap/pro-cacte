@@ -2857,6 +2857,12 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthoriza
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/RemoveAlertController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchAvailableFormsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchOverdueFormsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchUpcomingFormsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/StudyParticipantCrfScheduleAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text

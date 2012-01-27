@@ -2,22 +2,30 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 
+import javax.net.ssl.SSLEngineResult;
 import java.util.Date;
 import java.util.List;
 
 //
+
 /**
  * @author mehul
  */
 
 public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by startDate";
+    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs";
+    private static String queryString1 = "SELECT count(distinct spcs) from StudyParticipantCrfSchedule spcs";
     private static String CRF_IDS = "ids";
     private static String SP_CRF_IDS = "sp_crf_ids";
+    private static String USERNAME = "username";
 
     public StudyParticipantCrfScheduleQuery() {
         super(queryString);
+    }
+
+    public StudyParticipantCrfScheduleQuery(boolean count) {
+        super(queryString1);
     }
 
     public void filterByStudy(Integer id) {
@@ -34,12 +42,12 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         andWhere("spcs.studyParticipantCrf.id =:id");
         setParameter("id", id);
     }
-    
+
     public void filterByStudyParticipantCRFIds(List<Integer> spcrfIds) {
         andWhere("spcs.studyParticipantCrf.id in (:" + SP_CRF_IDS + ")");
         setParameterList(SP_CRF_IDS, spcrfIds);
     }
-    
+
     public void filterByCRFIds(List<Integer> crfIds) {
         andWhere("spcs.studyParticipantCrf.crf.id in (:" + CRF_IDS + ")");
         setParameterList(CRF_IDS, crfIds);
@@ -65,4 +73,30 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         andWhere("spcs.status =:status");
         setParameter("status", status);
     }
+
+    public void setLeftJoin() {
+        leftJoin("spcs.studyParticipantCrf as spc " +
+                "left outer join spc.crf as crf " +
+                "left outer join crf.study as study " +
+                "left outer join study.studyOrganizations as so " +
+                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join socs.organizationClinicalStaff as oc " +
+                "left outer join oc.clinicalStaff as cs " +
+                "left outer join cs.user as user");
+    }
+
+    public void filterByUsername(final String userName) {
+        setLeftJoin();
+        andWhere("user.username = :" + USERNAME);
+
+        setParameter(USERNAME, userName);
+//        setParameter("status1", CrfStatus.INPROGRESS);
+
+    }
+
+    public void filterByUsernameOnly(final String userName) {
+        setLeftJoin();
+        andWhere("user.username = :" + USERNAME);
+        setParameter(USERNAME, userName);
+      }
 }

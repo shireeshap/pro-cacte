@@ -357,6 +357,16 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
+
+    <bean name="/spcSchedule/fetchAvailableForms" id="fetchAvailableFormsController"
+          class="gov.nih.nci.ctcae.web.spcSchedule.FetchAvailableFormsController">
+        <property name="spcsfacade" ref="studyParticipantCrfScheduleAjaxFacade"/>
+    </bean>
+
+    <bean name="/spcSchedule/fetchOverdueForms" id="fetchOverdueFormsController"
+          class="gov.nih.nci.ctcae.web.spcSchedule.FetchOverdueFormsController">
+        <property name="spcsFacade" ref="studyParticipantCrfScheduleAjaxFacade"/>
+    </bean>
     
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
