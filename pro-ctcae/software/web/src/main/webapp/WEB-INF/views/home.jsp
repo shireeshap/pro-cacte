@@ -236,7 +236,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             dynamicData: true, // Enables dynamic server-driven data
             sortedBy : {key:"title", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
             paginator: new YAHOO.widget.Paginator({
-                rowsPerPage:5,
+                rowsPerPage:10,
                 template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
                 rowsPerPageOptions: [5,10,25],
                 containers  : 'pag'
@@ -306,7 +306,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             dynamicData: true, // Enables dynamic server-driven data
             sortedBy : {key:"shortTitle", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
             paginator: new YAHOO.widget.Paginator({
-                rowsPerPage:5,
+                rowsPerPage:10,
                 template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
                 rowsPerPageOptions: [5,10,25],
                 containers  : 'pagStudy'
