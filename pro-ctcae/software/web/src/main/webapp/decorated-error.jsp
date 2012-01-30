@@ -14,7 +14,6 @@
 
     <html>
     <head>
-        <title>Error Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!--    <script type="text/javascript" language="JavaScript">
             function PanelCombo(element) {
@@ -57,11 +56,11 @@
         <div class="row">
             <div class="error">
                 <div class="label">
-                    ERROR:
+                    OOPS:
                 </div>
             </div>
             <div class="value">
-                The system encountered an error. Please contact your system administrator
+                The system encountered an error. Please contact your system administrator.
             </div>
         </div>
 
@@ -108,7 +107,7 @@
                                         <div id="error-interior" class="interior" >
                                             <div class="content">
 
-                                                <TABLE CELLPADDING="2" CELLSPACING="2" BORDER="1" WIDTH="100%">
+                                                <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="1" WIDTH="100%">
                                                     <TR>
                                                         <TD WIDTH="20%"><B>Status Code</B></TD>
                                                         <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.status_code']}" />
