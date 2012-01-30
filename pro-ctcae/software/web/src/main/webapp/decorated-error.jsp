@@ -2,20 +2,13 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/page" prefix="page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="date" class="java.util.Date" />
 
 <%@page language="java" isErrorPage="true" %>
-
 <%@ page isErrorPage="true" %>
 <%@ page language="java" %>
-
-<%
-    request = new SecurityRequestWrapper(request);
-    Object statusCode = request.getAttribute("javax.servlet.error.status_code");
-    Object exceptionType = request.getAttribute("javax.servlet.error.exception_type");
-    Object message = request.getAttribute("javax.servlet.error.message");
-%>
 
 <page:applyDecorator name="standard">
 
@@ -23,7 +16,7 @@
     <head>
         <title>Error Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <script type="text/javascript" language="JavaScript">
+    <!--    <script type="text/javascript" language="JavaScript">
             function PanelCombo(element) {
                 panelDiv = $(element + "-interior");
                 imageId = element + '-image';
@@ -54,11 +47,11 @@
                     new Effect.CloseDown(element, arguments[1] || {});
                 }
             }
-        </script>
+        </script>    --> 
     </head>
 
     <body>
-
+	<br />
     <chrome:box title="Error" autopad="true">
 
         <div class="row">
@@ -91,13 +84,10 @@
                                 <h2>Detailed Error</h2>
                             </td>
                             <td align="right">
-                                <div id="error-image-div">
-                                    <a href="javascript:
-			PanelCombo('error');
-				">
-                                        <img id="error-image" src="<tags:imageUrl name="chrome/minimize.gif"/>"
-                                             border="0" alt="toggle button"></a>
-                                </div>
+                           <!--      <div id="error-image-div">
+                                    <a href="javascript:PanelCombo('error');">
+                                        <img id="error-image" src="<tags:imageUrl name="chrome/minimize.gif"/>" border="2" alt="toggle button"></a>
+                                </div> -->
                             </td>
                         </tr>
                     </table>
@@ -115,80 +105,43 @@
                             <div class="border-TR">
                                 <div class="border-BL">
                                     <div class="border-BR">
-                                        <div id="error-interior" class="interior" style="display:none;">
+                                        <div id="error-interior" class="interior" >
                                             <div class="content">
 
-                                                <TABLE CELLPADDING="2" CELLSPACING="2" BORDER="1" WIDTH="50%">
+                                                <TABLE CELLPADDING="2" CELLSPACING="2" BORDER="1" WIDTH="100%">
                                                     <TR>
                                                         <TD WIDTH="20%"><B>Status Code</B></TD>
-                                                        <TD WIDTH="80%"><%= statusCode %>
+                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.status_code']}" />
                                                         </TD>
                                                     </TR>
                                                     <TR>
                                                         <TD WIDTH="20%"><B>Exception Type</B></TD>
-                                                        <TD WIDTH="80%"><%= exceptionType %>
+                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.exception']}" />
                                                         </TD>
                                                     </TR>
                                                     <TR>
                                                         <TD WIDTH="20%"><B>Message</B></TD>
-                                                        <TD WIDTH="80%"><%= message %>
+                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.message']}" />
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD WIDTH="20%"><B>Timestamp</B></TD>
+                                                        <TD WIDTH="80%"><fmt:formatDate value="${date}" type="both" dateStyle="long" timeStyle="long" />
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD WIDTH="20%"><B>Action</B></TD>
+                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.forward.request_uri']}" />
+                                                        </TD>
+                                                    </TR>
+                                                    <TR>
+                                                        <TD WIDTH="20%"><B>User agent</B></TD>
+                                                        <TD WIDTH="80%"><c:out value="${header['user-agent']}" />
                                                         </TD>
                                                     </TR>
                                                 </TABLE>
-
-                                                <hr>
-                                                    <%--<b> Header List </b>--%>
-                                                    <%--<table border=3>--%>
-                                                    <%--<tr>--%>
-                                                    <%--<td>Name</td>--%>
-                                                    <%--<td>Value</td>--%>
-                                                    <%--</tr>--%>
-                                                    <%--<%--%>
-                                                    <%--String name = "";--%>
-                                                    <%--String value = "";--%>
-
-                                                    <%--java.util.Enumeration headers = request.getHeaderNames();--%>
-                                                    <%--while (headers.hasMoreElements()) {--%>
-                                                    <%--name = (String) headers.nextElement();--%>
-                                                    <%--value = request.getHeader(name);--%>
-                                                    <%--%>--%>
-                                                    <%--<tr>--%>
-                                                    <%--<td><%=name%>--%>
-                                                    <%--</td>--%>
-                                                    <%--<td><%=value%>--%>
-                                                    <%--</td>--%>
-                                                    <%--</tr>--%>
-                                                    <%--<%--%>
-                                                    <%--}--%>
-                                                    <%--%>--%>
-                                                    <%--</table>--%>
-
-                                                    <%--<hr>--%>
-                                                    <%--<b>Attribute List:</b>--%>
-
-                                                    <%--<table border=3>--%>
-                                                    <%--<%--%>
-                                                    <%--java.util.Enumeration attributes = request.getAttributeNames();--%>
-                                                    <%--while (attributes.hasMoreElements()) {--%>
-                                                    <%--name = (String) attributes.nextElement();--%>
-
-                                                    <%--if (request.getAttribute(name) == null) {--%>
-                                                    <%--value = "null";--%>
-                                                    <%--} else {--%>
-                                                    <%--value = request.getAttribute(name).toString();--%>
-                                                    <%--}--%>
-                                                    <%--%>--%>
-                                                    <%--<tr>--%>
-                                                    <%--<td><%=name%>--%>
-                                                    <%--</td>--%>
-                                                    <%--<td><%=value%>--%>
-                                                    <%--</td>--%>
-                                                    <%--</tr>--%>
-                                                    <%--<%--%>
-                                                    <%--}--%>
-                                                    <%--%>--%>
-                                                    <%--</table>--%>
-
+                                                
+                                                <br />
                                             </div>
                                         </div>
                                     </div>
