@@ -213,8 +213,9 @@
 
         <mkdir dir="${ivy.jar.dir}"/>
         <echo message="Downloading IVY....."/>
-    	<get src="https://ncimvn.nci.nih.gov/nexus/content/repositories/apache-releases/org/apache/ivy/ivy/2.0.0-beta2/ivy-2.0.0-beta2.jar" dest="${ivy.jar.dir}/ivy.jar"/>
-        <path id="ivy.lib.path">
+    	<!--<get src="https://ncimvn.nci.nih.gov/nexus/content/repositories/apache-releases/org/apache/ivy/ivy/2.0.0-beta2/ivy-2.0.0-beta2.jar" dest="${ivy.jar.dir}/ivy.jar"/>-->
+    	<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0-beta1/ivy-2.0.0-beta1.jar" dest="${ivy.jar.dir}/ivy.jar"/>
+    	<path id="ivy.lib.path">
             <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
@@ -238,7 +239,7 @@
               =======================================================-->
     <target name="load-online-settings" if="online">
         <echo message="Going for online settings"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ivy.instance" override="true"/>
+        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ivy.instance" />
         <property name="loaded.ivy.settings" value="true"/>
     </target>
     <target name="load-offline-settings" unless="loaded.ivy.settings">
