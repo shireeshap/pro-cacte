@@ -247,7 +247,7 @@
                 <div id="error"></div>
             </div>
         </div>
-        <div style="padding-left:140px">
+        <div style="padding-left:145px">
             <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
         </div>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
