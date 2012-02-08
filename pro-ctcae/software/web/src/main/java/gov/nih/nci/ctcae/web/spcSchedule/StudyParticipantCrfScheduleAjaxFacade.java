@@ -27,9 +27,13 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         if (status.equals(CrfStatus.PASTDUE)) {
             spcsQuery.filterByUsernameOnly(userName);
             spcsQuery.filterByStatus(status);
-        } else {
+        } else if (status.equals(CrfStatus.INPROGRESS)){
             spcsQuery.filterByUsername(userName);
             spcsQuery.filterByDate(current);
+        } else {
+            spcsQuery.filterByUsername(userName);
+            spcsQuery.filterByStatus(CrfStatus.SCHEDULED);
+            spcsQuery.filterByGreaterDate(current);
         }
 
         List<StudyParticipantCrfSchedule> schedules = (List<StudyParticipantCrfSchedule>) spcsRepository.find(spcsQuery);
@@ -42,8 +46,11 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         spcsQuery.filterByUsername(userName);
         if (!status.equals(CrfStatus.PASTDUE)) {
             spcsQuery.filterByDate(current);
-        } else {
+        } else if (status.equals(CrfStatus.INPROGRESS)){
             spcsQuery.filterByStatus(status);
+        } else {
+            spcsQuery.filterByStatus(CrfStatus.SCHEDULED);
+            spcsQuery.filterByGreaterDate(current);
         }
         return spcsRepository.findWithCount(spcsQuery);
     }

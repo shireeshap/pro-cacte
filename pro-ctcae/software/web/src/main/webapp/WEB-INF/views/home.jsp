@@ -408,9 +408,9 @@ var myOverdueFormsDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:100},
-            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
-            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:150},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:150},
+            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:150},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
             {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100}
         ];
@@ -473,6 +473,78 @@ YAHOO.util.Event.addListener(window, "load", function() {
         };
     }();
 });
+
+var myUpcomingFormsDataTable;
+YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.Basic = function() {
+        var myColumnDefs = [
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:150},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:150},
+            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:150},
+            {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100}
+        ];
+
+        var myUpcomingFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchUpcomingForms?");
+        myUpcomingFormsDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+        myUpcomingFormsDataSource.responseSchema = {
+            resultsList: "shippedRecordSet.searchScheduleDTOs",
+            fields: ["participantName", "studyTitle", "formTitle", "status", "dueDate", "actions"],
+            metaFields: {
+                totalRecords: "shippedRecordSet.totalRecords",
+                startIndex: "shippedRecordSet.startIndex"
+            }
+        };
+
+        // Customize request sent to server to be able to set total # of records
+        var generateRequest = function(oState, oSelf) {
+            // Get states or use defaults
+            oState = oState || { pagination: null, sortedBy: null };
+            var sort = (oState.sortedBy) ? oState.sortedBy.key : "dueDate";
+            var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+            var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+            var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+            // Build custom request
+            return  "sort=" + sort +
+                    "&dir=" + dir +
+                    "&startIndex=" + startIndex +
+                    "&results=" + (startIndex + results)
+        };
+
+        // DataTable configuration
+        var myConfigs = {
+            generateRequest: generateRequest,
+            initialRequest: generateRequest(), // Initial request for first page of data
+            dynamicData: true, // Enables dynamic server-driven data
+            sortedBy : {key:"dueDate", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+            paginator: new YAHOO.widget.Paginator({
+                rowsPerPage:5,
+                template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+                rowsPerPageOptions: [5,10,25],
+                containers  : 'pagUpcomingForms'
+            }), // Enables pagination
+            draggableColumns:true
+        };
+
+        myUpcomingFormsDataTable = new YAHOO.widget.DataTable("basicUpcomingForms", myColumnDefs, myUpcomingFormsDataSource, myConfigs);
+        myUpcomingFormsDataTable.subscribe("rowClickEvent", myUpcomingFormsDataTable.onEventSelectRow);
+        myUpcomingFormsDataTable.subscribe("rowMouseoverEvent", myUpcomingFormsDataTable.onEventHighlightRow);
+        myUpcomingFormsDataTable.subscribe("rowMouseoutEvent", myUpcomingFormsDataTable.onEventUnhighlightRow);
+        // Update totalRecords on the fly with values from server
+        myUpcomingFormsDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+            oPayload.totalRecords = oResponse.meta.totalRecords;
+            oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+            return oPayload;
+        };
+
+        return {
+            oDS: myUpcomingFormsDataSource,
+            oDT: myUpcomingFormsDataTable
+        };
+    }();
+});
+
+
 
 </script>
 </head>
@@ -792,99 +864,118 @@ YAHOO.util.Event.addListener(window, "load", function() {
         </c:if>
     </td>
 </tr>
-
 <tr>
     <td>
         <c:if test="${siteLevelRole}">
-            <chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">
-                <c:choose>
-                    <c:when test="${empty overdue}">
-                        <div style="margin-left:15px;">
-                            You have no upcoming schedule.
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div id="alertsdiv">
-                            <table class="widget" cellpadding="5px;">
-                                <tr>
-                                    <td class="header-top1" width="15%" style="text-align:left">
-                                        Participant
-                                    </td>
-                                    <td class="header-top1" width="45%" style="text-align:left">
-                                        Study
-                                    </td>
-                                    <td class="header-top1" width="20%" style="text-align:left">
-                                        Form title
-                                    </td>
-                                    <td class="header-top1" width="10%" style="text-align:left">
-                                        Start date
-                                    </td>
-                                    <td class="header-top1" width="10%" style="text-align:left">
-                                        Due date
-                                    </td>
-                                </tr>
-                                <c:forEach items="${upcoming}" var="schedule">
-                                    <tr>
-                                        <td style="text-align:left" width="15%">
-                                            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                                                <a href="participant/schedulecrf?sid=${schedule.id}"
-                                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                                            </proctcae:urlAuthorize>
-                                        </td>
-                                        <td style="text-align:left" width="45%">
-                                            <c:choose>
-                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
-                                                            ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td style="text-align:left" width="20%">
-                                            <c:choose>
-                                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                                    <div title="${schedule.studyParticipantCrf.crf.title}">
-                                                            ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${schedule.studyParticipantCrf.crf.title}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td style="text-align:left" width="10%">
-                                            <tags:formatDate value="${schedule.startDate}"/>
-                                        </td>
-                                        <td style="text-align:left" width="10%">
-                                            <tags:formatDate value="${schedule.dueDate}"/>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                <tr align="right">
-                                    <c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">
-                                        <td colspan="5">
-                                            <A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>
-                                        </td>
-                                    </c:if>
-                                    <c:if test="${loadUpcoming eq 'all'}">
-                                        <td colspan="5">
-                                            <A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>
-                                        </td>
-                                    </c:if>
-                                </tr>
-                            </table>
-                            <br/>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-                <br/>
+            <chrome:box title="Upcoming forms" collapsable="true" id="upcomingforms" collapsed="false">
+                <div class="yui-skin-sam">
+                    <table width="100%">
+                        <tr>
+                            <td width="68%">
+                                <div id="pagUpcomingForms"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="basicUpcomingForms">
+                    </div>
+                </div>
             </chrome:box>
         </c:if>
     </td>
 </tr>
+
+<%--<tr>--%>
+    <%--<td>--%>
+        <%--<c:if test="${siteLevelRole}">--%>
+            <%--<chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">--%>
+                <%--<c:choose>--%>
+                    <%--<c:when test="${empty overdue}">--%>
+                        <%--<div style="margin-left:15px;">--%>
+                            <%--You have no upcoming schedule.--%>
+                        <%--</div>--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
+                        <%--<div id="alertsdiv">--%>
+                            <%--<table class="widget" cellpadding="5px;">--%>
+                                <%--<tr>--%>
+                                    <%--<td class="header-top1" width="15%" style="text-align:left">--%>
+                                        <%--Participant--%>
+                                    <%--</td>--%>
+                                    <%--<td class="header-top1" width="45%" style="text-align:left">--%>
+                                        <%--Study--%>
+                                    <%--</td>--%>
+                                    <%--<td class="header-top1" width="20%" style="text-align:left">--%>
+                                        <%--Form title--%>
+                                    <%--</td>--%>
+                                    <%--<td class="header-top1" width="10%" style="text-align:left">--%>
+                                        <%--Start date--%>
+                                    <%--</td>--%>
+                                    <%--<td class="header-top1" width="10%" style="text-align:left">--%>
+                                        <%--Due date--%>
+                                    <%--</td>--%>
+                                <%--</tr>--%>
+                                <%--<c:forEach items="${upcoming}" var="schedule">--%>
+                                    <%--<tr>--%>
+                                        <%--<td style="text-align:left" width="15%">--%>
+                                            <%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
+                                                <%--<a href="participant/schedulecrf?sid=${schedule.id}"--%>
+                                                   <%--class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>--%>
+                                            <%--</proctcae:urlAuthorize>--%>
+                                        <%--</td>--%>
+                                        <%--<td style="text-align:left" width="45%">--%>
+                                            <%--<c:choose>--%>
+                                                <%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">--%>
+                                                    <%--<div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">--%>
+                                                            <%--${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...--%>
+                                                    <%--</div>--%>
+                                                <%--</c:when>--%>
+                                                <%--<c:otherwise>--%>
+                                                    <%--${schedule.studyParticipantCrf.crf.study.shortTitle}--%>
+                                                <%--</c:otherwise>--%>
+                                            <%--</c:choose>--%>
+                                        <%--</td>--%>
+                                        <%--<td style="text-align:left" width="20%">--%>
+                                            <%--<c:choose>--%>
+                                                <%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">--%>
+                                                    <%--<div title="${schedule.studyParticipantCrf.crf.title}">--%>
+                                                            <%--${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...--%>
+                                                    <%--</div>--%>
+                                                <%--</c:when>--%>
+                                                <%--<c:otherwise>--%>
+                                                    <%--${schedule.studyParticipantCrf.crf.title}--%>
+                                                <%--</c:otherwise>--%>
+                                            <%--</c:choose>--%>
+                                        <%--</td>--%>
+                                        <%--<td style="text-align:left" width="10%">--%>
+                                            <%--<tags:formatDate value="${schedule.startDate}"/>--%>
+                                        <%--</td>--%>
+                                        <%--<td style="text-align:left" width="10%">--%>
+                                            <%--<tags:formatDate value="${schedule.dueDate}"/>--%>
+                                        <%--</td>--%>
+                                    <%--</tr>--%>
+                                <%--</c:forEach>--%>
+                                <%--<tr align="right">--%>
+                                    <%--<c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">--%>
+                                        <%--<td colspan="5">--%>
+                                            <%--<A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>--%>
+                                        <%--</td>--%>
+                                    <%--</c:if>--%>
+                                    <%--<c:if test="${loadUpcoming eq 'all'}">--%>
+                                        <%--<td colspan="5">--%>
+                                            <%--<A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>--%>
+                                        <%--</td>--%>
+                                    <%--</c:if>--%>
+                                <%--</tr>--%>
+                            <%--</table>--%>
+                            <%--<br/>--%>
+                        <%--</div>--%>
+                    <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
+                <%--<br/>--%>
+            <%--</chrome:box>--%>
+        <%--</c:if>--%>
+    <%--</td>--%>
+<%--</tr>--%>
 </table>
 
 
