@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +28,9 @@ public class FetchOverdueFormsController extends AbstractController {
         String results = request.getParameter("results");
         String sort = request.getParameter("sort");
         String dir = request.getParameter("dir");
-
-        List<StudyParticipantCrfSchedule> overdueSchedules = spcsFacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.PASTDUE);
-        Long totalRecords = spcsFacade.resultCount(CrfStatus.PASTDUE);
+        Date current = new Date();
+        List<StudyParticipantCrfSchedule> overdueSchedules = spcsFacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.PASTDUE, current);
+        Long totalRecords = spcsFacade.resultCount(CrfStatus.PASTDUE, current);
         SearchScheduleWrapper searchOverdueScheduleWrapper = new SearchScheduleWrapper();
         searchOverdueScheduleWrapper.setTotalRecords(totalRecords);
         searchOverdueScheduleWrapper.setRecordsReturned(25);

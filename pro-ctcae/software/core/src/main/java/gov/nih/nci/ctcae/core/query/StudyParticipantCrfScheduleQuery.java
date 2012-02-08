@@ -69,6 +69,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         setParameter("endDate", endDate);
     }
 
+    public void filterByDate(Date current) {
+        andWhere(":current between spcs.startDate and spcs.dueDate");
+        setParameter("current",current);
+    }
+
     public void filterByStatus(CrfStatus status) {
         andWhere("spcs.status =:status");
         setParameter("status", status);

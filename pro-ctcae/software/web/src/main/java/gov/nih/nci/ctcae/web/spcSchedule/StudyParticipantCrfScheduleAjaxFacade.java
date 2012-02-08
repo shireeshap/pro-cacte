@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import org.springframework.security.context.SecurityContextHolder;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
 public class StudyParticipantCrfScheduleAjaxFacade {
     private StudyParticipantCrfScheduleRepository spcsRepository;
 
-    public List<StudyParticipantCrfSchedule> searchSchedules(Integer startIndex, Integer results, String sortField, String direction, CrfStatus status) {
+    public List<StudyParticipantCrfSchedule> searchSchedules(Integer startIndex, Integer results, String sortField, String direction, CrfStatus status, Date current) {
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
         spcsQuery.setFirstResult(startIndex);
         spcsQuery.setMaximumResults(results);
@@ -25,19 +26,25 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (status.equals(CrfStatus.PASTDUE)) {
             spcsQuery.filterByUsernameOnly(userName);
+            spcsQuery.filterByStatus(status);
         } else {
             spcsQuery.filterByUsername(userName);
+            spcsQuery.filterByDate(current);
         }
-        spcsQuery.filterByStatus(status);
+
         List<StudyParticipantCrfSchedule> schedules = (List<StudyParticipantCrfSchedule>) spcsRepository.find(spcsQuery);
         return schedules;
     }
 
-    public Long resultCount(CrfStatus status) {
+    public Long resultCount(CrfStatus status, Date current) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery(true);
         spcsQuery.filterByUsername(userName);
-        spcsQuery.filterByStatus(status);
+        if (!status.equals(CrfStatus.PASTDUE)) {
+            spcsQuery.filterByDate(current);
+        } else {
+            spcsQuery.filterByStatus(status);
+        }
         return spcsRepository.findWithCount(spcsQuery);
     }
 

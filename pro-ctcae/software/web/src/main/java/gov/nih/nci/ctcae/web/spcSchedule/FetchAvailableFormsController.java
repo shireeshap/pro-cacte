@@ -24,16 +24,11 @@ public class FetchAvailableFormsController extends AbstractController {
         String results = request.getParameter("results");
         String sort = request.getParameter("sort");
         String dir = request.getParameter("dir");
-        Date todaysDate = new Date();
-        List<StudyParticipantCrfSchedule> availableSchedules = new ArrayList();
-        List<StudyParticipantCrfSchedule> availableSchedules1 = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.SCHEDULED);
-        for (StudyParticipantCrfSchedule spcs : availableSchedules1) {
-             if(spcs.getStartDate().getTime()<=todaysDate.getTime()) {
-                    availableSchedules.add(spcs);
-             }
-        }
+        Date todaysDate = DateUtils.getCurrentDate();
 
-        Long totalRecords = spcsfacade.resultCount(CrfStatus.SCHEDULED);
+        List<StudyParticipantCrfSchedule> availableSchedules = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.SCHEDULED, todaysDate);
+
+        Long totalRecords = spcsfacade.resultCount(CrfStatus.SCHEDULED, todaysDate);
         SearchScheduleWrapper searchScheduleWrapper = new SearchScheduleWrapper();
         searchScheduleWrapper.setTotalRecords(totalRecords);
         searchScheduleWrapper.setRecordsReturned(25);
