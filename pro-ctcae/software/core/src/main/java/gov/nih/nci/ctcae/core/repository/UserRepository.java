@@ -1,15 +1,7 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
@@ -307,9 +299,16 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     public List<User> find(UserQuery query) {
         return genericRepository.find(query);
-
-
     }
+
+    public List<UserNotification> findNotificationForUser(UserQuery query) {
+        return genericRepository.find(query);
+    }
+
+    public Long findWithCount(UserQuery query) {
+           return genericRepository.findWithCount(query);
+       }
+
 
     public Collection<User> getByRole(Role role) {
         UserQuery userQuery = new UserQuery();

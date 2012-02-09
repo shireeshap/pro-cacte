@@ -2857,6 +2857,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthoriza
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/RemoveAlertController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchAlertsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchAvailableFormsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchOverdueFormsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchUpcomingFormsController.java -text
@@ -2889,6 +2890,9 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormat
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/FormTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/UserAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/software/web/src/main/resources/MedDRA12_symptoms_ES_prelim.csv -text

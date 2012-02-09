@@ -24,6 +24,11 @@
         <property name="spcsRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
+    <bean id="userAjaxFacade"
+          class="gov.nih.nci.ctcae.web.user.UserAjaxFacade">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
     <bean id="clinicalStaffAjaxFacade"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffAjaxFacade">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>

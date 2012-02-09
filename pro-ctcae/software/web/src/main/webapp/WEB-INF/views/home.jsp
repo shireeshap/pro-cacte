@@ -149,7 +149,7 @@ function showMessage(id) {
     var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
         parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
         onComplete:function(transport) {
-            $('tr_' + id).removeClassName('bold');
+//            $('tr_' + id).removeClassName('bold');
             showConfirmationWindow(transport, 700, 500);
         },
         method:'get'
@@ -261,6 +261,76 @@ YAHOO.util.Event.addListener(window, "load", function() {
         };
     }();
 });
+
+var myAlertsDataTable;
+YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.Basic = function() {
+        var myColumnDefs = [
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:212},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:250},
+            {key:"date", label:"Date", formatter:"date", sortable:true, resizeable:false, width:100},
+			{key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+        ];
+
+        var myAlertsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchAlerts?");
+        myAlertsDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+        myAlertsDataSource.responseSchema = {
+            resultsList: "shippedRecordSet.searchNotificationDTOs",
+            fields: ["participantName", "studyTitle", "date", "actions"],
+            metaFields: {
+                totalRecords: "shippedRecordSet.totalRecords",
+                startIndex: "shippedRecordSet.startIndex"
+            }
+        };
+
+        // Customize request sent to server to be able to set total # of records
+        var generateRequest = function(oState, oSelf) {
+            // Get states or use defaults
+            oState = oState || { pagination: null, sortedBy: null };
+            var sort = (oState.sortedBy) ? oState.sortedBy.key : "date";
+            var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+            var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+            var results = (oState.pagination) ? oState.pagination.rowsPerPage : 25;
+            // Build custom request
+            return  "sort=" + sort +
+                    "&dir=" + dir +
+                    "&startIndex=" + startIndex +
+                    "&results=" + (startIndex + results)
+        };
+
+        // DataTable configuration
+        var myConfigs = {
+            generateRequest: generateRequest,
+            initialRequest: generateRequest(), // Initial request for first page of data
+            dynamicData: true, // Enables dynamic server-driven data
+            sortedBy : {key:"date", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
+            paginator: new YAHOO.widget.Paginator({
+                rowsPerPage:5,
+                template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
+                rowsPerPageOptions: [5,10,25],
+                containers  : 'pagAlerts'
+            }), // Enables pagination
+            draggableColumns:true
+        };
+
+        myAlertsDataTable = new YAHOO.widget.DataTable("basicAlerts", myColumnDefs, myAlertsDataSource, myConfigs);
+        myAlertsDataTable.subscribe("rowClickEvent", myAlertsDataTable.onEventSelectRow);
+        myAlertsDataTable.subscribe("rowMouseoverEvent", myAlertsDataTable.onEventHighlightRow);
+        myAlertsDataTable.subscribe("rowMouseoutEvent", myAlertsDataTable.onEventUnhighlightRow);
+        // Update totalRecords on the fly with values from server
+        myAlertsDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+            oPayload.totalRecords = oResponse.meta.totalRecords;
+            oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+            return oPayload;
+        };
+
+        return {
+            oDS: myAlertsDataSource,
+            oDT: myAlertsDataTable
+        };
+    }();
+});
+
 
 var myStudyDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
@@ -560,78 +630,91 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <td width="80%" valign="top">
 
     <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
-        <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">
-            <c:choose>
-                <c:when test="${empty numberofalerts}">
-                    <div style="margin-left:15px;">
-                        You have no alerts.
+        <%--<chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">--%>
+            <%--<c:choose>--%>
+                <%--<c:when test="${empty numberofalerts}">--%>
+                    <%--<div style="margin-left:15px;">--%>
+                        <%--You have no alerts.--%>
+                    <%--</div>--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+                    <%--<div id="alertsdiv">--%>
+                        <%--<table class="widget" cellpadding="3px;" width="100%">--%>
+                            <%--<tr>--%>
+                                <%--<td class="header-top1">--%>
+                                    <%--Date--%>
+                                <%--</td>--%>
+                                <%--<td class="header-top1">--%>
+                                    <%--Participant--%>
+                                <%--</td>--%>
+                                <%--<td class="header-top1">--%>
+                                    <%--Study--%>
+                                <%--</td>--%>
+                                <%--<td class="header-top1">--%>
+                                <%--</td>--%>
+                            <%--</tr>--%>
+                            <%--<c:forEach items="${notifications}" var="usernotification">--%>
+                                <%--<c:if test="${!usernotification.markDelete}">--%>
+                                    <%--<tr id="tr_${usernotification.id}"--%>
+                                            <%--<c:if test="${usernotification.new}">--%>
+                                                <%--class="bold"--%>
+                                            <%--</c:if>--%>
+                                        <%--<td>--%>
+                                            <%--<a class="link"--%>
+                                               <%--href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate--%>
+                                                    <%--value="${usernotification.notification.date}"/></a>--%>
+                                        <%--</td>--%>
+                                        <%--<td style="text-align:left">--%>
+                                            <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
+                                            <%--<a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"--%>
+                                               <%--class="link">--%>
+                                                <%--</proctcae:urlAuthorize>--%>
+                                                    <%--${usernotification.participant.displayName}--%>
+                                                <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
+                                            <%--</a>--%>
+                                            <%--</proctcae:urlAuthorize>--%>
+                                        <%--</td>--%>
+                                        <%--<td>--%>
+                                            <%--<c:choose>--%>
+                                                <%--<c:when test="${fn:length(usernotification.study.shortTitle) > dl}">--%>
+                                                    <%--<div title="${usernotification.study.shortTitle}">--%>
+                                                            <%--${fn:substring(usernotification.study.shortTitle,0,dl)}...--%>
+                                                    <%--</div>--%>
+                                                <%--</c:when>--%>
+                                                <%--<c:otherwise>--%>
+                                                    <%--${usernotification.study.shortTitle}--%>
+                                                <%--</c:otherwise>--%>
+                                            <%--</c:choose>--%>
+                                        <%--</td>--%>
+                                        <%--<td>--%>
+                                            <%--<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"--%>
+                                               <%--id="alertActions${usernotification.id}"><span--%>
+                                                    <%--class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>--%>
+                                            <%--<script>--%>
+                                                <%--showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');--%>
+                                            <%--</script>--%>
+                                        <%--</td>--%>
+                                    <%--</tr>--%>
+                                <%--</c:if>--%>
+                            <%--</c:forEach>--%>
+                        <%--</table>--%>
+                    <%--</div>--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+        <%--</chrome:box>--%>
+            <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">
+                <div class="yui-skin-sam">
+                    <table width="100%">
+                        <tr>
+                            <td width="68%">
+                                <div id="pagAlerts"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="basicAlerts">
                     </div>
-                </c:when>
-                <c:otherwise>
-                    <div id="alertsdiv">
-                        <table class="widget" cellpadding="3px;" width="100%">
-                            <tr>
-                                <td class="header-top1">
-                                    Date
-                                </td>
-                                <td class="header-top1">
-                                    Participant
-                                </td>
-                                <td class="header-top1">
-                                    Study
-                                </td>
-                                <td class="header-top1">
-                                </td>
-                            </tr>
-                            <c:forEach items="${notifications}" var="usernotification">
-                                <c:if test="${!usernotification.markDelete}">
-                                    <tr id="tr_${usernotification.id}"
-                                            <c:if test="${usernotification.new}">
-                                                class="bold"
-                                            </c:if>>
-                                        <td>
-                                            <a class="link"
-                                               href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                                    value="${usernotification.notification.date}"/></a>
-                                        </td>
-                                        <td style="text-align:left">
-                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                            <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                               class="link">
-                                                </proctcae:urlAuthorize>
-                                                    ${usernotification.participant.displayName}
-                                                <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                            </a>
-                                            </proctcae:urlAuthorize>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                                    <div title="${usernotification.study.shortTitle}">
-                                                            ${fn:substring(usernotification.study.shortTitle,0,dl)}...
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${usernotification.study.shortTitle}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                               id="alertActions${usernotification.id}"><span
-                                                    class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                            <script>
-                                                showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
-                                            </script>
-                                        </td>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
-                        </table>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-        </chrome:box>
+                </div>
+            </chrome:box>
     </c:if>
 
 </td>

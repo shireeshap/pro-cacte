@@ -372,6 +372,11 @@
           class="gov.nih.nci.ctcae.web.spcSchedule.FetchUpcomingFormsController">
         <property name="spcsfacade" ref="studyParticipantCrfScheduleAjaxFacade"/>
     </bean>
+
+    <bean name="/spcSchedule/fetchAlerts" id="fetchAlertsController"
+          class="gov.nih.nci.ctcae.web.spcSchedule.FetchAlertsController">
+        <property name="userAjaxFacade" ref="userAjaxFacade"/>
+    </bean>
     
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
