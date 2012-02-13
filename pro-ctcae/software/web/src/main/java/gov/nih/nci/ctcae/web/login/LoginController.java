@@ -96,7 +96,6 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
-//        user = userRepository.findById(user.getId());
         user.setNumberOfAttempts(0);
         user.setAccountNonExpired(true);
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
@@ -152,7 +151,6 @@ public class LoginController extends AbstractController {
         mv.addObject("studyLevelRole", studyLevelRole);
         mv.addObject("nurseLevelRole", nurseLevelRole);
         mv.addObject("odc", odc);
-//        mv.addObject("notifications", getNotifications(user));
         mv.addObject("loadUpcoming", loadUpcoming);
         mv.addObject("loadOverdue", loadOverdue);
         
