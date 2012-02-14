@@ -170,14 +170,14 @@ function deleteMsg(id, uuid) {
         var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
             parameters:<tags:ajaxstandardparams/>+"&uuid=" + uuid,
             onComplete:function(transport) {
-                updateTable();
+                updateAlertsTable();
             },
             method:'get'
         })
     }
 }
 
-function updateTable(){
+function updateAlertsTable(){
       sortState = myAlertsDataTable.getState().sortedBy;
       var sort = sortState ? sortState.key : "id";
       var dir = sortState ? sortState.dir : "yui-dt-desc";
