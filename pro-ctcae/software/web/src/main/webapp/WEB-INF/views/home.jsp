@@ -170,12 +170,20 @@ function deleteMsg(id, uuid) {
         var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
             parameters:<tags:ajaxstandardparams/>+"&uuid=" + uuid,
             onComplete:function(transport) {
-                $('tr_' + id).remove();
+                updateTable();
             },
             method:'get'
         })
     }
 }
+
+function updateTable(){
+      sortState = myAlertsDataTable.getState().sortedBy;
+      var sort = sortState ? sortState.key : "id";
+      var dir = sortState ? sortState.dir : "yui-dt-desc";
+      myAlertsDataTable.sortColumn(myAlertsDataTable.getColumn(sort),dir);
+   };
+
 
 jQuery("td.quickLinkBGon").mouseover(function() {
     jQuery(this).removeClass('quickLinkBGon');

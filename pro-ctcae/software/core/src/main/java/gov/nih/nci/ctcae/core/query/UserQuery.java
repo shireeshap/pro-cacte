@@ -19,6 +19,7 @@ public class UserQuery extends AbstractQuery {
     private static String USER_NAME = "username";
     private static String ROLE = "role";
     private static String TOKEN = "token";
+    private static String MARK_DELETE = "markDelete";
 
     public UserQuery() {
         super(queryString);
@@ -63,6 +64,8 @@ public class UserQuery extends AbstractQuery {
 
     public void filterNotificationByUserName(final String userName) {
         andWhere("LOWER(un.user.username) = :" + USER_NAME);
+        andWhere("un.markDelete = :" + MARK_DELETE);
         setParameter(USER_NAME, userName.toLowerCase());
+        setParameter(MARK_DELETE, false);
     }
 }

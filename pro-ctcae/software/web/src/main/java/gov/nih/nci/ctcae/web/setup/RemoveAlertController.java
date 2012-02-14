@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class RemoveAlertController extends AbstractController {
             un.setMarkDelete(true);
             genericRepository.save(un);
         }
-        return new ModelAndView("/public/alertremoved");
+        return new ModelAndView(new RedirectView("/proctcae/pages/home"));
     }
 
 
