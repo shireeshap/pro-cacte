@@ -177,6 +177,25 @@ function deleteMsg(id, uuid) {
     }
 }
 
+function removeOverdueSchedule (id) {
+    if (id!='') {
+        var request = new Ajax.Request("<c:url value="/public/removeOverdue"/>", {
+           parameters:<tags:ajaxstandardparams/>+"&sid=" + id,
+            onComplete:function(transport) {
+                updateOverdueTable();
+            },
+            method:'get'
+        })
+    }
+}
+
+function updateOverdueTable(){
+      sortState = myOverdueFormsDataTable.getState().sortedBy;
+      var sort = sortState ? sortState.key : "id";
+      var dir = sortState ? sortState.dir : "yui-dt-desc";
+      myOverdueFormsDataTable.sortColumn(myOverdueFormsDataTable.getColumn(sort),dir);
+}
+
 function updateAlertsTable(){
       sortState = myAlertsDataTable.getState().sortedBy;
       var sort = sortState ? sortState.key : "id";
@@ -486,18 +505,19 @@ var myOverdueFormsDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:150},
-            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:150},
-            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:150},
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:100},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
+            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100}
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100},
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
         ];
 
         var myOverdueFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchOverdueForms?");
         myOverdueFormsDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
         myOverdueFormsDataSource.responseSchema = {
             resultsList: "shippedRecordSet.searchScheduleDTOs",
-            fields: ["participantName", "studyTitle", "formTitle", "status", "dueDate"],
+            fields: ["participantName", "studyTitle", "formTitle", "status", "dueDate", "actions"],
             metaFields: {
                 totalRecords: "shippedRecordSet.totalRecords",
                 startIndex: "shippedRecordSet.startIndex"

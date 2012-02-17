@@ -86,6 +86,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     @Column(name = "verbatim", nullable = true)
     private String verbatim;
 
+    @Column(name = "mark_delete", nullable = false)
+    private boolean markDelete = false;
 
     /**
      * The study participant crf.
@@ -165,6 +167,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
 
     public void setVerbatim(String verbatim) {
         this.verbatim = verbatim;
+    }
+
+    public boolean isMarkDelete() {
+        return markDelete;
+    }
+
+    public void setMarkDelete(boolean markDelete) {
+        this.markDelete = markDelete;
     }
 
     /**

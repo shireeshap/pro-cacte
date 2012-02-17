@@ -194,6 +194,24 @@ function showPopUpMenuAlerts(uid, spcrfid, uuid, pid) {
     });
 }
 
+function showPopUpMenuOverdue(spcrfid) {
+    var html = '<div id="search-engines"><ul>';
+    html += '<li><a href="#" onclick="javascript:removeOverdueSchedule(' + spcrfid + ')">Clear</a></li>';
+    html += '</ul></div>';
+    jQuery('#overdueActions' +spcrfid).menu({
+        content: html,
+        maxHeight: 180,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+        },
+        showSpeed: 300
+    });
+}
+
 function showPopUpMenuSpcs(sid, pid, formName) {
     var html = '<div id="search-engines"><ul>';
 <proctcae:urlAuthorize url="/pages/participant/schedulecrf">

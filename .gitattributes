@@ -2291,6 +2291,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/045_update_study_s
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/046_add_study_participant_assignment_access_column.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/047_update_spcs.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/048_update_scra_privilege.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/049_update_spcs.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
@@ -2861,6 +2862,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchAler
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchAvailableFormsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchOverdueFormsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/FetchUpcomingFormsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/RemoveOverdueScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/StudyParticipantCrfScheduleAjaxFacade.java -text

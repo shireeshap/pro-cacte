@@ -90,6 +90,10 @@
           class="gov.nih.nci.ctcae.web.setup.RemoveAlertController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/removeOverdue" id="removeOverdueScheduleController"
+          class="gov.nih.nci.ctcae.web.spcSchedule.RemoveOverdueScheduleController">
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+    </bean>
     <bean name="/failedLogin" id="failedLoginController"
           class="gov.nih.nci.ctcae.web.login.FailedAuthenticationController">
         <property name="userRepository" ref="userRepository"/>

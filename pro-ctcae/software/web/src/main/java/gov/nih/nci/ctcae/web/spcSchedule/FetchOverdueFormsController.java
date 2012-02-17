@@ -51,6 +51,13 @@ public class FetchOverdueFormsController extends AbstractController {
             dto.setFormTitle(spcs.getStudyParticipantCrf().getCrf().getTitle());
             dto.setStudyTitle(spcs.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy().getShortTitle());
             dto.setParticipantName(spcs.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName());
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='overdueActions"
+                                + spcs.getId() + "'"
+                                + " onclick=\"javascript:showPopUpMenuOverdue('"
+                                + spcs.getId()
+                                + "');\">"
+                                + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+            dto.setActions(actions);
             searchOverdueScheduleWrapper.getSearchScheduleDTOs()[index] = dto;
             index++;
         }
