@@ -71,16 +71,17 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
 
     <jsp:attribute name="singleFields">
-         <%--<chrome:division title="Study details">--%>
-        <div class="row">
-            <div class="label"><spring:message code="form.label.study"/></div>
-            <div class="value">${command.study.shortTitle} </div>
-        </div>
-        <div class="row">
-            <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
-            <div class="value">${command.study.assignedIdentifier} </div>
-        </div>
-    <%--</chrome:division>--%>
+         <chrome:division title="Study">
+             <div class="row">
+                 <div class="label"><spring:message code="form.label.study"/></div>
+                 <div class="value">${command.study.shortTitle} </div>
+             </div>
+             <div class="row">
+                 <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
+                 <div class="value">${command.study.assignedIdentifier} </div>
+             </div>
+         </chrome:division>
+        <chrome:division title="Sites">
             <tags:instructions code="study.study_sites.top"/>
             <div align="left" style="margin-left: 50px">
                 <table width="75%" class="tablecontent" style="display:none;" id="studySiteTable">
@@ -107,6 +108,7 @@
                                  value="study.button.add_study_site" icon="add" size="small"/>
                 </div>
             </div>
+        </chrome:division>
     </jsp:attribute>
 </tags:tabForm>
 
