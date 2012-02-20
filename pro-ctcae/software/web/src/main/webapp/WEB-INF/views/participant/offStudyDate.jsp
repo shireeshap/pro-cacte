@@ -22,12 +22,12 @@
                     <img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!"
                          style="float:left; margin-right:30px; margin-left:55px;"/>
 
-                    <div style="font-size:20px; margin-bottom:5px;">Are you sure you want to do this?</div>
-                    <div>Taking the participant off of treatment is irreversible!</div>
+                    <div style="font-size:20px; margin-bottom:5px;"><spring:message code='participant.offStudy'/></div>
+                    <div><spring:message code='participant.offStudy1'/></div>
                 </div>
                 <p>
-                    Please provide the date on which participant <strong>${command.participant.displayName}</strong>
-                    will be taken off treatment.
+                    <spring:message code='participant.offStudy2'/> <strong>${command.participant.displayName}</strong>
+                    <spring:message code='participant.offStudy3'/>
                     <tags:renderDate propertyName="offTreatmentDate"
                                      displayName="participant.label.off_study_date" required="true"/>
                 </p>
@@ -35,13 +35,13 @@
             </div>
 
             <div class="flow-buttons">
-
+                 <spring:message code="participant.button.assignDate" var="assignDate"/>
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="Assign Date" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('offTreatmentDate').value,document.forms[0])"/>
+                             cssClass="next" value="${assignDate}" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('offTreatmentDate').value,document.forms[0])"/>
 
-
+                 <spring:message code="participant.button.cancel" var="cancel"/>
                 <tags:button type="button" id="flow-cancel"
-                             cssClass="previous ibutton" value="Cancel" icon="x" color="red"
+                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red"
                              onclick="closeWindow()"/>
             </div>
 
