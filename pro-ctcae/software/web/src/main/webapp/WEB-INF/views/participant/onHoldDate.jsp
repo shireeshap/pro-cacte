@@ -19,11 +19,10 @@
 
             <div id="offTreatment">
                 <div >
-                    <div>Putting the participant on hold will put all the future scheduled forms on hold.</div>
+                    <div><spring:message code='participant.onHold'/></div>
                 </div>
-
-                    Please enter the date from which the participant <strong>${command.participant.displayName}</strong>
-                    surveys will be held.
+                    <spring:message code='participant.onHold1'/><strong>${command.participant.displayName}</strong>
+                     <spring:message code='participant.onHold2'/>
                     <tags:renderDate propertyName="onHoldTreatmentDate"
                                      displayName="participant.label.on_hold_date" required="true"/>
                 
@@ -31,13 +30,13 @@
             </div>
                    
             <div class="flow-buttons">
-
+                 <spring:message code="participant.button.beginHold" var="beginHold"/>
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="Begin Hold" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('onHoldTreatmentDate').value,document.forms[0])"/>
+                             cssClass="next" value="${beginHold}" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('onHoldTreatmentDate').value,document.forms[0])"/>
 
-
+                <spring:message code="participant.button.cancel" var="cancel"/>
                 <tags:button type="button" id="flow-cancel"
-                             cssClass="previous ibutton" value="Cancel" icon="x" color="red"
+                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red"
                              onclick="closeWindow()"/>
             </div>
 
