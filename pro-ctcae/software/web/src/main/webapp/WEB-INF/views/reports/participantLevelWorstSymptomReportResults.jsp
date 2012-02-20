@@ -8,150 +8,18 @@
 
 </head>
 <body>
-<%--<span id="attribute-help-content" class="hint" style="display: none;">
-    <table class="widget" cellspacing="0" width="100%" align="center">
-        <tr>
-            <td colspan="6" align="right">
-                <a href="javascript:hideHelp();">X</a>
-            </td>
-        </tr>
-        <tr>
-            <td class="header-top"></td>
-            <c:forEach begin="0" end="4" step="1" var="index">
-                <td class="header-top">${index}</td>
-            </c:forEach>
-        </tr>
-        <c:forEach items="${questionTypes}" var="questionType">
-            <tr>
-                <td class="header-top">${questionType}</td>
-                <c:forEach items="${questionType.validValues}" var="validValue">
-                    <td class="help-values">${validValue}</td>
-                </c:forEach>
-            </tr>
 
-        </c:forEach>
-    </table>
-</span>--%>
 <chrome:box title="Report - ${participant.displayName}">
     <c:choose>
         <c:when test="${fn:length(resultsMap) > 0}">
-            <tags:instructions code="participant.report.worst.symptom.instructions"/>
-            <div align="right">
-                <a href="<c:url value='/pages/reports/participantCarePdf?rt=worstSymptom'/>" target="_blank">
-                    <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>
-                </a>
-                    <%--                |
-                    <a href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank">
-                        <img src="/proctcae/images/table/xls.gif" alt="xls"/>
-                    </a>--%>
-            </div>
-            <table class="widget" cellspacing="0">
-                <col/>
-                <tr>
-                    <td class="header-top" width="70px">Symptom</td>
-                        <%--     <td class="header-top">Attribute<img alt="Help" src="/proctcae/images/q.gif"
-                                                             onclick="$('attribute-help-content').style.display='inline'"/>
-                        </td>
-                       <c:forEach items="${dates}" var="date">
-                        <td class="header-top">${date}</td>
-                        </c:forEach>--%>
-                    <c:forEach items="${questionTypes}" var="questionType">
-                        <td class="header-top" style="white-space:nowrap;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${questionType.displayName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    </c:forEach>
-                </tr>
-                <c:forEach items="${resultsMap}" var="symptomMap">
-                    <tr>
-                        <td class="actual-question" style="white-space:normal;text-align:left;" align="left" >
-                                <%--<a href="javascript:getChart('${symptomMap.key.id}')" class="link">${symptomMap.key.term}</a>--%>
-                                <%-- <a href="javascript:getChart('${symptomMap.key[0]}')"
-                                 class="link">${symptomMap.key[1]}</a>
-                                 <c:set var="flag" value="true"></c:set>--%>
-                                ${symptomMap.key[1]}
-                        </td>
-
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Severity'}">
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
-                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
-                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
-                        
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Frequency'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
-                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
-                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Interference'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
-                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
-                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
-
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Amount'}">
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
-                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
-                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
-                        <td class="data displayOrder1" style="white-space:normal;" width="30px">
-                            <c:set var="flag" value="false"/>
-                            <c:forEach items="${symptomMap.value}" var="careResults">
-                                <c:if test="${careResults.key.proCtcQuestionType.displayName eq 'Present/Absent'}">
-                                    <%--${fn:toUpperCase(careResults.key.displayName)}--%>
-                                 <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.MeddraValidValue'}">
-                                  	${careResults.value[0].meddraValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:if test="${careResults.value[0].class.name == 'gov.nih.nci.ctcae.core.domain.ProCtcValidValue'}">
-                                  	${careResults.value[0].proCtcValidValueVocab.valueEnglish}
-                                  </c:if>
-                                  <c:set var="flag" value="true"/>
-                                </c:if>
-                            </c:forEach>
-                            <c:if test="${!flag}">-</c:if>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
+        	<br />
+	        <div class="summaryvalue">
+	                &nbsp;The report has been generated. You can download it to PDF format by 
+	                <a href="<c:url value='/pages/reports/participantCarePdf?rt=worstSymptom'/>" target="_blank">
+	                   clicking here. <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>
+	                </a>
+	        </div>
+	         <br />
         </c:when>
         <c:otherwise>
             There is no data for this participant.

@@ -281,6 +281,26 @@ public class Participant extends Person {
         }
         return displayName.replace(")(", ", ");
     }
+    
+    
+    @Transient
+    public String getNameInitialsForReports() {
+        StringBuilder name = new StringBuilder();
+        if (getLastName() != null) {
+            name.append(getLastName().charAt(0));
+        }
+        
+        if (getFirstName() != null) {
+        	name.append(' ');
+            name.append(getFirstName().charAt(0));
+        }
+
+        if (getMiddleName() != null) {
+        	name.append(' ');
+            name.append(getMiddleName().charAt(0));
+        }
+        return name.toString();
+    }
 
 
     @Override

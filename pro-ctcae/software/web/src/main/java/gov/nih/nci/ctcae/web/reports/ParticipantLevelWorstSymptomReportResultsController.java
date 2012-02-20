@@ -57,11 +57,12 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
         setReportStartDateEndDate(request, filteredSchedules);
         TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = getCareResults(null, filteredSchedules, request);
-
-        modelAndView.addObject("resultsMap", results);
+        TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> dResults = new TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>(new MyDisplaySorter());
+        dResults = results;
+        modelAndView.addObject("resultsMap", dResults);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypesForSharedAEReport());
 
-        request.getSession().setAttribute("sessionResultsMap", results);
+        request.getSession().setAttribute("sessionResultsMap", dResults);
         request.getSession().setAttribute("questionTypes", ProCtcQuestionType.getAllDisplayTypesForSharedAEReport());
         return modelAndView;
     }
@@ -92,6 +93,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
     private TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
 
         TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap = new TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>(new MyArraySorter());
+        populateSymptomMap(symptomMap);
         HashMap<Question, ArrayList<ValidValue>> careResults = new HashMap<Question, ArrayList<ValidValue>>();
 
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
@@ -147,7 +149,24 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
     }
 
 
-    private void buildMap(Question question,
+    private void populateSymptomMap(
+			TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap) {
+
+    	HashMap<Question, ArrayList<ValidValue>> careResults;
+    	String[] keyArray = new String[3];
+    	for(int i = 0;i< ParticipantLevelWorstSymptomReportPdfView.aeNameArray.length;i++){
+    		keyArray = new String[3];
+    		careResults = new HashMap<Question, ArrayList<ValidValue>>();
+    		
+    		keyArray[0] = "P_"+i;
+    		keyArray[1] = ParticipantLevelWorstSymptomReportPdfView.aeNameArray[i];
+    		keyArray[2] = ParticipantLevelWorstSymptomReportPdfView.aeMeddraCode[i];
+    		
+        	symptomMap.put(keyArray, careResults);
+    	}
+	}
+
+	private void buildMap(Question question,
                           String[] symptomArr,
                           ValidValue value,
                           TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> symptomMap,
@@ -170,36 +189,37 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         }
         symptomArr[2] = meddraCode;
         ArrayList<ValidValue> validValue;
+        
         if (symptomMap.containsKey(symptomArr)) {
             careResults = symptomMap.get(symptomArr);
-        } else {
-            careResults = new HashMap();
-            symptomMap.put(symptomArr, careResults);
-        }
-
-        if (careResults.containsKey(question)) {
-            validValue = careResults.get(question);
-        } else {
-            validValue = new ArrayList<ValidValue>();
-            careResults.put(question, validValue);
-        }
-
-        ProCtcValidValue pValue;
-        MeddraValidValue mValue;
-        if(value instanceof ProCtcValidValue){
-        	pValue = (ProCtcValidValue)value;
-        	if (validValue.size() == 0 && pValue.getResponseCode() != null)
-                validValue.add(value);
-            else if (validValue.size() > 0 && (((ProCtcValidValue)validValue.get(0)).getResponseCode() < pValue.getResponseCode())) {
-                validValue.set(0, value);
+            
+            if (careResults.containsKey(question)) {
+                validValue = careResults.get(question);
+            } else {
+                validValue = new ArrayList<ValidValue>();
+                careResults.put(question, validValue);
             }
-        } else if(value instanceof MeddraValidValue){
-        	mValue = (MeddraValidValue) value;
-        	if (validValue.size() == 0 && mValue.getDisplayOrder() != null)
-                validValue.add(value);
-            else if (validValue.size() > 0 && (((MeddraValidValue)validValue.get(0)).getDisplayOrder() < mValue.getDisplayOrder())) {
-                validValue.set(0, value);
+
+            ProCtcValidValue pValue;
+            MeddraValidValue mValue;
+            if(value instanceof ProCtcValidValue){
+            	pValue = (ProCtcValidValue)value;
+            	if (validValue.size() == 0 && pValue.getResponseCode() != null)
+                    validValue.add(value);
+                else if (validValue.size() > 0 && (((ProCtcValidValue)validValue.get(0)).getResponseCode() < pValue.getResponseCode())) {
+                    validValue.set(0, value);
+                }
+            } else if(value instanceof MeddraValidValue){
+            	mValue = (MeddraValidValue) value;
+            	if (validValue.size() == 0 && mValue.getDisplayOrder() != null)
+                    validValue.add(value);
+                else if (validValue.size() > 0 && (((MeddraValidValue)validValue.get(0)).getDisplayOrder() < mValue.getDisplayOrder())) {
+                    validValue.set(0, value);
+                }
             }
+        } else {
+            //careResults = new HashMap();
+            //symptomMap.put(symptomArr, careResults);
         }
 
     }
@@ -281,6 +301,18 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
                 String[] o1Arr = (String[]) o1;
                 String[] o2Arr = (String[]) o2;
                 return o1Arr[1].compareTo(o2Arr[1]);
+            }
+            return 0;
+        }
+    }
+    
+    
+    private class MyDisplaySorter implements Comparator {
+        public int compare(Object o1, Object o2) {
+            if (o1 != null & o2 != null) {
+                String[] o1Arr = (String[]) o1;
+                String[] o2Arr = (String[]) o2;
+                return o1Arr[0].compareTo(o2Arr[0]);
             }
             return 0;
         }
