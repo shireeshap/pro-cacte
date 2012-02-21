@@ -243,7 +243,11 @@
         <div class="row" name="inputs">
             <div class="label"> <tags:message code='study.label.search_by'/></div>
             <div class="value">
-                <input type="text" id="searchText" name="searchText" size="25" value="${searchText}">
+                <input type="text" id="searchText" name="searchText" size="25" onblur="isSpclChar('searchText');" value="${searchText}">
+                <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+                </ul>
                 <div id="error"></div>
             </div>
         </div>

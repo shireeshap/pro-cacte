@@ -74,19 +74,19 @@ function checkParticipantEmail() {
     isEmailError = false;
     jQuery('#userEmailError').hide();
     if (emailAddress != "") {
-            uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId,{callback:
-                                                                                function(returnValue) {
-                                                                                       if (returnValue) {
-                                                                                           jQuery('#userEmailError').show();
-                                                                                           isEmailError = true;
-                                                                                       }
-                                                                                       else {
-                                                                                           isEmailError = false;
-                                                                                       }
-                                                                                       checkError();
-                                                                                }
-                                                                            }
-                                                );
+        uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback:
+                                                                                  function(returnValue) {
+                                                                                      if (returnValue) {
+                                                                                          jQuery('#userEmailError').show();
+                                                                                          isEmailError = true;
+                                                                                      }
+                                                                                      else {
+                                                                                          isEmailError = false;
+                                                                                      }
+                                                                                      checkError();
+                                                                                  }
+        }
+                );
     }
     else {
         checkError();
@@ -149,13 +149,13 @@ function passReturnValue(returnValue) {
 }
 
 function checkPinMatch(siteId) {
-    var password = $('participant.pinNumber_'+siteId).value;
-    var confirmPassword = $('participant.confirmPinNumber_'+siteId).value;
-    jQuery('#confirmPinError_'+siteId).hide();
+    var password = $('participant.pinNumber_' + siteId).value;
+    var confirmPassword = $('participant.confirmPinNumber_' + siteId).value;
+    jQuery('#confirmPinError_' + siteId).hide();
     isConfirmPassError = false;
     if (password != "" && confirmPassword != "") {
         if (password != confirmPassword) {
-            jQuery('#confirmPinError_'+siteId).show();
+            jQuery('#confirmPinError_' + siteId).show();
             isConfirmPassError = true;
         }
     }
@@ -204,19 +204,19 @@ function validateCalloutTime(siteId, startTime, endTime) {
         var blackoutEndTime = new Date("1/1/2007 " + endTime);
         var start = startTime.split(":");
         var end = endTime.split(":");
-        var hhStart = parseInt(start[0],10);
-        var mmStart = parseInt(start[1],10);
-        var hhEnd = parseInt(end[0],10);
-        var mmEnd = parseInt(end[1],10);
+        var hhStart = parseInt(start[0], 10);
+        var mmStart = parseInt(start[1], 10);
+        var hhEnd = parseInt(end[0], 10);
+        var mmEnd = parseInt(end[1], 10);
 
         var callHour = parseInt(callHour, 10);
         var callMin = parseInt(callMin, 10);
 
-        if (callHour < 12 &&callAmPm == 'pm') {
+        if (callHour < 12 && callAmPm == 'pm') {
             var callHour = callHour + 12;
         }
-        if(callHour == 12 && callAmPm == 'am'){
-           callHour=callHour-12;
+        if (callHour == 12 && callAmPm == 'am') {
+            callHour = callHour - 12;
         }
         var blockPreferredTime = false;
         var isSameDay = isSameDay1(hhStart, mmStart, hhEnd, mmEnd);
@@ -234,7 +234,7 @@ function validateCalloutTime(siteId, startTime, endTime) {
                     var blockPreferredTime = true;
                 }
             }
-        } else{
+        } else {
             //isSameDay == true means timings like 01:00 to 04:59
             if (callHour > hhStart && callHour < hhEnd) {
                 var blockPreferredTime = true;
@@ -248,8 +248,8 @@ function validateCalloutTime(siteId, startTime, endTime) {
         if (blockPreferredTime) {
             $('preferred.calltime.error_' + siteId).show();
             isBlackoutCallTime = true;
-       //     $('call_hour_' + siteId).value = "";
-        //    $('call_minute_' + siteId).value = "";
+            //     $('call_hour_' + siteId).value = "";
+            //    $('call_minute_' + siteId).value = "";
         }
 
         checkError();
@@ -275,40 +275,40 @@ function validateCalloutTime(siteId, startTime, endTime) {
 
 //validation check for participant email address
 /*function checkParticipantEmailAddress(siteId) {
+ var participantId = "${param['id']}";
+ if (participantId == "") {
+ participantId = "${patientId}";
+ }
+ var email = $('participant.emailAddress_' + siteId).value;
+ if (email != "") {
+ uniqueParticipantEmailAddress.validateEmail(email, participantId,
+ {callback:
+ function(returnValue) {
+ showOrHideErrorField(returnValue, '#emailError_' + siteId);
+ if (returnValue) {
+ isEmail = true;
+ }
+ else {
+ isEmail = false;
+ }
+ checkError();
+ }});
+ }
+ else {
+ jQuery('#emailError_' + siteId).hide();
+ isEmail = false;
+ checkError();
+ }
+ }*/
+
+
+var phoneNumberPattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
+function checkParticipantPhoneNumber(siteId) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var email = $('participant.emailAddress_' + siteId).value;
-    if (email != "") {
-        uniqueParticipantEmailAddress.validateEmail(email, participantId,
-        {callback:
-         function(returnValue) {
-             showOrHideErrorField(returnValue, '#emailError_' + siteId);
-             if (returnValue) {
-                 isEmail = true;
-             }
-             else {
-                 isEmail = false;
-             }
-             checkError();
-         }});
-    }
-    else {
-        jQuery('#emailError_' + siteId).hide();
-        isEmail = false;
-        checkError();
-    }
-}*/
-
-
-var phoneNumberPattern =  /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
-function checkParticipantPhoneNumber(siteId){
-    var participantId = "${param['id']}";
-    if (participantId == "") {
-        participantId = "${patientId}";
-    }
-    var phoneNumber = $('participant.phoneNumber_'+ siteId).value;
+    var phoneNumber = $('participant.phoneNumber_' + siteId).value;
     if (phoneNumber != "") {
         if (!phoneNumberPattern.test(phoneNumber)) {
             jQuery('#PhonePatternError_' + siteId).show();
@@ -317,26 +317,26 @@ function checkParticipantPhoneNumber(siteId){
         }
         else {
             var re = /[-]/g;
-            var nonFormattedPhoneNumber = phoneNumber.replace(re,"");
-            phoneNumber = nonFormattedPhoneNumber.substring(0,3)+"-"+nonFormattedPhoneNumber.substring(3,6)+"-"+nonFormattedPhoneNumber.substring(6,10);
-            $('participant.phoneNumber_'+ siteId).value = phoneNumber;
+            var nonFormattedPhoneNumber = phoneNumber.replace(re, "");
+            phoneNumber = nonFormattedPhoneNumber.substring(0, 3) + "-" + nonFormattedPhoneNumber.substring(3, 6) + "-" + nonFormattedPhoneNumber.substring(6, 10);
+            $('participant.phoneNumber_' + siteId).value = phoneNumber;
             uniqueParticipantUserNumber.validatePhoneNumber(phoneNumber, participantId, {callback:
-                                                                                       function(returnValue) {
-                                                                                           jQuery('#PhonePatternError_' + siteId).hide();
-                                                                                           showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
-                                                                                           if (returnValue) {
-                                                                                               isPhoneNumberError = true;
-                                                                                           }
-                                                                                           else {
-                                                                                                isPhoneNumberError = false;
-                                                                                                var userNumber = $('participant.userNumber_' + siteId).value;
-                                                                                                if (userNumber==null || userNumber=="") {
-                                                                                                    var re = /[-]/g;
-                                                                                                    $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
-                                                                                                }
-                                                                                           }
-                                                                                           checkError();
-                                                                                       }});
+                                                                                         function(returnValue) {
+                                                                                             jQuery('#PhonePatternError_' + siteId).hide();
+                                                                                             showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
+                                                                                             if (returnValue) {
+                                                                                                 isPhoneNumberError = true;
+                                                                                             }
+                                                                                             else {
+                                                                                                 isPhoneNumberError = false;
+                                                                                                 var userNumber = $('participant.userNumber_' + siteId).value;
+                                                                                                 if (userNumber == null || userNumber == "") {
+                                                                                                     var re = /[-]/g;
+                                                                                                     $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
+                                                                                                 }
+                                                                                             }
+                                                                                             checkError();
+                                                                                         }});
         }
     }
     else {
@@ -385,7 +385,7 @@ function checkParticipantUserNumber(siteId) {
     }
     checkError();
 }
-var pinPattern =  /^[0-9]{4}$/;
+var pinPattern = /^[0-9]{4}$/;
 // validation check for participant pin number (IVRS)
 function checkParticipantPinNumber(siteId) {
     var participantId = "${param['id']}";
@@ -393,7 +393,7 @@ function checkParticipantPinNumber(siteId) {
         participantId = "${patientId}";
     }
     var pinNumber = $('participant.pinNumber_' + siteId).value;
- //   jQuery('#PinPatternError_' + siteId).hide();
+    //   jQuery('#PinPatternError_' + siteId).hide();
     if (pinNumber != "") {
         if (!pinPattern.test(pinNumber)) {
             jQuery('#PinPatternError_' + siteId).show();
@@ -418,7 +418,7 @@ function checkParticipantStudyIdentifier(id, siteId) {
         participantId = "${patientId}";
     }
     var identifier = $('participantStudyIdentifier_' + siteId).value;
-    if(isSpclChar('participantStudyIdentifier_' + siteId)){
+    if (isSpclChar('participantStudyIdentifier_' + siteId)) {
         return;
     }
     if (identifier != "") {
@@ -450,7 +450,7 @@ function checkParticipantMrn() {
         participantId = "${patientId}";
     }
     var mrn = $('participant.assignedIdentifier').value;
-     if(isSpclChar('participant.assignedIdentifier')){
+    if (isSpclChar('participant.assignedIdentifier')) {
         return;
     }
     var siteId = $('organizationId').value;
@@ -510,17 +510,17 @@ function getOrgs(sQuery) {
 function handleSelect(stype, args) {
     var ele = args[0];
     var oData = args[2];
-    if(oData == null){
-    	ele.getInputEl().value="(Begin typing here)";
-    	ele.getInputEl().addClassName('pending-search');
+    if (oData == null) {
+        ele.getInputEl().value = "(Begin typing here)";
+        ele.getInputEl().addClassName('pending-search');
     } else {
-	    ele.getInputEl().value = oData.displayName;
-	    ele.getInputEl().removeClassName('pending-search');
-	    var id = ele.getInputEl().id;
-	    var hiddenInputId = id.substring(0, id.indexOf('-input'));
-	    $(hiddenInputId).value = oData.id;
-	    getStudySites();
-	    jQuery('#studies').show();
+        ele.getInputEl().value = oData.displayName;
+        ele.getInputEl().removeClassName('pending-search');
+        var id = ele.getInputEl().id;
+        var hiddenInputId = id.substring(0, id.indexOf('-input'));
+        $(hiddenInputId).value = oData.id;
+        getStudySites();
+        jQuery('#studies').show();
     }
     checkParticipantMrn();
 }
@@ -667,7 +667,7 @@ function addEmailRemoveIVRSClassName(id) {
         participantId = "${patientId}";
     }
 
- //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
+    //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
     $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
@@ -694,7 +694,7 @@ function addIVRSRemoveEmailClassName(id) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    if($('participant.emailAddress_' + id) != null){
+    if ($('participant.emailAddress_' + id) != null) {
         $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
     }
     $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
@@ -764,7 +764,7 @@ function showOrHideLanguage(value1, value2, id) {
     jQuery('#paper_clinic_header_' + id).hide();
     jQuery('#clinicPaper_' + id).hide();
     $('clinic_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
-    jQuery('#participantClinicModes_'+id).attr("checked",false);
+    jQuery('#participantClinicModes_' + id).attr("checked", false);
     jQuery(this).attr();
     jQuery("#clinic_web_lang_" + id).val('');
     jQuery('#clinic_web_lang_' + id + '-msg').hide();
@@ -794,33 +794,33 @@ function showOrHideLanguage(value1, value2, id) {
     }
 }
 function showOrHideEmail(value1, value2, id) {
-        jQuery('#home_web_lang_'+ id + '-msg').hide();
-        jQuery('#home_paper_lang_'+ id + '-msg').hide();
-        jQuery('#participantPhoneNumber_' + id + '-msg').hide();
-        jQuery('#participantUserNumber_' + id + '-msg').hide();
-        jQuery('#participantPinNumber_' + id + '-msg').hide();
-        jQuery('#call_hour_' + id + '-msg').hide();
-        jQuery('#call_minute_' + id + '-msg').hide();
-        jQuery('#call_ampm_' + id + '-msg').hide();
-        jQuery('#call_timeZone_' + id + '-msg').hide();
-        jQuery('#ivrs_lang_' + id + '-msg').hide();
+    jQuery('#home_web_lang_' + id + '-msg').hide();
+    jQuery('#home_paper_lang_' + id + '-msg').hide();
+    jQuery('#participantPhoneNumber_' + id + '-msg').hide();
+    jQuery('#participantUserNumber_' + id + '-msg').hide();
+    jQuery('#participantPinNumber_' + id + '-msg').hide();
+    jQuery('#call_hour_' + id + '-msg').hide();
+    jQuery('#call_minute_' + id + '-msg').hide();
+    jQuery('#call_ampm_' + id + '-msg').hide();
+    jQuery('#call_timeZone_' + id + '-msg').hide();
+    jQuery('#ivrs_lang_' + id + '-msg').hide();
 
-        jQuery('#UserPatternError_' + id).hide();
-        jQuery('#PhonePatternError_' + id).hide();
-        jQuery('#phoneNumberError_' + id).hide();
-        jQuery('#PinPatternError_' + id).hide();
-        jQuery('#confirmPinError_' + id).hide();
-        jQuery('#userNumberError_' + id).hide();
-        jQuery('#emailError_' + id).hide();
-        jQuery('#preferred.calltime.error_' + id).hide();
-        $('preferred.calltime.error_' + id).hide();
+    jQuery('#UserPatternError_' + id).hide();
+    jQuery('#PhonePatternError_' + id).hide();
+    jQuery('#phoneNumberError_' + id).hide();
+    jQuery('#PinPatternError_' + id).hide();
+    jQuery('#confirmPinError_' + id).hide();
+    jQuery('#userNumberError_' + id).hide();
+    jQuery('#emailError_' + id).hide();
+    jQuery('#preferred.calltime.error_' + id).hide();
+    $('preferred.calltime.error_' + id).hide();
 
-        isUserIdError = false;
-        isPinError = false;
-        isEmail = false;
-        isPhoneNumberError = false;
-        isBlackoutCallTime = false;
-        checkError();
+    isUserIdError = false;
+    isPinError = false;
+    isEmail = false;
+    isPhoneNumberError = false;
+    isBlackoutCallTime = false;
+    checkError();
 
     if (value1 && value2 == "HOMEWEB") {
         jQuery("#ivrs_lang_" + id).val('');
@@ -920,21 +920,21 @@ function showOrHideEmail(value1, value2, id) {
 
 }
 
-    function isSpclChar(fieldName){
-        var iChars = "!@#$%^&*+=[]\\\';,./{}|\":<>?";
-        var fieldValue = $(fieldName).value;
-        jQuery('#'+ fieldName + '.error').hide();
-        $(fieldName + '.error').hide();
-        for (var i = 0; i < fieldValue.length; i++) {
-            if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
-               // alert ("The box has special characters. \nThese are not allowed.\n");
-                jQuery('#'+ fieldName + '.error').show();
-                $(fieldName + '.error').show();
-                $(fieldName).value="";
-                return true;
-            }
+function isSpclChar(fieldName) {
+    var iChars = "!@#$%^&*+=[]\\\';,./{}|\":<>?";
+    var fieldValue = $(fieldName).value;
+    jQuery('#' + fieldName + '.error').hide();
+    $(fieldName + '.error').hide();
+    for (var i = 0; i < fieldValue.length; i++) {
+        if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+            // alert ("The box has special characters. \nThese are not allowed.\n");
+            jQuery('#' + fieldName + '.error').show();
+            $(fieldName + '.error').show();
+            $(fieldName).value = "";
+            return true;
         }
-        return false;
+    }
+    return false;
 }
 
 
@@ -1017,7 +1017,8 @@ function showOrHideEmail(value1, value2, id) {
                                                    title="Site"
                                                    cssStyle="display:none;"/>
                                        <tags:yuiAutocompleter inputName="organizationId-input"
-                                                              value="${command.selectedOrganization.displayName}" required="false"
+                                                              value="${command.selectedOrganization.displayName}"
+                                                              required="false"
                                                               hiddenInputName="organizationId"/>
                                            <%--<tags:renderAutocompleter propertyName="organizationId"--%>
                                            <%--displayName="participant.label.site"--%>
@@ -1065,30 +1066,32 @@ function showOrHideEmail(value1, value2, id) {
                        <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="isSpclChar('participant.firstName');"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"
+                                            onblur="isSpclChar('participant.firstName');"/>
                            <ul id="participant.firstName.error" style="display:none;left-padding:8em;" class="errors">
-                                <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
+                               <li><spring:message code='special.character.message'
+                                                   text='special.character.message'/></li>
                            </ul>
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"
                                                 size="${maxLength}" onblur="isSpclChar('participant.middleName');"/>
                                <ul id="participant.middleName.error" style="display:none;" class="errors">
-                                    <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
+                                   <li><spring:message code='special.character.message'
+                                                       text='special.character.message'/></li>
                                </ul>
                            </c:if>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true" maxLength="${maxLength}" size="${maxLength}" onblur="isSpclChar('participant.lastName');"/>
+                                            required="true" maxLength="${maxLength}" size="${maxLength}"
+                                            onblur="isSpclChar('participant.lastName');"/>
                            <ul id="participant.lastName.error" style="display:none;" class="errors">
-                                    <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
+                               <li><spring:message code='special.character.message'
+                                                   text='special.character.message'/></li>
                            </ul>
                        </td>
 
-                       <td width="50%" >
+                       <td width="50%">
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderDate propertyName="participant.birthDate"
                                                 displayName="participant.label.date_of_birth" required="true"/>
@@ -1100,11 +1103,12 @@ function showOrHideEmail(value1, value2, id) {
                                                 displayName="participant.label.participant_identifier"
                                                 required="true" onblur="checkParticipantMrn();"/>
                                <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
-				                    <li><spring:message code='participant.unique_mrn' /></li>
-				               </ul>
-                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;" class="errors">
-                                    <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
+                                   <li><spring:message code='participant.unique_mrn'/></li>
+                               </ul>
+                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;"
+                                   class="errors">
+                                   <li><spring:message code='special.character.message'
+                                                       text='special.character.message'/></li>
                                </ul>
                            </c:if>
                        </td>
@@ -1121,7 +1125,7 @@ function showOrHideEmail(value1, value2, id) {
                                <tags:renderEmail propertyName="participant.emailAddress"
                                                  displayName="participant.label.email_address"
                                                  required="false" size="35" onblur="checkParticipantEmail();"/>
-                                <ul id="userEmailError" style="display:none; padding-left:12em " class="errors">
+                               <ul id="userEmailError" style="display:none; padding-left:12em " class="errors">
                                    <li><spring:message code='participant.unique_emailAddress'
                                                        text='participant.unique_emailAddress'/>
                                    </li>
@@ -1209,7 +1213,7 @@ function showOrHideEmail(value1, value2, id) {
                </table>
 
            </div>
-       <br>
+           <br>
        </chrome:division>
        <div id="studies" style="display:none">
            <chrome:division title="participant.label.studies"/>

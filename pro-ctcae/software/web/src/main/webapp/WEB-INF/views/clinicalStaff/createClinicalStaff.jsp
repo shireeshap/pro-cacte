@@ -144,6 +144,7 @@
             }
             hideError();
         }
+
         function checkLastName() {
             var lastName = $('clinicalStaff.lastName').value;
             if (lastName != "") {
@@ -294,8 +295,12 @@
                                         text='firstName_validation'/>
                     </li>
                 </ul>
-                <tags:renderText propertyName="clinicalStaff.middleName"
+                <tags:renderText propertyName="clinicalStaff.middleName" onblur="isSpclChar('clinicalStaff.middleName');"
                                  displayName="clinicalStaff.label.middle_name"/>
+                <ul id="clinicalStaff.middleName.error" style="display:none;" class="errors">
+                                   <li><spring:message code='special.character.message'
+                                                       text='special.character.message'/></li>
+                               </ul>
                 <tags:renderText propertyName="clinicalStaff.lastName"
                                  displayName="clinicalStaff.label.last_name"
                                  required="true" onblur="checkLastName()"/>
@@ -316,8 +321,12 @@
                     <li><spring:message code='clinicalStaff.unique_emailAddress'
                                         text='clinicalStaff.unique_emailAddress'/></li>
                 </ul>
-                <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                <tags:renderText propertyName="clinicalStaff.nciIdentifier" onblur="isSpclChar('clinicalStaff.nciIdentifier');"
                                  displayName="clinicalStaff.label.identifier"/>
+                 <ul id="clinicalStaff.nciIdentifier.error" style="display:none;" class="errors">
+                                   <li><spring:message code='special.character.message'
+                                                       text='special.character.message'/></li>
+                               </ul>
             </td>
         </tr>
     </table>

@@ -120,7 +120,7 @@ function showQuestionSettings() {
         var firstQuestion = $$('div.sortable')[1].id;
         var questionId = firstQuestion.substr(9, firstQuestion.length);
         //showCrfItemProperties(questionId);
-        $('pages_'+questionId).style.display = "none";
+        $('pages_' + questionId).style.display = "none";
     }
 }
 function showQuestionSettingsTab() {
@@ -389,11 +389,11 @@ function showCrfItemProperties(selectedQuestionId) {
 
 
     addEditingDisplayToQuestion(selectedQuestionId);
-    var sortablePosition =  parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]);
-    var questionPropertyPosition =  parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1])
-    var yPosition =  sortablePosition - questionPropertyPosition;
-     if(sortablePosition<0){
-      $('questionProperties_' + selectedQuestionId).hide();
+    var sortablePosition = parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]);
+    var questionPropertyPosition = parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1])
+    var yPosition = sortablePosition - questionPropertyPosition;
+    if (sortablePosition < 0) {
+        $('questionProperties_' + selectedQuestionId).hide();
     }
     new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
@@ -597,6 +597,8 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     }
 
 
+
+
 </script>
 <style type="text/css">
 
@@ -781,22 +783,29 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         </div>
         <div class="row">
             <div class="label" style="margin-top:6px;">
-               <c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if><spring:message code="form.label.title"/>
+                <c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if><spring:message
+                    code="form.label.title"/>
             </div>
             <div class="value" id="hackThisForIE">
                 <c:choose>
                     <c:when test="${command.crf.crfVersion eq 1.0}">
-                        <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;"
+                        <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
+                               onblur="isSpclChar('crf.title');" style="font-size:1.5em;"
                                size="60"/>
                     </c:when>
                     <c:otherwise>
                         <div style="padding-top:7px">
                                 <%--${command.crf.title}--%>
-                             <input type="text" name="crf.title" value="${command.crf.title}" style="font-size:1.5em;"
-                               size="60"/>
+                            <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
+                                   onblur="isSpclChar('crf.title');" style="font-size:1.5em;"
+                                   size="60"/>
                         </div>
                     </c:otherwise>
                 </c:choose>
+                <ul id="crf.title.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+                </ul>
             </div>
         </div>
 

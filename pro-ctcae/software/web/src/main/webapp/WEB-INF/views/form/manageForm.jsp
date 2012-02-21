@@ -229,8 +229,12 @@
         <div class="label"><spring:message code='crf.label.search_string' text=''/></div>
         <div class="value IEdivValueHack">
             <input type="text" id="searchString" name="searchString"
-                   maxlength="50" size="50"
+                   maxlength="50" size="50" onblur="isSpclChar('searchString');"
                    value="${searchString}"/>
+            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+                </ul>
         </div>
     </div>
     <div class="row">

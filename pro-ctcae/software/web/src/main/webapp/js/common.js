@@ -614,6 +614,24 @@ function resetInputs(propertyName){
     }
 }
 
+   function isSpclChar(fieldName) {
+        var iChars = "!@#$^&*+=[]\\\';,./{}|\":<>?";
+        var fieldValue = $(fieldName).value;
+//       alert(fieldValue);
+        jQuery('#' + fieldName + '.error').hide();
+        $(fieldName + '.error').hide();
+        for (var i = 0; i < fieldValue.length; i++) {
+            if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+                // alert ("The box has special characters. \nThese are not allowed.\n");
+                jQuery('#' + fieldName + '.error').show();
+                $(fieldName + '.error').show();
+                $(fieldName).value = "";
+                return true;
+            }
+        }
+        return false;
+    }
+
 //the activity indicator methods
 function showIndicator(id) {
 	if(id == null || id == ''){

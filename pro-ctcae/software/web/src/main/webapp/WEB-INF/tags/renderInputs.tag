@@ -43,7 +43,7 @@
 <c:when test="${categoryName == 'text'}">
     <c:choose>
         <c:when test="${noForm}">
-            <input name="${propertyName}" type="text" size="${empty size ? attributes.size : size}" title="${title}"
+            <input name="${propertyName}" type="text" size="${empty size ? attributes.size : size}" title="${title}" onblur="${onblur}"
                    class="${cssClass}" value="${propertyValue}" maxlength="${maxLength}"/>
         </c:when>
         <c:otherwise>
@@ -89,13 +89,13 @@
 
     <c:choose>
         <c:when test="${noForm}">
-            <textarea id="${propertyName}" cols="${cols}" rows="${rows}"
+            <textarea id="${propertyName}" cols="${cols}" rows="${rows}" onblur="${onblur}"
                       title="${title}" name="${propertyName}">${propertyValue}
             </textarea>
 
         </c:when>
         <c:otherwise>
-            <form:textarea path="${propertyName}" disabled="${disabled}"
+            <form:textarea path="${propertyName}" disabled="${disabled}" onblur="${onblur}"
                            cols="${cols}"
                            rows="${rows}"
                            title="${title}"

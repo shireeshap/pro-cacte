@@ -3,7 +3,7 @@
 <%@ attribute name="displayName" %>
 <%@ attribute name="required" %>
 <%@ attribute name="help" %>
-
+<%@ attribute name="onblur"%>
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
 <%@ attribute name="propertyValue" type="java.util.Date" %>
@@ -23,4 +23,5 @@
                 rows="${not empty rows ? rows : '2'}"
                 noForm="${noForm}"
                 propertyValue="${propertyValue}"
+                onblur="${onblur}"
                 doNotShowFormat="${doNotShowFormat}" doNotshowLabel="${doNotshowLabel}"/>

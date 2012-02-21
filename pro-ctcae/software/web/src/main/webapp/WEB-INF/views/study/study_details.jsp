@@ -207,15 +207,25 @@
         <ul id="error1" style="display:none; padding-left:12em " class="errors">
             <li><spring:message code='study.unique_assignedIdentifier' text='study.unique_assignedIdentifier'/></li>
         </ul>
-        <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
+        <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title" onblur="isSpclChar('study.shortTitle');"
                          required="true" size="50"/>
-
-        <tags:renderTextArea propertyName="study.longTitle" displayName="study.label.long_title"
+         <ul id="study.shortTitle.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+         </ul>
+        <tags:renderTextArea propertyName="study.longTitle" displayName="study.label.long_title" onblur="isSpclChar('study.longTitle');"
                              required="true" cols="47"/>
+        <ul id="study.longTitle.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+         </ul>
 
-
-        <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
+        <tags:renderTextArea propertyName="study.description" displayName="study.label.description" onblur="isSpclChar('study.description');"
                              required="false" cols="47"/>
+        <ul id="study.description.error" style="display:none;left-padding:8em;" class="errors">
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+         </ul>
        
        <c:choose>
            <c:when test="${command.admin eq true}">
