@@ -306,7 +306,7 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
         }
     }
     
-    
+    //using a seperate sorter for display...but need to update the elements at [0] for desired display
     private class MyDisplaySorter implements Comparator {
         public int compare(Object o1, Object o2) {
             if (o1 != null & o2 != null) {
