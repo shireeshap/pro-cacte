@@ -137,43 +137,61 @@ public class ParticipantSchedule {
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
-                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                            alreadyExists = true;
-                            break;
+                    if (c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
+//                    if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
+//                        CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
+//                        StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
+//                        for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
+//                            if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
+//                                for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
+//                                    if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED))) {
+//                                        alreadyExists = true;
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+
+
+                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                            if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                                alreadyExists = true;
+                                break;
+                            }
                         }
-                    }
-                    if (!alreadyExists) {
-                        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-                        studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-                        if(baseline){
-                           studyParticipantCrfSchedule.setStartDate(studyParticipantCrf.getStartDate());
-                        } else {
-                        studyParticipantCrfSchedule.setStartDate(c.getTime());
+                        if (!alreadyExists) {
+                            StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+                            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                            if (baseline) {
+                                studyParticipantCrfSchedule.setStartDate(studyParticipantCrf.getStartDate());
+                            } else {
+                                studyParticipantCrfSchedule.setStartDate(c.getTime());
+                            }
+                            //check if due date is not fixed, then check the values from arm schedules
+                            Date dueDateNew = dueDate;
+                            if (dueDate == null) {
+                                dueDateNew = getDueDateForFormSchedule(c, studyParticipantCrf);
+                            }
+                            studyParticipantCrfSchedule.setDueDate(dueDateNew);
+
+                            if (today.after(dueDateNew)) {
+                                studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
+                            }
+                            if (cycleNumber != -1) {
+                                studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
+                                studyParticipantCrfSchedule.setCycleDay(cycleDay);
+                            }
+                            if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+                                studyParticipantCrfSchedule.setHoliday(true);
+                            }
+                            studyParticipantCrfSchedule.setBaseline(baseline);
+                            if (isSpCrfScheduleAvailable(studyParticipantCrfSchedule)) {
+                                //call getter on schedule for available forms
+                                studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+                            }
+                            addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
                         }
-                        //check if due date is not fixed, then check the values from arm schedules
-                        Date dueDateNew = dueDate;
-                        if (dueDate == null) {
-                            dueDateNew = getDueDateForFormSchedule(c, studyParticipantCrf);
-                        }
-                        studyParticipantCrfSchedule.setDueDate(dueDateNew);
-                        
-                        if (today.after(dueDateNew)) {
-                            studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
-                        }
-                        if (cycleNumber != -1) {
-                            studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
-                            studyParticipantCrfSchedule.setCycleDay(cycleDay);
-                        }
-                        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
-                            studyParticipantCrfSchedule.setHoliday(true);
-                        }
-                        studyParticipantCrfSchedule.setBaseline(baseline);
-                        if(isSpCrfScheduleAvailable(studyParticipantCrfSchedule)){
-                        	//call getter on schedule for available forms
-                        	studyParticipantCrfSchedule.getStudyParticipantCrfItems();
-                        }
-                        addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
                     }
                 }
             }
@@ -181,48 +199,48 @@ public class ParticipantSchedule {
     }
 
     public static boolean isSpCrfScheduleAvailable(
-			StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-    	if(DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
-    			DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0 ){
-    		return true;
-    	}
-		return false;
-	}
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        if (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
+                DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
+    /**
      * Adds the ivrs schedules.
      *
      * @param studyParticipantCrfSchedule the study participant crf schedule
      */
     private void addIvrsSchedules(
-			StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantCrf studyParticipantCrf) {
-    	//update ivrsSchedule for IVRS app Modes
-    	boolean isIvrs = false;
-    	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
-    	IvrsSchedule ivrsSchedule;
-    	int offSetDiff = 0;
-    	for(StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()){
-    		if(spm.getMode().equals(AppMode.IVRS)){
-    			isIvrs = true;
-    		}
-    	}
-        if(isIvrs){
-        	//for every sp_crf_schedule, create a new ivrsSchedule for every day from startDate to endDate
-			Date startDate = studyParticipantCrfSchedule.getStartDate();
-			offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
-			for(int i = 0; i <= offSetDiff; i++){
-				ivrsSchedule = new IvrsSchedule(studyParticipantAssignment, startDate);
-				ivrsSchedule.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-				studyParticipantCrfSchedule.getIvrsSchedules().add(ivrsSchedule);
-				startDate = DateUtils.getNextDay(startDate);
-			}
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantCrf studyParticipantCrf) {
+        //update ivrsSchedule for IVRS app Modes
+        boolean isIvrs = false;
+        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
+        IvrsSchedule ivrsSchedule;
+        int offSetDiff = 0;
+        for (StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()) {
+            if (spm.getMode().equals(AppMode.IVRS)) {
+                isIvrs = true;
+            }
         }
-	}
+        if (isIvrs) {
+            //for every sp_crf_schedule, create a new ivrsSchedule for every day from startDate to endDate
+            Date startDate = studyParticipantCrfSchedule.getStartDate();
+            offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
+            for (int i = 0; i <= offSetDiff; i++) {
+                ivrsSchedule = new IvrsSchedule(studyParticipantAssignment, startDate);
+                ivrsSchedule.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                studyParticipantCrfSchedule.getIvrsSchedules().add(ivrsSchedule);
+                startDate = DateUtils.getNextDay(startDate);
+            }
+        }
+    }
 
-	/**
+    /**
      * get the due date for a given Calendar date with calendar/cycle based definitions for the form.
      *
-     * @param c Calendar, for which due date needs to calculate
+     * @param c                   Calendar, for which due date needs to calculate
      * @param studyParticipantCrf StudyParticipantCrf
      * @return Date, dueDate for the calendar
      */
@@ -247,8 +265,8 @@ public class ParticipantSchedule {
 
                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, dueDateUnit, Integer.parseInt(dueDateValue));
 
-                }else{
-                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, "Days", 2);
+                } else {
+                    dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, "Days", 2);
                 }
                 break;
             }
@@ -262,7 +280,7 @@ public class ParticipantSchedule {
      * @param oldCalendar Calendar, of current date
      * @param newCalendar Calendar, of reschedule date
      * @param formIds     List<String>, crfs for which schedules needs to be modified
-     * @param resultMap     LinkedHashMap<String, List<String>>, stores the failure and success forms list map
+     * @param resultMap   LinkedHashMap<String, List<String>>, stores the failure and success forms list map
      */
     public void updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap) {
         List<String> updatedForms = new ArrayList<String>();
@@ -301,16 +319,16 @@ public class ParticipantSchedule {
                         schToUpdate.setStartDate(newCalendar.getTime());
                         //update ivrsSchedules
                         schToUpdate.updateIvrsSchedules(studyParticipantCrf, dateOffsetBetweenOldAndNewStartDates);
-                        
+
                         Calendar dueCalendar = (Calendar) newCalendar.clone();
                         dueCalendar.add(Calendar.DATE, dateOffsetBetweenStartAndDueDate);
                         schToUpdate.setDueDate(dueCalendar.getTime());
                         if (today.after(schToUpdate.getDueDate())) {
-                                schToUpdate.setStatus(CrfStatus.PASTDUE);
+                            schToUpdate.setStatus(CrfStatus.PASTDUE);
                         } else {
-                                if(schToUpdate.getStatus().equals(CrfStatus.PASTDUE)){
-                                    schToUpdate.setStatus(CrfStatus.SCHEDULED);
-                                }
+                            if (schToUpdate.getStatus().equals(CrfStatus.PASTDUE)) {
+                                schToUpdate.setStatus(CrfStatus.SCHEDULED);
+                            }
                         }
 
                         updatedForms.add(studyParticipantCrf.getCrf().getTitle());
@@ -489,11 +507,11 @@ public class ParticipantSchedule {
             studyParticipantCrfSchedule.setDueDate(c2.getTime());
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             if (today.after(studyParticipantCrfSchedule.getDueDate())) {
-                  studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
             } else {
-                  if(studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)){
-                        studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
-                  }
+                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
+                    studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                }
             }
 
         }
