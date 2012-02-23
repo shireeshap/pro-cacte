@@ -2,18 +2,7 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcTermComparator;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
@@ -100,6 +89,15 @@ public class StudyLevelReportResultsController extends AbstractController {
                 symptom = proCtcQuestion.getProCtcTerm();
                 value = studyParticipantCrfItem.getProCtcValidValue();
                 buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() -1);
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+                  if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion()!=null) {
+                      proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion();
+                      value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                      symptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm();
+                      buildMap(proCtcQuestion, symptom, value, symptomMap, null, datesMap.get(participant).size() -1);
+                  }
+
             }
         }
 
