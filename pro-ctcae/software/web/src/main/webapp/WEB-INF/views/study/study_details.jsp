@@ -357,14 +357,14 @@
                                    <td align="right">
                                        <b>Reminder frequency</b>
                                    </td>
-                                   <td>
+                                   <td>   ${command.study.callBackHour}
                                        <select id="call_back_hour" name="call_back_hour">
                                            <option value=" ">Please select</option>
                                            <option value="10"
-                                                   selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                                   selected ${command.study.callBackHour eq 10 ? "selected='selected'" : " "}>
                                                10 minutes
                                            </option>
-                                           <option value="20"  ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                           <option value="20"  ${command.study.callBackHour eq 20 ? "selected='selected'" : " "}>
                                                20 minutes
                                            </option>
                                            <option value="30"
@@ -447,10 +447,10 @@
                                        <select id="call_back_hour1" name="call_back_hour">
                                            <option value=" ">Please select</option>
                                            <option value="10"
-                                                   selected ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                                   selected ${command.study.callBackHour eq 10 ? "selected='selected'" : " "}>
                                                10 minutes
                                            </option>
-                                           <option value="20"  ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
+                                           <option value="20"  ${command.study.callBackHour eq 20 ? "selected='selected'" : " "}>
                                                20 minutes
                                            </option>
                                            <option value="30"
