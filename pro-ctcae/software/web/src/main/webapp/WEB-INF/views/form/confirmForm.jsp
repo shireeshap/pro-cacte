@@ -76,6 +76,14 @@
             <tags:button color="blue" markupWithTag="a" icon="window" value="Finalize Form"
                          onclick="javascript:releaseForm('${crf.id}')"/>
         </c:if>
+
+    </span>
+     <span class="prev">
+        <c:if test="${crf.status.displayName ne 'Final'}">
+            <tags:button type="submit" color="blue" id="flow-prev" markupWithTag="a" href="/proctcae/pages/form/editForm?crfId=${crf.id}"
+                             value="Back" icon="Back"/>
+        </c:if>
+
     </span>
 	<span class="next">
 		<tags:button color="green" markupWithTag="a" icon="check" value="Finish" href="/proctcae"/>
