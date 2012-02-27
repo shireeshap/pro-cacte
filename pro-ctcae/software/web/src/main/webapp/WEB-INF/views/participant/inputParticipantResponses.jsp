@@ -16,6 +16,12 @@
 <html>
 <head>
     <script type="text/javascript">
+        function saveAndBack(type, id) {
+            document.forms[0].submitType.value = type;
+            document.forms[0].submit();
+            window.location="../participant/schedulecrf?pId="+id;
+        }
+
         function saveResponse(type) {
             if (type == 'submit') {
                 var confirmStatus = confirm("You will not be able to make any changes to these responses after submitting the form. Press 'OK' to submit the form otherwise press 'Cancel'.");
@@ -301,6 +307,10 @@
 <c:if test="${command.status.displayName ne 'Completed'}">
     <table width="100%" style="margin-top:10px;">
         <tr>
+            <td align="left">
+                <tags:button type="submit" color="blue" id="flow-prev"
+                             onclick="saveAndBack('save', ${command.studyParticipantCrf.studyParticipantAssignment.id});" value="Save & Back" icon="Back"/>
+            </td>
             <td align="right">
                 <tags:button color="green" id="flow-update"
                              cssClass="next" value="Save" icon="save" onclick="saveResponse('save');"/>
