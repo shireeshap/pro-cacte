@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator"%>
+<%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -25,15 +25,26 @@
         displayParticipants = true;
         displaySymptom = false;
         studySiteMandatory = true;
+        window.onload = function() {
+            initializeFields();
+        }
         function initializeFields() {
         <c:if test="${study ne null}">
-            displayForms(${crf.id});
-            displaySites();
-            fnDisplayParticipants();
-            setTimeout("participantCareResults();", 2000);
+            setTimeout("participantCareResultsFromHome();", 1000);
         </c:if>
         }
-        
+
+        function participantCareResultsFromHome() {
+             var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&studyId=" + ${study.id} + "&crfId=" + ${crf.id} +
+                        "&studySiteId=" + ${studySite.id} + "&participantId=" + ${participant.id} +
+                        "&visitRange=" + "all" + "&forVisits=" + null + "&startDate=" + null + "&endDate=" + null,
+                onComplete:function(transport) {
+                    showResultsTable(transport);
+                },
+                method:'get'
+            })
+        }
         function participantCareResults(format, symptomId, selectedTypes) {
             if (!performValidations()) {
                 return;
@@ -53,8 +64,8 @@
                 showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
                     parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&crfId=" + crfId +
-                               "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate,
+                            "&studySiteId=" + studySiteId + "&participantId=" + participantId +
+                            "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate,
                     onComplete:function(transport) {
                         showResultsTable(transport);
                         hideIndicator();
@@ -120,7 +131,7 @@
             zoom: 1;
         }
     </style>
-    
+
     <script type="text/javascript">
         var managerAutoComp;
         Event.observe(window, 'load', function() {
@@ -130,7 +141,7 @@
         });
 
         function getStudies(sQuery) {
-        	showIndicator("studyInput-indicator");
+            showIndicator("studyInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
@@ -143,41 +154,41 @@
         function handleSelect(stype, args) {
             var ele = args[0];
             var oData = args[2];
-            if(oData == null){
-            	ele.getInputEl().value="(Begin typing here)";
-            	ele.getInputEl().addClassName('pending-search');
+            if (oData == null) {
+                ele.getInputEl().value = "(Begin typing here)";
+                ele.getInputEl().addClassName('pending-search');
             } else {
                 ele.getInputEl().value = oData.displayName;
                 var id = ele.getInputEl().id;
                 var hiddenInputId = id.substring(0, id.indexOf('Input'));
                 $(hiddenInputId).value = oData.id;
                 ele.getInputEl().removeClassName('pending-search');
-                
-    			if(hiddenInputId == 'study'){
-    	            displayForms();
-    	            displaySites();
-    	            fnDisplayParticipants();
-    			}
+
+                if (hiddenInputId == 'study') {
+                    displayForms();
+                    displaySites();
+                    fnDisplayParticipants();
+                }
             }
         }
 
-       function clearInput(inputId) {
+        function clearInput(inputId) {
             $(inputId).clear();
             $(inputId + 'Input').clear();
             $(inputId + 'Input').focus();
             $(inputId + 'Input').blur();
         }
 
-       function getParticipants(sQuery) {
-    	   showIndicator("participantInput-indicator");
-           var callbackProxy = function(results) {
-               aResults = results;
-           };
-           var callMetaData = {callback:callbackProxy, async:false};
-           participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
-           hideIndicator("participantInput-indicator");
-           return aResults;
-       }
+        function getParticipants(sQuery) {
+            showIndicator("participantInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = {callback:callbackProxy, async:false};
+            participant.matchParticipantByStudySiteId(unescape(sQuery), $('studySite').value, $('study').value, callMetaData);
+            hideIndicator("participantInput-indicator");
+            return aResults;
+        }
     </script>
 </head>
 <body>
@@ -185,34 +196,37 @@
 <tags:instructions code="participantReportInstructions"/>
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
-                                  
-		<div class="row" style="">
-			<div class="label">
-				<tags:requiredIndicator/><tags:message code='reports.label.study'/>
-			</div>
-			<div class="value">
-				<input id="study" class="validate-NOTEMPTY" type="hidden" value=""  title="Study" style="display: none;" name="study"/>                         
-         	   	<tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
-			</div>
-		</div> 
-           
+
+        <div class="row" style="">
+            <div class="label">
+                <tags:requiredIndicator/><tags:message code='reports.label.study'/>
+            </div>
+            <div class="value">
+                <input id="study" class="validate-NOTEMPTY" type="hidden" value="${study.id}" title="Study"
+                       style="display: none;" name="study"/>
+                <tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
+            </div>
+        </div>
+
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label"><tags:requiredIndicator/><tags:message code='reports.label.form'/></div>
             <div class="value IEdivValueHack" id="formDropDown"></div>
         </div>
-        
+
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <div class="row">
-				<div class="label">
-					<tags:requiredIndicator/><tags:message code='reports.label.site'/>
-				</div>
-				<div class="value">
-					<input id="studySite" class="validate-NOTEMPTY" type="hidden" value=""  title="Study site" style="display:none;" name="studySite"/>                         
-	         	   	<tags:yuiAutocompleter inputName="studySiteInput" value="" required="false" hiddenInputName="studySite"/>
-				</div>
-			</div> 
+                <div class="label">
+                    <tags:requiredIndicator/><tags:message code='reports.label.site'/>
+                </div>
+                <div class="value">
+                    <input id="studySite" class="validate-NOTEMPTY" type="hidden" value="" title="Study site"
+                           style="display:none;" name="studySite"/>
+                    <tags:yuiAutocompleter inputName="studySiteInput" value="" required="false"
+                                           hiddenInputName="studySite"/>
+                </div>
+            </div>
         </div>
-        
+
         <div id="studySiteDiv" style="display:none">
             <input id="studySite" name="studySite" type="hidden">
 
@@ -221,19 +235,21 @@
                 <div id="studySiteName" class="value"></div>
             </div>
         </div>
-        
+
         <div id="participantAutoCompleterDiv" style="display:none">
             <div class="row">
-				<div class="label">
-					<tags:requiredIndicator/><tags:message code='reports.label.participant'/>
-				</div>
-				<div class="value">
-					<input id="participant" class="validate-NOTEMPTY" type="hidden" value=""  title="Participant" style="display: none;" name="participant"/>                         
-	         	   	<tags:yuiAutocompleter inputName="participantInput" value="" required="false" hiddenInputName="participant"/>
-				</div>
-			</div> 
+                <div class="label">
+                    <tags:requiredIndicator/><tags:message code='reports.label.participant'/>
+                </div>
+                <div class="value">
+                    <input id="participant" class="validate-NOTEMPTY" type="hidden" value="" title="Participant"
+                           style="display: none;" name="participant"/>
+                    <tags:yuiAutocompleter inputName="participantInput" value="" required="false"
+                                           hiddenInputName="participant"/>
+                </div>
+            </div>
         </div>
-        
+
         <div id="dateMenuDiv" style="display:none" class="row">
             <div class="label"><tags:message code='reports.label.visits'/></div>
             <div class="value IEdivValueHack">
@@ -266,7 +282,8 @@
             </div>
         </div>
 
-<br/>
+        <br/>
+
         <div id="search" style="display:none" class="row">
             <div style="margin-left:9em"><tags:button color="blue" value="Generate Report"
                                                       onclick="participantCareResults('tabular')" size="big"
