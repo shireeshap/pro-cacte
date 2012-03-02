@@ -2292,6 +2292,7 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/046_add_study_part
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/047_update_spcs.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/048_update_scra_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/049_update_spcs.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/050_add_RTOG.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
