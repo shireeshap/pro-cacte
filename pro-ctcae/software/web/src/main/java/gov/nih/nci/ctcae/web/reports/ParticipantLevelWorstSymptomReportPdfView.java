@@ -151,9 +151,12 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         // survey solicited symptoms section header
         addSurveySolicitedSymptomsToDocument(pdfWriter, document, results);
 
-        document.add(new Paragraph(" "));
-        addClinicianReportedSymptomsTableToDocument(document, pdfWriter);
+//        document.add(new Paragraph(" "));
+//        document.add(new Paragraph(" "));
+//        document.add(new Paragraph(" "));
+        
         addFeedbackQuestionsToDocument(document, pdfWriter);
+        addClinicianReportedSymptomsTableToDocument(document, pdfWriter);
     }
 
 
@@ -221,12 +224,17 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         aeDetailList = buildAEListForDisplay(20, 23);
         addSymptomsToTable(table, aeDetailList, results);
 
-        Cell cell = new Cell(new Paragraph("*See section 10.0 of the protocol.", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        cell.setColspan(13);
-        cell.setBorder(0);
-        table.addCell(cell);
+//        Cell cell = new Cell(new Paragraph("*See section 10.0 of the protocol.", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+//        cell.setColspan(13);
+//        cell.setBorder(0);
+//        table.addCell(cell);
 
         document.add(table);
+
+//        document.add(new Paragraph(" "));
+//        document.add(new Paragraph(" "));
+//        document.add(new Paragraph(" "));
+        
 		addCheckboxesToHeader(pdfWriter);
 
         return;
@@ -263,7 +271,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	                            severityValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
 	                        }
 	                    }
-	                    cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10)));
+	                    cell = new Cell(new Paragraph(severityValue, FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
 	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	                    table.addCell(cell);
 	                    
@@ -289,7 +297,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	                            }
 	                        }
 	                    }
-	                    cell = new Cell(new Paragraph(frequencyValue, FontFactory.getFont("Times-Roman", 10)));
+	                    cell = new Cell(new Paragraph(frequencyValue, FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
 	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	                    table.addCell(cell);
 
@@ -301,7 +309,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	                            interferenceValue = ((ProCtcValidValue)proCtcValidValues.get(0)).getValue(SupportedLanguageEnum.ENGLISH);
 	                        }
 	                    }
-	                    cell = new Cell(new Paragraph(interferenceValue, FontFactory.getFont("Times-Roman", 10)));
+	                    cell = new Cell(new Paragraph(interferenceValue, FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
 	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	                    table.addCell(cell);
 	            	}
@@ -397,7 +405,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
 
-        p = new Paragraph("\n Patient Self-Reported AE Grades \n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        p = new Paragraph("\n Patient Self-Reporting Adverse Event Ratings \n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
         p.add(new Phrase("\n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         cell = new Cell(p);
         cell.setRowspan(1);
@@ -457,26 +465,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
 	private void addClinicianReportedSymptomsTableToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
 		
-        Paragraph blurb = new Paragraph("Were", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        blurb.add(new Phrase(" (other) ", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
-        blurb.add(new Phrase("adverse events accessed during this report period?", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        document.add(blurb);
-        
-        blurb = new Paragraph("O Yes, and reportable adverse events occurred \n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        blurb.setIndentationLeft(20f);
-        document.add(blurb);
-        
-        blurb = new Paragraph("O Yes, but no reportable adverse events occurred", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        blurb.add(new Phrase(" (continue to feedback questions) ", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
-        blurb.setIndentationLeft(20f);
-        document.add(blurb);
-        
-        blurb = new Paragraph("O No", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        blurb.add(new Phrase(" (continue to feedback questions) \n", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
-        blurb.setIndentationLeft(20f);
-        document.add(blurb);
-        
-        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 20, Font.PLAIN)));
+//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 20, Font.PLAIN)));
 
         Table table = new Table(9);
         table.setWidth(84);
@@ -573,45 +562,65 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
 	private void addFeedbackQuestionsToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
         // feedback Questions
-		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
-		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
+//		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
+//		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
 
-        document.add(new Paragraph(" Feedback Questions", FontFactory.getFont("Times-Roman", 12, Font.BOLD | com.lowagie.text.Font.UNDERLINE)));
-        document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
+//        document.add(new Paragraph(" Feedback Questions", FontFactory.getFont("Times-Roman", 12, Font.BOLD | com.lowagie.text.Font.UNDERLINE)));
+//        document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
 
-        document.add(new Paragraph("1. Who completed the above form?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Non-clinician", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Clinician who did not see the patient", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("1. Is the person who filled out the above form the same person who assigned the actual CTCAE grades for this patient?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O Yes", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("    O No", FontFactory.getFont("Times-Roman", 10)));
+        //document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
+        
+//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
+//        document.add(new Paragraph("2. Who assigned the actual CTCAE grades for the above form?", FontFactory.getFont("Times-Roman", 10)));
+//        document.add(new Paragraph("    O Non-clinician", FontFactory.getFont("Times-Roman", 10)));
+//        document.add(new Paragraph("    O Clinician who did not see the patient", FontFactory.getFont("Times-Roman", 10)));
+//        document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
+//
+//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
+//        document.add(new Paragraph("3. Were the CTCAE grades on the above form transcribed from a different source (e.g., a different form or the medical record), or " +
+//        		"were they graded directly onto the above form?", FontFactory.getFont("Times-Roman", 10)));
+//        document.add(new Paragraph("    O Transcribed from another source", FontFactory.getFont("Times-Roman", 10)));
+//        document.add(new Paragraph("    O Graded directly on the above form", FontFactory.getFont("Times-Roman", 10)));
         
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("2. Who assigned the actual CTCAE grades for the above form?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Non-clinician", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Clinician who did not see the patient", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
-
-        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("3. Were the CTCAE grades on the above form transcribed from a different source (e.g., a different form or the medical record), or " +
-        		"were they graded directly onto the above form?", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Transcribed from another source", FontFactory.getFont("Times-Roman", 10)));
-        document.add(new Paragraph("    O Graded directly on the above form", FontFactory.getFont("Times-Roman", 10)));
-        
-        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("4. Did the person who assigned CTCAE grades for the above form have access to the patient's self-reported AE " +
+        document.add(new Paragraph("2. Did the person who assigned CTCAE grades for the above form have access to the patient's self-reported AE " +
         		"grades at the time they assigned the CTCAE grades?", FontFactory.getFont("Times-Roman", 10)));
         Paragraph para = new Paragraph("    O Yes ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        para.add(new Phrase("(If Yes, proceed to next question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+//        para.add(new Phrase("(If Yes, proceed to next question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
         para = new Paragraph("    O No ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        para.add(new Phrase("(If No, end form)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        para.add(new Phrase("((If No, proceed to Other Adverse Events question))", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("5. Were any of the assigned CTCAE grades in the above adverse event form different than they would " +
-        		"have been in the absence of access to the patient's self-reported responses?", FontFactory.getFont("Times-Roman", 10)));
+        document.add(new Paragraph("3. Were any of the assigned CTCAE grades in the above adverse event form different than they would " +
+        		"have been in the absence of access to the patient's self-reported AE responses?", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O Yes", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O No", FontFactory.getFont("Times-Roman", 10)));
+        
+        document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
+        Paragraph blurb = new Paragraph("Were", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        blurb.add(new Phrase(" (other) ", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        blurb.add(new Phrase("adverse events accessed during this report period?", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        document.add(blurb);
+        
+        blurb = new Paragraph("O Yes, and reportable adverse events occurred \n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        blurb.setIndentationLeft(20f);
+        document.add(blurb);
+        
+        blurb = new Paragraph("O Yes, but no reportable adverse events occurred", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        blurb.add(new Phrase(" (end form) ", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        blurb.setIndentationLeft(20f);
+        document.add(blurb);
+        
+        blurb = new Paragraph("O No", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        blurb.add(new Phrase(" (end form) \n", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        blurb.setIndentationLeft(20f);
+        document.add(blurb);
         
 		addCheckboxesToHeader(pdfWriter);
 	}
@@ -623,9 +632,9 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         instructionsTable.setBorderWidth(0);
 
         Paragraph instructionalParagraph = new Paragraph("\nInstructions: ", FontFactory.getFont("Times-Roman", 10, Font.BOLD));
-        instructionalParagraph.add(new Phrase("This form should be completed by the CRA per the Test Schedule (Section 4.0) using patient's medical records. When completing this form, the patient's self-" +
-                "reported adverse event grades (shown in the table below for the reporting period) should be used as a reference.\n \n" , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        instructionalParagraph.add(new Paragraph("Reporting Period Start Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportStartDate , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        instructionalParagraph.add(new Phrase("This form should be completed by the CRA per the Test Schedule (Section 4.0) using patient's medical records, starting from the first day since the prior reporting period if post-baseline. " +
+        		"When completing this form, the patient's self-reported adverse event grades (shown in the table below for the reporting period) should be used as a reference.\n \n" , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        //instructionalParagraph.add(new Paragraph("Reporting Period Start Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportStartDate , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         instructionalParagraph.add(new Paragraph("Reporting Period End Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportEndDate, FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
 
         Cell headerCell = new Cell(instructionalParagraph);
