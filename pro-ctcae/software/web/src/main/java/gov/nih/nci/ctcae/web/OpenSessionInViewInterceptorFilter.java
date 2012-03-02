@@ -1,13 +1,21 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 //
 /**
@@ -25,6 +33,8 @@ public class OpenSessionInViewInterceptorFilter extends ContextRetainingFilterAd
      * The interceptor bean name.
      */
     private String interceptorBeanName;
+	protected static final Log logger = LogFactory.getLog(OpenSessionInViewInterceptorFilter.class);
+
 
     /* (non-Javadoc)
       * @see gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter#init(javax.servlet.FilterConfig)
@@ -50,7 +60,7 @@ public class OpenSessionInViewInterceptorFilter extends ContextRetainingFilterAd
     public void doFilter(
             ServletRequest request, ServletResponse response, FilterChain chain
     ) throws IOException, ServletException {
-        log.debug("Opening session for request");
+    	logger.debug("Opening session for request");
         OpenSessionInViewInterceptor interceptor
                 = (OpenSessionInViewInterceptor) getApplicationContext().getBean(getInterceptorBeanName());
         WebRequest webRequest = new ServletWebRequest((HttpServletRequest) request);
@@ -60,7 +70,7 @@ public class OpenSessionInViewInterceptorFilter extends ContextRetainingFilterAd
             interceptor.postHandle(webRequest, null);
         } finally {
             interceptor.afterCompletion(webRequest, null);
-            log.debug("Session closed");
+            logger.debug("Session closed");
         }
     }
 

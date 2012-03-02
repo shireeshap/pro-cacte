@@ -2,6 +2,10 @@ package gov.nih.nci.ctcae.web.setup;
 
 import gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter;
 import gov.nih.nci.ctcae.core.SetupStatus;
+import gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.*;
@@ -15,6 +19,8 @@ import java.io.IOException;
  */
 public class SetupOrNotFilter extends ContextRetainingFilterAdapter {
     private SetupStatus status;
+	protected static final Log logger = LogFactory.getLog(SetupOrNotFilter.class);
+
 
     public void init(FilterConfig filterConfig) throws ServletException {
         super.init(filterConfig);
@@ -23,14 +29,14 @@ public class SetupOrNotFilter extends ContextRetainingFilterAdapter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (status.isSetupNeeded()) {
-            log.debug("Initial setup required.  Redirecting.");
+        	logger.debug("Initial setup required.  Redirecting.");
             try {
                 new RedirectView("/setup/initial", true).render(null, (HttpServletRequest) request, (HttpServletResponse) response);
             } catch (Exception e) {
                 throw new ServletException("Redirect view rending failed", e);
             }
         } else {
-            log.debug("Initial setup complete.  Proceeding.");
+        	logger.debug("Initial setup complete.  Proceeding.");
             chain.doFilter(request, response);
         }
     }

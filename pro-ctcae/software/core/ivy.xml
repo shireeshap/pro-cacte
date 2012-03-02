@@ -101,6 +101,8 @@
         <dependency org="oracle" name="ojdbc14" rev="10.2.0.2"/>
 
         <!-- Groovy (used by bering) needs this version of asm, but hibernate is pulling in 1.5.3 -->
+        <dependency org="groovy" name="groovy" rev="1.0-jsr-06"/>
+        
         <dependency org="asm" name="asm" rev="2.2.3"/>
         <dependency org="edu.northwestern.bioinformatics" name="bering" rev="0.6.1">
             <exclude name="spring" conf="*"/>
@@ -113,15 +115,15 @@
         <dependency org="javax.activation" name="activation" rev="1.1"/>
 
         <!-- CSV reader -->
-        <dependency org="com.csvreader" name="csvreader" rev="2.0"/>
+        <dependency org="net.sourceforge.javacsv" name="javacsv" rev="2.0"/>
 
 
         <!-- CTMS commons dependencies -->
-        <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"/>
-        <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"/>
 
-        <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-lang" rev="${ctms.version}" transitive="false"/>
-        <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctms.version}"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="${ctms.version}" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctms.version}"/>
 
 
         <!-- Test/Runtime dependencies -->
@@ -132,9 +134,9 @@
         <dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default"/>
         <dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default"/>
         <dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
-        <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
         <dependency org="opensymphony" name="quartz-all" rev="1.6.0"/>
-        <dependency org="net.sourceforge" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
+        <dependency org="net.sourceforge.cobertura" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
         <dependency org="asm" name="asm" rev="3.0" conf="test->default(*)"/>
         <dependency org="asm" name="asm-tree" rev="3.0" conf="test->default(*)"/>
         <dependency org="oro" name="oro" rev="2.0.8" conf="test->default(*)"/>

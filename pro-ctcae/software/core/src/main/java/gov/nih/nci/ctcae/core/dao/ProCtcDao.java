@@ -80,7 +80,7 @@ public abstract class ProCtcDao<T extends DomainObject> extends AbstractDomainOb
         	query.append(" order by o." + substringMatchProperties.get(0));
         }
         getHibernateTemplate().setMaxResults(30);
-        log.debug("query::" + query.toString());
+//        log.debug("query::" + query.toString());
 
         List<T> result = getHibernateTemplate().find(query.toString(), params.toArray());
         getHibernateTemplate().setMaxResults(DEFAULT_MAX_RESULTS_SIZE);
@@ -112,7 +112,7 @@ public abstract class ProCtcDao<T extends DomainObject> extends AbstractDomainOb
               }
           }
 
-          log.debug("query::" + query.toString());
+//          log.debug("query::" + query.toString());
           return query.toString();
     }
 //    /**
@@ -312,13 +312,13 @@ public abstract class ProCtcDao<T extends DomainObject> extends AbstractDomainOb
     public void clearSession() {
 
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-        log.debug("Entity Count  before clear() : " + session.getStatistics().getEntityCount());
-        log.debug("Collection Count before clear() : "
-                        + session.getStatistics().getCollectionCount());
+//        log.debug("Entity Count  before clear() : " + session.getStatistics().getEntityCount());
+//        log.debug("Collection Count before clear() : "
+//                        + session.getStatistics().getCollectionCount());
         session.clear();
-        log.debug("Entity Count  after clear() : " + session.getStatistics().getEntityCount());
-        log.debug("Collection Count after clear() : "
-                        + session.getStatistics().getCollectionCount());
+//        log.debug("Entity Count  after clear() : " + session.getStatistics().getEntityCount());
+//        log.debug("Collection Count after clear() : "
+//                        + session.getStatistics().getCollectionCount());
     }
 
     @SuppressWarnings("unchecked")
@@ -330,7 +330,7 @@ public abstract class ProCtcDao<T extends DomainObject> extends AbstractDomainOb
             query.append("order by " + sortCriteria);
         }
 
-        log.debug("query::" + query.toString());
+//        log.debug("query::" + query.toString());
         getHibernateTemplate().setMaxResults(0);
         List<T> result =  getHibernateTemplate().find(query.toString());
         getHibernateTemplate().setMaxResults(DEFAULT_MAX_RESULTS_SIZE);
