@@ -29,7 +29,7 @@
             initializeFields();
         }
         function initializeFields() {
-        <c:if test="${study ne null}">
+        <c:if test="${showReports}">
             setTimeout("participantCareResultsFromHome();", 1000);
         </c:if>
         }

@@ -45,6 +45,7 @@ public class ParticipantLevelReportController extends AbstractController {
             modelAndView.addObject("studySite", studySite);
             modelAndView.addObject("participant", participant);
             modelAndView.addObject("visits", "ALL");
+            modelAndView.addObject("showReports", true);
         } else {
             Map m = modelAndView.getModel();
             m.put("study", null);
