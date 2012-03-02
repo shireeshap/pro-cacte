@@ -213,10 +213,10 @@
                 <select id="visitOptions" name="visitOptions" onChange="customVisit(this)">
                 	<option value="dateRange">Date range</option>
                     <option value="all">All</option>
-                    <option value="currentPrev">Current & Previous</option>
+                   <!--  <option value="currentPrev">Current & Previous</option>
                     <option value="lastFour">Last four</option>
                     <option value="currentLast">Current & First</option>
-                    <option value="custom">Custom</option>
+                    <option value="custom">Custom</option> -->
                 </select>
             </div>
 
@@ -229,11 +229,11 @@
         </div>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
-                <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                <tags:renderDate noForm="true" displayName="Reporting Period Start" propertyName="startDate"
                                  doNotShowFormat="true"/>
             </div>
-            <div class="rightpanel">
-                <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+            <div class="rightpanel" align="left">
+                <tags:renderDate noForm="true" displayName="Reporting Period End" propertyName="endDate"
                                  doNotShowFormat="true"/>
             </div>
         </div>
