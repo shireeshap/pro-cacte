@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -128,7 +129,7 @@ public class CRFIntegrationTest extends TestDataManager {
     public void testUpdateStatusOfCRF() throws ParseException {
         saveCrf();
         assertNotNull(crf.getId());
-        crfRepository.updateStatusToReleased(crf);
+        crfRepository.updateStatusToReleased(crf.getId(), new Date());
         assertEquals(CrfStatus.RELEASED, crf.getStatus());
     }
 

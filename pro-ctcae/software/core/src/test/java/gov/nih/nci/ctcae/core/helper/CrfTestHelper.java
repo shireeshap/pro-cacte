@@ -48,7 +48,7 @@ public class CrfTestHelper {
         fourthTab_Notifications(crf);
         crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
-        crf = crfRepository.updateStatusToReleased(crf);
+        crf = crfRepository.updateStatusToReleased(crf.getId(), new Date());
         createSecondaryForms();
 
     }
@@ -76,7 +76,7 @@ public class CrfTestHelper {
         fourthTab_Notifications(crf);
         crf = crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
-        crf = crfRepository.updateStatusToReleased(crf);
+        crf = crfRepository.updateStatusToReleased(crf.getId(), new Date());
         study.getCrfs().add(crf);
         ParticipantTestHelper.createIVRSParticipant("ivrs", "participant", "007", study.getLeadStudySite(), 0,"1201201200",1234);
         if(myTestDataManager == null)
@@ -93,7 +93,7 @@ public class CrfTestHelper {
 
         crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 3));
-        crf = crfRepository.updateStatusToReleased(crf);
+        crf = crfRepository.updateStatusToReleased(crf.getId(), new Date());
 
         crf = new CRF();
         crf.setTitle("PRO Form 3");
@@ -101,7 +101,7 @@ public class CrfTestHelper {
         secondTab_FormBuilder(crf);
         crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 0));
-        crf = crfRepository.updateStatusToReleased(crf);
+        crf = crfRepository.updateStatusToReleased(crf.getId(), new Date());
     }
 
     private static void firstTab_SelectStudy(CRF crf, Study study) {

@@ -2746,6 +2746,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.jav
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HiddenFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HideFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCRFWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCrfDTO.java -text

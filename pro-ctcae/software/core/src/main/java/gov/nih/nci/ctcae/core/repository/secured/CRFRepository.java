@@ -57,24 +57,58 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     /**
      * Update status to released.
      *
-     * @param crf the crf
+     * @param
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public CRF updateStatusToReleased(CRF crf) throws ParseException {
-        createSchedulesForExistingParticipants(crf);
+    public CRF updateStatusToReleased(Integer crfId, Date effectiveStartDate) throws ParseException {
+        CRF crf = findById(crfId);
+        crf.setEffectiveStartDate(effectiveStartDate);
+//        if (crf.getParentCrf() != null && crf.getParentCrf().getStudyParticipantCrfs() != null) {
+//            for (StudyParticipantCrf spc : crf.getParentCrf().getStudyParticipantCrfs()) {
+//                StudyParticipantCrf nStudyParticipantCrf = new StudyParticipantCrf();
+//                nStudyParticipantCrf.setStartDate(spc.getStudyParticipantAssignment().getStudyStartDate());
+//                nStudyParticipantCrf.setStudyParticipantAssignment(spc.getStudyParticipantAssignment());
+//                crf.addStudyParticipantCrf(nStudyParticipantCrf);
+//                spc.removeCrfSchedules(CrfStatus.SCHEDULED);
+//                addParticipantAddedQuestionsToStudyParticipantCrf(crf, spc, nStudyParticipantCrf);
+//                genericRepository.create(spc);
+//                nStudyParticipantCrf.createSchedules();
+//            }
+//        } else {
+
+            Study study = studyRepository.findById(crf.getStudy().getId());
+//
+//
+            for (StudySite studySite : study.getStudySites()) {
+                for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
+                    StudyParticipantCrf studyParticipantCrf = removeOldStudyParticipantCrfsAndCreateNew(crf, studyParticipantAssignment);
+
+                    //to avoid lazy initialization
+//                if (studyParticipantCrf.getCrf().getParentCrf() != null) {
+//                    CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
+//                    StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
+//                    for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
+//                        spc.getCrf();
+//                    }
+//                }
+
+//                    studyParticipantCrf.createSchedules();
+//                }
+//            }
+//        }
+//         if (crf.getParentCrf() != null && crf.getParentCrf().getStudyParticipantCrfs() != null) {
+//            for (StudyParticipantCrf spc : crf.getParentCrf().getStudyParticipantCrfs()) {
+//                for (StudyParticipantCrf spc1 : spc.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+//                    spc1.removeCrfSchedules(CrfStatus.SCHEDULED);
+//                    genericRepository.create(spc1);
+//                }
+            }
+        }
+
         crf.setStatus(CrfStatus.RELEASED);
         return save(crf);
     }
 
-    private void createSchedulesForExistingParticipants(CRF crf) throws ParseException {
-        Study study = studyRepository.findById(crf.getStudy().getId());
-        for (StudySite studySite : study.getStudySites()) {
-            for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                StudyParticipantCrf studyParticipantCrf = removeOldStudyParticipantCrfsAndCreateNew(crf, studyParticipantAssignment);
-                studyParticipantCrf.createSchedules();
-            }
-        }
-    }
 
     private StudyParticipantCrf removeOldStudyParticipantCrfsAndCreateNew(CRF crf, StudyParticipantAssignment studyParticipantAssignment) {
         StudyParticipantCrf newStudyParticipantCrf = new StudyParticipantCrf();

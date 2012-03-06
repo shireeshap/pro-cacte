@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 //
+
 /**
  * The Class ReleaseFormController.
  *
@@ -32,7 +35,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
      */
     protected ReleaseFormController() {
         super();
-        setCommandClass(CRF.class);
+        setCommandClass(ReleaseFormCommand.class);
         setFormView("form/releaseForm");
         setSessionForm(true);
 
@@ -45,9 +48,14 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
         Integer crfId = ServletRequestUtils.getIntParameter(request, "crfId");
+        ReleaseFormCommand command = new ReleaseFormCommand();
         CRF crf = crfRepository.findById(crfId);
-        crf.setEffectiveStartDate(new Date());
-        return crf;
+        command.setEffectiveStartDate(new Date());
+        command.setStudyId(crf.getStudy().getId());
+        command.setTitle(crf.getTitle());
+        command.setCrfId(crfId);
+        command.setReleased(crf.isReleased());
+        return command;
 
 
     }
@@ -57,9 +65,9 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
      */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-
-        CRF crf = (CRF) command;
-        CRF updatedCRF = crfRepository.updateStatusToReleased(crf);
+        ReleaseFormCommand releaseFormCommand = (ReleaseFormCommand) command;
+//        CRF crf = (CRF) command;
+        CRF updatedCRF = crfRepository.updateStatusToReleased(releaseFormCommand.getCrfId(), releaseFormCommand.getEffectiveStartDate());
 
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + updatedCRF.getStudy().getId());
         return new ModelAndView(redirectView);

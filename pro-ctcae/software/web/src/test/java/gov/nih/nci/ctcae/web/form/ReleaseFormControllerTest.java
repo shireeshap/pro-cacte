@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Date;
 import java.util.Map;
 
 import static org.easymock.EasyMock.expect;
@@ -56,7 +57,7 @@ public class ReleaseFormControllerTest extends WebTestCase {
         request.setMethod("POST");
         expect(crfRepository.findById(null)).andReturn(crf).anyTimes();
         expect(crfRepository.save(crf)).andReturn(crf).anyTimes();
-        expect(crfRepository.updateStatusToReleased(crf)).andReturn(crf);
+        expect(crfRepository.updateStatusToReleased(crf.getId(), new Date())).andReturn(crf);
 
         replayMocks();
 
