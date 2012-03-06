@@ -281,9 +281,10 @@ function buildTable(index, days, repeat, pageload) {
     }
     for (var k = 0; k < repeat; k++) {
         if (!pageload) {
-            try{
-            addHiddenInput(index, k);
-            }catch(err){}
+            try {
+                addHiddenInput(index, k);
+            } catch(err) {
+            }
         }
         for (i = 0; i < numOfRows; i++) {
             var row = new Element('TR');
@@ -291,9 +292,10 @@ function buildTable(index, days, repeat, pageload) {
             for (j = 0; j < daysPerLine; j++) {
                 var currentday = i * daysPerLine + j + 1;
                 if (currentday <= days) {
-                    try{
-                    addCycleDayColumn(currentday, tbody, row, index, k);
-                    }catch(err){}
+                    try {
+                        addCycleDayColumn(currentday, tbody, row, index, k);
+                    } catch(err) {
+                    }
                 }
             }
         }
@@ -484,19 +486,16 @@ function showSchedule(scheduleType) {
 }
 function refreshPageLocal() {
     /*if ($('allArmsCheck').checked) {
-        $('allArms').value = 'true';
-    } else {
-        $('allArms').value = 'false';
-    }*/
+     $('allArms').value = 'true';
+     } else {
+     $('allArms').value = 'false';
+     }*/
     refreshPage();
 }
-function unique(arrayName)
-{
+function unique(arrayName) {
     var newArray = new Array();
-    label:for (var i = 0; i < arrayName.length; i++)
-    {
-        for (var j = 0; j < newArray.length; j++)
-        {
+    label:for (var i = 0; i < arrayName.length; i++) {
+        for (var j = 0; j < newArray.length; j++) {
             if (newArray[j] == arrayName[i])
                 continue label;
         }
@@ -512,6 +511,26 @@ function checkBaseline(obj) {
         $('crf.createBaseline').value = false;
     }
 }
+
+function isNumeric(fieldName) {
+    if ($(fieldName)!=null) {
+        var iChars = "0123456789";
+        var fieldValue = $(fieldName).value;
+        jQuery('#' + fieldName + '.error').hide();
+        $(fieldName + '.error').hide();
+        for (var i = 0; i < fieldValue.length; i++) {
+            if (iChars.indexOf(fieldValue.charAt(i)) == -1) {
+                // alert ("The box has special characters. \nThese are not allowed.\n");
+                jQuery('#' + fieldName + '.error').show();
+                $(fieldName + '.error').show();
+                $(fieldName).value = "";
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 
 </script>
 </head>
@@ -586,14 +605,15 @@ function checkBaseline(obj) {
             </select>
 
         </div>
-             <c:if test="${fn:length(command.crf.formArmSchedules) gt 1 }">
-             <table class="label1">
-                 <tr>
-                     <td style="vertical-align: top;">
-                     <spring:message code="form.calendar.arm.copy"></spring:message>
-                     </td>
-                     <td style="vertical-align: middle;">
-                          <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple" size="${fn:length(command.crf.formArmSchedules)-1}">
+        <c:if test="${fn:length(command.crf.formArmSchedules) gt 1 }">
+            <table class="label1">
+                <tr>
+                    <td style="vertical-align: top;">
+                        <spring:message code="form.calendar.arm.copy"></spring:message>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple"
+                                size="${fn:length(command.crf.formArmSchedules)-1}">
 
                             <c:forEach items="${command.crf.formArmSchedules}" var="formArmCopySchedule">
                                 <c:choose>
@@ -603,16 +623,14 @@ function checkBaseline(obj) {
                                 </c:choose>
                             </c:forEach>
                         </select>
-                     </td>
+                    </td>
                 </tr>
-             </table>   
-             </c:if>
+            </table>
+        </c:if>
             <%--<input type="checkbox" id="allArmsCheck" name="allArmsCheck"
                    <c:if test="${command.allArms}">checked</c:if>/> Apply this arm's schedule to all the arms
-            <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>  --%>        
+            <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>  --%>
     </div>
-
-
 
 
     <div class="row">
@@ -666,12 +684,18 @@ function checkBaseline(obj) {
                     <div style="float: left; margin-right: 10px; padding-top:4px;">
                         <div id="div_number_0" style="display:none;">
                             <input size="3" id="crfCalendar_number_0.repeatUntilValue"
+                                   onblur="isNumeric('crfCalendar_number_0.repeatUntilValue')"
                                    name="crfCalendar_number_0.repeatUntilValue" type="text">
                         </div>
                         <input type="hidden" id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
                                name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
                                value="${crfCalendar.repeatUntilValue}"/>
-                        </div>
+                    </div>
+                    <ul id="crfCalendar_number_0.repeatUntilValue.error" style="display:none;left-padding:8em;"
+                        class="errors">
+                        <li><spring:message code='numeric.character.message'
+                                            text='numeric.character.message'/></li>
+                    </ul>
                 </td>
             </tr>
         </table>

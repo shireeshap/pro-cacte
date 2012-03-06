@@ -597,8 +597,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     }
 
 
-
-
 </script>
 <style type="text/css">
 

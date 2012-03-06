@@ -132,10 +132,18 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @return the study participant crf schedules
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
+        try {
+        if (studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size()==0) {
+            //creating schedules dynamically
+            createSchedules();
+        }
+        } catch(ParseException pe) {
+               logger.error(pe.getStackTrace());
+        }
         Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleDueDateComparator());
         return studyParticipantCrfSchedules;
     }
-    
+
 
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(List<CrfStatus> crfStatusList) {
     	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedulesWithSpecifiedStatuses = new ArrayList<StudyParticipantCrfSchedule>();
@@ -146,7 +154,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     	}
         return studyParticipantCrfSchedulesWithSpecifiedStatuses;
     }
-    
+
 
     /**
      * Adds the study participant crf schedule.
@@ -162,7 +170,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 //	              studyParticipantCrfItem.setCrfPageItem(crfPageItem);
 //	              studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
 //	          }
-//	      }    		
+//	      }
 //    	}
 
         studyParticipantCrfSchedule.setStudyParticipantCrf(this);
@@ -182,7 +190,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
-    public void removeScheduledSpCrfSchedules() {
+    public void removeScheduledSpCrfSchedules() throws Exception {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
@@ -267,7 +275,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
 
-    private void createBaseLineSchedule() {
+    private void createBaseLineSchedule() throws ParseException {
         if (crf.getCreateBaseline()) {
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
             participantSchedule.addStudyParticipantCrf(this);
@@ -299,7 +307,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         participantSchedule.createSchedules(scheduleType);
     }
 
-    public StudyParticipantCrfSchedule getBaseLineSchedule() {
+    public StudyParticipantCrfSchedule getBaseLineSchedule() throws Exception  {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.isBaseline()) {
                 return studyParticipantCrfSchedule;
@@ -373,7 +381,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      *
      * @param effectiveDate
      */
-    public void putOnHold(Date effectiveDate) {
+    public void putOnHold(Date effectiveDate) throws Exception {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                 studyParticipantCrfSchedule.putOnHold(effectiveDate);

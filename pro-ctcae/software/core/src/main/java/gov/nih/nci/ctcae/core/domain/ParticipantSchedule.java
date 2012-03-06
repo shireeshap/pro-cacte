@@ -154,12 +154,66 @@ public class ParticipantSchedule {
 //                    }
 
 
+//                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+//                            if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+//                                alreadyExists = true;
+//                                break;
+//                            }
+//                        }
+                        if (!alreadyExists) {
+                            StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+                            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                            if (baseline) {
+                                studyParticipantCrfSchedule.setStartDate(studyParticipantCrf.getStartDate());
+                            } else {
+                                studyParticipantCrfSchedule.setStartDate(c.getTime());
+                            }
+                            //check if due date is not fixed, then check the values from arm schedules
+                            Date dueDateNew = dueDate;
+                            if (dueDate == null) {
+                                dueDateNew = getDueDateForFormSchedule(c, studyParticipantCrf);
+                            }
+                            studyParticipantCrfSchedule.setDueDate(dueDateNew);
+
+                            if (today.after(dueDateNew)) {
+                                studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
+                            }
+                            if (cycleNumber != -1) {
+                                studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
+                                studyParticipantCrfSchedule.setCycleDay(cycleDay);
+                            }
+                            if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+                                studyParticipantCrfSchedule.setHoliday(true);
+                            }
+                            studyParticipantCrfSchedule.setBaseline(baseline);
+                            if (isSpCrfScheduleAvailable(studyParticipantCrfSchedule)) {
+                                //call getter on schedule for available forms
+                                studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+                            }
+                            addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void createSchedule(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline, boolean checkDuplicate) {
+        if (c != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                boolean alreadyExists = false;
+                if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
+                    if (c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
+                     if (checkDuplicate) {
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                             if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
                                 alreadyExists = true;
                                 break;
                             }
                         }
+                     }
                         if (!alreadyExists) {
                             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);

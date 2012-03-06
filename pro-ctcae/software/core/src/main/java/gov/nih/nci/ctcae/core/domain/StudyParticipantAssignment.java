@@ -515,7 +515,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
      *
      * @param effectiveDate
      */
-    public void putOnHold(Date effectiveDate) {
+    public void putOnHold(Date effectiveDate) throws Exception{
         setOnHoldTreatmentDate(effectiveDate);
         setOffHoldTreatmentDate(null);
         for (StudyParticipantCrf spCrf : getStudyParticipantCrfs()) spCrf.putOnHold(effectiveDate);
@@ -563,7 +563,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     }
 
-    public void removeSpCrfsIfNoCompletedSchedules() {
+    public void removeSpCrfsIfNoCompletedSchedules() throws Exception{
         List<StudyParticipantCrf> studyParticipantCrfsToRemove = new ArrayList<StudyParticipantCrf>();
         for (StudyParticipantCrf studyParticipantCrf : getStudyParticipantCrfs()) {
             boolean deleteSpCrf = true;
