@@ -133,12 +133,12 @@ public class StudyParticipantCrf extends BaseVersionable {
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
         try {
-        if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size()==0) && getCrf().getChildCrf()== null) {
-            //creating schedules dynamically
-            createSchedules();
-        }
-        } catch(ParseException pe) {
-               logger.error(pe.getStackTrace());
+            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null) {
+                //creating schedules dynamically
+                createSchedules();
+            }
+        } catch (ParseException pe) {
+            logger.error(pe.getStackTrace());
         }
         Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleDueDateComparator());
         return studyParticipantCrfSchedules;
@@ -146,12 +146,20 @@ public class StudyParticipantCrf extends BaseVersionable {
 
 
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(List<CrfStatus> crfStatusList) {
-    	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedulesWithSpecifiedStatuses = new ArrayList<StudyParticipantCrfSchedule>();
-    	for(StudyParticipantCrfSchedule spcrfSchd : studyParticipantCrfSchedules){
-    		if(crfStatusList.contains(spcrfSchd.getStatus())){
-    			studyParticipantCrfSchedulesWithSpecifiedStatuses.add(spcrfSchd);
-    		}
-    	}
+        try {
+            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null) {
+                //creating schedules dynamically
+                createSchedules();
+            }
+        } catch (ParseException pe) {
+            logger.error(pe.getStackTrace());
+        }
+        List<StudyParticipantCrfSchedule> studyParticipantCrfSchedulesWithSpecifiedStatuses = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule spcrfSchd : studyParticipantCrfSchedules) {
+            if (crfStatusList.contains(spcrfSchd.getStatus())) {
+                studyParticipantCrfSchedulesWithSpecifiedStatuses.add(spcrfSchd);
+            }
+        }
         return studyParticipantCrfSchedulesWithSpecifiedStatuses;
     }
 
@@ -250,8 +258,8 @@ public class StudyParticipantCrf extends BaseVersionable {
 
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             if (formArmSchedule.getArm().equals(studyParticipantAssignment.getArm())) {
-                if (calendarStartDate!=null && calendarStartDate.after(crf.getEffectiveStartDate())) {
-                createBaseLineSchedule();
+                if (calendarStartDate != null && calendarStartDate.after(crf.getEffectiveStartDate())) {
+                    createBaseLineSchedule();
                 }
                 for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
                     if (crfCalendar.isValid()) {
@@ -307,7 +315,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         participantSchedule.createSchedules(scheduleType);
     }
 
-    public StudyParticipantCrfSchedule getBaseLineSchedule() throws Exception  {
+    public StudyParticipantCrfSchedule getBaseLineSchedule() throws Exception {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.isBaseline()) {
                 return studyParticipantCrfSchedule;
