@@ -133,7 +133,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
         try {
-        if (studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size()==0) {
+        if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size()==0) && getCrf().getChildCrf()== null) {
             //creating schedules dynamically
             createSchedules();
         }
