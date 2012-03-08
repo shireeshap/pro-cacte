@@ -138,20 +138,20 @@ public class ParticipantSchedule {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
                     if (c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
-//                    if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
-//                        CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
-//                        StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
-//                        for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
-//                            if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
-//                                for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-//                                    if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED))) {
-//                                        alreadyExists = true;
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
+                    if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
+                        CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
+                        StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
+                        for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
+                            if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
+                                for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
+                                    if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED))) {
+                                        alreadyExists = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
 
 
 //                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
