@@ -299,7 +299,7 @@ public class Participant extends Person {
         	name.append(' ');
             name.append(getMiddleName().charAt(0));
         }
-        return name.toString();
+        return name.toString().toUpperCase();
     }
 
 

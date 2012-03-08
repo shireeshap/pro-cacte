@@ -110,16 +110,15 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         dupe.setMargins(35, 35, 15, 15);
         PdfWriter dupePdfWriter = PdfWriter.getInstance(dupe, bos);
         dupe.open();
-        buildDocument(map, dupe, dupePdfWriter, request, httpServletResponse, totalPages);
+        buildDocument(map, dupe, dupePdfWriter, request, httpServletResponse);
         totalPages = dupePdfWriter.getPageNumber();
         
         document.setMargins(35, 35, 15, 15);
-        buildDocument(map, document, pdfWriter, request, httpServletResponse, totalPages);
+        buildDocument(map, document, pdfWriter, request, httpServletResponse);
     }
 
 
-    private void buildDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse, int totalPages) throws Exception {
-        int total = totalPages;
+    private void buildDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = (TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         List<ProCtcQuestionType> questionTypes = (List<ProCtcQuestionType>) request.getSession().getAttribute("questionTypes");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
@@ -150,11 +149,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         
         // survey solicited symptoms section header
         addSurveySolicitedSymptomsToDocument(pdfWriter, document, results);
-
-//        document.add(new Paragraph(" "));
-//        document.add(new Paragraph(" "));
-//        document.add(new Paragraph(" "));
-        
         addFeedbackQuestionsToDocument(document, pdfWriter);
         addClinicianReportedSymptomsTableToDocument(document, pdfWriter);
     }
@@ -166,7 +160,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	private void addCheckboxesToHeader(PdfWriter pdfWriter) throws IOException, DocumentException {
 		String yesStr = "Yes";
 		String noStr = "No";
-		RadioCheckField check = new RadioCheckField(pdfWriter, new Rectangle(541, 504, 551, 514), yesStr + Math.random(), yesStr);
+		RadioCheckField check = new RadioCheckField(pdfWriter, new Rectangle(542, 492, 552, 502), yesStr + Math.random(), yesStr);
         check.setCheckType(RadioCheckField.TYPE_CROSS);
         check.setBorderWidth(BaseField.BORDER_WIDTH_THIN);
         check.setBorderColor(Color.black);
@@ -174,7 +168,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         PdfFormField ck = check.getCheckField();
         pdfWriter.addAnnotation(ck);
         
-        check = new RadioCheckField(pdfWriter, new Rectangle(573, 504, 583, 514), noStr + Math.random(), yesStr);
+        check = new RadioCheckField(pdfWriter, new Rectangle(574, 492, 584, 502), noStr + Math.random(), yesStr);
         check.setCheckType(RadioCheckField.TYPE_CROSS);
         check.setBorderWidth(BaseField.BORDER_WIDTH_THIN);
         check.setBorderColor(Color.black);
@@ -185,12 +179,12 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         PdfContentByte cb = pdfWriter.getDirectContent();
         cb.beginText();
 		cb.setFontAndSize(BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED), 8f);
-		cb.showTextAligned(Element.ALIGN_LEFT, yesStr, 553, 504, 0);
+		cb.showTextAligned(Element.ALIGN_LEFT, yesStr, 554, 492, 0);
 		cb.endText();
 		
         cb.beginText();
 		cb.setFontAndSize(BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED), 8f);
-		cb.showTextAligned(Element.ALIGN_LEFT, noStr, 585, 504, 0);
+		cb.showTextAligned(Element.ALIGN_LEFT, noStr, 586, 492, 0);
 		cb.endText();
 		
         cb = pdfWriter.getDirectContent();
@@ -201,7 +195,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		int total = totalPages - 1;
 		cb.showTextAligned(Element.ALIGN_LEFT, "Page "+ currentPageNumber +" of "+ total, 553, 12, 0);
 		cb.endText();
-		
 	}
 
 
@@ -215,13 +208,13 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		addCheckboxesToHeader(pdfWriter);
 
 		table = getHeaderSectionForSurveySolicitedSymptomsTable(true);
-        aeDetailList = buildAEListForDisplay(8, 19);
+        aeDetailList = buildAEListForDisplay(8, 18);
         addSymptomsToTable(table, aeDetailList, results);
         document.add(table);
 		addCheckboxesToHeader(pdfWriter);
         
 		table = getHeaderSectionForSurveySolicitedSymptomsTable(true);
-        aeDetailList = buildAEListForDisplay(20, 23);
+        aeDetailList = buildAEListForDisplay(19, 23);
         addSymptomsToTable(table, aeDetailList, results);
 
 //        Cell cell = new Cell(new Paragraph("*See section 10.0 of the protocol.", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
@@ -230,13 +223,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 //        table.addCell(cell);
 
         document.add(table);
-
-//        document.add(new Paragraph(" "));
-//        document.add(new Paragraph(" "));
-//        document.add(new Paragraph(" "));
-        
 		addCheckboxesToHeader(pdfWriter);
-
         return;
 	}
 
@@ -465,8 +452,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
 	private void addClinicianReportedSymptomsTableToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
 		
-//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 20, Font.PLAIN)));
-
         Table table = new Table(9);
         table.setWidth(84);
         table.setWidths(new int[]{22, 20, 3, 3, 3, 3, 3, 7, 20});
@@ -514,7 +499,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             
-            cell = new Cell(new Paragraph(" - - - - - - - - "));
+            cell = new Cell(new Paragraph("  "));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             
@@ -539,7 +524,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
 
-            cell = new Cell(new Paragraph(" - - - "));
+            cell = new Cell(new Paragraph("  "));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
         }
@@ -561,14 +546,14 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
 
 	private void addFeedbackQuestionsToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
-        // feedback Questions
+        
 //		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
-//		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
+//      document.add(new Paragraph(" Feedback Questions", FontFactory.getFont("Times-Roman", 12, Font.BOLD | com.lowagie.text.Font.UNDERLINE)));
+      document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
 
-//        document.add(new Paragraph(" Feedback Questions", FontFactory.getFont("Times-Roman", 12, Font.BOLD | com.lowagie.text.Font.UNDERLINE)));
-//        document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
-
-        document.add(new Paragraph("1. Is the person who filled out the above form the same person who assigned the actual CTCAE grades for this patient?", FontFactory.getFont("Times-Roman", 10)));
+		Paragraph fQuestion = new Paragraph("Is the person who filled out the above form the same person who assigned the actual CTCAE grades for this patient?", FontFactory.getFont("Times-Roman", 10));
+		fQuestion.add(new Phrase(" (check one)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        document.add(fQuestion);
         document.add(new Paragraph("    O Yes", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O No", FontFactory.getFont("Times-Roman", 10)));
         //document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
@@ -586,26 +571,30 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 //        document.add(new Paragraph("    O Graded directly on the above form", FontFactory.getFont("Times-Roman", 10)));
         
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("2. Did the person who assigned CTCAE grades for the above form have access to the patient's self-reported AE " +
-        		"grades at the time they assigned the CTCAE grades?", FontFactory.getFont("Times-Roman", 10)));
+		Paragraph sQuestion = new Paragraph("Did the person who assigned CTCAE grades for the above form have access to the patient's self-reported AE " +
+        		"grades at the time they assigned the CTCAE grades?", FontFactory.getFont("Times-Roman", 10));
+		sQuestion.add(new Phrase(" (check one)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        document.add(sQuestion);
         Paragraph para = new Paragraph("    O Yes ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
 //        para.add(new Phrase("(If Yes, proceed to next question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
         para = new Paragraph("    O No ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-        para.add(new Phrase("((If No, proceed to Other Adverse Events question))", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        para.add(new Phrase("(If No, proceed to Other Adverse Events question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-        document.add(new Paragraph("3. Were any of the assigned CTCAE grades in the above adverse event form different than they would " +
-        		"have been in the absence of access to the patient's self-reported AE responses?", FontFactory.getFont("Times-Roman", 10)));
+		Paragraph tQuestion = new Paragraph("Were any of the assigned CTCAE grades in the above form different than they would " +
+        		"have been in the absence of access to the patient's self-reported AE responses?", FontFactory.getFont("Times-Roman", 10));
+		tQuestion.add(new Phrase(" (check one)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
+        document.add(tQuestion);
         document.add(new Paragraph("    O Yes", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O No", FontFactory.getFont("Times-Roman", 10)));
         
         document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
         Paragraph blurb = new Paragraph("Were", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
         blurb.add(new Phrase(" (other) ", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
-        blurb.add(new Phrase("adverse events accessed during this report period?", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        blurb.add(new Phrase("adverse events assessed during this report period?", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         document.add(blurb);
         
         blurb = new Paragraph("O Yes, and reportable adverse events occurred \n", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
@@ -633,9 +622,11 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 
         Paragraph instructionalParagraph = new Paragraph("\nInstructions: ", FontFactory.getFont("Times-Roman", 10, Font.BOLD));
         instructionalParagraph.add(new Phrase("This form should be completed by the CRA per the Test Schedule (Section 4.0) using patient's medical records, starting from the first day since the prior reporting period if post-baseline. " +
-        		"When completing this form, the patient's self-reported adverse event grades (shown in the table below for the reporting period) should be used as a reference.\n \n" , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        		"When completing this form, the patient's self-reported adverse event ratings (shown in the table below for the reporting period) should be used as a reference.\n \n" , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         //instructionalParagraph.add(new Paragraph("Reporting Period Start Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportStartDate , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        instructionalParagraph.add(new Paragraph("Reporting Period End Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportEndDate, FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        Paragraph datePara = new Paragraph("Reporting Period End Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
+        datePara.add(new Phrase(convertDateToReqdFormat(reportEndDate), FontFactory.getFont("Times-Roman", 10, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
+        instructionalParagraph.add(datePara);
 
         Cell headerCell = new Cell(instructionalParagraph);
         headerCell.setBorderWidth(0);
@@ -644,6 +635,59 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         return instructionsTable;
 	}
 
+
+	private String convertDateToReqdFormat(String reportEndDate) {
+		StringBuffer formattedDate = new StringBuffer("");
+		String[] splitArr = reportEndDate.split("/");
+
+		formattedDate.append(splitArr[1]);
+		formattedDate.append("-");
+		formattedDate.append(getMonth(splitArr[0]));
+		formattedDate.append("-");
+		formattedDate.append(splitArr[2]);
+		
+		return formattedDate.toString();
+	}
+
+	private Object getMonth(String string) {
+		if(string.equalsIgnoreCase("01") || string.equalsIgnoreCase("1")){
+			return "JAN";
+		}
+		if(string.equalsIgnoreCase("02") || string.equalsIgnoreCase("2")){
+			return "FEB";
+		}
+		if(string.equalsIgnoreCase("03") || string.equalsIgnoreCase("3")){
+			return "MAR";
+		}
+		if(string.equalsIgnoreCase("04") || string.equalsIgnoreCase("4")){
+			return "APR";
+		}
+		if(string.equalsIgnoreCase("05") || string.equalsIgnoreCase("5")){
+			return "MAY";
+		}
+		if(string.equalsIgnoreCase("06") || string.equalsIgnoreCase("6")){
+			return "JUN";
+		}
+		if(string.equalsIgnoreCase("07") || string.equalsIgnoreCase("7")){
+			return "JUL";
+		}
+		if(string.equalsIgnoreCase("08") || string.equalsIgnoreCase("8")){
+			return "AUG";
+		}
+		if(string.equalsIgnoreCase("09") || string.equalsIgnoreCase("9")){
+			return "SEP";
+		}
+		if(string.equalsIgnoreCase("10")){
+			return "OCT";
+		}
+		if(string.equalsIgnoreCase("11")){
+			return "NOV";
+		}
+		if(string.equalsIgnoreCase("12")){
+			return "DEC";
+		}
+		return "";
+	}
 
 	private Table getHeaderForDocument(PdfWriter pdfWriter, Study study, Participant participant, String reportStartDate, String reportEndDate) throws DocumentException, IOException {
 		Table insideTable = new Table(9);
@@ -656,8 +700,31 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         insideTable.setWidth(81);
         insideTable.setWidths(new int[]{13, 12, 10, 10, 1, 10, 10, 10, 10});
         
+        //        
+        Cell headerCell = new Cell(new Paragraph("PLACE LABEL HERE", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
+        headerCell.setColspan(5);
+        headerCell.setRowspan(1);
+        headerCell.setBorderWidthBottom(0);
+        headerCell.setBorderWidthLeft(1);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        insideTable.addCell(headerCell);
+        
+//        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Times-Roman", 8, Font.PLAIN)));
+//        headerCell.setColspan(4);
+//        headerCell.setRowspan(1);
+//        headerCell.setBorderWidthBottom(0);
+//        insideTable.addCell(headerCell);
+        //
+        headerCell = new Cell(new Paragraph("Alliance for Clinical Trials in Oncology", FontFactory.getFont("Times-Roman", 13, Font.BOLD)));
+        headerCell.setColspan(4);
+        headerCell.setRowspan(3);
+        headerCell.setBorderWidthBottom(0);
+        headerCell.setBorderWidthLeft(1);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        insideTable.addCell(headerCell);
+        
         Paragraph para1 = new Paragraph(" Protocol Number:", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        Cell headerCell = new Cell(para1);
+        headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
         headerCell.setBorderWidthBottom(0);
@@ -684,13 +751,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         insideTable.addCell(headerCell);
 
-        headerCell = new Cell(new Paragraph("Alliance for Clinical Trials in Oncology", FontFactory.getFont("Times-Roman", 13, Font.BOLD)));
-        headerCell.setColspan(4);
-        headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthLeft(1);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        insideTable.addCell(headerCell);
+
 
         Paragraph para2 = new Paragraph(" Patient ID: ", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
         para2.add(new Phrase(String.format("  %s  ", participant.getStudyParticipantIdentifier().toUpperCase()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
