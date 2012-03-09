@@ -47,6 +47,7 @@
         <intercept-url pattern="/pages/study/createStudy" access="PRIVILEGE_CREATE_STUDY"/>
         <intercept-url pattern="/pages/study/addStudySite" access="PRIVILEGE_ADD_STUDY_SITE"/>
         <intercept-url pattern="/pages/study/searchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
+        <intercept-url pattern="/pages/study/fetchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
         <intercept-url pattern="/pages/study/addStudyComponent"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
 
@@ -66,6 +67,7 @@
         <intercept-url pattern="/pages/participant/view"
                        access="PRIVILEGE_VIEW_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/fetchParticipant" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/monitorFormStatus" access="PRIVILEGE_MONITOR_FORM"/>
