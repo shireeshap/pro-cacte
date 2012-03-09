@@ -640,11 +640,13 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		StringBuffer formattedDate = new StringBuffer("");
 		String[] splitArr = reportEndDate.split("/");
 
-		formattedDate.append(splitArr[1]);
-		formattedDate.append("-");
-		formattedDate.append(getMonth(splitArr[0]));
-		formattedDate.append("-");
-		formattedDate.append(splitArr[2]);
+		if(splitArr.length == 3){
+			formattedDate.append(splitArr[1]);
+			formattedDate.append("-");
+			formattedDate.append(getMonth(splitArr[0]));
+			formattedDate.append("-");
+			formattedDate.append(splitArr[2]);
+		}
 		
 		return formattedDate.toString();
 	}
