@@ -19,6 +19,8 @@ public class IvrsScheduleQuery extends AbstractQuery {
     public static final String SP_CRF_STATUSES = "SP_CRF_Statuses";
 
     public static final String APP_MODE = "appMode";
+    public static final String TRUE_FLAG = "True_Flag";
+    
 
     public IvrsScheduleQuery() {
         super(queryString);
@@ -27,7 +29,9 @@ public class IvrsScheduleQuery extends AbstractQuery {
     public void filterByStudyParticipantAssignmentMode(AppMode appMode) {
     	leftJoin("ischd.studyParticipantAssignment.studyParticipantModes as spm ");
         andWhere("spm.mode =:" + APP_MODE);
+        andWhere("spm.mode.call =:" + TRUE_FLAG);
         setParameter(APP_MODE, appMode);
+        setParameter(TRUE_FLAG, Boolean.TRUE);
     }
 
     public void filterByStudyParticipantAssignment(Integer id) {
