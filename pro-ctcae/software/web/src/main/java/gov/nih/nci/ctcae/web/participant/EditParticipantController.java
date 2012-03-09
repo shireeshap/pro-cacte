@@ -52,7 +52,7 @@ public class EditParticipantController extends ParticipantController {
         populateOrganizationsForUser(command);
         Participant participant = participantRepository.findById(Integer.valueOf(id));
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
-
+        participant.setConfirmPinNumber(participant.getPinNumber());
         command.setReadOnly(false);
         command.setReadOnlyUserName(true);
         command.setParticipant(participant);
