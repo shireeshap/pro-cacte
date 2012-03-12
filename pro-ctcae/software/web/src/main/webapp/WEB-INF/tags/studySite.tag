@@ -426,13 +426,13 @@
 <tr id="reminder_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
 
     <td align="right" class="data" width="30%">
-        <b>IVRS reminder options</b>&nbsp;
+        <b>IVRS call-out</b>&nbsp;
     </td>
     <td>
 
         <input type="checkbox" name="call_${studysite.id}" value="true"
                id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
-        reminder via call if the patient hasn't already completed the form <br>
+        check if the system should call the participant. <br>
         <!-- <input type="checkbox" name="text_${studysite.id}" value="true"
                id="text_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].text ? "checked" : " "}/>
         reminder via text if the patient hasn't already completed the form -->
