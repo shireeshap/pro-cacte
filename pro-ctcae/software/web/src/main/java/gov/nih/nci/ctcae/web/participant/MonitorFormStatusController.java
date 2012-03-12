@@ -1,12 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
@@ -123,7 +118,7 @@ public class MonitorFormStatusController extends AbstractController {
 
         HashMap<StudyOrganization, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap<StudyOrganization, HashMap<Participant, StudyParticipantCrfSchedule[]>>();
 
-        List<StudyOrganization> studySites = studyOrganizationRepository.findByStudyId("%",studyId);
+        List<StudyOrganization> studySites = studyOrganizationRepository.findByStudyId("%", studyId);
         for (StudyOrganization studySite : studySites) {
             if (StringUtils.isBlank(studySiteId) || studySite.getId().equals(Integer.parseInt(studySiteId))) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
@@ -146,8 +141,13 @@ public class MonitorFormStatusController extends AbstractController {
                                                 crfStatus.put(participant, participantCrfStatus);
                                             }
                                             int statusLocation = getDifferenceOfDates(startDate, studyParticipantCrfSchedule.getStartDate());
-
-                                            participantCrfStatus[statusLocation] = studyParticipantCrfSchedule;
+                                            if (studyParticipantCrf.getCrf().isHidden()) {
+                                                if ((studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED))) {
+                                                    participantCrfStatus[statusLocation] = studyParticipantCrfSchedule;
+                                                }
+                                            } else {
+                                                participantCrfStatus[statusLocation] = studyParticipantCrfSchedule;
+                                            }
                                         }
                                     }
                                 }
