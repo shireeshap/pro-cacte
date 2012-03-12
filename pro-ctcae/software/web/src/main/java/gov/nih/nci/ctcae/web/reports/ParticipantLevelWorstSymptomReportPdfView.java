@@ -13,7 +13,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -646,6 +648,14 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 			formattedDate.append(getMonth(splitArr[0]));
 			formattedDate.append("-");
 			formattedDate.append(splitArr[2]);
+		} else {
+			Calendar cal = Calendar.getInstance();
+			
+			formattedDate.append(cal.get(Calendar.DAY_OF_MONTH));
+			formattedDate.append("-");
+			formattedDate.append(getMonth(String.valueOf(cal.get(Calendar.MONTH) + 1)));
+			formattedDate.append("-");
+			formattedDate.append(cal.get(Calendar.YEAR));
 		}
 		
 		return formattedDate.toString();
@@ -702,7 +712,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         insideTable.setWidth(81);
         insideTable.setWidths(new int[]{13, 12, 10, 10, 1, 10, 10, 10, 10});
         
-        //        
         Cell headerCell = new Cell(new Paragraph("PLACE LABEL HERE", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         headerCell.setColspan(5);
         headerCell.setRowspan(1);
@@ -711,12 +720,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         insideTable.addCell(headerCell);
         
-//        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Times-Roman", 8, Font.PLAIN)));
-//        headerCell.setColspan(4);
-//        headerCell.setRowspan(1);
-//        headerCell.setBorderWidthBottom(0);
-//        insideTable.addCell(headerCell);
-        //
         headerCell = new Cell(new Paragraph("Alliance for Clinical Trials in Oncology", FontFactory.getFont("Times-Roman", 13, Font.BOLD)));
         headerCell.setColspan(4);
         headerCell.setRowspan(3);
