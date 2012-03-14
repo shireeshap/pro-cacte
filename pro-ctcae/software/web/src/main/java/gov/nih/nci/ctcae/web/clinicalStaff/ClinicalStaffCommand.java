@@ -185,6 +185,25 @@ public class ClinicalStaffCommand {
         }
     }
 
+    public void sendEmailWithUsernamePasswordDetails() {
+        try {
+            if (getEmail()) {
+                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername() + "<br> Password: " + clearCasePassword;
+                JavaMailSender javaMailSender = new JavaMailSender();
+                MimeMessage message = javaMailSender.createMimeMessage();
+                message.setSubject("PRO-CTCAE Registration");
+                message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                MimeMessageHelper helper = new MimeMessageHelper(message, true);
+                helper.setTo(clinicalStaff.getEmailAddress());
+                helper.setText(content, javaMailSender.isHtml());
+                javaMailSender.send(message);
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public String getUsername() {
         return username;
     }
