@@ -106,6 +106,7 @@
 
 
     <jsp:attribute name="repeatingFields">
+         <tags:instructions code="study.study_clinical_staff.top"/>
         <chrome:division title="Study details">
             <div class="row">
                 <div class="label"><spring:message code="form.label.study"/></div>
