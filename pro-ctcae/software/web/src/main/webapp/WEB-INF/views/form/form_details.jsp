@@ -390,14 +390,20 @@ function showCrfItemProperties(selectedQuestionId) {
 
     addEditingDisplayToQuestion(selectedQuestionId);
     var sortablePosition = parseInt($('sortable_' + selectedQuestionId).viewportOffset()[1]);
-    var questionPropertyPosition = parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1])
+    var questionPropertyPosition = parseInt($('questionProperties_' + selectedQuestionId).viewportOffset()[1]);
     var yPosition = sortablePosition - questionPropertyPosition;
     if (sortablePosition < 0) {
         $('questionProperties_' + selectedQuestionId).hide();
     }
-    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
+    var firstnavposition = (parseInt($('firstlevelnav_2').viewportOffset()[1]));
+    if (yPosition < 0) {
+         new Effect.Move($('questionProperties_' + selectedQuestionId), { y: firstnavposition-questionPropertyPosition+40});
+    } else {
+    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
+    }
 }
+
 function deleteCrfPage(selectedCrfPageNumber, proTermId) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
         parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber + "&proTermId=" + proTermId,
