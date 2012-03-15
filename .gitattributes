@@ -2284,7 +2284,7 @@ software/core/src/main/db/migrate/004_elaboration_1/044_update_leadcra_pi_privil
 software/core/src/main/db/migrate/004_elaboration_1/045_update_study_site_staff_related_privileges.groovy -text
 software/core/src/main/db/migrate/004_elaboration_1/046_add_study_participant_assignment_access_column.groovy -text
 software/core/src/main/db/migrate/004_elaboration_1/047_update_spcs.groovy -text
-software/core/src/main/db/migrate/004_elaboration_1/048_add_RTOG.groovy -text
+software/core/src/main/db/migrate/005_elaboration_1/001_add_RTOG.groovy -text
 software/core/src/main/java/META-INF/MANIFEST.MF -text
 software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
