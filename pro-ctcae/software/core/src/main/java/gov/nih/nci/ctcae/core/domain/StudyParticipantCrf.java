@@ -315,6 +315,12 @@ public class StudyParticipantCrf extends BaseVersionable {
         participantSchedule.createSchedules(scheduleType);
     }
 
+    public void createIvrsSchedules(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        ParticipantSchedule participantSchedule = new ParticipantSchedule();
+        participantSchedule.addStudyParticipantCrf(this);
+        participantSchedule.addIvrsSchedules(studyParticipantCrfSchedule, this);
+    }
+
     public StudyParticipantCrfSchedule getBaseLineSchedule() throws Exception {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
             if (studyParticipantCrfSchedule.isBaseline()) {

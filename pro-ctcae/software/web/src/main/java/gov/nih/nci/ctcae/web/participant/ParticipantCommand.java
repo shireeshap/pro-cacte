@@ -104,6 +104,7 @@ public class ParticipantCommand {
     private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
     private Date newStartDate;
     private Integer armId;
+     private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
 
     public boolean isOdc() {
         return odc;
@@ -692,6 +693,14 @@ public class ParticipantCommand {
 
     public void setOffHoldTreatmentDate(Date offHoldTreatmentDate) {
         this.offHoldTreatmentDate = offHoldTreatmentDate;
+    }
+
+    public List<StudyParticipantMode> getStudyParticipantModes() {
+        return studyParticipantModes;
+    }
+
+    public void setStudyParticipantModes(List<StudyParticipantMode> studyParticipantModes) {
+        this.studyParticipantModes = studyParticipantModes;
     }
 
     public void initialize() {

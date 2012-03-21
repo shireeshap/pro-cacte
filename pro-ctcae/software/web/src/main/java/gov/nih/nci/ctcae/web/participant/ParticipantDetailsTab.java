@@ -1,17 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.Arm;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.StudyMode;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
@@ -25,12 +15,7 @@ import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -72,7 +57,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         super.onBind(request, command, errors);
         command.getStudySubjectIdentifierMap().clear();
 
-        if(command.getSelectedOrganization() == null && command.getOrganizationId() != 0){
+        if (command.getSelectedOrganization() == null && command.getOrganizationId() != 0) {
             command.setSelectedOrganization((Organization) organizationRepository.findById(command.getOrganizationId()));
         }
 
@@ -82,6 +67,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
             StudySite studySite = studyParticipantAssignment.getStudySite();
             String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+            List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+            for (StudyParticipantMode spMode : studyParticipantAssignment.getStudyParticipantModes()) {
+                studyParticipantModes.add(spMode);
+            }
+            command.setStudyParticipantModes(studyParticipantModes);
             command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
             command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
             command.setParticipantModesAndReminders(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);
@@ -100,7 +90,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (!StringUtils.isBlank(userNumber)) {
                 try {
                     command.getParticipant().setUserNumber(userNumber);
-              } catch (Exception e) {
+                } catch (Exception e) {
                     command.getParticipant().setUserNumber(null);
                 }
             }
@@ -124,8 +114,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (!StringUtils.isBlank(phone)) {
                 try {
                     command.getParticipant().setPhoneNumber(phone);
- //                   String userNumber = phone.replaceAll("-", "");
- //                   command.getParticipant().setUserNumber(userNumber);
+                    //                   String userNumber = phone.replaceAll("-", "");
+                    //                   command.getParticipant().setUserNumber(userNumber);
                 } catch (Exception e) {
                     command.getParticipant().setPhoneNumber(null);
                 }
@@ -187,8 +177,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 if (!StringUtils.isBlank(phone)) {
                     try {
                         command.getParticipant().setPhoneNumber(phone);
- //                       String userNumber = phone.replaceAll("-", "");
- //                       command.getParticipant().setUserNumber(userNumber);
+                        //                       String userNumber = phone.replaceAll("-", "");
+                        //                       command.getParticipant().setUserNumber(userNumber);
                     } catch (Exception e) {
                         command.getParticipant().setPhoneNumber(null);
                     }
@@ -206,13 +196,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void validate(ParticipantCommand command, Errors errors) {
 
         if (command.getOrganizationId() == 0) {
-        	errors.reject("participant.site");
+            errors.reject("participant.site");
         }
         if (command.getParticipant().getStudyParticipantAssignments() == null ||
                 command.getParticipant().getStudyParticipantAssignments().size() == 0) {
             errors.reject("participant.study");
         }
-        
+
         // checking for unique email address
         if (command.getParticipant().getEmailAddress() != null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
@@ -230,7 +220,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
 
-         //checking for unique phone number
+        //checking for unique phone number
         if (command.getParticipant().getUserNumber() != null) {
             String userNumber = command.getParticipant().getUserNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
@@ -239,7 +229,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_userNumber");
             }
         }
-   
+
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
@@ -304,13 +294,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 }
             }
             for (AppMode appMode : command.getParticipant().getStudyParticipantAssignments().get(0).getSelectedAppModes()) {
-                    if (appMode.equals(AppMode.IVRS)) {
-                        showTime = true;
-                    }
-                    if (appMode.equals(AppMode.HOMEWEB)) {
-                        showWeb = true;
-                    }
+                if (appMode.equals(AppMode.IVRS)) {
+                    showTime = true;
                 }
+                if (appMode.equals(AppMode.HOMEWEB)) {
+                    showWeb = true;
+                }
+            }
         }
         command.initialize();
 
@@ -350,6 +340,32 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         }
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
                         command.assignCrfsToParticipant();
+                    }
+                    boolean doNotCreate = false;
+                    for (StudyParticipantMode uiMode : studyParticipantAssignment.getStudyParticipantModes()) {
+                        for (StudyParticipantMode spMode : command.getStudyParticipantModes()) {
+                            if (uiMode.equals(spMode)) {
+                                doNotCreate = true;
+                                break;
+                            }
+                        }
+                        AppMode mode;
+                        for (int i = 0; i < studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems().size() - 1; i++) {
+                            mode = studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems().get(i).getMode();
+                            if (uiMode.getMode().equals(mode)) {
+                                doNotCreate = true;
+                                break;
+                            }
+                        }
+                        if(!doNotCreate && uiMode.getMode().equals(AppMode.IVRS)) {
+                            for (StudyParticipantCrf spCrf : command.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
+                                for (StudyParticipantCrfSchedule spcSchedule : spCrf.getStudyParticipantCrfSchedules()) {
+                                    if (spcSchedule.getIvrsSchedules()==null || spcSchedule.getIvrsSchedules().size()==0) {
+                                    spCrf.createIvrsSchedules(spcSchedule);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -393,12 +409,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.uniqueParticipantUserNumberValidator = uniqueParticipantUserNumberValidator;
     }
 
-	public OrganizationRepository getOrganizationRepository() {
-		return organizationRepository;
-	}
+    public OrganizationRepository getOrganizationRepository() {
+        return organizationRepository;
+    }
 
-	public void setOrganizationRepository(
-			OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
+    public void setOrganizationRepository(
+            OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
 }
