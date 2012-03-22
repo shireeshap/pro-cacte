@@ -82,7 +82,8 @@ public class ParticipantLevelWorstSymptomReportResultsController extends Abstrac
             Collections.sort(dates);
             if(dates.size()>0){
                 startDate = DateUtils.format(dates.get(0));
-                endDate = DateUtils.format(dates.get(dates.size()-1));
+                //end date defaults to todays date if not specified in the range.
+               // endDate = DateUtils.format(dates.get(dates.size()-1));
             }
         }
         request.getSession().setAttribute("reportStartDate",startDate);
