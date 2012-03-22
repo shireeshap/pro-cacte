@@ -83,8 +83,7 @@ import org.apache.commons.lang.StringUtils;
                 String param = (String) parameterNames.nextElement();
                 String paramValue = request.getParameter(param);
                 //Change to do a param.contains() on an array of strings ["email, "password", "user"].
-                if (!StringUtils.isBlank(paramValue) && 
-                		!allowedParams.contains(param)  && !param.contains("email") && !param.contains("password") && !param.contains("username") && !param.contains("confirmPassword")) {
+                if (!StringUtils.isBlank(paramValue) && !isAllowedParameter(param)) {
                     m = p.matcher(paramValue);
                     if (m.find()) {
                         return true;
@@ -95,9 +94,16 @@ import org.apache.commons.lang.StringUtils;
         
         return false;
     }
+    
+    
+    /** Checks if the param is one of those who are allowed to carry special characters. Like email etc
+     */
+    private boolean isAllowedParameter(String param){
+    	
+    	return allowedParams.contains(param) || param.contains("email") || param.contains("password") || param.contains("username") || param.contains("confirmPassword");
+    }
 
-
-        private void disableCaching(HttpServletRequest request, HttpServletResponse response) {
+    private void disableCaching(HttpServletRequest request, HttpServletResponse response) {
             if (!StringUtils.containsIgnoreCase(request.getRequestURI(), ".css") &&
                     !StringUtils.containsIgnoreCase(request.getRequestURI(), ".js") &&
                     !StringUtils.containsIgnoreCase(request.getRequestURI(), "images")) {
