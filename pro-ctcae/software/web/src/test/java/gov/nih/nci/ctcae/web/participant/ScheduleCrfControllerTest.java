@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
@@ -31,10 +33,13 @@ public class ScheduleCrfControllerTest extends WebTestCase {
         controller.setStudyParticipantAssignmentRepository(studyParticipantAssignmentRepository);
         command = new StudyParticipantCommand();
         StudyParticipantAssignment a = new StudyParticipantAssignment();
+        CRF crf = new CRF();
+        crf.setId(1);
         a.setId(1);
         command.setStudyParticipantAssignment(a);
         StudyParticipantCrf s = new StudyParticipantCrf();
         a.addStudyParticipantCrf(s);
+        s.setCrf(crf);
     }
 
     public void testProcessFinish() throws Exception {
