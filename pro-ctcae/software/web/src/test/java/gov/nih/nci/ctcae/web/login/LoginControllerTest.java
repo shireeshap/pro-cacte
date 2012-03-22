@@ -77,8 +77,6 @@ public class LoginControllerTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertEquals("home", mv.getViewName());
-        List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
-        assertNotNull(noti);
         List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
         assertNotNull(over);
         for (StudyParticipantCrfSchedule spc : over) {
@@ -94,9 +92,6 @@ public class LoginControllerTest extends AbstractWebTestCase {
         login(username);
         mv = controller.handleRequestInternal(request, response);
         assertEquals("home", mv.getViewName());
-        noti = (List<UserNotification>) mv.getModel().get("notifications");
-        assertNotNull(noti);
-//        assertEquals(2, noti.size());
         over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
         assertNotNull(over);
         for (StudyParticipantCrfSchedule spc : over) {
