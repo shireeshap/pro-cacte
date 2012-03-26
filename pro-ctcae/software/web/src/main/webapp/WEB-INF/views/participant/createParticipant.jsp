@@ -668,7 +668,7 @@ function addEmailRemoveIVRSClassName(id) {
     }
 
     //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
-    $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
+//    $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
@@ -794,27 +794,32 @@ function showOrHideLanguage(value1, value2, id) {
     }
 }
 function showOrHideEmail(value1, value2, id) {
-    jQuery('#home_web_lang_' + id + '-msg').hide();
-    jQuery('#home_paper_lang_' + id + '-msg').hide();
-    jQuery('#participantPhoneNumber_' + id + '-msg').hide();
-    jQuery('#participantUserNumber_' + id + '-msg').hide();
-    jQuery('#participantPinNumber_' + id + '-msg').hide();
-    jQuery('#call_hour_' + id + '-msg').hide();
-    jQuery('#call_minute_' + id + '-msg').hide();
-    jQuery('#call_ampm_' + id + '-msg').hide();
-    jQuery('#call_timeZone_' + id + '-msg').hide();
-    jQuery('#ivrs_lang_' + id + '-msg').hide();
-
-    jQuery('#UserPatternError_' + id).hide();
-    jQuery('#PhonePatternError_' + id).hide();
-    jQuery('#phoneNumberError_' + id).hide();
-    jQuery('#PinPatternError_' + id).hide();
-    jQuery('#confirmPinError_' + id).hide();
-    jQuery('#userNumberError_' + id).hide();
-    jQuery('#emailError_' + id).hide();
-    jQuery('#preferred.calltime.error_' + id).hide();
-    $('preferred.calltime.error_' + id).hide();
-
+    //    alert(value1);
+//    alert(value2);
+//    alert(showWeb + " web");
+//    alert(showIVRS + " IVRS");
+//    alert(showBooklet + "booklet")
+//    jQuery('#home_web_lang_' + id + '-msg').hide();
+//    jQuery('#home_paper_lang_' + id + '-msg').hide();
+//    jQuery('#participantPhoneNumber_' + id + '-msg').hide();
+//    jQuery('#participantUserNumber_' + id + '-msg').hide();
+//    jQuery('#participantPinNumber_' + id + '-msg').hide();
+//    jQuery('#call_hour_' + id + '-msg').hide();
+//    jQuery('#call_minute_' + id + '-msg').hide();
+//    jQuery('#call_ampm_' + id + '-msg').hide();
+//    jQuery('#call_timeZone_' + id + '-msg').hide();
+//    jQuery('#ivrs_lang_' + id + '-msg').hide();
+<%----%>
+//    jQuery('#UserPatternError_' + id).hide();
+//    jQuery('#PhonePatternError_' + id).hide();
+//    jQuery('#phoneNumberError_' + id).hide();
+//    jQuery('#PinPatternError_' + id).hide();
+//    jQuery('#confirmPinError_' + id).hide();
+//    jQuery('#userNumberError_' + id).hide();
+//    jQuery('#emailError_' + id).hide();
+//    jQuery('#preferred.calltime.error_' + id).hide();
+//    $('preferred.calltime.error_' + id).hide();
+<%----%>
     isUserIdError = false;
     isPinError = false;
     isEmail = false;
@@ -822,65 +827,109 @@ function showOrHideEmail(value1, value2, id) {
     isBlackoutCallTime = false;
     checkError();
 
+//    if (value1 && value2 == "HOMEWEB") {
+//        alert("homeweb")
+//    } else {
+//        alert ("not homeweb")
+//    }
+
+
     if (value1 && value2 == "HOMEWEB") {
-        jQuery("#ivrs_lang_" + id).val('');
-        jQuery("#home_paper_lang_" + id).val('');
+//        jQuery("#ivrs_lang_" + id).val('');
+//        jQuery("#home_paper_lang_" + id).val('');
+//        alert (value1 + " show web")
+
+        jQuery("#home_web_lang_" + id).show();
         jQuery('#div_contact').show();
         jQuery('#web_' + id).show();
         jQuery('#email_' + id).attr('checked', true);
-        jQuery('#call_' + id).attr('checked', false);
+//        jQuery('#call_' + id).attr('checked', false);
         jQuery('#emailInput_' + id).show();
         jQuery('#webLang_' + id).show();
         jQuery('#emailHeader_' + id).show();
-        jQuery('#div_contact_ivrs').hide();
-        jQuery('#paper_home_header_' + id).hide();
-        jQuery('#home_paper_' + id).hide();
-        jQuery('#div_contact').hide();
-        jQuery('#div_contact_ivrs').hide();
-        jQuery('#ivrs_' + id).hide();
-        jQuery('#c_' + id).hide();
-        jQuery('#c1_' + id).hide();
-        jQuery('#c2_' + id).hide();
-        jQuery('#c3_' + id).hide();
-        jQuery('#c4_' + id).hide();
-        jQuery('#reminder_' + id).hide();
-        jQuery('#ivrs_reminder_' + id).hide();
-        jQuery('#ivrsLang_' + id).hide();
+//        jQuery('#div_contact_ivrs').hide();
+//        jQuery('#paper_home_header_' + id).hide();
+//        jQuery('#home_paper_' + id).hide();
+//        jQuery('#div_contact').hide();
+//        jQuery('#div_contact_ivrs').hide();
+//        jQuery('#ivrs_' + id).hide();
+//        jQuery('#c_' + id).hide();
+//        jQuery('#c1_' + id).hide();
+//        jQuery('#c2_' + id).hide();
+//        jQuery('#c3_' + id).hide();
+//        jQuery('#c4_' + id).hide();
+//        jQuery('#reminder_' + id).hide();
+//        jQuery('#ivrs_reminder_' + id).hide();
+//        jQuery('#ivrsLang_' + id).hide();
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
-        $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
-        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
-        addEmailRemoveIVRSClassName(id);
-    } else {
-        jQuery('#web_' + id).show();
+//        $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        addEmailRemoveIVRSClassName(id);
     }
-    if (value1 && value2 == "HOMEBOOKLET") {
+
+    if (!value1 && value2 == "HOMEWEB"){
+
+//        alert (value1 + " don't show web")
+        jQuery('#web_' + id).show();
+        jQuery("#home_web_lang_" + id).hide();
         jQuery("#home_web_lang_" + id).val('');
-        jQuery("#ivrs_lang_" + id).val('');
+        jQuery('#emailHeader_' + id).hide();
+        jQuery('#web_' + id).hide();
+        jQuery('#email_' + id).attr('checked', false);
+    }
+
+//    if (value1 && value2 == "HOMEBOOKLET") {
+//        alert("home booklet")
+//    } else {
+//        alert ("not home booklet")
+//    }
+
+    if (value1 && value2 == "HOMEBOOKLET") {
+//        alert(value1 + " show book")
+//        jQuery("#home_web_lang_" + id).val('');
+//        jQuery("#ivrs_lang_" + id).val('');
         jQuery('#paper_home_header_' + id).show();
         jQuery('#home_paper_' + id).show();
-        jQuery('#web_' + id).hide();
-        jQuery('#emailInput_' + id).hide();
-        jQuery('#webLang_' + id).hide();
-        jQuery('#emailHeader_' + id).hide();
-        jQuery('#div_contact').hide();
-        jQuery('#div_contact_ivrs').hide();
-        jQuery('#ivrs_' + id).hide();
-        jQuery('#c_' + id).hide();
-        jQuery('#c1_' + id).hide();
-        jQuery('#c2_' + id).hide();
-        jQuery('#c3_' + id).hide();
-        jQuery('#c4_' + id).hide();
-        jQuery('#reminder_' + id).hide();
-        jQuery('#ivrs_reminder_' + id).hide();
-        jQuery('#ivrsLang_' + id).hide();
-        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-        $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        jQuery('#web_' + id).hide();
+//        jQuery('#emailInput_' + id).hide();
+//        jQuery('#webLang_' + id).hide();
+//        jQuery('#emailHeader_' + id).hide();
+//        jQuery('#div_contact').hide();
+//        jQuery('#div_contact_ivrs').hide();
+//        jQuery('#ivrs_' + id).hide();
+//        jQuery('#c_' + id).hide();
+//        jQuery('#c1_' + id).hide();
+//        jQuery('#c2_' + id).hide();
+//        jQuery('#c3_' + id).hide();
+//        jQuery('#c4_' + id).hide();
+//        jQuery('#reminder_' + id).hide();
+//        jQuery('#ivrs_reminder_' + id).hide();
+//        jQuery('#ivrsLang_' + id).hide();
+//        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('home_paper_lang_' + id).addClassName("validate-NOTEMPTY");
-        removeEmailClassName(id);
+//        removeEmailClassName(id);
     }
+    if (!value1 && value2 == "HOMEBOOKLET"){
+//        alert(value1 +  " don't show book")
+         jQuery('#paper_home_header_' + id).hide();
+        jQuery('#home_paper_' + id).hide();
+        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+         jQuery("#home_paper_lang_" + id).val('');
+    }
+
+//    if(showIVRS) {
+//        alert("show ivrs")
+//    } else {
+//        alert("don't show ivrs")
+//    }
+
     if (value1 && value2 == "IVRS") {
-        jQuery("#home_paper_lang_" + id).val('');
-        jQuery("#home_web_lang_" + id).val('');
+
+//        alert(value1 + " show IVRS");
+
+//        jQuery("#home_paper_lang_" + id).val('');
+//        jQuery("#home_web_lang_" + id).val('');
         jQuery('#div_contact').show();
         jQuery('#div_contact_ivrs').show();
         jQuery('#ivrs_' + id).show();
@@ -893,20 +942,28 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#ivrs_reminder_' + id).show();
         jQuery('#ivrsLang_' + id).show();
         jQuery('#call_' + id).attr('checked', true);
-        jQuery('#email_' + id).attr('checked', false);
+//        jQuery('#email_' + id).attr('checked', false);
 
-        jQuery('#web_' + id).hide();
-        jQuery('#emailInput_' + id).hide();
-        jQuery('#webLang_' + id).hide();
-        jQuery('#emailHeader_' + id).hide();
-        jQuery('#paper_home_header_' + id).hide();
-        jQuery('#home_paper_' + id).hide();
+//        jQuery('#web_' + id).hide();
+//        jQuery('#emailInput_' + id).hide();
+//        jQuery('#webLang_' + id).hide();
+//        jQuery('#emailHeader_' + id).hide();
+//        jQuery('#paper_home_header_' + id).hide();
+//        jQuery('#home_paper_' + id).hide();
 
-        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
-        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
+//        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
         addIVRSRemoveEmailClassName(id);
-    } else {
+    }
+
+    if(!value1 && value2 == "IVRS"){
+//        alert(value1 + " don't show ivrs");
+        jQuery('#call_' + id).attr('checked', false);
+         $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
+        jQuery('#participantUserNumber_' + id).val('');
+        jQuery('#participantPinNumberConfirm_' + id).val('');
+        addEmailRemoveIVRSClassName(id);
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();

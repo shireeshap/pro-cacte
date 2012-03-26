@@ -284,6 +284,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
          */
         boolean showTime = false;
         boolean showWeb = false;
+        boolean showBook = false;
         if (command.getParticipant().getStudyParticipantAssignments().size() > 0) {
             for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
                 for (StudyOrganization studyOrganization : studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()) {
@@ -293,12 +294,15 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     studyMode.getMode().getDisplayName();
                 }
             }
-            for (AppMode appMode : command.getParticipant().getStudyParticipantAssignments().get(0).getSelectedAppModes()) {
+            for (AppMode appMode : command.getSelectedStudyParticipantAssignment().getSelectedAppModes()) {
                 if (appMode.equals(AppMode.IVRS)) {
                     showTime = true;
                 }
                 if (appMode.equals(AppMode.HOMEWEB)) {
                     showWeb = true;
+                }
+                if (appMode.equals(AppMode.HOMEBOOKLET)) {
+                    showBook = true;
                 }
             }
         }
@@ -310,6 +314,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         referenceData.put("userId", command.getParticipant().getUser().getId());
         referenceData.put("showTime", showTime);
         referenceData.put("showWeb", showWeb);
+        referenceData.put("showBook", showBook);
         return referenceData;
     }
 
@@ -317,7 +322,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         command.initialize();
-
+         StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
         if (!errors.hasErrors()) {
             try {
                 if (!command.getParticipant().isPersisted()) {
@@ -325,7 +330,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 } else {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
-                    StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
+
                     if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate) != 0) {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
@@ -341,6 +346,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
                         command.assignCrfsToParticipant();
                     }
+
                     boolean doNotCreate = false;
                     for (StudyParticipantMode uiMode : studyParticipantAssignment.getStudyParticipantModes()) {
                         for (StudyParticipantMode spMode : command.getStudyParticipantModes()) {

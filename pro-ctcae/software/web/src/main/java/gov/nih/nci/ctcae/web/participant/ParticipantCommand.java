@@ -104,7 +104,8 @@ public class ParticipantCommand {
     private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
     private Date newStartDate;
     private Integer armId;
-     private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+    private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+    private String[] responseModes;
 
     public boolean isOdc() {
         return odc;
@@ -273,17 +274,7 @@ public class ParticipantCommand {
     }
 
     public void setParticipantModesAndReminders(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
-        String participantMode = request.getParameter("participantModes_" + studySite.getId());
-        if (participantModes.size() > 0) {
-            participantModes.clear();
-        }
-        if (participantMode != null) {
-            participantModes.add(participantMode);
-        }
-        String participantClinicMode = request.getParameter("participantClinicModes_" + studySite.getId());
-        if (participantClinicMode != null) {
-            participantModes.add(participantClinicMode);
-        }
+
         Boolean email = ServletRequestUtils.getBooleanParameter(request, "email_" + studySite.getId(), false);
         Boolean call = ServletRequestUtils.getBooleanParameter(request, "call_" + studySite.getId(), false);
         Boolean text = ServletRequestUtils.getBooleanParameter(request, "text_" + studySite.getId(), false);
@@ -293,105 +284,80 @@ public class ParticipantCommand {
         String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
         String homePaperLanguage = request.getParameter("home_paper_lang_" + studySite.getId());
         String homeWebLanguage = request.getParameter("home_web_lang_" + studySite.getId());
-        //String newStartDate = request.getParameter("study_date_" + studyParticipantAssignment.getStudySite().getId());
-        //Date updatedStartDate = null;
-        //try{
-        	//updatedStartDate =  DateUtils.parseDate(newStartDate);
-        //} catch(Exception e){
-        	//logger.error("error parsing start date");
-        //}
-//        SupportedLanguageEnum homeWebLanguage = SupportedLanguageEnum.getByCode(homeWebLang);
         String ivrsLanguage = request.getParameter("ivrs_lang_" + studySite.getId());
         String clinicPaperLanguage = request.getParameter("clinic_paper_lang_" + studySite.getId());
         String clinicWebLanguage = request.getParameter("clinic_web_lang_" + studySite.getId());
-        if (participantMode != null) {
-            if (participantMode.equals("HOMEWEB")) {
-                callHour = null;
-                callMinute = null;
-                callAmPm = null;
-                callTimeZone = null;
-            }
-        } else {
-            callHour = null;
-            callMinute = null;
-            callAmPm = null;
-            callTimeZone = null;
-        }
-        
+
         boolean amPmHasChanged = false;
         boolean timeHasChanged = false;
         boolean timeZoneHasChanged = false;
         boolean reminderCallOptionHasChanged = false;
-        
-        if(studyParticipantAssignment.getCallAmPm() != null && !studyParticipantAssignment.getCallAmPm().equalsIgnoreCase(callAmPm)){
-        	amPmHasChanged = true;
+
+        if (studyParticipantAssignment.getCallAmPm() != null && !studyParticipantAssignment.getCallAmPm().equalsIgnoreCase(callAmPm)) {
+            amPmHasChanged = true;
         }
-        if((studyParticipantAssignment.getCallHour() != null && !studyParticipantAssignment.getCallHour().equals(callHour)) || 
-        		(studyParticipantAssignment.getCallMinute() != null && !studyParticipantAssignment.getCallMinute().equals(callMinute))){
-        	timeHasChanged = true;
+        if ((studyParticipantAssignment.getCallHour() != null && !studyParticipantAssignment.getCallHour().equals(callHour)) ||
+                (studyParticipantAssignment.getCallMinute() != null && !studyParticipantAssignment.getCallMinute().equals(callMinute))) {
+            timeHasChanged = true;
         }
-        if(studyParticipantAssignment.getCallTimeZone() != null && !studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(callTimeZone)){
-        	timeZoneHasChanged = true;
+        if (studyParticipantAssignment.getCallTimeZone() != null && !studyParticipantAssignment.getCallTimeZone().equalsIgnoreCase(callTimeZone)) {
+            timeZoneHasChanged = true;
         }
-        if(studyParticipantAssignment.getStudyParticipantModes() != null && studyParticipantAssignment.getStudyParticipantModes().size() > 0 &&
-        		studyParticipantAssignment.getStudyParticipantModes().get(0).getCall() != call){
-        	reminderCallOptionHasChanged = true;
+        if (studyParticipantAssignment.getStudyParticipantModes() != null && studyParticipantAssignment.getStudyParticipantModes().size() > 0 &&
+                studyParticipantAssignment.getStudyParticipantModes().get(0).getCall() != call) {
+            reminderCallOptionHasChanged = true;
         }
-        
-        //update outdated ivrsSchedules status to CANCELLED if start Date has moved.
-        //do we create new SPCrfSchedules when start date is moved backwards???
-//        if(updatedStartDate has changed)){
-//            for(IvrsSchedule ivrsSchedule: studyParticipantAssignment.getIvrsScheduleList()){
-//    	    	if(ivrsSchedule.getPreferredCallTime().before(updatedStartDate) && ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
-//    				ivrsSchedule.setCallStatus(IvrsCallStatus.CANCELLED);
-//    			}
-//            }
-//        }
 
         //update pending IvrsSchedules if time has been updated and mode is IVRS
-        if((participantMode != null && participantMode.equals("IVRS")) && 
-        		(timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged)){
-        	Date finalDate = null;
-            for(IvrsSchedule ivrsSchedule: studyParticipantAssignment.getIvrsScheduleList()){
-            	if(ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)){
-                	if(timeZoneHasChanged || timeHasChanged || amPmHasChanged){
-                    	Calendar newCal = Calendar.getInstance();
-                    	//convert time from local timZone to requested timeZone first
-                    	Date newDate = DateUtils.getDateInTimeZone(ivrsSchedule.getPreferredCallTime(), callTimeZone);
-                    	newCal.setTimeInMillis(newDate.getTime());
-                    	newCal.setTimeZone(TimeZone.getTimeZone(callTimeZone));
-                    	//set to new values from UI
-                		if(callHour == 12){
-                			newCal.set(Calendar.HOUR, 0);
-                    	} else {
-                    		newCal.set(Calendar.HOUR, callHour);
-                    	}
-                		newCal.set(Calendar.MINUTE, callMinute);
-                		if(callAmPm.equalsIgnoreCase("am")){
-                			newCal.set(Calendar.AM_PM, Calendar.AM);
-                    	} else {
-                    		newCal.set(Calendar.AM_PM, Calendar.PM);
-                    	} 
-                		newCal.set(Calendar.SECOND, 0);
-                		newCal.set(Calendar.MILLISECOND, 0);
-                    	
-                		//always save in the local timezone.
-                		finalDate = DateUtils.getDateInTimeZone(newCal.getTime(), Calendar.getInstance().getTimeZone().getID());
-                    	ivrsSchedule.setPreferredCallTime(finalDate);
-                    	ivrsSchedule.setNextCallTime(finalDate);
-                	}
-                	//if reminders chkbox is unchecked change the callCount to just the one.
-                	if(reminderCallOptionHasChanged){
-                		if(!call){
-                    		ivrsSchedule.setCallCount(1);
-                    	} else {
-                    		ivrsSchedule.setCallCount(studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() + 1);
-                    	}
-                	}
-            	}
+        String participantMode = null;
+        for (String string : responseModes) {
+              if (string != null && string.equals("IVRS")) {
+                  participantMode = "IVRS";
+              }
+        }
+        if ((participantMode != null && participantMode.equals("IVRS")) &&
+                (timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged)) {
+            Date finalDate = null;
+            for (IvrsSchedule ivrsSchedule : studyParticipantAssignment.getIvrsScheduleList()) {
+                if (ivrsSchedule.getCallStatus().equals(IvrsCallStatus.PENDING)) {
+                    if (timeZoneHasChanged || timeHasChanged || amPmHasChanged) {
+                        Calendar newCal = Calendar.getInstance();
+                        //convert time from local timZone to requested timeZone first
+                        Date newDate = DateUtils.getDateInTimeZone(ivrsSchedule.getPreferredCallTime(), callTimeZone);
+                        newCal.setTimeInMillis(newDate.getTime());
+                        newCal.setTimeZone(TimeZone.getTimeZone(callTimeZone));
+                        //set to new values from UI
+                        if (callHour == 12) {
+                            newCal.set(Calendar.HOUR, 0);
+                        } else {
+                            newCal.set(Calendar.HOUR, callHour);
+                        }
+                        newCal.set(Calendar.MINUTE, callMinute);
+                        if (callAmPm.equalsIgnoreCase("am")) {
+                            newCal.set(Calendar.AM_PM, Calendar.AM);
+                        } else {
+                            newCal.set(Calendar.AM_PM, Calendar.PM);
+                        }
+                        newCal.set(Calendar.SECOND, 0);
+                        newCal.set(Calendar.MILLISECOND, 0);
+
+                        //always save in the local timezone.
+                        finalDate = DateUtils.getDateInTimeZone(newCal.getTime(), Calendar.getInstance().getTimeZone().getID());
+                        ivrsSchedule.setPreferredCallTime(finalDate);
+                        ivrsSchedule.setNextCallTime(finalDate);
+                    }
+                    //if reminders chkbox is unchecked change the callCount to just the one.
+                    if (reminderCallOptionHasChanged) {
+                        if (!call) {
+                            ivrsSchedule.setCallCount(1);
+                        } else {
+                            ivrsSchedule.setCallCount(studyParticipantAssignment.getStudySite().getStudy().getCallBackFrequency() + 1);
+                        }
+                    }
+                }
             }
         }
-        
+
         studyParticipantAssignment.setCallAmPm(callAmPm);
         studyParticipantAssignment.setCallHour(callHour);
         studyParticipantAssignment.setCallMinute(callMinute);
@@ -408,71 +374,45 @@ public class ParticipantCommand {
         } else
             studyParticipantAssignment.setCallTimeZone(callTimeZone);
         studyParticipantAssignment.getStudyParticipantModes().clear();
-        if (getParticipantModes().size() > 0) {
-            for (String string : getParticipantModes()) {
-                AppMode mode = AppMode.valueOf(string);
-                if (mode != null) {
-                    StudyParticipantMode studyParticipantMode = new StudyParticipantMode();
-                    studyParticipantMode.setMode(mode);
-                    studyParticipantMode.setEmail(email);
-                    studyParticipantMode.setCall(call);
-                    studyParticipantMode.setText(text);
-                    studyParticipantAssignment.addStudyParticipantMode(studyParticipantMode);
+        if (getResponseModes() != null) {
+            for (String string : getResponseModes()) {
+                AppMode appMode = AppMode.valueOf(string);
+                if (appMode != null) {
+                    StudyParticipantMode spMode = new StudyParticipantMode();
+                    spMode.setMode(appMode);
+                    spMode.setEmail(email);
+                    spMode.setCall(call);
+                    spMode.setText(text);
+                    studyParticipantAssignment.addStudyParticipantMode(spMode);
                 }
             }
         }
     }
 
     public void setParticipantModeHistory(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
-        String participantMode = request.getParameter("participantModes_" + studySite.getId());
-        String participantClinicMode = request.getParameter("participantClinicModes_" + studySite.getId());
         boolean blFlgAddHomeMode = true;
-        boolean blFlgAddClinicMode = true;
-        if (participantMode == null) {
+        if (getResponseModes() == null) {
             blFlgAddHomeMode = false;
         }
-        if (participantClinicMode == null) {
-            blFlgAddClinicMode = false;
-        }
-        if (blFlgAddHomeMode || blFlgAddClinicMode) {
+        for (String string : getResponseModes()) {
             for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
                 if (studyParticipantReportingModeHistory.getEffectiveEndDate() == null) {
-                    if (studyParticipantReportingModeHistory.getMode().equals(AppMode.HOMEWEB) || studyParticipantReportingModeHistory.getMode().equals(AppMode.HOMEBOOKLET) || studyParticipantReportingModeHistory.getMode().equals(AppMode.IVRS)) {
-                        if (blFlgAddHomeMode) {
-                            AppMode mode = AppMode.valueOf(participantMode);
-                            if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
-                                blFlgAddHomeMode = false;
-                            } else {
-                                studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
-                            }
-                        }
-
-                    } else {
-                        if (blFlgAddClinicMode) {
-                            AppMode mode = AppMode.valueOf(participantClinicMode);
-                            if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
-                                blFlgAddClinicMode = false;
-                            } else {
-                                studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
-                            }
-                        }
-
-
-                    }
+                     if (blFlgAddHomeMode) {
+                         AppMode mode = AppMode.valueOf(string);
+                         if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
+                             blFlgAddHomeMode = false;
+                         } else {
+                             studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+                         }
+                     }
                 }
             }
-        }
-        if (blFlgAddClinicMode) {
-            StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
-            AppMode mode = AppMode.valueOf(participantClinicMode);
-            hist.setMode(mode);
+           if (blFlgAddHomeMode) {
+              StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
+            AppMode responseMode = AppMode.valueOf(string);
+            hist.setMode(responseMode);
             studyParticipantAssignment.addStudyParticipantModeHistory(hist);
-        }
-        if (blFlgAddHomeMode) {
-            StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
-            AppMode mode = AppMode.valueOf(participantMode);
-            hist.setMode(mode);
-            studyParticipantAssignment.addStudyParticipantModeHistory(hist);
+           }
         }
     }
 
@@ -701,6 +641,14 @@ public class ParticipantCommand {
 
     public void setStudyParticipantModes(List<StudyParticipantMode> studyParticipantModes) {
         this.studyParticipantModes = studyParticipantModes;
+    }
+
+    public String[] getResponseModes() {
+        return responseModes;
+    }
+
+    public void setResponseModes(String[] responseModes) {
+        this.responseModes = responseModes;
     }
 
     public void initialize() {
