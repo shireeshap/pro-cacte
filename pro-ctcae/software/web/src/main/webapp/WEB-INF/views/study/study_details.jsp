@@ -338,11 +338,11 @@
           <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
       </c:if>
        <br>
-       <chrome:division title="study.sections.study_modes">
+       <chrome:division title="study.sections.study_modes"><br/>
        <table border="0">
            <tr>
                <td valign="top" align="right">
-                   <b><tags:message code='study.label.home_reporting'/>&nbsp;</b>
+                   <b>&nbsp;<tags:message code='study.label.home_reporting'/>&nbsp;</b>
                </td>
                <td>
                    <c:if test="${!isEdit}">
@@ -418,7 +418,7 @@
 
                    <c:if test="${isEdit}">
                        <c:choose>
-                           <c:when test="${hweb}">
+                           <c:when test="${hweb || cweb}">
                                <input type="checkbox" name="appModes" checked="true" value="HOMEWEB"/>&nbsp;Web <br>
                            </c:when>
                            <c:otherwise>
@@ -446,20 +446,15 @@
                                    <td>
                                        <select id="call_back_hour1" name="call_back_hour">
                                            <option value=" ">Please select</option>
-                                           <option value="10"
-                                                   selected ${command.study.callBackHour eq 10 ? "selected='selected'" : " "}>
-                                               10 minutes
-                                           </option>
+                                           <option value="10" selected ${command.study.callBackHour eq 10 ? "selected='selected'" : " "}>
+                                               10 minutes </option>
                                            <option value="20"  ${command.study.callBackHour eq 20 ? "selected='selected'" : " "}>
-                                               20 minutes
-                                           </option>
+                                               20 minutes </option>
                                            <option value="30"
                                                ${command.study.callBackHour eq 30 ? "selected='selected'" : " "}>
-                                               30 minutes
-                                           </option>
+                                               30 minutes </option>
                                            <option value="60" ${command.study.callBackHour eq 60 ? "selected='selected'" : " "}>
-                                               60 minutes
-                                           </option>
+                                               60 minutes </option>
                                        </select>
                                    </td>
                                </tr>
@@ -469,76 +464,34 @@
                                    </td>
                                    <td>
                                        <select id="call_back_frequency1" name="call_back_frequency">
-
                                            <option value=" ">Please select</option>
                                            <option value="1" selected ${command.study.callBackFrequency eq 1 ? "selected='selected'" : " "}>
-                                               1
-                                           <option value="2"
-                                                    ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
-                                               2
-                                           <option value="3"
-                                               ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
-                                               3
+                                               1</option>
+                                           <option value="2" ${command.study.callBackFrequency eq 2 ? "selected='selected'" : " "}>
+                                               2</option>
+                                           <option value="3" ${command.study.callBackFrequency eq 3 ? "selected='selected'" : " "}>
+                                               3</option>
                                            <option value="4" ${command.study.callBackFrequency eq 4 ? "selected='selected'" : " "}>
-                                               4
+                                               4</option>
                                            <option value="5" ${command.study.callBackFrequency eq 5 ? "selected='selected'" : " "}>
-                                               5
+                                               5</option>
                                        </select>
                                    </td>
                                </tr>
                            </table>
                        </div>
                        <c:choose>
-                           <c:when test="${hbook}">
-                               <input type="checkbox" name="appModes" checked="true"
-                                      value="HOMEBOOKLET"/>&nbsp;Paper Form
-                               <br>
+                           <c:when test="${hbook || cbook}">
+                               <input type="checkbox" name="appModes" checked="true" value="HOMEBOOKLET"/>&nbsp;Paper Form <br />
                            </c:when>
                            <c:otherwise>
-                               <input type="checkbox" name="appModes"
-                                      value="HOMEBOOKLET"/>&nbsp;Paper Form
-                               <br>
-                           </c:otherwise>
-                       </c:choose>
-                   </c:if>
-               </td>
-           </tr>
-           <tr>
-               <td valign="top">
-                   <b><tags:message code='study.label.clinic_reporting'/>&nbsp;</b>
-               </td>
-               <td>
-                   <c:if test="${!isEdit}">
-                       <form:checkbox path="appModes" value="CLINICWEB"/>&nbsp;Web <br>
-                       <form:checkbox path="appModes" value="CLINICBOOKLET"/>&nbsp;Paper Form <br>
-                   </c:if>
-                   <c:if test="${isEdit}">
-                       <c:choose>
-                           <c:when test="${cweb}">
-                               <input type="checkbox" name="appModes" checked="${cweb}" value="CLINICWEB"/>&nbsp;Web
-                               <br>
-                           </c:when>
-                           <c:otherwise>
-                               <input type="checkbox" name="appModes" value="CLINICWEB"/>&nbsp;Web
-                               <br>
-                           </c:otherwise>
-                       </c:choose>
-                       <c:choose>
-                           <c:when test="${cbook}">
-                               <input type="checkbox" name="appModes" checked="true"
-                                      value="CLINICBOOKLET"/>&nbsp;Paper Form
-                               <br>
-                           </c:when>
-                           <c:otherwise>
-                               <input type="checkbox" name="appModes" value="CLINICBOOKLET"/>&nbsp;Paper Form
-                               <br>
+                               <input type="checkbox" name="appModes" value="HOMEBOOKLET"/>&nbsp;Paper Form <br/>
                            </c:otherwise>
                        </c:choose>
                    </c:if>
                </td>
            </tr>
        </table>
-
        </chrome:division>
 
 </jsp:attribute>

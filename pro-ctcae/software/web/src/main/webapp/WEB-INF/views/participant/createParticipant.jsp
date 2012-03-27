@@ -610,7 +610,7 @@ function participantOffStudy(id) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id  ,
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 600, 350);
+            showConfirmationWindow(transport, 600, 200);
         },
         method:'get'
     })

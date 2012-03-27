@@ -5,8 +5,7 @@
 
 
 <chrome:box title="participant.reportmodehist.label.header">
-<chrome:division title="study.label.home_reporting"/>
-    <div align="left" style="margin-left: 100px">
+    <div align="left" style="margin-left: 10px">
         <table class="tablecontent" width="100%">
             <tr>
                 <th width="30%">
@@ -34,24 +33,7 @@
                     </td>
                 </tr>
             </c:forEach>
-        </table>
-    </div>
-        </br>
-<chrome:division title="study.label.clinic_reporting"/>
-    <div align="left" style="margin-left: 100px">
-        <table class="tablecontent" width="100%">
-            <tr>
-                <th width="30%">
-                    <tags:message code="participant.reportmodehist.label.mode"/>
-                </th>
-                <th width="30%">
-                    <tags:message code="participant.reportmodehist.label.startdate"/>
-                </th>
-                <th width="30%">
-                    <tags:message code="participant.reportmodehist.label.enddate"/>
-                </th>
-            </tr>
-            <c:forEach items="${clinicHistItems}" var="histItem">
+             <c:forEach items="${clinicHistItems}" var="histItem">
                 <tr>
                     <td>
                         ${histItem.mode.displayName}
@@ -68,12 +50,12 @@
             </c:forEach>
         </table>
     </div>
-     <br/>
-    <br/>
+    <br/><br/>
     <div style="float:right; padding-right:10px">
         <tags:button color="blue" type="button" id="flow-cancel"
                      cssClass="previous ibutton" value="Close" icon="x"
                      onclick="closeWindow()" size="small"/>
     </div>
-    <br/><br/>
+    <br/>
+    <br/>
 </chrome:box>    
