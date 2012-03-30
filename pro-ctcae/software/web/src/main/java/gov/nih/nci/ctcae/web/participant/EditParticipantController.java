@@ -54,7 +54,11 @@ public class EditParticipantController extends ParticipantController {
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
         participant.setConfirmPinNumber(participant.getPinNumber());
         command.setReadOnly(false);
+        if (participant.getUser().getUsername()==null || participant.getUser().getUsername()== "") {
+            command.setReadOnlyUserName(false);
+        } else {
         command.setReadOnlyUserName(true);
+        }
         command.setParticipant(participant);
         command.initialize();
 

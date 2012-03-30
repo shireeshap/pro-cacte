@@ -86,6 +86,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (armId != null) {
                 command.setArmId(Integer.parseInt(armId));
             }
+            String userName = request.getParameter("participant.username_" + studySite.getId());
+            if (!StringUtils.isBlank(userName)) {
+                try {
+                    command.getParticipant().getUser().setUsername(userName);
+                } catch (Exception e) {
+                    command.getParticipant().getUser().setUsername(null);
+                }
+            }
+            String password = request.getParameter("participant.password_" + studySite.getId());
+            if (!StringUtils.isBlank(password)) {
+                try {
+                    command.getParticipant().getUser().setPassword(password);
+                } catch (Exception e) {
+                    command.getParticipant().getUser().setPassword(null);
+                }
+            }
             String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
             if (!StringUtils.isBlank(userNumber)) {
                 try {
@@ -102,7 +118,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setPinNumber(null);
                 }
             }
-            String email = request.getParameter("participant.emailAddress_" + studySite.getId());
+            String email = request.getParameter("participant.email_" + studySite.getId());
             if (!StringUtils.isBlank(email)) {
                 try {
                     command.getParticipant().setEmailAddress(email);
@@ -140,6 +156,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         studyParticipantAssignment.setStudyStartDate(null);
                     }
                 }
+                String userName = request.getParameter("participant.username_" + studySite.getId());
+                if (!StringUtils.isBlank(userName)) {
+                    try {
+                        command.getParticipant().getUser().setUsername(userName);
+                    } catch (Exception e) {
+                        command.getParticipant().getUser().setUsername(null);
+                    }
+                }
+                String password = request.getParameter("participant.password_" + studySite.getId());
+                if (!StringUtils.isBlank(password)) {
+                    try {
+                        command.getParticipant().getUser().setPassword(password);
+                    } catch (Exception e) {
+                        command.getParticipant().getUser().setPassword(null);
+                    }
+                }
                 String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(userNumber)) {
                     try {
@@ -165,7 +197,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     }
                 }
 
-                String email = request.getParameter("participant.emailAddress_" + studySite.getId());
+                String email = request.getParameter("participant.email_" + studySite.getId());
                 if (!StringUtils.isBlank(email)) {
                     try {
                         command.getParticipant().setEmailAddress(email);
@@ -207,7 +239,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if (command.getParticipant().getEmailAddress() != null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
             if (validEmail) {
-                errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");
+//                errors.rejectValue("participant.emailAddress", "participant.unique_emailAddress", "participant.unique_emailAddress");
+                errors.reject("participant.unique_emailAddress");
             }
         }
         //checking for unique phone number
@@ -233,21 +266,21 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
         command.setReadOnlyUserName(false);
-        try {
-            boolean validUser = userNameAndPasswordValidator.validate(user);
-            if (!validUser) {
-                if (userNameAndPasswordValidator.message().contains("Username")) {
-                    errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
-                } else if (userNameAndPasswordValidator.message().contains("Password")) {
-                    errors.rejectValue("participant.user.password", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
-                }
-            }
-        } catch (PasswordCreationPolicyException ex) {
-            for (ValidationError ve : ex.getErrors().getErrors()) {
-                errors.rejectValue("participant.user.password", ve.getMessage(), ve.getMessage());
-            }
-            command.setReadOnlyUserName(false);
-        }
+//        try {
+//            boolean validUser = userNameAndPasswordValidator.validate(user);
+//            if (!validUser) {
+//                if (userNameAndPasswordValidator.message().contains("Username")) {
+//                    errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+//                } else if (userNameAndPasswordValidator.message().contains("Password")) {
+//                    errors.rejectValue("participant.user.password", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+//                }
+//            }
+//        } catch (PasswordCreationPolicyException ex) {
+//            for (ValidationError ve : ex.getErrors().getErrors()) {
+//                errors.rejectValue("participant.user.password", ve.getMessage(), ve.getMessage());
+//            }
+//            command.setReadOnlyUserName(false);
+//        }
 
 
         for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
@@ -322,7 +355,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
         command.initialize();
-         StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
+        StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
         if (!errors.hasErrors()) {
             try {
                 if (!command.getParticipant().isPersisted()) {
@@ -363,11 +396,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                                 break;
                             }
                         }
-                        if(!doNotCreate && uiMode.getMode().equals(AppMode.IVRS)) {
+                        if (!doNotCreate && uiMode.getMode().equals(AppMode.IVRS)) {
                             for (StudyParticipantCrf spCrf : command.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
                                 for (StudyParticipantCrfSchedule spcSchedule : spCrf.getStudyParticipantCrfSchedules()) {
-                                    if (spcSchedule.getIvrsSchedules()==null || spcSchedule.getIvrsSchedules().size()==0) {
-                                    spCrf.createIvrsSchedules(spcSchedule);
+                                    if (spcSchedule.getIvrsSchedules() == null || spcSchedule.getIvrsSchedules().size() == 0) {
+                                        spCrf.createIvrsSchedules(spcSchedule);
                                     }
                                 }
                             }

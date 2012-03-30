@@ -38,46 +38,58 @@ var isEmailError = false;
 var isConfirmPinError = false;
 
 // validation check for username
-function checkParticipantUserName() {
+function checkParticipantUserName(siteId) {
     var participantId = "${param['id']}";
-    var userName = $('participant.user.username').value;
+    var userName = $('participant.username_'+siteId).value;
     if (participantId == "") {
         var userId = "${userId}";
     }
+    jQuery('#userNameError_'+siteId).hide();
+    isUserNameError = false;
     if (userName != "") {
         if (userName.length < 6) {
-            jQuery('#userNameError').hide();
-            jQuery('#userNameLengthError').show();
+            jQuery('#userNameError_'+siteId).hide();
+            jQuery('#userNameLengthError_'+siteId).show();
             isUserNameError = true;
         }
         else {
-            userNameValidation.validateDwrUniqueName(userName, userId, userReturnValue);
-            jQuery('#userNameLengthError').hide();
+            userNameValidation.validateDwrUniqueName(userName, userId, {callback:
+                                                                                  function(returnValue) {
+                                                                                      if (returnValue) {
+                                                                                          jQuery('#userNameError_' + siteId).show();
+                                                                                          isUserNameError = true;
+                                                                                      }
+                                                                                      else {
+                                                                                          isUserNameError = false;
+                                                                                      }
+                                                                                      checkError();
+                                                                                  }});
+            jQuery('#userNameLengthError_'+siteId).hide();
             return;
         }
     }
     else {
-        jQuery('#userNameError').hide();
-        jQuery('#userNameLengthError').hide();
+        jQuery('#userNameError_'+siteId).hide();
+        jQuery('#userNameLengthError_'+siteId).hide();
         isUserNameError = false;
     }
     checkError();
 }
 
 // validation check for email address
-function checkParticipantEmail() {
-    var emailAddress = $('participant.emailAddress').value;
+function checkParticipantEmail(siteId) {
+    var emailAddress = $('participant.email_' + siteId).value;
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
     isEmailError = false;
-    jQuery('#userEmailError').hide();
+    jQuery('#userEmailError_'+ siteId).hide();
     if (emailAddress != "") {
         uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback:
                                                                                   function(returnValue) {
                                                                                       if (returnValue) {
-                                                                                          jQuery('#userEmailError').show();
+                                                                                          jQuery('#userEmailError_' + siteId).show();
                                                                                           isEmailError = true;
                                                                                       }
                                                                                       else {
@@ -106,23 +118,23 @@ function userReturnValue(returnValue) {
 }
 
 function checkError() {
-    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError || isConfirmPinError) {
-        jQuery('#flow-update').attr('disabled', true);
-        jQuery('#flow-next').attr('disabled', true);
-    }
-    else {
-        jQuery('#flow-update').attr('disabled', false);
-        jQuery('#flow-next').attr('disabled', false);
-    }
+//    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError || isConfirmPinError) {
+//        jQuery('#flow-update').attr('disabled', true);
+//        jQuery('#flow-next').attr('disabled', true);
+//    }
+//    else {
+//        jQuery('#flow-update').attr('disabled', false);
+//        jQuery('#flow-next').attr('disabled', false);
+//    }
 }
 
 //validation check for password policy
-function checkPasswordPolicy() {
-    var userPassword = $('participant.user.password').value;
-    var userName = $('participant.user.username').value;
-    var confirmPassword = $('participant.user.confirmPassword').value;
+function checkPasswordPolicy(siteId) {
+    var userPassword = $('participant.password_'+siteId).value;
+    var userName = $('participant.username_'+siteId).value;
+    var confirmPassword = $('participant.confirmPassword_'+siteId).value;
     if (confirmPassword != "") {
-        checkPasswordMatch();
+        checkPasswordMatch(siteId);
     }
     if (userPassword != "") {
         userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, passReturnValue);
@@ -163,22 +175,22 @@ function checkPinMatch(siteId) {
 }
 
 // validation check for confirm password
-function checkPasswordMatch() {
-    var password = $('participant.user.password').value;
-    var confirmPassword = $('participant.user.confirmPassword').value;
+function checkPasswordMatch(siteId) {
+    var password = $('participant.password_'+siteId).value;
+    var confirmPassword = $('participant.confirmPassword_'+siteId).value;
     if (password != "" && confirmPassword != "") {
         if (password == confirmPassword) {
-            jQuery('#passwordErrorConfirm').hide();
+            jQuery('#passwordErrorConfirm_'+siteId).hide();
             isConfirmPassError = false;
         }
         else {
-            jQuery('#passwordErrorConfirm').show();
-            document.getElementById('passwordErrorConfirm1').innerHTML = "Password does not match confirm password.";
+            jQuery('#passwordErrorConfirm_'+siteId).show();
+            document.getElementById('passwordErrorConfirm1_'+siteId).innerHTML = "Password does not match confirm password.";
             isConfirmPassError = true;
         }
     }
     else {
-        jQuery('#passwordErrorConfirm').hide();
+        jQuery('#passwordErrorConfirm_'+siteId).hide();
         isConfirmPassError = false;
     }
     checkError();
@@ -1174,104 +1186,104 @@ function isSpclChar(fieldName) {
            </chrome:division>
        <c:choose>
            <c:when test="${command.mode eq 'N'}">
-               <chrome:division title="participant.label.contact_information">
+               <%--<chrome:division title="participant.label.contact_information">--%>
 
-                   <table border="0" style="width:100%">
-                       <tr>
-                           <td width="50%">
-                               <tags:renderEmail propertyName="participant.emailAddress"
-                                                 displayName="participant.label.email_address"
-                                                 required="false" size="35" onblur="checkParticipantEmail();"/>
-                               <ul id="userEmailError" style="display:none; padding-left:12em " class="errors">
-                                   <li><spring:message code='participant.unique_emailAddress'
-                                                       text='participant.unique_emailAddress'/>
-                                   </li>
-                               </ul>
-                           </td>
-                           <!--       <td width="50%">
-                               <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
-                                                      displayName="participant.label.phone"
-                                                      required="${required}"/>
-                           </td> -->
-                       </tr>
-                   </table>
-               </chrome:division>
+                   <%--<table border="0" style="width:100%">--%>
+                       <%--<tr>--%>
+                           <%--<td width="50%">--%>
+                               <%--<tags:renderEmail propertyName="participant.emailAddress"--%>
+                                                 <%--displayName="participant.label.email_address"--%>
+                                                 <%--required="false" size="35" onblur="checkParticipantEmail();"/>--%>
+                               <%--<ul id="userEmailError" style="display:none; padding-left:12em " class="errors">--%>
+                                   <%--<li><spring:message code='participant.unique_emailAddress'--%>
+                                                       <%--text='participant.unique_emailAddress'/>--%>
+                                   <%--</li>--%>
+                               <%--</ul>--%>
+                           <%--</td>--%>
+                           <%--<!--       <td width="50%">--%>
+                               <%--<tags:renderPhoneOrFax propertyName="participant.phoneNumber"--%>
+                                                      <%--displayName="participant.label.phone"--%>
+                                                      <%--required="${required}"/>--%>
+                           <%--</td> -->--%>
+                       <%--</tr>--%>
+                   <%--</table>--%>
+               <%--</chrome:division>--%>
            </c:when>
            <c:otherwise/>
        </c:choose>
-       <chrome:division title="participant.label.logininfo">
-           <table cellpadding="0" cellspacing="0">
-               <tr>
-                   <td>
-                       <c:choose>
-                           <c:when test="${command.readOnlyUserName}">
-                               <div class="row">
-                                   <div class="label"><spring:message code="participant.label.username"/>&nbsp;</div>
-                                   <div class="value">${command.participant.user.username}</div>
-                                   <input type="hidden" id="participant.user.username"
-                                          name="participant.user.username"
-                                          value="${command.participant.user.username}">
-                               </div>
-                           </c:when>
-                           <c:otherwise>
-                               <tags:renderText propertyName="participant.user.username"
-                                                displayName="participant.label.username"
-                                                required="true" onblur="checkParticipantUserName();"/>
-                               <ul id="userNameError" style="display:none; padding-left:12em " class="errors">
-                                   <li><spring:message code='participant.unique_userName'
-                                                       text='participant.unique_userName'/></li>
-                               </ul>
-                               <ul id="userNameLengthError" style="display:none; padding-left:12em " class="errors">
-                                   <li><spring:message code='participant.username_length'
-                                                       text='participant.username_length'/></li>
-                               </ul>
+       <%--<chrome:division title="participant.label.logininfo">--%>
+           <%--<table cellpadding="0" cellspacing="0">--%>
+               <%--<tr>--%>
+                   <%--<td>--%>
+                       <%--<c:choose>--%>
+                           <%--<c:when test="${command.readOnlyUserName}">--%>
+                               <%--<div class="row">--%>
+                                   <%--<div class="label"><spring:message code="participant.label.username"/>&nbsp;</div>--%>
+                                   <%--<div class="value">${command.participant.user.username}</div>--%>
+                                   <%--<input type="hidden" id="participant.user.username"--%>
+                                          <%--name="participant.user.username"--%>
+                                          <%--value="${command.participant.user.username}">--%>
+                               <%--</div>--%>
+                           <%--</c:when>--%>
+                           <%--<c:otherwise>--%>
+                               <%--<tags:renderText propertyName="participant.user.username"--%>
+                                                <%--displayName="participant.label.username"--%>
+                                                <%--required="true" onblur="checkParticipantUserName();"/>--%>
+                               <%--<ul id="userNameError" style="display:none; padding-left:12em " class="errors">--%>
+                                   <%--<li><spring:message code='participant.unique_userName'--%>
+                                                       <%--text='participant.unique_userName'/></li>--%>
+                               <%--</ul>--%>
+                               <%--<ul id="userNameLengthError" style="display:none; padding-left:12em " class="errors">--%>
+                                   <%--<li><spring:message code='participant.username_length'--%>
+                                                       <%--text='participant.username_length'/></li>--%>
+                               <%--</ul>--%>
 
-                           </c:otherwise>
-                       </c:choose>
-                   </td>
-                   <td>
-                       <c:if test="${command.readOnlyUserName}">
-                           <c:set var="style" value="display:none"/>
-                           <div id="resetpass" class="label">
-                               &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
-                       </c:if>
-                   </td>
-               </tr>
-           </table>
-           <div id="passwordfields" style="${style}">
-               <table border="0" cellpadding="0" cellspacing="0">
-                   <tr>
-                       <td>
+                           <%--</c:otherwise>--%>
+                       <%--</c:choose>--%>
+                   <%--</td>--%>
+                   <%--<td>--%>
+                       <%--<c:if test="${command.readOnlyUserName}">--%>
+                           <%--<c:set var="style" value="display:none"/>--%>
+                           <%--<div id="resetpass" class="label">--%>
+                               <%--&nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>--%>
+                       <%--</c:if>--%>
+                   <%--</td>--%>
+               <%--</tr>--%>
+           <%--</table>--%>
+           <%--<div id="passwordfields" style="${style}">--%>
+               <%--<table border="0" cellpadding="0" cellspacing="0">--%>
+                   <%--<tr>--%>
+                       <%--<td>--%>
 
-                           <tags:renderPassword required="true" propertyName="participant.user.password"
-                                                displayName="participant.label.password"
-                                                onblur="checkPasswordPolicy();"/>
-                           <ul id="passwordError" style="display:none; padding-left:12em " class="errors">
-                               <li id="passwordError1"></li>
-                           </ul>
-                       </td>
-                       <td>
-                               <%--<c:if test="${empty command.participant.id}">
-                               (The minimum password length should
-                               be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})
-                               </c:if>--%>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td>
-                           <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
-                                                displayName="participant.label.confirmpassword"
-                                                onblur="checkPasswordMatch();"/>
-                           <ul id="passwordErrorConfirm" style="display:none; padding-left:12em " class="errors">
-                               <li id="passwordErrorConfirm1"></li>
-                           </ul>
-                       </td>
-                   </tr>
-               </table>
+                           <%--<tags:renderPassword required="true" propertyName="participant.user.password"--%>
+                                                <%--displayName="participant.label.password"--%>
+                                                <%--onblur="checkPasswordPolicy();"/>--%>
+                           <%--<ul id="passwordError" style="display:none; padding-left:12em " class="errors">--%>
+                               <%--<li id="passwordError1"></li>--%>
+                           <%--</ul>--%>
+                       <%--</td>--%>
+                       <%--<td>--%>
+                               <%--&lt;%&ndash;<c:if test="${empty command.participant.id}">--%>
+                               <%--(The minimum password length should--%>
+                               <%--be ${command.passwordPolicy.passwordCreationPolicy.minPasswordLength})--%>
+                               <%--</c:if>&ndash;%&gt;--%>
+                       <%--</td>--%>
+                   <%--</tr>--%>
+                   <%--<tr>--%>
+                       <%--<td>--%>
+                           <%--<tags:renderPassword required="true" propertyName="participant.user.confirmPassword"--%>
+                                                <%--displayName="participant.label.confirmpassword"--%>
+                                                <%--onblur="checkPasswordMatch();"/>--%>
+                           <%--<ul id="passwordErrorConfirm" style="display:none; padding-left:12em " class="errors">--%>
+                               <%--<li id="passwordErrorConfirm1"></li>--%>
+                           <%--</ul>--%>
+                       <%--</td>--%>
+                   <%--</tr>--%>
+               <%--</table>--%>
 
-           </div>
-           <br>
-       </chrome:division>
+           <%--</div>--%>
+           <%--<br>--%>
+       <%--</chrome:division>--%>
        <div id="studies" style="display:none">
            <chrome:division title="participant.label.studies"/>
        </div>

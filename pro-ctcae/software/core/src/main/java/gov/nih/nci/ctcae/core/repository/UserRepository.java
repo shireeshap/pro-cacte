@@ -264,6 +264,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             
         } else {
             String myPassword = _user.getPassword();
+            String username = _user.getUsername();
+
             if (myPassword != null) {
                 user = findById(_user.getId());
                 String currentPassword = user.getPassword();
@@ -276,6 +278,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                     user.setPasswordLastSet(new Timestamp(new Date().getTime()));
                     _user.setPasswordLastSet(user.getPasswordLastSet());
                 }
+                if (username!= null || username != "") {
+                user.setUsername(username.toLowerCase());
+            }
             }
         }
 
