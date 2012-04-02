@@ -752,22 +752,36 @@ function removeEmailClassName(id) {
     }
 }
 
-function showEmail(id) {
-    if (jQuery('input:checkbox:checked').val()) {
-        jQuery('#emailInput_' + id).show();
+function showPhone(id, val) {
+    if (val) {
+        jQuery('#participantPhone_' +id).show();
+        jQuery('#phoneLabel_' +id).show();
+        $('participantPhoneNumber_' +id).addClassName("validate-NOTEMPTY");
+    } else {
+        jQuery('#participantPhone_' +id).hide();
+        jQuery('#phoneLabel_' +id).hide();
+        $('participantPhoneNumber_' +id).removeClassName("validate-NOTEMPTY");
+
+    }
+}
+
+function showEmail(id, val) {
+
+    if (val) {
+//        alert("checked");
+        jQuery('#participantEmail_' + id).show();
         jQuery('#emailHeader_' + id).show();
-        jQuery('#webLang_' + id).show();
-        addEmailRemoveIVRSClassName(id);
+        $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
+//        jQuery('#webLang_' + id).show();
+//        addEmailClassName(id);
     }
     else {
-        jQuery('#emailInput_' + id).hide();
+        jQuery('#participantEmail_' + id).hide();
         jQuery('#emailHeader_' + id).hide();
-        jQuery('#emailError_' + id).hide();
-        jQuery('#webLang_' + id).hide();
-        isEmail = false;
-        removeEmailClassName(id);
+        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+//        removeEmailClassName(id);
     }
-    checkError();
+//    checkError();
 }
 <%--var clickCount = ${homeModeCount};--%>
 function showOrHideLanguage(value1, value2, id) {
@@ -806,32 +820,7 @@ function showOrHideLanguage(value1, value2, id) {
     }
 }
 function showOrHideEmail(value1, value2, id) {
-    //    alert(value1);
-//    alert(value2);
-//    alert(showWeb + " web");
-//    alert(showIVRS + " IVRS");
-//    alert(showBooklet + "booklet")
-//    jQuery('#home_web_lang_' + id + '-msg').hide();
-//    jQuery('#home_paper_lang_' + id + '-msg').hide();
-//    jQuery('#participantPhoneNumber_' + id + '-msg').hide();
-//    jQuery('#participantUserNumber_' + id + '-msg').hide();
-//    jQuery('#participantPinNumber_' + id + '-msg').hide();
-//    jQuery('#call_hour_' + id + '-msg').hide();
-//    jQuery('#call_minute_' + id + '-msg').hide();
-//    jQuery('#call_ampm_' + id + '-msg').hide();
-//    jQuery('#call_timeZone_' + id + '-msg').hide();
-//    jQuery('#ivrs_lang_' + id + '-msg').hide();
-<%----%>
-//    jQuery('#UserPatternError_' + id).hide();
-//    jQuery('#PhonePatternError_' + id).hide();
-//    jQuery('#phoneNumberError_' + id).hide();
-//    jQuery('#PinPatternError_' + id).hide();
-//    jQuery('#confirmPinError_' + id).hide();
-//    jQuery('#userNumberError_' + id).hide();
-//    jQuery('#emailError_' + id).hide();
-//    jQuery('#preferred.calltime.error_' + id).hide();
-//    $('preferred.calltime.error_' + id).hide();
-<%----%>
+
     isUserIdError = false;
     isPinError = false;
     isEmail = false;
@@ -859,23 +848,11 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailInput_' + id).show();
         jQuery('#webLang_' + id).show();
         jQuery('#emailHeader_' + id).show();
+        $('participant.username_' + id).addClassName("validate-NOTEMPTY");
+        $('participant.password_' + id).addClassName("validate-NOTEMPTY");
+        $('participant.confirmPassword_' + id).addClassName("validate-NOTEMPTY");
 //        jQuery('#div_contact_ivrs').hide();
-//        jQuery('#paper_home_header_' + id).hide();
-//        jQuery('#home_paper_' + id).hide();
-//        jQuery('#div_contact').hide();
-//        jQuery('#div_contact_ivrs').hide();
-//        jQuery('#ivrs_' + id).hide();
-//        jQuery('#c_' + id).hide();
-//        jQuery('#c1_' + id).hide();
-//        jQuery('#c2_' + id).hide();
-//        jQuery('#c3_' + id).hide();
-//        jQuery('#c4_' + id).hide();
-//        jQuery('#reminder_' + id).hide();
-//        jQuery('#ivrs_reminder_' + id).hide();
-//        jQuery('#ivrsLang_' + id).hide();
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
-//        $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
-//        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
 //        addEmailRemoveIVRSClassName(id);
     }
 
@@ -888,6 +865,9 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#emailHeader_' + id).hide();
         jQuery('#web_' + id).hide();
         jQuery('#email_' + id).attr('checked', false);
+        $('participant.username_' + id).removeClassName("validate-NOTEMPTY");
+        $('participant.password_' + id).removeClassName("validate-NOTEMPTY");
+        $('participant.confirmPassword_' + id).removeClassName("validate-NOTEMPTY");
     }
 
 //    if (value1 && value2 == "HOMEBOOKLET") {

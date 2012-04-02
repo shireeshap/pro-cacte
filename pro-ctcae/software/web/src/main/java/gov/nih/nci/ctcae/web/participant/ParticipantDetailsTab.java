@@ -126,7 +126,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setEmailAddress(null);
                 }
             }
-            String phone = request.getParameter("participantPhoneNumber_" + studySite.getId());
+            String phone = request.getParameter("participant.phoneNumber_" + studySite.getId());
             if (!StringUtils.isBlank(phone)) {
                 try {
                     command.getParticipant().setPhoneNumber(phone);
@@ -205,7 +205,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         command.getParticipant().setEmailAddress(null);
                     }
                 }
-                String phone = request.getParameter("participantPhoneNumber_" + studySite.getId());
+                String phone = request.getParameter("participant.phoneNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(phone)) {
                     try {
                         command.getParticipant().setPhoneNumber(phone);

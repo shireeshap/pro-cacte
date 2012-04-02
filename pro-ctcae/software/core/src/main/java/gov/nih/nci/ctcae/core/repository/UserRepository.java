@@ -245,24 +245,24 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void saveOrUpdate(User _user) {
-        if (_user.getUsername() == null) {
-            throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
-        }
+//        if (_user.getUsername() == null) {
+//            throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
+//        }
         
         User user = _user;
         
-        if (_user.getId() == null) {
-            _user.setUsername(_user.getUsername().toLowerCase());
-            List<User> users = findByUserName(_user.getUsername());
-            if (users.size() > 0) {
-                throw new UsernameAlreadyExistsException(_user.getUsername());
-            }
-            String encoded = getEncodedPassword(_user);
-            user.setPassword(encoded);
-            user.setConfirmPassword(_user.getPassword());
-            user.setPasswordLastSet(new Timestamp(new Date().getTime()));
-            
-        } else {
+//        if (_user.getId() == null) {
+//            _user.setUsername(_user.getUsername().toLowerCase());
+//            List<User> users = findByUserName(_user.getUsername());
+//            if (users.size() > 0) {
+//                throw new UsernameAlreadyExistsException(_user.getUsername());
+//            }
+//            String encoded = getEncodedPassword(_user);
+//            user.setPassword(encoded);
+//            user.setConfirmPassword(_user.getPassword());
+//            user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+//
+//        } else {
             String myPassword = _user.getPassword();
             String username = _user.getUsername();
 
@@ -281,7 +281,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 if (username!= null || username != "") {
                 user.setUsername(username.toLowerCase());
             }
-            }
+//            }
         }
 
         genericRepository.saveOrUpdate(user);
