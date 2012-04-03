@@ -71,7 +71,7 @@
                                <a class="left ${currentEn}" href="?lang=en">English</a>
                                <a class="right ${currentEs}" href="?lang=es">Español</a>
                                <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
-                                   <a onclick="openNewWindow('../images/Pro-CTCAE_mfull.mp4');" style="cursor:pointer;color:white;border:0px;background:none; ">
+                                   <a onclick="openNewWindow('showVideo');" style="cursor:pointer;color:white;border:0px;background:none; ">
                                       <table width="100%"><tr><td width="35px;" align="left"> 
                                               <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
                                           </td><td valign="middle" align="left">
@@ -92,6 +92,7 @@
             <%--<proctcae:urlAuthorize url="/pages/j_spring_security_logout">--%>
             <%--<a id="home" href="<c:url value="/"/>">Home</a>--%>
             <%--</proctcae:urlAuthorize>--%>
+
             <div class="top-btns">
 	            <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
 	                <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
@@ -157,7 +158,7 @@
         </div>
 
     </div>
-
+    
 	<spring:message code="user.keepworking" var="keepWorking"/>
     <div id="logout_warning" style="display:none;text-align:left;padding-left:10px; width:410px;">
         <p>
@@ -175,5 +176,7 @@
     </div>
 
 </div>
+
+
 
 <!-- end header -->

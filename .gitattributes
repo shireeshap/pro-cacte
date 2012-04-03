@@ -3144,6 +3144,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordExpired.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/password_policy_configure.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
@@ -3219,6 +3220,8 @@ pro-ctcae/software/web/src/main/webapp/css/tree.css -text
 pro-ctcae/software/web/src/main/webapp/css/yui-autocomplete.css -text
 pro-ctcae/software/web/src/main/webapp/decorated-error.jsp -text
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.mp4 -text
+pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.theora.ogv -text
+pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.webm -text
 pro-ctcae/software/web/src/main/webapp/images/add_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/ajax-loading.gif -text
 pro-ctcae/software/web/src/main/webapp/images/allCommon-Icons.gif.png -text

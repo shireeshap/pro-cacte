@@ -29,6 +29,13 @@
         </property>
     </bean>
     
+    <bean name="/showVideo" id="showVideoController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>proctcae_video_player</value>
+        </property>
+    </bean>
+    
     <bean name="/welcome" id="welcomeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName">
