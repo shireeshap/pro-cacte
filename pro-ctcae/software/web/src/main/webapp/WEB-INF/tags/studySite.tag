@@ -283,7 +283,7 @@
                         <div class="row">
                             <div id="emailHeader_${studysite.id}" class="label"><spring:message
                                     code="participant.label.email_address"/>&nbsp;</div>
-                            <div  id="participantEmail_${studysite.id}" class="value">
+                            <div id="participantEmail_${studysite.id}" class="value">
 
                                 <input type="text" name="participant.email_${studysite.id}"
                                        value="${studyParticipantAssignment.participant.emailAddress}"
@@ -301,14 +301,6 @@
 
 
                         </div>
-                            <%--<tags:renderEmail propertyName="participant.emailAddress"--%>
-                            <%--displayName="participant.label.email_address"--%>
-                            <%--required="false" size="35" onblur="checkParticipantEmail();"/>--%>
-                            <%--<ul id="userEmailError" style="display:none; padding-left:12em " class="errors">--%>
-                            <%--<li><spring:message code='participant.unique_emailAddress'--%>
-                            <%--text='participant.unique_emailAddress'/>--%>
-                            <%--</li>--%>
-                            <%--</ul>--%>
 
                         <div class="row">
                             <div class="label">
@@ -330,20 +322,14 @@
                             </div>
                         </div>
                     </td>
-                    <td ><br><br><br><br>
+                    <td><br><br><br><br>
+
                         <div style="margin-left:10px">
-                        <input type="checkbox" name="email_${studysite.id}" value="true"
-                                                                                          onclick="javascript:showEmail(${studysite.id}, this.checked);"
-                                                                                          id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />  reminder via email
-                          </div>
-                        <%--<div class="row">--%>
-                            <%--<div class="label">--%>
-                                <%----%>
-                            <%--</div>--%>
-                            <%--<div class="value">--%>
-                                <%----%>
-                            <%--</div>--%>
-                        <%--</div>--%>
+                            <input type="checkbox" name="email_${studysite.id}" value="true"
+                                   onclick="javascript:showEmail(${studysite.id}, this.checked);"
+                                   id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
+                            reminder via email
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -375,7 +361,6 @@
 
 </tr>
 <tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
-    <%--<td width="20%"></td>--%>
 <td colspan="2">
 <div style="margin-left:37px">
 <table border="0">
@@ -386,7 +371,8 @@
                 IVRS call-out
             </div>
             <div class="value">
-                <input type="checkbox" name="call_${studysite.id}" value="true" onclick="javascript:showPhone(${studysite.id}, this.checked)"
+                <input type="checkbox" name="call_${studysite.id}" value="true"
+                       onclick="javascript:showPhone(${studysite.id}, this.checked)"
                        id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
                 check if the system should call the participant. <br>
             </div>
@@ -422,7 +408,7 @@
                        value="${studyParticipantAssignment.participant.userNumber}"
                        id="participant.userNumber_${studysite.id}" title="User Number"
                        onblur="checkParticipantUserNumber(${studysite.id});"
-                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/>  ( 10 digits )
+                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/> ( 10 digits )
                 <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
                     <li><spring:message code='participant.unique_userNumber'
                                         text='participant.unique_userNumber'/></li>
@@ -465,7 +451,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
+        <div id="callTime_${studysite.id}" class="row">
             <div class="label">
                 <span class="required-indicator">*&nbsp; </span> Preferred call time
             </div>
@@ -546,7 +532,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
+        <div id="ivrsLanguage_${studysite.id}" class="row">
             <div class="label">
                 <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
             </div>
@@ -613,38 +599,38 @@
         <%--<td width="20%"></td>--%>
     <td colspan="2">
 
-       <div style="margin-left:37px">
-        <table border="0" cellpadding="0" cellspacing="0">
+        <div style="margin-left:37px">
+            <table border="0" cellpadding="0" cellspacing="0">
 
-            <tr id="home_paper_${studysite.id}" style="${showBook eq true ? "":"display:none"}">
-                <td>
-                    <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
+                <tr id="home_paper_${studysite.id}" style="${showBook eq true ? "":"display:none"}">
+                    <td>
+                        <div class="row">
+                            <div class="label">
+                                <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
+                            </div>
+                            <div class="value">
+                                <select id="home_paper_lang_${studysite.id}"
+                                        name="home_paper_lang_${studysite.id}">
+                                    <option value="" ${studyParticipantAssignment.homePaperLanguage eq "" ? "selected='selected'" : " "} >
+                                        Please select
+                                    </option>
+                                    <option value="ENGLISH" ${studyParticipantAssignment.homePaperLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
+                                        English
+                                    </option>
+                                    <option value="SPANISH" ${studyParticipantAssignment.homePaperLanguage eq "SPANISH" ? "selected='selected'" : " "} >
+                                        Spanish
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="value">
-                            <select id="home_paper_lang_${studysite.id}"
-                                    name="home_paper_lang_${studysite.id}">
-                                <option value="" ${studyParticipantAssignment.homePaperLanguage eq "" ? "selected='selected'" : " "} >
-                                    Please select
-                                </option>
-                                <option value="ENGLISH" ${studyParticipantAssignment.homePaperLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
-                                    English
-                                </option>
-                                <option value="SPANISH" ${studyParticipantAssignment.homePaperLanguage eq "SPANISH" ? "selected='selected'" : " "} >
-                                    Spanish
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </td>
-                <td valign="top"><br><br>
+                    </td>
+                    <td valign="top"><br><br>
 
-                </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
 
-      </div>
+        </div>
     </td>
 </tr>
 </c:if>
