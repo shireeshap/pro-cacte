@@ -14,7 +14,7 @@
 				<param name="movie" value="../images/player.swf" />
 				<param name="allowFullScreen" value="true" />
 				<param name="wmode" value="transparent" />
-				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=proctcaeposter.jpg&amp;file=Pro-CTCAE_mfull.mp4" />
+				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=..%2Fimages%2Fproctcaeposter.jpg&amp;file=<c:url value='../images/Pro-CTCAE_mfull.mp4' />" />
 				<img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
 			</object>
 		</video>
