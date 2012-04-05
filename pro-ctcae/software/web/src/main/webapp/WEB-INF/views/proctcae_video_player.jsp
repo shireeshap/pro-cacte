@@ -10,10 +10,10 @@
  
    <body>
  
-			<video controls poster="../images/proctcaeposter.jpg"  autoplay width="640" height="480" >
-                <source src="../images/Pro-CTCAE_mfull.mp4" type="video/mp4" />
-                <source src="../images/Pro-CTCAE_mfull.theora.ogv" type="video/ogg" />
-                <source src="../images/Pro-CTCAE_mfull.webm" type="video/webm" />
+			<video controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg"  autoplay width="640" height="480" >
+                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.mp4" type="video/mp4" />
+                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.theora.ogv" type="video/ogg" />
+                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.webm" type="video/webm" />
 
                 <object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="640" height="480">
                         <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
