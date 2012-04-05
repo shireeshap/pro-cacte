@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
+
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 //
+
 /**
  * User: Mehul Gulati
  * Date: Oct 15, 2008.
@@ -49,7 +51,6 @@ public class ClinicalStaffQuery extends AbstractQuery {
     private static final String NCI_INSTITUTIONAL_CODE = "nciInstituteCode";
 
 
-
     /**
      * Instantiates a new clinical staff query.
      */
@@ -58,16 +59,16 @@ public class ClinicalStaffQuery extends AbstractQuery {
         filterByActive();
     }
 
-    public ClinicalStaffQuery(boolean count, boolean showInactive){
+    public ClinicalStaffQuery(boolean count, boolean showInactive) {
         super(queryString1);
         if (!showInactive) {
             filterByActive();
         }
     }
 
-    public ClinicalStaffQuery(boolean sort, boolean count,boolean showInactive){
+    public ClinicalStaffQuery(boolean sort, boolean count, boolean showInactive) {
         super(queryString2);
-         if (!showInactive) {
+        if (!showInactive) {
             filterByActive();
         }
     }
@@ -113,10 +114,10 @@ public class ClinicalStaffQuery extends AbstractQuery {
      *
      * @param staffId the Db identifier
      */
-    public void excludeByStaffId(final Integer staffId){
-          if (staffId != null){
-              andWhere("cs.id <> :id");
-              setParameter("id",staffId);
+    public void excludeByStaffId(final Integer staffId) {
+        if (staffId != null) {
+            andWhere("cs.id <> :id");
+            setParameter("id", staffId);
         }
     }
 
@@ -136,7 +137,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param nciIdentifier the nci identifier
      */
     public void filterByNciIdentifier(final String nciIdentifier) {
-        String searchString = "%" + nciIdentifier.toLowerCase()+ "%";
+        String searchString = "%" + nciIdentifier.toLowerCase() + "%";
         andWhere("lower(cs.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
         setParameter(NCI_IDENTIFIER, searchString);
     }
@@ -150,8 +151,8 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
     public void filterByOrganization(final Integer organizationId, String key) {
         leftJoin("cs.organizationClinicalStaffs as scs");
-        andWhere("scs.organization.id = :" + ORGANIZATION_ID+key);
-        setParameter(ORGANIZATION_ID+key, organizationId);
+        andWhere("scs.organization.id = :" + ORGANIZATION_ID + key);
+        setParameter(ORGANIZATION_ID + key, organizationId);
     }
 
     public void filterByOrganization(List<Integer> ids) {
@@ -164,33 +165,30 @@ public class ClinicalStaffQuery extends AbstractQuery {
         andWhere("((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate))");
         setParameter("status1", RoleStatus.ACTIVE);
         setParameter("status2", RoleStatus.IN_ACTIVE);
-        setParameter("effectiveDate",  new Date());
+        setParameter("effectiveDate", new Date());
     }
 
 
-    public void setLeftJoin(){
+    public void setLeftJoin() {
         leftJoin("cs.organizationClinicalStaffs as orgcs left outer join orgcs.studyOrganizationClinicalStaff as storgcs left outer join orgcs.organization as org left outer join storgcs.studyOrganization as studyOrg left outer join studyOrg.study as std");
     }
 
-     public void filterByAll(String text, String key) {
+    public void filterByAll(String text, String key) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
-        orWhere(String.format("lower(cs.firstName) LIKE :%s ",FIRST_NAME+key));
-        orWhere(String.format("lower(cs.lastName) LIKE :%s ",LAST_NAME+key));
-        orWhere(String.format("lower(cs.nciIdentifier) LIKE :%s ",NCI_IDENTIFIER+key));
-
-        setParameter(FIRST_NAME+key, searchString);
-        setParameter(LAST_NAME+key, searchString);
-        setParameter(NCI_IDENTIFIER+key, searchString);
-
-
-        orWhere(String.format("lower(org.name) LIKE :%s", NAME+key));
-        orWhere(String.format("lower(org.nciInstituteCode) LIKE :%s", NCI_INSTITUTIONAL_CODE+key));
-        setParameter(NAME+key, searchString);
-        setParameter(NCI_INSTITUTIONAL_CODE+key, searchString);
-        orWhere(String.format("lower(std.shortTitle) LIKE :%s", SHORT_TITLE+key));
-        orWhere(String.format("lower(std.assignedIdentifier) LIKE :%s", STUDY_ASSIGNED_IDENTIFIER+key));
-        setParameter(SHORT_TITLE+key, searchString);
-        setParameter(STUDY_ASSIGNED_IDENTIFIER+key, searchString);
+        andWhere(String.format("(lower(cs.firstName) LIKE :%s " +
+                "or lower(cs.lastName) LIKE :%s " +
+                "or lower(cs.nciIdentifier) LIKE :%s " +
+                "or lower(org.name) LIKE :%s " +
+                "or lower(org.nciInstituteCode) LIKE :%s " +
+                "or lower(std.shortTitle) LIKE :%s " +
+                "or lower(std.assignedIdentifier) LIKE :%s )", FIRST_NAME + key, LAST_NAME + key, NCI_IDENTIFIER + key, NAME + key, NCI_INSTITUTIONAL_CODE + key, SHORT_TITLE + key, STUDY_ASSIGNED_IDENTIFIER + key));
+        setParameter(FIRST_NAME + key, searchString);
+        setParameter(LAST_NAME + key, searchString);
+        setParameter(NCI_IDENTIFIER + key, searchString);
+        setParameter(NAME + key, searchString);
+        setParameter(NCI_INSTITUTIONAL_CODE + key, searchString);
+        setParameter(SHORT_TITLE + key, searchString);
+        setParameter(STUDY_ASSIGNED_IDENTIFIER + key, searchString);
     }
 
 
