@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+
 
 <html>
+ <tags:javascriptLink name="prototype"/>
+ <tags:javascriptLink name="lightwindow"/>
+ <tags:javascriptLink name="scriptaculous"/>
  
    <body>
  
@@ -10,24 +15,24 @@
 			<source src="../images/Pro-CTCAE_mfull.webm" type="video/webm" />
 			<source src="../images/Pro-CTCAE_mfull.theora.ogv" type="video/ogg" />
 
-			<object type="application/x-shockwave-flash" data="../images/player.swf" width="640" height="480">
-				<param name="movie" value="../images/player.swf" />
+			<object type="application/x-shockwave-flash" data="https://10.10.10.143:8443/proctcae/images/player.swf" width="640" height="480">
+				<param name="movie" value="https://10.10.10.143:8443/proctcae/images/player.swf" />
 				<param name="allowFullScreen" value="true" />
 				<param name="wmode" value="transparent" />
-				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=..%2Fimages%2Fproctcaeposter.jpg&amp;file=<c:url value='../images/Pro-CTCAE_mfull.mp4' />" />
-				<img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=%2Fimages%2Fproctcaeposter.jpg&amp;url=https%3A%2F%2F10.10.10.143%3A8443%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4" />
+				<img alt="PROCTCAE Help" src="/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
 			</object>
 		</video>
-		
-		
-		   <!--
-		<object type="application/x-shockwave-flash" data="../images/Pro-CTCAE_mfull.mp4" width="640" height="480">
-				<param name="movie" value="../images/Pro-CTCAE_mfull.mp4" />
+
+
+			<object type="application/x-shockwave-flash" data="../images/player.swf" width="640" height="480">
+				<param name="movie" value="/..images/player.swf" />
 				<param name="allowFullScreen" value="true" />
 				<param name="wmode" value="transparent" />
-				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=..%2Fimages%2Fproctcaeposter.jpg&amp;file=%2Fimages%2FPro-CTCAE_mfull.mp4" />
-				<img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
-			</object>-->
+				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=..%2Fimages%2Fproctcaeposter.jpg&amp;url=..%2Fimages%2FPro-CTCAE_mfull.mp4" />
+				<img alt="PROCTCAE Help" src="/..images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+			</object>
+			
   </body>
 </html>
 
