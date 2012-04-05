@@ -78,7 +78,7 @@ public class StudyAjaxFacade {
             }
         }
         List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
-        if (!user.isAdmin()) {
+        if (!user.isAdmin() && !user.isCCA()) {
             Long searchCount = resultCount(searchStrings);
             if (studies.size() == results) {
                 return studies;
@@ -114,7 +114,7 @@ public class StudyAjaxFacade {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
         StudyQuery studyQuery = new StudyQuery(true);
-        if (!user.isAdmin()) {
+        if (!user.isAdmin() && !user.isCCA()) {
             studyQuery.filterByUsername(userName);
         } else {
             if (searchTexts != null) {

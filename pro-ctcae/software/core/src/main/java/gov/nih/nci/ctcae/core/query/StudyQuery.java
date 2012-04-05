@@ -190,31 +190,25 @@ public class StudyQuery extends SecuredQuery<Study> {
     
     public void filterByAll(String text, String key){
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
-
-        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE+key));
-        setParameter(SHORT_TITLE+key, searchString);
-        
-        orWhere(String.format("lower(study.assignedIdentifier) LIKE :%s", ASSIGNED_IDENTIFIER+key));
-        setParameter(ASSIGNED_IDENTIFIER+key, searchString);
-        
         leftJoin("study.studyOrganizations as sso");
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , STUDY_SITE+key));
+        andWhere(String.format("(lower(study.shortTitle) LIKE :%s " +
+                "or lower(study.assignedIdentifier) LIKE :%s " +
+                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
+                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
+                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
+                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
+                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) )", SHORT_TITLE+key, ASSIGNED_IDENTIFIER+key, ORGANIZATION_NAME+key, STUDY_SITE+key, ORGANIZATION_NAME+key, LEAD_SITE+key, ORGANIZATION_NAME+key, DCC+key, ORGANIZATION_NAME+key, F_SPONSOR+key, ORGANIZATION_NAME+key, S_SPONSOR+key));
+
+        setParameter(SHORT_TITLE+key, searchString);
+        setParameter(ASSIGNED_IDENTIFIER+key, searchString);
         setParameter(ORGANIZATION_NAME+key, searchString);
         setParameter(STUDY_SITE+key, "SST");
-        
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , LEAD_SITE+key));
         setParameter(ORGANIZATION_NAME+key, searchString);
         setParameter(LEAD_SITE+key, "LSS");
-        
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , DCC+key));
         setParameter(ORGANIZATION_NAME+key, searchString);
         setParameter(DCC+key, "DCC");
-        
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , F_SPONSOR+key));
         setParameter(ORGANIZATION_NAME+key, searchString);
         setParameter(F_SPONSOR+key, "FSP");
-        
-        orWhere(String.format("lower(sso.organization.name) LIKE :%s", ORGANIZATION_NAME+key) + " and " + String.format("(sso.class = :%s )" , S_SPONSOR+key));
         setParameter(ORGANIZATION_NAME+key, searchString);
         setParameter(S_SPONSOR+key, "SSP");
     }
