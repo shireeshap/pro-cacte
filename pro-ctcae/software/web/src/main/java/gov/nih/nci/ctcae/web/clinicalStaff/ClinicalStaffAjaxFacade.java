@@ -86,39 +86,81 @@ public class ClinicalStaffAjaxFacade {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         String userName = user.getUsername();
-
+        List<ClinicalStaff> clinicalStaffs = new ArrayList<ClinicalStaff>();
         clinicalStaffQuery.setFirstResult(startIndex);
         clinicalStaffQuery.setMaximumResults(results);
         clinicalStaffQuery.setSortBy("cs." + sort);
         clinicalStaffQuery.setSortDirection(dir);
-        if (searchStrings != null) {
-            clinicalStaffQuery.setLeftJoin();
-            int index = 0;
-            for (String searchString : searchStrings) {
-                clinicalStaffQuery.filterByAll(searchString, "" + index);
-                index++;
-            }
-        }
-        List<ClinicalStaff> clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
-        if (!user.isAdmin()) {
-            Long searchCount = resultCount(searchStrings);
-            if (clinicalStaffs.size() == results) {
-                return clinicalStaffs;
-            } else {
-                int index = startIndex;
-                while (clinicalStaffs.size() != results && clinicalStaffs.size() != searchCount) {
-                    index = results + index;
-                    clinicalStaffQuery.setFirstResult(index);
-                    List<ClinicalStaff> l = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
-                    for (ClinicalStaff clinicalStaff : l) {
-                        clinicalStaffs.add(clinicalStaff);
-                    }
-                    l.clear();
+        if (user.isAdmin()) {
+            if (searchStrings != null) {
+                clinicalStaffQuery.setLeftJoin();
+                int index = 0;
+                for (String searchString : searchStrings) {
+                    clinicalStaffQuery.filterByAll(searchString, "" + index);
+                    index++;
                 }
+            }
+            clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
+            return clinicalStaffs;
+        } else {
+            Long searchCount = resultCount(searchStrings);
+            int index = startIndex;
+            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(false, false, false);
+            clinicalStaffQuery1.filterByUserName(userName);
+            List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery1);
+            List<Integer> orgs = new ArrayList();
+            for (OrganizationClinicalStaff ocs : cs.get(0).getOrganizationClinicalStaffs()) {
+                orgs.add(ocs.getOrganization().getId());
+            }
+            clinicalStaffQuery.filterByOrganization(orgs);
+            if (searchStrings == null) {
+
+                clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
+                if (clinicalStaffs.size() == results || clinicalStaffs.size() == searchCount) {
+                    return clinicalStaffs;
+                } else {
+                    while (clinicalStaffs.size() != results && clinicalStaffs.size() != searchCount) {
+                        index = results + index;
+                        clinicalStaffQuery.setFirstResult(index);
+                        List<ClinicalStaff> l = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
+                        for (ClinicalStaff clinicalStaff : l) {
+                            clinicalStaffs.add(clinicalStaff);
+                        }
+                        l.clear();
+                    }
+                    return clinicalStaffs;
+                }
+            } else {
+                clinicalStaffQuery.setLeftJoin();
+                int i = 0;
+                for (String searchString : searchStrings) {
+                    clinicalStaffQuery.filterByAll(searchString, "" + i);
+                    i++;
+                }
+                clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
                 return clinicalStaffs;
             }
         }
-        return clinicalStaffs;
+
+//        if (!user.isAdmin()) {
+//            Long searchCount = resultCount(searchStrings);
+//            if (clinicalStaffs.size() == results) {
+//                return clinicalStaffs;
+//            } else {
+//                int index = startIndex;
+//                while (clinicalStaffs.size() != results && clinicalStaffs.size() != searchCount) {
+//                    index = results + index;
+//                    clinicalStaffQuery.setFirstResult(index);
+//                    List<ClinicalStaff> l = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
+//                    for (ClinicalStaff clinicalStaff : l) {
+//                        clinicalStaffs.add(clinicalStaff);
+//                    }
+//                    l.clear();
+//                }
+//                return clinicalStaffs;
+//            }
+//        }
+//        return clinicalStaffs;
     }
 
 
@@ -126,17 +168,17 @@ public class ClinicalStaffAjaxFacade {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(true, true);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
-        if (!user.isAdmin() && searchTexts==null) {
-            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(false,false,false);
+        if (!user.isAdmin() && searchTexts == null) {
+            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(false, false, false);
             clinicalStaffQuery1.filterByUserName(userName);
             List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery1);
             List<Integer> orgs = new ArrayList();
 
             for (OrganizationClinicalStaff ocs : cs.get(0).getOrganizationClinicalStaffs()) {
-                  orgs.add(ocs.getOrganization().getId());
+                orgs.add(ocs.getOrganization().getId());
             }
 
-                clinicalStaffQuery.filterByOrganization(orgs);
+            clinicalStaffQuery.filterByOrganization(orgs);
 
         } else {
             if (searchTexts != null) {
