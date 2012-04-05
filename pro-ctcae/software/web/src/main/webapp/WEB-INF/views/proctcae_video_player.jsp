@@ -19,7 +19,7 @@
 				<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
 				<param name="allowFullScreen" value="true" />
 				<param name="wmode" value="transparent" />
-				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=https%3A%2F%2F${pageContext.request.serverName}:8443%2Fproctcae%2fimages%2Fproctcaeposter.jpg&amp;file=https%3A%2F%2F${pageContext.request.serverName}:${pageContext.request.serverPort}%2Fproctcae%2fimages%2FPro-CTCAE_mfull.mp4" />
+				<param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2fimages%2Fproctcaeposter.jpg&amp;file=https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2fimages%2FPro-CTCAE_mfull.mp4" />
 				<img alt="PROCTCAE Help" src="/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
 			</object>
 		</video>
