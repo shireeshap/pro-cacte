@@ -9,7 +9,7 @@
  <tags:javascriptLink name="scriptaculous"/>
  
    <body>
- 
+   <!--  
 			<video controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg"  autoplay width="640" height="480" >
                 <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.mp4" type="video/mp4" />
                 <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.theora.ogv" type="video/ogg" />
@@ -22,17 +22,16 @@
                         <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
                         <img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
                 </object>
-            </video>
+            </video>-->
 
 
-                <!--  worked on everything except IE8 on tablet   
                 <object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="640" height="480">
                         <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
                         <param name="allowFullScreen" value="true" />
                         <param name="wmode" value="transparent" />
-                        <param name="flashVars" value="config={'playlist':['https%3A%2F%2Fdev.semanticbits.com%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2Fdev.semanticbits.com%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
-                        <img alt="PROCTCAE Help" src="https://dev.semanticbits.com/proctcae/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
-                </object> -->
+                        <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
+                        <img alt="PROCTCAE Help" src="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+                </object> 
 
                 <!--works everywhere
                 <object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="640" height="360">
