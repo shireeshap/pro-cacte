@@ -157,18 +157,18 @@
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td colspan="3">
-        <chrome:division title="Reporting options">
+      &nbsp;&nbsp;&nbsp;  <chrome:division title="Reporting options">
             <br>
             <c:forEach items="${studysite.study.studyModes}" var="studyMode">
                 <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
                     <c:choose>
                         <c:when test="${hweb}">
-                            <input type="checkbox" name="responseModes" checked="true" value="HOMEWEB"
+                           &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEWEB"
                                    onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
                             <br>
                         </c:when>
                         <c:otherwise>
-                            <input type="checkbox" name="responseModes" value="HOMEWEB"
+                          &nbsp;&nbsp;&nbsp;&nbsp;  <input type="checkbox" name="responseModes" value="HOMEWEB"
                                    onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
                             <br>
                         </c:otherwise>
@@ -183,7 +183,7 @@
         <%--<td width="20%"></td>--%>
     <td colspan="2">
 
-        <div id="passwordfields" style="margin-left:37px">
+        <div id="passwordfields" style="margin-left:45px">
             <table border="0" cellpadding="0" cellspacing="0">
 
                 <tr id="web_${studysite.id}"
@@ -202,7 +202,7 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="row">
-                                    <div class="label"><spring:message
+                                     <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                             code="participant.label.username"/>&nbsp;</div>
                                     <div class="value">
                                         <input type="text" name="participant.username_${studysite.id}"
@@ -243,7 +243,7 @@
                             </c:otherwise>
                         </c:choose>
                         <div class="row">
-                            <div class="label"><spring:message
+                            <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                     code="participant.label.password"/>&nbsp;</div>
                             <div class="value">
                                 <input type="password" name="participant.password_${studysite.id}"
@@ -259,7 +259,7 @@
 
                         </div>
                         <div class="row">
-                            <div class="label"><spring:message
+                            <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                     code="participant.label.confirmpassword"/>&nbsp;</div>
                             <div class="value">
                                 <input type="password" name="participant.confirmPassword_${studysite.id}"
@@ -345,12 +345,12 @@
             <c:if test="${studyMode.mode.name eq 'IVRS'}">
                 <c:choose>
                     <c:when test="${ivrs}">
-                        <input type="checkbox" name="responseModes" checked="true" value="IVRS"
+                      &nbsp;&nbsp;&nbsp;&nbsp;  <input type="checkbox" name="responseModes" checked="true" value="IVRS"
                                onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:when>
                     <c:otherwise>
-                        <input type="checkbox" name="responseModes" value="IVRS"
+                     &nbsp;&nbsp;&nbsp;&nbsp;   <input type="checkbox" name="responseModes" value="IVRS"
                                onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:otherwise>
@@ -362,7 +362,7 @@
 </tr>
 <tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
 <td colspan="2">
-<div style="margin-left:37px">
+<div style="margin-left:45px">
 <table border="0">
 <tr>
     <td>
@@ -578,13 +578,13 @@
             <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
                 <c:choose>
                     <c:when test="${hbook}">
-                        <input type="checkbox" name="responseModes" checked="true" value="HOMEBOOKLET"
+                     &nbsp;&nbsp;&nbsp;&nbsp;   <input type="checkbox" name="responseModes" checked="true" value="HOMEBOOKLET"
                                onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
                         form
                         <br>
                     </c:when>
                     <c:otherwise>
-                        <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
+                     &nbsp;&nbsp;&nbsp;&nbsp;    <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
                                onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
                         form
                         <br>
@@ -599,7 +599,7 @@
         <%--<td width="20%"></td>--%>
     <td colspan="2">
 
-        <div style="margin-left:37px">
+        <div style="margin-left:45px">
             <table border="0" cellpadding="0" cellspacing="0">
 
                 <tr id="home_paper_${studysite.id}" style="${showBook eq true ? "":"display:none"}">

@@ -781,15 +781,15 @@ function showEmail(id, val) {
 
     if (val) {
 //        alert("checked");
-        jQuery('#participantEmail_' + id).show();
-        jQuery('#emailHeader_' + id).show();
+//        jQuery('#participantEmail_' + id).show();
+//        jQuery('#emailHeader_' + id).show();
         $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
 //        jQuery('#webLang_' + id).show();
 //        addEmailClassName(id);
     }
     else {
-        jQuery('#participantEmail_' + id).hide();
-        jQuery('#emailHeader_' + id).hide();
+//        jQuery('#participantEmail_' + id).hide();
+//        jQuery('#emailHeader_' + id).hide();
         $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
 //        removeEmailClassName(id);
     }
