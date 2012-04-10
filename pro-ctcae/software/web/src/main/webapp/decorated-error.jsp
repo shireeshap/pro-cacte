@@ -72,89 +72,41 @@
     </chrome:box>
 
 
-    <div class="box">
-        <!-- header -->
-        <div class="header">
-            <div class="background-L">
-                <div class="background-R">
-                    <table width="100%">
-                        <tr>
-                            <td>
-                                <h2>Detailed Error</h2>
-                            </td>
-                            <td align="right">
-                           <!--      <div id="error-image-div">
-                                    <a href="javascript:PanelCombo('error');">
-                                        <img id="error-image" src="<tags:imageUrl name="chrome/minimize.gif"/>" border="2" alt="toggle button"></a>
-                                </div> -->
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- end header --><!-- end header -->
+    <chrome:minimizableBox id="oko" title="Detailed Error" autopad="true" display="false">
+          <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="1" WIDTH="100%">
+                 <TR>
+                     <TD WIDTH="20%"><B>Status Code</B></TD>
+                     <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.status_code']}" />
+                     </TD>
+                 </TR>
+                 <TR>
+                     <TD WIDTH="20%"><B>Exception Type</B></TD>
+                     <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.exception']}" />
+                     </TD>
+                 </TR>
+                 <TR>
+                     <TD WIDTH="20%"><B>Message</B></TD>
+                     <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.message']}" />
+                     </TD>
+                 </TR>
+                 <TR>
+                     <TD WIDTH="20%"><B>Timestamp</B></TD>
+                     <TD WIDTH="80%"><fmt:formatDate value="${date}" type="both" dateStyle="long" timeStyle="long" />
+                     </TD>
+                 </TR>
+                 <TR>
+                     <TD WIDTH="20%"><B>Action</B></TD>
+                     <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.forward.request_uri']}" />
+                     </TD>
+                 </TR>
+                 <TR>
+                     <TD WIDTH="20%"><B>User agent</B></TD>
+                     <TD WIDTH="80%"><c:out value="${header['user-agent']}" />
+                     </TD>
+                 </TR>
+             </TABLE>
+	</chrome:minimizableBox>
 
-        <!-- inner border -->
-        <div class="border-T">
-            <div class="border-L">
-                <div class="border-R">
-                    <div class="border-B">
-                        <div class="border-TL">
-                            <div class="border-TR">
-                                <div class="border-BL">
-                                    <div class="border-BR">
-                                        <div id="error-interior" class="interior" >
-                                            <div class="content">
-
-                                                <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="1" WIDTH="100%">
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>Status Code</B></TD>
-                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.status_code']}" />
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>Exception Type</B></TD>
-                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.exception']}" />
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>Message</B></TD>
-                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.error.message']}" />
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>Timestamp</B></TD>
-                                                        <TD WIDTH="80%"><fmt:formatDate value="${date}" type="both" dateStyle="long" timeStyle="long" />
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>Action</B></TD>
-                                                        <TD WIDTH="80%"><c:out value="${requestScope['javax.servlet.forward.request_uri']}" />
-                                                        </TD>
-                                                    </TR>
-                                                    <TR>
-                                                        <TD WIDTH="20%"><B>User agent</B></TD>
-                                                        <TD WIDTH="80%"><c:out value="${header['user-agent']}" />
-                                                        </TD>
-                                                    </TR>
-                                                </TABLE>
-                                                
-                                                <br />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end inner border -->
-        </div>
-
-
-    </div>
     </body>
     </html>
 </page:applyDecorator>
