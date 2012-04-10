@@ -59,10 +59,10 @@ public class SubmitFormCommand implements Serializable {
         schedule = genericRepository.save(schedule);
         generateDisplayQuestionsMap();
         totalQuestionPages = displayQuestionsMap.keySet().size();
-        addQuestionPageIndex = totalQuestionPages + 1;
-        addMoreQuestionPageIndex = addQuestionPageIndex + 1;
-        totalPages = totalQuestionPages + 2;
-        reviewPageIndex = totalQuestionPages + 3;
+//        addQuestionPageIndex = totalQuestionPages + 1;
+        addMoreQuestionPageIndex = totalQuestionPages + 1;
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
     }
 
     private void generateDisplayQuestionsMap() {
@@ -393,7 +393,7 @@ public class SubmitFormCommand implements Serializable {
 
     public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
-        int position = totalQuestionPages + 3;
+        int position = totalQuestionPages + 2;
 
         for (String symptom : selectedSymptoms) {
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
@@ -435,8 +435,8 @@ public class SubmitFormCommand implements Serializable {
                 position = nextPos;
             }
         }
-        totalPages = totalQuestionPages + 2;
-        reviewPageIndex = totalQuestionPages + 3;
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
 
     }
 

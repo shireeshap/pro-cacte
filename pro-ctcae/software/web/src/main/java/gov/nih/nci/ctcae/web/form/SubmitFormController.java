@@ -89,11 +89,7 @@ public class SubmitFormController extends SimpleFormController {
         }
 
         currentPageIndex = submitFormCommand.getNewPageIndex();
-        if (currentPageIndex == submitFormCommand.getAddQuestionPageIndex()) {
-            mv = showForm(request, errors, "");
-            mv.setView(new RedirectView("addquestion?p=" + currentPageIndex));
-            return mv;
-        }
+
         if (currentPageIndex == submitFormCommand.getAddMoreQuestionPageIndex()) {
             mv = showForm(request, errors, "");
             mv.setView(new RedirectView("addMorequestion?p=" + currentPageIndex));
