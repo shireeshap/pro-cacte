@@ -72,14 +72,14 @@
 
 <div class="flow-buttons">
     <span class="prev">
-        <c:if test="${crf.status.displayName ne 'Final'}">
-            <tags:button color="blue" markupWithTag="a" icon="window" value="Finalize Form"
+        <c:if test="${crf.status.displayName ne 'Released'}">
+            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
                          onclick="javascript:releaseForm('${crf.id}')"/>
         </c:if>
 
     </span>
      <span class="prev">
-        <c:if test="${crf.status.displayName ne 'Final'}">
+        <c:if test="${crf.status.displayName ne 'Released'}">
             <tags:button type="submit" color="blue" id="flow-prev" markupWithTag="a" href="/proctcae/pages/form/editForm?crfId=${crf.id}"
                              value="Back" icon="Back"/>
         </c:if>

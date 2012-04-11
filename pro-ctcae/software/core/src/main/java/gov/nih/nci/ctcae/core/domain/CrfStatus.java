@@ -21,7 +21,7 @@ public enum CrfStatus implements CodedEnum<String> {
     /**
      * The RELEASED.
      */
-    RELEASED("Final"),
+    RELEASED("Released"),
 
     /**
      * The INPROGRESS.
