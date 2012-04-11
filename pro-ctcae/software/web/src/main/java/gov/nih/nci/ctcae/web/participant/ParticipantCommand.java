@@ -310,11 +310,15 @@ public class ParticipantCommand {
 
         //update pending IvrsSchedules if time has been updated and mode is IVRS
         String participantMode = null;
-        for (String string : responseModes) {
-              if (string != null && string.equals("IVRS")) {
-                  participantMode = "IVRS";
-              }
+        if(responseModes != null){
+            for (String string : responseModes) {
+                if (string != null && string.equals("IVRS")) {
+                    participantMode = "IVRS";
+                }
+          }
         }
+        
+
         if ((participantMode != null && participantMode.equals("IVRS")) &&
                 (timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged)) {
             Date finalDate = null;
@@ -393,27 +397,29 @@ public class ParticipantCommand {
         boolean blFlgAddHomeMode = true;
         if (getResponseModes() == null) {
             blFlgAddHomeMode = false;
-        }
-        for (String string : getResponseModes()) {
-            for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
-                if (studyParticipantReportingModeHistory.getEffectiveEndDate() == null) {
-                     if (blFlgAddHomeMode) {
-                         AppMode mode = AppMode.valueOf(string);
-                         if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
-                             blFlgAddHomeMode = false;
-                         } else {
-                             studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+        } else {
+        	for (String string : getResponseModes()) {
+                for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
+                    if (studyParticipantReportingModeHistory.getEffectiveEndDate() == null) {
+                         if (blFlgAddHomeMode) {
+                             AppMode mode = AppMode.valueOf(string);
+                             if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
+                                 blFlgAddHomeMode = false;
+                             } else {
+                                 studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+                             }
                          }
-                     }
+                    }
+                }
+                if (blFlgAddHomeMode) {
+                  StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
+                  AppMode responseMode = AppMode.valueOf(string);
+                  hist.setMode(responseMode);
+                  studyParticipantAssignment.addStudyParticipantModeHistory(hist);
                 }
             }
-           if (blFlgAddHomeMode) {
-              StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
-            AppMode responseMode = AppMode.valueOf(string);
-            hist.setMode(responseMode);
-            studyParticipantAssignment.addStudyParticipantModeHistory(hist);
-           }
         }
+        
     }
 
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
