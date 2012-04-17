@@ -189,15 +189,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 int i = 0;
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                     i++;
-                    Phrase ph = new Phrase(12, "O", f1);
-                    if (language.equals("en")) {
-                        ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
-                    } else {
-                        ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
-                    }
-                    PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
-                    table.addCell(cell3);
-                    cell3.setBorderWidth(0.0f);
+                    addValidValueToCell(proCtcValidValue, f1, language, table, f);
                 }
                 for (int j = 0; j < 7 - i; j++) {
                     PdfPCell cell4 = new PdfPCell(new Paragraph(""));
@@ -208,8 +200,6 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
             document.add(table);
             document.add(new Paragraph(" "));
-//            document.add(new Paragraph("width :" + width));
-//            document.add(new Paragraph(proCtcTerm.getTerm()));
         }
 
         if (participantAddedProctcSymptomMap.keySet().size() > 0) {
@@ -238,16 +228,8 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                     int i = 0;
                     for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
                         i++;
-                        Phrase ph = new Phrase(12, "O", f1);
-                        if (language.equals("en")) {
-                            ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
-                        } else {
-                            ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.SPANISH), f));
-                        }
+                        addValidValueToCell(proCtcValidValue, f1, language, table, f);
 
-                        PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
-                        table.addCell(cell3);
-                        cell3.setBorderWidth(0.0f);
                     }
                     for (int j = 0; j < 8 - i; j++) {
                         PdfPCell cell4 = new PdfPCell(new Paragraph(""));
@@ -380,6 +362,18 @@ public class PrintSchedulePdfView extends AbstractPdfView {
             proCtcQuestions.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion());
         }
 
+    }
+
+    private void addValidValueToCell(ProCtcValidValue proCtcValidValue, Font f1, String language, PdfPTable table, Font f) {
+         Phrase ph = new Phrase(12, "O", f1);
+                    if (language.equals("en")) {
+                        ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
+                    } else {
+                        ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
+                    }
+                    PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                    table.addCell(cell3);
+                    cell3.setBorderWidth(0.0f);
     }
 
     static String cst(char c) {
