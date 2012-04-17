@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 //
+
 /**
  * The Class FormDetailsTab.
  *
@@ -84,14 +85,20 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
             result.put(ctcCategory, proCtcTermList);
         }
-
-
+        query.filterByCoreItemsOnly();
+        Collection<ProCtcTerm> coreProTerms = proCtcTermRepository.find(query);
+        Map<String, List<ProCtcTerm>> coreSymptomMap = new HashMap();
+        List<ProCtcTerm> coreTerms = new ArrayList<ProCtcTerm>();
+        for (ProCtcTerm coreTerm : coreProTerms) {
+            coreTerms.add(coreTerm);
+        }
+        coreSymptomMap.put("Core terms", coreTerms);
         map.put("ctcCategoryMap", result);
         //map.put("totalQuestions", command.getCRF().getCrf().getCrfPageItems().size());
         map.put("responseRequired", ListValues.getResponseRequired());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("recallPeriods", ListValues.getRecallPeriods());
-
+        map.put("coreTerms", coreSymptomMap);
         List<CrfPageItem> crfPageItems = command.getCrf().getAllCrfPageItems();
         map.put("selectedCrfPageItems", crfPageItems);
 
@@ -101,7 +108,6 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     }
 
 
-    
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         super.postProcess(request, command, errors);
@@ -149,5 +155,4 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     }
 
 
-    
 }
