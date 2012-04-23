@@ -49,16 +49,16 @@ public class FormDetailsTabTest extends WebTestCase {
         ctcCategory3.setName("AUDITORY/EAR");
 
         ctcTerm1 = new CtcTerm();
-        ctcTerm1.setCategory(ctcCategory1);
+//        ctcTerm1.setCategory(ctcCategory1);
 
         ctcTerm2 = new CtcTerm();
-        ctcTerm2.setCategory(ctcCategory2);
+//        ctcTerm2.setCategory(ctcCategory2);
 
         ctcTerm3 = new CtcTerm();
-        ctcTerm3.setCategory(ctcCategory3);
+//        ctcTerm3.setCategory(ctcCategory3);
 
         ctcTerm4 = new CtcTerm();
-        ctcTerm4.setCategory(ctcCategory3);
+//        ctcTerm4.setCategory(ctcCategory3);
 
         proCtcTerm1 = new ProCtcTerm();
         proCtcTerm2 = new ProCtcTerm();

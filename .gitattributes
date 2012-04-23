@@ -2293,6 +2293,10 @@ pro-ctcae/software/core/src/main/db/migrate/004_elaboration_1/047_update_spcs.gr
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/001_add_RTOG.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/002_update_scra_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/003_update_spcs.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/004_create_category_term_set.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/005_insert_category_term_set.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/006_update_ctc_category.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/007_insert_user_categories.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
@@ -2318,6 +2322,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCalendar.
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycle.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycleDefinition.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CategoryTermSet.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCreationMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCycleDefinitionOrderComparator.java -text

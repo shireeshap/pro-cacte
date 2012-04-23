@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 //
 /**
@@ -45,6 +43,13 @@ public class CtcCategory extends BasePersistable {
     @ManyToOne
     private Ctc ctc;
 
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<CategoryTermSet> categoryTermSets = new LinkedList();
+
+//    private boolean userDefined;
+
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
      */
@@ -78,6 +83,7 @@ public class CtcCategory extends BasePersistable {
     }
 
 
+
     /**
      * Gets the ctc.
      *
@@ -96,9 +102,17 @@ public class CtcCategory extends BasePersistable {
         this.ctc = ctc;
     }
 
+    public List<CategoryTermSet> getCategoryTermSets() {
+        return categoryTermSets;
+    }
+
+    public void setCategoryTermSets(List<CategoryTermSet> categoryTermSets) {
+        this.categoryTermSets = categoryTermSets;
+    }
+
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CtcCategory)) return false;

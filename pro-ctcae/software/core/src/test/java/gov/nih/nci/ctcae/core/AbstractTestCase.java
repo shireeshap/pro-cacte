@@ -36,7 +36,6 @@ public abstract class AbstractTestCase extends CoreTestCase {
         CtcCategory ctcCategory = new CtcCategory();
         ctcCategory.setName("ctccategory");
         CtcTerm ctcTerm = new CtcTerm();
-        ctcTerm.setCategory(ctcCategory);
         ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
 
         proCtcTerm1 = new ProCtcTerm();

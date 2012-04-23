@@ -932,61 +932,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                             </li>
 
                         </c:forEach>
-                        <c:forEach items="${coreTerms}" var="coreTerm">
 
-                            <li>${coreTerm.key}<a
-                                    href=""
-                                    id="coreTerm_" class="addallbtn">
-                                </a>
-                                <ul>
-                                    <c:forEach items="${coreTerm.value}" var="proCtcTerm">
-                                        <li class="closed">
-                                            <span class="ctctermleft"> ${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish} - </span>
-                                                <span class="ctctermmiddle"
-                                                      style="display:none">${proCtcTerm.term}</span>
-                                                <span class="ctctermright"
-                                                      style="display:none"> - [${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish}]</span>
-                                                <span class="ctctermonly"
-                                                      style="display:none">${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish}</span>
-                                            <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
-
-                                            <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                               id="coreProCtcTerm_${proCtcTerm.id}"
-                                               class="addallbtn ctcCategory_${ctcCategory.key.id}">
-                                                <img src="/proctcae/images/blue/select_question_btn.png"
-                                                     alt="Add" onclick=""/></a>
-
-
-                                            <ul>
-
-                                                <c:forEach items="${proCtcTerm.proCtcQuestions}"
-                                                           var="proCtcQuestion">
-
-                                                    <li id="core_question_${proCtcQuestion.id}"
-                                                        name="question_forterm_${proCtcTerm.id}">
-                                                        <tags:formbuilderBox>
-                                                            <tags:formbuilderBoxControls add="${add}"
-                                                                                         proCtcQuestionId="${proCtcQuestion.id}"
-                                                                                         proCtcTermId="${proCtcTerm.id}"/>
-                                                            ${proCtcQuestion.questionText}
-                                                            <ul>
-                                                                <c:forEach items="${proCtcQuestion.validValues}"
-                                                                           var="proCtcValidValue">
-                                                                    <li>${proCtcValidValue.value}</li>
-                                                                </c:forEach>
-                                                            </ul>
-                                                        </tags:formbuilderBox>
-                                                    </li>
-
-                                                </c:forEach>
-                                            </ul>
-                                        </li>
-                                    </c:forEach>
-
-                                </ul>
-                            </li>
-
-                        </c:forEach>
                     </ul>
                 </div>
 

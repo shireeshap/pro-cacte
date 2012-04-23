@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -45,21 +46,21 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * The term.
-    
-    @Column(name = "term", nullable = false)
-    private String term;
+     *
+     * @Column(name = "term", nullable = false)
+     * private String term;
      */
-    
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "ctcTerm")
-    @JoinColumn(name="ctc_terms_id")
+    @JoinColumn(name = "ctc_terms_id")
     private CtcTermVocab ctcTermVocab;
 
     /**
      * The category.
      */
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @ManyToOne
-    private CtcCategory category;
+//    @JoinColumn(name = "category_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private CtcCategory category;
 
     /**
      * The select.
@@ -85,6 +86,9 @@ public class CtcTerm extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
+    @OneToMany(mappedBy = "ctcTerm", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<CategoryTermSet> categoryTermSets = new LinkedList();
 
     /**
      * Instantiates a new ctc term.
@@ -102,16 +106,25 @@ public class CtcTerm extends BasePersistable {
         this.id = id;
     }
 
+    public List<CategoryTermSet> getCategoryTermSets() {
+        return categoryTermSets;
+    }
+
+    public void setCategoryTermSets(List<CategoryTermSet> categoryTermSets) {
+        this.categoryTermSets = categoryTermSets;
+    }
+
     /**
      * Instantiates a new ctc term.
      *
-     * @param id   the id
-     * @param term the term
-     
-    public CtcTerm(Integer id, String term) {
-        this.id = id;
-        this.term = term;
-    }*/
+//     * @param id   the id
+//     * @param term the term
+     *             <p/>
+     *             public CtcTerm(Integer id, String term) {
+     *             this.id = id;
+     *             this.term = term;
+     *             }
+     */
 
     public Integer getId() {
         return id;
@@ -120,10 +133,10 @@ public class CtcTerm extends BasePersistable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     @Transient
     public String getTerm() {
-    	return getTerm(SupportedLanguageEnum.ENGLISH);
+        return getTerm(SupportedLanguageEnum.ENGLISH);
     }
 
     /**
@@ -132,13 +145,13 @@ public class CtcTerm extends BasePersistable {
      * @return the term
      */
     public String getTerm(SupportedLanguageEnum supportedLanguageEnum) {
-        if(getCtcTermVocab() == null){
-        	return "";
+        if (getCtcTermVocab() == null) {
+            return "";
         }
-        if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
-        	return getCtcTermVocab().getTermSpanish();
+        if (supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)) {
+            return getCtcTermVocab().getTermSpanish();
         } else {
-        	return getCtcTermVocab().getTermEnglish();
+            return getCtcTermVocab().getTermEnglish();
         }
     }
 
@@ -148,13 +161,13 @@ public class CtcTerm extends BasePersistable {
      * @param term the new term
      */
     public void setTerm(String term, SupportedLanguageEnum supportedLanguageEnum) {
-    	if(getCtcTermVocab() == null){
-        	setCtcTermVocab(new CtcTermVocab(this));
+        if (getCtcTermVocab() == null) {
+            setCtcTermVocab(new CtcTermVocab(this));
         }
-        if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
-        	 getCtcTermVocab().setTermSpanish(term);
+        if (supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)) {
+            getCtcTermVocab().setTermSpanish(term);
         } else {
-        	 getCtcTermVocab().setTermEnglish(term);
+            getCtcTermVocab().setTermEnglish(term);
         }
     }
 
@@ -218,17 +231,22 @@ public class CtcTerm extends BasePersistable {
      *
      * @return the category
      */
-    public CtcCategory getCategory() {
-        return category;
-    }
+//    public CtcCategory getCategory() {
+//        return category;
+//    }
 
     /**
      * Sets the category.
      *
-     * @param category the new category
+//     * @param category the new category
      */
-    public void setCategory(CtcCategory category) {
-        this.category = category;
+//    public void setCategory(CtcCategory category) {
+//        this.category = category;
+//    }
+
+    private void addCategoryTermSet(CategoryTermSet categoryTermSet) {
+        categoryTermSet.setCtcTerm(this);
+        categoryTermSets.add(categoryTermSet);
     }
 
     @Override
@@ -242,11 +260,12 @@ public class CtcTerm extends BasePersistable {
 
         CtcTerm ctcTerm = (CtcTerm) o;
 
-        if (category != null ? !category.equals(ctcTerm.category) : ctcTerm.category != null) return false;
+//        if (category != null ? !category.equals(ctcTerm.category) : ctcTerm.category != null) return false;
         if (ctepCode != null ? !ctepCode.equals(ctcTerm.ctepCode) : ctcTerm.ctepCode != null) return false;
         if (ctepTerm != null ? !ctepTerm.equals(ctcTerm.ctepTerm) : ctcTerm.ctepTerm != null) return false;
         if (select != null ? !select.equals(ctcTerm.select) : ctcTerm.select != null) return false;
-        if (ctcTermVocab != null ? !ctcTermVocab.equals(ctcTerm.ctcTermVocab) : ctcTerm.ctcTermVocab != null) return false;
+        if (ctcTermVocab != null ? !ctcTermVocab.equals(ctcTerm.ctcTermVocab) : ctcTerm.ctcTermVocab != null)
+            return false;
 
         return true;
     }
@@ -254,7 +273,7 @@ public class CtcTerm extends BasePersistable {
     public int hashCode() {
         int result;
         result = (ctcTermVocab != null ? ctcTermVocab.hashCode() : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
+//        result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (select != null ? select.hashCode() : 0);
         result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
         result = 31 * result + (ctepCode != null ? ctepCode.hashCode() : 0);
@@ -269,11 +288,11 @@ public class CtcTerm extends BasePersistable {
         this.proCtcTerms = proCtcTerms;
     }
 
-	public CtcTermVocab getCtcTermVocab() {
-		return ctcTermVocab;
-	}
+    public CtcTermVocab getCtcTermVocab() {
+        return ctcTermVocab;
+    }
 
-	public void setCtcTermVocab(CtcTermVocab ctcTermVocab) {
-		this.ctcTermVocab = ctcTermVocab;
-	}
+    public void setCtcTermVocab(CtcTermVocab ctcTermVocab) {
+        this.ctcTermVocab = ctcTermVocab;
+    }
 }

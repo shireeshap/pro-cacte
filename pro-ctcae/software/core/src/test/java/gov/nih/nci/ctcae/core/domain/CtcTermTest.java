@@ -14,7 +14,6 @@ public class CtcTermTest extends TestCase {
 
     public void testConstructor() {
         ctcTerm = new CtcTerm();
-        assertNull(ctcTerm.getCategory());
         assertNull(ctcTerm.getCtepCode());
         assertNull(ctcTerm.getCtepTerm());
 
@@ -22,11 +21,9 @@ public class CtcTermTest extends TestCase {
 
     public void testGetterAndSetter() {
         ctcTerm = new CtcTerm();
-        ctcTerm.setCategory(category);
         ctcTerm.setCtepCode("ctep code");
         ctcTerm.setCtepTerm("ctep term");
         ctcTerm.setTerm("term", SupportedLanguageEnum.ENGLISH);
-        assertEquals(category, ctcTerm.getCategory());
         assertEquals("ctep code", ctcTerm.getCtepCode());
         assertEquals("ctep term", ctcTerm.getCtepTerm());
         assertEquals("term", ctcTerm.getTerm(SupportedLanguageEnum.ENGLISH));
@@ -42,9 +39,7 @@ public class CtcTermTest extends TestCase {
         assertEquals(anotherCtcTerm, ctcTerm);
         assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
 
-        ctcTerm.setCategory(category);
         assertFalse(ctcTerm.equals(anotherCtcTerm));
-        anotherCtcTerm.setCategory(category);
         assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
         assertEquals(anotherCtcTerm, ctcTerm);
 

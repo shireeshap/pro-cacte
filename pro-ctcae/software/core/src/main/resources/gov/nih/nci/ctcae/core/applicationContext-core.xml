@@ -88,6 +88,7 @@
 		<value>gov.nih.nci.ctcae.core.domain.IvrsSchedule</value>
 		<value>gov.nih.nci.ctcae.core.domain.IvrsCallHistory</value>
 		<value>gov.nih.nci.ctcae.core.domain.StudyParticipantCRFScheduleSymptomRecord</value>
+        <value>gov.nih.nci.ctcae.core.domain.CategoryTermSet</value>
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
           autowire="byName">

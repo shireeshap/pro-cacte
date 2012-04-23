@@ -25,7 +25,8 @@ public class ProCtcTermQuery extends AbstractQuery {
      */
     public ProCtcTermQuery() {
         super(queryString);
-        andWhere("o.ctcTerm.category.ctc.name = :" + CTC_NAME);
+        leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
+        andWhere("categoryTerm.category.ctc.name = :" + CTC_NAME);
         setParameter(CTC_NAME, "CTC v4.0");
     }
 
@@ -41,7 +42,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     }
 
     public void filterByCtcCategoryId(Integer ctcCategoryId) {
-        andWhere("o.ctcTerm.category.id = :" + CTC_CATEGORY_ID);
+        andWhere("categoryTerm.category.id = :" + CTC_CATEGORY_ID);
         setParameter(CTC_CATEGORY_ID, ctcCategoryId);
     }
 
