@@ -82,10 +82,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         ClinicalStaff clinicalStaff = null;
         //only need to load orgs and studies for non admin staff
-        if(!roles.contains(Role.ADMIN)){
-        	clinicalStaff = findClinicalStaffForUser(user);
+        if (!roles.contains(Role.ADMIN)) {
+            clinicalStaff = findClinicalStaffForUser(user);
             if (clinicalStaff != null) {
-            	//assign all the orgs the staff can access
+                //assign all the orgs the staff can access
                 List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
                 for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
                     Set<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
@@ -94,20 +94,20 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                         instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                     }
                 }
-                
+
                 //To allow CCA's access to only studies that are associated with their organization
-                if(roles.contains(Role.CCA)){
-                	for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-                		List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
-                		for (StudyOrganization studyOrganization : studyOrganizationList) {
-                			Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
+                if (roles.contains(Role.CCA)) {
+                    for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+                        List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
+                        for (StudyOrganization studyOrganization : studyOrganizationList) {
+                            Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
                             for (String privilege : privileges) {
                                 instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                             }
-                		}
+                        }
                     }
                 } else {
-                	//for non-cca, non-admin staff assign studies based on their studyOrg assignments
+                    //for non-cca, non-admin staff assign studies based on their studyOrg assignments
                     StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
                     if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
                         throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
@@ -116,13 +116,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                     studyOrganizationClinicalStaffQuery.filterByActiveStatus();
                     List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
                     Set<String> privileges;
-    	            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
-    	                roles.add(studyOrganizationClinicalStaff.getRole());
-    	                privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
-    	                for (String privilege : privileges) {
-    	                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
-    	                }
-    	            }
+                    for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
+                        roles.add(studyOrganizationClinicalStaff.getRole());
+                        privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
+                        for (String privilege : privileges) {
+                            instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                        }
+                    }
                 }
             }
         }
@@ -147,7 +147,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             if (!user.isAdmin()) {
                 rolePrivilegeQuery.filterByRoles(roles);
             } else {
-            	rolePrivilegeQuery.filterForAdmin();
+                rolePrivilegeQuery.filterForAdmin();
             }
             List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 
@@ -211,6 +211,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
 
     }
+
     //TODO:SA Needs to remove after Clinical Staff refracted
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User save(User user) {
@@ -245,25 +246,28 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void saveOrUpdate(User _user) {
-        
+
         User user = _user;
 
-            String myPassword = _user.getPassword();
-            String username = _user.getUsername();
+        String myPassword = _user.getPassword();
+        String username = _user.getUsername();
 
-            if (myPassword != null) {
-                String currentPassword = user.getPassword();
-                if (!myPassword.equals(currentPassword)) {
-                    String encoded = getEncodedPassword(_user);
-                    _user.setPassword(encoded);
-                    _user.setConfirmPassword(encoded);
-                    user.setPassword(encoded);
-                    user.setConfirmPassword(encoded);
-                    user.setPasswordLastSet(new Timestamp(new Date().getTime()));
-                    _user.setPasswordLastSet(user.getPasswordLastSet());
-                }
-                if (username!= null || username != "") {
+        if (myPassword != null) {
+            String currentPassword = user.getPassword();
+            if (!myPassword.equals(currentPassword)) {
+                String encoded = getEncodedPassword(_user);
+                _user.setPassword(encoded);
+                _user.setConfirmPassword(encoded);
+                user.setPassword(encoded);
+                user.setConfirmPassword(encoded);
+                user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+                _user.setPasswordLastSet(user.getPasswordLastSet());
+            }
+            if (username != null || username != "") {
                 user.setUsername(username.toLowerCase());
+                if (user.getId() == null) {
+                    user.setPassword(getEncodedPassword(user));
+                }
             }
 //            }
         }
@@ -295,8 +299,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     public Long findWithCount(UserQuery query) {
-           return genericRepository.findWithCount(query);
-       }
+        return genericRepository.findWithCount(query);
+    }
 
 
     public Collection<User> getByRole(Role role) {
@@ -327,17 +331,17 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return genericRepository.findSingle(clinicalStaffQuery);
 
     }
-    
+
     /**
      * Find study organizations associated with the given OrganizationClinicalStaff.
      *
      * @param organizationClinicalStaff the organization clinical staff
      * @return the list
      */
-    public List<StudyOrganization> findStudyOrganizations(OrganizationClinicalStaff organizationClinicalStaff){
-    	StudyOrganizationQuery organizationClinicalStaffQuery = new StudyOrganizationQuery();
-    	organizationClinicalStaffQuery.filterByDataCoordinatingCenterId(organizationClinicalStaff.getOrganization().getId());
-    	return genericRepository.find(organizationClinicalStaffQuery);
+    public List<StudyOrganization> findStudyOrganizations(OrganizationClinicalStaff organizationClinicalStaff) {
+        StudyOrganizationQuery organizationClinicalStaffQuery = new StudyOrganizationQuery();
+        organizationClinicalStaffQuery.filterByDataCoordinatingCenterId(organizationClinicalStaff.getOrganization().getId());
+        return genericRepository.find(organizationClinicalStaffQuery);
     }
 
     public Participant findParticipantForUser(User user) {
