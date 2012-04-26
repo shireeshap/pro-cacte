@@ -445,7 +445,8 @@ public class HTMLInputFilter {
             String one = m.group(1); //(>|^)
             String two = m.group(2); //([^<]+?)
             String three = m.group(3); //(<|$)
-            m.appendReplacement(buf, one + two.replaceAll("\"", "&quot;") + three);
+
+            m.appendReplacement(buf, one + Matcher.quoteReplacement(two.replaceAll("\"", "&quot;")) + three);
         }
         m.appendTail(buf);
         s = buf.toString();
