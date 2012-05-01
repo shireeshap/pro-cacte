@@ -229,8 +229,8 @@
     	<div>
 	    	<table width="100%">
 	    		<tr>
-	    			<td width="75%" align="right">
-	    				<b><spring:message code='crf.label.search_string' text=''/></b>
+	    			<td width="75%" align="center">
+
 			            <input type="text" id="searchString" name="searchString"
 			                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}"/>
 			            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
