@@ -219,47 +219,41 @@
 
 </head>
 <body>
-<chrome:box title="crf.label.search_criteria" autopad="true">
-         <form method="POST" action="manageForm">
+<chrome:box title="" autopad="true">
+<form method="POST" action="manageForm">
     <input name="useReqParam" value="true" type="hidden"/>
     <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
 
     <tags:instructions code="crf.search.top"/>
-    <div class="row">
-        <div class="label"><spring:message code='crf.label.search_string' text=''/></div>
-        <div class="value IEdivValueHack">
-            <input type="text" id="searchString" name="searchString"
-                   maxlength="50" size="50" onblur="isSpclChar('searchString');"
-                   value="${searchString}"/>
-            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
-                    <li><spring:message code='special.character.message'
-                                        text='special.character.message'/></li>
-                </ul>
+    <br/>
+    	<div>
+	    	<table width="100%">
+	    		<tr>
+	    			<td width="75%" align="right">
+	    				<b><spring:message code='crf.label.search_string' text=''/></b>
+			            <input type="text" id="searchString" name="searchString"
+			                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}"/>
+			            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
+			                    <li><spring:message code='special.character.message' text='special.character.message'/></li>
+			            </ul>
+			            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+			            <tags:indicator id="indicator"/>
+	    			</td>
+	    			<td width="25%" align="right"><a href="/proctcae/pages/form/basicForm"><tags:button color="blue" icon="createForm" type="button" value='Create Form' /></a></td>
+	    		</tr>
+	    	</table>
         </div>
-    </div>
-    <div class="row">
-        <div class="label"></div>
-        <div class="value">
-            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-            <tags:indicator id="indicator"/>
-        </div>
-    </div>
+            
 </form>
 </chrome:box>
 
 <chrome:box title="Results">
     <div id="noForm">
         <proctcae:urlAuthorize url="/pages/form/basicForm">
-            <table width="100%">
+            <table width="99%">
                 <tr>
-                    <td>
-                        <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Form"
-                                     href="basicForm"/>
-                    </td>
                     <td align="right">
-                        <tags:button color="blue" markupWithTag="a" id="hiddenForms" value="View hidden forms"
-                                     size="small"
-                                     href="hiddenForms"/>
+                        <tags:button color="blue" markupWithTag="a" id="hiddenForms" value="View hidden forms" size="small" href="hiddenForms"/>
                     </td>
                 </tr>
             </table>
@@ -269,26 +263,23 @@
 
 
     <div class="yui-skin-sam">
-        <table width="100%">
+        <table width="99%">
             <tr>
-                <td width="68%">
+                <td width="69%">
                     <div id="pag"></div>
                 </td>
-                <td width="32%">
-                    <div> Show/Hide Column:
-                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
-                                title="Show/Hide Columns">
+                <td width="30%" align="right">
+                    Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
                             <option value="title" selected="selected">Title</option>
                             <option value="version" selected="selected">Version</option>
                             <option value="effectiveStartDate" selected="selected">Effective date</option>
                             <option value="studyShortTitle" selected="selected">Study</option>
                             <option value="status" selected="selected">Status</option>
                         </select>
-                    </div>
                 </td>
             </tr>
         </table>
-
 
         <div id="basic">
         </div>

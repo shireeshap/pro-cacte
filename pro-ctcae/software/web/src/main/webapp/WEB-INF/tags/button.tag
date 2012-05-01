@@ -153,6 +153,16 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
+				<c:if test="${icon=='createForm'}">
+					<c:choose>
+						<c:when test="${size=='small'}">
+							<img src="<chrome:imageUrl name="../buttons/button_icons/createForm_small.png"/>" alt="" />
+						</c:when>
+						<c:otherwise>
+							<img src="<chrome:imageUrl name="../buttons/button_icons/createForm_medium.png"/>" alt="" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 				
 				<spring:message code="${value}" text="${value}"/>
 				

@@ -3453,6 +3453,8 @@ pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/addmultiple_i
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/back_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/check_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/continue_icon.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/createForm_medium.png -text
+pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/createForm_small.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/disk_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/edit_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/buttons/button_icons/page_icon.png -text
