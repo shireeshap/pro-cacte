@@ -1,43 +1,15 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.Arm;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
-import gov.nih.nci.ctcae.core.domain.CRFPage;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.FormArmSchedule;
-import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
-import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantReportingModeHistory;
-import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -106,6 +78,11 @@ public class ParticipantCommand {
     private Integer armId;
     private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
     private String[] responseModes;
+    private List<ParticipantSchedule> participantSchedules;
+    StudyParticipantAssignment studyParticipantAssignment;
+    private String[] repeatdropdown;
+
+    private LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
 
     public boolean isOdc() {
         return odc;
@@ -168,6 +145,21 @@ public class ParticipantCommand {
         this.organizationId = organizationId;
     }
 
+    public String[] getRepeatdropdown() {
+        return repeatdropdown;
+    }
+
+    public void setRepeatdropdown(String[] repeatdropdown) {
+        this.repeatdropdown = repeatdropdown;
+    }
+
+    public LinkedList<StudyParticipantCrfSchedule> getOnHoldStudyParticipantCrfSchedules() {
+        return onHoldStudyParticipantCrfSchedules;
+    }
+
+    public void setOnHoldStudyParticipantCrfSchedules(LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules) {
+        this.onHoldStudyParticipantCrfSchedules = onHoldStudyParticipantCrfSchedules;
+    }
 
     /**
      * Gets the site name.
@@ -657,6 +649,93 @@ public class ParticipantCommand {
         this.responseModes = responseModes;
     }
 
+     public void setParticipantSchedules(List<ParticipantSchedule> participantSchedules) {
+        this.participantSchedules = participantSchedules;
+    }
+
+    public List<ParticipantSchedule> getParticipantSchedules() {
+        if (participantSchedules == null) {
+            participantSchedules = new ArrayList<ParticipantSchedule>();
+            ParticipantSchedule participantSchedule = new ParticipantSchedule();
+            participantSchedules.add(participantSchedule);
+        }
+        for (ParticipantSchedule participantSchedule : participantSchedules) {
+            participantSchedule.getStudyParticipantCrfs().clear();
+            for (StudyParticipantCrf studyParticipantCrf : getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
+                participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
+            }
+        }
+
+        return participantSchedules;
+    }
+
+    public void lazyInitializeAssignment(GenericRepository genericRepository, boolean save) {
+
+        if (save) {
+            for (ParticipantSchedule participantSchedule : getParticipantSchedules()) {
+                for (StudyParticipantCrf studyParticipantCrf : participantSchedule.getStudyParticipantCrfs()) {
+                    genericRepository.save(studyParticipantCrf);
+                }
+            }
+            participant = genericRepository.findById(Participant.class, participant.getId());
+//            studyParticipantAssignment = genericRepository.save(participant.getStudyParticipantAssignments().get(0));
+        }
+
+        for (StudyParticipantCrf studyParticipantCrf : getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
+            lazyInitializeStudyParticipantCrf(studyParticipantCrf);
+        }
+
+
+        getParticipantSchedules();
+
+    }
+
+
+    private void lazyInitializeStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
+       for(StudyOrganization studyOrganization : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getStudyOrganizations()) {
+           studyOrganization.getDisplayName();
+           for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
+               studyOrganizationClinicalStaff.getDisplayName();
+           }
+       }
+        for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
+            formArmSchedule.getId();
+            for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
+                   crfCalendar.getId();
+            }
+            for (CRFCycleDefinition crfCycleDefinitions : formArmSchedule.getCrfCycleDefinitions()) {
+                crfCycleDefinitions.getId();
+                for (CRFCycle crfCycle : crfCycleDefinitions.getCrfCycles()) {
+                    crfCycle.getCycleDays();
+                }
+            }
+        }
+        for (CRF crf : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getCrfs()){
+                   crf.getTitle();
+        }
+        for (StudyParticipantMode studyParticipantMode : studyParticipantCrf.getStudyParticipantAssignment().getStudyParticipantModes()) {
+                   studyParticipantMode.getId();
+        }
+        for (Arm arm : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getArms()) {
+            arm.getTitle();
+        }
+        for (StudyMode studyMode : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getStudyModes()) {
+            studyMode.getId();
+        }
+        for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantCrf.getStudyParticipantAssignment().getStudyParticipantReportingModeHistoryItems()) {
+            studyParticipantReportingModeHistory.getId();
+        }
+        studyParticipantCrf.getStudyParticipantCrfSchedules();
+        studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
+        studyParticipantCrf.getCrf().getCrfPages();
+        for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
+            crfPage.getDescription();
+           for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                    crfPageItem.getId();
+           }
+        }
+    }
+
     public void initialize() {
         if (participant.getUser() != null) {
             if (participant.getUser().getUserRoles() != null) participant.getUser().getUserRoles().size();
@@ -669,7 +748,10 @@ public class ParticipantCommand {
                         if (studyParticipantCrf.getStudyParticipantCrfSchedules() != null)
                             studyParticipantCrf.getStudyParticipantCrfSchedules().size();
                         for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber()) {
-                            crfPage.getCrfPageItems().size();
+                            crfPage.getDescription();
+                            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                                crfPageItem.getId();
+                            }
                         }
                         if (studyParticipantCrf.getCrf().getFormArmSchedules() != null)
                             studyParticipantCrf.getCrf().getFormArmSchedules().size();

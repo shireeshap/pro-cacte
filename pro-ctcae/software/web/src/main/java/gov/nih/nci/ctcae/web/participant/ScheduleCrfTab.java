@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Vinay Kumar
  * @since Nov 3, 2008
  */
-public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
+public class ScheduleCrfTab extends SecuredTab<ParticipantCommand> {
     /**
      * The finder repository.
      */
@@ -42,20 +42,20 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
     }
 
     @Override
-    public void onDisplay(HttpServletRequest request, StudyParticipantCommand command) {
+    public void onDisplay(HttpServletRequest request, ParticipantCommand command) {
         command.lazyInitializeAssignment(genericRepository, false);
     }
 
     @Override
-    public Map<String, Object> referenceData(StudyParticipantCommand command) {
+    public Map<String, Object> referenceData(ParticipantCommand command) {
         Map<String, Object> map = super.referenceData(command);
         map.put("repetitionunits", ListValues.getCalendarRepetitionUnits());
         map.put("duedateunits", ListValues.getCalendarDueDateUnits());
         map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
         map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
         int crfsIndex=0;
-        if(command.getStudyParticipantAssignment()!=null){
-            for (StudyParticipantCrf studyParticipantCrf : command.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+        if(command.getParticipant().getStudyParticipantAssignments().get(0)!=null){
+            for (StudyParticipantCrf studyParticipantCrf : command.getParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs()) {
                 CRF crf = studyParticipantCrf.getCrf();
                 if (crf.getChildCrf() == null) {
                     crfsIndex++;

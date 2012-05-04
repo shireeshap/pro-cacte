@@ -11,8 +11,6 @@
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <body>
 
-<ctcae:form method="post">
-	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 	
     <chrome:box title="participant.label.on_hold_date">
         <chrome:division>
@@ -21,27 +19,34 @@
                 <div >
                     <div><spring:message code='participant.onHold'/></div>
                 </div>
-                    <spring:message code='participant.onHold1'/><strong>${command.participant.displayName}</strong>
                      <spring:message code='participant.onHold2'/>
-                    <tags:renderDate propertyName="onHoldTreatmentDate"
-                                     displayName="participant.label.on_hold_date" required="true"/>
-                
+                 <div class="value">
+                    <input id="effectiveStartDate" class="date validate-NOTEMPTY&&DATE"
+                           name="effectiveStartDate"
+                           title="On hold date"
+                           value="${newdate}" size="20" enabled=""
+                           type="text">
+                    <a href="#" id="effectiveStartDate-calbutton">
+                        <img src="/proctcae/images/chrome/b-calendar.gif" alt="Calendar" width="17"
+                             align="absmiddle" border="0"
+                             height="16">
+                    </a>
+                    <i>(mm/dd/yyyy)</i>
+                </div>
 
             </div>
                    
             <div class="flow-buttons">
-                 <spring:message code="participant.button.beginHold" var="beginHold"/>
-                <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="${beginHold}" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('onHoldTreatmentDate').value,document.forms[0])"/>
-
+                <input type="button" value="Begin hold"
+                   onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>
                 <spring:message code="participant.button.cancel" var="cancel"/>
                 <tags:button type="button" id="flow-cancel"
-                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red"
+                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red" size="small"
                              onclick="closeWindow()"/>
             </div>
 
 
         </chrome:division>
     </chrome:box>
-</ctcae:form>
+
 </body>

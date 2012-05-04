@@ -44,10 +44,10 @@
         <tr>
             <td style="padding-left:20px">
                 <input type="button" value="Yes"
-                       onclick="parent.addRemoveSchedule('${index}','${day}','add' )"/>
+                       onclick="parent.addRemoveSchedule('${index}','${day}','add', '${pid}' )"/>
                 &nbsp;&nbsp;&nbsp;
                 <input type="button" value="No"
-                       onclick="parent.addRemoveSchedule('${index}','${day}','cancel')"/>
+                       onclick="parent.addRemoveSchedule('${index}','${day}','cancel', '${pid}')"/>
             </td>
         </tr>
     </c:if>

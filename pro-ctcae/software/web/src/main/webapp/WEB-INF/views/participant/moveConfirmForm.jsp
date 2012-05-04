@@ -33,10 +33,10 @@
     <tr align="center">
         <td style="padding-left:20px">
             <input type="button" value="Cancel"
-                   onclick="parent.addRemoveSchedule('${index}','${date}','cancel')"/>
+                   onclick="parent.addRemoveSchedule('${index}','${date}','cancel', '${pid}')"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="Confirm"
-                   onclick="parent.addRemoveSchedule('${index}','${date}','${action}' )"/>
+                   onclick="parent.addRemoveSchedule('${index}','${date}','${action}', '${pid}' )"/>
 
         </td>
     </tr>

@@ -46,28 +46,10 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        String spaId = request.getParameter("id");
-        String flowName = request.getParameter("flow");
-        if (StringUtils.equals("participant", flowName)) {
-            //create or edit participant flow
+
             ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
             command.setOffHoldTreatmentDate(command.getSelectedStudyParticipantAssignment().getOnHoldTreatmentDate());
             return command;
-        } else {
-
-            StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(Integer.parseInt(spaId));
-            StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-            studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
-            if (request.getParameter("index") != null) {
-                ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
-                Calendar c = new GregorianCalendar();
-                String date = request.getParameter("date");
-                c.setTime(participantSchedule.getProCtcAECalendar().getTime());
-                c.set(Calendar.DATE, Integer.parseInt(date));
-                studyParticipantCommand.setOffHoldTreatmentDate(c.getTime());
-            }
-            return studyParticipantCommand;
-        }
     }
 
     @Override
@@ -115,13 +97,15 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                 day = onHoldStudyParticipantCrfSchedules.getFirst().getCycleDay();
             }
         }
-
+        Calendar c = new GregorianCalendar();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("cycle", cycle);
         map.put("day", day);
         map.put("cycleNumber", cycleNumber);
         map.put("dayNumber", dayNumber);
         map.put("onHoldTreatmentDate", onHoldTreatmentDate);
+        map.put("newdate", DateUtils.format(c.getTime()));
+        map.put("index", request.getParameter("index"));
         return map;
     }
 
@@ -170,8 +154,7 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-//        String recreateSchedules = request.getParameter("recreate");
-//        String recreateSchedules = ServletRequestUtils.getStringParameter(request, "recreate", "nocycle");
+
         int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
         int day = ServletRequestUtils.getIntParameter(request, "day", 0);
         Date offHoldDate = new Date();
@@ -244,8 +227,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
             spCommand.setStudyParticipantAssignment(studyParticipantAssignment);
         }
 
-        ModelAndView mv = new ModelAndView("participant/offHoldRedirect");
-        mv.addObject("pId", studyParticipantAssignment.getParticipant().getId());
+        ModelAndView mv = new ModelAndView("participant/confirmMove");
+//        mv.addObject("pId", studyParticipantAssignment.getParticipant().getId());
         return mv;
 
     }

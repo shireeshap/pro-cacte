@@ -36,6 +36,7 @@ public class EditParticipantController extends ParticipantController {
         flow.addTab(new ParticipantReviewTab());
         flow.addTab(new ParticipantDetailsTab());
         flow.addTab(new ParticipantClinicalStaffTab());
+        flow.addTab(new ScheduleCrfTab());
     }
 
     //
@@ -46,6 +47,8 @@ public class EditParticipantController extends ParticipantController {
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+         request.getSession().setAttribute(CreateParticipantController.class.getName() + ".FORM." + "command",null);
 
         String id = request.getParameter(PARTICIPANT_ID);
         ParticipantCommand command = new ParticipantCommand();
@@ -65,7 +68,7 @@ public class EditParticipantController extends ParticipantController {
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
             command.setSelectedStudyParticipantAssignmentId(participant.getStudyParticipantAssignments().get(0).getId());
-            
+
             if (!user.isAdmin()) {
                 if (!command.getClinicalStaffOrgs().contains(organization)) {
                     command.setReadOnly(true);

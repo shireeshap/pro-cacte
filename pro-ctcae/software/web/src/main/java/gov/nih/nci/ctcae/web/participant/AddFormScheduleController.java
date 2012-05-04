@@ -40,8 +40,8 @@ public class AddFormScheduleController extends AbstractController {
     */
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
+        ParticipantCommand participantCommand = ParticipantControllerUtils.getParticipantCommand(request);
+        ParticipantSchedule participantSchedule = participantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
         Calendar c = new GregorianCalendar();
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("date")));
@@ -53,7 +53,7 @@ public class AddFormScheduleController extends AbstractController {
             String[] sidArr = sids.split("_");
              listExistingCrfs = Arrays.asList(sidArr);         }
         LinkedHashMap<CRF,Boolean> crfListMap = new LinkedHashMap<CRF,Boolean>();
-        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
+        for (StudyParticipantCrf studyParticipantCrf : participantCommand.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
             CRF crf = studyParticipantCrf.getCrf();
             boolean crfExists = false;
             for(StudyParticipantCrfSchedule studyParticipantCrfSchedule:studyParticipantCrf.getStudyParticipantCrfSchedules()){
@@ -77,7 +77,8 @@ public class AddFormScheduleController extends AbstractController {
         mv.addObject("day", request.getParameter("date"));
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));
-        mv.addObject("participant", studyParticipantCommand.getParticipant());
+        mv.addObject("participant", participantCommand.getParticipant());
+        mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
         return mv;
     }
 

@@ -65,44 +65,16 @@
     <tr>
         <td style="padding-left:20px">
             <input type="button" value="Only this event"
-                   onclick="parent.addRemoveValidationSchedule('${index}',$('effectiveStartDate').value+',${day}','add,del' )"/>
+                   onclick="parent.addRemoveValidationSchedule('${index}',$('effectiveStartDate').value+',${day}','add,del', '${pid}' )"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="This and all following events"
-                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','moveallfuture')"/>
+                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','moveallfuture', '${pid}')"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="All events"
-                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','moveall' )"/>
+                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','moveall', '${pid}')"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="Cancel"
-                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','cancel')"/>
+                   onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${day}','cancel', '${pid}')"/>
         </td>
     </tr>
 </table>
-<%--<div id="releaseForm">--%>
-<%--<table width="100%">--%>
-<%--<tr>--%>
-<%--<td align="center">--%>
-
-<%--</td>--%>
-<%--</tr>--%>
-<%--<tr>--%>
-<%--<td align="center"><b>Would you like to move only this form, all forms, or this and all following forms?<br><br></b>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--<tr>--%>
-<%--<td align="center">--%>
-<%--<input type="button" value="Only this instance"--%>
-<%--onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${olddate}','add,del')"/>--%>
-<%--&nbsp;&nbsp;&nbsp;--%>
-<%--<input type="button" value="All events"--%>
-<%--onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${olddate}','moveall')"/>--%>
-<%--&nbsp;&nbsp;&nbsp;--%>
-<%--<input type="button" value="All following"--%>
-<%--onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${olddate}','moveallfuture')"/>--%>
-<%--&nbsp;&nbsp;&nbsp;--%>
-<%--<input type="button" value="Cancel"--%>
-<%--onclick="parent.addRemoveSchedule('${index}',$('effectiveStartDate').value+',${olddate}','cancel')"/>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</table>--%>
-<%--</div>--%>

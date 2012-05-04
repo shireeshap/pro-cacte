@@ -33,8 +33,8 @@ public class MoveFormScheduleController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mv = new ModelAndView("participant/moveForm");
 
-        StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
+        ParticipantCommand participantCommand = ParticipantControllerUtils.getParticipantCommand(request);
+        ParticipantSchedule participantSchedule = participantCommand.getParticipantSchedules().get(Integer.parseInt(request.getParameter("index")));
 
         Calendar c = new GregorianCalendar();
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
@@ -61,8 +61,8 @@ public class MoveFormScheduleController extends AbstractController {
         mv.addObject("crfsList", crfListMap);
         mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
         mv.addObject("index", request.getParameter("index"));
-        mv.addObject("participant", studyParticipantCommand.getParticipant());
-
+        mv.addObject("participant", participantCommand.getParticipant());
+        mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
         return mv;
     }
 

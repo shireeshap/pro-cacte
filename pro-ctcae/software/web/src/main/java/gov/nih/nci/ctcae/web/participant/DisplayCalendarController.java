@@ -26,10 +26,10 @@ public class DisplayCalendarController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaycalendar");
-        StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
-        studyParticipantCommand.lazyInitializeAssignment(genericRepository,false);
+        ParticipantCommand participantCommand = ParticipantControllerUtils.getParticipantCommand(request);
+        participantCommand.lazyInitializeAssignment(genericRepository,false);
         Integer index = Integer.parseInt(request.getParameter("index"));
-        ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
+        ParticipantSchedule participantSchedule = participantCommand.getParticipantSchedules().get(index);
         String direction = request.getParameter("dir");
 
         if (direction.equals("prev")) {
@@ -42,7 +42,7 @@ public class DisplayCalendarController extends AbstractController {
             participantSchedule.getProCtcAECalendar().add(0);
         }
 
-        modelAndView.addObject("participantSchedule", studyParticipantCommand.getParticipantSchedules().get(index));
+        modelAndView.addObject("participantSchedule", participantCommand.getParticipantSchedules().get(index));
         modelAndView.addObject("index", index);
 
         return modelAndView;

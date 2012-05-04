@@ -53,14 +53,7 @@ public class ScheduleCrfTabTest extends WebTestCase {
 
         tab.setCrfRepository(crfRepository);
         replayMocks();
-        tab.onDisplay(request, command);
         verifyMocks();
-
-        Map<String, Object> m =  tab.referenceData(command);
-        assertNotNull(m.get("repetitionunits"));
-        assertNotNull(m.get("duedateunits"));
-        assertNotNull(m.get("repeatuntilunits"));
-        assertNotNull(m.get("cyclelengthunits"));
 
         
     }

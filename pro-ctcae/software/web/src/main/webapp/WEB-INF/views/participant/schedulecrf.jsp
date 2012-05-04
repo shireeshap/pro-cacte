@@ -19,7 +19,8 @@
 <tags:javascriptLink name="cycledefinitions"/>
 <tags:javascriptLink name="yui"/>
 <script type="text/javascript">
-function addRemoveSchedule(index, date, action) {
+function addRemoveSchedule(index, date, action, pid) {
+//    alert (1);
     var forms = document.getElementsByName("selectedForms")
     var fids = '';
     if (forms.length == 1) {
@@ -43,18 +44,44 @@ function addRemoveSchedule(index, date, action) {
             onComplete:function(transport) {
 
                 if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh");
+                    getCalendar(index, "dir=refresh", pid);
                 } else {
                     showConfirmationWindow(transport, 650, 210);
                 }
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
+            parameters:<tags:ajaxstandardparams/>+"&id=" +pid +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
             method:'get'
         })
     }
 }
 
-function addRemoveValidationSchedule(index, date, action) {
+function beginHoldOnSchedules(index, date, action, pid) {
+
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+
+        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+            onComplete:function(transport) {
+
+                if (transport.responseText == "getCalendar") {
+                    getCalendar(index, "dir=refresh");
+                } else {
+                    showConfirmationWindow(transport, 650, 210);
+                }
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&id=" + pid,
+            method:'get'
+        })
+    }
+}
+
+function addRemoveValidationSchedule(index, date, action, pid) {
     var forms = document.getElementsByName("selectedForms")
     var fids = '';
     if (forms.length == 1) {
@@ -72,31 +99,31 @@ function addRemoveValidationSchedule(index, date, action) {
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", pid);
     } else {
         var request = new Ajax.Request("<c:url value="/pages/participant/moveFormScheduleValidate"/>", {
             onComplete:function(transport) {
 
                 if (transport.responseText == "getCalendar") {
-                    addRemoveSchedule(index, date, action);
+                    addRemoveSchedule(index, date, action, pid);
                 } else {
                     showConfirmationWindow(transport, 650, 210);
                 }
 
 
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids + "&id=" + pid,
             method:'get'
         })
     }
 }
 
-function showMoveWindow(olddate, newdate, index, sids) {
+function showMoveWindow(olddate, newdate, index, sids, pid) {
     if (typeof(sids) == 'undefined') {
         sids = getScheduleIdsForDay(index, olddate);
     }
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids,
+        parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids + "&id=" + pid,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 650, 210);
             AE.registerCalendarPopups();
@@ -105,32 +132,32 @@ function showMoveWindow(olddate, newdate, index, sids) {
     })
 
 }
-function showDeleteWindow(date, index, sids) {
+function showDeleteWindow(date, index, sids, pid) {
     var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
         onComplete:function(transport) {
             showConfirmationWindow(transport, 650, 180);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
         method:'get'
     })
 }
-function showDetailsWindow(date, index, sids) {
+function showDetailsWindow(date, index, sids, pid) {
     var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
         onComplete:function(transport) {
             showConfirmationWindow(transport, 650, 300);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
         method:'get'
     })
 }
 
-function showAddWindow(date, index, sids) {
+function showAddWindow(id, date, index, sids) {
 
     var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
         onComplete:function(transport) {
             showConfirmationWindow(transport, 650, 210);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids,
+        parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&index=" + index + "&date=" + date + "&sids=" + sids,
         method:'get'
     })
 }
@@ -147,12 +174,12 @@ function showUpdateStartDateWindow(spcrfid) {
 
 }
 
-function getCalendar(index, parameters) {
+function getCalendar(index, parameters, pid) {
     var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
         onComplete:function(transport) {
             showCalendar(index, transport);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&" + parameters,
+        parameters:<tags:ajaxstandardparams/>+"&id=" + pid +"&index=" + index + "&" + parameters,
         method:'get'
     })
 }
@@ -180,15 +207,44 @@ function participantOnHold(id, date, index) {
 
 var _winOffHold;
 function participantOffHold(id, date, index) {
-    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index + "&subview=x";
-    _winOffHold = showModalWindow(url, 600, 350);
-<%--var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {--%>
-<%--parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&date=" + date + "&index=" + index,--%>
-    //            onComplete:function(transport) {
-    //                showConfirmationWindow(transport, 600, 350);
-    //            },
-    //            method:'get'
-    //        })
+<%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=schedulecrf&sid=" + id + "&date=" + date + "&index=" + index + "&subview=x";--%>
+//    _winOffHold = showModalWindow(url, 600, 350);
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+        onComplete:function(transport) {
+//            alert(22);
+            if (transport.responseText == "getCalendar") {
+                getCalendar(index, "dir=refresh");
+            } else {
+                showConfirmationWindow(transport, 650, 350);
+            }
+        },
+        parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" + index,
+        method:'get'
+    })
+}
+function participantOffHoldPost(index, date, cycle, day, action) {
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+
+        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+            onComplete:function(transport) {
+
+                if (transport.responseText == "getCalendar") {
+                    getCalendar(index, "dir=refresh");
+                } else {
+                    showConfirmationWindow(transport, 650, 210);
+                }
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+            method:'get'
+        })
+    }
 }
 
 function showHideCycleDay(value) {
@@ -213,12 +269,12 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
     var holdDate = date;
     if (sid == null) {
         html = '<div id="search-engines"><ul>';
-        if (${command.studyParticipantAssignment.status.displayName ne 'OffStudy'}) {
-            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ');">Schedule form</a></li>';
-                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+        if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+            if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
             } else {
-                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
         }
         html += '</ul></div>';
@@ -226,17 +282,17 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
         //TODO:Suneel A needs to clean up commented line after issue resolved
         //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
-        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\');">Show details</a></li>';
-        if (${command.studyParticipantAssignment.status.displayName ne 'OffStudy'}) {
-            if (${command.studyParticipantAssignment.onHoldTreatmentDate eq null}) {
+        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Show details</a></li>';
+        if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+            if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 if (${crfsSize>1}) {
-                    html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                    html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                 }
                 if (showDeleteOption) {
                     html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
                     html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
                 }
-                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 var split = sid.split('_');
                 for (var a = 0; a < split.length; a++) {
                     var scheduleid = split[a];
@@ -245,7 +301,7 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     <proctcae:urlAuthorize url="/pages/participant/enterResponses">
                         html += '<li><hr></li>';
                     </proctcae:urlAuthorize>
-                        if (${command.studyParticipantAssignment.homeWebLanguage ne null && command.studyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
+                        if (${command.selectedStudyParticipantAssignment.homeWebLanguage ne null && command.selectedStudyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
                         <proctcae:urlAuthorize url="/pages/participant/enterResponses">
                             html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
                             html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
@@ -261,16 +317,16 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                 }
             } else {
                 var newHoldDate = -1;
-            <c:if test="${command.studyParticipantAssignment.onHoldTreatmentDate ne null}">
-                newHoldDate = ${command.studyParticipantAssignment.onHoldTreatmentDate.date};
+            <c:if test="${command.selectedStudyParticipantAssignment.onHoldTreatmentDate ne null}">
+                newHoldDate = ${command.selectedStudyParticipantAssignment.onHoldTreatmentDate.date};
             </c:if>
                 if (newHoldDate > holdDate) {
                     if (${crfsSize>1}) {
-                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }
                     if (showDeleteOption) {
-                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
-                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Delete form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Move form to other date</a></li>';
                     }
                     var split = sid.split('_');
                     for (var a = 0; a < split.length; a++) {
@@ -283,7 +339,7 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                         }
                     }
                 }
-                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.studyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
         }
         html += '</ul></div>';
@@ -301,7 +357,6 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
         showSpeed: 300
     });
 }
-
 
 
 </script>
@@ -330,9 +385,8 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
     </tr>
 
 </table>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" formName="myForm">
     <jsp:attribute name="singleFields">
-        <input type="hidden" name="_finish" value="true"/>
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
                 <chrome:division title="" message="false">
                     <div align="left">
@@ -343,7 +397,7 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                                     <div id="calendar_${status.index}_outer">
                                         <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
-                                                                  studyParticipantAssignment="${command.studyParticipantAssignment}"
+                                                                  studyParticipantAssignment="${command.selectedStudyParticipantAssignment}"
                                                                   index="0"/>
                                     </div>
                                 </td>
@@ -358,33 +412,7 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     </div>
 
                 </chrome:division>
-                <%--<c:forEach items="${participantSchedule.studyParticipantCrfs}" var="participantCrf"--%>
-                           <%--varStatus="crfIndex">--%>
-                    <%--<table class="top-widget" cellspacing="0" align="center">--%>
-                        <%--<tr>--%>
-                            <%--<td>--%>
-                                <%--<b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>--%>
-                                <%--<b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>&nbsp;--%>
-                            <%--</td>--%>
-                        <%--</tr>--%>
-                        <%--<c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"--%>
-                                   <%--varStatus="statuscycledefinition">--%>
-                            <%--<tr>--%>
-                                <%--<td>--%>
-                                    <%--<tags:formScheduleCycleDefinition--%>
-                                            <%--cycleDefinitionIndex="${statuscycledefinition.index}"--%>
-                                            <%--crfCycleDefinition="${crfCycleDefinition}"--%>
-                                            <%--readonly="true"--%>
-                                            <%--crfIndex="${status.index}_${crfIndex.index}"/>--%>
-                                    <%--<script type="text/javascript">--%>
-                                        <%--showCyclesForDefinition('${status.index}_${crfIndex.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');--%>
-                                    <%--</script>--%>
-                                <%--</td>--%>
-                            <%--</tr>--%>
-                        <%--</c:forEach>--%>
-                    <%--</table>--%>
-                    <%--<br/>--%>
-                <%--</c:forEach>--%>
+
 
             </c:forEach>
 </jsp:attribute>

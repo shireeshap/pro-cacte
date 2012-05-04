@@ -55,7 +55,7 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
      */
     private void layoutTabs(Flow<StudyParticipantCommand> flow) {
         flow.addTab(new SelectStudyParticipantTab());
-        flow.addTab(new ScheduleCrfTab());
+//        flow.addTab(new ScheduleCrfTab());
     }
 
     /* (non-Javadoc)

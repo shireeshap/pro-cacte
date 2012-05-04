@@ -78,9 +78,6 @@
                 html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">View participant</a></li>';
             }
         </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
-        </proctcae:urlAuthorize>
         }
 
         html += '</ul></div>';
@@ -212,19 +209,24 @@
                 <input type="text" id="searchString" name="searchString" onblur="isSpclChar('searchString');"
                        maxlength="30" size="30"
                        value="${searchString}"/>
+                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                <tags:indicator id="indicator"/>
                 <ul id="searchString.error" style="display:none;" class="errors">
-                                   <li><spring:message code='special.character.message'
-                                                       text='special.character.message'/></li>
-                               </ul>
+                    <li><spring:message code='special.character.message'
+                                        text='special.character.message'/></li>
+                </ul>
             </div>
         </div>
         <div class="row">
             <div class="label"></div>
-            <div class="value">
-                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-                <tags:indicator id="indicator"/>
-            </div>
+
+            <div style="float:right;">
+            <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add" value="Add new participant"
+                             href="/proctcae/pages/participant/create"/>
+                </div>
         </div>
+
+
     </form>
 </chrome:box>
 

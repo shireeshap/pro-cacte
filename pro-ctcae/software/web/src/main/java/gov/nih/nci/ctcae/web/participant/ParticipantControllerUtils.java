@@ -27,14 +27,14 @@ public class ParticipantControllerUtils {
     }
 
     public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
-        ParticipantCommand participantCommand;
-        if (StringUtils.isBlank(request.getParameter("id"))) {
-            participantCommand = (ParticipantCommand)
+
+
+           ParticipantCommand participantCommand = (ParticipantCommand)
                     request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
-        } else {
+            if (participantCommand == null) {
             participantCommand = (ParticipantCommand)
                     request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
-        }
+            }
         return participantCommand;
     }
 

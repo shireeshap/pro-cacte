@@ -27,7 +27,7 @@ public class MoveFormScheduleValidateController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mv = new ModelAndView("participant/moveConfirmForm");
-        StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
+        ParticipantCommand participantCommand = ParticipantControllerUtils.getParticipantCommand(request);
 
         Integer index = Integer.parseInt(request.getParameter("index"));
         String action = request.getParameter("action");
@@ -36,7 +36,7 @@ public class MoveFormScheduleValidateController extends AbstractController {
         String[] strings = fids.split(",");
         List formIds = Arrays.asList(strings);
 
-        ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
+        ParticipantSchedule participantSchedule = participantCommand.getParticipantSchedules().get(index);
 
         Calendar c = new GregorianCalendar();
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
@@ -62,8 +62,8 @@ public class MoveFormScheduleValidateController extends AbstractController {
         mv.addObject("selectedForms", formIds);
         mv.addObject("action", action);
         mv.addObject("index", request.getParameter("index"));
-        mv.addObject("participant", studyParticipantCommand.getParticipant());
-
+        mv.addObject("participant", participantCommand.getParticipant());
+        mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
         return mv;
     }
 
