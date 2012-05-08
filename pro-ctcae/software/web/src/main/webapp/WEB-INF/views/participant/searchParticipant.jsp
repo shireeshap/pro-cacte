@@ -71,6 +71,9 @@
             var edit = false;
         <proctcae:urlAuthorize url="/pages/participant/trueedit">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit participant</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab='+2+'\'">Assigned staff</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab='+3+'\'">Manage Schedule</a></li>';
+
             edit = true;
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/participant/view">
