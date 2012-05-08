@@ -200,7 +200,7 @@
 
 </script>
 <body>
-<chrome:box title="participant.label.search_criteria" autopad="true">
+<chrome:box title="" autopad="true">
     <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
         <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
@@ -210,7 +210,9 @@
             <tr>
                 <td>
                     <div class="row">
-                        <div class="label"><spring:message code='participant.label.search_string' text=''/></div>
+                        <div class="label">
+                            <%--<spring:message code='participant.label.search_string' text=''/>--%>
+                        </div>
                         <div class="value IEdivValueHack">
                             <input type="text" id="searchString" name="searchString"
                                    onblur="isSpclChar('searchString');"
