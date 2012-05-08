@@ -287,11 +287,10 @@ public class StudyParticipantCrf extends BaseVersionable {
         if (crf.getCreateBaseline()) {
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
             participantSchedule.addStudyParticipantCrf(this);
-            //change due date code
-            Calendar c = Calendar.getInstance();
-
-            c.add(Calendar.DATE, 1);
-            participantSchedule.createSchedule(Calendar.getInstance(), c.getTime(), -1, -1, null, true);
+            
+            Calendar c = ProCtcAECalendar.getCalendarForDate(this.getStartDate());
+            Date dueDate = participantSchedule.getDueDateForFormSchedule(c, this);
+            participantSchedule.createSchedule(c, dueDate, -1, -1, null, true);
         }
     }
 
