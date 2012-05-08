@@ -233,7 +233,7 @@
             <div class="label"></div>
 
             <div style="float:right;">
-                <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add" value="Add new participant"
+                <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add" value="Add participant"
                              href="/proctcae/pages/participant/create"/>
             </div>
         </div>
