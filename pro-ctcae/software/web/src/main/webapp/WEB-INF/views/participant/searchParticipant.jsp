@@ -71,8 +71,8 @@
             var edit = false;
         <proctcae:urlAuthorize url="/pages/participant/trueedit">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit participant</a></li>';
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab='+2+'\'">Assigned staff</a></li>';
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab='+3+'\'">Manage Schedule</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab=' + 2 + '\'">Assigned staff</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab=' + 3 + '\'">Manage Schedule</a></li>';
 
             edit = true;
         </proctcae:urlAuthorize>
@@ -211,7 +211,7 @@
                 <td>
                     <div class="row">
                         <div class="label">
-                            <%--<spring:message code='participant.label.search_string' text=''/>--%>
+                                <%--<spring:message code='participant.label.search_string' text=''/>--%>
                         </div>
                         <div class="value IEdivValueHack">
                             <input type="text" id="searchString" name="searchString"
@@ -229,25 +229,24 @@
                     </div>
                 </td>
                 <td align="right">
-                        <div class="row">
-            <div class="label"></div>
+                    <div class="row">
+                        <div class="label"></div>
 
-            <div style="float:right;">
-                <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add" value="Add Participant"
-                             href="/proctcae/pages/participant/create"/>
-            </div>
-        </div>
+                        <div style="float:right;">
+                            <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add"
+                                         value="Add Participant"
+                                         href="/proctcae/pages/participant/create"/>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>
 
 
-
-
     </form>
-<%--</chrome:box>--%>
-            <br>
-<%--<chrome:box title="Results">--%>
+    <%--</chrome:box>--%>
+    <br>
+    <%--<chrome:box title="Results">--%>
     <div class="yui-skin-sam">
         <table width="100%">
             <tr>

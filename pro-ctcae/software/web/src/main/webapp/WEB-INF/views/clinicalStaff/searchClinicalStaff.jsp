@@ -152,22 +152,22 @@
             // DataTable configuration
             var myConfigs = {
                 generateRequest: generateRequest,
-                initialRequest: generateRequest()+"&first=yes", // Initial request for first page of data
+                initialRequest: generateRequest() + "&first=yes", // Initial request for first page of data
                 dynamicData: true, // Enables dynamic server-driven data
                 sortedBy : {key:"lastName", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
                 paginator: new YAHOO.widget.Paginator({
                     rowsPerPage:25,
                     template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-	                rowsPerPageOptions: [10,25,50,100],
+                    rowsPerPageOptions: [10,25,50,100],
                     containers  : 'pag'
                 }), // Enables pagination
                 draggableColumns:true
             };
 
             myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
-            myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
+            myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow);
             myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
-	        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
+            myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
             // Update totalRecords on the fly with values from server
             myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
                 oPayload.totalRecords = oResponse.meta.totalRecords;
@@ -196,72 +196,63 @@
         myDataTable.refreshView();
     }
 
-    jQuery(function(){
-       jQuery("#columnOptionsForCaseTable").multiSelect({
-           header: "Choose an Option!",
-           selectAll: false,
-           noneSelected: 'Show columns',
-           oneOrMoreSelected: '% visible'
-                  },function(event) {
-                   showHideColumnsForYUITable(event.val())
-               }
-);
+    jQuery(function() {
+        jQuery("#columnOptionsForCaseTable").multiSelect({
+            header: "Choose an Option!",
+            selectAll: false,
+            noneSelected: 'Show columns',
+            oneOrMoreSelected: '% visible'
+        }, function(event) {
+            showHideColumnsForYUITable(event.val())
+        }
+                );
     });
 
 </script>
 <body>
-<div class="tabpane">
-    <div class="workflow-tabs2">
-        <ul id="" class="tabs autoclear">
-            <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-                <li id="thirdlevelnav-x" class="tab ">
-                    <div>
-                        <a href="<c:url value="createClinicalStaff"/>"><tags:message
-                                code="clinicalStaff.tab.createStaff"/></a>
-                    </div>
-                </li>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/admin/searchClinicalStaff">
-                <li id="thirdlevelnav-x" class="tab selected">
-                    <div>
-                        <a href="<c:url value="searchClinicalStaff"/>"><tags:message
-                                code="clinicalStaff.tab.searchStaff"/></a>
-                    </div>
-                </li>
-            </proctcae:urlAuthorize>
-
-        </ul>
-    </div>
-</div>
 <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
     <form method="POST" action="searchClinicalStaff">
         <input name="useReqParam" value="true" type="hidden"/>
         <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
 
         <tags:instructions code="clinicalStaff.search.top"/>
+        <table border="0" width="100%">
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="label"><spring:message code='participant.label.search_string' text=''/></div>
+                        <div class="value IEdivValueHack">
+                            <input type="text" id="searchString" name="searchString"
+                                   maxlength="30" size="30" onblur="isSpclChar('searchString');"
+                                   value="${searchString}"/>
+                            <tags:button color="blue" icon="search" type="button" value='Search'
+                                         onclick="submitForm();"/>
+                            <tags:indicator id="indicator"/>
+                            <ul id="searchString.error" style="display:none;" class="errors">
+                                <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                            </ul>
+                        </div>
+                    </div>
 
-        <div class="row">
-            <div class="label"><spring:message code='participant.label.search_string' text=''/></div>
-            <div class="value IEdivValueHack">
-                <input type="text" id="searchString" name="searchString"
-                       maxlength="30" size="30" onblur="isSpclChar('searchString');"
-                       value="${searchString}"/>
-                 <ul id="searchString.error" style="display:none;" class="errors">
-                                   <li><spring:message code='special.character.message'
-                                                       text='special.character.message'/></li>
-                               </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="label"></div>
-            <div class="value">
-                <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-                <tags:indicator id="indicator"/>
-            </div>
-        </div>
+
+                    </td>
+                <td align="right">
+                      <div class="row">
+                        <div class="label"></div>
+
+                        <div style="float:right;">
+                            <tags:button color="blue" markupWithTag="a" id="newStaff" icon="add"
+                                         value="New"
+                                         href="/proctcae/pages/admin/createClinicalStaff"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </form>
-</chrome:box>
-<chrome:box title="Results">
+    <%--</chrome:box>--%>
+    <%--<chrome:box title="Results">--%>
 
     <div class="yui-skin-sam">
         <table width="100%">
@@ -270,8 +261,9 @@
                     <div id="pag"></div>
                 </td>
                 <td width="28%">
-                     <div> Show/Hide Column:
-                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
+                    <div> Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
+                                title="Show/Hide Columns">
                             <option value="lastName" selected="selected">Last name</option>
                             <option value="firstName" selected="selected">First name</option>
                             <option value="nciIdentifier" selected="selected">NCI identifier</option>
@@ -279,11 +271,10 @@
                             <option value="study" selected="selected">Study</option>
                             <option value="status" selected="selected">Status</option>
                         </select>
-                     </div>
+                    </div>
                 </td>
             </tr>
         </table>
-
 
 
         <div id="basic">
