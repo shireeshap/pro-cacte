@@ -244,7 +244,7 @@ public class CtcTerm extends BasePersistable {
 //        this.category = category;
 //    }
 
-    private void addCategoryTermSet(CategoryTermSet categoryTermSet) {
+    public void addCategoryTermSet(CategoryTermSet categoryTermSet) {
         categoryTermSet.setCtcTerm(this);
         categoryTermSets.add(categoryTermSet);
     }

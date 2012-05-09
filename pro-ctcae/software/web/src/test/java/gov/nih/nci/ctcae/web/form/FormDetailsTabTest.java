@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CtcCategory;
-import gov.nih.nci.ctcae.core.domain.CtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcTermVocab;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -27,6 +24,7 @@ public class FormDetailsTabTest extends WebTestCase {
 
     private CtcCategory ctcCategory1, ctcCategory2, ctcCategory3;
     protected CtcTerm ctcTerm1, ctcTerm2, ctcTerm3, ctcTerm4;
+    protected CategoryTermSet cts1, cts2, cts3, cts4;
 
     @Override
     protected void setUp() throws Exception {
@@ -49,16 +47,28 @@ public class FormDetailsTabTest extends WebTestCase {
         ctcCategory3.setName("AUDITORY/EAR");
 
         ctcTerm1 = new CtcTerm();
-//        ctcTerm1.setCategory(ctcCategory1);
+        cts1 = new CategoryTermSet();
+        cts1.setCtcTerm(ctcTerm1);
+        cts1.setCategory(ctcCategory1);
+        ctcTerm1.addCategoryTermSet(cts1);
 
         ctcTerm2 = new CtcTerm();
-//        ctcTerm2.setCategory(ctcCategory2);
+        cts2 = new CategoryTermSet();
+        cts2.setCtcTerm(ctcTerm2);
+        cts2.setCategory(ctcCategory2);
+        ctcTerm2.addCategoryTermSet(cts2);
 
         ctcTerm3 = new CtcTerm();
-//        ctcTerm3.setCategory(ctcCategory3);
+        cts3 = new CategoryTermSet();
+        cts3.setCtcTerm(ctcTerm3);
+        cts3.setCategory(ctcCategory3);
+        ctcTerm3.addCategoryTermSet(cts3);
 
         ctcTerm4 = new CtcTerm();
-//        ctcTerm4.setCategory(ctcCategory3);
+        cts4 = new CategoryTermSet();
+        cts4.setCtcTerm(ctcTerm3);
+        cts4.setCategory(ctcCategory3);
+        ctcTerm4.addCategoryTermSet(cts4);
 
         proCtcTerm1 = new ProCtcTerm();
         proCtcTerm2 = new ProCtcTerm();
