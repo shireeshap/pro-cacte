@@ -137,7 +137,7 @@ public class ParticipantSchedule {
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
-                    if (c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
+                    if (c.getTime().equals(studyParticipantCrf.getCrf().getEffectiveStartDate()) || c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
                         if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
                             CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
                             StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
