@@ -243,7 +243,7 @@
 
                         <div style="float:right;">
                             <tags:button color="blue" markupWithTag="a" id="newStaff" icon="add"
-                                         value="New"
+                                         value="New Staff"
                                          href="/proctcae/pages/admin/createClinicalStaff"/>
                         </div>
                     </div>
