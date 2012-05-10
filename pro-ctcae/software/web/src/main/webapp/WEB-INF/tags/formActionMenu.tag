@@ -48,7 +48,7 @@ function showVersionForm(crfId) {
 }
 function showPopUpMenu(cid, status, showVersion) {
     var html = '<div id="search-engines"><ul>';
-    if (status == 'Final') {
+    if (status == 'Released') {
     <proctcae:urlAuthorize url="/pages/form/versionForm">
         html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
     </proctcae:urlAuthorize>
