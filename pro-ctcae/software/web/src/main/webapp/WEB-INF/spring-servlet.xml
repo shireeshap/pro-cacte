@@ -95,10 +95,7 @@
                       p:mainController="searchStudyController" p:pathMapping="/study/**">
                     <property name="tasks">
                         <list>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="study.tab.enter_study" p:linkName="createStudyController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="study.tab.search_study" p:linkName="searchStudyController"/>
+
 
                         </list>
                     </property>
@@ -108,14 +105,6 @@
                       p:mainController="searchParticipantController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
-                            <!--<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"-->
-                                  <!--p:displayName="participant.tab.enter_participant"-->
-                                  <!--p:linkName="createParticipantController"/>-->
-                            <!--<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"-->
-                                  <!--p:displayName="participant.tab.search_participant"-->
-                                  <!--p:linkName="searchParticipantController"/>-->
-                            <!--<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"-->
-                                  <!--p:displayName="participant.tab.schedule_form" p:linkName="scheduleCrfController"/>-->
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
 

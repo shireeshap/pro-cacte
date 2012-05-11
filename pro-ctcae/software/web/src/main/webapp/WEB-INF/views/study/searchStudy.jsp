@@ -52,33 +52,35 @@
         .even {
             background-color: white;
         }
-        
-        .yui-skin-sam .yui-dt-liner { white-space: }  
+
+        .yui-skin-sam .yui-dt-liner {
+            white-space:
+        }
     </style>
 </head>
-	
-<script>
-	var myDataTable;
-	YAHOO.util.Event.addListener(window, "load", function() {
-	    YAHOO.example.Basic = function() {
-	        var myColumnDefs = [ 
-	            {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140}, 
-	            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:140}, 
-	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:false, resizeable:false, width:235}, 
-	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:false, resizeable:false, width:235}, 
-	            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80} 
-	        ];
 
-	        var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/study/fetchStudy?");
-	        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
-	        myDataSource.responseSchema = {
-       		    resultsList: "shippedRecordSet.searchStudyDTO", 
-	            fields: ["assignedIdentifier", "shortTitle","fundingSponsorDisplayName", "coordinatingCenterDisplayName", "actions"],
-	            metaFields: {
+<script>
+    var myDataTable;
+    YAHOO.util.Event.addListener(window, "load", function() {
+        YAHOO.example.Basic = function() {
+            var myColumnDefs = [
+                {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140},
+                {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:140},
+                {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:false, resizeable:false, width:235},
+                {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:false, resizeable:false, width:235},
+                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80}
+            ];
+
+            var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/study/fetchStudy?");
+            myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+            myDataSource.responseSchema = {
+                resultsList: "shippedRecordSet.searchStudyDTO",
+                fields: ["assignedIdentifier", "shortTitle","fundingSponsorDisplayName", "coordinatingCenterDisplayName", "actions"],
+                metaFields: {
                     totalRecords: "shippedRecordSet.totalRecords",
                     startIndex: "shippedRecordSet.startIndex"
                 }
-	        };
+            };
 
             // Customize request sent to server to be able to set total # of records
             var generateRequest = function(oState, oSelf) {
@@ -104,29 +106,29 @@
                 paginator: new YAHOO.widget.Paginator({
                     rowsPerPage:25,
                     template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-	                rowsPerPageOptions: [10,25,50,100],
-	                containers  : 'pag'
+                    rowsPerPageOptions: [10,25,50,100],
+                    containers  : 'pag'
                 }), // Enables pagination
                 draggableColumns:true
             };
-            
-	        myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
-	        myDataTable.subscribe("rowClickEvent",myDataTable.onEventSelectRow);
+
+            myDataTable = new YAHOO.widget.DataTable("basic", myColumnDefs, myDataSource, myConfigs);
+            myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow);
             myDataTable.subscribe("rowMouseoverEvent", myDataTable.onEventHighlightRow);
-	        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
+            myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
             // Update totalRecords on the fly with values from server
             myDataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
                 oPayload.totalRecords = oResponse.meta.totalRecords;
                 oPayload.pagination.recordOffset = oResponse.meta.startIndex;
                 return oPayload;
             };
-                 
-	        return {
-	            oDS: myDataSource,
-	            oDT: myDataTable
-	        };
-	    }();
-	});
+
+            return {
+                oDS: myDataSource,
+                oDT: myDataTable
+            };
+        }();
+    });
 
     function showHideColumnsForYUITable(columnKey) {
         var column = myDataTable.getColumn(columnKey);
@@ -141,16 +143,16 @@
         myDataTable.refreshView();
     }
 
-    jQuery(function(){
-       jQuery("#columnOptionsForCaseTable").multiSelect({
-           header: "Choose an Option!",
-           selectAll: false,
-           noneSelected: 'Show columns',
-           oneOrMoreSelected: '% visible'
-                  },function(event) {
-                   showHideColumnsForYUITable(event.val())
-               }
-		);
+    jQuery(function() {
+        jQuery("#columnOptionsForCaseTable").multiSelect({
+            header: "Choose an Option!",
+            selectAll: false,
+            noneSelected: 'Show columns',
+            oneOrMoreSelected: '% visible'
+        }, function(event) {
+            showHideColumnsForYUITable(event.val())
+        }
+                );
     });
 </script>
 
@@ -178,15 +180,15 @@
     function handleSelect(stype, args) {
         var ele = args[0];
         var oData = args[2];
-        if(oData == null){
-        	ele.getInputEl().value="(Begin typing here)";
-        	ele.getInputEl().addClassName('pending-search');
+        if (oData == null) {
+            ele.getInputEl().value = "(Begin typing here)";
+            ele.getInputEl().addClassName('pending-search');
         } else {
-	        ele.getInputEl().value = oData.displayName;
-	        var id = ele.getInputEl().id;
-	        ele.getInputEl().removeClassName('pending-search');
-	        var hiddenInputId = id.substring(0, id.indexOf('Input'));
-	        $(hiddenInputId).value = oData.id;
+            ele.getInputEl().value = oData.displayName;
+            var id = ele.getInputEl().id;
+            ele.getInputEl().removeClassName('pending-search');
+            var hiddenInputId = id.substring(0, id.indexOf('Input'));
+            $(hiddenInputId).value = oData.id;
         }
     }
 
@@ -236,56 +238,70 @@
 <body>
 <chrome:box title="study.label.search" autopad="true">
     <form method="POST" action="searchStudy#searchResults">
-    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+        <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
         <input name="useReqParam" value="true" type="hidden"/>
         <tags:instructions code="study.search.top"/>
 
         <div class="row" name="inputs">
-            <div class="label"> <tags:message code='study.label.search_by'/></div>
-            <div class="value">
-                <input type="text" id="searchText" name="searchText" size="25" onblur="isSpclChar('searchText');" value="${searchText}">
-                <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
-                    <li><spring:message code='special.character.message'
-                                        text='special.character.message'/></li>
-                </ul>
-                <div id="error"></div>
+            <table border="0" width="100%">
+                <tr>
+                    <td>
+                        <div class="label"><tags:message code='study.label.search_by'/></div>
+                        <div class="value">
+                            <input type="text" id="searchText" name="searchText" size="25"
+                                   onblur="isSpclChar('searchText');" value="${searchText}">
+                             <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                            <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
+                                <li><spring:message code='special.character.message'
+                                                    text='special.character.message'/></li>
+                            </ul>
+                            <div id="error"></div>
+                        </div>
+        </div>
+        </td>
+        <td align="right">
+            <div class="row">
+                <div class="label"></div>
+                <div style="padding-left:145px">
+                     <tags:button color="blue" markupWithTag="a" id="newStudy" icon="add"
+                                         value="Create Study"
+                                         href="/proctcae/pages/study/createStudy"/>
+                </div>
             </div>
-        </div>
-        <div style="padding-left:145px">
-            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-        </div>
+
+        </td>
+        </tr>
+        </table>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
         <input type="hidden" name="page" value="${page}" id="page"/>
         <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
         <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
         <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
-</chrome:box>
-<%--<a name="searchResults"/>--%>
-
-<chrome:box title="Results">
-	<div class="yui-skin-sam">
-		<table width="100%">
+    <div class="yui-skin-sam">
+        <table width="100%">
             <tr>
                 <td width="68%">
                     <div id="pag"></div>
                 </td>
                 <td width="32%">
-                     <div> Show/Hide Column:
-                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
+                    <div> Show/Hide Column:
+                        <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
+                                title="Show/Hide Columns">
                             <option value="assignedIdentifier" selected="selected">Study identifier</option>
                             <option value="shortTitle" selected="selected">Short title</option>
                             <option value="fundingSponsorDisplayName" selected="selected">Funding sponsor</option>
-                            <option value="coordinatingCenterDisplayName" selected="selected">Coordinating center</option>
+                            <option value="coordinatingCenterDisplayName" selected="selected">Coordinating center
+                            </option>
                         </select>
-                     </div>
+                    </div>
                 </td>
             </tr>
         </table>
-	
-		<div id="basic">
-		</div>
-	</div>
+
+        <div id="basic">
+        </div>
+    </div>
 </chrome:box>
 </body>
 </html>
