@@ -567,6 +567,8 @@ function isNumeric(fieldName) {
                 </table>
             </td>
         </tr>
+
+     </c:if>
         <tr>
             <td style="text-align:left;font-weight:bold;vertical-align:top" colspan="2">
                 <c:if test="${command.crf.createBaseline eq true}">
@@ -578,7 +580,7 @@ function isNumeric(fieldName) {
                 <tags:message code='form.tab.baseline'/>
             </td>
         </tr>
-    </c:if>
+
     </tr>
 </table>
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
