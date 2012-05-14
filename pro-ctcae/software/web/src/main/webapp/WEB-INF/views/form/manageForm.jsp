@@ -239,11 +239,10 @@
 			            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
 			            <tags:indicator id="indicator"/>
 	    			</td>
-	    			<td width="25%" align="right"><a href="/proctcae/pages/form/basicForm"><tags:button color="blue" icon="createForm" type="button" value='Create Form' /></a></td>
+	    			<td width="25%" align="right"><tags:button color="blue" markupWithTag="a" icon="createForm" type="button" value='Create Form' href="/proctcae/pages/form/basicForm" /></td>
 	    		</tr>
 	    	</table>
         </div>
-            
 </form>
 </chrome:box>
 
