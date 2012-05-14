@@ -142,15 +142,10 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                     for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
                         Arm arm1 = arm.next();
                         if (arm1.isDefaultArm()) {
-                            arm.remove();
+//                            arm.remove();
                         }
 
                     }
-//                    for (Arm arm : studyCommand.getStudy().getArms()) {
-////                       if (arm.isDefaultArm()) {
-//                            studyCommand.getStudy().getArms().remove(arm);
-//                        }
-//                    }
                 }
             }
         }

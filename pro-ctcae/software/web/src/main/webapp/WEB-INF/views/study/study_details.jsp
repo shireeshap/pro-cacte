@@ -313,7 +313,7 @@
 
     <br>
 
-      <c:if test="${not command.activeDefaultArm}">
+      <%--<c:if test="${not command.activeDefaultArm}">--%>
           <chrome:division title="study.section.study_arms">
               <p><tags:instructions code="study.study_arms.top"/></p>
 
@@ -336,7 +336,7 @@
               <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
                            value="study.button.add_study_arm"/></div>
           <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
-      </c:if>
+      <%--</c:if>--%>
        <br>
        <chrome:division title="study.sections.study_modes"><br/>
        <table border="0">
