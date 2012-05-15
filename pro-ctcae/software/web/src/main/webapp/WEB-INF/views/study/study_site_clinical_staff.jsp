@@ -84,10 +84,7 @@
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
     <jsp:attribute name="singleFields">
 
-        <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
-            <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
-                                              propertyName="selectedStudySite" required="true"
-                                              onchange="changeStudySite()" itemLabel="organization.displayName"/>
+
 
         <chrome:box>
             <chrome:division title="Study details">
@@ -100,17 +97,22 @@
                     <div class="value">${command.study.assignedIdentifier} </div>
                 </div>
             </chrome:division>
-            <chrome:division title="study.tab.clinical_staff">
-                <div class="row">
-                    <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>
-                    <div class="value">${leadCRA.displayName}</div>
-                </div>
-                <div class="row">
-                    <div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>
-                    <div class="value">${OverallPI.displayName}</div>
-                </div>
-            </chrome:division>
-        </chrome:box>
+            <%--<chrome:division title="study.tab.clinical_staff">--%>
+            <%--<div class="row">--%>
+            <%--<div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>--%>
+            <%--<div class="value">${leadCRA.displayName}</div>--%>
+            <%--</div>--%>
+            <%--<div class="row">--%>
+            <%--<div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>--%>
+            <%--<div class="value">${OverallPI.displayName}</div>--%>
+            <%--</div>--%>
+            <%--</chrome:division>--%>
+
+         <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
+            <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
+                                              propertyName="selectedStudySite" required="false"
+                                              onchange="changeStudySite()" itemLabel="organization.displayName"/>
+         </chrome:box>
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
