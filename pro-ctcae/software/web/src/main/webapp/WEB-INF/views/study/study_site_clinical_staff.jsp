@@ -97,16 +97,6 @@
                     <div class="value">${command.study.assignedIdentifier} </div>
                 </div>
             </chrome:division>
-            <%--<chrome:division title="study.tab.clinical_staff">--%>
-            <%--<div class="row">--%>
-            <%--<div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>--%>
-            <%--<div class="value">${leadCRA.displayName}</div>--%>
-            <%--</div>--%>
-            <%--<div class="row">--%>
-            <%--<div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>--%>
-            <%--<div class="value">${OverallPI.displayName}</div>--%>
-            <%--</div>--%>
-            <%--</chrome:division>--%>
 
          <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
