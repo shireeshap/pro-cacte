@@ -307,6 +307,7 @@ function buildTable(index, days, repeat, pageload) {
 }
 
 function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
+
     var cycles = cycleIndexes.split(',');
     for (var j = 0; j < cycles.length; j++) {
         var cycleIndex = cycles[j];
@@ -320,6 +321,7 @@ function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
                 try {
                     dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
                 } catch(err) {
+                     alert(err)
                 }
             }
         }
@@ -327,7 +329,13 @@ function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
 }
 
 function resetCycle(cycleDefinitionIndex, cycleIndex) {
-    var days_amount = parseInt($('cycle_length_' + cycleDefinitionIndex).value);
+    var days_unit = $('selectedFormArmSchedule.crfCycleDefinitions[' + cycleDefinitionIndex + '].cycleLengthUnit').value;
+    var multiplier = 1;
+    if (days_unit == 'Weeks') {
+        multiplier = 7;
+    }
+    var days_amount = parseInt($('cycle_length_' + cycleDefinitionIndex).value) * multiplier;
+
     for (var i = 0; i < days_amount; i++) {
         var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + (i + 1));
         unselectday(obj, cycleDefinitionIndex, cycleIndex, i);
