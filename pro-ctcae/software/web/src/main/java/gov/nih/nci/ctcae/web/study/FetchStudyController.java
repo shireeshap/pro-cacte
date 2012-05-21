@@ -91,7 +91,7 @@ public class FetchStudyController extends AbstractController {
             }
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
                     + study.getId() + "'"
-                    + " onclick=\"javascript:showPopUpMenuStudy('"
+                    + " onmouseover=\"javascript:showPopUpMenuStudy('"
                     + study.getId()
                     + "','"
                     + odcOnStudy

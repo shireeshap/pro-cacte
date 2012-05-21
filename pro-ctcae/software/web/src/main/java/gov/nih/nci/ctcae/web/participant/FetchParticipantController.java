@@ -93,7 +93,7 @@ public class FetchParticipantController extends AbstractController {
 
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
                     + participant.getId() + "'"
-                    + " onclick=\"javascript:showPopUpMenuParticipant('"
+                    + " onmouseover=\"javascript:showPopUpMenuParticipant('"
                     + participant.getId()
                     + "','"
                     + odc

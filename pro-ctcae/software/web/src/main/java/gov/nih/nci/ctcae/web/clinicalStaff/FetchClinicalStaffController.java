@@ -106,7 +106,7 @@ public class FetchClinicalStaffController extends AbstractController {
             }
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='clinicalStaffActions"
                     + clinicalStaff.getId() + "'"
-                    + " onclick=\"javascript:showPopUpMenuClinicalStaff('"
+                    + " onmouseover=\"javascript:showPopUpMenuClinicalStaff('"
                     + clinicalStaff.getId()
                     + "','"
                     + clinicalStaff.getStatus()

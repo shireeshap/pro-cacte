@@ -69,7 +69,7 @@ public class FetchCrfController extends AbstractController {
 
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='crfActions"
                     + crf.getId() + "'"
-                    + " onclick=\"javascript:showPopUpMenu('"
+                    + " onmouseover=\"javascript:showPopUpMenu('"
                     + crf.getId()
                     + "','"
                     + crf.getStatus().getDisplayName()
