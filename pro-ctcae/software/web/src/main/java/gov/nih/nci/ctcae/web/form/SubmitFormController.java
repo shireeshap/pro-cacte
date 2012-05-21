@@ -1,13 +1,23 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -15,9 +25,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 //
 
@@ -43,7 +50,7 @@ public class SubmitFormController extends SimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand sCommand = (SubmitFormCommand) command;
-        boolean submit = sCommand.save();
+        boolean submit = save(sCommand);
         request.getSession().setAttribute(getFormSessionAttributeName(), sCommand);
         if (submit) {
             return showConfirmationPage(sCommand);
@@ -51,6 +58,54 @@ public class SubmitFormController extends SimpleFormController {
         	return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getNewPageIndex()));
         }
     }
+    
+
+    public boolean save(SubmitFormCommand sCommand) throws Exception {
+        // schedule = genericRepository.save(schedule);
+        //lazyInitializeSchedule();
+        boolean submit = false;
+
+        if ("save".equals(sCommand.getDirection())) {
+        	sCommand.deleteQuestions();
+        	sCommand.getSchedule().setStatus(CrfStatus.COMPLETED);
+        	sCommand.getSchedule().setFormSubmissionMode(AppMode.HOMEWEB);
+            //adding the notifications scheduled for the form submission
+        	sCommand.getSchedule().setCompletionDate(new Date());
+            if (sCommand.getSchedule().getStudyParticipantCrfScheduleNotification() == null) {
+                StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
+                studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(sCommand.getSchedule());
+                sCommand.getSchedule().setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
+            }
+
+            sCommand.setFlashMessage("You have successfully submitted the form.");
+            submit = true;
+        } else {
+        	sCommand.getSchedule().setStatus(CrfStatus.INPROGRESS);
+            List<DisplayQuestion> questions = sCommand.getCurrentPageQuestions();
+            if (questions != null) {
+                for (DisplayQuestion question : questions) {
+                    if (question != null) {
+                        StudyParticipantCrfItem spCrfItem = question.getStudyParticipantCrfItem();
+                        if (spCrfItem != null) {
+                            spCrfItem.setReponseDate(new Date());
+                            spCrfItem.setResponseMode(AppMode.HOMEWEB);
+                            spCrfItem.setUpdatedBy(sCommand.getUserName());
+                        }
+                        StudyParticipantCrfScheduleAddedQuestion spcsAddedQuestion = question.getStudyParticipantCrfScheduleAddedQuestion();
+                        if (spcsAddedQuestion != null) {
+                            spcsAddedQuestion.setReponseDate(new Date());
+                            spcsAddedQuestion.setResponseMode(AppMode.HOMEWEB);
+                            spcsAddedQuestion.setUpdatedBy(sCommand.getUserName());
+                        }
+                    }
+                }
+            }
+        }
+        sCommand.setSchedule(studyParticipantCrfScheduleRepository.save(sCommand.getSchedule()));
+        //lazyInitializeSchedule();
+        return submit;
+    }
+    
 
     private ModelAndView showConfirmationPage(SubmitFormCommand sCommand) {
         ModelAndView modelAndView = new ModelAndView(getSuccessView());

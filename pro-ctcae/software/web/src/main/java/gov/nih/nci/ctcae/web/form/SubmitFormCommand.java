@@ -1,7 +1,26 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.CtcTerm;
+import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
+import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
+import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcTermComparator;
+import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -9,15 +28,17 @@ import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Query;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.web.util.WebUtils;
-
-import java.io.Serializable;
-import java.util.*;
 
 
 //
@@ -135,7 +156,6 @@ public class SubmitFormCommand implements Serializable {
         return displayQuestion;
     }
 
-
     public StudyParticipantCrfSchedule getSchedule() {
         return schedule;
     }
@@ -188,58 +208,13 @@ public class SubmitFormCommand implements Serializable {
         this.direction = direction;
     }
 
-    public boolean save() throws Exception {
-        // schedule = genericRepository.save(schedule);
-        //lazyInitializeSchedule();
-        boolean submit = false;
+    public String getUserName(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-        if ("save".equals(direction)) {
-            deleteQuestions();
-            schedule.setStatus(CrfStatus.COMPLETED);
-            schedule.setFormSubmissionMode(AppMode.HOMEWEB);
-            //adding the notifications scheduled for the form submission
-            schedule.setCompletionDate(new Date());
-            if (schedule.getStudyParticipantCrfScheduleNotification() == null) {
-                StudyParticipantCrfScheduleNotification studyParticipantCrfScheduleNotification = new StudyParticipantCrfScheduleNotification();
-                studyParticipantCrfScheduleNotification.setStudyParticipantCrfSchedule(schedule);
-                schedule.setStudyParticipantCrfScheduleNotification(studyParticipantCrfScheduleNotification);
-            }
-
-            //TODO:Suneel A, Needs to remove the block after testing
-            /*NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
-            notificationsEvaluationService.setGenericRepository(genericRepository);
-            notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());*/
-            setFlashMessage("You have successfully submitted the form.");
-            submit = true;
-        } else {
-            schedule.setStatus(CrfStatus.INPROGRESS);
-            List<DisplayQuestion> questions = this.getCurrentPageQuestions();
-            if (questions != null) {
-                for (DisplayQuestion question : questions) {
-                    if (question != null) {
-                        StudyParticipantCrfItem spCrfItem = question.getStudyParticipantCrfItem();
-                        if (spCrfItem != null) {
-                            spCrfItem.setReponseDate(new Date());
-                            spCrfItem.setResponseMode(AppMode.HOMEWEB);
-                            spCrfItem.setUpdatedBy(user.getUsername());
-                        }
-                        StudyParticipantCrfScheduleAddedQuestion spcsAddedQuestion = question.getStudyParticipantCrfScheduleAddedQuestion();
-                        if (spcsAddedQuestion != null) {
-                            spcsAddedQuestion.setReponseDate(new Date());
-                            spcsAddedQuestion.setResponseMode(AppMode.HOMEWEB);
-                            spcsAddedQuestion.setUpdatedBy(user.getUsername());
-                        }
-                    }
-                }
-            }
-        }
-        genericRepository.saveOrUpdate(schedule);
-        //lazyInitializeSchedule();
-        return submit;
+        return user.getUsername();
     }
 
-    private void setFlashMessage(String flashMessage) {
+    public void setFlashMessage(String flashMessage) {
         this.flashMessage = flashMessage;
     }
 
