@@ -2298,6 +2298,7 @@ pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/005_insert_categor
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/006_update_ctc_category.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/007_insert_user_categories.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/008_update_study_mode.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/009_add_organization.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
