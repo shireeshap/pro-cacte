@@ -302,14 +302,14 @@ public class ParticipantCommand {
 
         //update pending IvrsSchedules if time has been updated and mode is IVRS
         String participantMode = null;
-        if(responseModes != null){
+        if (responseModes != null) {
             for (String string : responseModes) {
                 if (string != null && string.equals("IVRS")) {
                     participantMode = "IVRS";
                 }
-          }
+            }
         }
-        
+
 
         if ((participantMode != null && participantMode.equals("IVRS")) &&
                 (timeZoneHasChanged || timeHasChanged || amPmHasChanged || reminderCallOptionHasChanged)) {
@@ -390,28 +390,28 @@ public class ParticipantCommand {
         if (getResponseModes() == null) {
             blFlgAddHomeMode = false;
         } else {
-        	for (String string : getResponseModes()) {
+            for (String string : getResponseModes()) {
                 for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
                     if (studyParticipantReportingModeHistory.getEffectiveEndDate() == null) {
-                         if (blFlgAddHomeMode) {
-                             AppMode mode = AppMode.valueOf(string);
-                             if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
-                                 blFlgAddHomeMode = false;
-                             } else {
-                                 studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
-                             }
-                         }
+                        if (blFlgAddHomeMode) {
+                            AppMode mode = AppMode.valueOf(string);
+                            if (studyParticipantReportingModeHistory.getMode().equals(mode)) {
+                                blFlgAddHomeMode = false;
+                            } else {
+                                studyParticipantReportingModeHistory.setEffectiveEndDate(new Date());
+                            }
+                        }
                     }
                 }
                 if (blFlgAddHomeMode) {
-                  StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
-                  AppMode responseMode = AppMode.valueOf(string);
-                  hist.setMode(responseMode);
-                  studyParticipantAssignment.addStudyParticipantModeHistory(hist);
+                    StudyParticipantReportingModeHistory hist = new StudyParticipantReportingModeHistory();
+                    AppMode responseMode = AppMode.valueOf(string);
+                    hist.setMode(responseMode);
+                    studyParticipantAssignment.addStudyParticipantModeHistory(hist);
                 }
             }
         }
-        
+
     }
 
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
@@ -649,7 +649,7 @@ public class ParticipantCommand {
         this.responseModes = responseModes;
     }
 
-     public void setParticipantSchedules(List<ParticipantSchedule> participantSchedules) {
+    public void setParticipantSchedules(List<ParticipantSchedule> participantSchedules) {
         this.participantSchedules = participantSchedules;
     }
 
@@ -692,16 +692,16 @@ public class ParticipantCommand {
 
 
     private void lazyInitializeStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
-       for(StudyOrganization studyOrganization : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getStudyOrganizations()) {
-           studyOrganization.getDisplayName();
-           for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
-               studyOrganizationClinicalStaff.getDisplayName();
-           }
-       }
+        for (StudyOrganization studyOrganization : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getStudyOrganizations()) {
+            studyOrganization.getDisplayName();
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
+                studyOrganizationClinicalStaff.getDisplayName();
+            }
+        }
         for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
             formArmSchedule.getId();
             for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
-                   crfCalendar.getId();
+                crfCalendar.getId();
             }
             for (CRFCycleDefinition crfCycleDefinitions : formArmSchedule.getCrfCycleDefinitions()) {
                 crfCycleDefinitions.getId();
@@ -710,11 +710,17 @@ public class ParticipantCommand {
                 }
             }
         }
-        for (CRF crf : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getCrfs()){
-                   crf.getTitle();
+        if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
+            CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
+            for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
+                spc.getStartDate();
+            }
+        }
+        for (CRF crf : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getCrfs()) {
+            crf.getTitle();
         }
         for (StudyParticipantMode studyParticipantMode : studyParticipantCrf.getStudyParticipantAssignment().getStudyParticipantModes()) {
-                   studyParticipantMode.getId();
+            studyParticipantMode.getId();
         }
         for (Arm arm : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getArms()) {
             arm.getTitle();
@@ -730,9 +736,9 @@ public class ParticipantCommand {
         studyParticipantCrf.getCrf().getCrfPages();
         for (CRFPage crfPage : studyParticipantCrf.getCrf().getCrfPages()) {
             crfPage.getDescription();
-           for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                    crfPageItem.getId();
-           }
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                crfPageItem.getId();
+            }
         }
     }
 
