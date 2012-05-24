@@ -711,6 +711,18 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
             }
         }
     }
+    
+    /**
+     * Checks if is deletable.
+     * Use this to determine if the schedule can be deleted from the patients calendar.
+     * @return true, if is deletable
+     */
+    @Transient
+    public boolean isDeletable(){
+    	if (this.status.equals(CrfStatus.SCHEDULED))
+    		return true;
+    	return false;
+    }
 
     public List<IvrsSchedule> getIvrsSchedules() {
         return ivrsSchedules;

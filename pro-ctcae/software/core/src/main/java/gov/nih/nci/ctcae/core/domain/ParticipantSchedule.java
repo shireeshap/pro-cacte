@@ -426,7 +426,9 @@ public class ParticipantSchedule {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                    schedulesToRemove.add(studyParticipantCrfSchedule);
+                	if(studyParticipantCrfSchedule.isDeletable()){
+                		schedulesToRemove.add(studyParticipantCrfSchedule);
+                	}
                 }
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
                     studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
