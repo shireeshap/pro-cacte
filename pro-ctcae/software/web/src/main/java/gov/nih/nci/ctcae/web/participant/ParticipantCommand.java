@@ -260,6 +260,7 @@ public class ParticipantCommand {
                     studyParticipantCrf.setCrf(crf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
                     studyParticipantCrf.createSchedules();
+                    studyParticipantCrf.setScheduleInitialized(true);
                 }
             }
         }

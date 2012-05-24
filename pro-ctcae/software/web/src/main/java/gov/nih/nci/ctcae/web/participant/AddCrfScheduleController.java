@@ -95,8 +95,6 @@ public class AddCrfScheduleController extends AbstractController {
             mv.addObject("index", request.getParameter("index"));
             mv.addObject("resultMap", resultMap);
             return mv;
-
-
         }
 
         if ("onhold".equals(action)) {

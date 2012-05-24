@@ -65,6 +65,8 @@ public class StudyParticipantCrf extends BaseVersionable {
     @Column(name = "start_date", nullable = true)
     private Date startDate;
 
+    @Column(name = "is_schedule_initialized", nullable = true)
+    private Boolean scheduleInitialized = false;
 
     /**
      * Instantiates a new study participant crf.
@@ -133,9 +135,10 @@ public class StudyParticipantCrf extends BaseVersionable {
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
         try {
-            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null) {
+            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null && !getScheduleInitialized()) {
                 //creating schedules dynamically
                 createSchedules();
+                setScheduleInitialized(true);
             }
         } catch (ParseException pe) {
             logger.error(pe.getStackTrace());
@@ -147,9 +150,10 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(List<CrfStatus> crfStatusList) {
         try {
-            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null) {
+            if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null  && !getScheduleInitialized()) {
                 //creating schedules dynamically
                 createSchedules();
+                setScheduleInitialized(true);
             }
         } catch (ParseException pe) {
             logger.error(pe.getStackTrace());
@@ -401,4 +405,13 @@ public class StudyParticipantCrf extends BaseVersionable {
             }
         }
     }
+
+
+	public Boolean getScheduleInitialized() {
+		return scheduleInitialized;
+	}
+
+	public void setScheduleInitialized(Boolean scheduleInitialized) {
+		this.scheduleInitialized = scheduleInitialized;
+	}
 }
