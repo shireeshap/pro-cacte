@@ -6,14 +6,15 @@
         <td style="padding-left:20px">
             <c:choose>
                 <c:when test="${fn:length(crfs) > 1}">
-                    Multiple forms have been assigned to the ${participant.displayName}.
-                    Please select the forms for which you want to schedule an event<br>
-                    <c:forEach items="${crfs}" var="crf">
-                        <input type="checkbox" name="selectedForms"
-                               <c:if test="${crf.value}">disabled="true"</c:if>
-                               value="${crf.key.id}">${crf.key.title}
-                        <br/>
-                    </c:forEach>
+                    Multiple forms have been assigned to <b>${participant.displayName}.</b>
+                    Please select the forms for which you want to schedule an event. <br /><br />
+                    <p style="padding-left:30px">
+	                    <c:forEach items="${crfs}" var="crf">
+	                        <input type="checkbox" name="selectedForms" <c:if test="${crf.value}">disabled="true"</c:if>
+	                               value="${crf.key.id}">&nbsp;${crf.key.title}
+	                        <br/>
+	                    </c:forEach>
+                    </p>
                     <br/>
                 </c:when>
                 <c:when test="${firstCrf ne null}">

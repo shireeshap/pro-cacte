@@ -51,18 +51,21 @@ public class AddFormScheduleController extends AbstractController {
         List<String> listExistingCrfs = new ArrayList<String>();
         if(sids!=null){
             String[] sidArr = sids.split("_");
-             listExistingCrfs = Arrays.asList(sidArr);         }
+             listExistingCrfs = Arrays.asList(sidArr);         
+        }
         LinkedHashMap<CRF,Boolean> crfListMap = new LinkedHashMap<CRF,Boolean>();
+        CRF crf;
+        boolean crfExists;
         for (StudyParticipantCrf studyParticipantCrf : participantCommand.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
-            CRF crf = studyParticipantCrf.getCrf();
-            boolean crfExists = false;
+            crf = studyParticipantCrf.getCrf();
+            crfExists = false;
             for(StudyParticipantCrfSchedule studyParticipantCrfSchedule:studyParticipantCrf.getStudyParticipantCrfSchedules()){
                 if(listExistingCrfs.contains(studyParticipantCrfSchedule.getId().toString())){
-                      crfExists =true;
+                      crfExists = true;
                       break;
                 }
             }
-            if (crf.getChildCrf() == null) {
+            if (crf.getChildCrf() == null && !crf.isHidden()) {
                 crfListMap.put(crf,crfExists);
             }
         }
