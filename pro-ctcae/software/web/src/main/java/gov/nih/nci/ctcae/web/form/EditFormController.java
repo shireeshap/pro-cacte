@@ -75,26 +75,28 @@ public class EditFormController extends FormController {
             formDetailsTab.setProCtcQuestionRepository(proCtcQuestionRepository);
             formDetailsTab.setProCtcTermRepository(proCtcTermRepository);
             flow.addTab(formDetailsTab);
-        }
-        CalendarTemplateTab calendarTemplateTab = new CalendarTemplateTab();
-        calendarTemplateTab.setCrfRepository(crfRepository);
-        calendarTemplateTab.setStudyRepository(studyRepository);
-        flow.addTab(calendarTemplateTab);
+            
+            CalendarTemplateTab calendarTemplateTab = new CalendarTemplateTab();
+            calendarTemplateTab.setCrfRepository(crfRepository);
+            calendarTemplateTab.setStudyRepository(studyRepository);
+            flow.addTab(calendarTemplateTab);
 
-        if (myOrgStudyLevel != null || loggedInUser.isAdmin()) {
-            FormRulesTab formRulesTab = new FormRulesTab();
-            formRulesTab.setCrfRepository(crfRepository);
-            formRulesTab.setProCtcTermRepository(proCtcTermRepository);
-            formRulesTab.setGenericRepository(genericRepository);
-            flow.addTab(formRulesTab);
-        } else {
-            if (myOrgSiteLevel != null) {
-                SiteRulesTab siteRulesTab = new SiteRulesTab();
-                siteRulesTab.setGenericRepository(genericRepository);
-                flow.addTab(siteRulesTab);
+            if (myOrgStudyLevel != null || loggedInUser.isAdmin()) {
+                FormRulesTab formRulesTab = new FormRulesTab();
+                formRulesTab.setCrfRepository(crfRepository);
+                formRulesTab.setProCtcTermRepository(proCtcTermRepository);
+                formRulesTab.setGenericRepository(genericRepository);
+                flow.addTab(formRulesTab);
+            } else {
+                if (myOrgSiteLevel != null) {
+                    SiteRulesTab siteRulesTab = new SiteRulesTab();
+                    siteRulesTab.setGenericRepository(genericRepository);
+                    flow.addTab(siteRulesTab);
 
+                }
             }
         }
+
         EmptyFormTab emptyFormTab = new EmptyFormTab("form.tab.overview", "form.tab.overview", "form/confirmForm");
         emptyFormTab.setCrfRepository(crfRepository);
         flow.addTab(emptyFormTab);
