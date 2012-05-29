@@ -706,9 +706,9 @@ function addIVRSRemoveEmailClassName(id) {
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    if ($('participant.emailAddress_' + id) != null) {
-        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
-    }
+//    if ($('participant.emailAddress_' + id) != null) {
+//        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+//    }
     $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
@@ -718,9 +718,9 @@ function addIVRSRemoveEmailClassName(id) {
     $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-    if (participantId == "") {
-        $('participant.emailAddress_' + id).value = "";
-    }
+//    if (participantId == "") {
+//        $('participant.emailAddress_' + id).value = "";
+//    }
 }
 
 function removeEmailClassName(id) {
@@ -729,7 +729,7 @@ function removeEmailClassName(id) {
         participantId = "${patientId}";
     }
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+//    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
@@ -739,7 +739,7 @@ function removeEmailClassName(id) {
     $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
     if (participantId == "") {
-        $('participant.emailAddress_' + id).value = "";
+//        $('participant.emailAddress_' + id).value = "";
         $('participant.userNumber_' + id).value = "";
         $('participant.phoneNumber_' + id).value = "";
         $('participant.pinNumber_' + id).value = "";
@@ -783,14 +783,14 @@ function showEmail(id, val) {
 //        alert("checked");
 //        jQuery('#participantEmail_' + id).show();
 //        jQuery('#emailHeader_' + id).show();
-        $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
+        $('participant.email_' + id).addClassName("validate-NOTEMPTY");
 //        jQuery('#webLang_' + id).show();
 //        addEmailClassName(id);
     }
     else {
 //        jQuery('#participantEmail_' + id).hide();
 //        jQuery('#emailHeader_' + id).hide();
-        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
+        $('participant.email_' + id).removeClassName("validate-NOTEMPTY");
 //        removeEmailClassName(id);
     }
 //    checkError();
@@ -852,6 +852,7 @@ function showOrHideEmail(value1, value2, id) {
         $('participant.password_' + id).addClassName("validate-NOTEMPTY");
         $('participant.confirmPassword_' + id).addClassName("validate-NOTEMPTY");
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
+        $('participant.email_' + id).addClassName("validate-NOTEMPTY");
     }
 
     if (!value1 && value2 == "HOMEWEB"){
@@ -864,6 +865,7 @@ function showOrHideEmail(value1, value2, id) {
         $('participant.username_' + id).removeClassName("validate-NOTEMPTY");
         $('participant.password_' + id).removeClassName("validate-NOTEMPTY");
         $('participant.confirmPassword_' + id).removeClassName("validate-NOTEMPTY");
+        $('participant.email_' + id).removeClassName("validate-NOTEMPTY");
     }
 
     if (value1 && value2 == "HOMEBOOKLET") {

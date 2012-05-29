@@ -289,7 +289,7 @@
                                        value="${studyParticipantAssignment.participant.emailAddress}"
                                        id="participant.email_${studysite.id}"
                                        onblur="checkParticipantEmail(${studysite.id});" title="Email"
-                                       class="${showWeb eq true ? "validate-NOTEMPTY":""}"/> &nbsp;&nbsp;
+                                       class="${showWeb eq true ? "":""}"/> &nbsp;&nbsp;
 
                                 <ul id="userEmailError_${studysite.id}" style="display:none; padding-left:12em "
                                     class="errors">
