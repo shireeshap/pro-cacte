@@ -144,7 +144,7 @@ public class ParticipantSchedule {
                             for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
                                 if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
                                     for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-                                        if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED))) {
+                                        if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED) || spcs.getStatus().equals(CrfStatus.PASTDUE))) {
                                             alreadyExists = true;
                                             break;
                                         }
@@ -153,13 +153,6 @@ public class ParticipantSchedule {
                             }
                         }
 
-
-//                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-//                            if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-//                                alreadyExists = true;
-//                                break;
-//                            }
-//                        }
                         if (!alreadyExists) {
                             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);

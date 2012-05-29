@@ -367,10 +367,10 @@ public class StudyParticipantCrf extends BaseVersionable {
         return result;
     }
 
-    public void removeCrfSchedules(CrfStatus status) {
+    public void removeCrfSchedules(CrfStatus status, Date effectiveStartDate) {
         List<StudyParticipantCrfSchedule> l = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-            if (status.equals(studyParticipantCrfSchedule.getStatus())) {
+            if (status.equals(studyParticipantCrfSchedule.getStatus()) && (effectiveStartDate.equals(studyParticipantCrfSchedule.getStartDate()) || effectiveStartDate.before(studyParticipantCrfSchedule.getStartDate()))) {
                 l.add(studyParticipantCrfSchedule);
             }
         }

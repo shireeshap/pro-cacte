@@ -119,7 +119,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             if (isOlderVersionStudyParticipantCrf(crf, studyParticipantCrf)) {
-                studyParticipantCrf.removeCrfSchedules(CrfStatus.SCHEDULED);
+                studyParticipantCrf.removeCrfSchedules(CrfStatus.SCHEDULED, crf.getEffectiveStartDate());
                 addParticipantAddedQuestionsToStudyParticipantCrf(crf, studyParticipantCrf, newStudyParticipantCrf);
                 genericRepository.create(studyParticipantCrf);
             }
