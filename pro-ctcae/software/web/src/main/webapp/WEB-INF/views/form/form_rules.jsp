@@ -94,11 +94,14 @@
             <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}"/>
         </c:forEach>
         <div id="hiddenDiv"></div>
-        <div align="left" style="margin-left:2em">
-            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
-                         value="form.rules.add_rule"
-                         icon="add"/>
-        </div>
+        
+        <table>
+		    <tr>
+		    	<td width="25%"></td>
+		        <td><tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule" icon="add"/></td>
+		    </tr>
+    	</table>
+            
     </jsp:attribute>
 </tags:tabForm>
 </body>
