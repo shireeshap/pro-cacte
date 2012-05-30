@@ -236,63 +236,54 @@
 </script>
 
 <body>
-<chrome:box title="study.label.search" autopad="true">
+<chrome:box title="study.label.search" >
     <form method="POST" action="searchStudy#searchResults">
         <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
         <input name="useReqParam" value="true" type="hidden"/>
         <tags:instructions code="study.search.top"/>
-
-        <div class="row" name="inputs">
-            <table border="0" width="100%">
+   		<br/>
+        <div>
+            <table width="100%">
                 <tr>
-                    <td>
-                        <div class="label"><tags:message code='study.label.search_by'/></div>
-                        <div class="value">
-                            <input type="text" id="searchText" name="searchText" size="25"
-                                   onblur="isSpclChar('searchText');" value="${searchText}">
-                             <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-                            <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
-                                <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
-                            </ul>
-                            <div id="error"></div>
-                        </div>
+                    <td  width="75%" align="center">
+                        <input type="text" id="searchText" name="searchText" size="50" maxlength="50" style="width: 360px;"
+                               onblur="isSpclChar('searchText');" value="${searchText}">
+                        <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
+                            <li><spring:message code='special.character.message' text='special.character.message'/></li>
+                        </ul>
+                        <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                        <tags:indicator id="indicator"/>
+                        <div id="error"></div>
+			        </td>
+			        <td width="25%" align="right">
+	                     <tags:button color="blue" markupWithTag="a" id="newStudy" icon="add"
+			                          value="Create Study" href="/proctcae/pages/study/createStudy"/>
+			        </td>
+		        </tr>
+        	</table>
+        	<br/><br/>
         </div>
-        </td>
-        <td align="right">
-            <div class="row">
-                <div class="label"></div>
-                <div style="padding-left:145px">
-                     <tags:button color="blue" markupWithTag="a" id="newStudy" icon="add"
-                                         value="Create Study"
-                                         href="/proctcae/pages/study/createStudy"/>
-                </div>
-            </div>
-
-        </td>
-        </tr>
-        </table>
         <input type="hidden" name="sort" value="${sort}" id="sort"/>
         <input type="hidden" name="page" value="${page}" id="page"/>
         <input type="hidden" name="rowsPerPage" value="${rowsPerPage}" id="rowsPerPage"/>
         <input type="hidden" name="sortDir" value="${sortDir}" id="sortDir"/>
         <input type="hidden" name="doSort" value="false" id="doSort"/>
     </form>
+    
     <div class="yui-skin-sam">
-        <table width="100%">
+		<table width="100%">
             <tr>
                 <td width="68%">
                     <div id="pag"></div>
                 </td>
-                <td width="32%">
+                <td width="32%" align="right">
                     <div> Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
                                 title="Show/Hide Columns">
                             <option value="assignedIdentifier" selected="selected">Study identifier</option>
                             <option value="shortTitle" selected="selected">Short title</option>
                             <option value="fundingSponsorDisplayName" selected="selected">Funding sponsor</option>
-                            <option value="coordinatingCenterDisplayName" selected="selected">Coordinating center
-                            </option>
+                            <option value="coordinatingCenterDisplayName" selected="selected">Coordinating center</option>
                         </select>
                     </div>
                 </td>

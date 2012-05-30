@@ -219,55 +219,52 @@
 
 </head>
 <body>
-<chrome:box title="" autopad="true">
-<form method="POST" action="manageForm">
-    <input name="useReqParam" value="true" type="hidden"/>
-    <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
+<chrome:box title="Manage" autopad="true">
+	<form method="POST" action="manageForm">
+	    <input name="useReqParam" value="true" type="hidden"/>
+	    <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
+	
+	    <tags:instructions code="crf.search.top"/>
+	    <br/>
+	    	<div>
+		    	<table width="100%">
+		    		<tr>
+		    			<td width="75%" align="center">
+				            <input type="text" id="searchString" name="searchString" style="width: 360px;"
+				                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}"/>
+				            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
+				                    <li><spring:message code='special.character.message' text='special.character.message'/></li>
+				            </ul>
+				            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+				            <tags:indicator id="indicator"/>
+		    			</td>
+		    			<td width="25%" align="right"><tags:button color="blue" markupWithTag="a" icon="createForm" type="button" value='Create Form' href="/proctcae/pages/form/basicForm" /></td>
+		    		</tr>
+		    	</table>
+  	        	<br/><br/>
+	        </div>
+	</form>
 
-    <tags:instructions code="crf.search.top"/>
-    <br/>
-    	<div>
-	    	<table width="100%">
-	    		<tr>
-	    			<td width="75%" align="center">
-
-			            <input type="text" id="searchString" name="searchString"
-			                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}"/>
-			            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
-			                    <li><spring:message code='special.character.message' text='special.character.message'/></li>
-			            </ul>
-			            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
-			            <tags:indicator id="indicator"/>
-	    			</td>
-	    			<td width="25%" align="right"><tags:button color="blue" markupWithTag="a" icon="createForm" type="button" value='Create Form' href="/proctcae/pages/form/basicForm" /></td>
-	    		</tr>
-	    	</table>
-        </div>
-</form>
-</chrome:box>
-
-<chrome:box title="Results">
     <div id="noForm">
         <proctcae:urlAuthorize url="/pages/form/basicForm">
-            <table width="99%">
+            <table width="100%">
                 <tr>
                     <td align="right">
                         <tags:button color="blue" markupWithTag="a" id="hiddenForms" value="View hidden forms" size="small" href="hiddenForms"/>
                     </td>
                 </tr>
             </table>
-            <%--<tags:instructions code="form.manage.instructions"/>--%>
         </proctcae:urlAuthorize>
     </div>
 
 
     <div class="yui-skin-sam">
-        <table width="99%">
+        <table width="100%">
             <tr>
-                <td width="69%">
+                <td width="72%">
                     <div id="pag"></div>
                 </td>
-                <td width="30%" align="right">
+                <td width="28%" align="right">
                     Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple" title="Show/Hide Columns">
                             <option value="title" selected="selected">Title</option>

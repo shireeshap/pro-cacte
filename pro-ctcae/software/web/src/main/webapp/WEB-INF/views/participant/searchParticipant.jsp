@@ -201,6 +201,7 @@
 </script>
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">
+
     <form method="POST" action="search#searchResults">
         <input name="useReqParam" value="true" type="hidden"/>
         <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}"/>
@@ -208,52 +209,33 @@
         <tags:instructions code="participant.search.top"/>
         <table border="0" width="100%">
             <tr>
-                <td>
-                    <div class="row">
-                        <div class="label">
-                                <%--<spring:message code='participant.label.search_string' text=''/>--%>
-                        </div>
-                        <div class="value IEdivValueHack">
-                            <input type="text" id="searchString" name="searchString"
-                                   onblur="isSpclChar('searchString');"
-                                   maxlength="30" size="30"
-                                   value="${searchString}"/>
-                            <tags:button color="blue" icon="search" type="button" value='Search'
-                                         onclick="submitForm();"/>
-                            <tags:indicator id="indicator"/>
-                            <ul id="searchString.error" style="display:none;" class="errors">
-                                <li><spring:message code='special.character.message'
-                                                    text='special.character.message'/></li>
-                            </ul>
-                        </div>
-                    </div>
+                <td width="75%" align="center">
+                    <input type="text" id="searchString" name="searchString" style="width: 360px;"
+                           onblur="isSpclChar('searchString');"
+                           maxlength="50" size="50" value="${searchString}"/>
+                    <tags:button color="blue" icon="search" type="button" value='Search'
+                                 onclick="submitForm();"/>
+                    <tags:indicator id="indicator"/>
+                    <ul id="searchString.error" style="display:none;" class="errors">
+                        <li><spring:message code='special.character.message' text='special.character.message'/></li>
+                    </ul>
                 </td>
                 <td align="right">
-                    <div class="row">
-                        <div class="label"></div>
-
-                        <div style="float:right;">
-                            <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add"
-                                         value="Add Participant"
-                                         href="/proctcae/pages/participant/create"/>
-                        </div>
-                    </div>
+                    <tags:button color="blue" markupWithTag="a" id="newParticipant" icon="add"
+                                 value="Add Participant" href="/proctcae/pages/participant/create" />
                 </td>
             </tr>
         </table>
-
-
     </form>
-    <%--</chrome:box>--%>
-    <br>
-    <%--<chrome:box title="Results">--%>
+    <br /><br />
+    
     <div class="yui-skin-sam">
         <table width="100%">
             <tr>
-                <td width="72%">
+                <td width="73%">
                     <div id="pag"></div>
                 </td>
-                <td width="28%">
+                <td width="27%" align="right">
                     <div> Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
                                 title="Show/Hide Columns">
@@ -271,7 +253,6 @@
         <div id="basic"></div>
     </div>
 </chrome:box>
-
 
 </body>
 </html>
