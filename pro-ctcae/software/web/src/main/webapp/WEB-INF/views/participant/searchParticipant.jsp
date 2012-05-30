@@ -197,8 +197,8 @@
         }
                 );
     });
-
 </script>
+
 <body>
 <chrome:box title="participant.label.search_criteria" autopad="true">
 

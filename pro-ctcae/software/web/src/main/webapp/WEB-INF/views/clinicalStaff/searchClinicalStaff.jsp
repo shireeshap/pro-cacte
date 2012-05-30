@@ -4,6 +4,7 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
 <head>
     <tags:includePrototypeWindow/>
@@ -207,8 +208,8 @@
         }
                 );
     });
-
 </script>
+
 <body>
 <chrome:box title="clinicalStaff.box.searchCriteria">
     <form method="POST" action="searchClinicalStaff">
