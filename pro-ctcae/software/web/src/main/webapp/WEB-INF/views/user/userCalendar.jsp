@@ -21,66 +21,6 @@
     <script type="text/javascript">
 
 
-        //function showDetailsWindow(index) {
-        //    var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
-        //        onComplete:function(transport) {
-        //            showConfirmationWindow(transport, 650, 300);
-        //        },
-        //        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
-        //        method:'get'
-        //    })
-        //}
-        <%----%>
-        <%----%>
-        //function getCalendar(index, parameters, pid) {
-        //    var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
-        //        onComplete:function(transport) {
-        //            showCalendar(index, transport);
-        //        },
-        //        parameters:<tags:ajaxstandardparams/>+"&id=" + pid +"&index=" + index + "&" + parameters,
-        //        method:'get'
-        //    })
-        //}
-        <%----%>
-        //function showCalendar(index, transport) {
-        //    var items = $('calendar_' + index + '_outer').childElements();
-        //    var len = items.length;
-        //    for (var i = 0; i < len; i++) {
-        //        if (items[i].id != 'calendar_' + index + '_inner') {
-        //            items[i].remove();
-        //        }
-        //    }
-        //    new Insertion.After('calendar_' + index + '_inner', transport.responseText);
-        //}
-
-
-        //function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
-        //    var html = '';
-        //    var menuindex = date;
-        //    var holdDate = date;
-        //    if (sid == null) {
-        <%----%>
-        <%----%>
-        //        var html = '<div id="search-engines"><ul>';
-        <%--html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Show details</a></li>';--%>
-        <%----%>
-        //        html += '</ul></div>';
-        //    }
-        //    jQuery('#scheduleActions' + menuindex).menu({
-        //        content: html,
-        //        maxHeight: 350,
-        //        positionOpts: {
-        //            directionV: 'down',
-        //            posX: 'left',
-        //            posY: 'bottom',
-        //            offsetX: 0,
-        //            offsetY: 0
-        //        },
-        //        showSpeed: 300
-        //    });
-        //}
-
-
     </script>
     <style type="text/css">
 
@@ -93,16 +33,16 @@
     <tr class="header">
     <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
     <img height="17" width="29"
-    onmousedown="applyCalendar('${index}','prev');return false;"
+    onmousedown="applyCalendar(0,'prev');return false;"
     alt="Earlier"
     src="/proctcae/images/blank.gif"
     class="navbutton navBack"/>
     <img height="17" width="29"
-    onmousedown="applyCalendar('${index}','next');return false;" alt="Later"
+    onmousedown="applyCalendar(0,'next');return false;" alt="Later"
     src="/proctcae/images/blank.gif"
     class="navbutton navForward"/>
-    <b> <fmt:formatDate value="${proCtcAeCalendar.time}" pattern="MMM"/> - <fmt:formatDate
-    value="${proCtcAeCalendar.time}" pattern="yyyy"/></b>
+    <b> <fmt:formatDate value="${userCalendarCommand.proCtcAECalendar.time}" pattern="MMM"/> - <fmt:formatDate
+    value="${userCalendarCommand.proCtcAECalendar.time}" pattern="yyyy"/></b>
     </td>
     </tr>
     <tr class="header">
@@ -115,7 +55,7 @@
         <td class="header">Sat</td>
     </tr>
     <%--${proCtcAeCalendar}--%>
-    <c:forEach items="${proCtcAeCalendar.htmlCalendar}" var="week">
+    <c:forEach items="${userCalendarCommand.proCtcAECalendar.htmlCalendar}" var="week">
         <tr>
             <c:forEach items="${week}" var="day" varStatus="status">
                 <td class="data">
@@ -126,7 +66,7 @@
                         </c:when>
                         <c:otherwise>
                              <c:set var="hasSchedules" value="false"/>
-                            <c:forEach items="${schedules}" var="schedule">
+                            <c:forEach items="${userCalendarCommand.scheduleDates}" var="schedule">
                                     <c:if test="${schedule.key eq day}">
                                         <c:set var="hasSchedules" value="true"/>
                                         <c:set var="currentSchedule" value="${schedule}"/>
