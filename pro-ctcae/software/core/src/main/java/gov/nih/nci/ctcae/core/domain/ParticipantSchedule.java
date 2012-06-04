@@ -84,6 +84,9 @@ public class ParticipantSchedule {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 Date startDate = studyParticipantCrfSchedule.getStartDate();
+                if (proCtcAECalendar.isDateAfterMonth(startDate)){
+                    break;
+                }
                 if (proCtcAECalendar.isDateWithinMonth(startDate) && !studyParticipantCrf.getCrf().isHidden()) {
                     currentMonthSchedules.add(studyParticipantCrfSchedule);
                 } else if (proCtcAECalendar.isDateWithinMonth(startDate) && studyParticipantCrf.getCrf().isHidden() && (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED))) {

@@ -2905,6 +2905,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.jav
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/UserAjaxFacade.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/UserCalendarCommand.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/UserCalendarController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/software/web/src/main/resources/MedDRA12_symptoms_ES_prelim.csv -text
@@ -3186,6 +3188,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -te
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/userCalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/web.xml -text
 pro-ctcae/software/web/src/main/webapp/accessDenied.jsp -text
 pro-ctcae/software/web/src/main/webapp/css/ae.css -text

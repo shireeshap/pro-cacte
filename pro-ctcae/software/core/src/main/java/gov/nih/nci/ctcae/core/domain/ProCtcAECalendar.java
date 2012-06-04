@@ -169,6 +169,17 @@ public class ProCtcAECalendar {
 
     }
 
+    public boolean isDateAfterMonth(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
+        String monYear = sdf.format(date);
+
+        int month = Integer.parseInt(monYear.substring(0, monYear.indexOf('-')));
+        int year = Integer.parseInt(monYear.substring(monYear.indexOf('-') + 1));
+
+        return calendar.get(Calendar.MONTH) + 1 < month && calendar.get(Calendar.YEAR) == year;
+
+    }
+
     /**
      * Adds the.
      *

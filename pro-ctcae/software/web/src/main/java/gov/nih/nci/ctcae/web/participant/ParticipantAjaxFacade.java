@@ -72,6 +72,29 @@ public class ParticipantAjaxFacade {
         return participantRepository.findWithCount(participantQuery);
     }
 
+    public List<Participant> getParticipantList() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        boolean siteStaff = false;
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
+                siteStaff = true;
+            } else {
+                leadStaff = true;
+            }
+        }
+        ParticipantQuery participantQuery;
+        if (leadStaff) {
+            participantQuery = new ParticipantQuery(true, false, false);
+        } else {
+            participantQuery = new ParticipantQuery(true, false, true);
+        }
+        List<Participant> participants = (List<Participant>) participantRepository
+                .find(participantQuery);
+        return  participants;
+    }
+
     public List<Participant> getParticipantObjects(String[] searchTexts, Integer startIndex, Integer results, String sortField, String direction) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
