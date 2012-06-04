@@ -38,7 +38,6 @@ public class StudyTestHelper {
         thirdTab_OverallStudyStaff(study);
         fourthTab_SiteClinicalStaff();
         addCCA();
-
         study = studyRepository.save(study);
     }
 
@@ -112,7 +111,12 @@ public class StudyTestHelper {
     private static void addOrUpdateStudyOrganizationClinicalStaff(String nciId, Role role, StudyOrganization so) {
         StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
         socs.setRole(role);
-        socs.setOrganizationClinicalStaff(ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId));
+        OrganizationClinicalStaff organizationClinicalStaffByNciIdentifier = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId);
+        if (organizationClinicalStaffByNciIdentifier == null) {
+            ClinicalStaffTestHelper.createDefaultClinicalStaff();
+            organizationClinicalStaffByNciIdentifier = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId);
+        }
+        socs.setOrganizationClinicalStaff(organizationClinicalStaffByNciIdentifier);
         so.addOrUpdateStudyOrganizationClinicalStaff(socs);
 
     }
