@@ -52,7 +52,7 @@
                                         <c:when test="${hasSchedules eq true}">
                                             <div style="float:right"><a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions${day}" onclick="javascript:showPopUpMenuAlert('${day}')"><span class="ui-icon ui-icon-triangle-1-s"></span></a></div>
                                             <div id="schedule_${day}" class="blue" style="text-align:center;" title="">
-                                                                <br><br>   ${fn:length(currentSchedule.value)}
+                                                                <br><br>   ${fn:length(currentSchedule.value)} schedule<c:if test="${fn:length(currentSchedule.value)>1}">s</c:if>
                                             </div>
                                         </c:when>
 
