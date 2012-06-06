@@ -8,17 +8,14 @@ import java.util.List;
 import java.util.TreeMap;
 
 /**
- * Created by IntelliJ IDEA.
- * User: allareddy
+ * @author allareddy
  * Date: 6/1/12
- * Time: 2:36 PM
- * To change this template use File | Settings | File Templates.
  */
 public class UserCalendarCommand {
 
     private List<Participant> participants = new ArrayList<Participant>();
     private ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
-    private TreeMap<Integer, List<StudyParticipantCrfSchedule>> scheduleDates = new TreeMap();
+    private TreeMap<Integer, List<StudyParticipantCrfSchedule>> scheduleDates;
 
 
     public ProCtcAECalendar getProCtcAECalendar() {
@@ -46,6 +43,7 @@ public class UserCalendarCommand {
     }
 
     public void setCurrentMonthScheduleMap() {
+        scheduleDates = new TreeMap();
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
           for (Participant participant : participants) {
            List<StudyParticipantCrf> studyParticipantCrfs = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs();

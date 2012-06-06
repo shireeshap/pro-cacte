@@ -2902,6 +2902,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormat
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/FormTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/DisplayUserCalendarController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/UserAjaxFacade.java -text
@@ -3059,6 +3060,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/userCalendar.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/view_form_thirdlevelmenu.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/yuiAutocompleter.tag -text
@@ -3188,6 +3190,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -te
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/ajax/displayUserCalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/userCalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/web.xml -text
 pro-ctcae/software/web/src/main/webapp/accessDenied.jsp -text

@@ -29,8 +29,6 @@ public class UserCalendarController extends AbstractController {
         userCalendarCommand.setCurrentMonthScheduleMap();
         modelAndView.addObject("userCalendarCommand", userCalendarCommand);
         request.getSession().setAttribute("userCalendarCommandObj", userCalendarCommand);
-//        request.getSession().getAttribute("userCalendarCommandObj");
-
         return modelAndView;
     }
 
