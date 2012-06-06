@@ -7,7 +7,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -26,7 +25,7 @@ public class UserCalendarController extends AbstractController {
         List<Participant> participants = participantAjaxFacade.getParticipantList();
         userCalendarCommand.setParticipants(participants);
         userCalendarCommand.setProCtcAECalendar(new ProCtcAECalendar());
-        userCalendarCommand.setCurrentMonthScheduleMap();
+        userCalendarCommand.createCurrentMonthScheduleMap();
         modelAndView.addObject("userCalendarCommand", userCalendarCommand);
         request.getSession().setAttribute("userCalendarCommandObj", userCalendarCommand);
         return modelAndView;

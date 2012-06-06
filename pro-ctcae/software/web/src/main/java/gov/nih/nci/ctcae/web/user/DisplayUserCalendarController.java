@@ -1,14 +1,11 @@
 package gov.nih.nci.ctcae.web.user;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.TreeMap;
 
 /**
  * @author mehul gulati
@@ -35,7 +32,7 @@ public class DisplayUserCalendarController extends AbstractController {
         if (direction.equals("refresh")) {
               userCalendarCommand.getProCtcAECalendar().add(0);
         }
-        userCalendarCommand.setCurrentMonthScheduleMap();
+        userCalendarCommand.createCurrentMonthScheduleMap();
         modelAndView.addObject("userCalendarCommand", userCalendarCommand);
         return modelAndView;
     }

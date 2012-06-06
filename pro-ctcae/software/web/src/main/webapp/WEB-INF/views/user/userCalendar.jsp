@@ -40,7 +40,33 @@
             new Insertion.After('calendar_inner', transport.responseText);
         }
 
+        function showDetailsWindow(day) {
+        var request = new Ajax.Request("<c:url value="/pages/user/dayScheduleDetails"/>", {
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 450, 300);
+                },
+        parameters:<tags:ajaxstandardparams/> +"&day=" + day,
+                method:'get'
+            })
+        }
 
+        function showPopUpMenuAlert(day) {
+            var html = '<div id="search-engines"><ul>';
+            html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + day + ');">Show details</a></li>';
+            html += '</ul></div>';
+            jQuery('#scheduleActions' + day).menu({
+                content: html,
+                maxHeight: 350,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                showSpeed: 300
+            });
+        }
     </script>
     <style type="text/css">
 

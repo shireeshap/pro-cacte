@@ -2902,6 +2902,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormat
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/FormTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/DayScheduleDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/DisplayUserCalendarController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/user/SearchNotificationWrapper.java -text
@@ -3191,6 +3192,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.j
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/ajax/displayUserCalendar.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/dayDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/user/userCalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/web.xml -text
 pro-ctcae/software/web/src/main/webapp/accessDenied.jsp -text

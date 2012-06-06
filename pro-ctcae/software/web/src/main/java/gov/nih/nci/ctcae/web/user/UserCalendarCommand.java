@@ -42,7 +42,7 @@ public class UserCalendarCommand {
         this.participants = participants;
     }
 
-    public void setCurrentMonthScheduleMap() {
+    public void createCurrentMonthScheduleMap() {
         scheduleDates = new TreeMap();
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
           for (Participant participant : participants) {

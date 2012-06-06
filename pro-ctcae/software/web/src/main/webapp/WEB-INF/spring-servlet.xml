@@ -403,7 +403,9 @@
     </bean>
 
     <bean name="/user/displayUserCalendar" id="dosplayUserCalendarController" class="gov.nih.nci.ctcae.web.user.DisplayUserCalendarController">
-         <!--<property name="participantAjaxFacade" ref="participantAjaxFacade"/>-->
+    </bean>
+
+    <bean name="/user/dayScheduleDetails" id="dayScheduleDetails" class="gov.nih.nci.ctcae.web.user.DayScheduleDetailsController">
     </bean>
 
      <bean name="/clinicalStaff/fetchClinicalStaff" id="fetchClinicalStaffController"
