@@ -19,8 +19,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
-//
-
 /**
  * The Class ParticipantController.
  *
@@ -38,11 +36,6 @@ public class EditParticipantController extends ParticipantController {
         flow.addTab(new ParticipantClinicalStaffTab());
         flow.addTab(new ScheduleCrfTab());
     }
-
-    //
-    /* (non-Javadoc)
-    * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-    */
 
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
@@ -117,11 +110,7 @@ public class EditParticipantController extends ParticipantController {
 
     @Override
     protected int getTargetPage(HttpServletRequest request, Object command, Errors errors, int currentPage) {
-        int targetPage = super.getTargetPage(request, command, errors, currentPage);
-        if (currentPage == targetPage) {
-            targetPage = 0;
-        }
-        return targetPage;
+        return super.getTargetPage(request, command, errors, currentPage);
     }
 
     @Required
