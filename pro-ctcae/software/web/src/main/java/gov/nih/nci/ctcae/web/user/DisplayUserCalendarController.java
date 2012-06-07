@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.user;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -9,31 +10,42 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author mehul gulati
- * Date: 5/18/12
+ *         Date: 5/18/12
  */
 
 public class DisplayUserCalendarController extends AbstractController {
+    private StudyParticipantCrfScheduleRepository spcsRepository;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
         UserCalendarCommand userCalendarCommand = (UserCalendarCommand) request.getSession().getAttribute("userCalendarCommandObj");
+        if (userCalendarCommand == null) {
+            userCalendarCommand = new UserCalendarCommand();
+            userCalendarCommand.setProCtcAECalendar(new ProCtcAECalendar());
+            userCalendarCommand.setSpcsRepository(spcsRepository);
+        }
         ModelAndView modelAndView = new ModelAndView("user/ajax/displayUserCalendar");
         String direction = request.getParameter("dir");
         ProCtcAECalendar proCtcAECalendar = userCalendarCommand.getProCtcAECalendar();
         if (direction.equals("prev")) {
             proCtcAECalendar.add(-1);
-              userCalendarCommand.setProCtcAECalendar(proCtcAECalendar);
+            userCalendarCommand.setProCtcAECalendar(proCtcAECalendar);
         }
         if (direction.equals("next")) {
-              proCtcAECalendar.add(1);
+            proCtcAECalendar.add(1);
             userCalendarCommand.setProCtcAECalendar(proCtcAECalendar);
         }
         if (direction.equals("refresh")) {
-              userCalendarCommand.getProCtcAECalendar().add(0);
+            userCalendarCommand.getProCtcAECalendar().add(0);
         }
         userCalendarCommand.createCurrentMonthScheduleMap();
         modelAndView.addObject("userCalendarCommand", userCalendarCommand);
+        request.getSession().setAttribute("userCalendarCommandObj", userCalendarCommand);
         return modelAndView;
+    }
+
+    public void setSpcsRepository(StudyParticipantCrfScheduleRepository spcsRepository) {
+        this.spcsRepository = spcsRepository;
     }
 }

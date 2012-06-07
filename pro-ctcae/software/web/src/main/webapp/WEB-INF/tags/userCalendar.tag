@@ -4,10 +4,10 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<div id='ajaxLoadingImgDiv' style="display:none;left:450px;position:absolute;top:200px;">
+<div id='ajaxLoadingImgDiv' style="display:none;left:400px;position:absolute;top:550px;">
  <img src="<tags:imageUrl name="ajax-loading.gif"/>" />
     </div>
-<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="50%">
     <tr class="header">
     <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
     <img height="17" width="29"
@@ -54,7 +54,8 @@
                                         <c:when test="${hasSchedules eq true}">
                                             <div style="float:right"><a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions${day}" onclick="javascript:showPopUpMenuAlert('${day}')"><span class="ui-icon ui-icon-triangle-1-s"></span></a></div>
                                             <div id="schedule_${day}" class="blue" style="text-align:center;" title="">
-                                                                <br><br>   ${fn:length(currentSchedule.value)} schedule<c:if test="${fn:length(currentSchedule.value)>1}">s</c:if>
+                                       <br><br> <c:if test="${fn:length(currentSchedule.value) eq 1}">Form (${fn:length(currentSchedule.value)})</c:if>
+                                                <c:if test="${fn:length(currentSchedule.value)>1}">Multiple forms (${fn:length(currentSchedule.value)})</c:if>
                                             </div>
                                         </c:when>
 

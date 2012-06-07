@@ -5,6 +5,13 @@
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
+<jsp:useBean id="today" class="java.util.Date"/>
+<c:set var="fDate" value='<tags:formatDate value="${today}"/>'/>
+<tags:includeScriptaculous/>
+<tags:includePrototypeWindow/>
+<tags:stylesheetLink name="cycledefinitions"/>
+    <tags:javascriptLink name="cycledefinitions"/>
+    <%--<tags:javascriptLink name="yui"/>--%>
 <tags:stylesheetLink
         name="table_menu"/><tags:includeScriptaculous/><tags:includePrototypeWindow/><tags:formBuilder/><tags:formActionMenu/>
 <style type="text/css">
@@ -177,10 +184,10 @@ function deleteMsg(id, uuid) {
     }
 }
 
-function removeOverdueSchedule (id) {
-    if (id!='') {
+function removeOverdueSchedule(id) {
+    if (id != '') {
         var request = new Ajax.Request("<c:url value="/public/removeOverdue"/>", {
-           parameters:<tags:ajaxstandardparams/>+"&sid=" + id,
+            parameters:<tags:ajaxstandardparams/>+"&sid=" + id,
             onComplete:function(transport) {
                 updateOverdueTable();
             },
@@ -189,19 +196,20 @@ function removeOverdueSchedule (id) {
     }
 }
 
-function updateOverdueTable(){
-      sortState = myOverdueFormsDataTable.getState().sortedBy;
-      var sort = sortState ? sortState.key : "id";
-      var dir = sortState ? sortState.dir : "yui-dt-desc";
-      myOverdueFormsDataTable.sortColumn(myOverdueFormsDataTable.getColumn(sort),dir);
+function updateOverdueTable() {
+    sortState = myOverdueFormsDataTable.getState().sortedBy;
+    var sort = sortState ? sortState.key : "id";
+    var dir = sortState ? sortState.dir : "yui-dt-desc";
+    myOverdueFormsDataTable.sortColumn(myOverdueFormsDataTable.getColumn(sort), dir);
 }
 
-function updateAlertsTable(){
-      sortState = myAlertsDataTable.getState().sortedBy;
-      var sort = sortState ? sortState.key : "id";
-      var dir = sortState ? sortState.dir : "yui-dt-desc";
-      myAlertsDataTable.sortColumn(myAlertsDataTable.getColumn(sort),dir);
-   };
+function updateAlertsTable() {
+    sortState = myAlertsDataTable.getState().sortedBy;
+    var sort = sortState ? sortState.key : "id";
+    var dir = sortState ? sortState.dir : "yui-dt-desc";
+    myAlertsDataTable.sortColumn(myAlertsDataTable.getColumn(sort), dir);
+}
+;
 
 
 jQuery("td.quickLinkBGon").mouseover(function() {
@@ -219,8 +227,69 @@ function moreRows() {
     refreshPage();
 }
 
+function loadMyCalendar() {
+    var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {
+        onComplete:function(transport) {
+            new Insertion.After('calendar_inner', transport.responseText);
+        },
+        method:'get'
+    })
+}
+
+function getCalendar(dir) {
+    $('ajaxLoadingImgDiv').show();
+    var request = new Ajax.Request("<c:url value="/pages/user/displayUserCalendar"/>", {
+        onComplete:function(transport) {
+            showCalendar(transport);
+            $('ajaxLoadingImgDiv').hide();
+        },
+        parameters:<tags:ajaxstandardparams/>+"&dir=" + dir,
+        method:'get'
+    })
+}
+
+function showCalendar(transport) {
+    var items = $('calendar_outer').childElements();
+    var len = items.length;
+    for (var i = 0; i < len; i++) {
+        if (items[i].id != 'calendar_inner') {
+            items[i].remove();
+        }
+    }
+    new Insertion.After('calendar_inner', transport.responseText);
+}
+
+function showDetailsWindow(day) {
+    var request = new Ajax.Request("<c:url value="/pages/user/dayScheduleDetails"/>", {
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 450, 300);
+        },
+        parameters:<tags:ajaxstandardparams/> +"&day=" + day,
+        method:'get'
+    })
+}
+
+function showPopUpMenuAlert(day) {
+    var html = '<div id="search-engines"><ul>';
+    html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + day + ');">Show details</a></li>';
+    html += '</ul></div>';
+    jQuery('#scheduleActions' + day).menu({
+        content: html,
+        maxHeight: 350,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+        },
+        showSpeed: 300
+    });
+}
+
 var myDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
+
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
             {key:"title", label:"Title", sortable:true,resizeable:false, width:238},
@@ -290,12 +359,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
 var myAlertsDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
+    getCalendar('refresh');
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
             {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:212},
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:250},
             {key:"date", label:"Date", formatter:"date", sortable:true, resizeable:false, width:100},
-			{key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
         ];
 
         var myAlertsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchAlerts?");
@@ -642,7 +712,6 @@ YAHOO.util.Event.addListener(window, "load", function() {
 });
 
 
-
 </script>
 </head>
 <body>
@@ -654,81 +723,10 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <%--<div class="panel">--%>
 <table width="100%" border="0">
 <tr>
-<td width="80%" valign="top">
+    <td width="80%" valign="top">
 
-    <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
-        <%--<chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">--%>
-            <%--<c:choose>--%>
-                <%--<c:when test="${empty numberofalerts}">--%>
-                    <%--<div style="margin-left:15px;">--%>
-                        <%--You have no alerts.--%>
-                    <%--</div>--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                    <%--<div id="alertsdiv">--%>
-                        <%--<table class="widget" cellpadding="3px;" width="100%">--%>
-                            <%--<tr>--%>
-                                <%--<td class="header-top1">--%>
-                                    <%--Date--%>
-                                <%--</td>--%>
-                                <%--<td class="header-top1">--%>
-                                    <%--Participant--%>
-                                <%--</td>--%>
-                                <%--<td class="header-top1">--%>
-                                    <%--Study--%>
-                                <%--</td>--%>
-                                <%--<td class="header-top1">--%>
-                                <%--</td>--%>
-                            <%--</tr>--%>
-                            <%--<c:forEach items="${notifications}" var="usernotification">--%>
-                                <%--<c:if test="${!usernotification.markDelete}">--%>
-                                    <%--<tr id="tr_${usernotification.id}"--%>
-                                            <%--<c:if test="${usernotification.new}">--%>
-                                                <%--class="bold"--%>
-                                            <%--</c:if>--%>
-                                        <%--<td>--%>
-                                            <%--<a class="link"--%>
-                                               <%--href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate--%>
-                                                    <%--value="${usernotification.notification.date}"/></a>--%>
-                                        <%--</td>--%>
-                                        <%--<td style="text-align:left">--%>
-                                            <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
-                                            <%--<a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"--%>
-                                               <%--class="link">--%>
-                                                <%--</proctcae:urlAuthorize>--%>
-                                                    <%--${usernotification.participant.displayName}--%>
-                                                <%--<proctcae:urlAuthorize url="/pages/reports/participantReport">--%>
-                                            <%--</a>--%>
-                                            <%--</proctcae:urlAuthorize>--%>
-                                        <%--</td>--%>
-                                        <%--<td>--%>
-                                            <%--<c:choose>--%>
-                                                <%--<c:when test="${fn:length(usernotification.study.shortTitle) > dl}">--%>
-                                                    <%--<div title="${usernotification.study.shortTitle}">--%>
-                                                            <%--${fn:substring(usernotification.study.shortTitle,0,dl)}...--%>
-                                                    <%--</div>--%>
-                                                <%--</c:when>--%>
-                                                <%--<c:otherwise>--%>
-                                                    <%--${usernotification.study.shortTitle}--%>
-                                                <%--</c:otherwise>--%>
-                                            <%--</c:choose>--%>
-                                        <%--</td>--%>
-                                        <%--<td>--%>
-                                            <%--<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"--%>
-                                               <%--id="alertActions${usernotification.id}"><span--%>
-                                                    <%--class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>--%>
-                                            <%--<script>--%>
-                                                <%--showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');--%>
-                                            <%--</script>--%>
-                                        <%--</td>--%>
-                                    <%--</tr>--%>
-                                <%--</c:if>--%>
-                            <%--</c:forEach>--%>
-                        <%--</table>--%>
-                    <%--</div>--%>
-                <%--</c:otherwise>--%>
-            <%--</c:choose>--%>
-        <%--</chrome:box>--%>
+        <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
+
             <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">
                 <div class="yui-skin-sam">
                     <table width="100%">
@@ -742,176 +740,192 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     </div>
                 </div>
             </chrome:box>
-    </c:if>
+        </c:if>
 
-</td>
+    </td>
 
-<td width="20%" valign="top" rowspan="6">
-    <%--<chrome:box title="Quick Links">--%>
-    <div style="padding-left:2px; padding-right:2px;">
-        <table width="100%" cellpadding="10" cellspacing="0" border="0">
-            <tr>
-                <proctcae:urlAuthorize url="/pages/participant/monitorForm">
-                    <td id="a1" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/userCalendar' />"
-                                                           class="quickLink">My Calendar</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-            <tr>
-                <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-                    <td id="a1" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
-                                                           class="quickLink">Create New Staff Profile</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-
-            <tr>
-                <proctcae:urlAuthorize url="/pages/form/basicForm">
-                    <td id="a2" class="quickLinkBGon"
-                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                        <div class="quickLinkRow">
-                            <div class="quickLinkPicture"><img
-                                    src="<c:url value="/images/blue/icons/basicFormController_icon.png"/>"
-                                    align="middle"
-                                    class="quickLink"></div>
-                            <div class="quickLinkLabel"><a href="<c:url value='/pages/form/basicForm' />"
-                                                           class="quickLink">Create new form</a></div>
-                        </div>
-                    </td>
-                </proctcae:urlAuthorize>
-            </tr>
-            <c:if test="${nurseLevelRole}">
+    <td width="20%" valign="top" rowspan="6">
+        <%--<chrome:box title="Quick Links">--%>
+        <div style="padding-left:2px; padding-right:2px;">
+            <table width="100%" cellpadding="10" cellspacing="0" border="0">
                 <tr>
-                    <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                        <td id="a3" class="quickLinkBGon"
-                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                            <div class="quickLinkRow">
-                                <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/scheduleCrfController_icon.png"/>"
-                                        align="middle"
-                                        class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/schedulecrf' />"
-                                                               class="quickLink">Manage schedule</a></div>
-                            </div>
-                        </td>
-                    </proctcae:urlAuthorize>
-                </tr>
-                <tr>
-                    <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                        <td id="a4" class="quickLinkBGon"
-                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                            <div class="quickLinkRow">
-                                <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/routineReportController_icon.png"/>"
-                                        align="middle"
-                                        class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/participantReport' />"
-                                                               class="quickLink">View reports</a></div>
-                            </div>
-                        </td>
-                    </proctcae:urlAuthorize>
-                </tr>
-            </c:if>
-            <c:if test="${siteLevelRole}">
-                <tr>
-                    <proctcae:urlAuthorize url="/pages/participant/create">
-                        <td id="a5" class="quickLinkBGon"
-                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                            <div class="quickLinkRow">
-                                <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/participantController_icon.png"/>"
-                                        align="middle"
-                                        class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/create' />"
-                                                               class="quickLink">Add new participant</a></div>
-                            </div>
-                        </td>
-                    </proctcae:urlAuthorize>
-                </tr>
-                <tr>
-                    <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                        <td id="a6" class="quickLinkBGon"
-                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                            <div class="quickLinkRow">
-                                <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
-                                        align="middle"
-                                        class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
-                                                               class="quickLink">My studies</a></div>
-                            </div>
-                        </td>
-                    </proctcae:urlAuthorize>
-                </tr>
-            </c:if>
-            <c:if test="${studyLevelRole || odc}">
-                <tr>
-                    <proctcae:urlAuthorize url="/pages/form/manageForm">
-                        <td id="a7" class="quickLinkBGon"
+                    <proctcae:urlAuthorize url="/pages/participant/monitorForm">
+                        <td id="a1" class="quickLinkBGon"
                             style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
                             <div class="quickLinkRow">
                                 <div class="quickLinkPicture"><img
                                         src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
                                         align="middle"
                                         class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/form/manageForm' />"
-                                                               class="quickLink">Manage forms</a></div>
+                                <div class="quickLinkLabel"><a href="" onclick="javascript:getCalendar('refresh');"
+                                                               class="quickLink">My Calendar</a></div>
                             </div>
                         </td>
                     </proctcae:urlAuthorize>
                 </tr>
                 <tr>
-                    <proctcae:urlAuthorize url="/pages/reports/report">
-                        <td id="a8" class="quickLinkBGon"
+                    <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+                        <td id="a1" class="quickLinkBGon"
                             style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
                             <div class="quickLinkRow">
                                 <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/reportSearchCriteriaController_icon.png"/>"
+                                        src="<c:url value="/images/blue/icons/searchClinicalStaffController_icon.png"/>"
                                         align="middle"
                                         class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/report' />"
-                                                               class="quickLink">Generate study report</a></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createClinicalStaff' />"
+                                                               class="quickLink">Create New Staff Profile</a></div>
                             </div>
                         </td>
                     </proctcae:urlAuthorize>
                 </tr>
 
                 <tr>
-                    <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                        <td id="a8" class="quickLinkBGon"
+                    <proctcae:urlAuthorize url="/pages/form/basicForm">
+                        <td id="a2" class="quickLinkBGon"
                             style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
                             <div class="quickLinkRow">
                                 <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                        src="<c:url value="/images/blue/icons/basicFormController_icon.png"/>"
                                         align="middle"
                                         class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
-                                                               class="quickLink">Search for existing study</a></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/form/basicForm' />"
+                                                               class="quickLink">Create new form</a></div>
                             </div>
                         </td>
                     </proctcae:urlAuthorize>
                 </tr>
-            </c:if>
-        </table>
-    </div>
+                <c:if test="${nurseLevelRole}">
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                            <td id="a3" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/scheduleCrfController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a
+                                            href="<c:url value='/pages/participant/schedulecrf' />"
+                                            class="quickLink">Manage schedule</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                            <td id="a4" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/routineReportController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a
+                                            href="<c:url value='/pages/reports/participantReport' />"
+                                            class="quickLink">View reports</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                </c:if>
+                <c:if test="${siteLevelRole}">
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/participant/create">
+                            <td id="a5" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/participantController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/create' />"
+                                                                   class="quickLink">Add new participant</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                            <td id="a6" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                                   class="quickLink">My studies</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                </c:if>
+                <c:if test="${studyLevelRole || odc}">
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/form/manageForm">
+                            <td id="a7" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a href="<c:url value='/pages/form/manageForm' />"
+                                                                   class="quickLink">Manage forms</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/reports/report">
+                            <td id="a8" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/reportSearchCriteriaController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a href="<c:url value='/pages/reports/report' />"
+                                                                   class="quickLink">Generate study report</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
 
-</td>
+                    <tr>
+                        <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                            <td id="a8" class="quickLinkBGon"
+                                style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                                <div class="quickLinkRow">
+                                    <div class="quickLinkPicture"><img
+                                            src="<c:url value="/images/blue/icons/searchStudyController_icon.png"/>"
+                                            align="middle"
+                                            class="quickLink"></div>
+                                    <div class="quickLinkLabel"><a href="<c:url value='/pages/study/searchStudy' />"
+                                                                   class="quickLink">Search for existing study</a></div>
+                                </div>
+                            </td>
+                        </proctcae:urlAuthorize>
+                    </tr>
+                </c:if>
+            </table>
+        </div>
+
+    </td>
+</tr>
+<tr>
+    <td>
+        <c:if test="${studyLevelRole || siteLevelRole}">
+                <chrome:box title="My Calendar" collapsable="true" id="mycalendar" collapsed="false">
+
+        <div id="calendar_outer">
+            <div id="calendar_inner"></div>
+            <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
+        </div>
+
+        </chrome:box>
+        </c:if>
+    </td>
 </tr>
 <tr>
     <td>
@@ -1010,96 +1024,96 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </tr>
 
 <%--<tr>--%>
-    <%--<td>--%>
-        <%--<c:if test="${siteLevelRole}">--%>
-            <%--<chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">--%>
-                <%--<c:choose>--%>
-                    <%--<c:when test="${empty overdue}">--%>
-                        <%--<div style="margin-left:15px;">--%>
-                            <%--You have no upcoming schedule.--%>
-                        <%--</div>--%>
-                    <%--</c:when>--%>
-                    <%--<c:otherwise>--%>
-                        <%--<div id="alertsdiv">--%>
-                            <%--<table class="widget" cellpadding="5px;">--%>
-                                <%--<tr>--%>
-                                    <%--<td class="header-top1" width="15%" style="text-align:left">--%>
-                                        <%--Participant--%>
-                                    <%--</td>--%>
-                                    <%--<td class="header-top1" width="45%" style="text-align:left">--%>
-                                        <%--Study--%>
-                                    <%--</td>--%>
-                                    <%--<td class="header-top1" width="20%" style="text-align:left">--%>
-                                        <%--Form title--%>
-                                    <%--</td>--%>
-                                    <%--<td class="header-top1" width="10%" style="text-align:left">--%>
-                                        <%--Start date--%>
-                                    <%--</td>--%>
-                                    <%--<td class="header-top1" width="10%" style="text-align:left">--%>
-                                        <%--Due date--%>
-                                    <%--</td>--%>
-                                <%--</tr>--%>
-                                <%--<c:forEach items="${upcoming}" var="schedule">--%>
-                                    <%--<tr>--%>
-                                        <%--<td style="text-align:left" width="15%">--%>
-                                            <%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
-                                                <%--<a href="participant/schedulecrf?sid=${schedule.id}"--%>
-                                                   <%--class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>--%>
-                                            <%--</proctcae:urlAuthorize>--%>
-                                        <%--</td>--%>
-                                        <%--<td style="text-align:left" width="45%">--%>
-                                            <%--<c:choose>--%>
-                                                <%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">--%>
-                                                    <%--<div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">--%>
-                                                            <%--${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...--%>
-                                                    <%--</div>--%>
-                                                <%--</c:when>--%>
-                                                <%--<c:otherwise>--%>
-                                                    <%--${schedule.studyParticipantCrf.crf.study.shortTitle}--%>
-                                                <%--</c:otherwise>--%>
-                                            <%--</c:choose>--%>
-                                        <%--</td>--%>
-                                        <%--<td style="text-align:left" width="20%">--%>
-                                            <%--<c:choose>--%>
-                                                <%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">--%>
-                                                    <%--<div title="${schedule.studyParticipantCrf.crf.title}">--%>
-                                                            <%--${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...--%>
-                                                    <%--</div>--%>
-                                                <%--</c:when>--%>
-                                                <%--<c:otherwise>--%>
-                                                    <%--${schedule.studyParticipantCrf.crf.title}--%>
-                                                <%--</c:otherwise>--%>
-                                            <%--</c:choose>--%>
-                                        <%--</td>--%>
-                                        <%--<td style="text-align:left" width="10%">--%>
-                                            <%--<tags:formatDate value="${schedule.startDate}"/>--%>
-                                        <%--</td>--%>
-                                        <%--<td style="text-align:left" width="10%">--%>
-                                            <%--<tags:formatDate value="${schedule.dueDate}"/>--%>
-                                        <%--</td>--%>
-                                    <%--</tr>--%>
-                                <%--</c:forEach>--%>
-                                <%--<tr align="right">--%>
-                                    <%--<c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">--%>
-                                        <%--<td colspan="5">--%>
-                                            <%--<A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>--%>
-                                        <%--</td>--%>
-                                    <%--</c:if>--%>
-                                    <%--<c:if test="${loadUpcoming eq 'all'}">--%>
-                                        <%--<td colspan="5">--%>
-                                            <%--<A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>--%>
-                                        <%--</td>--%>
-                                    <%--</c:if>--%>
-                                <%--</tr>--%>
-                            <%--</table>--%>
-                            <%--<br/>--%>
-                        <%--</div>--%>
-                    <%--</c:otherwise>--%>
-                <%--</c:choose>--%>
-                <%--<br/>--%>
-            <%--</chrome:box>--%>
-        <%--</c:if>--%>
-    <%--</td>--%>
+<%--<td>--%>
+<%--<c:if test="${siteLevelRole}">--%>
+<%--<chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">--%>
+<%--<c:choose>--%>
+<%--<c:when test="${empty overdue}">--%>
+<%--<div style="margin-left:15px;">--%>
+<%--You have no upcoming schedule.--%>
+<%--</div>--%>
+<%--</c:when>--%>
+<%--<c:otherwise>--%>
+<%--<div id="alertsdiv">--%>
+<%--<table class="widget" cellpadding="5px;">--%>
+<%--<tr>--%>
+<%--<td class="header-top1" width="15%" style="text-align:left">--%>
+<%--Participant--%>
+<%--</td>--%>
+<%--<td class="header-top1" width="45%" style="text-align:left">--%>
+<%--Study--%>
+<%--</td>--%>
+<%--<td class="header-top1" width="20%" style="text-align:left">--%>
+<%--Form title--%>
+<%--</td>--%>
+<%--<td class="header-top1" width="10%" style="text-align:left">--%>
+<%--Start date--%>
+<%--</td>--%>
+<%--<td class="header-top1" width="10%" style="text-align:left">--%>
+<%--Due date--%>
+<%--</td>--%>
+<%--</tr>--%>
+<%--<c:forEach items="${upcoming}" var="schedule">--%>
+<%--<tr>--%>
+<%--<td style="text-align:left" width="15%">--%>
+<%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
+<%--<a href="participant/schedulecrf?sid=${schedule.id}"--%>
+<%--class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>--%>
+<%--</proctcae:urlAuthorize>--%>
+<%--</td>--%>
+<%--<td style="text-align:left" width="45%">--%>
+<%--<c:choose>--%>
+<%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">--%>
+<%--<div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">--%>
+<%--${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...--%>
+<%--</div>--%>
+<%--</c:when>--%>
+<%--<c:otherwise>--%>
+<%--${schedule.studyParticipantCrf.crf.study.shortTitle}--%>
+<%--</c:otherwise>--%>
+<%--</c:choose>--%>
+<%--</td>--%>
+<%--<td style="text-align:left" width="20%">--%>
+<%--<c:choose>--%>
+<%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">--%>
+<%--<div title="${schedule.studyParticipantCrf.crf.title}">--%>
+<%--${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...--%>
+<%--</div>--%>
+<%--</c:when>--%>
+<%--<c:otherwise>--%>
+<%--${schedule.studyParticipantCrf.crf.title}--%>
+<%--</c:otherwise>--%>
+<%--</c:choose>--%>
+<%--</td>--%>
+<%--<td style="text-align:left" width="10%">--%>
+<%--<tags:formatDate value="${schedule.startDate}"/>--%>
+<%--</td>--%>
+<%--<td style="text-align:left" width="10%">--%>
+<%--<tags:formatDate value="${schedule.dueDate}"/>--%>
+<%--</td>--%>
+<%--</tr>--%>
+<%--</c:forEach>--%>
+<%--<tr align="right">--%>
+<%--<c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">--%>
+<%--<td colspan="5">--%>
+<%--<A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>--%>
+<%--</td>--%>
+<%--</c:if>--%>
+<%--<c:if test="${loadUpcoming eq 'all'}">--%>
+<%--<td colspan="5">--%>
+<%--<A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>--%>
+<%--</td>--%>
+<%--</c:if>--%>
+<%--</tr>--%>
+<%--</table>--%>
+<%--<br/>--%>
+<%--</div>--%>
+<%--</c:otherwise>--%>
+<%--</c:choose>--%>
+<%--<br/>--%>
+<%--</chrome:box>--%>
+<%--</c:if>--%>
+<%--</td>--%>
 <%--</tr>--%>
 </table>
 
