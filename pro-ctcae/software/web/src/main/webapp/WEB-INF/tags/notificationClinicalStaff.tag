@@ -11,7 +11,7 @@
 <%@attribute name="role" required="false" %>
 <%@attribute name="addAction" required="true" %>
 
-ola
+<p id="splitter"/>
 <c:choose>
 	<c:when test="${addAction == 'addRn'}">
 		<tr id="rnRow-${index}-${rnIndex}"  align="left">

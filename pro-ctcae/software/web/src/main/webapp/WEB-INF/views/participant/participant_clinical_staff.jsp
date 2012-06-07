@@ -100,7 +100,7 @@
                 onComplete:function(transport){
 	            	$('tpTable').show();
 	                var response = transport.responseText;
-	                var responseStr = response.split('ola');
+	                var responseStr = response.split('<p id="splitter"/>');
 	                jQuery('#tpTable tr:last').before(responseStr[1]);
 	                new Insertion.Before("hiddenDiv", responseStr[0]);
             	},
@@ -114,7 +114,7 @@
                 onComplete:function(transport){
 	            	$('rnTable').show();
 	                var response = transport.responseText;
-	                var responseStr = response.split('ola');
+	                var responseStr = response.split('<p id="splitter"/>');
 	                jQuery('#rnTable tr:last').before(responseStr[1]);
 	                new Insertion.Before("hiddenDiv", responseStr[0]);
             	},
