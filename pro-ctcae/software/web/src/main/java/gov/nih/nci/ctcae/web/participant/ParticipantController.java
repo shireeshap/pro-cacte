@@ -115,15 +115,15 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
+    protected Map<String, Object> referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
         Map<String, Object> modelAndView = super.referenceData(request, oCommand, errors, page);
         modelAndView.put("homeModeCount", 0);
 
-        List<Integer> times = new ArrayList();
+        List<Integer> times = new ArrayList<Integer>();
         for (int j = 1; j <= 12; j++) {
             times.add(j);
         }
-        List<Integer> minutes = new ArrayList();
+        List<Integer> minutes = new ArrayList<Integer>();
         for (int i = 0; i < 60; i += 15) {
             minutes.add(i);
         }
@@ -187,8 +187,6 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected void save(ParticipantCommand command) {
         participantRepository.saveOrUpdate(command.getParticipant());
-        
-
     }
 
     @Override
