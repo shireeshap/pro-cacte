@@ -20,9 +20,11 @@
     <tags:javascriptLink name="yui"/>
     <script type="text/javascript">
         function getCalendar(dir) {
+            $('ajaxLoadingImgDiv').show();
             var request = new Ajax.Request("<c:url value="/pages/user/displayUserCalendar"/>", {
                 onComplete:function(transport) {
                     showCalendar(transport);
+                    $('ajaxLoadingImgDiv').hide();
                 },
                 parameters:<tags:ajaxstandardparams/>+"&dir=" + dir,
                 method:'get'

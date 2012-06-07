@@ -10,7 +10,7 @@
             <c:forEach items="${schedules}" var="schedule">
                 <div class="row">
                     <div class="label">Participant:&nbsp;</div>
-                    <div class="value">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</div>
+                    <div class="value">(${schedule.studyParticipantCrf.studyParticipantAssignment.studyParticipantIdentifier}) ${schedule.studyParticipantCrf.studyParticipantAssignment.participant.firstName} ${schedule.studyParticipantCrf.studyParticipantAssignment.participant.lastName}</div>
                 </div>
                 <div class="row">
                     <div class="label">Study:&nbsp;</div>

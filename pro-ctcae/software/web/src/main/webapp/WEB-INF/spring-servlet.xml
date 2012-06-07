@@ -106,7 +106,7 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
+                                  p:displayName="participant.tab.monitor_form" p:linkName="userCalendarController"/>
 
                         </list>
                     </property>
@@ -398,8 +398,8 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
-    <bean name="/user/userCalendar" id="userCalendarController" class="gov.nih.nci.ctcae.web.user.UserCalendarController">
-         <property name="participantAjaxFacade" ref="participantAjaxFacade"/>
+    <bean name="/participant/userCalendar" id="userCalendarController" class="gov.nih.nci.ctcae.web.user.UserCalendarController">
+         <property name="spcsRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
     <bean name="/user/displayUserCalendar" id="dosplayUserCalendarController" class="gov.nih.nci.ctcae.web.user.DisplayUserCalendarController">

@@ -4,7 +4,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<div id='ajaxLoadingImgDiv' style="display:none;left:450px;position:absolute;top:200px;">
+ <img src="<tags:imageUrl name="ajax-loading.gif"/>" />
+    </div>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr class="header">
     <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">

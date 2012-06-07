@@ -219,7 +219,6 @@ function moreRows() {
     refreshPage();
 }
 
-
 var myDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
@@ -751,6 +750,21 @@ YAHOO.util.Event.addListener(window, "load", function() {
     <%--<chrome:box title="Quick Links">--%>
     <div style="padding-left:2px; padding-right:2px;">
         <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <proctcae:urlAuthorize url="/pages/participant/monitorForm">
+                    <td id="a1" class="quickLinkBGon"
+                        style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                        <div class="quickLinkRow">
+                            <div class="quickLinkPicture"><img
+                                    src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
+                                    align="middle"
+                                    class="quickLink"></div>
+                            <div class="quickLinkLabel"><a href="<c:url value='/pages/participant/userCalendar' />"
+                                                           class="quickLink">My Calendar</a></div>
+                        </div>
+                    </td>
+                </proctcae:urlAuthorize>
+            </tr>
             <tr>
                 <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
                     <td id="a1" class="quickLinkBGon"

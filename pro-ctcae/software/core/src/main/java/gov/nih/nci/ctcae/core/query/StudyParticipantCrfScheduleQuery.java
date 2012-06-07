@@ -14,7 +14,7 @@ import java.util.List;
 
 public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs";
+    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
     private static String queryString1 = "SELECT count(distinct spcs) from StudyParticipantCrfSchedule spcs";
     private static String CRF_IDS = "ids";
     private static String SP_CRF_IDS = "sp_crf_ids";
@@ -76,9 +76,14 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     }
 
     public void filterByDate(Date current) {
-        andWhere(":current between spcs.startDate and spcs.dueDate");
-        setParameter("current",current);
-    }
+            andWhere(":current between spcs.startDate and spcs.dueDate");
+            setParameter("current",current);
+        }
+    public void filterByStartEndDate(Date startDate, Date  endDate) {
+            andWhere(" spcs.startDate >= :startDate and spcs.startDate <=:endDate");
+            setParameter("startDate",startDate);
+            setParameter("endDate",endDate);
+        }
 
     public void filterByStatus(CrfStatus status) {
         andWhere("spcs.status =:status");
