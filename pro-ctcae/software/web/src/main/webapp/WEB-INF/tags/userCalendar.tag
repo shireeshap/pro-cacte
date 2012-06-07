@@ -52,7 +52,7 @@
                                  </c:forEach>
                                     <c:choose>
                                         <c:when test="${hasSchedules eq true}">
-                                            <div style="float:right"><a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions${day}" onclick="javascript:showPopUpMenuAlert('${day}')"><span class="ui-icon ui-icon-triangle-1-s"></span></a></div>
+                                            <div style="float:right"><a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions${day}" onmouseover="javascript:showPopUpMenuAlert('${day}')"><span class="ui-icon ui-icon-triangle-1-s"></span></a></div>
                                             <div id="schedule_${day}" class="blue" style="text-align:center;" title="">
                                        <br><br> <c:if test="${fn:length(currentSchedule.value) eq 1}">Form (${fn:length(currentSchedule.value)})</c:if>
                                                 <c:if test="${fn:length(currentSchedule.value)>1}">Multiple forms (${fn:length(currentSchedule.value)})</c:if>
