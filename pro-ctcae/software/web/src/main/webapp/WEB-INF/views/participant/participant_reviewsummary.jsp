@@ -169,7 +169,7 @@
         </div>
     </c:forEach>
 
-    <chrome:division title="participant.label.sitepi"/>
+    <chrome:division title="participant.label.sitepi"/><br />
     <div align="left" style="margin-left: 100px">
         <table class="tablecontent" width="50%">
             <tr>
@@ -194,13 +194,13 @@
         </table>
     </div>
     <br>
-    <chrome:division title="participant.label.sitecra"/>
+    <chrome:division title="participant.label.sitecra"/><br />
     <div align="left" style="margin-left: 100px">
         <table class="tablecontent" width="50%">
             <tr>
                 <th class="tableHeader" width="70%">
                     <tags:message code="participant.label.name"/>
-                </th class="tableHeader">
+                </th>
                 <th>
                     <tags:message code="participant.label.notification"/>
                 </th>
@@ -219,72 +219,60 @@
         </table>
     </div>
     <br/>
-    <chrome:division title="participant.primaryclinicalstaff" linkontitle="${linkStaff}"
-                     linkurl="/pages/participant/create"/>
+    <chrome:division title="participant.label.clinical.staff.treatingphysician" linkontitle="${linkStaff}" linkurl="/pages/participant/create"/><br />
     <div align="left" style="margin-left: 100px">
-        <table class="tablecontent" width="100%">
-            <tr>
-                <td>
-                    <div class="row">
-                        <div class="label" style="width:15em;"><spring:message
-                                code="participant.label.clinical.staff.treatingphysician"/>:
-                        </div>
-                        <div class="value"> ${studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned': studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="label"><spring:message code="participant.label.notification"/>:</div>
-                        <div class="value">${studyParticipantAssignment.treatingPhysician.notify?'Yes':'No'}</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="row">
-                        <div class="label" style="width:15em;"><spring:message
-                                code="participant.label.clinical.staff.researchnurse"/>:
-                        </div>
-                        <div class="value">
-                                ${studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned' :studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="label"><spring:message code="participant.label.notification"/>:</div>
-                        <div class="value">
-                                ${studyParticipantAssignment.researchNurse.notify?'Yes':'No'}</div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+	    <c:if test="${fn:length(studyParticipantAssignment.treatingPhysicians) > 0}">
+	        <table class="tablecontent" width="50%">
+	            <tr>
+	                <th class="tableHeader" width="70%">
+	                    <tags:message code="participant.label.clinical.staff.treatingphysician"/>
+	                </th>
+	                <th>
+	                    <tags:message code="participant.label.notification"/>
+	                </th>
+	            </tr>
+	        	<c:forEach items="${studyParticipantAssignment.treatingPhysicians}" var="tp" varStatus="tpStatus">
+		        	<c:if test="${!(tp.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null)}">
+		        	
+			            <tr>
+			                <td>
+			                    ${tp.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned': tp.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</div>
+			                </td>
+			                <td>
+			                    ${tp.notify?'Yes':'No'}
+			                </td>
+			            </tr>
+		            </c:if>
+	            </c:forEach>
+	        </table>
+	    </c:if>
     </div>
-    <chrome:division title="participant.label.otherstaff" linkontitle="${linkStaff}"
-                     linkurl="/pages/participant/create"/>
+    <chrome:division title="participant.label.clinical.staff.researchnurse" linkontitle="${linkStaff}" linkurl="/pages/participant/create"/><br />
     <div align="left" style="margin-left: 100px">
-        <table class="tablecontent" width="50%">
-            <tr id="ss-table-head" class="amendment-table-head">
-                <th class="tableHeader" width="70%">
-                    <spring:message code='participant.label.name' text=''/>
-                </th>
-                <th class="tableHeader">
-                    <spring:message code='participant.label.notification' text=''/>
-                </th>
-            </tr>
-            <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}"
-                       var="clinicalStaff"
-                       varStatus="notificationstatus">
-                <tr>
-                    <td>
-                            ${clinicalStaff.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-                    </td>
-                    <td>
-                            ${clinicalStaff.notify?'Yes':'No'}
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
+    	<c:if test="${fn:length(studyParticipantAssignment.researchNurses) > 0}">
+	        <table class="tablecontent" width="50%">
+	            <tr>
+	                <th class="tableHeader" width="70%">
+	                    <tags:message code="participant.label.clinical.staff.researchnurse"/>
+	                </th>
+	                <th>
+	                    <tags:message code="participant.label.notification"/>
+	                </th>
+	            </tr>        
+	            <c:forEach items="${studyParticipantAssignment.researchNurses}" var="rn" varStatus="rnStatus">
+	            <c:if test="${!(rn.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null)}">
+		            <tr>
+		                <td>
+		                    ${rn.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName eq null ? 'Not Assigned' :rn.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+		                </td>
+		                <td>
+		                    ${rn.notify?'Yes':'No'}
+		                </td>
+		            </tr>
+	            </c:if>
+	            </c:forEach>
+	        </table>
+        </c:if>
     </div>
     <br/>
 </c:forEach>

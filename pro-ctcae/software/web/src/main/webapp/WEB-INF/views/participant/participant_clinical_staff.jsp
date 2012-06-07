@@ -20,7 +20,6 @@
     <c:set var="varIndex" value="0"/>
 
     <script type="text/javascript">
-
         function handleSelect(stype, args) {
             var ele = args[0];
             var oData = args[2];
@@ -44,103 +43,106 @@
         }
 
         Event.observe(window, "load", function() {
+	        <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
+	        	<c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
+			    	<c:forEach items="${studyParticipantAssignment.treatingPhysicians}" var="tp" varStatus="tpStatus">
+		                new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaffInput',
+		                        getStudyOrganizationClinicalStaffForTreatingPhysicianRole, handleSelect);
+		                    var treatingPhysician = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysicians[tpStatus.index].studyOrganizationClinicalStaff.displayName}";
+		                    if(treatingPhysician != ''){
+		                    	$('participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaffInput').value
+		        	                = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysicians[tpStatus.index].studyOrganizationClinicalStaff.displayName}"
+				                $('participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+		                    }
+		                    
+		                 function getStudyOrganizationClinicalStaffForTreatingPhysicianRole(sQuery) {
+		                    showIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaffInput-indicator");
+		                    var callbackProxy = function(results) {
+		                        aResults = results;
+		                    };
+		                    var callMetaData = { callback:callbackProxy, async:false};
+		                    clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
+		                           ${studyParticipantAssignment.studySite.id}, 'TREATING_PHYSICIAN',callMetaData);
+		                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaffInput-indicator");
+		                    return aResults;
+		                 }
+					</c:forEach>
 		
-        <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
-            <c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
-                new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput',
-                        getStudyOrganizationClinicalStaffForTreatingPhysicianRole, handleSelect);
-                    var treatingPhysician = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}";
-                    if(treatingPhysician != ''){
-                    	$('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').value
-        	                = "${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}"
-		                $('participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
-                    }
-                    
-                 function getStudyOrganizationClinicalStaffForTreatingPhysicianRole(sQuery) {
-                    showIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput-indicator");
-                    var callbackProxy = function(results) {
-                        aResults = results;
-                    };
-                    var callMetaData = { callback:callbackProxy, async:false};
-                    clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
-                           ${studyParticipantAssignment.studySite.id}, 'TREATING_PHYSICIAN',callMetaData);
-                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaffInput-indicator");
-                    return aResults;
-                 }
-
-               var baseNameNurseDisplayName = 'participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff.displayName';
-                new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput',
-                        getStudyOrganizationClinicalStaffForNurseRole, handleSelect);
-                	var nurseName = "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
-                	if(nurseName != ''){
-                        $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').value =
-                            "${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}";
-	                    $('participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput').removeClassName('pending-search');
-                    }
-
-                 function getStudyOrganizationClinicalStaffForNurseRole(sQuery) {
-                    showIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput-indicator");
-                    var callbackProxy = function(results) {
-                        aResults = results;
-                    };
-                    var callMetaData = { callback:callbackProxy, async:false};
-                    clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
-                           ${studyParticipantAssignment.studySite.id}, 'NURSE',callMetaData);
-                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaffInput-indicator");
-                    return aResults;
-                 }
-
-                <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}" var="clinicalStaff" varStatus="notificationstatus">
-                   new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput',
-                            getStudyOrganizationClinicalStaffForNurseAndTPRole, handleSelect);
-                    	var staffName = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
-                    	if(staffName != ''){
-                            $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').value
-        	                    = "${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}";
-		                    $('participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
-                        }
-
-                     function getStudyOrganizationClinicalStaffForNurseAndTPRole(sQuery) {
-                        showIndicator("participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput-indicator");
-                        var callbackProxy = function(results) {
-                            aResults = results;
-                        };
-                        var callMetaData = { callback:callbackProxy, async:false};
-                        clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
-                               ${studyParticipantAssignment.studySite.id}, 'TREATING_PHYSICIAN|NURSE',callMetaData);
-                        hideIndicator("participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaffInput-indicator");
-                        return aResults;
-                     }
-
-                </c:forEach>
-            </c:if>
-        </c:forEach>
+			    	<c:forEach items="${studyParticipantAssignment.researchNurses}" var="rn" varStatus="rnStatus">
+		                new YUIAutoCompleter('participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaffInput',
+		                        getStudyOrganizationClinicalStaffForNurseRole, handleSelect);
+		                	var nurseName = "${command.participant.studyParticipantAssignments[varIndex].researchNurses[rnStatus.index].studyOrganizationClinicalStaff.displayName}";
+		                	if(nurseName != ''){
+		                        $('participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaffInput').value =
+		                            "${command.participant.studyParticipantAssignments[varIndex].researchNurses[rnStatus.index].studyOrganizationClinicalStaff.displayName}";
+			                    $('participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaffInput').removeClassName('pending-search');
+		                    }
+		
+		                 function getStudyOrganizationClinicalStaffForNurseRole(sQuery) {
+		                    showIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaffInput-indicator");
+		                    var callbackProxy = function(results) {
+		                        aResults = results;
+		                    };
+		                    var callMetaData = { callback:callbackProxy, async:false};
+		                    clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(unescape(sQuery),
+		                           ${studyParticipantAssignment.studySite.id}, 'NURSE',callMetaData);
+		                    hideIndicator("participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaffInput-indicator");
+		                    return aResults;
+		                 }
+		     		</c:forEach>
+	            </c:if>
+	        </c:forEach>
 
         })
 
-        function addNotificationClinicalStaff(index) {
-            $('notificationtable_' + index).show();
+        function addTreatingPhysician(index) {
             var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
-                onComplete:addNotificationClinicalStaffDiv,
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&id=" + gup('id'),
+                onComplete:function(transport){
+	            	$('tpTable').show();
+	                var response = transport.responseText;
+	                var responseStr = response.split('ola');
+	                jQuery('#tpTable tr:last').before(responseStr[1]);
+	                new Insertion.Before("hiddenDiv", responseStr[0]);
+            	},
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&id=" + gup('id') +  "&action=addTp",
                 method:'get'
             })
         }
 
-        function addNotificationClinicalStaffDiv(transport) {
-            var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
+        function addResearchNurse(index) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
+                onComplete:function(transport){
+	            	$('rnTable').show();
+	                var response = transport.responseText;
+	                var responseStr = response.split('ola');
+	                jQuery('#rnTable tr:last').before(responseStr[1]);
+	                new Insertion.Before("hiddenDiv", responseStr[0]);
+            	},
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&id=" + gup('id') +  "&action=addRn",
+                method:'get'
+            })
         }
 
-        function deleteNotification(index, notificationIndex) {
+        function deleteTreatingPhysician(index, tpIndex) {
             var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&notificationIndex=" + notificationIndex + "&action=delete&id=${param['id']}",
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&tpIndex=" + tpIndex + "&action=deleteTp&id=${param['id']}",
                 onComplete:function(transport) {
-                    $('row-' + index + '-' + notificationIndex).remove();
+                    $('tpRow-' + index + '-' + tpIndex).remove();
                 } ,
                 method:'get'
             });
         }
+
+        function deleteResearchNurse(index, rnIndex) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&rnIndex=" + rnIndex + "&action=deleteRn&id=${param['id']}",
+                onComplete:function(transport) {
+                    $('rnRow-' + index + '-' + rnIndex).remove();
+                } ,
+                method:'get'
+            });
+        }
+
         function gup(name) {
             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
             var regexS = "[\\?&]" + name + "=([^&#]*)";
@@ -152,6 +154,7 @@
                 return results[1];
         }
     </script>
+
     <style type="text/css">
         div.row div.label {
             width: 15em;
@@ -167,10 +170,15 @@
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
+
 <jsp:attribute name="singleFields">
 
-    <chrome:box title="participant.label.study">
+    <chrome:box title="">
         <table>
+            <tr>
+                <td align="right" style="font-weight:bold;" width="25%"><spring:message code="reports.label.participant"/>:&nbsp;&nbsp;</td>
+                <td>${command.selectedStudyParticipantAssignment.participant.displayName}</td>
+            </tr>
             <tr>
                 <td align="right" style="font-weight:bold;" width="25%"><spring:message code="study.label.clinical.staff"/>:&nbsp;&nbsp;</td>
                 <td>${command.selectedStudyParticipantAssignment.studySite.study.displayName}</td>
@@ -184,13 +192,14 @@
 
     <chrome:box title="participant.label.researchstaff">
         <chrome:division title="participant.label.sitepi"/>
+        <br/>
         <div align="left" style="margin-left: 50px">
-            <table class="tablecontent" width="40%">
+            <table class="tablecontent" width="65%">
                 <tr>
-                    <th class="tableHeader" width="70%">
+                    <th class="tableHeader" width="82%">
                         <tags:message code="participant.label.name"/>
                     </th>
-                    <th width=30%>
+                    <th width=18%>
                         <tags:message code="participant.label.notification"/>
                     </th>
                 </tr>
@@ -212,13 +221,14 @@
         </div>
         <br>
         <chrome:division title="participant.label.sitecra"/>
+        <br/>
         <div align="left" style="margin-left: 50px">
-            <table class="tablecontent" width="40%">
+            <table class="tablecontent" width="65%">
                 <tr>
-                    <th class="tableHeader" width="70%">
+                    <th class="tableHeader" width="82%">
                         <tags:message code="participant.label.name"/>
                     </th>
-                    <th width=30%>
+                    <th width=18%>
                         <tags:message code="participant.label.notification"/>
                     </th>
                 </tr>
@@ -228,7 +238,7 @@
                         <td>
                                 ${siteCRA.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
                         </td>
-                        <td>
+                        <td  align="center">
                             <tags:renderSelect
                                     propertyName="participant.studyParticipantAssignments[${varIndex}].siteCRAs[${crastatus.index}].notify"
                                     required="true" options="${notifyOptions}" doNotshowLabel="true"/>
@@ -239,117 +249,95 @@
         </div>
         <br>
     </chrome:box>
-    <chrome:box title="participant.primaryclinicalstaff">
-        <table width="100%" cellpadding="0px" cellspacing="0px">
-            <tr>
-                <td width="60%">
-                    <c:set var="treatingPhysican" value="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"/>
-
-                    <form:input path="${treatingPhysican}" id="${treatingPhysican}" cssStyle="display:none;"/>
-                    <div class="row">
-                        <div class="label">
-                            <tags:message code='participant.label.clinical.staff.treatingphysician'/> &nbsp;
-                        </div>
-                        <div class="value">
-                           <tags:yuiAutocompleter inputName="${treatingPhysican}Input"
-                                                 value="${command.participant.studyParticipantAssignments[varIndex].treatingPhysician.studyOrganizationClinicalStaff.displayName}" required="false"
-                                                 hiddenInputName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.studyOrganizationClinicalStaff"/>
-                        </div>
-                    </div>
-
-                </td>
-                <td style="border-right:none;" width="30%">
-                    <tags:renderSelect
-                            propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysician.notify"
-                            displayName="participant.label.notification"
-                            required="false" options="${notifyOptions}"/>
-                </td>
-            </tr>
-            <tr align="left">
-                <td>
-                    <c:set var="nurse" value="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"/>
-
-                    <form:input path="${nurse}" id="${nurse}" cssStyle="display:none;"/>
-                    <div class="row">
-                        <div class="label">
-                            <tags:message code='participant.label.clinical.staff.researchnurse'/> &nbsp;
-                        </div>
-                        <div class="value">
-                            <tags:yuiAutocompleter inputName="${nurse}Input"
-                                   value="${command.participant.studyParticipantAssignments[varIndex].researchNurse.studyOrganizationClinicalStaff.displayName}"
-                                   required="false"
-                                   hiddenInputName="participant.studyParticipantAssignments[${varIndex}].researchNurse.studyOrganizationClinicalStaff"/>
-                        </div>
-                    </div>
-                </td>
-                <td style="border-left:none;" width="30%">
-                    <tags:renderSelect
-                            propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurse.notify"
-                            displayName="participant.label.notification"
-                            required="false" options="${notifyOptions}"/>
-                </td>
-            </tr>
-        </table>
-        <br>
-    </chrome:box>
-    <chrome:box title="participant.label.otherstaff">
+    <chrome:box title="participant.primaryclinicalstaff" autopad="true">
+   		<chrome:division title="participant.label.clinical.staff.treatingphysician">
+   		<br/>
         <div align="left" style="margin-left: 50px">
-            <table width="90%" class="tablecontent"
-                   id="notificationtable_${varIndex}">
-                <tr id="ss-table-head" class="amendment-table-head">
-                    <th width="45%" class="tableHeader">
-                        <spring:message code='participant.label.name' text=''/>
-                    </th>
-                    <th width="15%" class="tableHeader">
-                        <spring:message code='participant.label.notification' text=''/>
-                    </th>
-                    <th width="5%" class="tableHeader">&nbsp;</th>
-                </tr>
-                <c:forEach items="${command.selectedStudyParticipantAssignment.notificationClinicalStaff}"
-                           var="clinicalStaff"
-                           varStatus="notificationstatus">
-                   <%-- <tags:notificationClinicalStaff index="${varIndex}"
-                                                    notificationindex="${notificationstatus.index}"
-                                                    clinicalStaff="${clinicalStaff}"
-                                                    studySiteId="${command.selectedStudyParticipantAssignment.studySite.id}"
-                                                    notify="${clinicalStaff.notify}"
-                                                    notifyOptions="${notifyOptions}"
-                                                    role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>--%>
-                    <tr id="row-${varIndex}-${notificationstatus.index}">
-                        <td style="border-right:none;">
-                                <c:set var="property" value="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff"/>
-                                <%--<input type="text" name="${property}"  id="${property}"  style="display:none;"/>--%>
-                                <form:input path="${property}" id="${property}" cssStyle="display:none;"/>
-                                <tags:yuiAutocompleter inputName="${property}Input"
-                                       value="${command.participant.studyParticipantAssignments[varIndex].notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.displayName}" required="false"
-                                       hiddenInputName="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff"/>
-
-
-                        </td>
-                        <td style="border-right:none;">
-                            <tags:renderSelect
-                                    propertyName="participant.studyParticipantAssignments[${varIndex}].notificationClinicalStaff[${notificationstatus.index}].notify"
-                                    displayName="participant.label.notification"
-                                    required="true" options="${notifyOptions}" noForm="true" propertyValue="${clinicalStaff.notify}"
-                                    doNotshowLabel="true"/>
-
-                        </td>
-                        <td style="border-left:none;">
-                            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-                               href="javascript:deleteNotification('${varIndex}','${notificationstatus.index}');">
-                                <img src="../../images/checkno.gif" border="0" alt="delete"
-                                     style="vertical-align:middle">
+	    	<table class="tablecontent" width="65%" id="tpTable">
+	            <tr>
+	                <th class="tableHeader" width="76%">
+	                    <tags:message code="participant.label.name"/>
+	                </th>
+	                <th width=19%>
+	                    <tags:message code="participant.label.notification"/>
+	                </th>
+	                <th width="5%" class="tableHeader">&nbsp;</th>
+	            </tr>
+	            <tbody>
+	            <c:forEach items="${command.participant.studyParticipantAssignments[varIndex].treatingPhysicians}" var="tp" varStatus="tpStatus">
+		            <tr id="tpRow-${varIndex}-${tpStatus.index}" >
+		                <td valign="middle">
+			                 <c:set var="treatingPhysican" value="participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaff"/>
+			                 <form:input path="${treatingPhysican}" id="${treatingPhysican}" cssStyle="display:none;" cssClass="validate-NOTEMPTY" title="Treating Physician"/>
+			                 <tags:yuiAutocompleter inputName="${treatingPhysican}Input"
+		                                              value="${command.participant.studyParticipantAssignments[varIndex].treatingPhysicians[tpStatus.index].studyOrganizationClinicalStaff.displayName}" required="false"
+		                                              hiddenInputName="participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].studyOrganizationClinicalStaff"/>
+		                </td>
+		                <td>
+		                	<tags:renderSelect propertyName="participant.studyParticipantAssignments[${varIndex}].treatingPhysicians[${tpStatus.index}].notify"
+		                        			   required="false" options="${notifyOptions}" doNotshowLabel="true"/>
+						</td>
+						<td align="center">
+                            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deleteTreatingPhysician('${varIndex}', '${tpStatus.index}');">
+                                <img src="../../images/checkno.gif" border="0" alt="delete" style="vertical-align:middle">
                             </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                <tr id="hiddenDiv" align="center"></tr>
-            </table>
-            <tags:button value="Add" color="blue" type="button" size="small"
-                         onclick="javascript:addNotificationClinicalStaff('${varIndex}');return false;" icon="add"/>
+                        </td>		                
+		            </tr>
+	            </c:forEach>
+	            <tr></tr>
+	            </tbody>
+	        </table>
+	        <br/>
+        <tags:button value="Add" color="blue" type="button" size="small"  onclick="javascript:addTreatingPhysician('${varIndex}');" icon="add"/>
         </div>
-        <br>
+        <br/>
+        </chrome:division>
+        
+        <chrome:division title="participant.label.clinical.staff.researchnurse">
+	        <br/>
+	        <div align="left" style="margin-left: 50px">
+		        <table class="tablecontent" width="65%" id="rnTable">
+		            <tr class="amendment-table-head">
+		                <th class="tableHeader" width="76%">
+		                    <tags:message code='participant.label.name'/>
+		                </th>
+		                <th width=19%>
+		                    <tags:message code="participant.label.notification"/>
+		                </th>
+		                <th width="5%" class="tableHeader">&nbsp;</th>
+		            </tr>
+			        <tbody>
+		            <c:forEach items="${command.participant.studyParticipantAssignments[varIndex].researchNurses}" var="rn" varStatus="rnStatus">
+			            <tr id="rnRow-${varIndex}-${rnStatus.index}" >
+			            	 <td valign="middle">
+			                    <c:set var="nurse" value="participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaff"/>
+			                    <form:input path="${nurse}" id="${nurse}" cssStyle="display:none;" cssClass="validate-NOTEMPTY" title="Research Nurse"/>
+			                    <tags:yuiAutocompleter inputName="${nurse}Input" required="false"
+			                           value="${command.participant.studyParticipantAssignments[varIndex].researchNurses[rnStatus.index].studyOrganizationClinicalStaff.displayName}"
+			                           hiddenInputName="participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].studyOrganizationClinicalStaff"/>
+			                 </td>   
+				             <td>
+			             		<tags:renderSelect propertyName="participant.studyParticipantAssignments[${varIndex}].researchNurses[${rnStatus.index}].notify"
+			                                       required="false" options="${notifyOptions}" doNotshowLabel="true"/>
+			                 </td>
+			                 <td align="center">
+			                     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deleteResearchNurse('${varIndex}', '${rnStatus.index}');">
+			                         <img src="../../images/checkno.gif" border="0" alt="delete" style="vertical-align:middle">
+			                     </a>
+				             </td>
+				         </tr>
+			             
+			         </c:forEach>
+	        		 <tr></tr>
+			         </tbody>
+		         </table>
+		         <br/>
+     			 <tags:button value="Add" color="blue" type="button" size="small"  onclick="javascript:addResearchNurse('${varIndex}');" icon="add"/>
+	        </div>
+	        <br />
+        </chrome:division>
     </chrome:box>
+	<div id="hiddenDiv"></div>
     </jsp:attribute>
 </tags:tabForm>
 </body>

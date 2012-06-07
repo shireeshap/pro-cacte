@@ -76,9 +76,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     private List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffs = new ArrayList<StudyParticipantClinicalStaff>();
 
     @Transient
-    private StudyParticipantClinicalStaff treatingPhysician;
+    private List<StudyParticipantClinicalStaff> treatingPhysicians;
     @Transient
-    private StudyParticipantClinicalStaff researchNurse;
+    private List<StudyParticipantClinicalStaff> researchNurses;
     @Transient
     private List<StudyParticipantClinicalStaff> notificationClinicalStaff;
     @Transient
@@ -306,55 +306,65 @@ public class StudyParticipantAssignment extends BaseVersionable {
         return studyParticipantClinicalStaffs;
     }
 
+    public void addStudyParticipantClinicalStaff(List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList) {
+    	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
+    		addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
+    	}
+    }
+
     public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-        if (studyParticipantClinicalStaff != null && studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-            StudyOrganization expectedStudyOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getStudyOrganization();
-            if (!expectedStudyOrganization.equals(this.getStudySite())) {
-                String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
-                        "So this study site clincal staff can not be added.",
-                        expectedStudyOrganization, this.getStudySite());
-                logger.error(errorMessage);
-                throw new CtcAeSystemException(errorMessage);
-            }
-            studyParticipantClinicalStaff.setStudyParticipantAssignment(this);
-            if (!studyParticipantClinicalStaff.isPersisted()) {
-                getStudyParticipantClinicalStaffs().add(studyParticipantClinicalStaff);
-            }
-            logger.debug(String.format("added study participant clinical staff %s to study participant assignment %s", studyParticipantClinicalStaff.toString(), toString()));
+	    if (studyParticipantClinicalStaff != null && studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
+	        StudyOrganization expectedStudyOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getStudyOrganization();
+	        if (!expectedStudyOrganization.equals(this.getStudySite())) {
+	            String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
+	                    "So this study site clincal staff can not be added.",
+	                    expectedStudyOrganization, this.getStudySite());
+	            logger.error(errorMessage);
+	            throw new CtcAeSystemException(errorMessage);
+	        }
+	        studyParticipantClinicalStaff.setStudyParticipantAssignment(this);
+	        if (!studyParticipantClinicalStaff.isPersisted() && !getStudyParticipantClinicalStaffs().contains(studyParticipantClinicalStaff)) {
+	            getStudyParticipantClinicalStaffs().add(studyParticipantClinicalStaff);
+	        }
+	        logger.debug(String.format("added study participant clinical staff %s to study participant assignment %s", studyParticipantClinicalStaff.toString(), toString()));
+	    }
+    }
+    
+    public List<StudyParticipantClinicalStaff> getTreatingPhysicians() {
+
+        if (treatingPhysicians == null || treatingPhysicians.isEmpty()) {
+            treatingPhysicians = getStudyParticipantClinicalStaffByRole(Role.TREATING_PHYSICIAN);
+        }
+//        if (treatingPhysicians == null || treatingPhysicians.isEmpty()) {
+//            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+//            studyParticipantClinicalStaff.setPrimary(true);
+//            treatingPhysicians.add(studyParticipantClinicalStaff);
+//        }
+        return treatingPhysicians;
+    }
+
+    public void addTreatingPhysician(StudyParticipantClinicalStaff treatingPhysician) {
+    	if (this.treatingPhysicians != null) {
+            this.treatingPhysicians.add(treatingPhysician);
         }
     }
 
-    public StudyParticipantClinicalStaff getTreatingPhysician() {
-
-        if (treatingPhysician == null) {
-            treatingPhysician = getPrimaryByRole(Role.TREATING_PHYSICIAN);
+    public List<StudyParticipantClinicalStaff> getResearchNurses() {
+        if (researchNurses == null || researchNurses.isEmpty()) {
+            researchNurses = getStudyParticipantClinicalStaffByRole(Role.NURSE);
         }
-        if (treatingPhysician == null) {
-            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-            studyParticipantClinicalStaff.setPrimary(true);
-            treatingPhysician = studyParticipantClinicalStaff;
-        }
-        return treatingPhysician;
+//        if (researchNurses == null || researchNurses.isEmpty()) {
+//            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+//            studyParticipantClinicalStaff.setPrimary(true);
+//            researchNurses.add(studyParticipantClinicalStaff);
+//        }
+        return researchNurses;
     }
 
-    public void setTreatingPhysician(StudyParticipantClinicalStaff treatingPhysician) {
-        this.treatingPhysician = treatingPhysician;
-    }
-
-    public StudyParticipantClinicalStaff getResearchNurse() {
-        if (researchNurse == null) {
-            researchNurse = getPrimaryByRole(Role.NURSE);
+    public void addResearchNurse(StudyParticipantClinicalStaff researchNurse) {
+    	if (researchNurses != null) {
+            this.researchNurses.add(researchNurse);
         }
-        if (researchNurse == null) {
-            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-            studyParticipantClinicalStaff.setPrimary(true);
-            researchNurse = studyParticipantClinicalStaff;
-        }
-        return researchNurse;
-    }
-
-    public void setResearchNurse(StudyParticipantClinicalStaff researchNurse) {
-        this.researchNurse = researchNurse;
     }
 
     public List<StudyParticipantClinicalStaff> getNotificationClinicalStaff() {
@@ -377,17 +387,18 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
     }
 
-    private StudyParticipantClinicalStaff getPrimaryByRole(Role role) {
+    private List<StudyParticipantClinicalStaff> getStudyParticipantClinicalStaffByRole(Role role) {
+    	List<StudyParticipantClinicalStaff> spcStaff = new ArrayList<StudyParticipantClinicalStaff>();
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
-            if (studyParticipantClinicalStaff.isPrimary()) {
+           // if (studyParticipantClinicalStaff.isPrimary()) {
                 if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(role)) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
-                        return studyParticipantClinicalStaff;
+                    	spcStaff.add(studyParticipantClinicalStaff);
                     }
                 }
-            }
+           // }
         }
-        return null;
+        return spcStaff;
     }
 
     private List<StudyParticipantClinicalStaff> getListByRole(Role role) {

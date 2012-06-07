@@ -109,20 +109,24 @@ public class NotificationsEvaluationService {
         for (NotificationRuleRole notificationRuleRole : notificationRuleRoles) {
             ClinicalStaff cs = null;
             if (notificationRuleRole.getRole().equals(Role.NURSE)) {
-                StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getResearchNurse();
-                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                    if (studyParticipantClinicalStaff.isNotify()) {
-                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
-                    }
-                }
+                List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList = studyParticipantAssignment.getResearchNurses();
+            	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
+	                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
+	                    if (studyParticipantClinicalStaff.isNotify()) {
+	                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+	                    }
+	                }
+            	}
             }
             if (notificationRuleRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
-                StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getTreatingPhysician();
-                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                    if (studyParticipantClinicalStaff.isNotify()) {
-                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+            	List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList = studyParticipantAssignment.getTreatingPhysicians();
+            	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
+                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
+                        if (studyParticipantClinicalStaff.isNotify()) {
+                            cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        }
                     }
-                }
+            	}
             }
             if (notificationRuleRole.getRole().equals(Role.SITE_CRA)) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
@@ -237,10 +241,23 @@ public class NotificationsEvaluationService {
         addRow(emailContent, "Participant contact phone: ", (participant.getPhoneNumber() == null ? "Not specified" : participant.getPhoneNumber()));
         addRow(emailContent, "Study site: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());
         addRow(emailContent, "Study: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getDisplayName());
-        StudyOrganizationClinicalStaff rn = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurse().getStudyOrganizationClinicalStaff();
-        addRow(emailContent, "Research nurse: ", rn == null ? "Not assigned" : rn.getDisplayName());
-        StudyOrganizationClinicalStaff tp = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysician().getStudyOrganizationClinicalStaff();
-        addRow(emailContent, "Treating physician: ", tp == null ? "Not assigned" : tp.getDisplayName());
+        
+        //TODO: @Vinay G - Get all the staff on one line instead of multiple lines.
+        List<StudyParticipantClinicalStaff> rnList = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurses();
+        StudyOrganizationClinicalStaff rn;
+        for(StudyParticipantClinicalStaff spcs: rnList){
+        	rn = spcs.getStudyOrganizationClinicalStaff();
+        	addRow(emailContent, "Research nurse: ", rn == null ? "Not assigned" : rn.getDisplayName());
+        }
+        
+        //TODO: @Vinay G - Get all the staff on one line instead of multiple lines.
+        List<StudyParticipantClinicalStaff> tpList = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysicians();
+        StudyOrganizationClinicalStaff tp;
+        for(StudyParticipantClinicalStaff spcs: tpList){
+            tp = spcs.getStudyOrganizationClinicalStaff();
+            addRow(emailContent, "Treating physician: ", tp == null ? "Not assigned" : tp.getDisplayName());
+        }
+
         emailContent.append("</table>");
         emailContent.append("<br>This notification was triggered by following responses: <br><br>");
 

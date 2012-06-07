@@ -39,7 +39,7 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
     @Override
     public void onDisplay(HttpServletRequest request, ParticipantCommand command) {
         for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
-            studyParticipantAssignment.getTreatingPhysician();
+            studyParticipantAssignment.getTreatingPhysicians();
         }
     }
 

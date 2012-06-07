@@ -49,7 +49,9 @@ public class ParticipantCommand {
 
     private String mode;
 
-    private List<StudyParticipantClinicalStaff> notificationStaffToRemove = new ArrayList<StudyParticipantClinicalStaff>();
+    private List<StudyParticipantClinicalStaff> treatingPhysiciansToRemove = new ArrayList<StudyParticipantClinicalStaff>();
+    private List<StudyParticipantClinicalStaff> researchNursesToRemove = new ArrayList<StudyParticipantClinicalStaff>();
+    
     private Set<Organization> clinicalStaffOrgs = new HashSet<Organization>();
     private boolean readOnly = false;
     private boolean readOnlyUserName = true;
@@ -76,7 +78,7 @@ public class ParticipantCommand {
     private Date offHoldTreatmentDate; //BJ - added for capturing the dates for OffHold (see ParticipantOffHoldController)
     private Date newStartDate;
     private Integer armId;
-    private List<StudyParticipantMode> studyParticipantModes = new ArrayList();
+    private List<StudyParticipantMode> studyParticipantModes = new ArrayList<StudyParticipantMode>();
     private String[] responseModes;
     private List<ParticipantSchedule> participantSchedules;
     StudyParticipantAssignment studyParticipantAssignment;
@@ -427,17 +429,20 @@ public class ParticipantCommand {
 
     public void assignStaff() {
         for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
-            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysician());
-            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurse());
-            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
-                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
-            }
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysicians());
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurses());
 
-            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : notificationStaffToRemove) {
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : treatingPhysiciansToRemove) {
+            	studyParticipantAssignment.getTreatingPhysicians().remove(studyParticipantClinicalStaff);
                 studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
-                studyParticipantAssignment.getNotificationClinicalStaff().remove(studyParticipantClinicalStaff);
             }
-            notificationStaffToRemove.clear();
+            treatingPhysiciansToRemove.clear();
+            
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : researchNursesToRemove) {
+            	studyParticipantAssignment.getResearchNurses().remove(studyParticipantClinicalStaff);
+                studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
+            }
+            researchNursesToRemove.clear();
         }
     }
 
@@ -449,8 +454,12 @@ public class ParticipantCommand {
         this.mode = mode;
     }
 
-    public void addNotificationStaffToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-        notificationStaffToRemove.add(studyParticipantClinicalStaff);
+    public void addTreatingPhysicianToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+    	treatingPhysiciansToRemove.add(studyParticipantClinicalStaff);
+    }
+    
+    public void addResearchNursesToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+    	researchNursesToRemove.add(studyParticipantClinicalStaff);
     }
 
     public Set<Organization> getClinicalStaffOrgs() {
@@ -792,4 +801,22 @@ public class ParticipantCommand {
 
 
     }
+
+	public List<StudyParticipantClinicalStaff> getTreatingPhysiciansToRemove() {
+		return treatingPhysiciansToRemove;
+	}
+
+	public void setTreatingPhysiciansToRemove(
+			List<StudyParticipantClinicalStaff> treatingPhysiciansToRemove) {
+		this.treatingPhysiciansToRemove = treatingPhysiciansToRemove;
+	}
+
+	public List<StudyParticipantClinicalStaff> getResearchNursesToRemove() {
+		return researchNursesToRemove;
+	}
+
+	public void setResearchNursesToRemove(
+			List<StudyParticipantClinicalStaff> researchNursesToRemove) {
+		this.researchNursesToRemove = researchNursesToRemove;
+	}
 }
