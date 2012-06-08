@@ -52,17 +52,28 @@
                             </c:forEach>
                             <c:set var="class" value="blue"/>
                             <c:set var="break" value="false"/>
+                            <c:set var="inprog" value="false"/>
+                            <c:set var="sched" value="false"/>
                             <c:forEach items="${currentSchedule.value}" var="sch">
                                 <c:if test="${break eq false}">
                                     <c:if test="${sch.status.displayName eq 'Past-due'}">
                                         <c:set var="class" value="red"/>
                                         <c:set var="break" value="true"/>
                                     </c:if>
-                                    <c:if test="${sch.status.displayName eq 'In-progress'}">
-                                        <c:set var="class" value="orange"/>
-                                    </c:if>
-                                    <c:if test="${fn:length(currentSchedule.value) eq 1 && sch.status.displayName eq 'Completed'}">
-                                        <c:set var="class" value="green"/>
+                                    <c:if test="${inprog eq false}">
+                                        <c:if test="${sched eq false}">
+                                            <c:if test="${sch.status.displayName eq 'Completed'}">
+                                                <c:set var="class" value="green"/>
+                                            </c:if>
+                                            <c:if test="${sch.status.displayName eq 'Scheduled'}">
+                                                <c:set var="class" value="blue"/>
+                                                <c:set var="sched" value="true"/>
+                                            </c:if>
+                                        </c:if>
+                                        <c:if test="${sch.status.displayName eq 'In-progress'}">
+                                            <c:set var="class" value="orange"/>
+                                            <c:set var="inprog" value="true"/>
+                                        </c:if>
                                     </c:if>
                                 </c:if>
 
