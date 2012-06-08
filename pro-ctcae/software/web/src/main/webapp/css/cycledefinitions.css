@@ -61,6 +61,30 @@ td.data {
     cursor: pointer;
 }
 
+.red {
+    background-color: red;
+    height: 50px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.orange {
+    background-color: #ff9900;
+    height: 50px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.green {
+    background-color: #00cc00;
+    height: 50px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
 .hoverActive {
     background-color: #990033;
 }
