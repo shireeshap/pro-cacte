@@ -262,7 +262,7 @@ function showCalendar(transport) {
 function showDetailsWindow(day) {
     var request = new Ajax.Request("<c:url value="/pages/user/dayScheduleDetails"/>", {
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 450, 300);
+            showConfirmationWindow(transport, 550, 250);
         },
         parameters:<tags:ajaxstandardparams/> +"&day=" + day,
         method:'get'
