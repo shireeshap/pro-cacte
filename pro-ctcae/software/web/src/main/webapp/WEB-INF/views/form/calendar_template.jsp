@@ -588,18 +588,16 @@ function isNumeric(fieldName) {
                 <tags:message code='form.tab.baseline'/>
             </td>
         </tr>
-
-    </tr>
 </table>
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
 <chrome:box title="form.tab.calendar_template">
     <c:if test="${fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true' }">
-        <c:set var="styleHidden" value="style='display:none'"/>
+        <c:set var="styleHidden" value="style='display:none';margin-top:5px;"/>
     </c:if>
-
+	<br />
     <div class="row" ${styleHidden}>
-        <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
-        <div class="value">
+        <div class="label" style="width:9em"><spring:message code="form.calendar.arm"></spring:message></div>
+        <div class="value" style="margin-left:10em">
             <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPageLocal();">
                 <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
                     <c:choose>
@@ -613,7 +611,6 @@ function isNumeric(fieldName) {
                     </c:choose>
                 </c:forEach>
             </select>
-
         </div>
         <c:if test="${fn:length(command.crf.formArmSchedules) gt 1 }">
             <table class="label1">
@@ -643,24 +640,27 @@ function isNumeric(fieldName) {
     </div>
 
 
-    <div class="row">
-        <div class="label" style="margin-top:3px;"><spring:message
-                code="form.calendar.scheduletype"></spring:message></div>
-        <div class="value">
-            <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
-                   style="margin:3px; vertical-align:middle;"
-                   <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">checked</c:if>/>
-            <spring:message code="form.calendar.genericschedule"/>
+    <div class="row" style="margin-top:5px;">
+        <div class="label" style="margin-top:3px;width:9em"><spring:message code="form.calendar.scheduletype"></spring:message></div>
+        <div class="value" style="margin-left:10em">
+	        <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">
+	            <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
+	                   style="margin:3px; vertical-align:middle;"
+	                   <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">checked</c:if>/>
+	            <spring:message code="form.calendar.genericschedule"/>
+	        </c:if>
             <input type="radio" name="scheduleType" value="cycleBased" onclick="showSchedule(this.value)"
                    style="margin:3px; vertical-align:middle;"
-                   <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions)gt 0}">checked</c:if>/>
+                   <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions)gt 0 || not selectedFormArmSchedule.crfCalendars[0].valid}">checked</c:if>/>
             <spring:message code="form.calendar.cyclebasedschedule"/>
         </div>
     </div>
+    <br />
 </chrome:box>
 <div id="calendarBasedDiv"
-     <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
+    <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
     <chrome:box title="form.calendar.genericschedule">
+        <br/>
         <table class="top-widget" width="100%">
             <tr id="repeatprops">
                 <td>
@@ -712,9 +712,11 @@ function isNumeric(fieldName) {
         <br/>
     </chrome:box>
 </div>
+
 <div id="cycleBasedDiv"
-     <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions) eq 0}">style="display:none;"</c:if>>
+    <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
     <chrome:box title="form.calendar.cyclebasedschedule">
+    	<br/>
         <table class="top-widget" width="100%">
             <tr>
                 <td>
@@ -725,8 +727,8 @@ function isNumeric(fieldName) {
                                                           repeatOptions="${cycleplannedrepetitions}"/>
                     </c:forEach>
                     <div id="hiddenDiv"></div>
-                    <chrome:division title=" "/>
                     <div style="width:4.5em;">
+                    	<br />
                         <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
                                      value="form.schedule.add_cycle" icon="add"/>
                     </div>
