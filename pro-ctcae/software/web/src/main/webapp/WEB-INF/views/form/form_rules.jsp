@@ -69,26 +69,30 @@
     </script>
 
 </head>
-<body>
-<table>
-    <tr>
-        <td style="text-align:right;font-weight:bold;"><tags:message code='form.label.study'/></td>
-        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
-    </tr>
-    <tr>
-        <td style="text-align:right;font-weight:bold;"><tags:message code='form.tab.form'/></td>
-        <td style="padding-left:10px;">${command.crf.title}</td>
-    </tr>
-    <tr>
-        <td style="text-align:right;font-weight:bold;">Instructions</td>
-        <td style="padding-left:10px;"><tags:message code='form.notification.instructions'/></td>
-    </tr>
-</table>
 
+<body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true" doNotShowSave="${readonlyview}">
 
     <jsp:attribute name="repeatingFields">
+<chrome:box>
+	<table>
+	    <tr>
+	        <td style="text-align:right;font-weight:bold;"><tags:message code='form.label.study'/></td>
+	        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+	    </tr>
+	    <tr>
+	        <td style="text-align:right;font-weight:bold;"><tags:message code='form.tab.form'/></td>
+	        <td style="padding-left:10px;">${command.crf.title}</td>
+	    </tr>
+	    <tr>
+	        <td style="text-align:right;font-weight:bold;">Instructions</td>
+	        <td style="padding-left:10px;"><tags:message code='form.notification.instructions'/></td>
+	    </tr>
+	</table>
+</chrome:box>
+
+
         <input type="hidden" name="rulesToDelete" id="rulesToDelete" value="">
         <c:forEach items="${notificationRules}" var="notificationRule" varStatus="status">
             <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}"/>

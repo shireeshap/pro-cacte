@@ -33,6 +33,8 @@
 
 </head>
 <body>
+
+<chrome:box>
 <c:choose>
     <c:when test="${param['crfId'] eq null}">
         <chrome:flashMessage flashMessage="Form has been created successfully"/>
@@ -69,7 +71,7 @@
         </td>
     </tr>
 </table>
-
+</chrome:box>
 <div class="flow-buttons">
     <span class="prev">
         <c:if test="${crf.status.displayName ne 'Released'}">

@@ -775,12 +775,11 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-	   <div style="float:right; margin-right:10px;"><tags:button type="submit" icon="Save & Continue" color="green"
-                                                                 id="flow-next"
-                                                                 value="Save & Continue"/></div>
-	<chrome:division title="Basic Details">
-
-
+    <div style="float:right; margin-right:10px;">
+    <tags:button type="submit" icon="Save & Continue" color="green"
+                   id="flow-next" value="Save & Continue"/></div>
+    <br />  <br /> <br />      
+	<chrome:box title="Basic Details">
         <div class="row">
             <div class="label"><spring:message code="form.label.study"/>:</div>
             <div class="value">${command.crf.study.displayName} </div>
@@ -814,10 +813,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         </div>
 
         <tags:formSettings crf="${command.crf}"></tags:formSettings>
-
         <tags:instructions code="form.label.title.instruction"/>
-    </chrome:division>
-<chrome:division title="Questions">
+    </chrome:box>
+    
+<chrome:box title="Questions">
     <div id="displayOptionsMenu" class="hidden">
         <ul>
             <li>
@@ -999,7 +998,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             </td>
         </tr>
     </table>
-</chrome:division>
+</chrome:box>
 </jsp:attribute>
 </tags:tabForm>
 </body>
