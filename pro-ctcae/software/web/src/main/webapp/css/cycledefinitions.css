@@ -45,6 +45,14 @@ td.data {
     border-left: 1px solid #C3D9FF;
 }
 
+td.data1 {
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #C3D9FF;
+    border-left: 1px solid #C3D9FF;
+}
+
 .grey {
     background-color: #eaf1f4;
     height: 20px; /*color: #666666;*/

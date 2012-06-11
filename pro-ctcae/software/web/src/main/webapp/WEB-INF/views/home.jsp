@@ -10,8 +10,8 @@
 <tags:includeScriptaculous/>
 <tags:includePrototypeWindow/>
 <tags:stylesheetLink name="cycledefinitions"/>
-    <tags:javascriptLink name="cycledefinitions"/>
-    <%--<tags:javascriptLink name="yui"/>--%>
+<tags:javascriptLink name="cycledefinitions"/>
+<%--<tags:javascriptLink name="yui"/>--%>
 <tags:stylesheetLink
         name="table_menu"/><tags:includeScriptaculous/><tags:includePrototypeWindow/><tags:formBuilder/><tags:formActionMenu/>
 <style type="text/css">
@@ -227,14 +227,14 @@ function moreRows() {
     refreshPage();
 }
 
-function loadMyCalendar() {
-    var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {
-        onComplete:function(transport) {
-            new Insertion.After('calendar_inner', transport.responseText);
-        },
-        method:'get'
-    })
-}
+//function loadMyCalendar() {
+    <%--var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {--%>
+//        onComplete:function(transport) {
+//            new Insertion.After('calendar_inner', transport.responseText);
+//        },
+//        method:'get'
+//    })
+//}
 
 function getCalendar(dir) {
     $('ajaxLoadingImgDiv').show();
@@ -262,7 +262,7 @@ function showCalendar(transport) {
 function showDetailsWindow(day) {
     var request = new Ajax.Request("<c:url value="/pages/user/dayScheduleDetails"/>", {
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 550, 250);
+            showConfirmationWindow(transport, 850, 350);
         },
         parameters:<tags:ajaxstandardparams/> +"&day=" + day,
         method:'get'
@@ -274,6 +274,28 @@ function showPopUpMenuAlert(day) {
     html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + day + ');">Show details</a></li>';
     html += '</ul></div>';
     jQuery('#scheduleActions' + day).menu({
+        content: html,
+        maxHeight: 350,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+        },
+        showSpeed: 300
+    });
+}
+
+function showPo(scheduleid, pid) {
+    var html = '<div id="search-engines"><ul>';
+<proctcae:urlAuthorize url="/pages/participant/enterResponses">
+    html += '<li id="nav"><a href="#" >Print form </a><ul><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
+    html += '<li><a href="#" onclick="location.href=\'participant/enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses</a></li>';
+</proctcae:urlAuthorize>
+       html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
+    html += '</ul></div>';
+    jQuery('#scheduleAct' + scheduleid).menu({
         content: html,
         maxHeight: 350,
         positionOpts: {
@@ -748,21 +770,21 @@ YAHOO.util.Event.addListener(window, "load", function() {
         <%--<chrome:box title="Quick Links">--%>
         <div style="padding-left:2px; padding-right:2px;">
             <table width="100%" cellpadding="10" cellspacing="0" border="0">
-                <tr>
-                    <proctcae:urlAuthorize url="/pages/participant/monitorForm">
-                        <td id="a1" class="quickLinkBGon"
-                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
-                            <div class="quickLinkRow">
-                                <div class="quickLinkPicture"><img
-                                        src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"
-                                        align="middle"
-                                        class="quickLink"></div>
-                                <div class="quickLinkLabel"><a href="" onclick="javascript:getCalendar('refresh');"
-                                                               class="quickLink">My Calendar</a></div>
-                            </div>
-                        </td>
-                    </proctcae:urlAuthorize>
-                </tr>
+                <%--<tr>--%>
+                <%--<proctcae:urlAuthorize url="/pages/participant/monitorForm">--%>
+                <%--<td id="a1" class="quickLinkBGon"--%>
+                <%--style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">--%>
+                <%--<div class="quickLinkRow">--%>
+                <%--<div class="quickLinkPicture"><img--%>
+                <%--src="<c:url value="/images/blue/icons/manageFormController_icon.png"/>"--%>
+                <%--align="middle"--%>
+                <%--class="quickLink"></div>--%>
+                <%--<div class="quickLinkLabel"><a href="" onclick="javascript:getCalendar('refresh');"--%>
+                <%--class="quickLink">My Calendar</a></div>--%>
+                <%--</div>--%>
+                <%--</td>--%>
+                <%--</proctcae:urlAuthorize>--%>
+                <%--</tr>--%>
                 <tr>
                     <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
                         <td id="a1" class="quickLinkBGon"
@@ -916,14 +938,14 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <tr>
     <td>
         <c:if test="${studyLevelRole || siteLevelRole}">
-                <chrome:box title="My Calendar" collapsable="true" id="mycalendar" collapsed="false">
+            <chrome:box title="My Calendar" collapsable="true" id="mycalendar" collapsed="false">
 
-        <div id="calendar_outer">
-            <div id="calendar_inner"></div>
-            <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
-        </div>
+                <div id="calendar_outer">
+                    <div id="calendar_inner"></div>
+                    <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
+                </div>
 
-        </chrome:box>
+            </chrome:box>
         </c:if>
     </td>
 </tr>
