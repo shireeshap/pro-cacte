@@ -217,7 +217,7 @@ function showPopUpMenuSpcs(sid, pid, formName) {
     var html = '<div id="search-engines"><ul>';
     
 	<proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
+	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Manage schedule</a></li>';
 	</proctcae:urlAuthorize>
 	<proctcae:urlAuthorize url="/pages/participant/enterResponses">
 	    html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/printSchedule"/>?lang=en&id=' + sid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/printSchedule"/>?lang=es&id=' + sid + '\'">Spanish</a></li></ul></li>';
