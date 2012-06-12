@@ -939,11 +939,17 @@ YAHOO.util.Event.addListener(window, "load", function() {
     <td>
         <c:if test="${studyLevelRole || siteLevelRole}">
             <chrome:box title="My Calendar" collapsable="true" id="mycalendar" collapsed="false">
-
-                <div id="calendar_outer">
+                <table border="0" width="95%" align="center">
+                    <tr>
+                        <td>
+                            <div id="calendar_outer">
                     <div id="calendar_inner"></div>
                     <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
                 </div>
+                        </td>
+                    </tr>
+                </table>
+
 
             </chrome:box>
         </c:if>
@@ -1045,104 +1051,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 
-<%--<tr>--%>
-<%--<td>--%>
-<%--<c:if test="${siteLevelRole}">--%>
-<%--<chrome:box title="Upcoming Schedule" collapsable="true" id="upcoming" collapsed="false">--%>
-<%--<c:choose>--%>
-<%--<c:when test="${empty overdue}">--%>
-<%--<div style="margin-left:15px;">--%>
-<%--You have no upcoming schedule.--%>
-<%--</div>--%>
-<%--</c:when>--%>
-<%--<c:otherwise>--%>
-<%--<div id="alertsdiv">--%>
-<%--<table class="widget" cellpadding="5px;">--%>
-<%--<tr>--%>
-<%--<td class="header-top1" width="15%" style="text-align:left">--%>
-<%--Participant--%>
-<%--</td>--%>
-<%--<td class="header-top1" width="45%" style="text-align:left">--%>
-<%--Study--%>
-<%--</td>--%>
-<%--<td class="header-top1" width="20%" style="text-align:left">--%>
-<%--Form title--%>
-<%--</td>--%>
-<%--<td class="header-top1" width="10%" style="text-align:left">--%>
-<%--Start date--%>
-<%--</td>--%>
-<%--<td class="header-top1" width="10%" style="text-align:left">--%>
-<%--Due date--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--<c:forEach items="${upcoming}" var="schedule">--%>
-<%--<tr>--%>
-<%--<td style="text-align:left" width="15%">--%>
-<%--<proctcae:urlAuthorize url="/pages/participant/schedulecrf">--%>
-<%--<a href="participant/schedulecrf?sid=${schedule.id}"--%>
-<%--class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>--%>
-<%--</proctcae:urlAuthorize>--%>
-<%--</td>--%>
-<%--<td style="text-align:left" width="45%">--%>
-<%--<c:choose>--%>
-<%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">--%>
-<%--<div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">--%>
-<%--${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...--%>
-<%--</div>--%>
-<%--</c:when>--%>
-<%--<c:otherwise>--%>
-<%--${schedule.studyParticipantCrf.crf.study.shortTitle}--%>
-<%--</c:otherwise>--%>
-<%--</c:choose>--%>
-<%--</td>--%>
-<%--<td style="text-align:left" width="20%">--%>
-<%--<c:choose>--%>
-<%--<c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">--%>
-<%--<div title="${schedule.studyParticipantCrf.crf.title}">--%>
-<%--${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...--%>
-<%--</div>--%>
-<%--</c:when>--%>
-<%--<c:otherwise>--%>
-<%--${schedule.studyParticipantCrf.crf.title}--%>
-<%--</c:otherwise>--%>
-<%--</c:choose>--%>
-<%--</td>--%>
-<%--<td style="text-align:left" width="10%">--%>
-<%--<tags:formatDate value="${schedule.startDate}"/>--%>
-<%--</td>--%>
-<%--<td style="text-align:left" width="10%">--%>
-<%--<tags:formatDate value="${schedule.dueDate}"/>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</c:forEach>--%>
-<%--<tr align="right">--%>
-<%--<c:if test="${loadUpcoming == null || loadUpcoming eq 'less'}">--%>
-<%--<td colspan="5">--%>
-<%--<A HREF="./home?loadUpcoming=all&loadOverdue=${loadOverdue}">show more</A>--%>
-<%--</td>--%>
-<%--</c:if>--%>
-<%--<c:if test="${loadUpcoming eq 'all'}">--%>
-<%--<td colspan="5">--%>
-<%--<A HREF="./home?loadUpcoming=less&loadOverdue=${loadOverdue}">show less</A>--%>
-<%--</td>--%>
-<%--</c:if>--%>
-<%--</tr>--%>
-<%--</table>--%>
-<%--<br/>--%>
-<%--</div>--%>
-<%--</c:otherwise>--%>
-<%--</c:choose>--%>
-<%--<br/>--%>
-<%--</chrome:box>--%>
-<%--</c:if>--%>
-<%--</td>--%>
-<%--</tr>--%>
 </table>
 
-
-<%--</div>--%>
-<%--<div class="panel">--%>
-
-<%--</div>--%>
 </body>
 </html>
