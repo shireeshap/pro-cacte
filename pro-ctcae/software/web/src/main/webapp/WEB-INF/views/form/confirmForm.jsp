@@ -34,7 +34,6 @@
 </head>
 <body>
 
-<chrome:box>
 <c:choose>
     <c:when test="${param['crfId'] eq null}">
         <chrome:flashMessage flashMessage="Form has been created successfully"/>
@@ -43,15 +42,18 @@
         <chrome:flashMessage flashMessage="Form has been saved successfully"/>
     </c:otherwise>
 </c:choose>
+
+<chrome:box>
 <div class="instructions">
-    <div class="summarylabel"><tags:message code='form.label.study'/></div>
+    <div class="summarylabel"><tags:message code='form.label.study'/>:</div>
     <div class="summaryvalue">${crf.study.displayName}</div>
 </div>
 <div class="instructions">
 
-    <div class="summarylabel"><tags:message code='form.label.title'/></div>
+    <div class="summarylabel"><tags:message code='form.label.title'/>:</div>
     <div class="summaryvalue">${crf.title}</div>
 </div>
+<br/>
 <table id="formbuilderTable">
     <tr>
         <td id="left">
@@ -72,6 +74,7 @@
     </tr>
 </table>
 </chrome:box>
+
 <div class="flow-buttons">
     <span class="prev">
         <c:if test="${crf.status.displayName ne 'Released'}">

@@ -2,14 +2,11 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 
-<body>
-
 	<chrome:box title="form.button.delete.cycle">
-		<tags:message code="form.button.delete.cycle.instructions"/>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;<tags:message code="form.button.delete.cycle.instructions"/></p>
 		<c:set var="delete">
 			<tags:message code="label.delete"/>
 		</c:set>
@@ -24,5 +21,3 @@
 		           color="blue" onclick="closeWindow()"/>
 		</div>
     </chrome:box>
-
-</body>

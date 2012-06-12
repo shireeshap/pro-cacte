@@ -77,6 +77,13 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         setAllowDirtyForward(false);
         setSessionForm(true);
     }
+    
+    public static CreateFormCommand getCreateFormCommand(HttpServletRequest request) {
+    	//gov.nih.nci.ctcae.web.form.FormController.FORM.command
+    	return (CreateFormCommand)
+                 request.getSession().getAttribute(FormController.class.getName() + ".FORM." + "command");
+         
+    }
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#getFormSessionAttributeName()
@@ -127,7 +134,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         flow.addTab(new FormDetailsTab());
         flow.addTab(new CalendarTemplateTab());
         flow.addTab(new FormRulesTab());
-        flow.addTab(new EmptyFormTab("form.tab.overview", "form.tab.overview", "form/confirmForm"));
+        flow.addTab(new EmptyFormTab());
     }
 
     /* (non-Javadoc)

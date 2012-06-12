@@ -9,7 +9,7 @@
 <%@attribute name="crfIndex" required="false" %>
 <%@attribute name="repeatOptions" type="java.util.List" required="false" %>
 
-
+<div id="cycle_definition_${cycleDefinitionIndex}">
 <c:if test="${cycleDefinitionIndex > 0}">
     <c:set var="extraText" value="(applied consecutively after completion of above cycle definition)"/>
 </c:if>
@@ -44,7 +44,9 @@
                          deleteParams="deleteCycleDefinition('${cycleDefinitionIndex}')">
 
             <table>
+            	<tr><td></td></tr>
                 <tr>
+                	<td>&nbsp;</td>
                     <td>
                         <b><tags:message code="form.schedule.cycle_length"/></b>
                         <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
@@ -113,3 +115,4 @@
     </c:otherwise>
 </c:choose>
 <br/>
+</div>

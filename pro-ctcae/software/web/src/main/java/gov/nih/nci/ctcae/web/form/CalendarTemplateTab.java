@@ -111,18 +111,11 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             if ("cycleBased".equals(scheduleType)) {
                 crfCalendar.makeInvalid();
                 command.createCycles(request);
-                if (!StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
-                    Integer crfCycleDefinitionIndex = Integer.valueOf(command.getCrfCycleDefinitionIndexToRemove());
-                    CRFCycleDefinition crfCycleDefinition = command.getSelectedFormArmSchedule().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
-                    command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
-                    command.setCrfCycleDefinitionIndexToRemove("");
-                }
                 for (CRFCycleDefinition invalidCrfCycleDefinition : command.getInvalidCycleDefinitions()) {
                     command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(invalidCrfCycleDefinition);
                 }
                 command.getInvalidCycleDefinitions().clear();
             }
-
             
             for (FormArmSchedule fasMain: command.getCopySelectedArmScheduleIds()){
                  for (FormArmSchedule fas : command.getCrf().getFormArmSchedules()) {
@@ -132,11 +125,9 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                             break; 
                         }
                     }
-
                 }
             }
             command.getCopySelectedArmScheduleIds().clear();
-
         }
         command.setCrf(crfRepository.save(command.getCrf()));
         super.postProcess(request, command, errors);
