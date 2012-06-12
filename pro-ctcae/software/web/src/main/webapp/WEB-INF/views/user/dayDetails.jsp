@@ -95,13 +95,14 @@ Event(s) for <b>${date}</b>:
         <td width="17%"></td>
         <td width="17%"></td>
         <td width="15%"></td>
-        <td width="11%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%" align="center"><br>
-            <input type="button" value="Ok" onclick="closeWindow()"/> <br>
+        <td width="11%"><br>
+            <tags:button value="Ok" color="blue" size="big" onclick="closeWindow()"/>
+            <%--<input type="button" value="Ok" size="59%" onclick="closeWindow()"/>--%>
         </td>
+        <td width="10%"></td>
+        <td width="10%"></td>
+        <td width="10%"></td>
+        <td width="10%"></td>
     </tr>
 </table>
 </body>
