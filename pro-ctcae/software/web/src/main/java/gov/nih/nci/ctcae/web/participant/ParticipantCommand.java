@@ -720,12 +720,7 @@ public class ParticipantCommand {
                 }
             }
         }
-        if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
-            CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
-            for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
-                spc.getStartDate();
-            }
-        }
+
         for (CRF crf : studyParticipantCrf.getStudyParticipantAssignment().getStudySite().getStudy().getCrfs()) {
             crf.getTitle();
         }
