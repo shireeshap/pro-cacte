@@ -528,7 +528,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
             {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100},
             {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
         ];
 
@@ -600,7 +600,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
             {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100},
             {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
         ];
 
@@ -671,7 +671,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:150},
             {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:150},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:true, resizeable:false, width:100}
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100}
         ];
 
         var myUpcomingFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchUpcomingForms?");

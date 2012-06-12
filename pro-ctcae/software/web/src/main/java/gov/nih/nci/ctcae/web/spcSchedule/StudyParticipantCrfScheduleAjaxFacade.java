@@ -21,8 +21,8 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
         spcsQuery.setFirstResult(startIndex);
         spcsQuery.setMaximumResults(results);
-        spcsQuery.setSortBy("spcs." + sortField);
-        spcsQuery.setSortDirection(direction);
+//        spcsQuery.setSortBy("spcs." + sortField);
+//        spcsQuery.setSortDirection(direction);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (status.equals(CrfStatus.PASTDUE)) {
             spcsQuery.filterByUsernameOnly(userName);
@@ -37,8 +37,8 @@ public class StudyParticipantCrfScheduleAjaxFacade {
             spcsQuery.filterByGreaterDate(current);
         }
 
-        List<StudyParticipantCrfSchedule> schedules = (List<StudyParticipantCrfSchedule>) spcsRepository.find(spcsQuery);
-        return schedules;
+//        List<StudyParticipantCrfSchedule> schedules = (List<StudyParticipantCrfSchedule>) spcsRepository.find(spcsQuery);
+        return spcsRepository.find(spcsQuery);
     }
 
     public Long resultCount(CrfStatus status, Date current) {
