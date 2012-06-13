@@ -105,8 +105,6 @@
                       p:mainController="searchParticipantController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
 
                         </list>
                     </property>
