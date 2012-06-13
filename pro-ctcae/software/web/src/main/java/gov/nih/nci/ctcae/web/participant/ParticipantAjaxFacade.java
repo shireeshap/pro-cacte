@@ -133,31 +133,10 @@ public class ParticipantAjaxFacade {
                 }
             }
         }
-//        if (!StringUtils.isBlank(searchText)) {
-//            participantQuery.filterByAll(searchText);
-//        }
 
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
 
-        if (!user.isAdmin()) {
-            Long searchCount = resultCount(searchTexts);
-            if (participants.size() == results) {
-                return participants;
-            } else {
-                int index = startIndex;
-                while (participants.size() != results && participants.size() != searchCount) {
-                    index = results + index;
-                    participantQuery.setFirstResult(index);
-                    List<Participant> l = (List<Participant>) participantRepository.find(participantQuery);
-                    for (Participant participant : l) {
-                        participants.add(participant);
-                    }
-                    l.clear();
-                }
-                return participants;
-            }
-        }
         return participants;
     }
 
