@@ -97,7 +97,7 @@ public class EditFormController extends FormController {
             }
         }
 
-        EmptyFormTab emptyFormTab = new EmptyFormTab();
+        EmptyFormTab emptyFormTab = new EmptyFormTab("form.tab.overview", "form.tab.overview", "form/confirmForm");
         emptyFormTab.setCrfRepository(crfRepository);
         flow.addTab(emptyFormTab);
         return getSecuredFlow(flow);

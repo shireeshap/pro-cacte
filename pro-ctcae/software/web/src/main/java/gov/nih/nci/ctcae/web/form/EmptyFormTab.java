@@ -14,9 +14,8 @@ public class EmptyFormTab extends SecuredTab<CreateFormCommand> {
 
     CRFRepository crfRepository;
 
-    public EmptyFormTab() {
-        super("form.tab.overview", "form.tab.overview", "form/confirmForm");
-    	//super(longTitle, shortTitle, viewName);
+    public EmptyFormTab(String longTitle, String shortTitle, String viewName) {
+        super(longTitle, shortTitle, viewName);
     }
 
 
