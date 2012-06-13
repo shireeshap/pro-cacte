@@ -39,7 +39,7 @@
                 onComplete:function(transport) {
                     addRuleConditionDiv(ruleId, transport);
                 },
-                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&action=addCondition&ruleId=" + ruleId,
+                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&dcStr="+ $('delete_conditions_' + ruleId).value +"&action=addCondition&ruleId=" + ruleId,
                 method:'get'
             })
 

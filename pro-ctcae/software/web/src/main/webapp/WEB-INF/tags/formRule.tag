@@ -106,7 +106,7 @@
                         <input type="hidden" name="override_${rule.id}" value="true"/>
                     </c:when>
                     <c:otherwise>
-                        <b>Can these settings be overwritten at the local site level?</b>
+                        <b>&nbsp;&nbsp;Can these settings be overwritten at the local site level?</b>
                         <select name="override_${rule.id}">
                             <option value="true" <c:if
                                     test="${rule.siteOverRide}"> selected </c:if> >Yes

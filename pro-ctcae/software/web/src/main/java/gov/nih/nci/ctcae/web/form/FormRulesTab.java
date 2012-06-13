@@ -61,6 +61,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("notificationRules", command.getFormRules(crfRepository));
         map.put("allQuestionTypes", Arrays.asList(ProCtcQuestionType.values()));
         map.put("isSite", "false");
+        map.put("showOr", "true");
 
         map.put("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
         map.put("operators", Arrays.asList(NotificationRuleOperator.values()));

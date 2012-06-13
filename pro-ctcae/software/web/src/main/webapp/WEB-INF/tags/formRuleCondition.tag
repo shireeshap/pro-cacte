@@ -11,7 +11,7 @@
 
 <tr id="tr_condition_${ruleId}_${ruleConditionIndex}">
     <td align="left">
-        <c:if test="${ruleConditionIndex>0}"><b>OR&nbsp;</b></c:if>
+        <c:if test="${ruleConditionIndex>0 && showOr}"><b>OR&nbsp;</b></c:if>
         <input type="hidden" name="conditions_${ruleId}" value="${ruleConditionIndex}"/>
     </td>
     <td align="left">

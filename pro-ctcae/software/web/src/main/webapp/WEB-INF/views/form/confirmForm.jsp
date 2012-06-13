@@ -10,7 +10,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <head>
-
+<tags:stylesheetLink name="tabbedflow"/>
     <tags:formBuilder/>
     <tags:includePrototypeWindow/>
 
@@ -34,61 +34,60 @@
 </head>
 <body>
 
-<c:choose>
-    <c:when test="${param['crfId'] eq null}">
-        <chrome:flashMessage flashMessage="Form has been created successfully"/>
-    </c:when>
-    <c:otherwise>
-        <chrome:flashMessage flashMessage="Form has been saved successfully"/>
-    </c:otherwise>
-</c:choose>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="true" doNotShowBack="true" notDisplayInBox="true">
+    <jsp:attribute name="singleFields">
+	<c:choose>
+	    <c:when test="${param['crfId'] eq null}">
+	        <chrome:flashMessage flashMessage="Form has been created successfully"/>
+	    </c:when>
+	    <c:otherwise>
+	        <chrome:flashMessage flashMessage="Form has been saved successfully"/>
+	    </c:otherwise>
+	</c:choose>
+	
+	<div class="instructions">
+	    <div class="summarylabel"><tags:message code='form.label.study'/>:</div>
+	    <div class="summaryvalue">${crf.study.displayName}</div>
+	</div>
+	<div class="instructions">
+	
+	    <div class="summarylabel"><tags:message code='form.label.title'/>:</div>
+	    <div class="summaryvalue">${crf.title}</div>
+	</div>
+	<br/>
+	<table id="formbuilderTable">
+	    <tr>
+	        <td id="left">
+	            <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
+	                <div class="formpages">
+	                    <div class="formpageheader">${crfPage.description}</div>
+	                    <br/>
+	                    <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
+	                    <br>
+	                    <c:forEach items="${crfPage.crfPageItems}" var="crfPageItem">
+	                        <tags:reviewCrfPageItem crfPageItem="${crfPageItem}" showInstructions="true"
+	                                                displayOrder="${crfPageItem.displayOrder}"></tags:reviewCrfPageItem>
+	                    </c:forEach>
+	                    <br>
+	                </div>
+	            </c:forEach>
+	        </td>
+	    </tr>
+	</table>
 
-<chrome:box>
-<div class="instructions">
-    <div class="summarylabel"><tags:message code='form.label.study'/>:</div>
-    <div class="summaryvalue">${crf.study.displayName}</div>
-</div>
-<div class="instructions">
-
-    <div class="summarylabel"><tags:message code='form.label.title'/>:</div>
-    <div class="summaryvalue">${crf.title}</div>
-</div>
-<br/>
-<table id="formbuilderTable">
-    <tr>
-        <td id="left">
-            <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
-                <div class="formpages">
-                    <div class="formpageheader">${crfPage.description}</div>
-                    <br/>
-                    <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
-                    <br>
-                    <c:forEach items="${crfPage.crfPageItems}" var="crfPageItem">
-                        <tags:reviewCrfPageItem crfPageItem="${crfPageItem}" showInstructions="true"
-                                                displayOrder="${crfPageItem.displayOrder}"></tags:reviewCrfPageItem>
-                    </c:forEach>
-                    <br>
-                </div>
-            </c:forEach>
-        </td>
-    </tr>
-</table>
-</chrome:box>
 
 <div class="flow-buttons">
     <span class="prev">
         <c:if test="${crf.status.displayName ne 'Released'}">
-            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
+            <tags:button color="green" markupWithTag="a" icon="window" value="Release Form"
                          onclick="javascript:releaseForm('${crf.id}')"/>
         </c:if>
-
     </span>
      <span class="prev">
         <c:if test="${crf.status.displayName ne 'Released'}">
-            <tags:button type="submit" color="blue" id="flow-prev" markupWithTag="a" href="/proctcae/pages/form/editForm?crfId=${crf.id}"
+            <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab2"
                              value="Back" icon="Back"/>
         </c:if>
-
     </span>
 	<span class="next">
 		<tags:button color="green" markupWithTag="a" icon="check" value="Finish" href="/proctcae"/>
@@ -96,4 +95,6 @@
 </div>
 <br>
 <br>
+	</jsp:attribute>
+</tags:tabForm>
 </body>

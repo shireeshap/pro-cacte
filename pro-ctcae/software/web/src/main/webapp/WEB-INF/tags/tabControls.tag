@@ -10,6 +10,7 @@
 <%@attribute name="localButtons" fragment="true" %>
 <%@attribute name="txtForSaveButton" %>
 <%@attribute name="doNotShowSave" %>
+<%@attribute name="doNotShowBack" %>
 <%@attribute name="showFinish" %>
 <%@attribute name="showCreate" %>
 <%@attribute name="createLink" %>
@@ -24,7 +25,7 @@
     </div>
     <div class="flow-buttons">
         <span class="prev">
-            <c:if test="${tabNumber > 0}">
+            <c:if test="${tabNumber > 0 && !doNotShowBack}">
                 <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}"
                              value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
             </c:if>

@@ -47,17 +47,34 @@ public class AddFormRuleController extends AbstractController {
             for (SiteCRFNotificationRule siteCRFNotificationRule : command.getMyOrg().getSiteCRFNotificationRules()) {
                 if (siteCRFNotificationRule.getNotificationRule().getId().equals(ruleId)) {
                     notificationRule = siteCRFNotificationRule.getNotificationRule();
+                    break;
                 }
             }
         } else {
             for (CRFNotificationRule crfNotificationRule : command.getCrf().getCrfNotificationRules()) {
                 if (crfNotificationRule.getNotificationRule().getId().intValue() == Integer.parseInt(ruleId)) {
                     notificationRule = crfNotificationRule.getNotificationRule();
+                    break;
                 }
             }
         }
         NotificationRuleCondition notificationRuleCondition = command.addCondition(notificationRule);
         index = notificationRule.getNotificationRuleConditions().size() - 1;
+        
+        //If number of deleted conditions(only tr from html is removed at this point; the command object will still have the conditions) equals one less than the size
+        //of the conditions Array then this is the first condition. This happens when user deletes all conditions and starts over.
+        String dc = request.getParameter("dcStr");
+        int sizeOfDeletedConditions = -1;
+        if(dc != null){
+        	if(dc.trim().equals("")){
+        		sizeOfDeletedConditions = 0;
+        	} else {
+            	sizeOfDeletedConditions = dc.split(",").length;
+        	}
+        }
+        boolean showOr = (sizeOfDeletedConditions == index)?false:true;
+        
+        modelAndView.addObject("showOr", showOr);
         modelAndView.addObject("ruleId", ruleId);
         modelAndView.addObject("ruleConditionIndex", index);
         modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
@@ -82,7 +99,7 @@ public class AddFormRuleController extends AbstractController {
         } else {
             command.addRuleToCrf();
             index = command.getCrf().getCrfNotificationRules().size() - 1;
-            command.setCrf(crfRepository.save(command.getCrf()));
+            //command.setCrf(crfRepository.save(command.getCrf()));
             modelAndView.addObject("rule", command.getCrf().getCrfNotificationRules().get(index).getNotificationRule());
         }
         modelAndView.addObject("ruleIndex", index);
