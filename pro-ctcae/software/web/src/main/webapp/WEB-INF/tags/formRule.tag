@@ -9,16 +9,16 @@
 
 <c:set var="readOnly" value="${(isSite && !rule.siteOverRide) || readOnly}"/>
 <c:set var="notificationRule" value="${rule}"/>
-<input type="hidden" name="ruleIds" value="${rule.id}"/>
+<input type="hidden" name="ruleIndices" value="${ruleIndex}"/>
 <c:set var="margin" value="15em"/>
-<div id="rule_div_${rule.id}">
+<div id="rule_div_${ruleIndex}">
     <c:choose>
         <c:when test="${readOnly}">
             <tags:readOnlyRule rule="${rule}" ruleIndex="${ruleIndex}"/>
         </c:when>
         <c:otherwise>
             <chrome:box title="Rule ${ruleIndex+1} " enableDelete="true"
-                        deleteParams="deleteRule('${rule.id}','${ruleIndex+1}');">
+                        deleteParams="deleteRule('${ruleIndex}','${ruleIndex+1}');">
                 <chrome:division title="Symptoms"/>
                 <div style="margin-left:${margin}">
                     <table>
@@ -29,28 +29,29 @@
                                     <c:set var="checked" value="checked"/>
                                 </c:if>
                             </c:forEach>
+                            <tr>
                             <c:choose>
                                 <c:when test="${status.index%2 == 0}">
-                                    <tr>
-                                    <td><input type="checkbox" name="symptoms_${rule.id}"
+                                    
+                                    <td><input type="checkbox" name="symptoms_${ruleIndex}"
                                                value="${symptom.id}" ${checked}>&nbsp;${symptom.term}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td><input type="checkbox" name="symptoms_${rule.id}"
+                                    <td><input type="checkbox" name="symptoms_${ruleIndex}"
                                                value="${symptom.id}" ${checked}>&nbsp;${symptom.term}</td>
-                                    </tr>
                                 </c:otherwise>
                             </c:choose>
+                            </tr>
                         </c:forEach>
                     </table>
                 </div>
                 <chrome:division title="Attributes"/>
                 <div style="margin-left:${margin}">
-                    <input type="hidden" name="delete_conditions_${rule.id}" id="delete_conditions_${rule.id}" value=""/>
+                    <input type="hidden" name="delete_conditions_${ruleIndex}" id="delete_conditions_${ruleIndex}" value=""/>
                     <table>
                         <c:forEach items="${notificationRule.notificationRuleConditions}" var="condition"
                                    varStatus="status">
-                            <tags:formRuleCondition ruleId="${rule.id}"
+                            <tags:formRuleCondition ruleIndex="${ruleIndex}"
                                                     ruleConditionIndex="${status.index}"
                                                     condition="${condition}"
                                                     operators="${operators}"
@@ -58,13 +59,13 @@
                                     />
 
                         </c:forEach>
-                        <tr id="hiddenDivCondition_${rule.id}"></tr>
+                        <tr id="hiddenDivCondition_${ruleIndex}"></tr>
                         <tr>
                             <td></td>
                             <td colspan="3">
                                 <c:if test="${!empty questionTypes }">
                                 <tags:button icon="add" color="blue" value="Add" size="small"
-                                                         onclick="addCondition('${rule.id}')"
+                                                         onclick="addCondition('${ruleIndex}')"
                                                          markupWithTag="a"/>
                                 </c:if>
                             </td>
@@ -86,12 +87,12 @@
                                 <c:when test="${status.index%2 == 0}">
                                     <tr>
                                     <td>
-                                        <input type="checkbox" name="notifications_${rule.id}"
+                                        <input type="checkbox" name="notifications_${ruleIndex}"
                                                value="${notification.code}"
                                             ${selected}/>&nbsp;${notification.desc}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td><input type="checkbox" name="notifications_${rule.id}"
+                                    <td><input type="checkbox" name="notifications_${ruleIndex}"
                                                value="${notification.code}"
                                         ${selected}/>&nbsp;${notification.desc}</td>
                                     </tr>
@@ -103,11 +104,11 @@
                 <br/>
                 <c:choose>
                     <c:when test="${isSite}">
-                        <input type="hidden" name="override_${rule.id}" value="true"/>
+                        <input type="hidden" name="override_${ruleIndex}" value="true"/>
                     </c:when>
                     <c:otherwise>
                         <b>&nbsp;&nbsp;Can these settings be overwritten at the local site level?</b>
-                        <select name="override_${rule.id}">
+                        <select name="override_${ruleIndex}">
                             <option value="true" <c:if
                                     test="${rule.siteOverRide}"> selected </c:if> >Yes
                             </option>

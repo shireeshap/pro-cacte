@@ -19,7 +19,6 @@
             addRemoveConditionalTriggeringDisplayToQuestion();
             reOrderQuestionNumber();
         })
-
     </script>
     <style type="text/css">
         * {
@@ -34,7 +33,7 @@
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="true" doNotShowBack="true" notDisplayInBox="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="true" doNotShowBack="true" notDisplayInBox="true" noFlashMessage="true">
     <jsp:attribute name="singleFields">
 	<c:choose>
 	    <c:when test="${param['crfId'] eq null}">
@@ -45,16 +44,20 @@
 	    </c:otherwise>
 	</c:choose>
 	
-	<div class="instructions">
-	    <div class="summarylabel"><tags:message code='form.label.study'/>:</div>
-	    <div class="summaryvalue">${crf.study.displayName}</div>
-	</div>
-	<div class="instructions">
-	
-	    <div class="summarylabel"><tags:message code='form.label.title'/>:</div>
-	    <div class="summaryvalue">${crf.title}</div>
-	</div>
-	<br/>
+	<chrome:box>
+		<table>
+		    <tr>
+		        <td width="40%" style="text-align:right;font-weight:bold;margin-left:3em;"><tags:message code='form.label.study'/>:</td>
+		        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+		    </tr>
+		    <tr>
+		        <td style="text-align:right;font-weight:bold;margin-left:3em;"><tags:message code='form.label.title'/>:</td>
+		        <td style="padding-left:10px;">${command.crf.title}</td>
+		    </tr>
+		    <tr><td colspan="2"></td></tr>
+		</table>
+	</chrome:box>
+		
 	<table id="formbuilderTable">
 	    <tr>
 	        <td id="left">
@@ -75,26 +78,25 @@
 	    </tr>
 	</table>
 
-
-<div class="flow-buttons">
-    <span class="prev">
-        <c:if test="${crf.status.displayName ne 'Released'}">
-            <tags:button color="green" markupWithTag="a" icon="window" value="Release Form"
-                         onclick="javascript:releaseForm('${crf.id}')"/>
-        </c:if>
-    </span>
-     <span class="prev">
-        <c:if test="${crf.status.displayName ne 'Released'}">
-            <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab2"
-                             value="Back" icon="Back"/>
-        </c:if>
-    </span>
-	<span class="next">
-		<tags:button color="green" markupWithTag="a" icon="check" value="Finish" href="/proctcae"/>
-	</span>
-</div>
-<br>
-<br>
+	<div class="flow-buttons">
+	    <span class="prev">
+	        <c:if test="${crf.status.displayName ne 'Released'}">
+	            <tags:button color="green" markupWithTag="a" icon="window" value="Release Form"
+	                         onclick="javascript:releaseForm('${crf.id}')"/>
+	        </c:if>
+	    </span>
+	     <span class="prev">
+	        <c:if test="${crf.status.displayName ne 'Released'}">
+	            <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab2"
+	                             value="Back" icon="Back"/>
+	        </c:if>
+	    </span>
+		<span class="next">
+			<tags:button color="green" markupWithTag="a" icon="check" value="Finish" href="/proctcae"/>
+		</span>
+	</div>
+	<br>
+	<br>
 	</jsp:attribute>
 </tags:tabForm>
 </body>

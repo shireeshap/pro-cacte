@@ -562,26 +562,17 @@ jQuery(document).ready(function(){
 <chrome:box>
 	<table>
 	    <tr>
-	        <td style="text-align:right;font-weight:bold;"><tags:message code='form.label.study'/>:</td>
+	        <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.label.study'/>:</td>
 	        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
 	    </tr>
 	    <tr>
-	        <td style="text-align:right;font-weight:bold;"><tags:message code='form.tab.form'/>:</td>
+	        <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.tab.form'/>:</td>
 	        <td style="padding-left:10px;">${command.crf.title}</td>
 	    </tr>
-     	<tr><td colspan="2"></td></tr>
-        <tr>
-            <td style="text-align:left;font-weight:bold;vertical-align:top" colspan="2">
-            	&nbsp;&nbsp;
-                <c:if test="${command.crf.createBaseline eq true}">
-                    <c:set var="ischecked" value="checked='true'"/>
-                </c:if>
-                <input type="checkbox" name="baselineCheck" ${ischecked} onclick="checkBaseline(this);"/>
-                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
-                       id="crf.createBaseline"/>
-                <tags:message code='form.tab.baseline'/>
-            </td>
-        </tr>
+	    <tr>
+	        <td style="text-align:right;font-weight:bold;">Instructions:</td>
+	        <td style="padding-left:10px;"><tags:message code='form.calendar.template.instructions'/></td>
+		</tr>
 	</table>
 </chrome:box>
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
@@ -651,6 +642,16 @@ jQuery(document).ready(function(){
 	    	<input type="hidden" name="scheduleType" value="cycleBased" />
 	    </c:otherwise>
     </c:choose>
+            <div style="text-align:left;font-weight:bold;vertical-align:top;margin-left:1em;">
+            	&nbsp;&nbsp;
+                <c:if test="${command.crf.createBaseline eq true}">
+                    <c:set var="ischecked" value="checked='true'"/>
+                </c:if>
+                <input type="checkbox" name="baselineCheck" ${ischecked} onclick="checkBaseline(this);"/>
+                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
+                       id="crf.createBaseline"/>
+                <tags:message code='form.tab.baseline'/>
+            </div>
     <br />
 
 	<div id="calendarBasedDiv"

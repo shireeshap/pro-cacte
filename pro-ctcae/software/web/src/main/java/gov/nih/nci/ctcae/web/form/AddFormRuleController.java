@@ -15,9 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//
 /**
- * @author Harsh Agarwal
+ * @author Harsh Agarwal, Vinay Gangoli
  */
 public class AddFormRuleController extends AbstractController {
 
@@ -39,27 +38,35 @@ public class AddFormRuleController extends AbstractController {
     private ModelAndView addCondition(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("form/ajax/formRuleCondition");
         CreateFormCommand command = ControllersUtils.getFormCommand(request);
-        String ruleId = request.getParameter("ruleId");
+        String ruleIndex = request.getParameter("ruleIndex");
+        int ruleIndexInt;
+        try{
+        	ruleIndexInt = Integer.parseInt(ruleIndex);
+        } catch(NumberFormatException nfe){
+        	return modelAndView;
+        }
         String isSite = request.getParameter("isSite");
-        int index = -1;
+        int ruleConditionIndex = -1;
         NotificationRule notificationRule = null;
         if ("true".equals(isSite)) {
-            for (SiteCRFNotificationRule siteCRFNotificationRule : command.getMyOrg().getSiteCRFNotificationRules()) {
-                if (siteCRFNotificationRule.getNotificationRule().getId().equals(ruleId)) {
-                    notificationRule = siteCRFNotificationRule.getNotificationRule();
-                    break;
-                }
-            }
+        	notificationRule = command.getMyOrg().getSiteCRFNotificationRules().get(ruleIndexInt).getNotificationRule();
+//            for (SiteCRFNotificationRule siteCRFNotificationRule : command.getMyOrg().getSiteCRFNotificationRules()) {
+//                if (siteCRFNotificationRule.getNotificationRule().getId().equals(ruleId)) {
+//                    notificationRule = siteCRFNotificationRule.getNotificationRule();
+//                    break;
+//                }
+//            }
         } else {
-            for (CRFNotificationRule crfNotificationRule : command.getCrf().getCrfNotificationRules()) {
-                if (crfNotificationRule.getNotificationRule().getId().intValue() == Integer.parseInt(ruleId)) {
-                    notificationRule = crfNotificationRule.getNotificationRule();
-                    break;
-                }
-            }
+        	notificationRule = command.getCrf().getCrfNotificationRules().get(ruleIndexInt).getNotificationRule();
+//            for (CRFNotificationRule crfNotificationRule : command.getCrf().getCrfNotificationRules()) {
+//                if (crfNotificationRule.getNotificationRule().getId().intValue() == Integer.parseInt(ruleId)) {
+//                    notificationRule = crfNotificationRule.getNotificationRule();
+//                    break;
+//                }
+//            }
         }
         NotificationRuleCondition notificationRuleCondition = command.addCondition(notificationRule);
-        index = notificationRule.getNotificationRuleConditions().size() - 1;
+        ruleConditionIndex = notificationRule.getNotificationRuleConditions().size() - 1;
         
         //If number of deleted conditions(only tr from html is removed at this point; the command object will still have the conditions) equals one less than the size
         //of the conditions Array then this is the first condition. This happens when user deletes all conditions and starts over.
@@ -72,11 +79,12 @@ public class AddFormRuleController extends AbstractController {
             	sizeOfDeletedConditions = dc.split(",").length;
         	}
         }
-        boolean showOr = (sizeOfDeletedConditions == index)?false:true;
+        boolean showOr = (sizeOfDeletedConditions == ruleConditionIndex)?false:true;
         
         modelAndView.addObject("showOr", showOr);
-        modelAndView.addObject("ruleId", ruleId);
-        modelAndView.addObject("ruleConditionIndex", index);
+        modelAndView.addObject("ruleId", ruleIndex);
+        modelAndView.addObject("ruleIndex", ruleIndexInt);
+        modelAndView.addObject("ruleConditionIndex", ruleConditionIndex);
         modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
         modelAndView.addObject("condition", notificationRuleCondition);
         modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
@@ -99,9 +107,11 @@ public class AddFormRuleController extends AbstractController {
         } else {
             command.addRuleToCrf();
             index = command.getCrf().getCrfNotificationRules().size() - 1;
-            //command.setCrf(crfRepository.save(command.getCrf()));
+//            command.setCrf(crfRepository.save(command.getCrf()));
             modelAndView.addObject("rule", command.getCrf().getCrfNotificationRules().get(index).getNotificationRule());
         }
+        
+        modelAndView.addObject("showOr", true);
         modelAndView.addObject("ruleIndex", index);
         modelAndView.addObject("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         modelAndView.addObject("notifications", ListValues.getNotificationOptions());

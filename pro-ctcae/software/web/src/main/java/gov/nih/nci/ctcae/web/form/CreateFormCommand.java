@@ -496,13 +496,13 @@ public class CreateFormCommand implements Serializable {
             genericRepository.delete(crfNotificationRule);
         }
         crf = genericRepository.save(crf);
-        String[] ruleIds = request.getParameterValues("ruleIds");
+        String[] ruleIndices = request.getParameterValues("ruleIndices");
         String rulesToDelete = "," + request.getParameter("rulesToDelete");
         int displayOrder = 1;
-        if (ruleIds != null) {
-            for (String ruleId : ruleIds) {
-                if (rulesToDelete.indexOf("," + ruleId + ",") == -1) {
-                    CRFNotificationRule crfNotificationRule = createCrfNotificationRule(request, ruleId, displayOrder, genericRepository);
+        if (ruleIndices != null) {
+            for (String ruleIndex : ruleIndices) {
+                if (rulesToDelete.indexOf("," + ruleIndex + ",") == -1) {
+                    CRFNotificationRule crfNotificationRule = createCrfNotificationRule(request, ruleIndex, displayOrder, genericRepository);
                     crf.addCrfNotificationRule(crfNotificationRule);
                     displayOrder++;
                 }
@@ -510,11 +510,11 @@ public class CreateFormCommand implements Serializable {
         }
     }
 
-    private CRFNotificationRule createCrfNotificationRule(HttpServletRequest request, String ruleId, int displayOrder, GenericRepository genericRepository) {
+    private CRFNotificationRule createCrfNotificationRule(HttpServletRequest request, String ruleIndex, int displayOrder, GenericRepository genericRepository) {
         CRFNotificationRule crfNotificationRule = new CRFNotificationRule();
         crfNotificationRule.setDisplayOrder(displayOrder);
 
-        NotificationRule notificationRule = createNotificationRule(request, ruleId, genericRepository);
+        NotificationRule notificationRule = createNotificationRule(request, ruleIndex, genericRepository);
         crfNotificationRule.setNotificationRule(notificationRule);
         return crfNotificationRule;
     }
@@ -529,31 +529,31 @@ public class CreateFormCommand implements Serializable {
         return siteCRFNotificationRule;
     }
 
-    private NotificationRule createNotificationRule(HttpServletRequest request, String ruleId, GenericRepository genericRepository) {
+    private NotificationRule createNotificationRule(HttpServletRequest request, String ruleIndex, GenericRepository genericRepository) {
         NotificationRule notificationRule = new NotificationRule();
         notificationRule.setTitle("Rule");
 
-        String[] notifications = request.getParameterValues("notifications_" + ruleId);
+        String[] notifications = request.getParameterValues("notifications_" + ruleIndex);
         if (notifications != null) {
             for (String notification : notifications) {
                 notificationRule.addNotificationRuleRole(new NotificationRuleRole(Role.getByCode(notification)));
             }
         }
-        String[] symptoms = request.getParameterValues("symptoms_" + ruleId);
+        String[] symptoms = request.getParameterValues("symptoms_" + ruleIndex);
         if (symptoms != null) {
             for (String proCtcTermId : symptoms) {
                 notificationRule.addNotificationRuleSymptom(new NotificationRuleSymptom(genericRepository.findById(ProCtcTerm.class, Integer.parseInt(proCtcTermId))));
             }
         }
 
-        String[] conditions = request.getParameterValues("conditions_" + ruleId);
-        String conditionsToDelete = "," + request.getParameter("delete_conditions_" + ruleId);
+        String[] conditions = request.getParameterValues("conditions_" + ruleIndex);
+        String conditionsToDelete = "," + request.getParameter("delete_conditions_" + ruleIndex);
         if (conditions != null) {
             for (String conditionId : conditions) {
                 if (conditionsToDelete.indexOf(conditionId) == -1) {
-                    String questionType = request.getParameter("questiontype_" + ruleId + "_" + conditionId);
-                    String operator = request.getParameter("operator_" + ruleId + "_" + conditionId);
-                    String threshold = request.getParameter("threshold_" + ruleId + "_" + conditionId);
+                    String questionType = request.getParameter("questiontype_" + ruleIndex + "_" + conditionId);
+                    String operator = request.getParameter("operator_" + ruleIndex + "_" + conditionId);
+                    String threshold = request.getParameter("threshold_" + ruleIndex + "_" + conditionId);
                     NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
                     notificationRuleCondition.setProCtcQuestionType(ProCtcQuestionType.getByCode(questionType));
                     notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.getByCode(operator));
@@ -563,7 +563,7 @@ public class CreateFormCommand implements Serializable {
             }
         }
 
-        String override = request.getParameter("override_" + ruleId);
+        String override = request.getParameter("override_" + ruleIndex);
         notificationRule.setSiteOverRide(new Boolean(override));
         return notificationRule;
     }

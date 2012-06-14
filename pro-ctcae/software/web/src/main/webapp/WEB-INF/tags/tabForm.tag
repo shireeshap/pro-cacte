@@ -30,14 +30,19 @@
 <%@attribute name="showCreate" %>
 <%@attribute name="createLink" %>
 <%@attribute name="createText" %>
+<%@attribute name="noFlashMessage" %>
 <c:if test="${empty willSave}"><c:set var="willSave" value="true"/></c:if>
 <c:if test="${empty txtForSaveButton}"><c:set var="txtForSaveButton" value="Save"/></c:if>
 <c:if test="${empty doNotShowSave}"><c:set var="doNotShowSave" value="false"/></c:if>
 <c:if test="${empty doNotShowBack}"><c:set var="doNotShowBack" value="false"/></c:if>
 <c:if test="${empty showFinish}"><c:set var="showFinish" value="false"/></c:if>
 <c:if test="${empty showCreate}"><c:set var="showCreate" value="false"/></c:if>
+<c:if test="${empty noFlashMessage}"><c:set var="noFlashMessage" value="false"/></c:if>
+
 <ctcae:form name="${formName}" enctype="${enctype}" id="command">
-    <chrome:flashMessage/>
+	<c:if test="${!noFlashMessage}">
+    	<chrome:flashMessage/>
+	</c:if>
 	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 	
     <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}" boxClass="${boxClass}">

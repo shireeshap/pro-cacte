@@ -787,7 +787,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <div class="row">
             <div class="label" style="margin-top:6px;">
                 <c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if><spring:message
-                    code="form.label.title"/>
+                    code="form.label.title"/>:
             </div>
             <div class="value" id="hackThisForIE">
                 <c:choose>
@@ -813,7 +813,11 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         </div>
 
         <tags:formSettings crf="${command.crf}"></tags:formSettings>
-        <tags:instructions code="form.label.title.instruction"/>
+        <div class="row">
+            <div class="label">Instructions:</div>
+            <div class="value"><tags:message code="form.label.title.instruction"/> </div>
+        </div>
+        
     </chrome:box>
     
 <chrome:box title="Questions">

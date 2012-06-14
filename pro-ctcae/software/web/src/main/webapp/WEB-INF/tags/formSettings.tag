@@ -30,7 +30,7 @@
 </c:forEach>
 <div class="row">
 	<div class="label">
-		<tags:message code="recall.period"/>
+		<tags:message code="recall.period"/>:
 	</div>
 	<div class="value">
 		<select onchange="javascript:selectRecallPeriod(this.value)">
