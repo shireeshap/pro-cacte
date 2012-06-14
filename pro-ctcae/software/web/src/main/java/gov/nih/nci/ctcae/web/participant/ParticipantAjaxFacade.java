@@ -120,6 +120,9 @@ public class ParticipantAjaxFacade {
         } else {
             participantQuery.setSortBy("p." + sortField);
         }
+        if (!user.isAdmin()&&startIndex==0) {
+            results=200;
+        }
         participantQuery.setSortDirection(direction);
         participantQuery.setFirstResult(startIndex);
         participantQuery.setMaximumResults(results);
