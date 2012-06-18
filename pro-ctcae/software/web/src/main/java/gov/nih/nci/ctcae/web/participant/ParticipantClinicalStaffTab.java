@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
@@ -17,7 +18,7 @@ import org.springframework.validation.Errors;
  * @author Vinay Kumar
  * @since Feb 11, 2009
  */
-public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> {
+public class ParticipantClinicalStaffTab extends Tab<ParticipantCommand> {
 
 
     protected ParticipantRepository participantRepository;

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Vinay Kumar
  * @since Nov 3, 2008
  */
-public class ScheduleCrfTab extends SecuredTab<ParticipantCommand> {
+public class ScheduleCrfTab extends Tab<ParticipantCommand> {
     /**
      * The finder repository.
      */

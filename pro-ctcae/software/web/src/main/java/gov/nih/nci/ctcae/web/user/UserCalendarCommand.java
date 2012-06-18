@@ -17,6 +17,9 @@ public class UserCalendarCommand {
     private ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
     private TreeMap<Integer, List<StudyParticipantCrfSchedule>> scheduleDates;
     private StudyParticipantCrfScheduleRepository spcsRepository;
+    private User user;
+    private ClinicalStaff clinicalStaff;
+    private List<Integer> organizationIds = new ArrayList<Integer>();
 
     public void setSpcsRepository(StudyParticipantCrfScheduleRepository spcsRepository) {
         this.spcsRepository = spcsRepository;
@@ -34,11 +37,38 @@ public class UserCalendarCommand {
         return scheduleDates;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ClinicalStaff getClinicalStaff() {
+        return clinicalStaff;
+    }
+
+    public void setClinicalStaff(ClinicalStaff clinicalStaff) {
+        this.clinicalStaff = clinicalStaff;
+    }
+
+    public List<Integer> getOrganizationIds() {
+        return organizationIds;
+    }
+
+    public void setOrganizationIds(List<Integer> organizationIds) {
+        this.organizationIds = organizationIds;
+    }
 
     public void createCurrentMonthScheduleMap() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
-        spcsQuery.filterByUsername(userName);
+        if (!user.isAdmin() && organizationIds != null) {
+            spcsQuery.filterBySiteIds(organizationIds);
+        } else {
+            spcsQuery.filterByUsername(userName);
+        }
 //        Calendar c = new GregorianCalendar(proCtcAECalendar.getCalendar().getTime());
         Calendar c = proCtcAECalendar.getCalendar();
         c.set(Calendar.DAY_OF_MONTH, 1);

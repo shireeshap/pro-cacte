@@ -17,6 +17,7 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
     private static String queryString1 = "SELECT count(distinct spcs) from StudyParticipantCrfSchedule spcs";
     private static String CRF_IDS = "ids";
+    private static String SITE_IDS = "ids";
     private static String SP_CRF_IDS = "sp_crf_ids";
     private static String USERNAME = "username";
     private static String MARK_DELETE = "markDelete";
@@ -57,6 +58,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     public void filterByStudySite(Integer id) {
         andWhere("spcs.studyParticipantCrf.studyParticipantAssignment.studySite.id =:studySiteId");
         setParameter("studySiteId", id);
+    }
+
+    public void filterBySiteIds(List<Integer> siteIds) {
+        andWhere("spcs.studyParticipantCrf.studyParticipantAssignment.studySite.organization.id in (:" + SITE_IDS + ")");
+        setParameterList(SITE_IDS, siteIds);
     }
 
     public void filterByParticipant(Integer id) {
@@ -104,6 +110,13 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");
+    }
+
+    public void setLeftJoinForSite() {
+        leftJoin("spcs.studyParticipantCrf as spc " +
+                "left outer join spc.studyParticipantAssignment as spa " +
+                "left outer join spa.studySite as ss " +
+                "left outer join ss.organization as org");
     }
 
     public void filterByUsername(final String userName) {

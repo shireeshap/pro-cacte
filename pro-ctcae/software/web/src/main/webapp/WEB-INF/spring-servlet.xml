@@ -402,6 +402,7 @@
 
     <bean name="/user/displayUserCalendar" id="dosplayUserCalendarController" class="gov.nih.nci.ctcae.web.user.DisplayUserCalendarController">
          <property name="spcsRepository" ref="studyParticipantCrfScheduleRepository"/>
+         <property name="csRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean name="/user/dayScheduleDetails" id="dayScheduleDetails" class="gov.nih.nci.ctcae.web.user.DayScheduleDetailsController">
