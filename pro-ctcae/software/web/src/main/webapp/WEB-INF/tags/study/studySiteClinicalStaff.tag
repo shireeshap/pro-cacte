@@ -10,87 +10,65 @@
 <%@attribute name="readOnly" required="false" type="java.lang.Boolean" %>
 <%@attribute name="notifyOptions" type="java.util.List" %>
 
+<p id="splitter"/>
+
+<tags:noForm>
 <c:set var="propertyName"
        value="studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}]"/>
 
-
 <tr id="row-${studyOrganizationClinicalStaffIndex}">
-    <td style="border-right:none;" width="40%">
+    <td style="border-right:none;padding:0.2em;" valign="middle">
         <c:choose>
             <c:when test="${readOnly}">
                 ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
             </c:when>
             <c:otherwise>
                 <form:input path="${propertyName}.organizationClinicalStaff"
-                       id="${propertyName}.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Staff"
+                       id="${propertyName}.organizationClinicalStaff" cssClass="validate-NOTEMPTY" title="Staff"
                        cssStyle="display:none;"/>
 
                    <tags:yuiAutocompleter inputName="${propertyName}.organizationClinicalStaffInput"
                                           value=" ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}" required="false"
                                           hiddenInputName="${propertyName}.organizationClinicalStaff" contentBoxMaxHeight="30"/>
-
-                <%--<tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"--%>
-                                          <%--displayName="study.label.clinical.staff" noForm="true" required="true"--%>
-                                          <%--doNotshowLabel="true" size="70" doNotshowClear="true"/>--%>
-
-
             </c:otherwise>
         </c:choose>
     </td>
-    <td style="border-right:none;" width="60%">
-        <c:choose>
-            <c:when test="${readOnly}">
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td>
-                            <tags:renderSelect
-                                    propertyName="${propertyName}.notify"
-                                    displayName="participant.label.notification"
-                                    required="false" options="${notifyOptions}" propertyValue="${notify}"/>
-
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${studyOrganizationClinicalStaff.roleStatus.displayName eq 'Active'}">
-                                    <tags:button color="blue" markupWithTag="a" value="De-activate"
-                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
-                                                 size="small"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <tags:button color="blue" markupWithTag="a" value="Activate"
-                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
-                                                 size="small"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>Effectively ${studyOrganizationClinicalStaff.roleStatus} from <tags:formatDate
-                                value="${studyOrganizationClinicalStaff.statusDate}"/></td>
-                    </tr>
-                </table>
-            </c:when>
-            <c:otherwise>
-                <table>
-                    <tr>
-                        <td>
-                            <tags:renderSelect
-                                    propertyName="${propertyName}.notify"
-                                    displayName="participant.label.notification"
-                                    required="false" options="${notifyOptions}" propertyValue="${notify}"/>
-
-                        </td>
-                        <td>
-                            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-                               href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}');">
-                                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                                     style="vertical-align:middle;text-align:left">
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-
-
-            </c:otherwise>
-        </c:choose>
-    </td>
+     <c:choose>
+         <c:when test="${readOnly}">
+				<td width="10%">
+                     <tags:renderSelect propertyName="${propertyName}.notify" doNotshowLabel="true"
+                             required="false" options="${notifyOptions}" propertyValue="${notify}"/>
+                 </td>
+                 <td width="10%" align="center">
+                     <c:choose>
+                         <c:when test="${studyOrganizationClinicalStaff.roleStatus.displayName eq 'Active'}">
+                             <tags:button color="blue" type="button" value="De-activate"
+                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
+                                          size="small"/>
+                         </c:when>
+                         <c:otherwise>
+                             <tags:button color="blue" type="button" value="Activate"
+                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
+                                          size="small"/>
+                         </c:otherwise>
+                     </c:choose>
+                 </td>
+                 <td>Effectively ${studyOrganizationClinicalStaff.roleStatus} from <tags:formatDate
+                         value="${studyOrganizationClinicalStaff.statusDate}"/></td>
+         </c:when>
+         <c:otherwise>
+                 <td width="10%">
+                     <tags:renderSelect propertyName="${propertyName}.notify" doNotshowLabel="true"
+                             required="false" options="${notifyOptions}" propertyValue="${notify}"/>
+                 </td>
+                 <td colspan="2" align="left">
+                     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+                        href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}');">
+                         <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                              style="vertical-align:middle;text-align:left">
+                     </a>
+                 </td>
+         </c:otherwise>
+     </c:choose>
 </tr>
+</tags:noForm>

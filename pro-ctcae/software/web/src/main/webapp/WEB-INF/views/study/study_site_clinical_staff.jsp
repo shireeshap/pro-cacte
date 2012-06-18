@@ -37,7 +37,12 @@
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
-                    new Insertion.Before("hiddenDivForStudySite_" + studySiteId + "_Role_" + role, response);
+
+	                var responseStr = response.split('<p id="splitter"/>');
+	                new Insertion.Before("hiddenDiv", responseStr[0]);
+	                new Insertion.Before("hiddenDivForStudySite_"+ studySiteId + "_Role_" + role, responseStr[1]);
+                    
+                    //new Insertion.Before("hiddenDivForStudySite_" + studySiteId + "_Role_" + role, response);
                     AE.registerCalendarPopups();
                 },
                 parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
@@ -143,7 +148,7 @@
             </c:if>
 
         </c:forEach>
-
+		<div id="hiddenDiv"></div>
         </jsp:attribute>
 </tags:tabForm>
 
