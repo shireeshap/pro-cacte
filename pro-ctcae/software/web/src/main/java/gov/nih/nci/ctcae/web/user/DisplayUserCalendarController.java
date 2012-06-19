@@ -38,6 +38,14 @@ public class DisplayUserCalendarController extends AbstractController {
                 if (cs != null) {
                     userCalendarCommand.setClinicalStaff(cs);
                     for (OrganizationClinicalStaff ocs : cs.getOrganizationClinicalStaffs()) {
+                        for (StudyOrganizationClinicalStaff socs : ocs.getStudyOrganizationClinicalStaff()) {
+                            if ("LEAD_CRA".equals(socs.getRole().getDisplayName())){
+                                 userCalendarCommand.setLcra(true);
+                            }
+                            if ("SITE_CRA".equals(socs.getRole().getDisplayName())||"NURSE".equals(socs.getRole().getDisplayName())||"SITE_PI".equals(socs.getRole().getDisplayName())) {
+                                userCalendarCommand.setScra(true);
+                            }
+                        }
                         orgIds.add(ocs.getOrganization().getId());
                     }
                     userCalendarCommand.setOrganizationIds(orgIds);

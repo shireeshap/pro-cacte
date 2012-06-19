@@ -20,6 +20,8 @@ public class UserCalendarCommand {
     private User user;
     private ClinicalStaff clinicalStaff;
     private List<Integer> organizationIds = new ArrayList<Integer>();
+    private boolean isLcra = false;
+    private boolean isScra = false;
 
     public void setSpcsRepository(StudyParticipantCrfScheduleRepository spcsRepository) {
         this.spcsRepository = spcsRepository;
@@ -61,10 +63,26 @@ public class UserCalendarCommand {
         this.organizationIds = organizationIds;
     }
 
+    public boolean isLcra() {
+        return isLcra;
+    }
+
+    public void setLcra(boolean lcra) {
+        isLcra = lcra;
+    }
+
+    public boolean isScra() {
+        return isScra;
+    }
+
+    public void setScra(boolean scra) {
+        isScra = scra;
+    }
+
     public void createCurrentMonthScheduleMap() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
-        if (!user.isAdmin() && organizationIds != null) {
+        if (isScra()) {
             spcsQuery.filterBySiteIds(organizationIds);
         } else {
             spcsQuery.filterByUsername(userName);
