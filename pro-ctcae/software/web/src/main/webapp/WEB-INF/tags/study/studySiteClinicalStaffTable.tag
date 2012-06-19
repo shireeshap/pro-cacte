@@ -16,38 +16,33 @@
 <%@attribute name="notifyOptions" type="java.util.List" %> 
 
 
-<table cellspacing="0" width="80%" border="0">
+<table cellspacing="0" width="85%" border="0">
     <tr>
         <td>
-            <%--<div align="left" style="margin-left: 15px">--%>
-                <table class="tablecontent" border="0">
-                    <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="60%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="study.label.clinical.staff"/></th>
-                        <th width="40%" colspan="3" class="tableHeader">Notify</th>
-                    </tr>
-                    <c:forEach var="studyOrganizationClinicalStaff"
-                               items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">
+            <table class="tablecontent" border="0">
+                <tr id="ss-table-head" class="amendment-table-head">
+                    <th class="tableHeader"><tags:requiredIndicator/><tags:message code="study.label.clinical.staff"/></th>
+                    <th colspan="3" class="tableHeader">Notify</th>
+                </tr>
+                <c:forEach var="studyOrganizationClinicalStaff"
+                           items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">
 
-                        <c:if test="${studyOrganizationClinicalStaff.studyOrganization.id eq studySiteId}">
-                            <c:if test="${role eq  studyOrganizationClinicalStaff.role}">
-                                <study:studySiteClinicalStaff
-                                        studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
-                                        studyOrganizationClinicalStaffIndex="${status.index}" notifyOptions="${notifyOptions}"
-                                        roleStatusOptions="${roleStatusOptions}" readOnly="true"/>
-                            </c:if>
-
+                    <c:if test="${studyOrganizationClinicalStaff.studyOrganization.id eq studySiteId}">
+                        <c:if test="${role eq  studyOrganizationClinicalStaff.role}">
+                            <study:studySiteClinicalStaff
+                                    studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
+                                    studyOrganizationClinicalStaffIndex="${status.index}" notifyOptions="${notifyOptions}"
+                                    roleStatusOptions="${roleStatusOptions}" readOnly="true"/>
                         </c:if>
 
-                    </c:forEach>
-                    <tr id="hiddenDivForStudySite_${studySiteId}_Role_${role}"></tr>
-                </table>
-            <%--</div>--%>
-        </td>
+                    </c:if>
 
+                </c:forEach>
+                <tr id="hiddenDivForStudySite_${studySiteId}_Role_${role}"></tr>
+            </table>
+        </td>
     </tr>
     <tr>
-
         <td valign="top" width="10%">
             <div align="left" style="margin-left: 13px">
                 <tags:button value="Add" color="blue" type="button" size="small"
@@ -55,5 +50,4 @@
             </div>
         </td>
     </tr>
-
 </table>
