@@ -314,10 +314,10 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"title", label:"Title", sortable:true,resizeable:false, width:238},
-            {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:245},
+            {key:"title", label:"Title", sortable:true,resizeable:false, width:230},
+            {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:240},
             {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
-            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/form/fetchCrf?");
@@ -384,10 +384,10 @@ YAHOO.util.Event.addListener(window, "load", function() {
     getCalendar('refresh');
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:212},
-            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:250},
-            {key:"date", label:"Date", formatter:"date", sortable:true, resizeable:false, width:100},
-            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:207},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:245},
+            {key:"date", label:"Date", formatter:"date", sortable:true, resizeable:false, width:85},
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myAlertsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchAlerts?");
@@ -455,10 +455,10 @@ YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
 //	            {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140},
-            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:605},
+            {key:"shortTitle", label:"Short title", sortable:true,resizeable:false, width:600},
 //	            {key:"fundingSponsorDisplayName", label:"Funding sponsor", sortable:false, resizeable:false, width:235},
 //	            {key:"coordinatingCenterDisplayName", label:"Coordinating center", sortable:false, resizeable:false, width:235},
-            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myStudyDataSource = new YAHOO.util.DataSource("/proctcae/pages/study/fetchStudy?");
@@ -527,9 +527,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:100},
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
             {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
-            {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100},
-            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"status", label:"Status", sortable:false, resizeable:false, width:90},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:80},
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myAvailableFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchAvailableForms?");
@@ -599,9 +599,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:100},
             {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
             {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
-            {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100},
-            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
+            {key:"status", label:"Status", sortable:false, resizeable:false, width:90},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:80},
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myOverdueFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchOverdueForms?");
@@ -667,11 +667,11 @@ var myUpcomingFormsDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:150},
-            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:150},
-            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:150},
-            {key:"status", label:"Status", sortable:false, resizeable:false, width:95},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:100}
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:140},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:140},
+            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:140},
+            {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:90}
         ];
 
         var myUpcomingFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchUpcomingForms?");
@@ -745,13 +745,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <%--<div class="panel">--%>
 <table width="100%" border="0">
 <tr>
-    <td width="80%" valign="top">
+    <td width="80%" valign="top" align="center">
 
         <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
 
             <chrome:box title="Alerts" collapsable="true" id="alerts" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="80%">
                         <tr>
                             <td width="68%">
                                 <div id="pagAlerts"></div>
@@ -942,11 +942,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 <tr>
-    <td>
+    <td align="center">
         <c:if test="${studyLevelRole}">
             <chrome:box title="My Forms" collapsable="true" id="myforms" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="70%" align="center">
                         <tr>
                             <td width="68%">
                                 <div id="pag"></div>
@@ -961,11 +961,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 <tr>
-    <td>
+    <td align="center">
         <c:if test="${studyLevelRole}">
             <chrome:box title="My Studies" collapsable="true" id="mystudies" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="90%">
                         <tr>
                             <td width="68%">
                                 <div id="pagStudy"></div>
@@ -980,11 +980,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 <tr>
-    <td>
+    <td align="center">
         <c:if test="${siteLevelRole}">
             <chrome:box title="Available Forms" collapsable="true" id="myavailableforms" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="70%">
                         <tr>
                             <td width="68%">
                                 <div id="pagAvailableForms"></div>
@@ -999,11 +999,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 <tr>
-    <td>
+    <td align="center">
         <c:if test="${siteLevelRole}">
             <chrome:box title="Overdue forms" collapsable="true" id="overdueforms" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="70%">
                         <tr>
                             <td width="68%">
                                 <div id="pagOverdueForms"></div>
@@ -1018,11 +1018,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
     </td>
 </tr>
 <tr>
-    <td>
+    <td align="center">
         <c:if test="${siteLevelRole}">
             <chrome:box title="Upcoming forms" collapsable="true" id="upcomingforms" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="100%">
+                    <table width="70%">
                         <tr>
                             <td width="68%">
                                 <div id="pagUpcomingForms"></div>
