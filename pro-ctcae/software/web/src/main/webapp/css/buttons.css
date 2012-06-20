@@ -24,7 +24,7 @@ button.omnipotent-button td, a.omnipotent-button td {
 	background-repeat:no-repeat;
 }
 button.omnipotent-button td.l, button.omnipotent-button td.r, a.omnipotent-button td.l, a.omnipotent-button td.r {
-	height:31px;
+	height:30px;
 	width:3px;
 }
 button.omnipotent-button td.m, a.omnipotent-button td.m {
@@ -209,14 +209,14 @@ button.omnipotent-button.small, a.omnipotent-button.small {
 	cursor:default;
 	vertical-align:middle;
 	padding:0;
-	font-size:11px;
+	font-size:12px;
 }
 button.omnipotent-button.small td, a.omnipotent-button.small td {
 	background-image:url(../images/buttons/buttons-small-bg-sprite.png);
 	background-repeat:no-repeat;
 }
 button.omnipotent-button.small td.l, button.omnipotent-button td.r, a.omnipotent-button.small td.l, a.omnipotent-button td.r {
-	height:20px;
+	height:16px;
 	width:3px;
 }
 button.omnipotent-button.small td.m, a.omnipotent-button.small td.m {
