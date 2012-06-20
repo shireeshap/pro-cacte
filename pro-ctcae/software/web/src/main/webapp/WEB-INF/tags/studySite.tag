@@ -15,6 +15,11 @@
         <c:set var="hasforms" value="true"/>
     </c:if>
 </c:forEach>
+
+<c:if test="${studyParticipantAssignment ne null && studyParticipantAssignment.status.displayName eq 'OffStudy'}">
+    <c:set var="offStudy" value="true"/>
+</c:if>
+
 <tr>
     <td align="center">
         <input type="radio" name="studySites" value="${studysite.id}"
@@ -95,87 +100,130 @@
 </tr>
 
 <tr>
-    <%--<td width="20%"></td>--%>
-    <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
-        <c:choose>
-            <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
-                <td class="data" align="right" width="20%">
-                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
-                            code="study.label.arm"/></b>
-                </td>
-                <td width="50%" class="data">
-                    &nbsp;&nbsp;
-                    <select name="arm_${studysite.id}" title="arm"
-                            id="arm_${studysite.id}">
-                        <option value="">Please select</option>
-                        <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
-                            <option value="${arm.id}" <c:if
-                                    test="${studyParticipantAssignment.arm.id eq arm.id}">selected</c:if>>
-                                    ${arm.title}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </c:when>
-            <c:otherwise>
-                <td align="right" class="data" width="20%">
-                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
-                            code="study.label.arm"/></b>
-                </td>
-                <td class="data">   &nbsp;&nbsp;
-                    <input type="hidden" name="arm_${studysite.id}"
-                           value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
-                </td>
-            </c:otherwise>
-        </c:choose>
-    </c:if>
-    <td></td>
+    <c:choose>
+        <c:when test="${offStudy}">
+            <td align="right" class="data" width="20%">
+                <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                        code="study.label.arm"/></b>
+            </td>
+            <td class="data">   &nbsp;&nbsp;
+                <input type="hidden" name="arm_${studysite.id}"
+                       value="${studyParticipantAssignment.arm.id}">${studyParticipantAssignment.arm.title}
+            </td>
+
+        </c:when>
+        <c:otherwise>
+
+            <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
+
+                <c:choose>
+                    <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
+                        <td class="data" align="right" width="20%">
+                            <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                                    code="study.label.arm"/></b>
+                        </td>
+                        <td width="50%" class="data">
+                            &nbsp;&nbsp;
+                            <select name="arm_${studysite.id}" title="arm"
+                                    id="arm_${studysite.id}">
+                                <option value="">Please select</option>
+                                <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
+                                    <option value="${arm.id}" <c:if
+                                            test="${studyParticipantAssignment.arm.id eq arm.id}">selected</c:if>>
+                                            ${arm.title}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                    </c:when>
+                    <c:otherwise>
+                        <td align="right" class="data" width="20%">
+                            <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                                    code="study.label.arm"/></b>
+                        </td>
+                        <td class="data">   &nbsp;&nbsp;
+                            <input type="hidden" name="arm_${studysite.id}"
+                                   value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
+                        </td>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:if>
+
+            <td></td>
+        </c:otherwise>
+    </c:choose>
 </tr>
+
 <tr>
-    <%--<td width="20%"></td>--%>
-    <td align="right" class="data" width="20%">
-        <b><spring:message code="participant.label.startdate"/></b>
-    </td>
-    <td class="data" width="50%">  &nbsp;&nbsp;
-        <c:choose>
-            <c:when test="${selected}">
-                <tags:renderDate
-                        propertyName="study_date_${studysite.id}"
-                        doNotshowLabel="true" required="true"
-                        noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
-            </c:when>
-            <c:otherwise>
-                <tags:renderDate
-                        propertyName="study_date_${studysite.id}"
-                        doNotshowLabel="true" required="true"
-                        noForm="true" dateValue="<%= new Date()%>"/>
-            </c:otherwise>
-        </c:choose>
-    </td>
-    <td></td>
+    <%--<c:choose>--%>
+        <%--<c:when test="${offStudy}">--%>
+            <%--<td align="right" class="data" width="20%">--%>
+                <%--<b><spring:message code="participant.label.startdate"/></b>--%>
+            <%--</td>--%>
+            <%--<td class="data" width="50%">   &nbsp;&nbsp;--%>
+                <%--<input type="hidden" id="study_date_${studysite.id}" class="date validate-NOTEMPTY&&DATE" name="study_date_${studysite.id}"--%>
+               <%--title=""--%>
+               <%--value="<tags:formatDate value="${studyParticipantAssignment.studyStartDate}"/>"--%>
+               <%--/>   ${studyParticipantAssignment.studyStartDate}--%>
+               <%----%>
+            <%--</td>--%>
+
+
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<td width="20%"></td>--%>
+            <td align="right" class="data" width="20%">
+                <b><spring:message code="participant.label.startdate"/></b>
+            </td>
+            <td class="data" width="50%">  &nbsp;&nbsp;
+                <c:choose>
+                    <c:when test="${selected}">
+                        <tags:renderDate
+                                propertyName="study_date_${studysite.id}"
+                                doNotshowLabel="true" required="true"
+                                noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <tags:renderDate
+                                propertyName="study_date_${studysite.id}"
+                                doNotshowLabel="true" required="true"
+                                noForm="true" dateValue="<%= new Date()%>"/>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+            <td></td>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 </tr>
+<c:if test="${offStudy}">
+    <p align="center">
+        <font color="#990000"><br><b> This participant has been taken off study. </b></font>
+    </p>
+</c:if>
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td colspan="3">
-      &nbsp;&nbsp;&nbsp;  <chrome:division title="Reporting options">
-            <br>
-            <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-                <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
-                    <c:choose>
-                        <c:when test="${hweb}">
-                           &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEWEB"
-                                   onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br>
-                        </c:when>
-                        <c:otherwise>
-                          &nbsp;&nbsp;&nbsp;&nbsp;  <input type="checkbox" name="responseModes" value="HOMEWEB"
-                                   onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
-            </c:forEach>
-        </chrome:division>
+        &nbsp;&nbsp;&nbsp; <chrome:division title="Reporting options">
+        <br>
+        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+            <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+                <c:choose>
+                    <c:when test="${hweb}">
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
+                                                        value="HOMEWEB"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                        <br>
+                    </c:when>
+                    <c:otherwise>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                        <br>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+        </c:forEach>
+    </chrome:division>
     </td>
 
 </tr>
@@ -202,7 +250,8 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="row">
-                                     <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
+                                    <div class="label"><span
+                                            class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                             code="participant.label.username"/>&nbsp;</div>
                                     <div class="value">
                                         <input type="text" name="participant.username_${studysite.id}"
@@ -345,13 +394,13 @@
             <c:if test="${studyMode.mode.name eq 'IVRS'}">
                 <c:choose>
                     <c:when test="${ivrs}">
-                      &nbsp;&nbsp;&nbsp;&nbsp;  <input type="checkbox" name="responseModes" checked="true" value="IVRS"
-                               onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="IVRS"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:when>
                     <c:otherwise>
-                     &nbsp;&nbsp;&nbsp;&nbsp;   <input type="checkbox" name="responseModes" value="IVRS"
-                               onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="IVRS"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:otherwise>
                 </c:choose>
@@ -365,207 +414,208 @@
 <div style="margin-left:45px">
 <table border="0">
 <tr>
-    <td>
-        <div class="row">
-            <div class="label">
-                IVRS call-out
-            </div>
-            <div class="value">
-                <input type="checkbox" name="call_${studysite.id}" value="true"
-                       onclick="javascript:showPhone(${studysite.id}, this.checked)"
-                       id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
-                check if the system should call the participant. <br>
-            </div>
+<td>
+    <div class="row">
+        <div class="label">
+            IVRS call-out
         </div>
-        <div class="row">
-            <div id="phoneLabel_${studysite.id}" class="label">
-                <span class="required-indicator">*&nbsp;&nbsp; </span> Phone
-            </div>
-            <div id="participantPhone_${studysite.id}" class="value">
-                <input type="text" name="participant.phoneNumber_${studysite.id}"
-                       value="${studyParticipantAssignment.participant.phoneNumber}"
-                       id="participant.phoneNumber_${studysite.id}"
-                       onblur="checkParticipantPhoneNumber(${studysite.id});" title="Phone number"
-                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-                <span class="phone-number">###-###-####</span>
-                <tags:errors path="participant.phoneNumber"/>
-                <ul id="phoneNumberError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.unique_phoneNumber'
-                                        text='participant.unique_phoneNumber'/></li>
-                </ul>
-                <ul id="PhonePatternError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.phonenumber_pattern'
-                                        text='participant.phonenumber_pattern'/></li>
-                </ul>
-            </div>
+        <div class="value">
+            <input type="checkbox" name="call_${studysite.id}" value="true"
+                   onclick="javascript:showPhone(${studysite.id}, this.checked)"
+                   id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
+            check if the system should call the participant. <br>
         </div>
-        <div class="row">
-            <div class="label">
-                <span class="required-indicator">*&nbsp;&nbsp; </span> IVRS user id
-            </div>
-            <div class="value">
-                <input type="text" name="participantUserNumber_${studysite.id}"
-                       value="${studyParticipantAssignment.participant.userNumber}"
-                       id="participant.userNumber_${studysite.id}" title="User Number"
-                       onblur="checkParticipantUserNumber(${studysite.id});"
-                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/> ( 10 digits )
-                <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.unique_userNumber'
-                                        text='participant.unique_userNumber'/></li>
-                </ul>
-                <ul id="UserPatternError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.usernumber_pattern'
-                                        text='participant.usernumber_pattern'/></li>
-                </ul>
-            </div>
+    </div>
+    <div class="row">
+        <div id="phoneLabel_${studysite.id}" class="label">
+            <span class="required-indicator">*&nbsp;&nbsp; </span> Phone
         </div>
-        <div class="row">
-            <div class="label">
-                <span class="required-indicator">*&nbsp;&nbsp; </span> PIN number
-            </div>
-            <div class="value">
-                <input type="password" name="participantPinNumber_${studysite.id}"
-                       value="${studyParticipantAssignment.participant.pinNumber}"
-                       id="participant.pinNumber_${studysite.id}"
-                       onblur="checkParticipantPinNumber(${studysite.id});" title="Pin number"
-                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-                <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.pinnumber_pattern'
-                                        text='participant.pinnumber_pattern'/></li>
-                </ul>
-            </div>
+        <div id="participantPhone_${studysite.id}" class="value">
+            <input type="text" name="participant.phoneNumber_${studysite.id}"
+                   value="${studyParticipantAssignment.participant.phoneNumber}"
+                   id="participant.phoneNumber_${studysite.id}"
+                   onblur="checkParticipantPhoneNumber(${studysite.id});" title="Phone number"
+                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+            <span class="phone-number">###-###-####</span>
+            <tags:errors path="participant.phoneNumber"/>
+            <ul id="phoneNumberError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.unique_phoneNumber'
+                                    text='participant.unique_phoneNumber'/></li>
+            </ul>
+            <ul id="PhonePatternError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.phonenumber_pattern'
+                                    text='participant.phonenumber_pattern'/></li>
+            </ul>
         </div>
-        <div class="row">
-            <div class="label">
-                <span class="required-indicator">*&nbsp;&nbsp; </span> Confirm
-            </div>
-            <div class="value">
-                <input type="password" name="participantPinNumberConfirm_${studysite.id}"
-                       value="${studyParticipantAssignment.participant.confirmPinNumber}"
-                       id="participant.confirmPinNumber_${studysite.id}"
-                       onblur="checkPinMatch(${studysite.id});" title="Confirm Pin number"
-                       class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-                <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
-                    <li><spring:message code='participant.confirm_pinnumber'
-                                        text='participant.confirm_pinnumber'/></li>
-                </ul>
-            </div>
+    </div>
+    <div class="row">
+        <div class="label">
+            <span class="required-indicator">*&nbsp;&nbsp; </span> IVRS user id
         </div>
-        <div id="callTime_${studysite.id}" class="row">
-            <div class="label">
-                <span class="required-indicator">*&nbsp; </span> Preferred call time
-            </div>
-            <div id="ivrs_${studysite.id}" class="value" style="${showTime eq true ? "":"display:none"}">
-                <table>
-                    <tr>
-                        <td>
-                            <c:set var="blackout"><tags:message code="callout.blackouttime"/></c:set>
-                            <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"
-                                    title="Hour"
-                                    class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
-                                <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
-                                    Hr
-                                </option>
-                                <c:forEach items="${hours}" var="hour">
-                                    <c:set var="hr" value="${hour}"/>
-                                    <c:if test="${hr/10<1}"><c:set var="hr" value="0${hour}"/></c:if>
-                                    <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
-                                </c:forEach>
-                            </select>&nbsp;
-                            <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"
-                                    title="Minute"
-                                    class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
-                                <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
-                                    Min
-                                </option>
-                                <c:forEach items="${minutes}" var="minute">
-                                    <c:set var="min" value="${minute}"/>
-                                    <c:if test="${min/10<1}"><c:set var="min" value="0${minute}"/></c:if>
-                                    <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
-                                </c:forEach>
-                            </select>&nbsp;
-                            <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"
-                                    title="AM PM"
-                                    class="${showTime eq true ? "validate-NOTEMPTY":""}"
-                                    onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
-                                <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
-                                    am
-                                </option>
-                                <option value="pm" ${studyParticipantAssignment.callAmPm eq "pm" ? "selected='selected'" : " "} >
-                                    pm
-                                </option>
-                            </select>&nbsp;
-                            <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"
-                                    title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
-                                    <%-- <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
-                                        Please select
-                                    </option>--%>
-                                <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
-                                    Eastern Time
-                                </option>
-                                <option value="America/Chicago" ${studyParticipantAssignment.callTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
-                                    Central Time
-                                </option>
-                                <option value="America/Denver" ${studyParticipantAssignment.callTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
-                                    Mountain Time
-                                </option>
-                                <option value="America/Los_Angeles" ${studyParticipantAssignment.callTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
-                                    Pacific Time
-                                </option>
-                                <option value="America/Anchorage" ${studyParticipantAssignment.callTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
-                                    Alaska Time
-                                </option>
-                                <option value="America/Adak" ${studyParticipantAssignment.callTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
-                                    Hawaii-Aleutian Time
-                                </option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <ul id="preferred.calltime.error_${studysite.id}" style="display:none;"
-                    name="preferredcalltime.error_${studysite.id}" class="errors">
-                    <li><spring:message code='callout.blackouttime'
-                                        text='callout.blackouttime'
-                                        arguments="${blackoutStartTime},${blackoutEndTime}"/></li>
-                </ul>
-            </div>
+        <div class="value">
+            <input type="text" name="participantUserNumber_${studysite.id}"
+                   value="${studyParticipantAssignment.participant.userNumber}"
+                   id="participant.userNumber_${studysite.id}" title="User Number"
+                   onblur="checkParticipantUserNumber(${studysite.id});"
+                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/> ( 10 digits )
+            <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.unique_userNumber'
+                                    text='participant.unique_userNumber'/></li>
+            </ul>
+            <ul id="UserPatternError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.usernumber_pattern'
+                                    text='participant.usernumber_pattern'/></li>
+            </ul>
         </div>
-        <div id="ivrsLanguage_${studysite.id}" class="row">
-            <div class="label">
-                <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
-            </div>
-            <div class="value">
-                <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}"
-                        title="Preferred language">
-                    <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
-                        Please select
-                    </option>
-                    <option value="ENGLISH" ${studyParticipantAssignment.ivrsLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
-                        English
-                    </option>
-                    <option value="SPANISH" ${studyParticipantAssignment.ivrsLanguage eq "SPANISH" ? "selected='selected'" : " "} >
-                        Spanish
-                    </option>
-                </select>
-            </div>
+    </div>
+    <div class="row">
+        <div class="label">
+            <span class="required-indicator">*&nbsp;&nbsp; </span> PIN number
         </div>
+        <div class="value">
+            <input type="password" name="participantPinNumber_${studysite.id}"
+                   value="${studyParticipantAssignment.participant.pinNumber}"
+                   id="participant.pinNumber_${studysite.id}"
+                   onblur="checkParticipantPinNumber(${studysite.id});" title="Pin number"
+                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+            <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.pinnumber_pattern'
+                                    text='participant.pinnumber_pattern'/></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label">
+            <span class="required-indicator">*&nbsp;&nbsp; </span> Confirm
+        </div>
+        <div class="value">
+            <input type="password" name="participantPinNumberConfirm_${studysite.id}"
+                   value="${studyParticipantAssignment.participant.confirmPinNumber}"
+                   id="participant.confirmPinNumber_${studysite.id}"
+                   onblur="checkPinMatch(${studysite.id});" title="Confirm Pin number"
+                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+            <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
+                <li><spring:message code='participant.confirm_pinnumber'
+                                    text='participant.confirm_pinnumber'/></li>
+            </ul>
+        </div>
+    </div>
+    <div id="callTime_${studysite.id}" class="row">
+        <div class="label">
+            <span class="required-indicator">*&nbsp; </span> Preferred call time
+        </div>
+        <div id="ivrs_${studysite.id}" class="value" style="${showTime eq true ? "":"display:none"}">
+            <table>
+                <tr>
+                    <td>
+                        <c:set var="blackout"><tags:message code="callout.blackouttime"/></c:set>
+                        <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"
+                                title="Hour"
+                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                            <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
+                                Hr
+                            </option>
+                            <c:forEach items="${hours}" var="hour">
+                                <c:set var="hr" value="${hour}"/>
+                                <c:if test="${hr/10<1}"><c:set var="hr" value="0${hour}"/></c:if>
+                                <option value="${hour}" ${studyParticipantAssignment.callHour eq hour ? "selected='selected'" : " "} >${hr}</option>
+                            </c:forEach>
+                        </select>&nbsp;
+                        <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"
+                                title="Minute"
+                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                            <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
+                                Min
+                            </option>
+                            <c:forEach items="${minutes}" var="minute">
+                                <c:set var="min" value="${minute}"/>
+                                <c:if test="${min/10<1}"><c:set var="min" value="0${minute}"/></c:if>
+                                <option value="${minute}" ${studyParticipantAssignment.callMinute eq minute ? "selected='selected'" : " "} >${min}</option>
+                            </c:forEach>
+                        </select>&nbsp;
+                        <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"
+                                title="AM PM"
+                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                            <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
+                                am
+                            </option>
+                            <option value="pm" ${studyParticipantAssignment.callAmPm eq "pm" ? "selected='selected'" : " "} >
+                                pm
+                            </option>
+                        </select>&nbsp;
+                        <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"
+                                title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+                                <%-- <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
+                                    Please select
+                                </option>--%>
+                            <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
+                                Eastern Time
+                            </option>
+                            <option value="America/Chicago" ${studyParticipantAssignment.callTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
+                                Central Time
+                            </option>
+                            <option value="America/Denver" ${studyParticipantAssignment.callTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
+                                Mountain Time
+                            </option>
+                            <option value="America/Los_Angeles" ${studyParticipantAssignment.callTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
+                                Pacific Time
+                            </option>
+                            <option value="America/Anchorage" ${studyParticipantAssignment.callTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
+                                Alaska Time
+                            </option>
+                            <option value="America/Adak" ${studyParticipantAssignment.callTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
+                                Hawaii-Aleutian Time
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <ul id="preferred.calltime.error_${studysite.id}" style="display:none;"
+                name="preferredcalltime.error_${studysite.id}" class="errors">
+                <li><spring:message code='callout.blackouttime'
+                                    text='callout.blackouttime'
+                                    arguments="${blackoutStartTime},${blackoutEndTime}"/></li>
+            </ul>
+        </div>
+    </div>
+    <div id="ivrsLanguage_${studysite.id}" class="row">
+        <div class="label">
+            <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
+        </div>
+        <div class="value">
+            <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}"
+                    title="Preferred language">
+                <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
+                    Please select
+                </option>
+                <option value="ENGLISH" ${studyParticipantAssignment.ivrsLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
+                    English
+                </option>
+                <option value="SPANISH" ${studyParticipantAssignment.ivrsLanguage eq "SPANISH" ? "selected='selected'" : " "} >
+                    Spanish
+                </option>
+            </select>
+        </div>
+    </div>
 
-    </td>
-    <td valign="top"><br><br> <br><br>
+</td>
+<td valign="top"><br><br> <br><br>
 
 
-            <%--<div class="row">--%>
-            <%--<div class="label">--%>
-            <%--<span class="required-indicator">*&nbsp; </span>Time zone--%>
-            <%--</div>--%>
-            <%--<div class="value">--%>
-            <%----%>
-            <%--</div>--%>
-            <%--</div>--%>
-    </td>
+        <%--<div class="row">--%>
+        <%--<div class="label">--%>
+        <%--<span class="required-indicator">*&nbsp; </span>Time zone--%>
+        <%--</div>--%>
+        <%--<div class="value">--%>
+        <%----%>
+        <%--</div>--%>
+        <%--</div>--%>
+</td>
 </tr>
+
 </table>
 </div>
 </td>
@@ -578,14 +628,15 @@
             <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
                 <c:choose>
                     <c:when test="${hbook}">
-                     &nbsp;&nbsp;&nbsp;&nbsp;   <input type="checkbox" name="responseModes" checked="true" value="HOMEBOOKLET"
-                               onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
+                                                        value="HOMEBOOKLET"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
                         form
                         <br>
                     </c:when>
                     <c:otherwise>
-                     &nbsp;&nbsp;&nbsp;&nbsp;    <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
-                               onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
+                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
+                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
                         form
                         <br>
                     </c:otherwise>
@@ -634,6 +685,7 @@
     </td>
 </tr>
 </c:if>
+
 </table>
 </td>
 <td></td>

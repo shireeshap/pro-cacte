@@ -364,7 +364,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
 
-                    if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate) != 0) {
+                    if (DateUtils.compareDate(studyParticipantAssignment.getStudyStartDate(), newStartDate) != 0 && studyParticipantAssignment.getOffTreatmentDate() == null) {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
@@ -381,6 +381,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     }
 
                     boolean doNotCreate = false;
+                    if (studyParticipantAssignment.getOffTreatmentDate() != null) {
+                        doNotCreate = true;
+                    }
                     for (StudyParticipantMode uiMode : studyParticipantAssignment.getStudyParticipantModes()) {
                         for (StudyParticipantMode spMode : command.getStudyParticipantModes()) {
                             if (uiMode.equals(spMode)) {
