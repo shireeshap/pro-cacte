@@ -1,13 +1,9 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<tags:dwrJavascriptLink objects="clinicalStaff"/>
-<tags:stylesheetLink name="yui-autocomplete"/>
-<tags:javascriptLink name="yui-autocomplete"/>
+
 
 <script type="text/javascript">
     function getStaff(sQuery) {
@@ -51,7 +47,7 @@
 
     <%--acCreate(new organizationClinicalStaffAutoComplter('studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}].organizationClinicalStaff',--%>
     <%--'${studyOrganizationClinicalStaff.studyOrganization.id}'))--%>
-    //   initSearchField()
+    //   initSearchField();
 </script>
 <tags:noForm>
     <study:studySiteClinicalStaff studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"

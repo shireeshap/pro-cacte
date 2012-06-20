@@ -1,7 +1,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -16,14 +16,16 @@
 <%@attribute name="notifyOptions" type="java.util.List" %> 
 
 
-<table cellspacing="0" width="85%" border="0">
+<table cellspacing="0" width="100%" border="0">
     <tr>
-        <td>
-            <table class="tablecontent" border="0">
+        <td width="80%">
+            <table class="tablecontent" border="0" width="100%">
+            	<c:if test="${fn:length(studyCommand.studyOrganizationClinicalStaffs) > 0}">
                 <tr id="ss-table-head" class="amendment-table-head">
                     <th class="tableHeader"><tags:requiredIndicator/><tags:message code="study.label.clinical.staff"/></th>
                     <th colspan="3" class="tableHeader">Notify</th>
                 </tr>
+                </c:if>
                 <c:forEach var="studyOrganizationClinicalStaff"
                            items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">
 
@@ -43,11 +45,12 @@
         </td>
     </tr>
     <tr>
-        <td valign="top" width="10%">
+        <td valign="top" width="10%" >
             <div align="left" style="margin-left: 13px">
                 <tags:button value="Add" color="blue" type="button" size="small"
                              onclick="javascript:addClinicalStaff(${studySiteId},'${role}');return false;" icon="add"/>
             </div>
         </td>
+        <td colspan="3"></td>
     </tr>
 </table>

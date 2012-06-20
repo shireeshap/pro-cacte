@@ -1,15 +1,12 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-
 
 <html>
 <head>
@@ -37,12 +34,11 @@
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
-
 	                var responseStr = response.split('<p id="splitter"/>');
+	                
+	                jQuery('#hiddenDivForStudySite_' + studySiteId + '_Role_' + role).before(responseStr[1]);
 	                new Insertion.Before("hiddenDiv", responseStr[0]);
-	                new Insertion.Before("hiddenDivForStudySite_"+ studySiteId + "_Role_" + role, responseStr[1]);
                     
-                    //new Insertion.Before("hiddenDivForStudySite_" + studySiteId + "_Role_" + role, response);
                     AE.registerCalendarPopups();
                 },
                 parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
@@ -89,13 +85,11 @@
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
     <jsp:attribute name="singleFields">
 
-
-
         <chrome:box>
             <chrome:division title="Study details">
                 <div class="row">
                     <div class="label"><spring:message code="form.label.study"/>: &nbsp;</div>
-                    <div class="value">${command.study.shortTitle} </div>
+                    <div class="value">${command.study.shortTitle}</div>
                 </div>
                 <div class="row">
                     <div class="label"><spring:message code="study.label.assigned_identifier"/>: &nbsp;</div>
