@@ -303,6 +303,7 @@ function showPo(scheduleid, pid, phone, email) {
 </proctcae:urlAuthorize>
     html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
     html += '<li id="nav1"><a href="#" >Contact info </a> <ul><li><a href="#" ><u>Phone</u><br>' + phone + ' </a><br><br></li><li><a href="#" ><u>Email</u><br> ' + email + ' </a></li></ul></li>';
+    html += '<li><a href="#" >&nbsp;</a></li>';
     html += '</ul></div>';
     jQuery('#scheduleAct' + scheduleid).menu({
         content: html,

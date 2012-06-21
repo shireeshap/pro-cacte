@@ -8,6 +8,31 @@
     <img src="<tags:imageUrl name="ajax-loading.gif"/>"/>
 </div>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="50%">
+    <tr>
+        <td align="right">
+            Scheduled =
+            In-progress =
+        </td>
+        <td>
+            <div style="background-color:blue;color:white;margin-bottom:3px;margin-left:3px" align="center">Blue</div>
+            <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
+        </td>
+
+        <td align="right">
+            Completed =
+            Past-due =
+        </td>
+        <td>
+            <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange</div>
+            <div style="background-color:red;color:white;margin-bottom:3px;margin-left:3px" align="center">Red</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+        </td>
+    </tr>
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
             <img height="17" width="29"
