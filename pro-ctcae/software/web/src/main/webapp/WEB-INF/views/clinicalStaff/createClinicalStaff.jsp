@@ -80,7 +80,9 @@
 
         function addSiteDiv(transport) {
             var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
+	        var responseStr = response.split('<p id="splitter"/>');
+	        jQuery('#orgTable tr:last').before(responseStr[1]);
+	        new Insertion.Before("hiddenDiv", responseStr[0]);
         }
 
         function addSite() {
@@ -456,7 +458,7 @@
             <tr>
                 <td>
 
-                    <table width="90%" class="tablecontent">
+                    <table width="90%" class="tablecontent" id="orgTable">
                         <tr id="ss-table-head" class="amendment-table-head">
                             <th width="95%" class="tableHeader">
                                 <tags:requiredIndicator/><tags:message
@@ -465,6 +467,7 @@
                                 &nbsp;</th>
 
                         </tr>
+                        <tbody>
                         <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
                                    var="organizationClinicalStaff"
                                    varStatus="status">
@@ -473,8 +476,8 @@
                                     organizationClinicalStaffIndex="${status.index}"
                                     readOnly="${organizationClinicalStaff.organization ne null}"/>
                         </c:forEach>
-
-                        <tr id="hiddenDiv" align="center"></tr>
+                        <tr></tr>
+						</tbody>
                     </table>
                 </td>
             </tr>
@@ -489,6 +492,7 @@
             </tr>
         </table>
     </div>
+    <div id="hiddenDiv"></div>
 </chrome:division>
 </chrome:box>
 <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>

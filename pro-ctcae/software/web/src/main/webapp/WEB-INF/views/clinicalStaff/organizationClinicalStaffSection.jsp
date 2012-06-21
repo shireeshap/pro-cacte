@@ -10,18 +10,6 @@
 
 <script type="text/javascript">
 
-    <%--<c:choose>--%>
-    <%--<c:when test="${cca}">--%>
-    <%--acCreate(new siteAutoComplter('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization'))--%>
-    <%--</c:when>--%>
-    <%--<c:otherwise>--%>
-    <%--acCreate(new siteAutoComplterWithSecurity('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization'))--%>
-    <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-
-    <%--initSearchField()--%>
-
-
     function getOrgs(sQuery) {
 		showIndicator('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organizationInput-indicator');
         var callbackProxy = function(results) {

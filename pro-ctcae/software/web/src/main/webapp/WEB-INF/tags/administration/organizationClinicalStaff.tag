@@ -7,10 +7,10 @@
 <%@attribute name="organizationClinicalStaffIndex" type="java.lang.Integer" required="true" %>
 <%@attribute name="readOnly" type="java.lang.Boolean" required="false" %>
 
-<c:set var="propertyName"
-       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization">
-</c:set>
+<p id="splitter"/>
 
+<c:set var="propertyName"
+       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization" />
 
 <tr id="row-${organizationClinicalStaffIndex}">
     <td style="border-right:none;">
@@ -23,9 +23,6 @@
                 <input name="${propertyName}" id="${propertyName}" class="validate-NOTEMPTY" style="display:none;"/>
                 <tags:yuiAutocompleter inputName="${propertyName}Input" value="${command.clinicalStaff.organizationClinicalStaffs[organizationClinicalStaffIndex].organization.displayName}"
                                        required="false" hiddenInputName="${propertyName}" contentBoxMaxHeight="30"/>
-               <%-- <tags:renderAutocompleter propertyName="${propertyName}" required="true"
-                                          displayName="clinicalStaff.division.site"
-                                          doNotshowLabel="true" noForm="true" size="100"/>--%>
 
             </c:otherwise>
         </c:choose>
@@ -38,6 +35,5 @@
                  style="vertical-align:middle">
         </a>
     </td>
-
 
 </tr>
