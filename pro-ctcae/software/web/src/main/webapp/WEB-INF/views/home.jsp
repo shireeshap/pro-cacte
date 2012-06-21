@@ -228,7 +228,7 @@ function moreRows() {
 }
 
 //function loadMyCalendar() {
-    <%--var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {--%>
+<%--var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {--%>
 //        onComplete:function(transport) {
 //            new Insertion.After('calendar_inner', transport.responseText);
 //        },
@@ -287,17 +287,27 @@ function showPopUpMenuAlert(day) {
     });
 }
 
-function showPo(scheduleid, pid) {
+function showPo(scheduleid, pid, phone, email) {
+    var phone = phone;
+    var email = email;
+    if (phone == null || phone == ' ') {
+        phone = "Not available";
+    }
+    if (email == null || email == ' ') {
+        email = "Not available";
+    }
     var html = '<div id="search-engines"><ul>';
 <proctcae:urlAuthorize url="/pages/participant/enterResponses">
     html += '<li id="nav"><a href="#" >Print form </a><ul><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
     html += '<li><a href="#" onclick="location.href=\'participant/enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses</a></li>';
 </proctcae:urlAuthorize>
-       html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
+    html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
+    html += '<li id="nav1"><a href="#" >Contact info </a> <ul><li><a href="#" ><u>Phone</u><br>' + phone + ' </a><br><br></li><li><a href="#" ><u>Email</u><br> ' + email + ' </a></li></ul></li>';
     html += '</ul></div>';
     jQuery('#scheduleAct' + scheduleid).menu({
         content: html,
-        maxHeight: 100,
+        width: 220,
+        maxHeight: 150,
         positionOpts: {
             directionV: 'down',
             posX: 'left',
@@ -929,9 +939,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     <tr>
                         <td>
                             <div id="calendar_outer">
-                    <div id="calendar_inner"></div>
-                    <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
-                </div>
+                                <div id="calendar_inner"></div>
+                                <tags:userCalendar userCalendarCommand="${userCalendarCommand}"/>
+                            </div>
                         </td>
                     </tr>
                 </table>
