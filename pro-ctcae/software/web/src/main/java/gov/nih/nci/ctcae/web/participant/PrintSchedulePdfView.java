@@ -29,11 +29,14 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
+import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.HeaderFooter;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -47,9 +50,19 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
     StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
+    @Override
+    /**
+    * Override to produce a landscape format.
+    */
+    protected Document newDocument() {
+    	return new Document(PageSize.A4.rotate());
+    }
+    
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+    	
+//    	document = new Document(PageSize.A4.rotate());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        Document dupe = new Document();
+        Document dupe = new Document(PageSize.A4.rotate());
         PdfWriter dupePdfWriter = PdfWriter.getInstance(dupe, bos);
         int totalPages = 0;
         dupe.open();
@@ -75,19 +88,34 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         ArrayList<ProCtcQuestion> participantAddedProctcQuestions = new ArrayList<ProCtcQuestion>();
         Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap<String, ArrayList<MeddraQuestion>>();
         ArrayList<MeddraQuestion> participantAddedMeddraQuestions = new ArrayList<MeddraQuestion>();
-        Font coverFont = new Font();
-        coverFont.setSize(22);
-        coverFont.setStyle(Font.BOLD);
-        for (int i = 0; i < 20; i++) {
+        Font surveyLabelFont = new Font();
+        surveyLabelFont.setSize(22);
+        surveyLabelFont.setStyle(Font.BOLD);
+        surveyLabelFont.setStyle(Font.UNDERLINE);
+        
+        Font surveyNameFont = new Font();
+        surveyNameFont.setSize(22);
+        surveyNameFont.setStyle(Font.BOLD);
+        
+        for (int i = 0; i < 8; i++) {
             document.add(new Paragraph("\n"));
         }
-        document.add(new Paragraph(new Chunk("                          Survey " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle(), coverFont)));
+        Paragraph coverSurveyLabel = new Paragraph(new Chunk("SURVEY" , surveyLabelFont));
+        coverSurveyLabel.setAlignment(Element.ALIGN_CENTER);
+        document.add(coverSurveyLabel);
+        
+        document.add(new Paragraph("\n"));
+        
+        Paragraph coverSurveyName = new Paragraph(new Chunk(studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle() , surveyNameFont));
+        coverSurveyName.setAlignment(Element.ALIGN_CENTER);
+        document.add(coverSurveyName);
 
+        Font headerLabels = FontFactory.getFont("Arial", 12f, Font.BOLD);
         Table table1 = new Table(2, 9);//2 Columns and 9 line
         table1.setWidth(100);
         table1.setWidths(new int[]{20, 80});
         table1.setBorderWidth(0);
-        Cell c1 = new Cell(new Paragraph("Study:"));
+        Cell c1 = new Cell(new Paragraph("Study:", headerLabels));
         c1.setBorderWidth(0);
         table1.addCell(c1);
 
@@ -95,7 +123,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c2.setBorderWidth(0);
         table1.addCell(c2);
 
-        Cell c3 = new Cell(new Paragraph("Survey:"));
+        Cell c3 = new Cell(new Paragraph("Survey:", headerLabels));
         c3.setBorderWidth(0);
         table1.addCell(c3);
 
@@ -103,7 +131,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c4.setBorderWidth(0);
         table1.addCell(c4);
 
-        Cell c7 = new Cell(new Paragraph("Participant:"));
+        Cell c7 = new Cell(new Paragraph("Participant:", headerLabels));
         c7.setBorderWidth(0);
         table1.addCell(c7);
 
@@ -111,7 +139,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c8.setBorderWidth(0);
         table1.addCell(c8);
 
-        Cell c9 = new Cell(new Paragraph("Survey start date:"));
+        Cell c9 = new Cell(new Paragraph("Survey start date:", headerLabels));
         c9.setBorderWidth(0);
         table1.addCell(c9);
 
@@ -119,7 +147,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         c10.setBorderWidth(0);
         table1.addCell(c10);
 
-        Cell c11 = new Cell(new Paragraph("Survey due date:"));
+        Cell c11 = new Cell(new Paragraph("Survey due date:", headerLabels));
         c11.setBorderWidth(0);
         table1.addCell(c11);
 
@@ -142,7 +170,6 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         p.clear();
         p.add(table1);
         Font font = new Font();
-        //font.setStyle(Font.UNDERLINE);
         if (language.equalsIgnoreCase("en")) {
             p.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
         } else {
@@ -152,7 +179,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         HeaderFooter header = new HeaderFooter(p, false);
         document.setHeader(header);
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 17; i++) {
             document.add(new Paragraph("\n"));
         }
         document.add(new Paragraph(" "));
@@ -161,11 +188,11 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         addParticipantAddedQuestionsToMap(language, studyParticipantCrfSchedule, participantAddedProctcSymptomMap, participantAddedProctcQuestions, participantAddedMeddraSymptomMap, participantAddedMeddraQuestions);
         addSPCrfItemsToMap(studyParticipantCrfSchedule, symptomMap, proCtcQuestions);
 
-        Font f = FontFactory.getFont("Arial", 14f);
+        Font f = FontFactory.getFont("Arial", 12f);
         Font f1 = FontFactory.getFont("Arial", 16f);
 
         for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
-            PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f});
+            PdfPTable table = new PdfPTable(new float[]{1.25f, 1.25f, 1.5f, 1.5f, 1.75f, 2f, 2f});
             table.setWidthPercentage(98);
             PdfPCell cell;
             if (language.equals("en")) {
@@ -185,6 +212,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                     cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
                 }
                 cell2.setColspan(8);
+                cell2.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell2);
                 int i = 0;
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
@@ -193,8 +221,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                 }
                 for (int j = 0; j < 7 - i; j++) {
                     PdfPCell cell4 = new PdfPCell(new Paragraph(""));
+                    
+                    cell4.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell4);
-                    cell4.setBorderWidth(0.0f);
                 }
             }
 
@@ -224,6 +253,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                         cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
                     }
                     cell2.setColspan(8);
+                    cell2.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell2);
                     int i = 0;
                     for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
@@ -233,8 +263,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                     }
                     for (int j = 0; j < 8 - i; j++) {
                         PdfPCell cell4 = new PdfPCell(new Paragraph(""));
+                        
+                        cell4.setBorder(Rectangle.NO_BORDER);
                         table.addCell(cell4);
-                        cell4.setBorderWidth(0.0f);
                     }
                 }
                 document.add(table);
@@ -259,6 +290,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                         cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
                     }
                     cell2.setColspan(8);
+                    cell2.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell2);
                     int i = 0;
                     for (MeddraValidValue meddraValidValue : meddraQuestion.getValidValues()) {
@@ -270,14 +302,16 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                             ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.SPANISH), f));
                         }
                         PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                        cell3.setBorder(Rectangle.NO_BORDER);
                         table.addCell(cell3);
-                        cell3.setBorderWidth(0.0f);
+                        
 
                     }
                     for (int j = 0; j < 8 - i; j++) {
                         PdfPCell cell4 = new PdfPCell(new Paragraph(""));
+                        cell4.setBorder(Rectangle.NO_BORDER);
                         table.addCell(cell4);
-                        cell4.setBorderWidth(0.0f);
+                        
                     }
                 }
                 document.add(table);
@@ -372,8 +406,9 @@ public class PrintSchedulePdfView extends AbstractPdfView {
                         ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
                     }
                     PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                    
+                    cell3.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell3);
-                    cell3.setBorderWidth(0.0f);
     }
 
     static String cst(char c) {
