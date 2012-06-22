@@ -88,7 +88,7 @@ public class UserCalendarCommand {
             spcsQuery.filterByUsername(userName);
         }
 //        Calendar c = new GregorianCalendar(proCtcAECalendar.getCalendar().getTime());
-        Calendar c = proCtcAECalendar.getCalendar();
+        Calendar c = (Calendar) proCtcAECalendar.getCalendar().clone();
         c.set(Calendar.DAY_OF_MONTH, 1);
         Date startDate = c.getTime();
         int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
