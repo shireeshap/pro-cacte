@@ -69,8 +69,30 @@
          <span style="float: right;position:relative;bottom:10px">
 							    <a style="color:black" href="?id=${command.id}&lang=en">English</a>
 		 <span style="color:black">|</span>
-							    <a style="color:black" href="?id=${command.id}&lang=es">Spanish</a></span>
+							    <a style="color:black" href="?id=${command.id}&lang=es">Spanish</a>
+		 <span style="color:black">|</span>	
+		 						<a style="color:black" href=javascript:printDiv('printDiv')>Print</a>				    
+		 </span>
+		
 
+<!-- This Script is from www.htmlfreecodes.com, Coded by: Krishna Eydat
+<SCRIPT LANGUAGE="JavaScript">
+if (window.print) {
+document.write('<form> ' + '<input type=button name=print value="Click" ' + 'onClick="javascript:window.print()"> To Print this page!</form>');
+}
+</script>
+-->
+
+<script>
+printDivCSS = new String ('<link href="myprintstyle.css" rel="stylesheet" type="text/css">')
+function printDiv(divId) {
+    window.frames["print_frame"].document.body.innerHTML=  printDivCSS + document.getElementById(divId).innerHTML
+    window.frames["print_frame"].window.focus()
+    window.frames["print_frame"].window.print()
+}
+</script>		
+							    
+<div id="printDiv">
 <table>
     <tr>
         <td>
@@ -303,6 +325,7 @@
     <br>
 
 </div>
+</div>
 </ctcae:form>
 <c:if test="${command.status.displayName ne 'Completed'}">
     <table width="100%" style="margin-top:10px;">
@@ -322,6 +345,6 @@
     </table>
 </c:if>
 </chrome:box>
-
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 </body>
 </html>
