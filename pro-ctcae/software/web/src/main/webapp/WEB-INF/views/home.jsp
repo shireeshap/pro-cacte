@@ -297,10 +297,10 @@ function showPo(scheduleid, pid, phone, email) {
         email = "Not available";
     }
     var html = '<div id="search-engines"><ul>';
-<proctcae:urlAuthorize url="/pages/participant/enterResponses">
+<%--<proctcae:urlAuthorize url="/pages/participant/enterResponses">--%>
     html += '<li id="nav"><a href="#" >Print form </a><ul><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
     html += '<li><a href="#" onclick="location.href=\'participant/enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses</a></li>';
-</proctcae:urlAuthorize>
+<%--</proctcae:urlAuthorize>--%>
     html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
     html += '<li id="nav1"><a href="#" >Contact info </a> <ul><li><a href="#" ><u>Phone</u><br>' + phone + ' </a><br><br></li><li><a href="#" ><u>Email</u><br> ' + email + ' </a></li></ul></li>';
     html += '<li><a href="#" >&nbsp;</a></li>';
