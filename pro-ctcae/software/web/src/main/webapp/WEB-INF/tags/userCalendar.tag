@@ -8,9 +8,9 @@
     <img src="<tags:imageUrl name="ajax-loading.gif"/>"/>
 </div>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="50%">
-    <tr>
-        <td align="right">
-            Scheduled =
+     <tr>
+        <td align="right" colspan="2">
+            Scheduled =  <br>
             In-progress =
         </td>
         <td>
@@ -18,8 +18,8 @@
             <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
         </td>
 
-        <td align="right">
-            Completed =
+        <td align="right" colspan="2">
+            Completed =             <br>
             Past-due =
         </td>
         <td>
