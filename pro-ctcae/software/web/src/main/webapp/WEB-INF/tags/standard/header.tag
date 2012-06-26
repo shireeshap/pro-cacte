@@ -31,9 +31,9 @@
     }
 
     function openNewWindow(url) {
-         popupWin = window.open(url,
-         'open_window',
-         'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=700, height=700, left=0, top=0')
+        popupWin = window.open(url,
+                'open_window',
+                'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=700, height=700, left=0, top=0')
     }
 </script>
 
@@ -51,13 +51,13 @@
                     </td>
                     <td align="right" width="200px">
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
-                           <c:if test="${empty param.lang}">
-                               <c:set var="currentEn" value="current"/>
-                               <c:if test="${pageContext.response.locale == 'es'}">
+                            <c:if test="${empty param.lang}">
+                                <c:set var="currentEn" value="current"/>
+                                <c:if test="${pageContext.response.locale == 'es'}">
                                     <c:set var="currentEs" value="current"/>
                                     <c:set var="currentEn" value=""/>
-                               </c:if>
-                           </c:if>
+                                </c:if>
+                            </c:if>
 
                             <c:if test="${param.lang eq 'en'}">
                                 <c:set var="currentEn" value="current"/>
@@ -68,23 +68,48 @@
                                 <c:set var="currentEs" value="current"/>
                             </c:if>
                             <div class="language-toggle1" style="float:right">
-                               <a class="left ${currentEn}" href="?lang=en">English</a>
-                               <a class="right ${currentEs}" href="?lang=es">Español</a>
-                               <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
-                                   <a onclick="openNewWindow('showVideo');" style="cursor:pointer;color:white;border:0px;background:none; ">
-                                      <table width="100%"><tr><td width="35px;" align="left"> 
-                                              <img style="margin:0px;" src="<chrome:imageUrl name="../video_camera_icon.png"/>" alt="" />
-                                          </td><td valign="middle" align="left">
-                                              <spring:message code="help.video"/>
-                                      </td></tr></table>
-                                  </a>
-                               </div>
-                           </div>
-	                    	<%--<span style="float: right;position:relative;bottom:35px">--%>
-							    <%--<a style="color:white" href="?lang=en">English</a>--%>
-							   <%--<span style="color:white">|</span>--%>
-							    <%--<a style="color:white" href="?lang=es">Spanish</a>--%>
-							<%--</span>--%>
+                                <a class="left ${currentEn}" href="?lang=en">English</a>
+                                <a class="right ${currentEs}" href="?lang=es">Español</a>
+                            </div>
+                            <div style="margin-top:0px;margin-right:-6px">
+                                <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <img src="/proctcae/images/table/pdf.gif"/>
+                                            </td>
+                                            <td>
+                                                    <a href="/proctcae/images/quickstart_guide_v4.pdf" target="_blank" style="color:white;"><b><tags:message
+                                                            code="login.quickStart"/></b></a>
+                                            </td>
+                                            <td>
+                                                <a onclick="openNewWindow('showVideo');"
+                                                   style="cursor:pointer;color:white;border:0px;background:none; ">
+                                                    <table width="100%">
+                                                        <tr>
+                                                            <td width="35px;" align="left">
+                                                                <img style="margin:0px;"
+                                                                     src="<chrome:imageUrl name="../video_camera_icon.png"/>"
+                                                                     alt=""/>
+                                                            </td>
+                                                            <td valign="middle" align="left">
+                                                                <b><spring:message code="help.video"/></b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <%--<span style="float: right;position:relative;bottom:35px">--%>
+                            <%--<a style="color:white" href="?lang=en">English</a>--%>
+                            <%--<span style="color:white">|</span>--%>
+                            <%--<a style="color:white" href="?lang=es">Spanish</a>--%>
+                            <%--</span>--%>
                         </c:if>
                     </td>
                 </tr>
@@ -94,23 +119,25 @@
             <%--</proctcae:urlAuthorize>--%>
 
             <div class="top-btns">
-	            <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
-	                <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
-	                <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
-	                <c:if test="${empty currentTask.linkName}">
-	                    <c:set var="backUpKey"><%=request.getPathInfo().replaceAll("/", "_")%>
-	                    </c:set>
-	                </c:if>
-	
-	                <spring:message var="helpLink" code="${empty currentTask.linkName? backUpKey:helpKey}" text="NO_${helpKey}"/>
-	                <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}" target="_blank">Help</a>
-	            </proctcae:urlAuthorize>
-			
-	            <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
-	                <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
-	            </proctcae:urlAuthorize>
-	        </div>
-	            
+                <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
+                    <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
+                    <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
+                    <c:if test="${empty currentTask.linkName}">
+                        <c:set var="backUpKey"><%=request.getPathInfo().replaceAll("/", "_")%>
+                        </c:set>
+                    </c:if>
+
+                    <spring:message var="helpLink" code="${empty currentTask.linkName? backUpKey:helpKey}"
+                                    text="NO_${helpKey}"/>
+                    <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
+                       target="_blank">Help</a>
+                </proctcae:urlAuthorize>
+
+                <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
+                    <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
+                </proctcae:urlAuthorize>
+            </div>
+
         </div>
         <%--${backUpKey}--%>
         <ul id="sections" class="tabs">
@@ -152,14 +179,15 @@
                     <img src="/proctcae/images/keyboard-icon.png"/>
                     <tags:message code="login.userVirtualKeyboard"/></p>
             </c:if>
+
         </div>
         <div id="floatingTaskbar" style="display:none;">
             <tags:floatingTaskbar/>
         </div>
 
     </div>
-    
-	<spring:message code="user.keepworking" var="keepWorking"/>
+
+    <spring:message code="user.keepworking" var="keepWorking"/>
     <div id="logout_warning" style="display:none;text-align:left;padding-left:10px; width:410px;">
         <p>
             <font size="3"> <tags:message code="instruction_logout_warning"/></font>
@@ -176,7 +204,6 @@
     </div>
 
 </div>
-
 
 
 <!-- end header -->
