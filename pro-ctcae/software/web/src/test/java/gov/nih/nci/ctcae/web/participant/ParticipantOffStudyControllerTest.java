@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  * @author Mehul Gulati
  *         Date: Jul 2, 2009
  */
-public class ParticipantOffStudyControllerTest extends AbstractWebTestCase {
+public class ParticipantOffStudyControllerTest extends AbstractWebIntegrationTestCase {
     ParticipantOffStudyController controller;
     StudyParticipantAssignment spAssignment;
 
@@ -41,7 +42,7 @@ public class ParticipantOffStudyControllerTest extends AbstractWebTestCase {
         spAssignment.setOffTreatmentDate(date);
         spAssignment.setStatus(RoleStatus.OFFSTUDY);
         controller.handleRequest(request, response);
-        assertEquals("OFFSTUDY", spAssignment.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(2).getStatus().getDisplayName().toUpperCase());
+        assertEquals("OFFSTUDY", spAssignment.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(5).getStatus().getDisplayName().toUpperCase());
         assertEquals("OFFSTUDY", spAssignment.getStatus().getDisplayName().toUpperCase());
     }
 }

@@ -19,10 +19,9 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         query.filterByCrf(crf.getId());
         query.filterByArm(crf.getStudy().getArms().get(0));
-     //   query.filterBySymptom("Acne");
 
         List list = genericRepository.find(query);
-        assertEquals(36, list.size());
+        assertEquals(18, list.size());
 
     }
 
