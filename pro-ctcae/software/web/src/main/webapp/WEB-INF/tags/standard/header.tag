@@ -76,11 +76,20 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <img src="/proctcae/images/table/pdf.gif"/>
-                                            </td>
-                                            <td>
-                                                    <a href="/proctcae/images/quickstart_guide_v4.pdf" target="_blank" style="color:white;"><b><tags:message
-                                                            code="login.quickStart"/></b></a>
+                                                <a href="/proctcae/images/quickstart_guide_v4.pdf" target="_blank"
+                                                   style="color:white;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="/proctcae/images/table/pdf.gif"/>
+                                                            </td>
+                                                            <td>
+                                                                <b><tags:message
+                                                                        code="login.quickStart"/></b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </a>
                                             </td>
                                             <td>
                                                 <a onclick="openNewWindow('showVideo');"
