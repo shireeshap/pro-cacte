@@ -69,6 +69,9 @@ public class NotificationsEvaluationService {
         ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
         ProCtcQuestionType proCtcQuestionType = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType();
         ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+        if (value == null) {
+            return false;
+        }
         if (value != null) {
             int threshold = value.getDisplayOrder();
             for (NotificationRuleSymptom notificationRuleSymptom : notificationRule.getNotificationRuleSymptoms()) {
