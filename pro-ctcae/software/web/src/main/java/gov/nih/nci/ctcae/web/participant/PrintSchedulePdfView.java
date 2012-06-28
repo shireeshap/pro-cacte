@@ -26,9 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -38,12 +40,10 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * author Mehul Gulati
+ * author Mehul Gulati, Vinay Gangoli
  * Date: Jun 17, 2009
  */
 public class PrintSchedulePdfView extends AbstractPdfView {
@@ -59,8 +59,6 @@ public class PrintSchedulePdfView extends AbstractPdfView {
     }
     
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-    	
-//    	document = new Document(PageSize.A4.rotate());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         Document dupe = new Document(PageSize.A4.rotate());
         PdfWriter dupePdfWriter = PdfWriter.getInstance(dupe, bos);
@@ -88,6 +86,7 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         ArrayList<ProCtcQuestion> participantAddedProctcQuestions = new ArrayList<ProCtcQuestion>();
         Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap = new LinkedHashMap<String, ArrayList<MeddraQuestion>>();
         ArrayList<MeddraQuestion> participantAddedMeddraQuestions = new ArrayList<MeddraQuestion>();
+        
         Font surveyLabelFont = new Font();
         surveyLabelFont.setSize(22);
         surveyLabelFont.setStyle(Font.BOLD);
@@ -103,83 +102,26 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         Paragraph coverSurveyLabel = new Paragraph(new Chunk("SURVEY" , surveyLabelFont));
         coverSurveyLabel.setAlignment(Element.ALIGN_CENTER);
         document.add(coverSurveyLabel);
-        
         document.add(new Paragraph("\n"));
         
         Paragraph coverSurveyName = new Paragraph(new Chunk(studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle() , surveyNameFont));
         coverSurveyName.setAlignment(Element.ALIGN_CENTER);
         document.add(coverSurveyName);
 
-        Font headerLabels = FontFactory.getFont("Arial", 12f, Font.BOLD);
-        Table table1 = new Table(2, 9);//2 Columns and 9 line
-        table1.setWidth(100);
-        table1.setWidths(new int[]{20, 80});
-        table1.setBorderWidth(0);
-        Cell c1 = new Cell(new Paragraph("Study:", headerLabels));
-        c1.setBorderWidth(0);
-        table1.addCell(c1);
-
-        Cell c2 = new Cell(new Paragraph("" + study.getDisplayName()));
-        c2.setBorderWidth(0);
-        table1.addCell(c2);
-
-        Cell c3 = new Cell(new Paragraph("Survey:", headerLabels));
-        c3.setBorderWidth(0);
-        table1.addCell(c3);
-
-        Cell c4 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
-        c4.setBorderWidth(0);
-        table1.addCell(c4);
-
-        Cell c7 = new Cell(new Paragraph("Participant:", headerLabels));
-        c7.setBorderWidth(0);
-        table1.addCell(c7);
-
-        Cell c8 = new Cell(new Paragraph("" + participant.getDisplayNameForReports()));
-        c8.setBorderWidth(0);
-        table1.addCell(c8);
-
-        Cell c9 = new Cell(new Paragraph("Survey start date:", headerLabels));
-        c9.setBorderWidth(0);
-        table1.addCell(c9);
-
-        Cell c10 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
-        c10.setBorderWidth(0);
-        table1.addCell(c10);
-
-        Cell c11 = new Cell(new Paragraph("Survey due date:", headerLabels));
-        c11.setBorderWidth(0);
-        table1.addCell(c11);
-
-        Cell c12 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getDueDate())));
-        c12.setBorderWidth(0);
-        table1.addCell(c12);
-
-        Cell c15 = new Cell(new Paragraph("\n"));
-        c15.setBorderWidth(0);
-        table1.addCell(c15);
-
-        Cell c16 = new Cell(new Paragraph("\n"));
-        c16.setBorderWidth(0);
-        table1.addCell(c16);
-
-        HeaderFooter footer = new HeaderFooter(new Phrase(" CONFIDENTIAL                                                                                                                          Page ", new Font(Font.TIMES_ROMAN, 12, Font.NORMAL)), new Phrase(" of " + total, new Font(Font.TIMES_ROMAN, 12, Font.NORMAL)));
+        //setting the header
+        Phrase headerPhrase = getHeaderTableInPhrase(document, study, studyParticipantCrfSchedule, participant, language);
+        HeaderFooter header = new HeaderFooter(headerPhrase, false);
+        header.setBorder(Rectangle.NO_BORDER);
+        document.setHeader(header);
+        
+        //setting the footer
+        Phrase footerPhrase = new Phrase("                                                                                                                                                                     Page ", new Font(Font.TIMES_ROMAN, 12, Font.NORMAL));
+        Phrase footerPhrase2 = new Phrase(" of " + total, new Font(Font.TIMES_ROMAN, 12, Font.NORMAL));
+        HeaderFooter footer = new HeaderFooter(footerPhrase, footerPhrase2);
         document.setFooter(footer);
 
-        Phrase p = new Phrase();
-        p.clear();
-        p.add(table1);
-        Font font = new Font();
-        if (language.equalsIgnoreCase("en")) {
-            p.add(new Paragraph(new Chunk("Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod(), font)));
-        } else {
-            p.add(new Paragraph(new Chunk("Por favor, piense de nuevo " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish(), font)));
-        }
-
-        HeaderFooter header = new HeaderFooter(p, false);
-        document.setHeader(header);
-
-        for (int i = 0; i < 17; i++) {
+        //doing this in order to start content from second page.
+        for (int i = 0; i < 16; i++) {
             document.add(new Paragraph("\n"));
         }
         document.add(new Paragraph(" "));
@@ -189,83 +131,92 @@ public class PrintSchedulePdfView extends AbstractPdfView {
         addSPCrfItemsToMap(studyParticipantCrfSchedule, symptomMap, proCtcQuestions);
 
         Font f = FontFactory.getFont("Arial", 12f);
-        Font f1 = FontFactory.getFont("Arial", 16f);
-
+        int autoPageCounter = pdfWriter.getPageNumber() + 1;
+        int symCount = 0;
+        int questionCounter = 0;
+        
+        Table table;
         for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
-            PdfPTable table = new PdfPTable(new float[]{1.25f, 1.25f, 1.5f, 1.5f, 1.75f, 2f, 2f});
-            table.setWidthPercentage(98);
-            PdfPCell cell;
-            if (language.equals("en")) {
-                cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
-            } else {
-                cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermSpanish()));
+            table = getSymptomTable();
+            
+            symCount++;
+            questionCounter = questionCounter + symptomMap.get(proCtcTerm).size();
+            if(isNewPage(symCount, questionCounter)){
+            	if(autoPageCounter == pdfWriter.getPageNumber()){
+                	document.newPage();
+            	}
+            	questionCounter = symptomMap.get(proCtcTerm).size();
+            	symCount = 1;
+            	autoPageCounter++;
             }
-            cell.setBackgroundColor(Color.lightGray);
-            cell.setColspan(8);
+            
+            Cell cell;
+            if (language.equals("en")) {
+                cell = getCellForTerm(proCtcTerm.getProCtcTermVocab().getTermEnglish());
+            } else {
+                cell = getCellForTerm(proCtcTerm.getProCtcTermVocab().getTermSpanish());
+            }
             table.addCell(cell);
 
+            Cell cell2;
             for (ProCtcQuestion proCtcQuestion : symptomMap.get(proCtcTerm)) {
-                PdfPCell cell2;
                 if (language.equals("en")) {
-                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH) + "?", f));
+                    cell2 = getCellForQuestion(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH));
                 } else {
-                    cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
+                    cell2 = getCellForQuestion(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH));
                 }
-                cell2.setColspan(8);
-                cell2.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell2);
-                int i = 0;
+                
+                table.addCell(getCellForIndenting());
                 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
-                    i++;
-                    addValidValueToCell(proCtcValidValue, f1, language, table, f);
+                    addValidValueToCell(proCtcValidValue, f, language, table, f);
                 }
-                for (int j = 0; j < 7 - i; j++) {
-                    PdfPCell cell4 = new PdfPCell(new Paragraph(""));
-                    
-                    cell4.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell4);
+                for (int j = 0; j < 7 - proCtcQuestion.getValidValues().size(); j++) {
+                    table.addCell(getBlankOptionCell());
                 }
             }
-
             document.add(table);
             document.add(new Paragraph(" "));
         }
 
         if (participantAddedProctcSymptomMap.keySet().size() > 0) {
             for (ProCtcTerm proCtcTerm : participantAddedProctcSymptomMap.keySet()) {
-                PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f});
-                table.setWidthPercentage(98);
-                PdfPCell cell;
-                if (language.equals("en")) {
-                    cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermEnglish()));
-                } else {
-                    cell = new PdfPCell(new Paragraph(proCtcTerm.getProCtcTermVocab().getTermSpanish()));
+                table = getSymptomTable();
+                
+                symCount++;
+                questionCounter = questionCounter + participantAddedProctcSymptomMap.get(proCtcTerm).size();
+                if(isNewPage(symCount, questionCounter)){
+                	if(autoPageCounter == pdfWriter.getPageNumber()){
+                    	document.newPage();
+                	}
+                	questionCounter = participantAddedProctcSymptomMap.get(proCtcTerm).size();
+                	symCount = 1;
+                	autoPageCounter++;
                 }
-                cell.setBackgroundColor(Color.lightGray);
-                cell.setColspan(8);
+                
+                Cell cell;
+                if (language.equals("en")) {
+                    cell = getCellForTerm(proCtcTerm.getProCtcTermVocab().getTermEnglish());
+                } else {
+                    cell = getCellForTerm(proCtcTerm.getProCtcTermVocab().getTermSpanish());
+                }
                 table.addCell(cell);
 
+                Cell cell2;
                 for (ProCtcQuestion proCtcQuestion : participantAddedProctcSymptomMap.get(proCtcTerm)) {
-                    PdfPCell cell2;
                     if (language.equals("en")) {
-                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH) + "?", f));
+                        cell2 = getCellForQuestion(proCtcQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH));
                     } else {
-                        cell2 = new PdfPCell(new Paragraph(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
+                        cell2 = getCellForQuestion(proCtcQuestion.getQuestionText(SupportedLanguageEnum.SPANISH));
                     }
-                    cell2.setColspan(8);
-                    cell2.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell2);
-                    int i = 0;
+                    
+                    table.addCell(getCellForIndenting());
                     for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
-                        i++;
-                        addValidValueToCell(proCtcValidValue, f1, language, table, f);
-
+                        addValidValueToCell(proCtcValidValue, f, language, table, f);
                     }
-                    for (int j = 0; j < 8 - i; j++) {
-                        PdfPCell cell4 = new PdfPCell(new Paragraph(""));
-                        
-                        cell4.setBorder(Rectangle.NO_BORDER);
-                        table.addCell(cell4);
+                    for (int j = 0; j < 7 - proCtcQuestion.getValidValues().size(); j++) {
+                        table.addCell(getBlankOptionCell());
                     }
                 }
                 document.add(table);
@@ -275,82 +226,246 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
         if (participantAddedMeddraSymptomMap.keySet().size() > 0) {
             for (String meddraTerm : participantAddedMeddraSymptomMap.keySet()) {
-                PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f});
-                table.setWidthPercentage(98);
-                PdfPCell cell = new PdfPCell(new Paragraph(meddraTerm));
-                cell.setBackgroundColor(Color.lightGray);
-                cell.setColspan(8);
+            	table = getSymptomTable();
+                
+                symCount++;
+                questionCounter = questionCounter + participantAddedMeddraSymptomMap.get(meddraTerm).size();
+                if(isNewPage(symCount, questionCounter)){
+                	if(autoPageCounter == pdfWriter.getPageNumber()){
+                    	document.newPage();
+                	}
+                	questionCounter = participantAddedMeddraSymptomMap.get(meddraTerm).size();
+                	symCount = 1;
+                	autoPageCounter++;
+                }
+            	
+                Cell cell = getCellForTerm(meddraTerm);
                 table.addCell(cell);
 
+                Cell cell2, cell3;
+                Phrase ph;
                 for (MeddraQuestion meddraQuestion : participantAddedMeddraSymptomMap.get(meddraTerm)) {
-                    PdfPCell cell2;
                     if (language.equals("en")) {
-                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH) + "?", f));
+                        cell2 = getCellForQuestion(meddraQuestion.getQuestionText(SupportedLanguageEnum.ENGLISH));
                     } else {
-                        cell2 = new PdfPCell(new Paragraph(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH) + "?", f));
+                        cell2 = getCellForQuestion(meddraQuestion.getQuestionText(SupportedLanguageEnum.SPANISH));
                     }
-                    cell2.setColspan(8);
-                    cell2.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell2);
-                    int i = 0;
+                    
+                    table.addCell(getCellForIndenting());
                     for (MeddraValidValue meddraValidValue : meddraQuestion.getValidValues()) {
-                        i++;
-                        Phrase ph = new Phrase(12, "O", f1);
+                        ph = new Phrase(12, "O", f);
                         if (language.equals("en")) {
                             ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
                         } else {
                             ph.add(new Phrase(" " + meddraValidValue.getValue(SupportedLanguageEnum.SPANISH), f));
                         }
-                        PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
+                        cell3 = new Cell(new Paragraph(ph));
                         cell3.setBorder(Rectangle.NO_BORDER);
+                        cell3.setVerticalAlignment(Element.ALIGN_TOP);
+                        cell3.setUseBorderPadding(true);
                         table.addCell(cell3);
-                        
-
                     }
-                    for (int j = 0; j < 8 - i; j++) {
-                        PdfPCell cell4 = new PdfPCell(new Paragraph(""));
-                        cell4.setBorder(Rectangle.NO_BORDER);
-                        table.addCell(cell4);
-                        
+                    for (int j = 0; j < 7 - meddraQuestion.getValidValues().size(); j++) {
+                        table.addCell(getBlankOptionCell());
                     }
                 }
                 document.add(table);
                 document.add(new Paragraph(" "));
             }
         }
-        PdfPTable table2 = new PdfPTable(new float[]{1f});
-        table2.setWidthPercentage(98);
 
-        PdfPCell cell = null;
-        if (language.equals("en")) {
-            cell = new PdfPCell(new Paragraph("Please indicate any additional symptoms you have experienced " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " that you were not asked about:"));
-        } else {
-            cell = new PdfPCell(new Paragraph("Por favor, indique cualquier síntoma adicional que han experimentado " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish() + " que no se les preguntó sobre:"));
+        symCount++;
+        questionCounter = questionCounter + 2;
+        if(isNewPage(symCount, questionCounter)){
+        	document.newPage();
         }
-
-        cell.setBackgroundColor(Color.lightGray);
-        cell.setColspan(1);
-        table2.addCell(cell);
-
-        PdfPCell cell1 = new PdfPCell(new Paragraph("\n"));
-        cell1.setBackgroundColor(Color.WHITE);
-        cell1.setColspan(1);
-        table2.addCell(cell1);
-
-        PdfPCell cell2 = new PdfPCell(new Paragraph("\n"));
-        cell2.setBackgroundColor(Color.WHITE);
-        cell2.setColspan(1);
-        table2.addCell(cell2);
-
-        PdfPCell cell3 = new PdfPCell(new Paragraph("\n"));
-        cell3.setBackgroundColor(Color.WHITE);
-        cell3.setColspan(1);
-        table2.addCell(cell3);
-        document.add(table2);
-        document.add(new Paragraph(" "));
+        
+        Table additionalSymptomsTable = getTableForAdditionalSymptoms(language, studyParticipantCrfSchedule);
+        document.add(additionalSymptomsTable);
+        document.add(new Paragraph("  "));
     }
 
-    private void addParticipantAddedQuestionsToMap(String language, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Map<ProCtcTerm, ArrayList<ProCtcQuestion>> participantAddedProctcSymptomMap, ArrayList<ProCtcQuestion> participantAddedProctcQuestions, Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap, ArrayList<MeddraQuestion> participantAddedMeddraQuestions) {
+    private Cell getCellForIndenting() throws BadElementException{
+    	Cell cell = new Cell(new Paragraph(""));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setUseBorderPadding(true);
+        
+        return cell;
+    }
+    
+    
+    private Cell getBlankOptionCell() throws BadElementException {
+    	Cell cell = new Cell(new Paragraph(""));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setUseBorderPadding(true);
+        
+        return cell;
+	}
+
+	private Table getTableForAdditionalSymptoms(String language, StudyParticipantCrfSchedule studyParticipantCrfSchedule) throws DocumentException {
+    	Table table = new Table(1);
+        table.setWidth(100);
+        table.setWidths(new int[]{100});
+        table.setBorder(1);
+        table.setBorderWidthBottom(1);
+        table.setBorderWidthLeft(1);
+        table.setBorderWidthRight(1);
+        table.setBorderColor(Color.BLACK);
+        table.setPadding(1);
+        table.setCellsFitPage(true);
+        
+        Cell cell = null;
+        if (language.equals("en")) {
+            cell = new Cell(new Paragraph("  Please indicate any additional symptoms you have experienced " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " that you were not asked about:"));
+        } else {
+            cell = new Cell(new Paragraph("  Por favor, indique cualquier síntoma adicional que han experimentado " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish() + " que no se les preguntó sobre:"));
+        }
+        cell.setUseBorderPadding(true);
+        cell.setVerticalAlignment(Element.ALIGN_TOP);
+        cell.setBackgroundColor(Color.lightGray);
+        cell.setColspan(1);
+        table.addCell(cell);
+
+        Cell cell1 = new Cell(new Paragraph("\n"));
+        cell1.setBackgroundColor(Color.WHITE);
+        cell1.setColspan(1);
+        table.addCell(cell1);
+        table.addCell(cell1);
+        table.addCell(cell1);
+        
+        return table;
+	}
+
+	private Phrase getHeaderTableInPhrase(Document document, Study study, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Participant participant, String language) throws DocumentException {
+        Font headerLabels = FontFactory.getFont("Arial", 12f, Font.BOLD);
+        Table table1 = new Table(2, 9);//2 Columns and 9 line
+        table1.setBorderWidthBottom(1);
+        table1.setBorderWidthTop(1);
+        table1.setWidth(100);
+        table1.setWidths(new int[]{20, 80});
+
+        Cell c1 = new Cell(new Paragraph("  Study:", headerLabels));
+        c1.setBorderWidth(0);
+        c1.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c1);
+
+        Cell c2 = new Cell(study.getDisplayName());
+        c2.setBorderWidth(0);
+        c2.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c2);
+
+        Cell c3 = new Cell(new Paragraph("  Survey:", headerLabels));
+        c3.setBorderWidth(0);
+        c3.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c3);
+
+        Cell c4 = new Cell(new Paragraph("" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle()));
+        c4.setBorderWidth(0);
+        c4.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c4);
+
+        Cell c7 = new Cell(new Paragraph("  Participant:", headerLabels));
+        c7.setBorderWidth(0);
+        c7.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c7);
+
+        Cell c8 = new Cell(new Paragraph("" + participant.getDisplayNameForReports()));
+        c8.setBorderWidth(0);
+        c8.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c8);
+
+        Cell c9 = new Cell(new Paragraph("  Survey start date:", headerLabels));
+        c9.setBorderWidth(0);
+        c9.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c9);
+
+        Cell c10 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getStartDate())));
+        c10.setBorderWidth(0);
+        c10.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c10);
+
+        Cell c11 = new Cell(new Paragraph("  Survey due date:", headerLabels));
+        c11.setBorderWidth(0);
+        c11.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c11);
+
+        Cell c12 = new Cell(new Paragraph("" + DateUtils.format(studyParticipantCrfSchedule.getDueDate())));
+        c12.setBorderWidth(0);
+        c12.setVerticalAlignment(Element.ALIGN_TOP);
+        table1.addCell(c12);
+
+        Cell c15 = new Cell(new Paragraph("\n"));
+        c15.setBorderWidth(0);
+        c15.setColspan(2);
+        table1.addCell(c15);
+
+        Phrase p = new Phrase(0);
+        p.add(table1);
+        p.add(new Phrase("\n"));
+        Table table12 = new Table(1, 1);
+        table12.setWidth(100);
+        table12.setBorder(Rectangle.NO_BORDER);
+        Cell t2Cell;
+        Font font = new Font();
+        Paragraph thinkBackMsg;
+        if (language.equalsIgnoreCase("en")) {
+            thinkBackMsg = new Paragraph(new Chunk("  Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + "\n", font));
+        	t2Cell = new Cell(thinkBackMsg);
+        } else {
+            thinkBackMsg = new Paragraph(new Chunk("  Por favor, piense de nuevo " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriodInSpanish(), font));
+        	t2Cell = new Cell(thinkBackMsg);
+        }
+        t2Cell.setBorderWidth(0);
+        t2Cell.setVerticalAlignment(Rectangle.TOP);
+        table12.addCell(t2Cell);
+        p.add(table12);
+        
+        return p;
+	}
+
+	private Cell getCellForQuestion(String question) throws BadElementException {
+		Paragraph paragraph = new Paragraph("    " + question + "?", FontFactory.getFont("Arial", 12f));
+    	Cell cell = new Cell(paragraph);
+        cell.setColspan(8);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setUseBorderPadding(true);
+        cell.setVerticalAlignment(Element.ALIGN_TOP);
+        
+        return cell;
+	}
+
+	private Cell getCellForTerm(String term) throws BadElementException {
+		Paragraph pSym = new Paragraph("  " + term, FontFactory.getFont("Arial", 12f, Font.BOLD));
+    	Cell cell = new Cell(pSym);
+        cell.setBackgroundColor(Color.lightGray);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setVerticalAlignment(Element.ALIGN_TOP);
+        cell.setColspan(8);
+        
+		return cell;
+	}
+
+	private Table getSymptomTable() throws DocumentException {
+		Table table = new Table(8);
+        table.setWidth(100);
+        table.setWidths(new int[]{4, 9, 10, 14, 12, 15, 18, 18});
+        table.setBorder(1);
+        table.setBorderWidthBottom(1);
+        table.setBorderWidthLeft(1);
+        table.setBorderWidthRight(1);
+        table.setBorderColor(Color.BLACK);
+        table.setPadding(1);
+        table.setCellsFitPage(true);
+        
+        return table;
+	}
+
+	private boolean isNewPage(int symCount, int questionCounter) {
+		return questionCounter > 6 || (symCount > 2 && questionCounter > 4) || symCount > 3;
+	}
+
+	private void addParticipantAddedQuestionsToMap(String language, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Map<ProCtcTerm, ArrayList<ProCtcQuestion>> participantAddedProctcSymptomMap, ArrayList<ProCtcQuestion> participantAddedProctcQuestions, Map<String, ArrayList<MeddraQuestion>> participantAddedMeddraSymptomMap, ArrayList<MeddraQuestion> participantAddedMeddraQuestions) {
 
         if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() > 0) {
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
@@ -398,17 +513,18 @@ public class PrintSchedulePdfView extends AbstractPdfView {
 
     }
 
-    private void addValidValueToCell(ProCtcValidValue proCtcValidValue, Font f1, String language, PdfPTable table, Font f) {
+    private void addValidValueToCell(ProCtcValidValue proCtcValidValue, Font f1, String language, Table table, Font f) throws BadElementException {
          Phrase ph = new Phrase(12, "O", f1);
-                    if (language.equals("en")) {
-                        ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
-                    } else {
-                        ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
-                    }
-                    PdfPCell cell3 = new PdfPCell(new Paragraph(ph));
-                    
-                    cell3.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(cell3);
+         if (language.equals("en")) {
+            ph.add(new Phrase(" " + proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH), f));
+         } else {
+            ph.add(new Phrase(" " + proCtcValidValue.getProCtcValidValueVocab().getValueSpanish(), f));
+         }
+         Cell cell3 = new Cell(new Paragraph(ph));
+         cell3.setUseBorderPadding(true);
+         cell3.setVerticalAlignment(Element.ALIGN_TOP);
+         cell3.setBorder(Rectangle.NO_BORDER);
+         table.addCell(cell3);
     }
 
     static String cst(char c) {
