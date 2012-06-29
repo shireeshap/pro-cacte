@@ -83,7 +83,7 @@
 			        <td style="padding-left:10px;">${command.crf.title}</td>
 			    </tr>
 			    <tr>
-			        <td style="text-align:right;font-weight:bold;">Instructions:</td>
+			        <td style="text-align:right;font-weight:bold;" valign="top">Instructions:</td>
 			        <td style="padding-left:10px;"><tags:message code='form.notification.instructions'/></td>
 			    </tr>
 			</table>
