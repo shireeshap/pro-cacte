@@ -19,7 +19,6 @@
 
     <script type="text/javascript">
 
-
         function addStudySiteDiv(transport) {
             $('studySiteTable').show()
 
@@ -60,68 +59,45 @@
         })
     </script>
 
-
 </head>
 <body>
 
-<%--<chrome:box title="Study details">--%>
-
-<%--</chrome:box>--%>
-
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
-
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
     <jsp:attribute name="singleFields">
-         <chrome:division title="Study">
-             <div class="row">
-                 <div class="label"><spring:message code="form.label.study"/></div>
-                 <div class="value">${command.study.shortTitle} </div>
-             </div>
-             <div class="row">
-                 <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
-                 <div class="value">${command.study.assignedIdentifier} </div>
-             </div>
-         </chrome:division>
-        <chrome:division title="Sites">
-            <tags:instructions code="study.study_sites.top"/>
-            <%--<div align="left" style="margin-left: 50px">--%>
-                <%--<table width="95%" class="tablecontent" id="studySiteTable">--%>
-                    <%--<tr id="ss-table-head" class="amendment-table-head">--%>
-                        <%--<th class="tableHeader"><spring:message--%>
-                                <%--code='study.label.sites' text=''/></th>--%>
-                        <%--<th class="tableHeader">&nbsp;</th>--%>
-                    <%--</tr>--%>
-                    <%--<c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">--%>
-                        <%--<c:if test="${not (studySite eq command.study.leadStudySite)}">--%>
-                            <%--<tags:oneOrganization index="${status.index}"--%>
-                                                  <%--inputName="study.studySites[${status.index}].organization"--%>
-                                                  <%--title="Study Site" displayError="true"--%>
-                                                  <%--required="true" readOnly="true"--%>
-                                                  <%--studySite="${studySite}"/>--%>
-                        <%--</c:if>--%>
-                    <%--</c:forEach>--%>
-                    <%--<tr id="hiddenDiv" align="center"></tr>--%>
-                <%--</table>--%>
-                <div id="studySiteTable" style="margin-left:50px;width:900px">
-                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
-                        <c:if test="${not (studySite eq command.study.leadStudySite)}">
-                            <tags:oneOrganization index="${status.index}"
-                                                  inputName="study.studySites[${status.index}].organization"
-                                                  title="Study Site" displayError="true"
-                                                  required="true" readOnly="true"
-                                                  studySite="${studySite}"/>
-                        </c:if>
-                    </c:forEach>
-                    <div id="hiddenDiv" align="center"></div>
-                    <br>
-                </div>
-            <%--</div>--%>
-        </chrome:division>
-                <div style="width:110px;">
-                    <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
-                                 value="study.button.add_study_site" icon="add" size="small"/>
-                </div>
 
-
+    <chrome:box>
+    	<div class="row">
+            <div class="label"><spring:message code="form.label.study"/>:</div>
+            <div class="value">${command.study.shortTitle} </div>
+        </div>
+        <div class="row">
+            <div class="label"><spring:message code="study.label.assigned_identifier"/>:</div>
+            <div class="value">${command.study.assignedIdentifier} </div>
+        </div>
+    </chrome:box>
+    
+    <chrome:box title="Sites">
+        <tags:instructions code="study.study_sites.top"/>
+            <div id="studySiteTable" style="margin-left:50px;width:900px">
+                <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
+                    <c:if test="${not (studySite eq command.study.leadStudySite)}">
+                        <tags:oneOrganization index="${status.index}"
+                                              inputName="study.studySites[${status.index}].organization"
+                                              title="Study Site" displayError="true"
+                                              required="true" readOnly="true"
+                                              studySite="${studySite}"/>
+                    </c:if>
+                </c:forEach>
+                <div id="hiddenDiv" align="center"></div>
+                <br>
+            </div>
+            
+            <div style="width:110px;">
+		        <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
+		                     value="study.button.add_study_site" icon="add" size="small"/>
+		    </div>
+    </chrome:box>
+    
     </jsp:attribute>
 </tags:tabForm>
 

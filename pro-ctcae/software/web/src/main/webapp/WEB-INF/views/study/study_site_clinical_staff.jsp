@@ -86,27 +86,27 @@
     <jsp:attribute name="singleFields">
 
         <chrome:box>
-            <chrome:division title="Study details">
-                <div class="row">
-                    <div class="label"><spring:message code="form.label.study"/>: &nbsp;</div>
-                    <div class="value">${command.study.shortTitle}</div>
-                </div>
-                <div class="row">
-                    <div class="label"><spring:message code="study.label.assigned_identifier"/>: &nbsp;</div>
-                    <div class="value">${command.study.assignedIdentifier} </div>
-                </div>
-            </chrome:division>
+             <div class="row">
+                 <div class="label"><spring:message code="form.label.study"/>: &nbsp;</div>
+                 <div class="value">${command.study.shortTitle}</div>
+             </div>
+             <div class="row">
+                 <div class="label"><spring:message code="study.label.assigned_identifier"/>: &nbsp;</div>
+                 <div class="value">${command.study.assignedIdentifier} </div>
+             </div>
 
-         <input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
+         	<input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
                                               propertyName="selectedStudySite" required="false"
                                               onchange="changeStudySite()" itemLabel="organization.displayName"/>
          </chrome:box>
+         
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff">
                     <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
+                    	<tags:instructions code="study.study_research_staff.top"/>
                         <chrome:division title="study.label.clinical.staff.lead.site_pi">
                             <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
                                                                roleStatusOptions="${roleStatusOptions}"
@@ -124,6 +124,7 @@
 
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
                     <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
+                        <tags:instructions code="study.study_clinical_staff.top"/>
                         <chrome:division title="study.label.clinical.staff.lead.treating_physican">
                             <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
                                                                roleStatusOptions="${roleStatusOptions}"

@@ -9,7 +9,7 @@
             ${heading}
         </c:if>
         <c:if test="${empty heading}">
-            <spring:message code="instructions"/>
+            <spring:message code="instructions"/>:
         </c:if>
     </div>
     <div class="summaryvalue"><spring:message code="${code}" text="There are no instructions for this section."/></div>

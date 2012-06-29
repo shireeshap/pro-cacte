@@ -98,88 +98,85 @@
 
     </script>
 
-
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}">
-
+<tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 
     <jsp:attribute name="repeatingFields">
-         <tags:instructions code="study.study_clinical_staff.top"/>
-        <chrome:division title="Study details">
+        
+        <chrome:box>
             <div class="row">
-                <div class="label"><spring:message code="form.label.study"/></div>
+                <div class="label"><spring:message code="form.label.study"/>:</div>
                 <div class="value">${command.study.shortTitle} </div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code="study.label.assigned_identifier"/></div>
+                <div class="label"><spring:message code="study.label.assigned_identifier"/>:</div>
                 <div class="value">${command.study.assignedIdentifier} </div>
             </div>
-        </chrome:division>
-       <chrome:division title="study.label.clinical.staff.odc">
-
-           <div class="row">
-               <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
-               <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
-           </div>
-           <form:input path="overallDataCoordinator.organizationClinicalStaff"
-                       id="overallDataCoordinator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                       title="Overall Data Coordinator "
-                       cssStyle="display:none;"/>
-           <div class="row">
-               <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-               <div class="value">
-                   <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
-                                          value="${command.overallDataCoordinator.displayName}" required="false"
-                                          hiddenInputName="overallDataCoordinator.organizationClinicalStaff"/>
-               </div>
-           </div>
-
-       </chrome:division>
-
-        <chrome:division title="study.label.clinical.staff.lead.cra">
-
-            <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
-                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
-            </div>
-
-            <form:input path="leadCRA.organizationClinicalStaff"
-                        id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                        title="Lead Site CRA"
-                        cssStyle="display:none;"/>
-            <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-                <div class="value">
-                    <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
-                                           value="${command.leadCRA.displayName}" required="false"
-                                           hiddenInputName="leadCRA.organizationClinicalStaff"/>
-                </div>
-            </div>
-
-        </chrome:division>
-        <chrome:division title="study.label.clinical.staff.pi">
-
-            <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
-                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
-            </div>
-            <form:input path="principalInvestigator.organizationClinicalStaff"
-                        id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-                        title="Overall PI "
-                        cssStyle="display:none;"/>
-            <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-                <div class="value">
-                    <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
-                                           value="${command.principalInvestigator.displayName}" required="false"
-                                           hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
-                </div>
-            </div>
-
-        </chrome:division>
-
+       </chrome:box>
+       
+       <chrome:box title="Overall Study Staff">
+           <tags:instructions code="study.study_clinical_staff.top"/><br/>
+       		
+	       <chrome:division title="study.label.clinical.staff.odc">
+	           <div class="row">
+	               <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
+	               <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
+	           </div>
+	           <form:input path="overallDataCoordinator.organizationClinicalStaff"
+	                       id="overallDataCoordinator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+	                       title="Overall Data Coordinator "
+	                       cssStyle="display:none;"/>
+	           <div class="row">
+	               <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+	               <div class="value">
+	                   <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
+	                                          value="${command.overallDataCoordinator.displayName}" required="false"
+	                                          hiddenInputName="overallDataCoordinator.organizationClinicalStaff"/>
+	               </div>
+	           </div>
+	       </chrome:division>
+	
+	        <chrome:division title="study.label.clinical.staff.lead.cra">
+	            <div class="row">
+	                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
+	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+	            </div>
+	
+	            <form:input path="leadCRA.organizationClinicalStaff"
+	                        id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+	                        title="Lead Site CRA"
+	                        cssStyle="display:none;"/>
+	            <div class="row">
+	                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+	                <div class="value">
+	                    <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
+	                                           value="${command.leadCRA.displayName}" required="false"
+	                                           hiddenInputName="leadCRA.organizationClinicalStaff"/>
+	                </div>
+	            </div>
+	        </chrome:division>
+	        
+	        <chrome:division title="study.label.clinical.staff.pi">
+	            <div class="row">
+	                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
+	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+	            </div>
+	            <form:input path="principalInvestigator.organizationClinicalStaff"
+	                        id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+	                        title="Overall PI "
+	                        cssStyle="display:none;"/>
+	            <div class="row">
+	                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+	                <div class="value">
+	                    <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
+	                                           value="${command.principalInvestigator.displayName}" required="false"
+	                                           hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
+	                </div>
+	            </div>
+	        </chrome:division>
+		</chrome:box>
         </jsp:attribute>
 
 </tags:tabForm>
