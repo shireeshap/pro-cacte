@@ -232,11 +232,13 @@ function addHiddenInput(cycleDefinitionIndex, cycleIndex) {
 
 function addFirstColumn(row, rownumber, cycleNumber) {
     var td = new Element('TD');
+
     if (rownumber == 0) {
         td.update('Cycle ' + (cycleNumber + 1));
         td.addClassName('first-column')
     }
     row.appendChild(td);
+
 }
 
 function addEmptyRow(tbody) {
@@ -247,6 +249,7 @@ function addEmptyRow(tbody) {
     tbody.appendChild(row);
 }
 function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIndex) {
+
     var selecteddays = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value + ',';
     var td = new Element('TD');
     if (i == 0) {
@@ -268,6 +271,8 @@ function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIn
     td.appendChild(div);
     row.appendChild(td);
     tbody.appendChild(row);
+    var div = document.getElementById("div_0_0_1");
+    selectday(div, 0, 0, 1);
 }
 function buildTable(index, days, repeat, pageload) {
     if (!pageload) {
@@ -521,10 +526,13 @@ function unique(arrayName) {
 }
 
 function checkBaseline(obj) {
+    var div = document.getElementById("div_0_0_1");
     if (obj.checked) {
         $('crf.createBaseline').value = true;
+        selectday(div,0,0,1);
     } else {
         $('crf.createBaseline').value = false;
+        unselectday(div,0,0,1);
     }
 }
 

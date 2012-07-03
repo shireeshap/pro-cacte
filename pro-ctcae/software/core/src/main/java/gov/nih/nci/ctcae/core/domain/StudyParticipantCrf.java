@@ -263,7 +263,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             if (formArmSchedule.getArm().equals(studyParticipantAssignment.getArm())) {
                 if (calendarStartDate != null && (calendarStartDate.equals(crf.getEffectiveStartDate()) || calendarStartDate.after(crf.getEffectiveStartDate()))) {
-                    createBaseLineSchedule();
+//                    createBaseLineSchedule();
                 }
                 for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
                     if (crfCalendar.isValid()) {
