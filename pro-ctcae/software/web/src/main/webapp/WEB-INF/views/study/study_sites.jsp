@@ -21,15 +21,17 @@
 
         function addStudySiteDiv(transport) {
             $('studySiteTable').show()
-
-            var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
+			var response = transport.responseText;
+	        var responseStr = response.split('<p id="splitter"/>');
+	        jQuery('#studySiteTable tr:last').before(responseStr[1]);
+	        new Insertion.Before("hiddenDiv", responseStr[0]);
+	        
+            //new Insertion.Before("hiddenDiv", response);
         }
         function addStudySite() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:addStudySiteDiv,
                 parameters:<tags:ajaxstandardparams/>,
-
                 method:'get'
             })
         }
@@ -37,10 +39,8 @@
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:function(transport) {
                     $('row-' + index).remove();
-
                 },
                 parameters:<tags:ajaxstandardparams/>+"&action=delete&siteIndexToRemove=" + index,
-
                 method:'get'
             })
         }
@@ -77,25 +77,33 @@
     </chrome:box>
     
     <chrome:box title="Sites">
-        <tags:instructions code="study.study_sites.top"/>
-            <div id="studySiteTable" style="margin-left:50px;width:900px">
-                <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
-                    <c:if test="${not (studySite eq command.study.leadStudySite)}">
-                        <tags:oneOrganization index="${status.index}"
-                                              inputName="study.studySites[${status.index}].organization"
-                                              title="Study Site" displayError="true"
-                                              required="true" readOnly="true"
-                                              studySite="${studySite}"/>
-                    </c:if>
-                </c:forEach>
-                <div id="hiddenDiv" align="center"></div>
-                <br>
+        <tags:instructions code="study.study_sites.top"/><br />
+        	<div style="margin-left:50px;">
+            <table id="studySiteTable" class="tablecontent" width="70%">
+    	        <tr id="ss-table-head" class="amendment-table-head">
+                    <th width="95%" class="tableHeader">&nbsp;
+                        <tags:message code='clinicalStaff.division.sites'/></th>
+                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                </tr>
+                <tbody>
+	                <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
+	                    <c:if test="${not (studySite eq command.study.leadStudySite)}">
+	                        <tags:oneOrganization index="${status.index}"
+	                                              inputName="study.studySites[${status.index}].organization"
+	                                              title="Study Site" displayError="true"
+	                                              required="true" readOnly="true"
+	                                              studySite="${studySite}"/>
+	                    </c:if>
+	                </c:forEach>
+	                <tr></tr>
+                </tbody>
+            </table>
             </div>
-            
-            <div style="width:110px;">
-		        <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
-		                     value="study.button.add_study_site" icon="add" size="small"/>
-		    </div>
+            <div style="margin-left:50px;margin-top:10px;margin-bottom:10px;">
+	        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
+	            	         value="study.button.add_study_site" icon="add" size="small"/>
+			</div>
+		    <div id="hiddenDiv"></div>
     </chrome:box>
     
     </jsp:attribute>

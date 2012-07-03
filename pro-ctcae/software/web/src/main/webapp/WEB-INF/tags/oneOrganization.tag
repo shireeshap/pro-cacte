@@ -10,35 +10,33 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<div id="row-${index}" <c:if test="${isLeadSite}"> style="display:none;width:inherit;"</c:if>>
-    <%--<div style="width:400px;">--%>
-        <c:choose>
-            <c:when test="${readOnly}">
-                ${studySite.organization.displayName}
-            </c:when>
-            <c:otherwise>  <br>
-                <form:input path="${inputName}"
-                            id="${inputName}" cssClass="validate-NOTEMPTY"
-                            title="Study site"
-                            cssStyle="display:none;"/>
 
-                <tags:yuiAutocompleter inputName="${inputName}Input"
-                                       value=" ${studySite.organization.displayName}" required="false"
-                                       hiddenInputName="${inputName}"/>
+<p id="splitter"/>
 
-                <script type="text/javascript">
-                </script>
-
-            </c:otherwise>
-        </c:choose>
-
-    <%--</div>--%>
-    <div style="width:400px;border:2em;float:right">
-         <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-           href="javascript:deleteStudySite('${index}');">
-            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                 style="vertical-align:middle;text-align:left">
-        </a>
-    </div>
-
-</div>
+<tr id="row-${index}">
+	<td>
+	     <c:choose>
+	         <c:when test="${readOnly}">
+	             ${studySite.organization.displayName} &nbsp;&nbsp;
+	         </c:when>
+	         <c:otherwise>  
+	             <form:input path="${inputName}"
+	                         id="${inputName}" cssClass="validate-NOTEMPTY"
+	                         title="Study site"
+	                         cssStyle="display:none;"/>
+	
+	             <tags:yuiAutocompleter inputName="${inputName}Input"
+	                                    value=" ${studySite.organization.displayName}" required="false"
+	                                    hiddenInputName="${inputName}"/>
+	         </c:otherwise>
+	     </c:choose>
+	</td>
+	<td>
+	     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+	       href="javascript:deleteStudySite('${index}');">
+	        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+	             style="vertical-align:middle;text-align:left">
+	    </a>
+	</td>
+</tr>
+    

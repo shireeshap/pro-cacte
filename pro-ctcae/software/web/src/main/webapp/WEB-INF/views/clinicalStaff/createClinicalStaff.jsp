@@ -361,6 +361,7 @@
         </c:otherwise>
     </c:choose>
 </chrome:division>
+<br/>
 <div id="div_useraccount_details" style="${div_useraccount_details_style}">
     <chrome:division title="clinicalStaff.division.user_account">
         <table cellpadding="0" cellspacing="0">
@@ -428,7 +429,7 @@
     <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
         <c:set var="admin" value="true"/>
     </proctcae:urlAuthorize>
-
+	<br/>
     <c:if test="${cca eq 'true' or admin eq 'true'}">
         <chrome:division title="Additional Options">
             <c:if test="${cca eq 'true'}">
@@ -493,6 +494,7 @@
         </table>
     </div>
     <div id="hiddenDiv"></div>
+    <br/>
 </chrome:division>
 </chrome:box>
 <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
