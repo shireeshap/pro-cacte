@@ -271,8 +271,12 @@ function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIn
     td.appendChild(div);
     row.appendChild(td);
     tbody.appendChild(row);
-    var div = document.getElementById("div_0_0_1");
-    selectday(div, 0, 0, 1);
+
+    var baselineCheck = document.getElementById("baselineCheck");
+    if (baselineCheck.checked) {
+        var div = document.getElementById("div_0_0_1");
+        selectday(div, 0, 0, 1);
+    }
 }
 function buildTable(index, days, repeat, pageload) {
     if (!pageload) {
@@ -326,7 +330,7 @@ function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
                 try {
                     dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
                 } catch(err) {
-                     alert(err)
+                    alert(err)
                 }
             }
         }
@@ -474,16 +478,16 @@ function deleteCycleDefinition(cycleIndex) {
 
 function deleteCycleConfirm(crfCycleIndex) {
     closeWindow();
-    
+
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
         parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfCyclePostConfirm&crfCycleIndex=" + crfCycleIndex,
         onComplete:function(transport) {
-        	$('cycle_definition_'+ crfCycleIndex).remove();
-        	$('crfCycleIndexToRemove').value = "";
+            $('cycle_definition_' + crfCycleIndex).remove();
+            $('crfCycleIndexToRemove').value = "";
         } ,
         method:'get'
     });
-    
+
     //refreshPage();
 }
 
@@ -529,15 +533,15 @@ function checkBaseline(obj) {
     var div = document.getElementById("div_0_0_1");
     if (obj.checked) {
         $('crf.createBaseline').value = true;
-        selectday(div,0,0,1);
+        selectday(div, 0, 0, 1);
     } else {
         $('crf.createBaseline').value = false;
-        unselectday(div,0,0,1);
+        unselectday(div, 0, 0, 1);
     }
 }
 
 function isNumeric(fieldName) {
-    if ($(fieldName)!=null) {
+    if ($(fieldName) != null) {
         var iChars = "0123456789";
         var fieldValue = $(fieldName).value;
         jQuery('#' + fieldName + '.error').hide();
@@ -555,10 +559,10 @@ function isNumeric(fieldName) {
     }
 }
 
-jQuery(document).ready(function(){
-	if($('cycle_definition_0') == null){
-		addCycle();
-	}	
+jQuery(document).ready(function() {
+    if ($('cycle_definition_0') == null) {
+        addCycle();
+    }
 });
 
 </script>
@@ -568,27 +572,29 @@ jQuery(document).ready(function(){
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <chrome:box>
-	<table>
-	    <tr>
-	        <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.label.study'/>:</td>
-	        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
-	    </tr>
-	    <tr>
-	        <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.tab.form'/>:</td>
-	        <td style="padding-left:10px;">${command.crf.title}</td>
-	    </tr>
-	    <tr>
-	        <td style="text-align:right;font-weight:bold;">Instructions:</td>
-	        <td style="padding-left:10px;"><tags:message code='form.calendar.template.instructions'/></td>
-		</tr>
-	</table>
+    <table>
+        <tr>
+            <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.label.study'/>:
+            </td>
+            <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+        </tr>
+        <tr>
+            <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.tab.form'/>:</td>
+            <td style="padding-left:10px;">${command.crf.title}</td>
+        </tr>
+        <tr>
+            <td style="text-align:right;font-weight:bold;">Instructions:</td>
+            <td style="padding-left:10px;"><tags:message code='form.calendar.template.instructions'/></td>
+        </tr>
+    </table>
 </chrome:box>
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
 <chrome:box title="form.tab.calendar_template">
     <c:if test="${fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true' }">
         <c:set var="styleHidden" value="style='display:none';margin-top:5px;"/>
     </c:if>
-	<br />
+    <br/>
+
     <div class="row" ${styleHidden}>
         <div class="label" style="width:9em"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value" style="margin-left:10em">
@@ -632,130 +638,131 @@ jQuery(document).ready(function(){
                    <c:if test="${command.allArms}">checked</c:if>/> Apply this arm's schedule to all the arms
             <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>  --%>
     </div>
-	<c:choose>
-		<c:when test="${selectedFormArmSchedule.crfCalendars[0].valid}">
-		    <div class="row" style="margin-top:5px;">
-		        <div class="label" style="margin-top:3px;width:9em"><spring:message code="form.calendar.scheduletype"></spring:message></div>
-		        <div class="value" style="margin-left:10em">
-		            <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
-		                   style="margin:3px; vertical-align:middle;" checked />
-		            <spring:message code="form.calendar.genericschedule"/>
-		            <input type="radio" name="scheduleType" value="cycleBased" onclick="showSchedule(this.value)"
-		                   style="margin:3px; vertical-align:middle;" />
-		            <spring:message code="form.calendar.cyclebasedschedule"/>
-		        </div>
-		    </div>
-	    </c:when>
-	    <c:otherwise>
-	    	<input type="hidden" name="scheduleType" value="cycleBased" />
-	    </c:otherwise>
-    </c:choose>
-            <div style="text-align:left;font-weight:bold;vertical-align:top;margin-left:1em;">
-            	&nbsp;&nbsp;
-                <c:if test="${command.crf.createBaseline eq true}">
-                    <c:set var="ischecked" value="checked='true'"/>
-                </c:if>
-                <input type="checkbox" name="baselineCheck" ${ischecked} onclick="checkBaseline(this);"/>
-                <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
-                       id="crf.createBaseline"/>
-                <tags:message code='form.tab.baseline'/>
+    <c:choose>
+        <c:when test="${selectedFormArmSchedule.crfCalendars[0].valid}">
+            <div class="row" style="margin-top:5px;">
+                <div class="label" style="margin-top:3px;width:9em"><spring:message
+                        code="form.calendar.scheduletype"></spring:message></div>
+                <div class="value" style="margin-left:10em">
+                    <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
+                           style="margin:3px; vertical-align:middle;" checked/>
+                    <spring:message code="form.calendar.genericschedule"/>
+                    <input type="radio" name="scheduleType" value="cycleBased" onclick="showSchedule(this.value)"
+                           style="margin:3px; vertical-align:middle;"/>
+                    <spring:message code="form.calendar.cyclebasedschedule"/>
+                </div>
             </div>
-    <br />
+        </c:when>
+        <c:otherwise>
+            <input type="hidden" name="scheduleType" value="cycleBased"/>
+        </c:otherwise>
+    </c:choose>
+    <div style="text-align:left;font-weight:bold;vertical-align:top;margin-left:1em;">
+        &nbsp;&nbsp;
+        <c:if test="${command.crf.createBaseline eq true}">
+            <c:set var="ischecked" value="checked='true'"/>
+        </c:if>
+        <input type="checkbox" id="baselineCheck" name="baselineCheck" ${ischecked} onclick="checkBaseline(this);"/>
+        <input type="hidden" name="crf.createBaseline" value="${command.crf.createBaseline}"
+               id="crf.createBaseline"/>
+        <tags:message code='form.tab.baseline'/>
+    </div>
+    <br/>
 
-	<div id="calendarBasedDiv"
-	    <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
-	        <br/>
-	        <table class="top-widget" width="100%">
-	            <tr id="repeatprops">
-	                <td>
-	                    <div style="float: left; margin-right: 10px;">
-	                        <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryValue"
-	                                         displayName="form.calendar.repeatEvery" size="2"/>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px;">
-	                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryUnit"
-	                                           options="${repetitionunits}" doNotshowLabel="true"/>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px;">
-	                        <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateValue"
-	                                         displayName="form.calendar.dueAfter" size="2"/>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px;">
-	                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateUnit"
-	                                           options="${duedateunits}" doNotshowLabel="true"/>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px;">
-	                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit"
-	                                           options="${repeatuntilunits}" onchange="changeinput(this,'0','');"
-	                                           displayName="form.calendar.repeatUntil"/>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px; padding-top:4px;">
-	                        <div id="div_date_0" style="display:none;">
-	                            <tags:renderDate propertyName="crfCalendar_date_0.repeatUntilValue" doNotShowFormat="true"
-	                                             noForm="true" doNotshowLabel="true"/>
-	                        </div>
-	                    </div>
-	                    <div style="float: left; margin-right: 10px; padding-top:4px;">
-	                        <div id="div_number_0" style="display:none;">
-	                            <input size="3" id="crfCalendar_number_0.repeatUntilValue"
-	                                   onblur="isNumeric('crfCalendar_number_0.repeatUntilValue')"
-	                                   name="crfCalendar_number_0.repeatUntilValue" type="text">
-	                        </div>
-	                        <input type="hidden" id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
-	                               name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
-	                               value="${crfCalendar.repeatUntilValue}"/>
-	                    </div>
-	                    <ul id="crfCalendar_number_0.repeatUntilValue.error" style="display:none;left-padding:8em;"
-	                        class="errors">
-	                        <li><spring:message code='numeric.character.message'
-	                                            text='numeric.character.message'/></li>
-	                    </ul>
-	                </td>
-	            </tr>
-	        </table>
-	        <br/>
-	</div>
-	
-	<div id="cycleBasedDiv"
-	    <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
-	    	<br/>
-	        <table class="top-widget" width="100%">
-	            <tr>
-	                <td>
-	                    <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
-	                               varStatus="status">
-	                        <tags:formScheduleCycleDefinition cycleDefinitionIndex="${status.index}"
-	                                                          crfCycleDefinition="${crfCycleDefinition}"
-	                                                          repeatOptions="${cycleplannedrepetitions}"/>
-	                    </c:forEach>
-	                    <div id="hiddenDiv"></div>
-	                    <div style="width:4.5em;">
-	                    	<br />
-	                        <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
-	                                     value="form.schedule.add_cycle" icon="add"/>
-	                    </div>
-	                </td>
-	            </tr>
-	        </table>
-	        <br/>
-	</div>
-	<div id="hidden_inputs_div">
-	    <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
-	               varStatus="status">
-	        <c:if test="${not empty crfCycleDefinition}">
-	            <div id="hidden_inputs_div_${status.index}">
-	                <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="cyclestatus">
-	                    <input type="hidden" name='selecteddays_${status.index}_${cyclestatus.index}'
-	                           id='selecteddays_${status.index}_${cyclestatus.index}'
-	                           value="${crfCycle.cycleDays}"/>
-	                </c:forEach>
-	            </div>
-	            <script type="text/javascript">
-	                showCyclesForDefinition(${status.index}, true);
-	            </script>
-	        </c:if>
-	    </c:forEach>
-	</div>
+    <div id="calendarBasedDiv"
+         <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
+        <br/>
+        <table class="top-widget" width="100%">
+            <tr id="repeatprops">
+                <td>
+                    <div style="float: left; margin-right: 10px;">
+                        <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryValue"
+                                         displayName="form.calendar.repeatEvery" size="2"/>
+                    </div>
+                    <div style="float: left; margin-right: 10px;">
+                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatEveryUnit"
+                                           options="${repetitionunits}" doNotshowLabel="true"/>
+                    </div>
+                    <div style="float: left; margin-right: 10px;">
+                        <tags:renderText propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateValue"
+                                         displayName="form.calendar.dueAfter" size="2"/>
+                    </div>
+                    <div style="float: left; margin-right: 10px;">
+                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].dueDateUnit"
+                                           options="${duedateunits}" doNotshowLabel="true"/>
+                    </div>
+                    <div style="float: left; margin-right: 10px;">
+                        <tags:renderSelect propertyName="selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit"
+                                           options="${repeatuntilunits}" onchange="changeinput(this,'0','');"
+                                           displayName="form.calendar.repeatUntil"/>
+                    </div>
+                    <div style="float: left; margin-right: 10px; padding-top:4px;">
+                        <div id="div_date_0" style="display:none;">
+                            <tags:renderDate propertyName="crfCalendar_date_0.repeatUntilValue" doNotShowFormat="true"
+                                             noForm="true" doNotshowLabel="true"/>
+                        </div>
+                    </div>
+                    <div style="float: left; margin-right: 10px; padding-top:4px;">
+                        <div id="div_number_0" style="display:none;">
+                            <input size="3" id="crfCalendar_number_0.repeatUntilValue"
+                                   onblur="isNumeric('crfCalendar_number_0.repeatUntilValue')"
+                                   name="crfCalendar_number_0.repeatUntilValue" type="text">
+                        </div>
+                        <input type="hidden" id="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
+                               name="selectedFormArmSchedule.crfCalendars[0].repeatUntilValue"
+                               value="${crfCalendar.repeatUntilValue}"/>
+                    </div>
+                    <ul id="crfCalendar_number_0.repeatUntilValue.error" style="display:none;left-padding:8em;"
+                        class="errors">
+                        <li><spring:message code='numeric.character.message'
+                                            text='numeric.character.message'/></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+
+    <div id="cycleBasedDiv"
+         <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
+        <br/>
+        <table class="top-widget" width="100%">
+            <tr>
+                <td>
+                    <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
+                               varStatus="status">
+                        <tags:formScheduleCycleDefinition cycleDefinitionIndex="${status.index}"
+                                                          crfCycleDefinition="${crfCycleDefinition}"
+                                                          repeatOptions="${cycleplannedrepetitions}"/>
+                    </c:forEach>
+                    <div id="hiddenDiv"></div>
+                    <div style="width:4.5em;">
+                        <br/>
+                        <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
+                                     value="form.schedule.add_cycle" icon="add"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+    <div id="hidden_inputs_div">
+        <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
+                   varStatus="status">
+            <c:if test="${not empty crfCycleDefinition}">
+                <div id="hidden_inputs_div_${status.index}">
+                    <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="cyclestatus">
+                        <input type="hidden" name='selecteddays_${status.index}_${cyclestatus.index}'
+                               id='selecteddays_${status.index}_${cyclestatus.index}'
+                               value="${crfCycle.cycleDays}"/>
+                    </c:forEach>
+                </div>
+                <script type="text/javascript">
+                    showCyclesForDefinition(${status.index}, true);
+                </script>
+            </c:if>
+        </c:forEach>
+    </div>
 </chrome:box>
 
 </jsp:attribute>
