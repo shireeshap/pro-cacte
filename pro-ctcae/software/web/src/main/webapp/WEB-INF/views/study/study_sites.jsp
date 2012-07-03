@@ -1,11 +1,9 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 
 <html>
@@ -25,9 +23,8 @@
 	        var responseStr = response.split('<p id="splitter"/>');
 	        jQuery('#studySiteTable tr:last').before(responseStr[1]);
 	        new Insertion.Before("hiddenDiv", responseStr[0]);
-	        
-            //new Insertion.Before("hiddenDiv", response);
         }
+        
         function addStudySite() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:addStudySiteDiv,
@@ -35,6 +32,7 @@
                 method:'get'
             })
         }
+        
         function deleteStudySite(index) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:function(transport) {
