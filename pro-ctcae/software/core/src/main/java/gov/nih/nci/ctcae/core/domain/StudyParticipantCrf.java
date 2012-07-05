@@ -137,7 +137,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         try {
             if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null && !getScheduleInitialized()) {
                 //creating schedules dynamically
-                createSchedules();
+                createSchedules(false);
                 setScheduleInitialized(true);
             }
         } catch (ParseException pe) {
@@ -152,7 +152,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         try {
             if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null  && !getScheduleInitialized()) {
                 //creating schedules dynamically
-                createSchedules();
+                createSchedules(false);
                 setScheduleInitialized(true);
             }
         } catch (ParseException pe) {
@@ -255,7 +255,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         return l;
     }
 
-    public void createSchedules() throws ParseException {
+    public void createSchedules(boolean armChange) throws ParseException {
 
         Date calendarStartDate = getStartDate();
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
@@ -268,7 +268,7 @@ public class StudyParticipantCrf extends BaseVersionable {
                 for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
                     if (crfCalendar.isValid()) {
                         proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
-                        createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
+                        createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL, armChange);
                     }
                 }
                 int cycleNumber = 1;
@@ -276,7 +276,7 @@ public class StudyParticipantCrf extends BaseVersionable {
                     for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
                         if (crfCycle.isValid()) {
                             proCtcAECalendar.setCycleParameters(crfCycle, calendarStartDate, cycleNumber);
-                            createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+                            createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE, armChange);
                             calendarStartDate = proCtcAECalendar.incrementCalendar().getTime();
                             cycleNumber++;
                         }
@@ -294,7 +294,7 @@ public class StudyParticipantCrf extends BaseVersionable {
             
             Calendar c = ProCtcAECalendar.getCalendarForDate(this.getStartDate());
             Date dueDate = participantSchedule.getDueDateForFormSchedule(c, this);
-            participantSchedule.createSchedule(c, dueDate, -1, -1, null, true);
+            participantSchedule.createSchedule(c, dueDate, -1, -1, null, true, false);
         }
     }
 
@@ -311,11 +311,11 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
-    private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
+    private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType, boolean armChange) throws ParseException {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.addStudyParticipantCrf(this);
         participantSchedule.setProCtcAECalendar(proCtcAECalendar);
-        participantSchedule.createSchedules(scheduleType);
+        participantSchedule.createSchedules(scheduleType, armChange);
     }
 
     public void createIvrsSchedules(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {

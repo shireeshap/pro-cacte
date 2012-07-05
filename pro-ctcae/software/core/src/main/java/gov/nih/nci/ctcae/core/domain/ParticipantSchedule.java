@@ -84,7 +84,7 @@ public class ParticipantSchedule {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 Date startDate = studyParticipantCrfSchedule.getStartDate();
-                if (proCtcAECalendar.isDateAfterMonth(startDate)){
+                if (proCtcAECalendar.isDateAfterMonth(startDate)) {
                     break;
                 }
                 if (proCtcAECalendar.isDateWithinMonth(startDate) && !studyParticipantCrf.getCrf().isHidden()) {
@@ -105,7 +105,7 @@ public class ParticipantSchedule {
      * @param scheduleType
      * @throws ParseException the parse exception
      */
-    public void createSchedules(ScheduleType scheduleType) throws ParseException {
+    public void createSchedules(ScheduleType scheduleType, boolean armChange) throws ParseException {
         proCtcAECalendar.prepareSchedules(scheduleType);
         //TODO:Need to remove dueAfterPeriodInMill code totally after testing of new code for due date
         //long dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
@@ -114,12 +114,12 @@ public class ParticipantSchedule {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextGeneralScehdule();
                 Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
-                createSchedule(nextSchedule, dueDate, -1, -1, null, false);
+                createSchedule(nextSchedule, dueDate, -1, -1, null, false, armChange);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextCycleScehdule();
                 Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
-                createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false);
+                createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false, armChange);
             }
         }
     }
@@ -133,17 +133,17 @@ public class ParticipantSchedule {
      * @param cycleDay
      * @param baseline
      */
-    public void createSchedule(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline) {
+    public void createSchedule(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline, boolean armChange) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
+                    StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
                     if (c.getTime().equals(studyParticipantCrf.getCrf().getEffectiveStartDate()) || c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
                         if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
                             CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
-                            StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
                             for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
                                 if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
                                     for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
@@ -155,7 +155,18 @@ public class ParticipantSchedule {
                                 }
                             }
                         }
-
+                        if (armChange) {
+                            for (StudyParticipantCrf oldStudyParticipantCrf : spa.getStudyParticipantCrfs()) {
+                                if (oldStudyParticipantCrf.getId() != null && studyParticipantCrf.equals(oldStudyParticipantCrf)) {
+                                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : oldStudyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                                        if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime())) && (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE))) {
+                                            alreadyExists = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (!alreadyExists) {
                             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
@@ -181,7 +192,9 @@ public class ParticipantSchedule {
                             if (c.get(Calendar.DAY_OF_WEEK) == 1) {
                                 studyParticipantCrfSchedule.setHoliday(true);
                             }
-                            studyParticipantCrfSchedule.setBaseline(baseline);
+                            if (studyParticipantCrf.getCrf().getCreateBaseline() && cycleDay == 1 && cycleNumber == 1) {
+                            studyParticipantCrfSchedule.setBaseline(true);
+                            }
                             if (isSpCrfScheduleAvailable(studyParticipantCrfSchedule)) {
                                 //call getter on schedule for available forms
                                 studyParticipantCrfSchedule.getStudyParticipantCrfItems();
@@ -422,9 +435,9 @@ public class ParticipantSchedule {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                	if(studyParticipantCrfSchedule.isDeletable()){
-                		schedulesToRemove.add(studyParticipantCrfSchedule);
-                	}
+                    if (studyParticipantCrfSchedule.isDeletable()) {
+                        schedulesToRemove.add(studyParticipantCrfSchedule);
+                    }
                 }
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
                     studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);

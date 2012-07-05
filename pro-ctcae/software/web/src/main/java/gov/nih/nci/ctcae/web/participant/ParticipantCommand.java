@@ -246,7 +246,7 @@ public class ParticipantCommand {
 
     }
 
-    public void assignCrfsToParticipant() throws ParseException {
+    public void assignCrfsToParticipant(boolean armChange) throws ParseException {
         StudyParticipantAssignment studyParticipantAssignment = getSelectedStudyParticipantAssignment();
         Date studyStartDate = studyParticipantAssignment.getStudyStartDate();
         Study study = studyParticipantAssignment.getStudySite().getStudy();
@@ -261,7 +261,7 @@ public class ParticipantCommand {
                     }
                     studyParticipantCrf.setCrf(crf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                    studyParticipantCrf.createSchedules();
+                    studyParticipantCrf.createSchedules(armChange);
                     studyParticipantCrf.setScheduleInitialized(true);
                 }
             }

@@ -359,7 +359,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if (!errors.hasErrors()) {
             try {
                 if (!command.getParticipant().isPersisted()) {
-                    command.assignCrfsToParticipant();
+                    command.assignCrfsToParticipant(false);
                 } else {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;
@@ -368,7 +368,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
-                        command.assignCrfsToParticipant();
+                        command.assignCrfsToParticipant(false);
                     }
                     if (!studyParticipantAssignment.getArm().getId().equals(command.getArmId())) {
                         for (Arm arm : studyParticipantAssignment.getStudySite().getStudy().getArms()) {
@@ -377,7 +377,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                             }
                         }
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
-                        command.assignCrfsToParticipant();
+                        command.assignCrfsToParticipant(true);
                     }
 
                     boolean doNotCreate = false;

@@ -156,7 +156,7 @@ public class AddCrfScheduleController extends AbstractController {
             c.set(Calendar.DATE, Integer.parseInt(date));
             Calendar dueCalendar = (Calendar) c.clone();
             dueCalendar.add(Calendar.DATE, 1);
-            participantSchedule.createSchedule(c, null, -1, -1, formIds, false);
+            participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
             participantCommand.lazyInitializeAssignment(genericRepository, true);
         }
         if ("del".equals(action)) {

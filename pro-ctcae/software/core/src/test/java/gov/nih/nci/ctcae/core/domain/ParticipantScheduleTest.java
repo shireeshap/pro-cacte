@@ -85,7 +85,7 @@ public class ParticipantScheduleTest extends TestCase {
         proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
         System.out.println("for break point purposes");
 
     }
@@ -94,7 +94,7 @@ public class ParticipantScheduleTest extends TestCase {
         proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedule(proCtcAECalendar.getCalendar(), new Date(), 1, 1, null, false);
+        participantSchedule.createSchedule(proCtcAECalendar.getCalendar(), new Date(), 1, 1, null, false, false);
         assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
         assertEquals(Integer.valueOf(1), studyParticipantCrf.getStudyParticipantCrfSchedules().get(0).getCycleNumber());
 
