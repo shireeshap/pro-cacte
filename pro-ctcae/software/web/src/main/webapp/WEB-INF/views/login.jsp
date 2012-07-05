@@ -45,9 +45,9 @@
     <![endif]-->
     <script type="text/javascript">
     	function pwdFocus() {
-            $('fakepassword').hide();
-            $('password').show();
-            $('password').focus();
+            document.getElementById("fakepassword").style.display='none';
+            document.getElementById("password").style.display='block';
+           $('password').focus();
             //attachKeyBoard($('password'));
         }
 
@@ -110,7 +110,7 @@
                             </p>
                             <p class="inputs">
                                 <spring:message code="login.password" var="pwd" />
-                                <input class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" />
+                                <input style="display: block" class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" />
                                 <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur();" />
                             </p><br />
                             <div>
