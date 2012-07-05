@@ -81,7 +81,7 @@
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <img src="/proctcae/images/table/pdf.gif"/>
+                                                                <img src="/proctcae/images/table/pdf.jpg"/>
                                                             </td>
                                                             <td>
                                                                 <b><tags:message
