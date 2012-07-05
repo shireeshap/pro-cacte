@@ -71,7 +71,7 @@
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
                                 <a class="right ${currentEs}" href="?lang=es">Español</a>
                             </div>
-                            <div style="margin-top:0px;margin-right:-6px">
+                            <div style="margin-top:0px;margin-right:-5px">
                                 <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
                                     <table>
                                         <tr>
