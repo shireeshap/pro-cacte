@@ -3636,6 +3636,7 @@ pro-ctcae/software/web/src/main/webapp/images/table/lastPageDisabled.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/nextPage.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/nextPageDisabled.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/pdf.gif -text
+pro-ctcae/software/web/src/main/webapp/images/table/pdf.jpg -text
 pro-ctcae/software/web/src/main/webapp/images/table/prevPage.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/prevPageDisabled.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/rowsDisplayed.gif -text
