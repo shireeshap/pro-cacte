@@ -70,14 +70,14 @@
 <tags:stylesheetLink name="jQuery-theme/jquery-ui-1.7.2.custom"/>
 <tags:stylesheetLink name="jQuery-theme/jQuery.multiSelect/jquery.multiSelect"/>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/yahoo/yahoo-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/event/event-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/connection/connection-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/dom/dom-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/paginator/paginator-min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datatable/datatable-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/yahoo/yahoo-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/event/event-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/connection/connection-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/dom/dom-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datatable/datatable-min.js"></script>
 
 <script>
 	jQuery.noConflict();
