@@ -71,7 +71,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
             for (CategoryTermSet cts : proCtcTerm.getCtcTerm().getCategoryTermSets()) {
-                  CollectionUtils.putInMappedList(ctcCategoryMap, cts.getCategory(), proCtcTerm);
+                CollectionUtils.putInMappedList(ctcCategoryMap, cts.getCategory(), proCtcTerm);
             }
         }
 
@@ -82,7 +82,18 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
         for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
             CtcCategory ctcCategory = it.next();
+
             List<ProCtcTerm> proCtcTermList = ctcCategoryMap.get(ctcCategory);
+            if (ctcCategory.getName().equals("Core terms")) {
+                List<ProCtcTerm> tempProTermList = new ArrayList<ProCtcTerm>();
+                tempProTermList.addAll(proCtcTermList);
+                for (ProCtcTerm proCtcTerm : tempProTermList) {
+                    if (!proCtcTerm.isCore()) {
+                        proCtcTermList.remove(proCtcTerm);
+                    }
+                }
+            }
+
             Collections.sort(proCtcTermList, new ProCtcTermComparator());
 
             result.put(ctcCategory, proCtcTermList);
