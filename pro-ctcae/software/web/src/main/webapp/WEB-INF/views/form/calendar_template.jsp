@@ -37,9 +37,7 @@
         font-weight: bold;
         font-size: 13px;
         cursor: pointer;
-        border-bottom: #0000cc solid 1px;
-        border-right: #0000cc solid 1px;
-        border-left: #0000cc solid 1px;
+        border: #0000cc solid 1px;
     }
 
     .selected_day {
@@ -51,9 +49,7 @@
         font-weight: bold;
         font-size: 13px;
         cursor: pointer;
-        border-bottom: #0000cc solid 1px;
-        border-right: #0000cc solid 1px;
-        border-left: #0000cc solid 1px;
+        border: #0000cc solid 1px;
     }
 
     .unselected_day:hover {
@@ -180,7 +176,7 @@ function calculateDays(days_unit, days_amount) {
         multiplier = 7;
     }
     if (days_unit == 'Months') {
-        multiplier = 30;
+        multiplier = 28;
     }
     var days = days_amount * multiplier;
     return days;
@@ -256,12 +252,6 @@ function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIn
 
     var selecteddays = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value + ',';
     var td = new Element('TD');
-    if (i == 0) {
-        td.addClassName('top-border')
-    }
-    if (j == 0) {
-//        td.addClassName('left-border')
-    }
     var div = new Element('div', {'id': 'div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday}).update(currentday);
     if (selecteddays.indexOf(',' + currentday + ',') == -1) {
         div.addClassName('unselected_day');
@@ -287,7 +277,8 @@ function buildTable(index, days, repeat, pageload) {
         createHiddenDivs(index);
     }
     var tbody = emptyTable(index);
-    var daysPerLine = 21;
+
+    var daysPerLine = 7;
     var numOfRows = parseInt(days / daysPerLine);
     if (days % daysPerLine > 0) {
         numOfRows = numOfRows + 1;
@@ -299,6 +290,13 @@ function buildTable(index, days, repeat, pageload) {
             } catch(err) {
             }
         }
+        var aRow = new Element('TR');
+        var aCol = new Element('TD');
+        tbody.appendChild(aRow);
+        aRow.appendChild(aCol);
+        var aTbody = new Element('TBODY');
+        aCol.appendChild(aTbody);
+
         for (i = 0; i < numOfRows; i++) {
             var row = new Element('TR');
             addFirstColumn(row, i, k);
@@ -306,16 +304,17 @@ function buildTable(index, days, repeat, pageload) {
                 var currentday = i * daysPerLine + j + 1;
                 if (currentday <= days) {
                     try {
-                        addCycleDayColumn(currentday, tbody, row, index, k);
+                        addCycleDayColumn(currentday, aTbody, row, index, k);
                     } catch(err) {
                     }
                 }
             }
         }
         if ($('select_repeat_' + index).value != -1) {
-            addMultiSelect(row, index, k);
-            addEmptyRow(tbody);
+            addMultiSelect(aRow, index, k);
         }
+        addEmptyRow(tbody);
+
     }
 }
 
