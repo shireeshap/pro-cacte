@@ -21,6 +21,7 @@
 
     td {
         text-align: left;
+        vertical-align: top;
     }
 
     img {
@@ -38,6 +39,7 @@
         cursor: pointer;
         border-bottom: #0000cc solid 1px;
         border-right: #0000cc solid 1px;
+        border-left: #0000cc solid 1px;
     }
 
     .selected_day {
@@ -51,6 +53,7 @@
         cursor: pointer;
         border-bottom: #0000cc solid 1px;
         border-right: #0000cc solid 1px;
+        border-left: #0000cc solid 1px;
     }
 
     .unselected_day:hover {
@@ -75,6 +78,7 @@
         vertical-align: top;
         font-weight: bold;
         width: 60px;
+        padding-left:10px;
     }
 
     .empty-column {
@@ -256,7 +260,7 @@ function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIn
         td.addClassName('top-border')
     }
     if (j == 0) {
-        td.addClassName('left-border')
+//        td.addClassName('left-border')
     }
     var div = new Element('div', {'id': 'div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday}).update(currentday);
     if (selecteddays.indexOf(',' + currentday + ',') == -1) {
@@ -309,7 +313,7 @@ function buildTable(index, days, repeat, pageload) {
             }
         }
         if ($('select_repeat_' + index).value != -1) {
-            addMultiSelect(tbody, index, k);
+            addMultiSelect(row, index, k);
             addEmptyRow(tbody);
         }
     }
@@ -352,7 +356,7 @@ function resetCycle(cycleDefinitionIndex, cycleIndex) {
     $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value = '';
 }
 
-function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
+function addMultiSelect(row, cycleDefinitionIndex, cycleIndex) {
     var repeat = parseInt($('cycle_repeat_' + cycleDefinitionIndex).value);
 
     if (cycleIndex < repeat - 1) {
@@ -394,13 +398,13 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
             }
         }
 
-        var row = new Element('TR');
+//        var row = new Element('TR');
         var td = new Element('TD');
         td.colSpan = 2;
         td.addClassName('empty-column');
         row.appendChild(td);
-        tbody.appendChild(row);
-        row = new Element('TR');
+//        tbody.appendChild(row);
+//        row = new Element('TR');
         td = new Element('TD');
         td.update('Apply to ');
         td.addClassName('first-column');
@@ -409,7 +413,7 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         td.colSpan = 2;
         td.appendChild(multiselect);
         row.appendChild(td);
-        tbody.appendChild(row);
+//        tbody.appendChild(row);
     }
 
 
