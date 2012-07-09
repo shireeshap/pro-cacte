@@ -602,6 +602,37 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         return false;
     }
 
+    function selectRecallPeriod(value) {
+        if (value == 'other') {
+            $('recallPeriodOtherSpecifyInput').show();
+            $('recallPeriodOtherSpecifyInput').value = '';
+        } else {
+            $('recallPeriodOtherSpecifyInput').hide();
+            $('recallPeriodOtherSpecifyInput').value = value;
+        }
+
+    }
+    function selectOtherSpecifyRecallPeriod() {
+        $('crf.recallPeriodOtherSpecifyInput').enable();
+        $('crf.recallperiodOther-radio').value = $('crf.recallPeriodOtherSpecifyInput').value;
+
+    }
+
+    function isSpclCharForTitle(fieldName) {
+        var iChars = "!@#$^&*+=[]\\\';/{}|\"<>?";
+        var fieldValue = $(fieldName).value;
+        jQuery('#' + fieldName + '.error').hide();
+        $(fieldName + '.error').hide();
+        for (var i = 0; i < fieldValue.length; i++) {
+            if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+                jQuery('#' + fieldName + '.error').show();
+                $(fieldName + '.error').show();
+                $(fieldName).value = "";
+                return true;
+            }
+        }
+        return false;
+    }
 
 </script>
 <style type="text/css">
@@ -778,45 +809,72 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     <div style="float:right; margin-right:10px;">
     <tags:button type="submit" icon="Save & Continue" color="green"
                    id="flow-next" value="Save & Continue"/></div>
-    <br />  <br /> <br />      
+    <br />  <br /> <br />  
+    <chrome:box>
+	    <table>
+	        <tr>
+	            <td style="text-align:right;font-weight:bold;margin-left:10em;"><tags:message code='form.label.study'/>:</td>
+	            <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+	        </tr>
+	        <tr>
+	            <td style="text-align:right;font-weight:bold;">Instructions:</td>
+	            <td style="padding-left:10px;"><tags:message code='form.label.title.instruction'/></td>
+	        </tr>
+	    </table>
+	</chrome:box> 
+	    
 	<chrome:box title="Basic Details">
-        <div class="row">
-            <div class="label"><spring:message code="form.label.study"/>:</div>
-            <div class="value">${command.crf.study.displayName} </div>
-        </div>
-        <div class="row">
-            <div class="label" style="margin-top:6px;">
-                <c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if><spring:message
-                    code="form.label.title"/>:
-            </div>
-            <div class="value" id="hackThisForIE">
-                <c:choose>
-                    <c:when test="${command.crf.crfVersion eq 1.0}">
-                        <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
-                               onblur="isSpclChar('crf.title');" style="font-size:1.5em;"
-                               size="60"/>
-                    </c:when>
-                    <c:otherwise>
-                        <div style="padding-top:7px">
-                                <%--${command.crf.title}--%>
-                            <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
-                                   onblur="isSpclChar('crf.title');" style="font-size:1.5em;"
-                                   size="60"/>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-                <ul id="crf.title.error" style="display:none;left-padding:8em;" class="errors">
-                    <li><spring:message code='special.character.message'
-                                        text='special.character.message'/></li>
-                </ul>
-            </div>
-        </div>
-
-        <tags:formSettings crf="${command.crf}"></tags:formSettings>
-        <div class="row">
-            <div class="label">Instructions:</div>
-            <div class="value"><tags:message code="form.label.title.instruction"/> </div>
-        </div>
+	 	<table>
+	        <tr>
+	            <td style="text-align:right;font-weight:bold;margin-left:10em;"><c:if test="${command.crf.crfVersion eq 1.0}"> <tags:requiredIndicator/> </c:if>
+	            	<spring:message code="form.label.title"/>:</td>
+	            <td>
+		            <c:choose>
+	                    <c:when test="${command.crf.crfVersion eq 1.0}">
+	                        <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
+	                               onblur="isSpclCharForTitle('crf.title');" style="font-size:1.5em;"
+	                               size="60"/>
+	                    </c:when>
+	                    <c:otherwise>
+	                            <input type="text" name="crf.title" id="crf.title" value="${command.crf.title}"
+	                                   onblur="isSpclCharForTitle('crf.title');" style="font-size:1.5em;" size="60"/>
+	                    </c:otherwise>
+	                </c:choose>
+	                <ul id="crf.title.error" style="display:none;left-padding:8em;" class="errors">
+	                    <li><spring:message code='special.character.message' text='special.character.message'/></li>
+	                </ul>
+	            </td>
+	        </tr>
+	        <tr>
+				<c:set var="isOther" value="true"/>
+				<c:set var="style" value="margin:3px;"/>
+				<c:forEach items="${recallPeriods}" var="recallPeriod">
+				    <c:if test="${recallPeriod.desc eq command.crf.recallPeriod}">
+				        <c:set var="isOther" value="false"/>
+				        <c:set var="style" value="margin:3px;display:none"/>
+				    </c:if>
+				</c:forEach>
+				<td style="text-align:right;font-weight:bold;margin-left:10em;">
+					<tags:message code="recall.period"/>:
+				</td>
+				<td>
+					<select onchange="javascript:selectRecallPeriod(this.value)">
+			        <c:forEach items="${recallPeriods}" var="recallPeriod">
+			            <c:choose>
+			                <c:when test="${(recallPeriod.desc eq command.crf.recallPeriod) or (recallPeriod.code eq 'other' and isOther eq 'true')}">
+			                    <option value="${recallPeriod.code}" selected>${recallPeriod.desc}</option>
+			                </c:when>
+			                <c:otherwise>
+			                    <option value="${recallPeriod.code}">${recallPeriod.desc}</option>
+			                </c:otherwise>
+			            </c:choose>
+			        </c:forEach>
+			    	</select>
+			    	<input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${command.crf.recallPeriod}" size="36"
+			           	style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
+				</td>
+	        </tr>
+	    </table>
         
     </chrome:box>
     
