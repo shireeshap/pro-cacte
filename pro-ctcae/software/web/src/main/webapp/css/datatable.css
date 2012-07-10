@@ -20,7 +20,7 @@ th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .
 .yui-skin-sam .yui-dt table{margin:0;padding:0;font-family:arial;font-size:inherit;border-collapse:separate;*border-collapse:collapse;border-spacing:0;border:1px solid #7f7f7f}
 .yui-skin-sam .yui-dt thead{border-spacing:0}
 .yui-skin-sam .yui-dt caption{color:#000;font-size:85%;font-weight:normal;font-style:italic;line-height:1;padding:1em 0;text-align:center}
-.yui-skin-sam .yui-dt th{background:#d8d8da url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 0}
+.yui-skin-sam .yui-dt th{background:#d8d8da url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 0}
 .yui-skin-sam .yui-dt th,.yui-skin-sam .yui-dt th a{font-weight:normal;text-decoration:none;color:#000;vertical-align:bottom}
 .yui-skin-sam .yui-dt th{margin:0;padding:0;border:0;border-right:1px solid #cbcbcb}
 .yui-skin-sam .yui-dt tr.yui-dt-first td{border-top:1px solid #7f7f7f}
@@ -33,16 +33,16 @@ th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .
 .yui-skin-sam .yui-dt-scrollable .yui-dt-hd{border-left:1px solid #7f7f7f;border-top:1px solid #7f7f7f;border-right:1px solid #7f7f7f}
 .yui-skin-sam .yui-dt-scrollable .yui-dt-bd{border-left:1px solid #7f7f7f;border-bottom:1px solid #7f7f7f;border-right:1px solid #7f7f7f;background-color:#FFF}
 .yui-skin-sam .yui-dt-scrollable .yui-dt-data tr.yui-dt-last td{border-bottom:1px solid #7f7f7f}
-.yui-skin-sam th.yui-dt-asc,.yui-skin-sam th.yui-dt-desc{background:url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -100px}
+.yui-skin-sam th.yui-dt-asc,.yui-skin-sam th.yui-dt-desc{background:url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -100px}
 .yui-skin-sam th.yui-dt-sortable .yui-dt-label{margin-right:10px}
-.yui-skin-sam th.yui-dt-asc .yui-dt-liner{background:url(http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/dt-arrow-up.png) no-repeat right}
-.yui-skin-sam th.yui-dt-desc .yui-dt-liner{background:url(http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/dt-arrow-dn.png) no-repeat right}
+.yui-skin-sam th.yui-dt-asc .yui-dt-liner{background:url(https://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/dt-arrow-up.png) no-repeat right}
+.yui-skin-sam th.yui-dt-desc .yui-dt-liner{background:url(https://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/dt-arrow-dn.png) no-repeat right}
 tbody .yui-dt-editable{cursor:pointer}.yui-dt-editor{text-align:left;background-color:#f2f2f2;border:1px solid #808080;padding:6px}
 .yui-dt-editor label{padding-left:4px;padding-right:6px}.yui-dt-editor .yui-dt-button{padding-top:6px;text-align:right}
-.yui-dt-editor .yui-dt-button button{background:url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 0;border:1px solid #999;width:4em;height:1.8em;margin-left:6px}
-.yui-dt-editor .yui-dt-button button.yui-dt-default{background:url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1400px;background-color:#5584e0;border:1px solid #304369;color:#FFF}
-.yui-dt-editor .yui-dt-button button:hover{background:url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1300px;color:#000}
-.yui-dt-editor .yui-dt-button button:active{background:url(http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1700px;color:#000}
+.yui-dt-editor .yui-dt-button button{background:url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 0;border:1px solid #999;width:4em;height:1.8em;margin-left:6px}
+.yui-dt-editor .yui-dt-button button.yui-dt-default{background:url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1400px;background-color:#5584e0;border:1px solid #304369;color:#FFF}
+.yui-dt-editor .yui-dt-button button:hover{background:url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1300px;color:#000}
+.yui-dt-editor .yui-dt-button button:active{background:url(https://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png) repeat-x 0 -1700px;color:#000}
 .yui-skin-sam tr.yui-dt-even{background-color:#FFF}.yui-skin-sam tr.yui-dt-odd{background-color:#edf5ff}
 .yui-skin-sam tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam tr.yui-dt-even td.yui-dt-desc{background-color:#edf5ff}
 .yui-skin-sam tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam tr.yui-dt-odd td.yui-dt-desc{background-color:#dbeaff}
