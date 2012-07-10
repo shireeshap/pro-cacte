@@ -2302,6 +2302,7 @@ pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/009_add_organizati
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/010_add_column_is_schedule_initialized.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/011_add_lcra_privileges.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/012_update_core_terms.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/013_add_organizations.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
