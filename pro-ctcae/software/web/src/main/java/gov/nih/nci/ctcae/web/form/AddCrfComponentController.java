@@ -72,7 +72,6 @@ public class AddCrfComponentController extends AbstractCrfController {
             query.filterByCtcTermHavingQuestionsOnly();
             query.filterByCtcCategoryId(ctcCategoryId);
             query.filterByCurrency();
-            query.filterByCoreItemsOnly();
             List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>(proCtcTermRepository.find(query));
             Collections.sort(proCtcTerms, new ProCtcTermComparator());
 
