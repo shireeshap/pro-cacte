@@ -74,7 +74,7 @@
         vertical-align: top;
         font-weight: bold;
         width: 60px;
-        padding-left:10px;
+        padding-left: 10px;
     }
 
     .empty-column {
@@ -319,7 +319,6 @@ function buildTable(index, days, repeat, pageload) {
 }
 
 function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
-
     var cycles = cycleIndexes.split(',');
     for (var j = 0; j < cycles.length; j++) {
         var cycleIndex = cycles[j];
@@ -345,6 +344,9 @@ function resetCycle(cycleDefinitionIndex, cycleIndex) {
     var multiplier = 1;
     if (days_unit == 'Weeks') {
         multiplier = 7;
+    }
+    if (days_unit == 'Months') {
+        multiplier = 28;
     }
     var days_amount = parseInt($('cycle_length_' + cycleDefinitionIndex).value) * multiplier;
 
