@@ -35,6 +35,12 @@
                 'open_window',
                 'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=700, height=700, left=0, top=0')
     }
+
+    function openQuickGuideWindow(url) {
+        popupWin = window.open(url,
+                'open_window',
+                'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=700, height=700, left=0, top=0')
+    }
 </script>
 
 <div id="header">
@@ -76,12 +82,15 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <a href="/proctcae/images/quickstart_guide_v4.pdf" target="_blank"
-                                                   style="color:white;">
+                                                <a onclick="openQuickGuideWindow('/proctcae/images/quickstart_guide_v4.pdf');"
+                                                   style="cursor:pointer;color:white;border:0px;background:none;">
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <img src="/proctcae/images/table/pdf.jpg"/>
+                                                                <%--<img style="margin:0px;"--%>
+                                                                     <%--src="<chrome:imageUrl name="/proctcae/images/table/pdf.jpg"/>"--%>
+                                                                     <%--alt=""/>--%>
+                                                                    <img src="/proctcae/images/table/pdf.jpg"/>
                                                             </td>
                                                             <td>
                                                                 <b><tags:message
