@@ -79,26 +79,23 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
         Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
         Map<CtcCategory, List<ProCtcTerm>> result = new LinkedHashMap<CtcCategory, List<ProCtcTerm>>();
-
+        List<ProCtcTerm> tempProTermList = new ArrayList<ProCtcTerm>();
+        for (Iterator<CtcCategory> categoryIterator = ctcCategoryList.iterator(); categoryIterator.hasNext();) {
+            CtcCategory ctcCate = categoryIterator.next();
+            if (ctcCate.getName().equals("Core terms")) {
+                tempProTermList = ctcCategoryMap.get(ctcCate);
+                Collections.sort(tempProTermList, new ProCtcTermComparator());
+                result.put(ctcCate, tempProTermList);
+            }
+        }
         for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
             CtcCategory ctcCategory = it.next();
-
             List<ProCtcTerm> proCtcTermList = ctcCategoryMap.get(ctcCategory);
-            if (ctcCategory.getName().equals("Core terms")) {
-                List<ProCtcTerm> tempProTermList = new ArrayList<ProCtcTerm>();
-                tempProTermList.addAll(proCtcTermList);
-                for (ProCtcTerm proCtcTerm : tempProTermList) {
-                    if (!proCtcTerm.isCore()) {
-                        proCtcTermList.remove(proCtcTerm);
-                    }
-                }
+            if (!ctcCategory.getName().equals("Core terms")) {
+                Collections.sort(proCtcTermList, new ProCtcTermComparator());
+                result.put(ctcCategory, proCtcTermList);
             }
-
-            Collections.sort(proCtcTermList, new ProCtcTermComparator());
-
-            result.put(ctcCategory, proCtcTermList);
         }
-
         map.put("ctcCategoryMap", result);
         map.put("responseRequired", ListValues.getResponseRequired());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
