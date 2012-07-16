@@ -42,19 +42,13 @@
 </head>
 <body>
 <c:if test="${param['successMessage']}">
-    <c:if test="${command.status.displayName eq 'In-progress' && language == 'en'}">
+    <c:if test="${command.status.displayName eq 'In-progress'}">
         <chrome:flashMessage flashMessage="Form has been saved successfully"/>
     </c:if>
-    <c:if test="${command.status.displayName eq 'In-progress' && language == 'es'}">
-        <chrome:flashMessage flashMessage="Formulario se ha guardado con éxito"/>
-    </c:if>
-    <c:if test="${command.status.displayName eq 'Completed' && language == 'en'}">
+
+    <c:if test="${command.status.displayName eq 'Completed'}">
         <chrome:flashMessage flashMessage="Form has been submitted successfully"/>
     </c:if>
-    <c:if test="${command.status.displayName eq 'Completed' && language == 'es'}">
-        <chrome:flashMessage flashMessage="Formulario ha sido enviado con éxito"/>
-    </c:if>
-
 </c:if>
 <c:if test="${command.status.displayName eq 'Completed'}">
     <c:set var="disabled" value="disabled"/>
@@ -70,8 +64,7 @@
 							    <a style="color:black" href="?id=${command.id}&lang=en">English</a>
 		 <span style="color:black">|</span>
 							    <a style="color:black" href="?id=${command.id}&lang=es">Spanish</a>
-		 <span style="color:black">|</span>	
-		 						<a style="color:black" href=javascript:printDiv('printDiv')>Print</a>				    
+		 			    
 		 </span>
 		
 
