@@ -66,5 +66,4 @@
 	                     	</td>
 	         </c:otherwise>
 	     </c:choose>
-     </td>
 </tr>
