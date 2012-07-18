@@ -34,6 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 //
+
 /**
  * The Class CRF.
  *
@@ -123,7 +124,7 @@ public class CRF extends BaseVersionable {
      * The crf pages.
      */
     @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
-    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)    
+    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
@@ -169,9 +170,10 @@ public class CRF extends BaseVersionable {
     public Boolean isHidden() {
         return hidden;
     }
+
     public Boolean getHidden() {
-          return hidden;
-      }
+        return hidden;
+    }
 
     public void setHidden(Boolean hidden) {
         this.hidden = hidden;
@@ -201,26 +203,38 @@ public class CRF extends BaseVersionable {
         return recallPeriod.trim();
     }
 
+    public boolean checkForParent(CRF crf) {
+        if (crf.getParentCrf() != null) {
+            CRF tempCrf = crf.getParentCrf();
+            if (this.equals(tempCrf)) {
+                return true;
+            } else {
+                return checkForParent(tempCrf);
+            }
+        }
+        return false;
+    }
+
     /**
-     * Gets the recall period in spanish. Temporary arrangement. Only returns spanish for 7 days/30 days...everything else is mapped to 
+     * Gets the recall period in spanish. Temporary arrangement. Only returns spanish for 7 days/30 days...everything else is mapped to
      * "since your last cancer treatment".
      *
      * @return the recall period
      */
     public String getRecallPeriodInSpanish() {
-    	String recallPeriodInSpanish = "";
-    	if(recallPeriod.trim().contains("7")){
-    		recallPeriodInSpanish = "en los últimos 7 días";
-    	} else if(recallPeriod.trim().contains("30")){
-    		recallPeriodInSpanish = "en los últimos 30 días";
-    	} else if(recallPeriod.trim().contains("last cancer treatment")){
-    		recallPeriodInSpanish = "desde su último tratamiento para el cáncer";
-    	} else {
-    		recallPeriodInSpanish = recallPeriod.trim();
-    	}
+        String recallPeriodInSpanish = "";
+        if (recallPeriod.trim().contains("7")) {
+            recallPeriodInSpanish = "en los últimos 7 días";
+        } else if (recallPeriod.trim().contains("30")) {
+            recallPeriodInSpanish = "en los últimos 30 días";
+        } else if (recallPeriod.trim().contains("last cancer treatment")) {
+            recallPeriodInSpanish = "desde su último tratamiento para el cáncer";
+        } else {
+            recallPeriodInSpanish = recallPeriod.trim();
+        }
         return recallPeriodInSpanish;
     }
-    
+
     /**
      * Sets the recall period.
      *

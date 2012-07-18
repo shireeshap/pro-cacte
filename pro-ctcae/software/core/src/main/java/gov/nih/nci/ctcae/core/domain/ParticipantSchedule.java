@@ -98,6 +98,27 @@ public class ParticipantSchedule {
 
     }
 
+    public List<StudyParticipantCrfSchedule> getPreviousSchedules(StudyParticipantAssignment spa, StudyParticipantCrf spc) {
+        List<StudyParticipantCrfSchedule> schedules = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrf studyParticipantCrf : spa.getStudyParticipantCrfs()) {
+            if (!spc.equals(studyParticipantCrf) && studyParticipantCrf.getStudyParticipantCrfSchedules() != null && studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 0) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    Date startDate = studyParticipantCrfSchedule.getStartDate();
+                    if (proCtcAECalendar.isDateAfterMonth(startDate)) {
+                        break;
+                    }
+                    if (proCtcAECalendar.isDateWithinMonth(startDate) && !studyParticipantCrf.getCrf().isHidden()) {
+                        schedules.add(studyParticipantCrfSchedule);
+                    } else if (proCtcAECalendar.isDateWithinMonth(startDate) && studyParticipantCrf.getCrf().isHidden() && (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED))) {
+                        schedules.add(studyParticipantCrfSchedule);
+                    }
+                }
+            }
+        }
+        return schedules;
+
+    }
+
 
     /**
      * Creates the schedules.
@@ -141,13 +162,13 @@ public class ParticipantSchedule {
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
                     StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
+                    List<StudyParticipantCrfSchedule> spcsList = getPreviousSchedules(spa, studyParticipantCrf);
                     if (c.getTime().equals(studyParticipantCrf.getCrf().getEffectiveStartDate()) || c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
                         if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
-                            CRF oldCrf = studyParticipantCrf.getCrf().getParentCrf();
-                            for (StudyParticipantCrf spc : oldCrf.getStudyParticipantCrfs()) {
-                                if (spc.getStudyParticipantAssignment().equals(spa) && spc.getStudyParticipantCrfSchedules() != null) {
-                                    for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-                                        if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED) || spcs.getStatus().equals(CrfStatus.PASTDUE))) {
+                            if (spcsList != null) {
+                                for (StudyParticipantCrfSchedule spcs : spcsList) {
+                                    if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED) || spcs.getStatus().equals(CrfStatus.PASTDUE))) {
+                                        if (spcs.getStudyParticipantCrf().getCrf().equals(studyParticipantCrf.getCrf()) || spcs.getStudyParticipantCrf().getCrf().checkForParent(studyParticipantCrf.getCrf())) {
                                             alreadyExists = true;
                                             break;
                                         }
@@ -193,7 +214,7 @@ public class ParticipantSchedule {
                                 studyParticipantCrfSchedule.setHoliday(true);
                             }
                             if (studyParticipantCrf.getCrf().getCreateBaseline() && cycleDay == 1 && cycleNumber == 1) {
-                            studyParticipantCrfSchedule.setBaseline(true);
+                                studyParticipantCrfSchedule.setBaseline(true);
                             }
                             if (isSpCrfScheduleAvailable(studyParticipantCrfSchedule)) {
                                 //call getter on schedule for available forms
