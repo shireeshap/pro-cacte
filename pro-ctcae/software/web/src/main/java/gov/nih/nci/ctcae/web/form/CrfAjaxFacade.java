@@ -53,18 +53,19 @@ public class CrfAjaxFacade {
         crfQuery.setMaximumResults(results);
         crfQuery.setSortBy("o." + sortField);
         crfQuery.setSortDirection(direction);
+        crfQuery.filterByHidden(false);
+        crfQuery.filterByNullNextVersionId();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
         if (searchStrings != null) {
             int index = 0;
             for (String searchString : searchStrings) {
-                crfQuery.filterByAll(searchString, "" + index, false);
+                crfQuery.filterByAll(searchString, "" + index);
                 index++;
             }
-        } else {
-            crfQuery.filterByHidden(false);
-            crfQuery.filterByNullNextVersionId();
         }
+
+
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         if (!user.isAdmin()) {
             Long searchCount = resultCount(searchStrings);
@@ -72,9 +73,9 @@ public class CrfAjaxFacade {
             if (crfs.size() == results) {
                 return crfs;
             } else {
-                int i=0;
+                int i = 0;
                 int index = startIndex;
-                while (crfs.size() != results && crfs.size() != searchCount && i<5) {
+                while (crfs.size() != results && crfs.size() != searchCount && i < 5) {
                     index = results + index;
                     crfQuery.setFirstResult(index);
                     List<CRF> l = (List<CRF>) crfRepository.find(crfQuery);
@@ -102,7 +103,7 @@ public class CrfAjaxFacade {
             int index = 0;
             for (String searchText : searchTexts) {
                 if (!StringUtils.isBlank(searchText)) {
-                    crfQuery.filterByAll(searchText, "" + index, false);
+                    crfQuery.filterByAll(searchText, "" + index);
                 }
             }
         }
