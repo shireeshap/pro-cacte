@@ -11,6 +11,7 @@ import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
 import gov.nih.nci.ctcae.core.query.SecuredQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
@@ -96,32 +97,33 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 }
 
                 //To allow CCA's access to only studies that are associated with their organization
+                List<Study> studyList;
                 if (roles.contains(Role.CCA)) {
                     for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-                        List<StudyOrganization> studyOrganizationList = findStudyOrganizations(organizationClinicalStaff);
-                        for (StudyOrganization studyOrganization : studyOrganizationList) {
-                            Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganization.getStudy());
+                    	studyList = findAllStudiesAssociatedWithOrganization(organizationClinicalStaff);
+                        for (Study study : studyList) {
+                            Set<String> privileges = privilegeGenerator.generatePrivilege(study);
                             for (String privilege : privileges) {
                                 instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                             }
                         }
                     }
-                } else {
-                    //for non-cca, non-admin staff assign studies based on their studyOrg assignments
-                    StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
-                    if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
-                        throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
-                    }
-                    studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
-                    studyOrganizationClinicalStaffQuery.filterByActiveStatus();
-                    List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
-                    Set<String> privileges;
-                    for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
-                        roles.add(studyOrganizationClinicalStaff.getRole());
-                        privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
-                        for (String privilege : privileges) {
-                            instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
-                        }
+                }
+
+                //for staff that also have non-cca or non-admin roles, assign studies based on their studyOrg assignments
+                StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
+                if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+                    throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+                }
+                studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
+                studyOrganizationClinicalStaffQuery.filterByActiveStatus();
+                List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
+                Set<String> privileges;
+                for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
+                    roles.add(studyOrganizationClinicalStaff.getRole());
+                    privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
+                    for (String privilege : privileges) {
+                        instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                     }
                 }
             }
@@ -348,6 +350,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         ParticipantQuery query = new ParticipantQuery();
         query.filterByUsername(user.getUsername());
         return genericRepository.findSingle(query);
+    }
+    
+    public List<Study> findAllStudiesAssociatedWithOrganization(OrganizationClinicalStaff organizationClinicalStaff){
+    	Integer siteId = organizationClinicalStaff.getOrganization().getId();
+    	StudyQuery studyQuery = new StudyQuery(false, false, false);
+    	studyQuery.filterStudiesForStudySite(siteId);
+    	return genericRepository.find(studyQuery);
     }
 
     @Required

@@ -59,10 +59,15 @@ public class StudyQuery extends SecuredQuery<Study> {
     private static final String USERNAME = "username";
 
     /**
-     * Instantiates a new study query.
+     * TODO: Horrible overloading. Fix ASAP.
+     * Instantiates a new study query. 
      */
     public StudyQuery() {
         super(queryString);
+    }
+    
+    public StudyQuery(boolean sort, boolean count, boolean secure) {
+        super(queryString, secure);
     }
     
     public StudyQuery(boolean count){
