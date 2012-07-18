@@ -627,7 +627,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
                 jQuery('#' + fieldName + '.error').show();
                 $(fieldName + '.error').show();
-                $(fieldName).value = "";
+                //$(fieldName).value = "";
                 return true;
             }
         }
