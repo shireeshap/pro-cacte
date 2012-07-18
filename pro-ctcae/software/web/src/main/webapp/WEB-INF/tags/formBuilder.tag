@@ -8,7 +8,7 @@
         var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
             parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
             onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 280);
+                showConfirmationWindow(transport, 650, 300);
             },
             method:'get'
         })

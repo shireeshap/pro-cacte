@@ -23,7 +23,7 @@
 <tags:javascriptLink name="yui-autocomplete"/>
 <tags:dwrJavascriptLink objects="organization"/>
 
-<script>
+<script type="text/javascript">
 
 var isUserNameError = false;
 var isUserIdError = false;

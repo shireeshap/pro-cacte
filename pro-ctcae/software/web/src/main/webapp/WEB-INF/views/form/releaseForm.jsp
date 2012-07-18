@@ -3,12 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
 <table>
     <tr>
         <td>
@@ -39,27 +39,28 @@
                                 </div>
                             </div>
                             <div>Releasing a form is irreversible, you will no longer be able to edit this form.<br>
-                                However you can create a new version in the future.
+                                However you can create a new version in the future. 
                             </div>
                             <br/>
 
                             <div>
-                                You are about to release <strong>${command.title}</strong>. You will no longer be able to edit it.
+                                You are about to release <strong>${command.title}</strong>. You will no longer be able to edit it. 
+                                Please note that, depending on the number of participants associated with this form, the system may take
+                                up to a minute to complete this action. 
                             </div>
                             <br/>
                             Please provide the date on which this form will be made effective.
                             <tags:renderDate propertyName="effectiveStartDate"
                                              displayName="form.label.effective_start_date" required="true"/>
 
-
                         </div>
                         <div class="flow-buttons">
                             <tags:button color="orange" type="submit" id="flow-update"
-                                         cssClass="next" value="Release" icon="check"
-                                    />
+                                         cssClass="next" value="Release" icon="check" />
+                                    
                             <tags:button color="blue" type="button" id="flow-cancel"
                                          cssClass="previous ibutton" value="Cancel" icon="x"
-                                         onclick="closeWindow()"/>
+                                         onclick="closeWindow();"/>
                         </div>
                     </c:otherwise>
                 </c:choose>

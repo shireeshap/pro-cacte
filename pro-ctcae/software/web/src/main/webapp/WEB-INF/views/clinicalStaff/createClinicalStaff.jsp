@@ -12,15 +12,14 @@
 <tags:dwrJavascriptLink objects="nameValidator,userNameValidation,uniqueStaffEmailAddress"/>
 <tags:javascriptLink name="ui_fields_validation"/>
 
-<tags:stylesheetLink name="yui-autocomplete"/>
-<tags:javascriptLink name="yui-autocomplete"/>
-<tags:dwrJavascriptLink objects="organization"/>
-
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
+    <tags:stylesheetLink name="yui-autocomplete"/>
+	<tags:javascriptLink name="yui-autocomplete"/>
+	<tags:dwrJavascriptLink objects="organization"/>
 
     <script type="text/javascript">
 
@@ -112,8 +111,8 @@
                 } else {
                     $('div_useraccount_details').hide();
                     $('username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000");
-                    jQuery('#userNameError').hide();
-                    jQuery('#userNameLengthError').hide();
+                    $('userNameError').hide();
+                    $('userNameLengthError').hide();
                     hideError();
                 }
             } catch(err) {
@@ -137,12 +136,22 @@
         function checkFirstName() {
             var firstName = $('clinicalStaff.firstName').value;
             if (firstName != "") {
-                nameValidator.validateName(firstName, nameReturnValue);
+                nameValidator.validateName(firstName, {callback:
+                    function(returnValue) {
+	                    if (!returnValue) {
+	                        $('clinicalStaff.firstName.error').show();
+	                        isEmailError = true;
+	                    }
+	                    else {
+	                    	$('clinicalStaff.firstName.error').hide();
+	                        isEmailError = false;
+	                    }
+	            	}
+				});
                 return;
             }
-
             else {
-                jQuery('#nameError1').hide();
+                $('clinicalStaff.firstName.error').hide();
             }
             hideError();
         }
@@ -150,32 +159,26 @@
         function checkLastName() {
             var lastName = $('clinicalStaff.lastName').value;
             if (lastName != "") {
-                nameValidator.validateName(lastName, nameReturnValue1);
+                nameValidator.validateName(lastName, {callback:
+                    function(returnValue) {
+                    if (!returnValue) {
+                        $('clinicalStaff.lastName.error').show();
+                        isEmailError = true;
+                    }
+                    else {
+                    	$('clinicalStaff.lastName.error').hide();
+                        isEmailError = false;
+                    }
+            	}
+			});
                 return;
             }
             else {
-                jQuery('#nameError2').hide();
+            	$('clinicalStaff.lastName.error').hide();
             }
             hideError();
         }
-        function nameReturnValue(returnValue) {
-            if (!returnValue) {
-                jQuery('#nameError1').show();
-            }
-            else {
-                jQuery('#nameError1').hide();
-            }
-            hideError();
-        }
-        function nameReturnValue1(returnValue) {
-            if (!returnValue) {
-                jQuery('#nameError2').show();
-            }
-            else {
-                jQuery('#nameError2').hide();
-            }
-            hideError();
-        }
+        
         // checking if there are any error based on class name and style.
         function hideError() {
             var errorlist;
@@ -202,40 +205,63 @@
             }
             if (userName != "") {
                 if (userName.length < 6) {
-                    jQuery('#userNameError').hide();
-                    jQuery('#userNameLengthError').show();
+                    $('userNameError').hide();
+                    $('userNameLengthError').show();
                     hideError();
                 }
                 else {
-                    userNameValidation.validateDwrUniqueName(userName, userId, userReturnValue);
-                    jQuery('#userNameLengthError').hide();
+                    userNameValidation.validateDwrUniqueName(userName, userId, {callback:
+	                        function(returnValue) {
+		                        if (returnValue) {
+		                            $('userNameError').show();
+		                            isEmailError = true;
+		                        }
+		                        else {
+		                        	$('userNameError').hide();
+		                            isEmailError = false;
+		                        }
+		                	}
+	    				});
+                    $('userNameLengthError').hide();
                     return;
                 }
             }
             else {
-                jQuery('#userNameError').hide();
-                jQuery('#userNameLengthError').hide();
+                $('userNameError').hide();
+                $('userNameLengthError').hide();
             }
-
         }
+        
         function userReturnValue(returnValue) {
             showOrHideErrorField(returnValue, '#userNameError');
             hideError();
         }
 
         //validation check for staff email address
-        function checkUniqueEmailAddress() {
-            var staffId = "${param['clinicalStaffId']}";
-            var email = $('clinicalStaff.emailAddress').value;
-            if (email != "") {
-                uniqueStaffEmailAddress.validateStaffEmail(email, staffId, emailReturnValue);
-                return;
-            }
-            else {
-                jQuery('#emailError').hide();
-            }
-            hideError();
-        }
+        //function checkUniqueEmailAddress() {
+        //    var staffId = "${param['clinicalStaffId']}";
+        //    var email = $('clinicalStaff.emailAddress').value;
+        //    if (email != "") {
+        //        uniqueStaffEmailAddress.validateStaffEmail(email, staffId, {callback:
+        //            function(returnValue) {
+	    //                if (!returnValue) {
+	    //                    $('clinicalStaff.emailAddress.error').show();
+	    //                    isEmailError = true;
+	    //                }
+	    //                else {
+	    //                	$('clinicalStaff.emailAddress.error').hide();
+	    //                    isEmailError = false;
+	    //                }
+        //        	}
+	    //	});
+        //         return;
+        //     }
+        //     else {
+        //        $('clinicalStaff.emailAddress.error').hide();
+        //   }
+        //  hideError();
+        // }
+        
         function emailReturnValue(returnValue) {
             showOrHideErrorField(returnValue, '#emailError');
             hideError();
@@ -292,9 +318,8 @@
                 <tags:renderText propertyName="clinicalStaff.firstName"
                                  displayName="clinicalStaff.label.first_name"
                                  required="true" onblur="checkFirstName();"/>
-                <ul id="nameError1" style="display:none; padding-left:12em " class="errors">
-                    <li><spring:message code='firstName_validation'
-                                        text='firstName_validation'/>
+                <ul id="clinicalStaff.firstName.error" style="display:none; padding-left:12em " class="errors">
+                    <li><spring:message code='firstName_validation' text='firstName_validation'/>
                     </li>
                 </ul>
                 <tags:renderText propertyName="clinicalStaff.middleName" onblur="isSpclChar('clinicalStaff.middleName');"
@@ -302,11 +327,11 @@
                 <ul id="clinicalStaff.middleName.error" style="display:none;" class="errors">
                                    <li><spring:message code='special.character.message'
                                                        text='special.character.message'/></li>
-                               </ul>
+                </ul>
                 <tags:renderText propertyName="clinicalStaff.lastName"
                                  displayName="clinicalStaff.label.last_name"
                                  required="true" onblur="checkLastName()"/>
-                <ul id="nameError2" style="display:none; padding-left:12em " class="errors">
+                <ul id="clinicalStaff.lastName.error" style="display:none; padding-left:12em " class="errors">
                     <li><spring:message code='lastName_validation'
                                         text='lastName_validation'/>
                     </li>
@@ -319,16 +344,16 @@
                 <tags:renderEmail propertyName="clinicalStaff.emailAddress"
                                   displayName="clinicalStaff.label.email_address"
                                   required="true" size="40" onblur="checkUniqueEmailAddress();"/>
-                <ul id="emailError" style="display:none; padding-left:12em " class="errors">
+                <ul id="clinicalStaff.emailAddress.error" style="display:none; padding-left:12em " class="errors">
                     <li><spring:message code='clinicalStaff.unique_emailAddress'
                                         text='clinicalStaff.unique_emailAddress'/></li>
                 </ul>
                 <tags:renderText propertyName="clinicalStaff.nciIdentifier" onblur="isSpclChar('clinicalStaff.nciIdentifier');"
                                  displayName="clinicalStaff.label.identifier"/>
                  <ul id="clinicalStaff.nciIdentifier.error" style="display:none;" class="errors">
-                                   <li><spring:message code='special.character.message'
-                                                       text='special.character.message'/></li>
-                               </ul>
+                     <li><spring:message code='special.character.message'
+                                         text='special.character.message'/></li>
+                 </ul>
             </td>
         </tr>
     </table>
