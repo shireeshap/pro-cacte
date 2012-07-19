@@ -83,6 +83,7 @@ public class ParticipantCommand {
     private List<ParticipantSchedule> participantSchedules;
     StudyParticipantAssignment studyParticipantAssignment;
     private String[] repeatdropdown;
+    private boolean onDefaultArm = false;
 
     private LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
 
@@ -92,6 +93,14 @@ public class ParticipantCommand {
 
     public void setOdc(boolean odc) {
         this.odc = odc;
+    }
+
+    public boolean isOnDefaultArm() {
+        return onDefaultArm;
+    }
+
+    public void setOnDefaultArm(boolean onDefaultArm) {
+        this.onDefaultArm = onDefaultArm;
     }
 
     /**

@@ -604,7 +604,7 @@ jQuery(document).ready(function() {
         <div class="label" style="width:9em"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value" style="margin-left:10em">
             <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPageLocal();">
-                <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
+                <c:forEach items="${command.crf.nonDefaultFormArmSchedules}" var="formArmSchedule">
                     <c:choose>
                         <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id}">
                             <option value="${formArmSchedule.id}"
@@ -617,7 +617,7 @@ jQuery(document).ready(function() {
                 </c:forEach>
             </select>
         </div>
-        <c:if test="${fn:length(command.crf.formArmSchedules) gt 1 }">
+        <c:if test="${fn:length(command.crf.nonDefaultFormArmSchedules) gt 1 }">
             <table class="label1">
                 <tr>
                     <td style="vertical-align: top;">
@@ -625,9 +625,9 @@ jQuery(document).ready(function() {
                     </td>
                     <td style="vertical-align: middle;">
                         <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple"
-                                size="${fn:length(command.crf.formArmSchedules)-1}">
+                                size="${fn:length(command.crf.nonDefaultFormArmSchedules)-1}">
 
-                            <c:forEach items="${command.crf.formArmSchedules}" var="formArmCopySchedule">
+                            <c:forEach items="${command.crf.nonDefaultFormArmSchedules}" var="formArmCopySchedule">
                                 <c:choose>
                                     <c:when test="${command.selectedFormArmSchedule.id ne formArmCopySchedule.id}">
                                         <option value="${formArmCopySchedule.id}">${formArmCopySchedule.arm.title}</option>

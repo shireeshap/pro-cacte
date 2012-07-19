@@ -126,7 +126,14 @@
                             &nbsp;&nbsp;
                             <select name="arm_${studysite.id}" title="arm"
                                     id="arm_${studysite.id}">
-                                <option value="">Please select</option>
+                                <c:choose>
+                                    <c:when test="${command.onDefaultArm}">
+                                        <option value="${studyParticipantAssignment.arm.id}">Please select</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="">Please select</option>
+                                    </c:otherwise>
+                                </c:choose>
                                 <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
                                     <option value="${arm.id}" <c:if
                                             test="${studyParticipantAssignment.arm.id eq arm.id}">selected</c:if>>
@@ -137,14 +144,38 @@
                         </td>
                     </c:when>
                     <c:otherwise>
-                        <td align="right" class="data" width="20%">
-                            <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
-                                    code="study.label.arm"/></b>
-                        </td>
-                        <td class="data">   &nbsp;&nbsp;
-                            <input type="hidden" name="arm_${studysite.id}"
-                                   value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
-                        </td>
+                        <c:choose>
+                            <c:when test="${command.onDefaultArm}">
+                                <td class="data" align="right" width="20%">
+                                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                                            code="study.label.arm"/></b>
+                                </td>
+                                <td width="50%" class="data">
+                                    &nbsp;&nbsp;
+                                    <select name="arm_${studysite.id}" title="arm"
+                                            id="arm_${studysite.id}">
+                                        <option value="${studyParticipantAssignment.arm.id}" selected>Please select
+                                        </option>
+                                        <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
+                                            <option value="${arm.id}" <c:if
+                                                    test="${studyParticipantAssignment.arm.id eq arm.id}">selected</c:if>>
+                                                    ${arm.title}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </c:when>
+                            <c:otherwise>
+                                <td align="right" class="data" width="20%">
+                                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                                            code="study.label.arm"/></b>
+                                </td>
+                                <td class="data">   &nbsp;&nbsp;
+                                    <input type="hidden" name="arm_${studysite.id}"
+                                           value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
                     </c:otherwise>
                 </c:choose>
 
@@ -157,43 +188,43 @@
 
 <tr>
     <%--<c:choose>--%>
-        <%--<c:when test="${offStudy}">--%>
-            <%--<td align="right" class="data" width="20%">--%>
-                <%--<b><spring:message code="participant.label.startdate"/></b>--%>
-            <%--</td>--%>
-            <%--<td class="data" width="50%">   &nbsp;&nbsp;--%>
-                <%--<input type="hidden" id="study_date_${studysite.id}" class="date validate-NOTEMPTY&&DATE" name="study_date_${studysite.id}"--%>
-               <%--title=""--%>
-               <%--value="<tags:formatDate value="${studyParticipantAssignment.studyStartDate}"/>"--%>
-               <%--/>   ${studyParticipantAssignment.studyStartDate}--%>
-               <%----%>
-            <%--</td>--%>
+    <%--<c:when test="${offStudy}">--%>
+    <%--<td align="right" class="data" width="20%">--%>
+    <%--<b><spring:message code="participant.label.startdate"/></b>--%>
+    <%--</td>--%>
+    <%--<td class="data" width="50%">   &nbsp;&nbsp;--%>
+    <%--<input type="hidden" id="study_date_${studysite.id}" class="date validate-NOTEMPTY&&DATE" name="study_date_${studysite.id}"--%>
+    <%--title=""--%>
+    <%--value="<tags:formatDate value="${studyParticipantAssignment.studyStartDate}"/>"--%>
+    <%--/>   ${studyParticipantAssignment.studyStartDate}--%>
+    <%----%>
+    <%--</td>--%>
 
 
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-            <%--<td width="20%"></td>--%>
-            <td align="right" class="data" width="20%">
-                <b><spring:message code="participant.label.startdate"/></b>
-            </td>
-            <td class="data" width="50%">  &nbsp;&nbsp;
-                <c:choose>
-                    <c:when test="${selected}">
-                        <tags:renderDate
-                                propertyName="study_date_${studysite.id}"
-                                doNotshowLabel="true" required="true"
-                                noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <tags:renderDate
-                                propertyName="study_date_${studysite.id}"
-                                doNotshowLabel="true" required="true"
-                                noForm="true" dateValue="<%= new Date()%>"/>
-                    </c:otherwise>
-                </c:choose>
-            </td>
-            <td></td>
-        <%--</c:otherwise>--%>
+    <%--</c:when>--%>
+    <%--<c:otherwise>--%>
+    <%--<td width="20%"></td>--%>
+    <td align="right" class="data" width="20%">
+        <b><spring:message code="participant.label.startdate"/></b>
+    </td>
+    <td class="data" width="50%">  &nbsp;&nbsp;
+        <c:choose>
+            <c:when test="${selected}">
+                <tags:renderDate
+                        propertyName="study_date_${studysite.id}"
+                        doNotshowLabel="true" required="true"
+                        noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
+            </c:when>
+            <c:otherwise>
+                <tags:renderDate
+                        propertyName="study_date_${studysite.id}"
+                        doNotshowLabel="true" required="true"
+                        noForm="true" dateValue="<%= new Date()%>"/>
+            </c:otherwise>
+        </c:choose>
+    </td>
+    <td></td>
+    <%--</c:otherwise>--%>
     <%--</c:choose>--%>
 </tr>
 <c:if test="${offStudy}">

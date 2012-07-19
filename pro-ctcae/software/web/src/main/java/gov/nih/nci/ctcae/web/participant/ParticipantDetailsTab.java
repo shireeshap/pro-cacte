@@ -327,6 +327,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     studyMode.getMode().getDisplayName();
                 }
             }
+            command.setOnDefaultArm(command.getSelectedStudyParticipantAssignment().getArm().isDefaultArm());
             for (AppMode appMode : command.getSelectedStudyParticipantAssignment().getSelectedAppModes()) {
                 if (appMode.equals(AppMode.IVRS)) {
                     showTime = true;

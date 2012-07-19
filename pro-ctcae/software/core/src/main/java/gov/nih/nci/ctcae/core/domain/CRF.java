@@ -253,6 +253,16 @@ public class CRF extends BaseVersionable {
         return studyParticipantCrfs;
     }
 
+    public List<FormArmSchedule> getNonDefaultFormArmSchedules() {
+        List<FormArmSchedule> ndformarms = new ArrayList<FormArmSchedule>();
+        for (FormArmSchedule formarm : getFormArmSchedules()) {
+            if (!formarm.getArm().isDefaultArm()) {
+                ndformarms.add(formarm);
+            }
+        }
+        return ndformarms;
+    }
+
     /**
      * Adds the study participant crf.
      *
