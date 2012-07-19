@@ -147,7 +147,7 @@
                         <c:choose>
                             <c:when test="${command.onDefaultArm}">
                                 <td class="data" align="right" width="20%">
-                                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+                                    <b><span class="required-indicator">&nbsp;&nbsp;</span><spring:message
                                             code="study.label.arm"/></b>
                                 </td>
                                 <td width="50%" class="data">
