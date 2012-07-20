@@ -19,9 +19,9 @@ public class StudyLevelReportTest extends WebTestCase {
 
     ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3;
     ProCtcTerm proCtcTerm, proCtcTerm1;
-    ArrayList<ProCtcValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
-    TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap1, symptomMap2;
-    TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results;
+    ArrayList<ValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
+    TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap1, symptomMap2;
+    TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> results;
     ArrayList<Date> dates1, dates2;
     LinkedHashMap<Participant, ArrayList<Date>> datesMap;
 
@@ -70,7 +70,7 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcQuestion1.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
         proCtcQuestion1.setProCtcTerm(proCtcTerm);
 
-        proCtcValidValueList1 = new ArrayList<ProCtcValidValue>();
+        proCtcValidValueList1 = new ArrayList<ValidValue>();
 
         ProCtcValidValue proCtcValidValue11 = new ProCtcValidValue();
         proCtcValidValue11.setValue(ProCtcQuestionType.SEVERITY.getValidValues()[0], SupportedLanguageEnum.ENGLISH);
@@ -95,7 +95,7 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcQuestion2.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
         proCtcQuestion2.setProCtcTerm(proCtcTerm);
 
-        proCtcValidValueList2 = new ArrayList<ProCtcValidValue>();
+        proCtcValidValueList2 = new ArrayList<ValidValue>();
 
         ProCtcValidValue proCtcValidValue21 = new ProCtcValidValue();
         proCtcValidValue21.setValue(ProCtcQuestionType.FREQUENCY.getValidValues()[2], SupportedLanguageEnum.ENGLISH);
@@ -120,7 +120,7 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcQuestion3.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
         proCtcQuestion3.setProCtcTerm(proCtcTerm);
 
-        proCtcValidValueList3 = new ArrayList<ProCtcValidValue>();
+        proCtcValidValueList3 = new ArrayList<ValidValue>();
 
         ProCtcValidValue proCtcValidValue31 = new ProCtcValidValue();
         proCtcValidValue31.setValue(ProCtcQuestionType.INTERFERENCE.getValidValues()[1], SupportedLanguageEnum.ENGLISH);
@@ -141,10 +141,10 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcValidValueList3.add(proCtcValidValue32);
         proCtcValidValueList3.add(proCtcValidValue33);
 
-        results = new TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>>(new OrganizationNameComparator());
+        results = new TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>(new OrganizationNameComparator());
 
-        LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms1 = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
-        LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms2 = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
+        LinkedHashMap<Question, ArrayList<ValidValue>> symptoms1 = new LinkedHashMap<Question, ArrayList<ValidValue>>();
+        LinkedHashMap<Question, ArrayList<ValidValue>> symptoms2 = new LinkedHashMap<Question, ArrayList<ValidValue>>();
         proCtcTerm.addProCtcQuestion(proCtcQuestion1);
         proCtcTerm.addProCtcQuestion(proCtcQuestion2);
         proCtcTerm.addProCtcQuestion(proCtcQuestion3);
@@ -154,14 +154,14 @@ public class StudyLevelReportTest extends WebTestCase {
         symptoms2.put(proCtcQuestion3, proCtcValidValueList3);
         Organization organization = Fixture.createOrganization("orgname", "orgcode");
         Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", organization);
-        symptomMap1 = new TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-        symptomMap2 = new TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-        symptomMap1.put(proCtcTerm, symptoms1);
-        symptomMap1.put(proCtcTerm2, symptoms1);
-        symptomMap2.put(proCtcTerm1, symptoms2);
-        symptomMap2.put(proCtcTerm3, symptoms2);
+        symptomMap1 = new TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>();
+        symptomMap2 = new TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>();
+        symptomMap1.put(proCtcTerm.getProCtcTermVocab().getTermEnglish(), symptoms1);
+        symptomMap1.put(proCtcTerm2.getProCtcTermVocab().getTermEnglish(), symptoms1);
+        symptomMap2.put(proCtcTerm1.getProCtcTermVocab().getTermEnglish(), symptoms2);
+        symptomMap2.put(proCtcTerm3.getProCtcTermVocab().getTermEnglish(), symptoms2);
 
-        TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> pMap = new TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
+        TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> pMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>(new ParticipantNameComparator());
         pMap.put(participant1, symptomMap1);
         pMap.put(participant2, symptomMap2);
         results.put(organization, pMap);

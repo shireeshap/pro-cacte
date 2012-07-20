@@ -95,20 +95,10 @@ public class ParticipantLevelReportResultsController extends AbstractController 
                 String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                 participantAddedQuestion = false;
-//                if (value != null){
                 buildMap(proCtcQuestion, new String[]{"P_" + symptomId, symptom}, value, symptomMap, careResults, participantAddedQuestion, arraySize, firstQuestion, dateIndex);
-//                }
             }
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
                 Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
-//                ProCtcQuestion addedProQuestion = new ProCtcQuestion();
-//                if (question instanceof ProCtcQuestion) {
-//                    addedProQuestion = (ProCtcQuestion) question;
-//                }
-//                ProCtcQuestion firstQuestion = new ProCtcQuestion();
-//                if (addedProQuestion != null && addedProQuestion.getDisplayOrder() == 1) {
-//                    firstQuestion = addedProQuestion;
-//                }
                 String symptomId = question.getStringId();
                 String symptom = question.getQuestionSymptom();
                 ValidValue value;
