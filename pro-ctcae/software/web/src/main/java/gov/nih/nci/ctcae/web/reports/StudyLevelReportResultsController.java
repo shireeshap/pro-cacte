@@ -38,7 +38,7 @@ public class StudyLevelReportResultsController extends AbstractController {
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
         LinkedHashMap<Participant, ArrayList<Date>> datesMap = new LinkedHashMap<Participant, ArrayList<Date>>();
 
-        TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results = getCareResults(datesMap, list);
+        TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results = getCareResults(datesMap, list);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
         modelAndView.addObject("table", getHtmlTable(results, datesMap));
 
@@ -48,11 +48,11 @@ public class StudyLevelReportResultsController extends AbstractController {
         return modelAndView;
     }
 
-    private TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> getCareResults(LinkedHashMap<Participant, ArrayList<Date>> datesMap, List<StudyParticipantCrfSchedule> schedules) throws ParseException {
+    private TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> getCareResults(LinkedHashMap<Participant, ArrayList<Date>> datesMap, List<StudyParticipantCrfSchedule> schedules) throws ParseException {
 
-        TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> organizationMap = new TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>>(new OrganizationNameComparator());
-        TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap;
-        TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap;
+        TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> organizationMap = new TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>>(new OrganizationNameComparator());
+        TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap;
+        TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap;
         ArrayList<Date> dates;
 
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
@@ -60,14 +60,14 @@ public class StudyLevelReportResultsController extends AbstractController {
             if (organizationMap.containsKey(organization)) {
                 participantMap = organizationMap.get(organization);
             } else {
-                participantMap = new TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
+                participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
                 organizationMap.put(organization, participantMap);
             }
             Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
             if (participantMap.containsKey(participant)) {
                 symptomMap = participantMap.get(participant);
             } else {
-                symptomMap = new TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
+                symptomMap = new TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>();
                 participantMap.put(participant, symptomMap);
             }
             if (datesMap.containsKey(participant)) {
@@ -79,24 +79,27 @@ public class StudyLevelReportResultsController extends AbstractController {
             dates.add(studyParticipantCrfSchedule.getStartDate());
             StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
             ProCtcQuestion proCtcQuestion;
-            ProCtcTerm symptom;
+            String symptom;
             ProCtcValidValue value;
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                 if (proCtcQuestion.getDisplayOrder() == 1) {
                     firstQuestion = studyParticipantCrfItem;
                 }
-                symptom = proCtcQuestion.getProCtcTerm();
+                symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
                 value = studyParticipantCrfItem.getProCtcValidValue();
-                buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() -1);
+                buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() - 1);
             }
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-                  if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion()!=null) {
-                      proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion();
-                      value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
-                      symptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm();
-                      buildMap(proCtcQuestion, symptom, value, symptomMap, null, datesMap.get(participant).size() -1);
-                  }
+                Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
+                String addedSymptom = question.getQuestionSymptom();
+                ValidValue validValue;
+                if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
+                    proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion();
+                    value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                    symptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+                    buildMap(proCtcQuestion, symptom, value, symptomMap, null, datesMap.get(participant).size() - 1);
+                }
 
             }
         }
@@ -104,11 +107,11 @@ public class StudyLevelReportResultsController extends AbstractController {
         return organizationMap;
     }
 
-    public TreeMap<Organization, TreeMap<Participant, String>> getHtmlTable(TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results, LinkedHashMap<Participant, ArrayList<Date>> datesMap) {
+    public TreeMap<Organization, TreeMap<Participant, String>> getHtmlTable(TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results, LinkedHashMap<Participant, ArrayList<Date>> datesMap) {
         TreeMap<Organization, TreeMap<Participant, String>> organizationTableMap = new TreeMap<Organization, TreeMap<Participant, String>>(new OrganizationNameComparator());
 
         for (Organization organization : results.keySet()) {
-            TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap = results.get(organization);
+            TreeMap<Participant, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap = results.get(organization);
             TreeMap<Participant, String> tableMap = new TreeMap<Participant, String>(new ParticipantNameComparator());
             organizationTableMap.put(organization, tableMap);
             for (Participant participant : participantMap.keySet()) {
@@ -117,8 +120,8 @@ public class StudyLevelReportResultsController extends AbstractController {
                 ArrayList valuesLists = new ArrayList();
 
                 int numOfColumns = 1;
-                TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = participantMap.get(participant);
-                for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = participantMap.get(participant);
+                for (String proCtcTerm : symptomMap.keySet()) {
                     LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
                     numOfColumns = numOfColumns + questionMap.keySet().size();
                     for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
@@ -129,14 +132,14 @@ public class StudyLevelReportResultsController extends AbstractController {
 
                 startRow(table);
                 addColumn(table, "", 1, "");
-                for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                for (String proCtcTerm : symptomMap.keySet()) {
                     LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    addColumn(table, proCtcTerm.getProCtcTermVocab().getTermEnglish(), questionMap.keySet().size(), "header-top");
+                    addColumn(table, proCtcTerm, questionMap.keySet().size(), "header-top");
                 }
                 endRow(table);
                 startRow(table);
                 addColumn(table, "", 1, "");
-                for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                for (String proCtcTerm : symptomMap.keySet()) {
                     LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
                     for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
                         addColumn(table, proCtcQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
@@ -158,12 +161,12 @@ public class StudyLevelReportResultsController extends AbstractController {
                         startRow(table);
                         addColumn(table, DateUtils.format(date), 1, "");
                         for (Object obj : valuesLists) {
-                        	valueList = (ArrayList<ProCtcValidValue>) obj;
-                        	if(valueList.size() > index && valueList.get(index) != null){
-                        		addColumn(table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
-                        	} else {
-                        		addColumn(table, "", 1, "data");
-                        	}
+                            valueList = (ArrayList<ProCtcValidValue>) obj;
+                            if (valueList.size() > index && valueList.get(index) != null) {
+                                addColumn(table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
+                            } else {
+                                addColumn(table, "", 1, "data");
+                            }
                         }
                         index++;
                         endRow(table);
@@ -178,7 +181,7 @@ public class StudyLevelReportResultsController extends AbstractController {
     }
 
 
-    private void buildMap(ProCtcQuestion proCtcQuestion, ProCtcTerm symptom, ProCtcValidValue value, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap, StudyParticipantCrfItem firstQuestion, Integer dateIndex) {
+    private void buildMap(ProCtcQuestion proCtcQuestion, String symptom, ProCtcValidValue value, TreeMap<String, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap, StudyParticipantCrfItem firstQuestion, Integer dateIndex) {
         LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
         ArrayList<ProCtcValidValue> validValue;
         if (symptomMap.containsKey(symptom)) {
@@ -192,10 +195,10 @@ public class StudyLevelReportResultsController extends AbstractController {
             validValue = careResults.get(proCtcQuestion);
         } else {
             validValue = new ArrayList<ProCtcValidValue>();
-            for(int j=0;j<=dateIndex;j++){
-            	if(validValue.size() < j){
-            		validValue.add(null);
-            	}
+            for (int j = 0; j <= dateIndex; j++) {
+                if (validValue.size() < j) {
+                    validValue.add(null);
+                }
             }
             careResults.put(proCtcQuestion, validValue);
         }
@@ -230,7 +233,7 @@ public class StudyLevelReportResultsController extends AbstractController {
         CRF crf = genericRepository.findById(CRF.class, crfId);
         List<Integer> crfIds = new ArrayList();
         crfIds.add(crfId);
-        if (crf.getParentCrf()!=null) {
+        if (crf.getParentCrf() != null) {
             crfIds.add(crf.getParentCrf().getId());
         }
         query.filterByCRFIds(crfIds);
