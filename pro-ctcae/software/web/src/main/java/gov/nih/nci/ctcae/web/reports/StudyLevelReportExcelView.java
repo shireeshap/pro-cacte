@@ -1,14 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +30,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 public class StudyLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results = (TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> results = (TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>) request.getSession().getAttribute("sessionResultsMap");
         LinkedHashMap<Participant, ArrayList<Date>> datesMap = (LinkedHashMap<Participant, ArrayList<Date>>) request.getSession().getAttribute("sessionDatesMap");
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
@@ -303,15 +296,26 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
             cell.setCellValue(new HSSFRichTextString("Date"));
             cell.setCellStyle(greyStyle);
 
-            TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap = results.get(organization);
+            TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap = results.get(organization);
             for (Participant participant : participantMap.keySet()) {
-                TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap0 = participantMap.get(participant);
-                for (ProCtcTerm proCtcTerm : symptomMap0.keySet()) {
-                    LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap0.get(proCtcTerm);
-                    for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap0 = participantMap.get(participant);
+                for (String proCtcTerm : symptomMap0.keySet()) {
+                    LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap0.get(proCtcTerm);
+                    for (Question question : questionMap.keySet()) {
+                        ProCtcQuestion proQuestion = new ProCtcQuestion();
+                        MeddraQuestion meddraQuestion = new MeddraQuestion();
                         cell = rowSymptomQuestion.createCell(symptomCellNum++);
                         cell.setCellStyle(greyStyle);
-                        cell.setCellValue(new HSSFRichTextString(proCtcTerm.getProCtcTermVocab().getTermEnglish() + "_" + proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                        if (question instanceof ProCtcQuestion) {
+                            proQuestion = (ProCtcQuestion) question;
+                            cell.setCellValue(new HSSFRichTextString(proCtcTerm + "_" + proQuestion.getProCtcQuestionType().getDisplayName()));
+                        }
+                        if (question instanceof MeddraQuestion) {
+                            meddraQuestion = (MeddraQuestion) question;
+                            cell.setCellValue(new HSSFRichTextString(proCtcTerm + "_" + meddraQuestion.getProCtcQuestionType().getDisplayName()));
+                        }
+
+
                     }
                 }
                 break;
@@ -319,7 +323,7 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
 
             for (Participant participant : participantMap.keySet()) {
 
-                TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = participantMap.get(participant);
+                TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap = participantMap.get(participant);
                 short symptomCellRow = rownum;
                 short questionCellNum = 0;
 
@@ -340,13 +344,15 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
                 }
 
                 short cellNum = 2;
-                for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
-                    LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
-                        ArrayList<ProCtcValidValue> valuesList = questionMap.get(proCtcQuestion);
-
+                for (String proCtcTerm : symptomMap.keySet()) {
+                    LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                    for (Question proCtcQuestion : questionMap.keySet()) {
+                        ArrayList<ValidValue> valuesList = questionMap.get(proCtcQuestion);
+                        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
+                        MeddraValidValue meddraValidValue = new MeddraValidValue();
                         short index = 0;
-                        for (ProCtcValidValue proCtcValidValue : valuesList) {
+                        for (ValidValue validValue : valuesList) {
+
                             row = hssfSheet.getRow(rownum - (valuesList.size() - index));
                             cell = row.createCell((short) 0);
                             cell.setCellStyle(centerStyle);
@@ -354,7 +360,14 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
 
                             cell = row.createCell(cellNum);
                             cell.setCellStyle(centerStyle);
-                            cell.setCellValue(proCtcValidValue.getResponseCode());
+                            if (validValue instanceof ProCtcValidValue) {
+                                proCtcValidValue = (ProCtcValidValue) validValue;
+                                cell.setCellValue(proCtcValidValue.getResponseCode());
+                            }
+                            if (validValue instanceof MeddraValidValue) {
+                                meddraValidValue = (MeddraValidValue) validValue;
+                                cell.setCellValue(meddraValidValue.getDisplayOrder());
+                            }
                             index++;
                         }
                         cellNum++;
