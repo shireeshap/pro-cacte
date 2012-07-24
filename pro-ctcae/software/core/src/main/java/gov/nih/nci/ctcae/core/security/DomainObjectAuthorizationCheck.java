@@ -83,7 +83,7 @@ public class DomainObjectAuthorizationCheck {
 			}
     	} else {
             for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
-                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
+                if (StringUtils.equals(grantedAuthority.getAuthority(), privilege) || StringUtils.equals(grantedAuthority.getAuthority(), persistable.getClass() + ".GROUP")) {
                     logger.debug(String.format("User %s is having privilege %s on %s object. So Returning this object.",
                             authentication.getName(), privilege, persistable.getClass().getName()));
                     return true;

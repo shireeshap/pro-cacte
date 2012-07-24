@@ -115,9 +115,9 @@ public class DomainObjectPrivilegeGenerator {
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
         if (isStudyLevel(studyOrganization, studyOrganizationClinicalStaff)) {
             privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
-            privileges.add(generateGroupPrivilegeForOrganizations());
+            //privileges.add(generateGroupPrivilegeForOrganizations());
             for (StudyOrganization so : studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getStudyOrganizations()) {
-                privileges.add(generatePrivilege(so.getOrganization()));
+                privileges.add(generatePrivilegeForPersistable(so));
             }
         }
         privileges.add(generatePrivilege(studyOrganization.getStudy()));
@@ -187,6 +187,10 @@ public class DomainObjectPrivilegeGenerator {
     }
 
 
+    public String generateGroupPrivilege(Class clazz){
+    	return clazz.getName() + ".GROUP";
+    }
+    
     private String generateGroupPrivilegeForStudyOrganization(StudyOrganization studyOrganization) {
         return StudyOrganization.class.getName() + ".Study." + studyOrganization.getStudy().getId();
     }

@@ -61,7 +61,7 @@ public class FetchClinicalStaffController extends AbstractController {
             searchStrings = searchString.split("\\s+");
         }
         Long totalRecords = clinicalStaffAjaxFacade.resultCount(searchStrings);
-        List<ClinicalStaff>  finalClinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStrings,startIndexInt,resultsInt,sort,dir);
+        List<ClinicalStaff>  finalClinicalStaffs = clinicalStaffAjaxFacade.searchClinicalStaff(searchStrings,startIndexInt,resultsInt,sort,dir, totalRecords);
         SearchClinicalStaffWrapper searchClinicalStaffWrapper = new SearchClinicalStaffWrapper();
         searchClinicalStaffWrapper.setTotalRecords(totalRecords);
         searchClinicalStaffWrapper.setRecordsReturned(25);
@@ -74,21 +74,21 @@ public class FetchClinicalStaffController extends AbstractController {
             SearchClinicalStaffDTO dto = new SearchClinicalStaffDTO();
 
             String firstName = clinicalStaff.getFirstName();
-            dto.setFirstName(searchStringHighlight(firstName,searchStrings));
+            dto.setFirstName(firstName);
 
             String lastName = clinicalStaff.getLastName();
-            dto.setLastName(searchStringHighlight(lastName,searchStrings));
+            dto.setLastName(lastName);
 
             dto.setStatus(clinicalStaff.getStatus().getDisplayName() + " from " + DateUtils.format(clinicalStaff.getEffectiveDate()));
 
             String studyNames = getStudyNames(clinicalStaff);
-            dto.setStudy(searchStringHighlight(studyNames,searchStrings));
+            dto.setStudy(studyNames);
 
             String siteNames = getSiteNames(clinicalStaff);
-            dto.setSite(searchStringHighlight(siteNames,searchStrings));
+            dto.setSite(siteNames);
 
             String identifier = clinicalStaff.getNciIdentifier();
-            dto.setNciIdentifier(searchStringHighlight(identifier,searchStrings));
+            dto.setNciIdentifier(identifier);
 
             boolean odc = false;
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -71,6 +71,14 @@ public class ClinicalStaffQuery extends AbstractQuery {
         if (!showInactive) {
             filterByActive();
         }
+        
+//        List<Integer> objectIds = new ArrayList<Integer>();
+//        if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
+//            User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+//            objectIds = currentLoggedInUser.findAccessibleObjectIds(Organization.class);
+//        }
+//        filterByOrganization(objectIds);
+        
     }
 
 
