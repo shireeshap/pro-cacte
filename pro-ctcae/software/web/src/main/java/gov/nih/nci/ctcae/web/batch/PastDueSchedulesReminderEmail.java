@@ -44,8 +44,8 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     @Transactional
     public void generateEmailReports() {
 
-        Map<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap = new HashMap<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>>();
-        Map<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>> studyParticipantAndSchedulesMap = new HashMap<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>>();
+        Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap = new HashMap<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>>();
+        Map<StudyParticipantAssignment, List<StudyParticipantCrfSchedule>> studyParticipantAndSchedulesMap = new HashMap<StudyParticipantAssignment, List<StudyParticipantCrfSchedule>>();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
         Session session = getHibernateTemplate().getSessionFactory().openSession();
@@ -61,10 +61,14 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Date yesterday = ProCtcAECalendar.getCalendarForDate(cal.getTime()).getTime();
         boolean web = false;
         for (Study study : studies) {
+//            List<StudyOrganizationClinicalStaff> clinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
+
             for (StudySite studySite : study.getStudySites()) {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
-                clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+                if (study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA)!= null) {
+                clinicalStaffList.add(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+                }
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     if (studyParticipantAssignment.getStatus() != null && studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
                         for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
@@ -153,49 +157,49 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         logger.error("Nightly trigger bean job ends....");
     }
 
-    private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, SortedSet<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        SortedSet<StudyParticipantCrfSchedule> participantAssignmentSet = siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff);
+    private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        List<StudyParticipantCrfSchedule> participantAssignmentSet = siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff);
         if (participantAssignmentSet == null) {
-            participantAssignmentSet = new TreeSet<StudyParticipantCrfSchedule>();
+            participantAssignmentSet = new ArrayList<StudyParticipantCrfSchedule>();
             siteClincalStaffAndParticipantAssignmentMap.put(studyOrganizationClinicalStaff, participantAssignmentSet);
         }
         participantAssignmentSet.add(studyParticipantCrfSchedule);
     }
 
-    private void addScheduleForParticipant(Map<StudyParticipantAssignment, Set<StudyParticipantCrfSchedule>> studyParticipantAndScheduleMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantAssignment studyParticipantAssignment) {
-        Set<StudyParticipantCrfSchedule> studyParticipantCrfScheduleSet = studyParticipantAndScheduleMap.get(studyParticipantAssignment);
+    private void addScheduleForParticipant(Map<StudyParticipantAssignment, List<StudyParticipantCrfSchedule>> studyParticipantAndScheduleMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantAssignment studyParticipantAssignment) {
+        List<StudyParticipantCrfSchedule> studyParticipantCrfScheduleSet = studyParticipantAndScheduleMap.get(studyParticipantAssignment);
         if (studyParticipantCrfScheduleSet == null) {
-            studyParticipantCrfScheduleSet = new HashSet<StudyParticipantCrfSchedule>();
+            studyParticipantCrfScheduleSet = new ArrayList<StudyParticipantCrfSchedule>();
             studyParticipantAndScheduleMap.put(studyParticipantAssignment, studyParticipantCrfScheduleSet);
         }
         studyParticipantCrfScheduleSet.add(studyParticipantCrfSchedule);
     }
 
-    private String getHtmlContent(SortedSet<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        Map<Study, Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>> studySiteScehduleMap = new LinkedHashMap<Study, Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>>();
+    private String getHtmlContent(List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        Map<Study, Map<StudySite, Map<CRF, List<StudyParticipantCrfSchedule>>>> studySiteScehduleMap = new LinkedHashMap<Study, Map<StudySite, Map<CRF, List<StudyParticipantCrfSchedule>>>>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
             StudySite studySite = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite();
             Study study = studySite.getStudy();
             CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
-            Map<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>> map;
+            Map<StudySite, Map<CRF, List<StudyParticipantCrfSchedule>>> map;
             if (studySiteScehduleMap.containsKey(study)) {
                 map = studySiteScehduleMap.get(study);
             } else {
-                map = new LinkedHashMap<StudySite, Map<CRF, SortedSet<StudyParticipantCrfSchedule>>>();
+                map = new LinkedHashMap<StudySite, Map<CRF, List<StudyParticipantCrfSchedule>>>();
                 studySiteScehduleMap.put(study, map);
             }
-            Map<CRF, SortedSet<StudyParticipantCrfSchedule>> formschedules;
+            Map<CRF, List<StudyParticipantCrfSchedule>> formschedules;
             if (map.containsKey(studySite)) {
                 formschedules = map.get(studySite);
             } else {
-                formschedules = new LinkedHashMap<CRF, SortedSet<StudyParticipantCrfSchedule>>();
+                formschedules = new LinkedHashMap<CRF, List<StudyParticipantCrfSchedule>>();
                 map.put(studySite, formschedules);
             }
-            SortedSet<StudyParticipantCrfSchedule> participantCrfScheduleSet;
+            List<StudyParticipantCrfSchedule> participantCrfScheduleSet;
             if (formschedules.containsKey(crf)) {
                 participantCrfScheduleSet = formschedules.get(crf);
             } else {
-                participantCrfScheduleSet = new TreeSet<StudyParticipantCrfSchedule>();
+                participantCrfScheduleSet = new ArrayList<StudyParticipantCrfSchedule>();
                 formschedules.put(crf, participantCrfScheduleSet);
             }
             participantCrfScheduleSet.add(studyParticipantCrfSchedule);
@@ -226,7 +230,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         return emailContent.toString();
     }
 
-    private String getHtmlContentForParticipantEmail(Set<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyParticipantAssignment studyParticipantAssignment) {
+    private String getHtmlContentForParticipantEmail(List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyParticipantAssignment studyParticipantAssignment) {
 //        Map<CRF, Set<StudyParticipantCrfSchedule>> participantCrfScheduleMap = new LinkedHashMap<CRF, Set<StudyParticipantCrfSchedule>>();
 //        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
 //            CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
