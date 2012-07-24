@@ -549,17 +549,7 @@ public class Study extends BasePersistable {
     }
 
     public List<StudyMode> getStudyModes() {
-        List<StudyMode> sModes = new ArrayList();
-        List<AppMode> appModes = new ArrayList();
-        if (studyModes!=null) {
-            for (StudyMode sMode : studyModes) {
-                if(!appModes.contains(sMode.getMode())) {
-                    appModes.add(sMode.getMode());
-                    sModes.add(sMode);
-                }
-            }
-        }
-        return sModes;
+        return studyModes;
     }
 
     public void addStudyMode(StudyMode mode) {

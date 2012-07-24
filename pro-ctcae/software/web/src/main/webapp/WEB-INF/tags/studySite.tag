@@ -93,8 +93,6 @@
             <li><spring:message code='special.character.message'
                                 text='special.character.message'/></li>
         </ul>
-        <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
     </td>
     <td></td>
 </tr>
@@ -187,23 +185,7 @@
 </tr>
 
 <tr>
-    <%--<c:choose>--%>
-    <%--<c:when test="${offStudy}">--%>
-    <%--<td align="right" class="data" width="20%">--%>
-    <%--<b><spring:message code="participant.label.startdate"/></b>--%>
-    <%--</td>--%>
-    <%--<td class="data" width="50%">   &nbsp;&nbsp;--%>
-    <%--<input type="hidden" id="study_date_${studysite.id}" class="date validate-NOTEMPTY&&DATE" name="study_date_${studysite.id}"--%>
-    <%--title=""--%>
-    <%--value="<tags:formatDate value="${studyParticipantAssignment.studyStartDate}"/>"--%>
-    <%--/>   ${studyParticipantAssignment.studyStartDate}--%>
-    <%----%>
-    <%--</td>--%>
 
-
-    <%--</c:when>--%>
-    <%--<c:otherwise>--%>
-    <%--<td width="20%"></td>--%>
     <td align="right" class="data" width="20%">
         <b><spring:message code="participant.label.startdate"/></b>
     </td>
@@ -224,14 +206,14 @@
         </c:choose>
     </td>
     <td></td>
-    <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
+
 </tr>
 <c:if test="${offStudy}">
     <p align="center">
         <font color="#990000"><br><b> This participant has been taken off study. </b></font>
     </p>
 </c:if>
+
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td colspan="3">
@@ -239,19 +221,23 @@
         <br>
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
-                <c:choose>
-                    <c:when test="${hweb}">
-                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
-                                                        value="HOMEWEB"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                        <br>
-                    </c:when>
-                    <c:otherwise>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                        <br>
-                    </c:otherwise>
-                </c:choose>
+                    <c:choose>
+                        <c:when test="${hweb}">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="${hweb}"
+                                                            value="HOMEWEB"
+                                                            onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                            <br>
+                            <c:set var="isWebAdded" value="true"/>
+
+                        </c:when>
+                        <c:otherwise>
+                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
+                                                            onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                            <br>
+                            <c:set var="isWebAdded" value="true"/>
+                        </c:otherwise>
+                    </c:choose>
             </c:if>
         </c:forEach>
     </chrome:division>
@@ -259,7 +245,6 @@
 
 </tr>
 <tr>
-        <%--<td width="20%"></td>--%>
     <td colspan="2">
 
         <div id="passwordfields" style="margin-left:45px">
@@ -300,25 +285,10 @@
                                             <li><spring:message code='participant.username_length'
                                                                 text='participant.username_length'/></li>
                                         </ul>
-                                            <%--<ul id="UserPatternError_${studysite.id}" style="display:none;" class="errors">--%>
-                                            <%--<li><spring:message code='participant.usernumber_pattern'--%>
-                                            <%--text='participant.usernumber_pattern'/></li>--%>
-                                            <%--</ul>--%>
+
                                     </div>
 
                                 </div>
-                                <%--<tags:renderText propertyName="participant.user.username"--%>
-                                <%--displayName="participant.label.username"--%>
-                                <%--required="true" onblur="checkParticipantUserName();"/>--%>
-                                <%--<ul id="userNameError" style="display:none; padding-left:12em " class="errors">--%>
-                                <%--<li><spring:message code='participant.unique_userName'--%>
-                                <%--text='participant.unique_userName'/></li>--%>
-                                <%--</ul>--%>
-                                <%--<ul id="userNameLengthError" style="display:none; padding-left:12em "--%>
-                                <%--class="errors">--%>
-                                <%--<li><spring:message code='participant.username_length'--%>
-                                <%--text='participant.username_length'/></li>--%>
-                                <%--</ul>--%>
 
                             </c:otherwise>
                         </c:choose>
@@ -354,12 +324,7 @@
                             </div>
 
                         </div>
-                            <%--<tags:renderPassword required="true" propertyName="participant.user.password"--%>
-                            <%--displayName="participant.label.password"--%>
-                            <%--onblur="checkPasswordPolicy();"/>--%>
-                            <%--<ul id="passwordError" style="display:none; padding-left:12em " class="errors">--%>
-                            <%--<li id="passwordError1"></li>--%>
-                            <%--</ul>--%>
+
                         <div class="row">
                             <div id="emailHeader_${studysite.id}" class="label"><spring:message
                                     code="participant.label.email_address"/>&nbsp;</div>
@@ -419,7 +384,7 @@
     <td></td>
 </tr>
 <tr>
-        <%--<td width="20%"></td>--%>
+
     <td colspan="3">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.name eq 'IVRS'}">
@@ -579,9 +544,7 @@
                         </select>&nbsp;
                         <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"
                                 title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
-                                <%-- <option value="" ${studyParticipantAssignment.callTimeZone eq "" ? "selected='selected'" : " "} >
-                                    Please select
-                                </option>--%>
+
                             <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
                                 Eastern Time
                             </option>
@@ -635,15 +598,6 @@
 </td>
 <td valign="top"><br><br> <br><br>
 
-
-        <%--<div class="row">--%>
-        <%--<div class="label">--%>
-        <%--<span class="required-indicator">*&nbsp; </span>Time zone--%>
-        <%--</div>--%>
-        <%--<div class="value">--%>
-        <%----%>
-        <%--</div>--%>
-        <%--</div>--%>
 </td>
 </tr>
 
@@ -653,7 +607,6 @@
 <td></td>
 </tr>
 <tr>
-        <%--<td width="20%"></td>--%>
     <td colspan="2">
         <c:forEach items="${studysite.study.studyModes}" var="studyMode">
             <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
@@ -678,7 +631,6 @@
 
 </tr>
 <tr>
-        <%--<td width="20%"></td>--%>
     <td colspan="2">
 
         <div style="margin-left:45px">
