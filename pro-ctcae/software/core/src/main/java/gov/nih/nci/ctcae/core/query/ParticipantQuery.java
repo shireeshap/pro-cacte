@@ -1,6 +1,14 @@
 package gov.nih.nci.ctcae.core.query;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.security.ApplicationSecurityManager;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,7 +29,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
 
     private static String queryString1 = "SELECT count(distinct p) from Participant p";
 
-    private static String queryString2 = "SELECT p from Participant p";
+    private static String queryString2 = "SELECT distinct p from Participant p";
 
     /**
      * The FIRS t_ name.
@@ -54,6 +62,9 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static final String SHORT_TITLE = "shortTitle";
     private static final String LONG_TITLE = "longTitle";
     private static final String NAME = "name";
+    
+    private boolean isStudySiteLevel = false;
+    private boolean isStudyLevel =false;
 
     /**
      * Instantiates a new participant query.
@@ -82,7 +93,45 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
             leftJoinStudySites();
         }
     }
+    
+    public ParticipantQuery(boolean count, Role role, boolean secure) {
+        super(queryString1, false);
+        User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+        List<Integer> objectIds = new ArrayList<Integer>();
+        if (secure) {
+            leftJoinStudySites();
+            if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
+            	//give study level access to participants
+            	isStudyLevel = true;
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
 
+            } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
+            	isStudySiteLevel = true;
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudySite.class);
+            }
+        }
+        filterByObjectIds(objectIds);
+    }
+
+    public ParticipantQuery(Role role, boolean secure) {
+        super(queryString2, false);
+        User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+        List<Integer> objectIds = new ArrayList<Integer>();
+        if (secure) {
+            leftJoinStudySites();
+            if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
+            	//give study level access to participants
+            	isStudyLevel = true;
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
+
+            } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
+            	isStudySiteLevel = true;
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudySite.class);
+            }
+        }
+        filterByObjectIds(objectIds);
+
+    }
 
     /**
      * Filter by participant first name.
@@ -173,18 +222,14 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                 "or lower(p.lastName) LIKE :%s " +
                 "or lower(p.assignedIdentifier) LIKE :%s " +
-                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, STUDY_PARTICIPANT_IDENTIFIER+key));
+                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s " +
+                "or lower(study.shortTitle) LIKE :%s " +
+                "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, STUDY_PARTICIPANT_IDENTIFIER+key, SHORT_TITLE+key, NAME+key));
         setParameter(IDENTIFIER+key, searchString);
         setParameter(FIRST_NAME+key, searchString);
         setParameter(LAST_NAME+key, searchString);
         setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, searchString);
-
-
-        orWhere(String.format("lower(study.shortTitle) LIKE :%s", SHORT_TITLE+key));
         setParameter(SHORT_TITLE+key, searchString);
-
-
-        orWhere(String.format("lower(ss.organization.name) LIKE :%s", NAME+key));
         setParameter(NAME+key, searchString);
     }
 
@@ -222,7 +267,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     }
 
     public void leftJoinStudySites() {
-        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
     }
 
     public void filterByUsername(String username) {
@@ -325,7 +370,10 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     }
 
     protected String getObjectIdQueryString() {
-        return "ss.organization.id";
+    	if(isStudySiteLevel){
+    		return "ss.id";
+    	}
+        return "ss.study.id";
     }
 
 

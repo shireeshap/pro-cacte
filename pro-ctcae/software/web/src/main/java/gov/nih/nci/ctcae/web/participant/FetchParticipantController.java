@@ -1,11 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public class FetchParticipantController extends AbstractController {
     StudyRepository studyRepository;
     OrganizationRepository organizationRepository;
     protected Properties proCtcAEProperties;
+    
+    List<Participant> completeParticipantsList = new ArrayList<Participant>();
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -40,8 +45,10 @@ public class FetchParticipantController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("participant/searchParticipant");
-        String useReqParam = request.getParameter("useReqParam");
+        List<Participant> participantsForCurrentSearch = new ArrayList<Participant>();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        String useReqParam = request.getParameter("useReqParam");
         String startIndex = request.getParameter("startIndex");
         String results = request.getParameter("results");
         String sortField = request.getParameter("sort");
@@ -60,22 +67,37 @@ public class FetchParticipantController extends AbstractController {
              searchString.trim();
              searchStrings = searchString.split("\\s+");
         }
+        Integer resultsCount = Integer.valueOf(results);
+        Integer totalRecords = 0;
 
-        List<Participant> participants = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), Integer.valueOf(results), sortField, direction);
-        Long totalRecords = participantAjaxFacade.resultCount(searchStrings);
-//        List<Participant> sortedParticipants = participantAjaxFacade.getSortedParticipants();
+        participantsForCurrentSearch = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), resultsCount, sortField, direction);
+    	totalRecords = participantAjaxFacade.resultCount(searchStrings).intValue();
+        
+        
+//        if(resultsCount > completeParticipantsList.size()){
+//        	resultsCount = completeParticipantsList.size();
+//        }
+//        participantsForCurrentSearch = completeParticipantsList.subList(Integer.valueOf(startIndex), resultsCount);
+        //Long totalRecords = participantAjaxFacade.resultCount(searchStrings);
 
         Participant participant;
         SearchParticipantWrapper searchParticipantWrapper = new SearchParticipantWrapper();
-        searchParticipantWrapper.setTotalRecords(totalRecords);
+        searchParticipantWrapper.setTotalRecords(Long.valueOf(totalRecords));
         searchParticipantWrapper.setRecordsReturned(25);
         searchParticipantWrapper.setStartIndex(Integer.valueOf(startIndex));
         searchParticipantWrapper.setPageSize(25);
         searchParticipantWrapper.setDir("asc");
-        searchParticipantWrapper.setSearchParticipantDTOs(new SearchParticipantDTO[participants.size()]);
+        searchParticipantWrapper.setSearchParticipantDTOs(new SearchParticipantDTO[participantsForCurrentSearch.size()]);
         SearchParticipantDTO searchParticipantDTO;
-        for (int index = 0; index < participants.size(); index++) {
-            participant = participants.get(index);
+        
+        List<Study> studiesOnWhichUserIsOdc;
+        StudyQuery studyQuery  = new StudyQuery();
+        studyQuery.filterStudiesByUserAndRole(user, Role.ODC);
+        studiesOnWhichUserIsOdc = (List<Study>) studyRepository.find(studyQuery);
+        Study study;
+        boolean odc;
+        for (int index = 0; index < participantsForCurrentSearch.size(); index++) {
+            participant = participantsForCurrentSearch.get(index);
 
             searchParticipantDTO = new SearchParticipantDTO();
             searchParticipantDTO.setFirstName(participant.getFirstName());
@@ -84,11 +106,12 @@ public class FetchParticipantController extends AbstractController {
             searchParticipantDTO.setStudyParticipantIdentifier(participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier());
             searchParticipantDTO.setStudyShortTitle(participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy().getShortTitle());
 
-            boolean odc = false;
+            odc = false;
             if (participant.getStudyParticipantAssignments().size() > 0) {
-                Study study = participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
-                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                odc = user.isODCOnStudy(study);
+                study = participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
+                if(studiesOnWhichUserIsOdc.contains(study)){
+                	odc = true;
+                }
             }
 
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"

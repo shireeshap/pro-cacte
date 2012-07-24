@@ -44,28 +44,36 @@ public class ParticipantAjaxFacade {
         return participants;
     }
 
-    public List<Participant> searchParticipants(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction) {
-        List<Participant> participants = getParticipantObjects(searchStrings, startIndex, results, sortField, direction);
+    public List<Participant> searchParticipants(String[] searchStrings, Integer startIndex, Integer resultsCount, String sortField, String direction) {
+        List<Participant> participants = getParticipantObjects(searchStrings, startIndex, resultsCount, sortField, direction);
         return participants;
     }
 
     public Long resultCount(String[] searchTexts) {
-        ParticipantQuery participantQuery = new ParticipantQuery(true, true);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName = user.getUsername();
-        if (!user.isAdmin()) {
-            participantQuery.filterByStaffUsername(userName);
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.LEAD_CRA) || userRole.getRole().equals(Role.PI)) {
+                leadStaff = true;
+                break;
+            }
+        }
+        ParticipantQuery participantQuery;
+        if (leadStaff) {
+            participantQuery = new ParticipantQuery(true, Role.LEAD_CRA, true);
         } else {
-            if (searchTexts != null) {
+            participantQuery = new ParticipantQuery(true, Role.SITE_CRA, true);
+        }
 
-                participantQuery.setLeftJoin();
-                int index = 0;
+        if (searchTexts != null) {
 
-                for (String searchText : searchTexts) {
-                    if (!StringUtils.isBlank(searchText)) {
-                        participantQuery.filterByAll(searchText, "" + index);
-                        index++;
-                    }
+            participantQuery.setLeftJoin();
+            int index = 0;
+
+            for (String searchText : searchTexts) {
+                if (!StringUtils.isBlank(searchText)) {
+                    participantQuery.filterByAll(searchText, "" + index);
+                    index++;
                 }
             }
         }
@@ -95,24 +103,21 @@ public class ParticipantAjaxFacade {
         return  participants;
     }
 
-    public List<Participant> getParticipantObjects(String[] searchTexts, Integer startIndex, Integer results, String sortField, String direction) {
+    public List<Participant> getParticipantObjects(String[] searchTexts, Integer startIndex, Integer resultsCount, String sortField, String direction) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-        String userName = user.getUsername();
-        boolean siteStaff = false;
         boolean leadStaff = false;
         for (UserRole userRole : user.getUserRoles()) {
-            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
-                siteStaff = true;
-            } else {
-                leadStaff = true;
-            }
+            if (userRole.getRole().equals(Role.LEAD_CRA) || userRole.getRole().equals(Role.PI)) {
+            	leadStaff = true;
+            	break;
+            } 
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(true, false, false);
+            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true);
         } else {
-            participantQuery = new ParticipantQuery(true, false, true);
+            participantQuery = new ParticipantQuery(Role.SITE_CRA, true);
         }
 
         if (sortField.equals("studyParticipantIdentifier")) {
@@ -120,14 +125,13 @@ public class ParticipantAjaxFacade {
         } else {
             participantQuery.setSortBy("p." + sortField);
         }
-        if (!user.isAdmin()&&startIndex==0) {
-            results=200;
-        }
         participantQuery.setSortDirection(direction);
         participantQuery.setFirstResult(startIndex);
-        participantQuery.setMaximumResults(results);
+        if(resultsCount != null){
+          participantQuery.setMaximumResults(resultsCount);
+        }
         if (searchTexts != null) {
-            participantQuery.setLeftJoin();
+            //participantQuery.setLeftJoin();
             int index = 0;
             for (String searchText : searchTexts) {
                 if (!StringUtils.isBlank(searchText)) {
@@ -139,6 +143,7 @@ public class ParticipantAjaxFacade {
 
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
+
 
         return participants;
     }

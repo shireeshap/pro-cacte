@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -86,6 +87,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         if (!roles.contains(Role.ADMIN)) {
             clinicalStaff = findClinicalStaffForUser(user);
             if (clinicalStaff != null) {
+            	//assign all org & staff access to lead roles and CCA
+            	if(roles.contains(Role.CCA) || roles.contains(Role.LEAD_CRA) || roles.contains(Role.PI)){
+            		instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilegeGenerator.generateGroupPrivilege(Organization.class)));
+            		instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilegeGenerator.generateGroupPrivilege(ClinicalStaff.class)));
+            	}
+            	
                 //assign all the orgs the staff can access
                 List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
                 for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
@@ -168,6 +175,11 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
+        Iterator<Role> iter = roles.iterator();
+        while(iter.hasNext()){
+        	user.addUserRole(new UserRole(iter.next()));
+        }
+        
         if (clinicalStaff == null && participant == null && !user.isAdmin()) {
             throw new MyException("User is inactive");
         }
