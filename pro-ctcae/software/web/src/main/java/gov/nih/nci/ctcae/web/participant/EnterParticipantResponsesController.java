@@ -85,7 +85,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         if (language == null || language == "") {
             language = "en";
         }
-        if ("save".equals(submitType)) {
+        if ("save".equals(submitType)||"saveandback".equals(submitType)) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
         } else {
             studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
@@ -110,6 +110,9 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
         ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId() + "&lang="+language));
+        if ("saveandback".equals(submitType)) {
+         modelAndView = new ModelAndView(new RedirectView("edit?id=" + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getId() + "&tab=3"));
+        }
         modelAndView.addObject("successMessage", "true");
         return modelAndView;
     }

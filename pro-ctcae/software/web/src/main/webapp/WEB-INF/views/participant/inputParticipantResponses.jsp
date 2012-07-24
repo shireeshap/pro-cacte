@@ -19,7 +19,7 @@
         function saveAndBack(type, id) {
             document.forms[0].submitType.value = type;
             document.forms[0].submit();
-            window.location="../participant/schedulecrf?pId="+id;
+//            window.location="../participant/edit?id="+id+"&tab=3";
         }
 
         function saveResponse(type) {
@@ -325,7 +325,7 @@ function printDiv(divId) {
         <tr>
             <td align="left">
                 <tags:button type="submit" color="blue" id="flow-prev"
-                             onclick="saveAndBack('save', ${command.studyParticipantCrf.studyParticipantAssignment.id});" value="Save & Back" icon="Back"/>
+                             onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});" value="Save & Back" icon="Back"/>
             </td>
             <td align="right">
                 <tags:button color="green" id="flow-update"
