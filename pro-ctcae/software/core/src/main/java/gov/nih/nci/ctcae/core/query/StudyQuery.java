@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.User;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -40,6 +42,7 @@ public class StudyQuery extends SecuredQuery<Study> {
      * The Constant PARTICIPANT_ID.
      */
     private static final String PARTICIPANT_ID = "participantId";
+    private static final String ROLE = "role";
 
     /**
      * The ORGANIZATION id.
@@ -174,6 +177,13 @@ public class StudyQuery extends SecuredQuery<Study> {
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");
+    }
+    
+    public void filterStudiesByUserAndRole(User user, Role role){
+        leftJoin("study.studyOrganizations as ss join ss.studyOrganizationClinicalStaffs as socs");
+        andWhere("socs.role =:" + ROLE + " and socs.organizationClinicalStaff.clinicalStaff.user.id =:" + PARTICIPANT_ID);
+        setParameter(PARTICIPANT_ID, user.getId());
+        setParameter(ROLE, role);
     }
 
     public void filterByUsername(final String userName) {
