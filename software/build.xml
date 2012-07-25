@@ -1,0 +1,305 @@
+<project name="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property file="build.properties"/>
+    <import file="${basedir}/common.xml"/>
+
+    <!-- ==================================================================
+       target : buildlist
+   ====================================================================== -->
+    <target name="buildlist" depends="load-ivy" unless="buildlist.done"
+            description="Will find the correct order of build dependency">
+        <ivy:buildlist reference="build-path">
+            <fileset file="${basedir}/commons/ivy-build.xml"/>
+            <fileset file="${basedir}/core/ivy-build.xml"/>
+            <fileset file="${basedir}/web/ivy-build.xml"/>
+        </ivy:buildlist>
+        <property name="buildlist.done" value="true"/>
+        <echo message="buildList : ${build-path}"/>
+    </target>
+
+    <!-- ==================================================================
+              target : publish-all
+          ====================================================================== -->
+    <target name="publish-all" depends="buildlist, clean-all, clean-repo"
+            description="compile, jar and publish all projects in the right order, publishes them into local repository">
+        <subant target="publish-local" buildpathref="build-path"/>
+    <!--	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/> -->
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Target for automated build  								         -->
+    <!-- =================================================================== -->
+    <target name="automatedBuild" depends="recreate-db-hudson,migrate,migrate-selenium-data,publish-all,pmd"
+            description="build project including migration of data..use it in CI server.."/>
+    <!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
+
+
+    <!-- ==================================================================
+            target : release-all
+        ====================================================================== -->
+    <target name="release-all" depends="buildlist, clean-all"
+            description="compile, jar and publish all projects in the right order, then releases it to Shared Repository">
+        <subant target="publish" buildpathref="build-path"/>
+    </target>
+
+    <!-- ==================================================================
+              target : resolve-all
+          ====================================================================== -->
+    <target name="resolve-all" depends="buildlist"
+            description="Will call the resolve target on each of the module">
+        <subant target="resolve" buildpathref="build-path"/>
+    </target>
+
+    <!-- ==================================================================
+              target : clean-all
+          ====================================================================== -->
+    <target name="clean-all" depends="buildlist, clean-pmd" description="clean all projects">
+        <subant target="clean" buildpathref="build-path"/>
+    </target>
+
+    <!-- ==================================================================
+              target : clean
+          ====================================================================== -->
+    <target name="clean" depends="clean-all, clean-repo"
+            description="clean delete repository, and all projects"/>
+
+    <target name="clean-repo" description="cleans the local repository">
+        <delete dir="${local.repo.dir}"/>
+    </target>
+
+    <!-- ==================================================================
+              target : clean-pmd
+          ====================================================================== -->
+    <target name="clean-pmd" description="cleans the pmd report directory ">
+        <delete dir="${pmd.dir}"/>
+    </target>
+
+    <!-- ==================================================================
+                  target : clean-j2h
+          ====================================================================== -->
+    <target name="clean-j2h" description="cleans the java2html directory ">
+        <delete dir="${j2h.dir}"/>
+    </target>
+
+    <!-- ==================================================================
+              target : clean-cache
+          ====================================================================== -->
+    <target name="clean-cache" depends="load-ivy" description="Cleans the ivy cache">
+        <ivy:cleancache/>
+    </target>
+
+
+    <!-- ==========================================================
+              target : migrate
+              This will delegate the call to ctcae-core:migrate, this is added
+              to do migrate and build as a single job using hudson. Additionally invokes loadPlpgsqlFunctions.
+          =============================================================-->
+    <target name="migrate" description="this is added to do migrate and build as a single job using hudson">
+        <subant target="migrate" buildpath="core/ivy-build.xml"/>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
+    </target>
+
+    <target name="migrate-selenium-data" description="this for migrating sample data for selenium">
+        <subant target="migrate-selenium-data" buildpath="web/ivy-build.xml"/>
+    </target>
+    <target name="migrate-sample-data" description="this for migrating sample data for integration test cases">
+        <subant target="migrate-sample-data" buildpath="web/ivy-build.xml"/>
+    </target>
+
+    <!-- ==========================================================
+                  target : insert-csm-policy
+                  This will delegate the call to ctcae-insert-csm-policy
+              =============================================================-->
+    <target name="insert-csm-policy">
+        <subant target="insert-csm-policy" buildpath="core/ivy-build.xml"/>
+    </target>
+
+
+    <!-- =======================================================
+            target : sync-classpath
+        ============================================================ -->
+    <target name="sync-classpath" depends="buildlist">
+        <mkdir dir="${user.home}/ivylibs"/>
+        <subant target="resolve" buildpathref="build-path">
+            <property name="resolve.confs" value="runtime,test"/>
+            <property name="resolve.to.dir" value="${user.home}/ivylibs"/>
+        </subant>
+        <!--<taskdef name="eclipseClasspath" classname="com.semanticbits.ctms.ant.BuildPathGenerator">-->
+        <!--<classpath>-->
+        <!--<path>-->
+        <!--<fileset dir="${user.home}/ivylibs">-->
+        <!--<include name="*.jar"/>-->
+        <!--</fileset>-->
+        <!--</path>-->
+        <!--</classpath>-->
+        <!--</taskdef>-->
+
+        <!--<eclipseClasspath templatefile=".classpath.tmpl" destinationfile=".classpath"-->
+        <!--srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"-->
+        <!--excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"-->
+        <!--modulerefs="build-path">-->
+        <!--</eclipseClasspath>-->
+    </target>
+    <!-- =================================
+         target: report-all
+        ================================= -->
+    <target name="report-all" depends="buildlist" description="--> Generate report of all the project dependencies">
+        <subant target="report" buildpathref="build-path"/>
+    </target>
+
+
+    <!-- ===================================================================
+            target : java2html
+        ====================================================================== -->
+    <target name="java2html" depends="load-ivy, clean-j2h"
+            description="--> Generates Html represenation of the source code">
+        <ivy:resolve inline="true" organisation="java2html" module="j2h" revision="1.3.1"/>
+        <ivy:cachepath organisation="java2html" module="j2h" revision="1.3.1" inline="true" pathid="j2h.classpath"/>
+        <mkdir dir="${j2h.dir}"/>
+        <taskdef name="java2html" classname="com.java2html.Java2HTMLTask" classpathref="j2h.classpath"/>
+        <java2html title="ProCtcAe source code"
+                   simple="no"
+                   tabsize="4"
+                   marginsize="2"
+                   header="true"
+                   footer="false"
+                   destination="${j2h.dir}">
+            <fileset dir="commons/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="core/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="web/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+        </java2html>
+    </target>
+
+    <!-- ================================================
+               target: pmd-report
+          ===================================================== -->
+
+
+    <target name="pmd" depends="load-ivy, clean-pmd" description="--> Generates the pmd report">
+
+        <ivy:resolve inline="true" organisation="pmd" module="pmd" revision="4.2.1"/>
+        <ivy:cachepath organisation="pmd" module="pmd" revision="4.2.1" inline="true" pathid="pmd.classpath"/>
+
+        <mkdir dir="${pmd.dir}"/>
+
+        <taskdef name="pmd" classpathref="pmd.classpath" classname="net.sourceforge.pmd.ant.PMDTask"/>
+
+        <pmd shortFilenames="true" rulesetfiles="${pmd.ruleset.file}">
+            <formatter type="summaryhtml" toFile="${pmd.report.html}" linkPrefix="${pmd.link.prefix}"/>
+            <formatter type="xml" toFile="${pmd.report.xml}" linkPrefix="${pmd.link.prefix}"/>
+            <fileset dir="commons/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="core/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="web/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+        </pmd>
+    </target>
+
+
+    <!--- =================================================================================
+            target : javadoc
+        ======================================================================================= -->
+    <target name="javadoc" depends="load-ivy" description="Compile the Javadoc API documentation to javadoc dir">
+        <mkdir dir="${javadoc.dir}"/>
+        <javadoc
+                destdir="${javadoc.dir}"
+                use="true"
+                protected="true"
+                version="true"
+                windowtitle="ProCtcAe API Documentation"
+                Overview="${javadoc.dir}/package.html"
+                doctitle="ProCtcAe API Documentation"
+                link="${sun.javadoc.link}">
+            <fileset dir="commons/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="core/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="web/src/main/java">
+                <include name="**/*.java"/>
+            </fileset>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
+
+        </javadoc>
+    </target>
+    <!-- ==========================================================
+                  target : recreate-db-hudson
+                  This will recreate the db in hudson
+              =============================================================-->
+    <target name="recreate-db-hudson">
+        <subant target="recreate-db-hudson" buildpath="core/ivy-build.xml"/>
+    </target>
+
+
+    <!-- ==========================================================
+                        target : autoBuild-selenium
+                        This will build and run selenium test cases
+    =============================================================-->
+    <target name="autoBuild-selenium" description="build and run selenium test cases">
+        <subant target="selenium-test" buildpath="web/ivy-build.xml"/>
+    </target>
+
+    <target name="recreate-test-db" description="drop and create test database and populate with data">
+        <subant target="recreate-db" buildpath="core/ivy-build.xml">
+            <property name="db" value="test-db"/>
+        </subant>
+        <subant target="migrate" buildpath=".">
+            <property name="db" value="test-db"/>
+        </subant>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
+    </target>
+	
+    <target name="recreate-test-db-oracle" description="drop and create test database and populate with data">
+        <subant target="recreate-db-oracle" buildpath="core/ivy-build.xml">
+            <property name="db" value="test-db-oracle"/>
+        </subant>
+        <subant target="migrate" buildpath=".">
+            <property name="db" value="test-db-oracle"/>
+        </subant>
+    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
+    </target>
+
+    <path id="cobertura.classpath">
+        <fileset dir="${test.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <target name="coverage-report" depends="buildlist,clean-cobertura-dir,resolve-test,cobertura-init"
+            description="--> Generates the cobertura report">
+        <subant target="test-report" buildpathref="build-path"/>
+
+        <mkdir dir="${cobertura.dir}"/>
+        <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
+        <cobertura-merge datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir="." includes="**/cobertura.ser"/>
+        </cobertura-merge>
+        <cobertura-report format="xml" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <cobertura-report format="html" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <echo>================================================================</echo>
+        <echo>Code Coverage Report available at</echo>
+        <echo>${cobertura.dir}/index.html</echo>
+        <echo>================================================================</echo>
+    </target>
+
+</project>
