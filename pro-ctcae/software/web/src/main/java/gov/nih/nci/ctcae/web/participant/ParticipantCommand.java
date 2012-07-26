@@ -54,7 +54,7 @@ public class ParticipantCommand {
     
     private Set<Organization> clinicalStaffOrgs = new HashSet<Organization>();
     private boolean readOnly = false;
-    private boolean readOnlyUserName = true;
+    private boolean readOnlyUserName = false;
 
     private boolean odc;
     private boolean admin;

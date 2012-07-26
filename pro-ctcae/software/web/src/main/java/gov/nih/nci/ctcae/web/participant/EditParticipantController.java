@@ -89,8 +89,8 @@ public class EditParticipantController extends ParticipantController {
             }
         }
         
+        participantCommand.setReadOnlyUserName(true);
         map.put("homeModeCount", homeModes.size());
-       
         return map;
     }
 

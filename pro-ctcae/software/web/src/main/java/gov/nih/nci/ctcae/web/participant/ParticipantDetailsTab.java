@@ -265,7 +265,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
-        command.setReadOnlyUserName(false);
+        
 //        try {
 //            boolean validUser = userNameAndPasswordValidator.validate(user);
 //            if (!validUser) {
