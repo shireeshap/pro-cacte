@@ -75,7 +75,7 @@ public class CrfAjaxFacade {
             } else {
                 int i = 0;
                 int index = startIndex;
-                while (crfs.size() != results && crfs.size() != searchCount && i < 5) {
+                while (crfs.size() != results && crfs.size() != searchCount-startIndex) {
                     index = results + index;
                     crfQuery.setFirstResult(index);
                     List<CRF> l = (List<CRF>) crfRepository.find(crfQuery);
@@ -95,6 +95,7 @@ public class CrfAjaxFacade {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
         CRFQuery crfQuery = new CRFQuery(true);
+        crfQuery.filterByHidden(false);
         crfQuery.filterByNullNextVersionId();
         if (!user.isAdmin()) {
             crfQuery.filterByUsername(userName);
