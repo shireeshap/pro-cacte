@@ -84,8 +84,9 @@ public class ManageFormControllerTest extends WebTestCase {
             searchStrings = searchString.split("\\s+");
         }
         request.getSession().setAttribute("crfSearchString", "Alerts fake");
-        expect(crfAjaxFacade.searchCrfs(isA(String[].class), eq(0), eq(5), eq("title"), eq("asc"))).andReturn(crfs);
         expect(crfAjaxFacade.resultCount(isA(String[].class))).andReturn(2L);
+        expect(crfAjaxFacade.searchCrfs(isA(String[].class), eq(0), eq(5), eq("title"), eq("asc"), eq(2L))).andReturn(crfs);
+        
 
         replayMocks();
         ModelAndView modelAndView = fetchCrfController.handleRequest(request, response);
