@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-//
 /**
  * The Class CRFQuery.
  *
@@ -39,13 +38,11 @@ public class CRFQuery extends AbstractQuery {
 
     private static String IS_HIDDEN = "hidden";
     private static final String SHORT_TITLE = "shortTitle";
-    private static final String DISPLAY_TEXT = "displayText";
     private static final String USERNAME = "username";
     /**
      * The Constant CRF_VERSION.
      */
     private static final String CRF_VERSION = "crfVersion";
-//    private static final String NEXTVERSIONID = "nextVersionId";
 
     /**
      * Instantiates a new cRF query.
@@ -64,10 +61,8 @@ public class CRFQuery extends AbstractQuery {
     }
 
     public void filterByCRFIds(List<Integer> crfIds) {
-
         andWhere("o.id in (:" + CRF_IDS + ")");
         setParameterList(CRF_IDS, crfIds);
-
     }
 
 
@@ -153,8 +148,6 @@ public class CRFQuery extends AbstractQuery {
         "or lower(o.study.shortTitle) LIKE :%s and o.childCrf.id is null)", TITLE+key, SHORT_TITLE+key));
         setParameter(TITLE+key, searchString);
         setParameter(SHORT_TITLE+key, searchString);
-
-
     }
 
     public void setLeftJoin() {

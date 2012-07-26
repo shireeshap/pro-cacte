@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.core.query;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.security.ApplicationSecurityManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -56,15 +56,12 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
     private static String EMAIL = "emailAddress";
     private static String USERNUMBER = "userNumber";
-    private static String PHONENUMBER = "phoneNumber";
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
     private static final String SHORT_TITLE = "shortTitle";
-    private static final String LONG_TITLE = "longTitle";
     private static final String NAME = "name";
     
     private boolean isStudySiteLevel = false;
-    private boolean isStudyLevel =false;
 
     /**
      * Instantiates a new participant query.
@@ -101,13 +98,11 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         if (secure) {
             leftJoinStudySites();
             if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
-            	//give study level access to participants
-            	isStudyLevel = true;
                 objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
 
             } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
             	isStudySiteLevel = true;
-                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudySite.class);
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudyOrganization.class);
             }
         }
         filterByObjectIds(objectIds);
@@ -120,13 +115,11 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         if (secure) {
             leftJoinStudySites();
             if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
-            	//give study level access to participants
-            	isStudyLevel = true;
                 objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
 
             } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
             	isStudySiteLevel = true;
-                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudySite.class);
+                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudyOrganization.class);
             }
         }
         filterByObjectIds(objectIds);
@@ -371,7 +364,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
 
     protected String getObjectIdQueryString() {
     	if(isStudySiteLevel){
-    		return "ss.id";
+    		return "spa.studySite.id";
     	}
         return "ss.study.id";
     }

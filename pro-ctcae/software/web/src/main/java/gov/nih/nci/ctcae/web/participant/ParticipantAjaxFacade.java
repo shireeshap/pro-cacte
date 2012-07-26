@@ -49,7 +49,7 @@ public class ParticipantAjaxFacade {
         return participants;
     }
 
-    public Long resultCount(String[] searchTexts) {
+    public Long resultCount(String[] searchTexts, Integer startIndex, Integer resultsCount) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean leadStaff = false;
         for (UserRole userRole : user.getUserRoles()) {
@@ -64,10 +64,14 @@ public class ParticipantAjaxFacade {
         } else {
             participantQuery = new ParticipantQuery(true, Role.SITE_CRA, true);
         }
+        participantQuery.setFirstResult(startIndex);
+        if(resultsCount != null){
+          participantQuery.setMaximumResults(resultsCount);
+        }
 
         if (searchTexts != null) {
 
-            participantQuery.setLeftJoin();
+//            participantQuery.setLeftJoin();
             int index = 0;
 
             for (String searchText : searchTexts) {
@@ -83,7 +87,7 @@ public class ParticipantAjaxFacade {
     public List<Participant> getParticipantList() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-        boolean siteStaff = false;
+        boolean siteStaff = true;
         boolean leadStaff = false;
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {

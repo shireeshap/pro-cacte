@@ -183,6 +183,9 @@ public class DomainObjectPrivilegeGenerator {
 
 
     private String generatePrivilegeForPersistable(Persistable persistable) {
+    	if(persistable instanceof StudyOrganization){
+    		return StudyOrganization.class.getName() + "." + persistable.getId();
+    	}
         return persistable.getClass().getName() + "." + persistable.getId();
     }
 

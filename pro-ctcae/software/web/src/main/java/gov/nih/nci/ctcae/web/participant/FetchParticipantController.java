@@ -71,7 +71,7 @@ public class FetchParticipantController extends AbstractController {
         Integer totalRecords = 0;
 
         participantsForCurrentSearch = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), resultsCount, sortField, direction);
-    	totalRecords = participantAjaxFacade.resultCount(searchStrings).intValue();
+    	totalRecords = participantAjaxFacade.resultCount(searchStrings, Integer.valueOf(startIndex), resultsCount).intValue();
         
         
 //        if(resultsCount > completeParticipantsList.size()){
