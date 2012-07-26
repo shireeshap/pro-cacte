@@ -47,7 +47,7 @@ public class CrfAjaxFacade {
         return crfs;
     }
 
-    public List<CRF> searchCrfs(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction) {
+    public List<CRF> searchCrfs(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction, Long totalRecords) {
         CRFQuery crfQuery = new CRFQuery(true, false);
         crfQuery.setFirstResult(startIndex);
         crfQuery.setMaximumResults(results);
@@ -56,7 +56,6 @@ public class CrfAjaxFacade {
         crfQuery.filterByHidden(false);
         crfQuery.filterByNullNextVersionId();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName = user.getUsername();
         if (searchStrings != null) {
             int index = 0;
             for (String searchString : searchStrings) {
@@ -65,10 +64,9 @@ public class CrfAjaxFacade {
             }
         }
 
-
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         if (!user.isAdmin()) {
-            Long searchCount = resultCount(searchStrings);
+            Long searchCount = totalRecords;
 
             if (crfs.size() == results) {
                 return crfs;
@@ -120,7 +118,7 @@ public class CrfAjaxFacade {
      */
     public List<CRF> getReducedCrfs(Integer id) throws Exception {
         List<CRF> crfs = searchCrf(id);
-        List<CRF> releasedCrfs = new ArrayList();
+        List<CRF> releasedCrfs = new ArrayList<CRF>();
         for (CRF crf : crfs) {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 releasedCrfs.add(crf);
@@ -140,16 +138,16 @@ public class CrfAjaxFacade {
 
     public List<ProCtcTerm> getSymptomsForCrf(Integer id) {
         CRF crf = crfRepository.findById(id);
-        Set<ProCtcTerm> terms = new TreeSet(new ProCtcTermComparator());
+        Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
         for (CrfPageItem i : crf.getAllCrfPageItems()) {
             terms.add(i.getProCtcQuestion().getProCtcTerm());
         }
-        return ObjectTools.reduceAll(new ArrayList(terms), "id", "term");
+        return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
     }
 
     public List<String> getAttributesForSymptom(Integer id) {
         ProCtcTerm term = genericRepository.findById(ProCtcTerm.class, id);
-        ArrayList<String> attributes = new ArrayList();
+        ArrayList<String> attributes = new ArrayList<String>();
         for (ProCtcQuestion proCtcQuestion : term.getProCtcQuestions()) {
             attributes.add(proCtcQuestion.getProCtcQuestionType().getDisplayName());
         }

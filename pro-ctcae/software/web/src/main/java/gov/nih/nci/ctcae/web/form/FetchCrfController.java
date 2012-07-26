@@ -2,18 +2,19 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.User;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
  * @author mehul
@@ -39,8 +40,10 @@ public class FetchCrfController extends AbstractController {
             searchString.trim();
             searchStrings = searchString.split("\\s+");
         }
-        List<CRF> crfs = crfAjaxFacade.searchCrfs(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
+        
         Long totalRecords = crfAjaxFacade.resultCount(searchStrings);
+        List<CRF> crfs = crfAjaxFacade.searchCrfs(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords);
+        
         SearchCRFWrapper searchCRFWrapper = new SearchCRFWrapper();
         searchCRFWrapper.setTotalRecords(totalRecords);
         searchCRFWrapper.setRecordsReturned(25);
@@ -60,9 +63,8 @@ public class FetchCrfController extends AbstractController {
             dto.setTitle(crf.getTitle());
             dto.setVersion(crf.getCrfVersion());
             boolean showVersion = false;
-            boolean odc = false;
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            odc = user.isODCOnStudy(crf.getStudy());
+            //User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            //boolean odc = user.isODCOnStudy(crf.getStudy());
             if (crf.getParentCrf() != null) {
                  showVersion = true;
             }
@@ -84,7 +86,7 @@ public class FetchCrfController extends AbstractController {
         }
 
         JSONObject jsonObject = JSONObject.fromObject(searchCRFWrapper);
-        Map<String, Object> modelMap =  new HashMap();
+        Map<String, Object> modelMap =  new HashMap<String, Object>();
         modelMap.put("shippedRecordSet", jsonObject);
         modelAndView.addObject("totalRecords", totalRecords);
         modelAndView.addObject("crfs", crfs);
