@@ -111,9 +111,6 @@
 
         </c:when>
         <c:otherwise>
-
-            <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
-
                 <c:choose>
                     <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
                         <td class="data" align="right" width="20%">
@@ -144,11 +141,11 @@
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${command.onDefaultArm}">
-                                <td class="data" align="right" width="20%">
+                                <td class="data" align="right" width="20%" style="display:none">
                                     <b><span class="required-indicator">&nbsp;&nbsp;</span><spring:message
                                             code="study.label.arm"/></b>
                                 </td>
-                                <td width="50%" class="data">
+                                <td width="50%" class="data" style="display:none">
                                     &nbsp;&nbsp;
                                     <select name="arm_${studysite.id}" title="arm"
                                             id="arm_${studysite.id}">
@@ -176,9 +173,6 @@
                         </c:choose>
                     </c:otherwise>
                 </c:choose>
-
-            </c:if>
-
             <td></td>
         </c:otherwise>
     </c:choose>
