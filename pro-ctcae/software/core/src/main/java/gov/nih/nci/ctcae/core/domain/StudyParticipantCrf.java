@@ -343,7 +343,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -352,12 +351,28 @@ public class StudyParticipantCrf extends BaseVersionable {
         StudyParticipantCrf that = (StudyParticipantCrf) o;
 
         if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
             return false;
 
         return true;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        StudyParticipantCrf that = (StudyParticipantCrf) o;
+//
+//        if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
+//        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+//        if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
+//            return false;
+//
+//        return true;
+//    }
 
     @Override
     public int hashCode() {

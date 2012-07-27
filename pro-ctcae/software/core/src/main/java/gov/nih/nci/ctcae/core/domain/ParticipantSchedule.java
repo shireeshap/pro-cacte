@@ -178,7 +178,7 @@ public class ParticipantSchedule {
                         }
                         if (armChange) {
                             for (StudyParticipantCrf oldStudyParticipantCrf : spa.getStudyParticipantCrfs()) {
-                                if (oldStudyParticipantCrf.getId() != null && studyParticipantCrf.equals(oldStudyParticipantCrf)) {
+                                if (oldStudyParticipantCrf.getId() != null && oldStudyParticipantCrf.getCrf().equals(studyParticipantCrf.getCrf())) {
                                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : oldStudyParticipantCrf.getStudyParticipantCrfSchedules()) {
                                         if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime())) && (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE))) {
                                             alreadyExists = true;
