@@ -443,19 +443,21 @@ public class Study extends BasePersistable {
     }
 
 
-    public StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffByRole(Role role) {
+    	List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffListToReturn = new ArrayList<StudyOrganizationClinicalStaff>();
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = getAllStudyOrganizationClinicalStaffs();
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {
             if (studyOrganizationClinicalStaff.getRole().equals(role)) {
-                return studyOrganizationClinicalStaff;
+            	studyOrganizationClinicalStaffListToReturn.add(studyOrganizationClinicalStaff);
+            	//return studyOrganizationClinicalStaff;
             }
         }
-        return null;
+        return studyOrganizationClinicalStaffListToReturn;
     }
 
 
     public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
-        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = getStudyOrganizationClinicalStaffByRole(Role.ODC);
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = getStudyOrganizationClinicalStaffByRole(Role.ODC).get(0);
         if (studyOrganizationClinicalStaff == null) {
             studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
             studyOrganizationClinicalStaff.setRole(Role.ODC);
@@ -466,7 +468,7 @@ public class Study extends BasePersistable {
     }
 
     public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
-        StudyOrganizationClinicalStaff principalInvestigator = getStudyOrganizationClinicalStaffByRole(Role.PI);
+        StudyOrganizationClinicalStaff principalInvestigator = getStudyOrganizationClinicalStaffByRole(Role.PI).get(0);
 
         if (principalInvestigator == null) {
             principalInvestigator = new StudyOrganizationClinicalStaff();
@@ -476,15 +478,16 @@ public class Study extends BasePersistable {
         return principalInvestigator;
     }
 
-    public StudyOrganizationClinicalStaff getLeadCRA() {
-        StudyOrganizationClinicalStaff leadCRA = getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
+    public List<StudyOrganizationClinicalStaff> getLeadCRAs() {
+        List<StudyOrganizationClinicalStaff> leadCRAs = getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
 
-        if (leadCRA == null) {
-            leadCRA = new StudyOrganizationClinicalStaff();
-            leadCRA.setRole(Role.LEAD_CRA);
+        if (leadCRAs == null) {
+        	leadCRAs = new ArrayList<StudyOrganizationClinicalStaff>();
+        	leadCRAs.add(new StudyOrganizationClinicalStaff());
+            leadCRAs.get(0).setRole(Role.LEAD_CRA);
 
         }
-        return leadCRA;
+        return leadCRAs;
     }
 
     public List<StudyOrganizationClinicalStaff> getStudySiteLevelStudyOrganizationClinicalStaffs() {

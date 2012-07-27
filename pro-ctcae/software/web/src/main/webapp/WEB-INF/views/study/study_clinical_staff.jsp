@@ -1,7 +1,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -32,17 +32,6 @@
             return aResults;
         }
 
-        function getLeadStaff(sQuery) {
-            showIndicator("leadCRA.organizationClinicalStaffInput-indicator");
-            var callbackProxy = function(results) {
-                aResults = results;
-            };
-            var callMetaData = { callback:callbackProxy, async:false};
-            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
-            hideIndicator("leadCRA.organizationClinicalStaffInput-indicator");
-            return aResults;
-        }
-
         function getLeadStaff1(sQuery) {
             showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
             var callbackProxy = function(results) {
@@ -60,11 +49,6 @@
             if ('${command.overallDataCoordinator.displayName}' != '') {
                 $('overallDataCoordinator.organizationClinicalStaffInput').value = "${command.overallDataCoordinator.displayName}";
                 $('overallDataCoordinator.organizationClinicalStaffInput').removeClassName('pending-search');
-            }
-            new YUIAutoCompleter('leadCRA.organizationClinicalStaffInput', getLeadStaff, handleSelect);
-            if ('${command.leadCRA.displayName}' != "") {
-                $('leadCRA.organizationClinicalStaffInput').value = "${command.leadCRA.displayName}";
-                $('leadCRA.organizationClinicalStaffInput').removeClassName('pending-search');
             }
             new YUIAutoCompleter('principalInvestigator.organizationClinicalStaffInput', getLeadStaff1, handleSelect);
             if ('${command.principalInvestigator.displayName}' != "") {
@@ -95,6 +79,35 @@
             $(inputId + 'Input').focus();
             $(inputId + 'Input').blur();
         }
+
+
+        //Multiple Lead Cras 
+        function addLeadCraDiv(transport) {
+            $('leadCraTable').show()
+			var response = transport.responseText;
+	        var responseStr = response.split('<p id="splitter"/>');
+	        jQuery('#leadCraTable tr:last').before(responseStr[1]);
+	        new Insertion.Before("hiddenDiv", responseStr[0]);
+        }
+        
+        function addLeadCra() {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
+                onComplete:addLeadCraDiv,
+                parameters:<tags:ajaxstandardparams/>,
+                method:'get'
+            })
+        }
+        
+        function deleteLeadCra(index) {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
+                onComplete:function(transport) {
+                    $('row-' + index).remove();
+                },
+                parameters:<tags:ajaxstandardparams/>+"&action=delete&craIndexToRemove=" + index,
+                method:'get'
+            })
+        }
+        // Multiple Lead Cras 
 
     </script>
 
@@ -139,24 +152,31 @@
 	       </chrome:division>
 	
 	        <chrome:division title="study.label.clinical.staff.lead.cra">
-	            <div class="row">
+	        	<div class="row">
 	                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
 	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
 	            </div>
-	
-	            <form:input path="leadCRA.organizationClinicalStaff"
-	                        id="leadCRA.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-	                        title="Lead Site CRA"
-	                        cssStyle="display:none;"/>
-	            <div class="row">
-	                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
-	                <div class="value">
-	                    <tags:yuiAutocompleter inputName="leadCRA.organizationClinicalStaffInput"
-	                                           value="${command.leadCRA.displayName}" required="false"
-	                                           hiddenInputName="leadCRA.organizationClinicalStaff"/>
-	                </div>
+		        <div style="margin-left:150px;">
+		            <table id="leadCraTable" class="tablecontent" width="60%" border="0">
+			            <tr id="ss-table-head" class="amendment-table-head">
+		                    <th width="95%" class="tableHeader">&nbsp;
+		                        <tags:message code='study.label.clinical.staff'/></th>
+		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+		                </tr>
+		                <tbody>
+			                <c:forEach items="${command.study.leadCRAs}" var="leadCra" varStatus="status">
+			                        <tags:oneClinicalStaff index="${status.index}" leadCRA="${leadCra}" readOnly="true" inputName="leadCRAs[${status.index}].organizationClinicalStaffInput"/>
+			                </c:forEach>
+			                <tr></tr>
+		                </tbody>
+		            </table>
 	            </div>
-	        </chrome:division>
+	            <div style="margin-left:470px;margin-top:10px;margin-bottom:10px;">
+		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addLeadCra()"
+		            	         value="study.button.add_study_site" icon="add" size="small"/>
+				</div>
+			    <div id="hiddenDiv"></div>
+		    </chrome:division>
 	        
 	        <chrome:division title="study.label.clinical.staff.pi">
 	            <div class="row">

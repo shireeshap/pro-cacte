@@ -5,11 +5,10 @@ import gov.nih.nci.ctcae.core.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//
 /**
  * The Class StudyCommand.
  *
- * @author Vinay Kumar
+ * @author Vinay Gangoli
  * @since Oct 27, 2008
  */
 public class StudyCommand {
@@ -24,7 +23,7 @@ public class StudyCommand {
     
     private StudySite selectedStudySite;
 
-    private StudyOrganizationClinicalStaff leadCRA;
+    private List<StudyOrganizationClinicalStaff> leadCRAs = new ArrayList<StudyOrganizationClinicalStaff>();
 
     private StudyOrganizationClinicalStaff overallDataCoordinator;
 
@@ -42,6 +41,7 @@ public class StudyCommand {
 
 
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
+    private List<Integer> craIndexesToRemove = new ArrayList<Integer>();
     private boolean odc;
 
     public boolean isOdc() {
@@ -123,18 +123,18 @@ public class StudyCommand {
 
     }
 
-    public StudyOrganizationClinicalStaff getLeadCRA() {
+    public List<StudyOrganizationClinicalStaff> getLeadCRAs() {
 
-        if (leadCRA == null) {
-            leadCRA = study.getLeadCRA();
+        if (leadCRAs == null || leadCRAs.size() == 0) {
+            leadCRAs = study.getLeadCRAs();
 
         }
-        return leadCRA;
+        return leadCRAs;
     }
 
 
-    public void setLeadCRA(StudyOrganizationClinicalStaff leadCRA) {
-        this.leadCRA = leadCRA;
+    public void setLeadCRAs(List<StudyOrganizationClinicalStaff> leadCRAs) {
+        this.leadCRAs = leadCRAs;
 
     }
 
@@ -167,7 +167,7 @@ public class StudyCommand {
 
     public void updateClinicalStaffs() {
 
-        setLeadCRA(study.getLeadCRA());
+        setLeadCRAs(study.getLeadCRAs());
         setPrincipalInvestigator(study.getPrincipalInvestigator());
         setOverallDataCoordinator(study.getOverallDataCoordinator());
         setStudyOrganizationClinicalStaffs(study.getStudySiteLevelStudyOrganizationClinicalStaffs());
@@ -237,6 +237,14 @@ public class StudyCommand {
     public void setAppModes(String[] appModes) {
         this.appModes = appModes;
     }
+
+	public void setCraIndexesToRemove(List<Integer> craIndexesToRemove) {
+		this.craIndexesToRemove = craIndexesToRemove;
+	}
+
+	public List<Integer> getCraIndexesToRemove() {
+		return craIndexesToRemove;
+	}
 }
 
 

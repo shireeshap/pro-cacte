@@ -318,6 +318,11 @@
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
+    
+    <bean name="/study/addStudyOrganizationalClinicalStaff" id="addStudyOrganizationalClinicalStaff"
+          class="gov.nih.nci.ctcae.web.study.AddStudyOrganizationalClinicalStaffController">
+    </bean>
+    
     <bean name="/study/addStudyArm" id="addStudyArmController"
           class="gov.nih.nci.ctcae.web.study.AddStudyArmController">
     </bean>

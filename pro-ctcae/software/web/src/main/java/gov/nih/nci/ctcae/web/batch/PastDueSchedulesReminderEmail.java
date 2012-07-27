@@ -67,7 +67,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
                 if (study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA)!= null) {
-                clinicalStaffList.add(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+                clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
                 }
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     if (studyParticipantAssignment.getStatus() != null && studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {

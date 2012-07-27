@@ -147,22 +147,36 @@ public class NotificationsEvaluationService {
                     }
                 }
             }
-            if (notificationRuleRole.getRole().equals(Role.LEAD_CRA)) {
-                StudyOrganizationClinicalStaff staff = studyParticipantAssignment.getStudySite().getStudy().getLeadCRA();
-                if (staff != null && staff.getOrganizationClinicalStaff() != null) {
-                    cs = staff.getOrganizationClinicalStaff().getClinicalStaff();
-                }
-            }
             if (notificationRuleRole.getRole().equals(Role.PI)) {
                 StudyOrganizationClinicalStaff investigator = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator();
                 if (investigator != null && investigator.getOrganizationClinicalStaff() != null) {
                     cs = investigator.getOrganizationClinicalStaff().getClinicalStaff();
                 }
             }
+            
+            List<ClinicalStaff> craList = new ArrayList<ClinicalStaff>();
+            if (notificationRuleRole.getRole().equals(Role.LEAD_CRA)) {
+                List<StudyOrganizationClinicalStaff> staff = studyParticipantAssignment.getStudySite().getStudy().getLeadCRAs();
+                if (staff != null && staff.size() > 0) {
+                	for(StudyOrganizationClinicalStaff socs : staff){
+                    	if(socs.getOrganizationClinicalStaff() != null){
+                    		craList.add(socs.getOrganizationClinicalStaff().getClinicalStaff());
+                    	}
+                	}
+                }
+            }
+            for(ClinicalStaff cra : craList){
+            	if (cra != null && cra.getUser() != null) {
+                    addEmail(cra.getEmailAddress(), emails);
+                    users.add(cra.getUser());
+                }
+            }
+            
             if (cs != null && cs.getUser() != null) {
                 addEmail(cs.getEmailAddress(), emails);
                 users.add(cs.getUser());
             }
+            
         }
 
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {

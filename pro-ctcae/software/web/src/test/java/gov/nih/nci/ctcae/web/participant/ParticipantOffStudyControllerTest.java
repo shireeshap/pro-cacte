@@ -20,7 +20,7 @@ public class ParticipantOffStudyControllerTest extends AbstractWebIntegrationTes
 
     public void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        login(StudyTestHelper.getDefaultStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser().getUsername());
+        login(StudyTestHelper.getDefaultStudy().getLeadCRAs().get(0).getOrganizationClinicalStaff().getClinicalStaff().getUser().getUsername());
         controller = new ParticipantOffStudyController();
         controller.setStudyParticipantAssignmentRepository(studyParticipantAssignmentRepository);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);

@@ -56,7 +56,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
     public void testUpdateStudyOrganizationClinicalStaff() {
         Study defaultStudy = StudyTestHelper.getDefaultStudy();
         StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
-        OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
+        OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).get(0).getOrganizationClinicalStaff();
         staff.setOrganizationClinicalStaff(organizationClinicalStaff);
         studyRepository.save(defaultStudy);
 

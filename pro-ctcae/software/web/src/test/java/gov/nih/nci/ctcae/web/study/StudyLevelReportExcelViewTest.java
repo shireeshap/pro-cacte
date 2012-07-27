@@ -34,7 +34,7 @@ public class StudyLevelReportExcelViewTest extends AbstractWebTestCase {
        @Override
        protected void onSetUpInTransaction() throws Exception {
            super.onSetUpInTransaction();
-           login(StudyTestHelper.getDefaultStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser().getUsername());
+           login(StudyTestHelper.getDefaultStudy().getLeadCRAs().get(0).getOrganizationClinicalStaff().getClinicalStaff().getUser().getUsername());
            Study study = StudyTestHelper.getDefaultStudy();
            CRF crf = study.getCrfs().get(0);
            studySite = study.getLeadStudySite();

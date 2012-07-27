@@ -2883,6 +2883,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchSch
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/StudyParticipantCrfScheduleAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyOrganizationalClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/ChangeStatusController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
@@ -3013,6 +3014,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/message.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/noForm.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/notificationClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneAdverseEventMeddra.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPage.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPageItem.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPageItemProperties.tag -text
@@ -3186,6 +3188,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -tex
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/setup/setup.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyArmSection.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyOrganizationalClinicalStaffSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinicalStaffSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/changeStatus.jsp -text

@@ -1,29 +1,53 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.springframework.validation.Errors;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.validation.Errors;
+
 /**
- * @author Vinay Kumar
- * @since Feb 11, 2009
+ * @author Vinay Gangoli
  */
 public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
     public StudyClinicalStaffTab() {
         super("study.tab.clinical_staff", "study.tab.clinical_staff", "study/study_clinical_staff");
     }
 
+    private GenericRepository genericRepository;
 
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
+    
     @Override
     public void onDisplay(HttpServletRequest request, StudyCommand command) {
         super.onDisplay(request, command);
-
-
     }
 
+    @Override
+    public void validate(StudyCommand command, Errors errors) {
+        List<StudyOrganizationClinicalStaff> socsToRemove = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (Integer index : command.getCraIndexesToRemove()) {
+        	socsToRemove.add(command.getLeadCRAs().get(index));
+        }
+        for (StudyOrganizationClinicalStaff socs : socsToRemove) {
+        	command.getLeadCRAs().remove(socs);
+        	StudyOrganizationClinicalStaff tempSocs = genericRepository.findById(StudyOrganizationClinicalStaff.class, socs.getId());
+            if (tempSocs != null) {
+            	command.getStudy().getLeadStudySite().getStudyOrganizationClinicalStaffs().remove(tempSocs);
+            }
+        }
+        command.getCraIndexesToRemove().clear();
+        //TODO: Filter out staff who are being added multiple times. Its Validation for pranksters, but worthwhile.
+    }
 
     @Override
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
@@ -36,7 +60,9 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
         }
 
         try {
-            command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getLeadCRA());
+        	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getLeadCRAs()){
+        		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        	}
         } catch (CtcAeSystemException ex) {
             errors.reject("error", ex.getMessage());
         }
@@ -50,7 +76,5 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     public String getRequiredPrivilege() {
         return Privilege.PRIVILEGE_ADD_STUDY_CLINICAL_STAFF;
-
-
     }
 }
