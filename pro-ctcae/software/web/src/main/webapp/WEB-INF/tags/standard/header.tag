@@ -140,12 +140,15 @@
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                     <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
                     <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
-                    <c:if test="${empty currentTask.linkName}">
-                        <c:set var="backUpKey"><%=request.getPathInfo().replaceAll("/", "_")%>
-                        </c:set>
-                    </c:if>
-
-                    <spring:message var="helpLink" code="${empty currentTask.linkName? backUpKey:helpKey}"
+                    <c:choose>
+	                    <c:when test="${empty helpKey or helpKey eq 'null' }">
+	                        <c:set var="helpLinkCode" value="${currentSection.mainController}" />
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<c:set var="helpLinkCode" value="${helpKey}" />
+	                    </c:otherwise>
+                    </c:choose>
+                    <spring:message var="helpLink" code="${helpLinkCode}"
                                     text="NO_${helpKey}"/>
                     <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
                        target="_blank">Help</a>
