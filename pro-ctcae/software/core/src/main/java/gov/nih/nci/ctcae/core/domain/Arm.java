@@ -52,6 +52,9 @@ public class Arm extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
 
+    @OneToMany(mappedBy = "arm", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantCrf> studyParticipantCrfs = new LinkedList<StudyParticipantCrf>();
 
     public Integer getId() {
         return id;
@@ -133,5 +136,11 @@ public class Arm extends BasePersistable {
         this.formArmSchedules = formArmSchedules;
     }
 
-    
+    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
+        return studyParticipantCrfs;
+    }
+
+    public void setStudyParticipantCrfs(List<StudyParticipantCrf> studyParticipantCrfs) {
+        this.studyParticipantCrfs = studyParticipantCrfs;
+    }
 }

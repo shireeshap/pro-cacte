@@ -188,7 +188,7 @@ public class ParticipantSchedule {
                                 }
                             }
                         }
-                        if (!alreadyExists) {
+                        if (!alreadyExists && spa.getArm().equals(studyParticipantCrf.getArm())) {
                             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
                             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                             if (baseline) {

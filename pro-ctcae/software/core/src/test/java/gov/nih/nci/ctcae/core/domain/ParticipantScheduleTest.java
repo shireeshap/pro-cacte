@@ -21,6 +21,7 @@ public class ParticipantScheduleTest extends TestCase {
     private List<StudyParticipantCrf> studyParticipantCrfs;
     StudyParticipantAssignment studyParticipantAssignment;
     private CRF crf;
+    private Arm arm;
     private CRFCycle cycle1;
     private CRFPage crfPage;
     List<CRFPage> crfPages;
@@ -36,6 +37,10 @@ public class ParticipantScheduleTest extends TestCase {
         studySite = new StudySite();
         studySite.setId(1);
         studySite.setStudy(study);
+        arm = new Arm();
+        arm.setDefaultArm(true);
+        arm.setStudy(study);
+        arm.setId(1);
     	studyParticipantAssignment = new StudyParticipantAssignment();
     	StudyParticipantMode spm = new StudyParticipantMode();
     	spm.setMode(AppMode.IVRS);
@@ -45,6 +50,7 @@ public class ParticipantScheduleTest extends TestCase {
     	studyParticipantAssignment.setCallMinute(0);
     	studyParticipantAssignment.setCallTimeZone(StudyParticipantAssignment.PACIFIC);
         studyParticipantAssignment.setStudySite(studySite);
+        studyParticipantAssignment.setArm(arm);
         participantSchedule=new ParticipantSchedule();
         proCtcAECalendar = new ProCtcAECalendar();
         crf = new CRF();
@@ -60,6 +66,7 @@ public class ParticipantScheduleTest extends TestCase {
         studyParticipantCrf.setId(1);
         studyParticipantCrf.setStartDate(DateUtils.parseDate("01/18/2011"));
         studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+        studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
         studyParticipantCrfs =new ArrayList<StudyParticipantCrf>();
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.setProCtcAECalendar(proCtcAECalendar);

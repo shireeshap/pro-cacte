@@ -51,7 +51,7 @@ public class ParticipantCommand {
 
     private List<StudyParticipantClinicalStaff> treatingPhysiciansToRemove = new ArrayList<StudyParticipantClinicalStaff>();
     private List<StudyParticipantClinicalStaff> researchNursesToRemove = new ArrayList<StudyParticipantClinicalStaff>();
-    
+
     private Set<Organization> clinicalStaffOrgs = new HashSet<Organization>();
     private boolean readOnly = false;
     private boolean readOnlyUserName = false;
@@ -251,30 +251,44 @@ public class ParticipantCommand {
         return studyParticipantAssignment;
     }
 
-    public void assignArm(StudySite studySite) {
-
-    }
-
     public void assignCrfsToParticipant(boolean armChange) throws ParseException {
         StudyParticipantAssignment studyParticipantAssignment = getSelectedStudyParticipantAssignment();
         Date studyStartDate = studyParticipantAssignment.getStudyStartDate();
         Study study = studyParticipantAssignment.getStudySite().getStudy();
-        for (CRF crf : study.getCrfs()) {
-            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
-                if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
-                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    if (studyStartDate != null) {
-                        studyParticipantCrf.setStartDate(studyStartDate);
-                    } else {
-                        studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+        List<StudyParticipantCrf> spcList = new ArrayList<StudyParticipantCrf>();
+        for (StudyParticipantCrf spcrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+            spcList.add(spcrf);
+        }
+            for (CRF crf : study.getCrfs()) {
+                if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+                    if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
+                        boolean createSpCrf = true;
+                        StudyParticipantCrf studyParticipantCrf;
+                        if (spcList != null && spcList.size() > 0) {
+                            for (StudyParticipantCrf spc : spcList) {
+                                if (spc.getCrf().equals(crf) && spc.getArm().equals(studyParticipantAssignment.getArm())) {
+                                        studyParticipantCrf = spc;
+                                        studyParticipantCrf.createSchedules(armChange);
+                                        createSpCrf = false;
+                                }
+                            }
+                        }
+                        if (createSpCrf) {
+                            studyParticipantCrf = new StudyParticipantCrf();
+                            if (studyStartDate != null) {
+                                studyParticipantCrf.setStartDate(studyStartDate);
+                            } else {
+                                studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+                            }
+                            studyParticipantCrf.setCrf(crf);
+                            studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
+                            studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+                            studyParticipantCrf.createSchedules(armChange);
+                            studyParticipantCrf.setScheduleInitialized(true);
+                        }
                     }
-                    studyParticipantCrf.setCrf(crf);
-                    studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                    studyParticipantCrf.createSchedules(armChange);
-                    studyParticipantCrf.setScheduleInitialized(true);
                 }
             }
-        }
     }
 
     public void setParticipantModesAndReminders(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
@@ -442,13 +456,13 @@ public class ParticipantCommand {
             studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurses());
 
             for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : treatingPhysiciansToRemove) {
-            	studyParticipantAssignment.getTreatingPhysicians().remove(studyParticipantClinicalStaff);
+                studyParticipantAssignment.getTreatingPhysicians().remove(studyParticipantClinicalStaff);
                 studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
             }
             treatingPhysiciansToRemove.clear();
-            
+
             for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : researchNursesToRemove) {
-            	studyParticipantAssignment.getResearchNurses().remove(studyParticipantClinicalStaff);
+                studyParticipantAssignment.getResearchNurses().remove(studyParticipantClinicalStaff);
                 studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
             }
             researchNursesToRemove.clear();
@@ -464,11 +478,11 @@ public class ParticipantCommand {
     }
 
     public void addTreatingPhysicianToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-    	treatingPhysiciansToRemove.add(studyParticipantClinicalStaff);
+        treatingPhysiciansToRemove.add(studyParticipantClinicalStaff);
     }
-    
+
     public void addResearchNursesToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-    	researchNursesToRemove.add(studyParticipantClinicalStaff);
+        researchNursesToRemove.add(studyParticipantClinicalStaff);
     }
 
     public Set<Organization> getClinicalStaffOrgs() {
@@ -796,6 +810,24 @@ public class ParticipantCommand {
                         studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
                         studySite.getStudy().getStudyModes().size();
                         studySite.getStudy().getHomeModes();
+                        for (CRF crf : studySite.getStudy().getCrfs()) {
+                            for (FormArmSchedule fas : crf.getFormArmSchedules()) {
+                                if (fas.getCrfCalendars() != null) fas.getCrfCalendars().size();
+                                if (fas.getCrfCycleDefinitions() != null) {
+                                    fas.getCrfCycleDefinitions().size();
+                                    for (CRFCycleDefinition ccd : fas.getCrfCycleDefinitions()) {
+                                        if (ccd.getCrfCycles() != null) ccd.getCrfCycles().size();
+                                    }
+                                }
+                            }
+                            if (crf.getCrfPages() != null) crf.getCrfPages().size();
+                            for (CRFPage cpage : crf.getCrfPages()) {
+                                if (cpage.getCrfPageItems() != null) cpage.getCrfPageItems().size();
+                                for (CrfPageItem cpItem : cpage.getCrfPageItems()) {
+                                    cpItem.getInstructions();
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -806,21 +838,21 @@ public class ParticipantCommand {
 
     }
 
-	public List<StudyParticipantClinicalStaff> getTreatingPhysiciansToRemove() {
-		return treatingPhysiciansToRemove;
-	}
+    public List<StudyParticipantClinicalStaff> getTreatingPhysiciansToRemove() {
+        return treatingPhysiciansToRemove;
+    }
 
-	public void setTreatingPhysiciansToRemove(
-			List<StudyParticipantClinicalStaff> treatingPhysiciansToRemove) {
-		this.treatingPhysiciansToRemove = treatingPhysiciansToRemove;
-	}
+    public void setTreatingPhysiciansToRemove(
+            List<StudyParticipantClinicalStaff> treatingPhysiciansToRemove) {
+        this.treatingPhysiciansToRemove = treatingPhysiciansToRemove;
+    }
 
-	public List<StudyParticipantClinicalStaff> getResearchNursesToRemove() {
-		return researchNursesToRemove;
-	}
+    public List<StudyParticipantClinicalStaff> getResearchNursesToRemove() {
+        return researchNursesToRemove;
+    }
 
-	public void setResearchNursesToRemove(
-			List<StudyParticipantClinicalStaff> researchNursesToRemove) {
-		this.researchNursesToRemove = researchNursesToRemove;
-	}
+    public void setResearchNursesToRemove(
+            List<StudyParticipantClinicalStaff> researchNursesToRemove) {
+        this.researchNursesToRemove = researchNursesToRemove;
+    }
 }

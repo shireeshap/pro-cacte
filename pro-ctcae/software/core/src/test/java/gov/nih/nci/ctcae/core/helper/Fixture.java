@@ -98,10 +98,7 @@ public class Fixture {
 
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
         studyParticipantCrf.setCrf(createCrf());
-
-
-
-
+        studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setBaseline(true);
         studyParticipantCrfSchedule.setMonthInStudy(1);
