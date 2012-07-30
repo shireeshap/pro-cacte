@@ -73,7 +73,7 @@
                                 <c:set var="currentEn" value=""/>
                                 <c:set var="currentEs" value="current"/>
                             </c:if>
-                            <div class="language-toggle1" style="float:right">
+                            <div class="language-toggle1" style="float:right;margin-right:18px">
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
                                 <a class="right ${currentEs}" href="?lang=es">Español</a>
                             </div>
