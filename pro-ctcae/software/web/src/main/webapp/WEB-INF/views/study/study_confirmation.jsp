@@ -130,10 +130,12 @@
             <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
             <div class="value">${command.study.overallDataCoordinator.displayName} </div>
         </div>
-        <div class="row">
-            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
-            <div class="value">${command.study.leadCRA.displayName} </div>
-        </div>
+        <c:forEach items="${command.study.leadCRAs}" var="leadCra">
+	        <div class="row">
+	            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
+	            <div class="value">${leadCra.displayName} </div>
+	        </div>
+        </c:forEach>
         <div class="row">
             <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
             <div class="value">${command.study.principalInvestigator.displayName} </div>
