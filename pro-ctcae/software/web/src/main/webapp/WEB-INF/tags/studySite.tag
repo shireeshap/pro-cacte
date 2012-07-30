@@ -33,9 +33,18 @@
     <c:set var="ivrs" value="false"/>
     <c:set var="hbook" value="false"/>
     <c:forEach items="${command.selectedStudyParticipantAssignment.studyParticipantModes}" var="app" varStatus="status">
-        <c:if test="${app.mode.name eq 'HOMEWEB'}"><c:set var="hweb" value="true"/></c:if>
+        <c:if test="${app.mode.name eq 'HOMEWEB' or app.mode.name eq 'CLINICWEB'}"><c:set var="hweb" value="true"/></c:if>
         <c:if test="${app.mode.name eq 'IVRS'}"><c:set var="ivrs" value="true"/></c:if>
         <c:if test="${app.mode.name eq 'HOMEBOOKLET'}"><c:set var="hbook" value="true"/></c:if>
+    </c:forEach>
+    
+    <c:set var="studyHweb" value="false"/>
+    <c:set var="studyIvrs" value="false"/>
+    <c:set var="studyHbook" value="false"/>
+    <c:forEach items="${studysite.study.studyModes}" var="studyMode">
+        <c:if test="${studyMode.mode.name eq 'HOMEWEB' or studyMode.mode.name eq 'CLINICWEB'}"><c:set var="studyHweb" value="true"/></c:if>
+        <c:if test="${studyMode.mode.name eq 'IVRS'}"><c:set var="studyIvrs" value="true"/></c:if>
+        <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}"><c:set var="studyHbook" value="true"/></c:if>
     </c:forEach>
     <c:if test="${isEdit}">
         <td>
@@ -212,31 +221,26 @@
 <tr>
     <td colspan="3">
         &nbsp;&nbsp;&nbsp; <chrome:division title="Reporting options">
-        <br>
-        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.name eq 'HOMEWEB'}">
+        <br />
+            <c:if test="${studyHweb}">
                     <c:choose>
                         <c:when test="${hweb}">
-
-                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="${hweb}"
+                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
                                                             value="HOMEWEB"
-                                                            onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br>
+                                                            onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                            <br />
                             <c:set var="isWebAdded" value="true"/>
-
                         </c:when>
                         <c:otherwise>
                             &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
-                                                            onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br>
+                                                            onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                            <br />
                             <c:set var="isWebAdded" value="true"/>
                         </c:otherwise>
                     </c:choose>
             </c:if>
-        </c:forEach>
     </chrome:division>
     </td>
-
 </tr>
 <tr>
     <td colspan="2">
@@ -380,22 +384,20 @@
 <tr>
 
     <td colspan="3">
-        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.name eq 'IVRS'}">
+            <c:if test="${studyIvrs}">
                 <c:choose>
                     <c:when test="${ivrs}">
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:when>
                     <c:otherwise>
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:otherwise>
                 </c:choose>
             </c:if>
-        </c:forEach>
     </td>
 
 </tr>
@@ -602,31 +604,25 @@
 </tr>
 <tr>
     <td colspan="2">
-        <c:forEach items="${studysite.study.studyModes}" var="studyMode">
-            <c:if test="${studyMode.mode.name eq 'HOMEBOOKLET'}">
-                <c:choose>
-                    <c:when test="${hbook}">
-                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
-                                                        value="HOMEBOOKLET"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
-                        form
-                        <br>
-                    </c:when>
-                    <c:otherwise>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
-                                                        onclick="javascript:showOrHideEmail(this.checked, '${studyMode.mode.name}', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper
-                        form
-                        <br>
-                    </c:otherwise>
-                </c:choose>
-            </c:if>
-        </c:forEach>
+        <c:if test="${studyHbook}">
+            <c:choose>
+                <c:when test="${hbook}">
+                    &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEBOOKLET"
+                                                    onclick="javascript:showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
+                    <br />
+                </c:when>
+                <c:otherwise>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
+                                                    onclick="javascript:showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
+                    <br />
+                </c:otherwise>
+            </c:choose>
+        </c:if>
     </td>
-
 </tr>
+
 <tr>
     <td colspan="2">
-
         <div style="margin-left:45px">
             <table border="0" cellpadding="0" cellspacing="0">
 
@@ -653,11 +649,9 @@
                         </div>
                     </td>
                     <td valign="top"><br><br>
-
                     </td>
                 </tr>
             </table>
-
         </div>
     </td>
 </tr>

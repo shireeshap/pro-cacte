@@ -332,7 +332,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 if (appMode.equals(AppMode.IVRS)) {
                     showTime = true;
                 }
-                if (appMode.equals(AppMode.HOMEWEB)) {
+                if (appMode.equals(AppMode.HOMEWEB) || appMode.equals(AppMode.CLINICWEB)) {
                     showWeb = true;
                 }
                 if (appMode.equals(AppMode.HOMEBOOKLET)) {
