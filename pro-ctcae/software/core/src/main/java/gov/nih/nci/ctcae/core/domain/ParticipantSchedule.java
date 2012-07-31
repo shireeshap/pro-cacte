@@ -100,6 +100,9 @@ public class ParticipantSchedule {
 
     public List<StudyParticipantCrfSchedule> getPreviousSchedules(StudyParticipantAssignment spa, StudyParticipantCrf spc) {
         List<StudyParticipantCrfSchedule> schedules = new ArrayList<StudyParticipantCrfSchedule>();
+        if(spc.getCrf().getParentCrf() == null){
+        	return schedules;
+        }
         for (StudyParticipantCrf studyParticipantCrf : spa.getStudyParticipantCrfs()) {
             if (!spc.equals(studyParticipantCrf) && studyParticipantCrf.getStudyParticipantCrfSchedules(false) != null && studyParticipantCrf.getStudyParticipantCrfSchedules(false).size() > 0) {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules(false)) {
@@ -165,7 +168,7 @@ public class ParticipantSchedule {
                     List<StudyParticipantCrfSchedule> spcsList = getPreviousSchedules(spa, studyParticipantCrf);
                     if (c.getTime().equals(studyParticipantCrf.getCrf().getEffectiveStartDate()) || c.getTime().after(studyParticipantCrf.getCrf().getEffectiveStartDate())) {
                         if (studyParticipantCrf.getCrf().getParentCrf() != null && studyParticipantCrf.getCrf().getParentCrf().getStudyParticipantCrfs() != null) {
-                            if (spcsList != null) {
+                            if (spcsList != null && spcsList.size() > 0) {
                                 for (StudyParticipantCrfSchedule spcs : spcsList) {
                                     if (sdf.format(spcs.getStartDate()).equals(sdf.format(c.getTime())) && (spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.COMPLETED) || spcs.getStatus().equals(CrfStatus.PASTDUE))) {
                                         if (spcs.getStudyParticipantCrf().getCrf().equals(studyParticipantCrf.getCrf()) || spcs.getStudyParticipantCrf().getCrf().checkForParent(studyParticipantCrf.getCrf())) {
