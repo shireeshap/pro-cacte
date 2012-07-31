@@ -1,29 +1,49 @@
 package gov.nih.nci.ctcae.web.batch;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.util.*;
 
 public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     protected static final Log logger = LogFactory.getLog(PastDueSchedulesReminderEmail.class);
@@ -51,7 +71,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
-        logger.error("Nightly trigger bean job starts....");
+        logger.debug("Nightly trigger bean job starts....");
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
@@ -61,15 +81,17 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Date yesterday = ProCtcAECalendar.getCalendarForDate(cal.getTime()).getTime();
         boolean web = false;
         for (Study study : studies) {
-//            List<StudyOrganizationClinicalStaff> clinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
 
             for (StudySite studySite : study.getStudySites()) {
+            	//add the study site level clinicians
                 List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
                 clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
-                if (study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA)!= null) {
-                clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
-                }
+                //add the study level clinicians
+            	clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+            	clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.PI));
+            	
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
+                	web = false;
                     if (studyParticipantAssignment.getStatus() != null && studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
                         for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
                             if (mode.getMode().equals(AppMode.HOMEWEB)) {
@@ -111,7 +133,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                     String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
                     if (StringUtils.isNotBlank(emailAddress)) {
                         System.out.println("Sending ClinicalStaff email to " + emailAddress);
-                        logger.error("Sending ClinicalStaff email to " + emailAddress);
+                        logger.debug("Sending ClinicalStaff email to " + emailAddress);
                         MimeMessage message = javaMailSender.createMimeMessage();
                         message.setSubject(subject);
                         message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
@@ -123,14 +145,14 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 }
             }
 
-            logger.error("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
+            logger.debug("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
             if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
                     String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
                     String participantEmailContent = getHtmlContentForParticipantEmail(studyParticipantAndSchedulesMap.get(studyParticipantAssignment), studyParticipantAssignment);
                     if (StringUtils.isNotBlank(participantEmailAddress)) {
                         System.out.println("Sending Survey Reminder email to " + participantEmailAddress);
-                        logger.error("Sending Survey Reminder email to " + participantEmailAddress);
+                        logger.debug("Sending Survey Reminder email to " + participantEmailAddress);
                         MimeMessage participantMessage = javaMailSender.createMimeMessage();
                         Locale locale = Locale.ENGLISH;
                         if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
@@ -154,7 +176,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             e.printStackTrace();
         }
         tx.commit();
-        logger.error("Nightly trigger bean job ends....");
+        logger.debug("Nightly trigger bean job ends....");
     }
 
     private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
