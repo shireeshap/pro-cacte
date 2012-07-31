@@ -171,7 +171,7 @@
 		                </tbody>
 		            </table>
 	            </div>
-	            <div style="margin-left:470px;margin-top:10px;margin-bottom:10px;">
+	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px;">
 		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addLeadCra()"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
