@@ -259,31 +259,27 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void saveOrUpdate(User _user) {
+    public void saveOrUpdate(Participant participant) {
 
-        User user = _user;
+        User user = participant.getUser();
 
-        String myPassword = _user.getPassword();
-        String username = _user.getUsername();
+        String myPassword = user.getPassword();
+        String username = user.getUsername();
 
         if (myPassword != null) {
-            String currentPassword = user.getPassword();
-            if (!myPassword.equals(currentPassword)) {
-                String encoded = getEncodedPassword(_user);
-                _user.setPassword(encoded);
-                _user.setConfirmPassword(encoded);
+            String currentPassword = participant.getPassword();
+            if (!myPassword.equals(currentPassword) && currentPassword!=null) {
+                String encoded = getEncodedPassword(user);
                 user.setPassword(encoded);
                 user.setConfirmPassword(encoded);
                 user.setPasswordLastSet(new Timestamp(new Date().getTime()));
-                _user.setPasswordLastSet(user.getPasswordLastSet());
-            }
+                }
             if (username != null || username != "") {
                 user.setUsername(username.toLowerCase());
                 if (user.getId() == null) {
                     user.setPassword(getEncodedPassword(user));
                 }
             }
-//            }
         }
 
         genericRepository.saveOrUpdate(user);

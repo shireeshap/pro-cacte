@@ -78,6 +78,9 @@ public class Participant extends Person {
 
     @Transient
     private Integer confirmPinNumber;
+
+    @Transient
+    private String password;
     
     public User getUser() {
         return user;
@@ -334,6 +337,14 @@ public class Participant extends Person {
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmailAddress() {

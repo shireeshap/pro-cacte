@@ -71,6 +71,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             for (StudyParticipantMode spMode : studyParticipantAssignment.getStudyParticipantModes()) {
                 studyParticipantModes.add(spMode);
             }
+            command.getParticipant().setPassword(command.getParticipant().getUser().getPassword());
             command.setStudyParticipantModes(studyParticipantModes);
             command.getStudySubjectIdentifierMap().put(studySite.getStudy().getId(), studyParticipantIdentifier);
             command.setParticipantModeHistory(studyParticipantAssignment.getStudySite(), studyParticipantAssignment, request);

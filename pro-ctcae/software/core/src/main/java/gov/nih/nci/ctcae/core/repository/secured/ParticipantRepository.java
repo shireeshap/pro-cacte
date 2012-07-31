@@ -112,7 +112,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
             user.setAccountNonLocked(true);
         }
 //        if (user.getUsername()!=null) {
-        userRepository.saveOrUpdate(participant.getUser());
+        userRepository.saveOrUpdate(participant);
 //        }  else {
 //            userRepository.saveWithoutCheck(participant.getUser());
 //        }
