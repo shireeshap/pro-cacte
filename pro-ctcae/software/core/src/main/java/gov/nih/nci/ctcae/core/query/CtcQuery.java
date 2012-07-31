@@ -25,7 +25,8 @@ public class CtcQuery extends AbstractQuery {
      */
     public CtcQuery() {
         super(queryString);
-        andWhere("i.category.ctc.name = :" + CTC_NAME);
+        join("i.categoryTermSets as cts");
+        andWhere("cts.category.ctc.name = :" + CTC_NAME);
         setParameter(CTC_NAME, "CTC v4.0");
     }
 

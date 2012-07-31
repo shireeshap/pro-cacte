@@ -192,6 +192,7 @@ public class ParticipantTestHelper {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf spc = new StudyParticipantCrf();
                 spc.setCrf(crf);
+                spc.setArm(participant.getStudyParticipantAssignments().get(0).getArm());
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
                 spc.createSchedules(false);
