@@ -205,27 +205,11 @@ public class StudyQuery extends SecuredQuery<Study> {
     
     public void filterByAll(String text, String key){
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
-        leftJoin("study.studyOrganizations as sso");
         andWhere(String.format("(lower(study.shortTitle) LIKE :%s " +
-                "or lower(study.assignedIdentifier) LIKE :%s " +
-                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
-                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
-                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
-                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) " +
-                "or (lower(sso.organization.name) LIKE :%s and (sso.class = :%s)) )", SHORT_TITLE+key, ASSIGNED_IDENTIFIER+key, ORGANIZATION_NAME+key, STUDY_SITE+key, ORGANIZATION_NAME+key, LEAD_SITE+key, ORGANIZATION_NAME+key, DCC+key, ORGANIZATION_NAME+key, F_SPONSOR+key, ORGANIZATION_NAME+key, S_SPONSOR+key));
+                "or lower(study.assignedIdentifier) LIKE :%s ) ", SHORT_TITLE+key, ASSIGNED_IDENTIFIER+key));
 
         setParameter(SHORT_TITLE+key, searchString);
         setParameter(ASSIGNED_IDENTIFIER+key, searchString);
-        setParameter(ORGANIZATION_NAME+key, searchString);
-        setParameter(STUDY_SITE+key, "SST");
-        setParameter(ORGANIZATION_NAME+key, searchString);
-        setParameter(LEAD_SITE+key, "LSS");
-        setParameter(ORGANIZATION_NAME+key, searchString);
-        setParameter(DCC+key, "DCC");
-        setParameter(ORGANIZATION_NAME+key, searchString);
-        setParameter(F_SPONSOR+key, "FSP");
-        setParameter(ORGANIZATION_NAME+key, searchString);
-        setParameter(S_SPONSOR+key, "SSP");
     }
 
     public Class<Study> getPersistableClass() {

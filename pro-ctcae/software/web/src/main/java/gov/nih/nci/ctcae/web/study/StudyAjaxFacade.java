@@ -66,9 +66,7 @@ public class StudyAjaxFacade {
         studyQuery.setSortBy("study." + sort);
         studyQuery.setSortDirection(dir);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (searchStrings != null) {
-            studyQuery.setLeftJoin();
             int index = 0;
             for (String searchText : searchStrings) {
                 if (!StringUtils.isBlank(searchText)) {
@@ -118,7 +116,6 @@ public class StudyAjaxFacade {
             studyQuery.filterByUsername(userName);
         } else {
             if (searchTexts != null) {
-                studyQuery.setLeftJoin();
                 int index = 0;
                 for (String searchText : searchTexts) {
                     if (!StringUtils.isBlank(searchText)) {
