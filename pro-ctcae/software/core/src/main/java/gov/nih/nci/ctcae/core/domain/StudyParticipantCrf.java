@@ -159,8 +159,14 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyParticipantCrfSchedules;
     }
 
+    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(boolean dynamicallyCreate) {
+        if (dynamicallyCreate) {
+            getStudyParticipantCrfSchedules();
+        }
+        return studyParticipantCrfSchedules;
+    }
 
-    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules(List<CrfStatus> crfStatusList) {
+    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedulesByStatus(List<CrfStatus> crfStatusList) {
         try {
             if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null  && !getScheduleInitialized()) {
                 //creating schedules dynamically
@@ -186,17 +192,6 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param studyParticipantCrfSchedule the study participant crf schedule
      */
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-//    	if(DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), DateUtils.getCurrentDate()) <= 0 &&
-//    			DateUtils.compareDate(studyParticipantCrfSchedule.getDueDate(), DateUtils.getCurrentDate()) >= 0 ){
-//          for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
-//	          for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-//	              StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-//	              studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-//	              studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
-//	          }
-//	      }
-//    	}
-
         studyParticipantCrfSchedule.setStudyParticipantCrf(this);
         studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
     }

@@ -101,8 +101,8 @@ public class ParticipantSchedule {
     public List<StudyParticipantCrfSchedule> getPreviousSchedules(StudyParticipantAssignment spa, StudyParticipantCrf spc) {
         List<StudyParticipantCrfSchedule> schedules = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrf studyParticipantCrf : spa.getStudyParticipantCrfs()) {
-            if (!spc.equals(studyParticipantCrf) && studyParticipantCrf.getStudyParticipantCrfSchedules() != null && studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 0) {
-                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (!spc.equals(studyParticipantCrf) && studyParticipantCrf.getStudyParticipantCrfSchedules(false) != null && studyParticipantCrf.getStudyParticipantCrfSchedules(false).size() > 0) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules(false)) {
                     Date startDate = studyParticipantCrfSchedule.getStartDate();
                     if (proCtcAECalendar.isDateAfterMonth(startDate)) {
                         break;
@@ -556,7 +556,7 @@ public class ParticipantSchedule {
 //     * @return true, if is repeat
 //     */
 //    public boolean isRepeat() {
-//        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1;
+//        return studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus().size() > 1;
 //    }
 
     //

@@ -230,7 +230,7 @@ public class CRFIntegrationTest extends TestDataManager {
 //        commitAndStartNewTransaction();
 //
 //        spc = genericRepository.findById(StudyParticipantCrf.class, spc.getId());
-//        assertEquals(5, spc.getStudyParticipantCrfSchedules().size());
+//        assertEquals(5, spc.getStudyParticipantCrfSchedulesByStatus().size());
 //        assertEquals(numOfSPCs, spc.getCrf().getStudyParticipantCrfs().size());
 //        assertEquals(numOfSPCs, crf.getStudyParticipantCrfs().size());
 //

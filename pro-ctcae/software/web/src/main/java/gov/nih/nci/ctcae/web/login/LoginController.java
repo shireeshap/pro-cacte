@@ -268,7 +268,7 @@ public class LoginController extends AbstractController {
             for (StudyParticipantAssignment studyParticipantAssignment : spaList) {
             	
             	for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            		for(StudyParticipantCrfSchedule spcs:spc.getStudyParticipantCrfSchedules(crfStatusList)) {
+            		for(StudyParticipantCrfSchedule spcs:spc.getStudyParticipantCrfSchedulesByStatus(crfStatusList)) {
             			if(spcs.getStatus().equals(CrfStatus.PASTDUE)){
             				if (loadOverdue != null && pastCount > 0) {
   		                      overdue.add(spcs);
