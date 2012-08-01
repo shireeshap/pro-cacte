@@ -10,6 +10,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ attribute name="studysite" type="gov.nih.nci.ctcae.core.domain.StudySite" required="true" %>
+
+<style type="text/css">
+	div.row div.ssLabel {
+    font-weight: bold;
+    float: left;
+    margin-left: 0.1em;
+    text-align: right;
+    width: 12em;
+	}
+	div.row div.ssValue {
+    font-weight: normal;
+    margin-left: 13em;
+    text-align: left;
+	}
+</style>
+
 <c:forEach items="${studysite.study.crfs}" var="crf">
     <c:if test="${crf.status eq 'RELEASED' and crf.childCrf eq null}">
         <c:set var="hasforms" value="true"/>
@@ -82,7 +98,7 @@
 <table cellspacing="0" border="0">
 <tr>
 
-    <td class="data" align="right" width="20%">
+    <td class="data" align="right" width="28%">
         <span class="required-indicator">*&nbsp;&nbsp;</span><b> Participant study identifier</b>
     </td>
     <td width="50%" class="data">
@@ -254,9 +270,9 @@
                         <c:choose>
                             <c:when test="${command.readOnlyUserName}">
                                 <div class="row">
-                                    <div class="label"><spring:message
+                                    <div class="ssLabel"><spring:message
                                             code="participant.label.username"/>&nbsp;</div>
-                                    <div class="value">${command.participant.user.username}</div>
+                                    <div class="ssValue">${command.participant.user.username}</div>
                                     <input type="hidden" id="participant.user.username"
                                            name="participant.user.username"
                                            value="${command.participant.user.username}">
@@ -264,10 +280,10 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="row">
-                                    <div class="label"><span
+                                    <div class="ssLabel"><span
                                             class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                             code="participant.label.username"/>&nbsp;</div>
-                                    <div class="value">
+                                    <div class="ssValue">
                                         <input type="text" name="participant.username_${studysite.id}"
                                                value="${command.participant.user.username}"
                                                id="participant.username_${studysite.id}" title="Username"
@@ -291,25 +307,25 @@
                             </c:otherwise>
                         </c:choose>
                         <div class="row">
-                            <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
-                                    code="participant.label.password"/>&nbsp;</div>
-                            <div class="value">
+                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span>
+                            	<spring:message code="participant.label.password"/>&nbsp;
+                            </div>
+                            <div class="ssValue">
                                 <input type="password" name="participant.password_${studysite.id}"
                                        value="${participant.user.password}"
                                        id="participant.password_${studysite.id}"
                                        onblur="checkPasswordPolicy(${studysite.id});" title="Password"
                                        class="${showWeb eq true ? "validate-NOTEMPTY":""}"/>
-                                <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em "
-                                    class="errors">--%>
+                                <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
                                     <li id="passwordError1_${studysite.id}"></li>
                                 </ul>
                             </div>
-
                         </div>
+                        
                         <div class="row">
-                            <div class="label"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
+                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
                                     code="participant.label.confirmpassword"/>&nbsp;</div>
-                            <div class="value">
+                            <div class="ssValue">
                                 <input type="password" name="participant.confirmPassword_${studysite.id}"
                                        value="${participant.user.password}"
                                        id="participant.confirmPassword_${studysite.id}"
@@ -320,13 +336,12 @@
                                     <li id="passwordErrorConfirm1_${studysite.id}"></li>
                                 </ul>
                             </div>
-
                         </div>
 
                         <div class="row">
-                            <div id="emailHeader_${studysite.id}" class="label"><spring:message
+                            <div id="emailHeader_${studysite.id}" class="ssLabel"><spring:message
                                     code="participant.label.email_address"/>&nbsp;</div>
-                            <div id="participantEmail_${studysite.id}" class="value">
+                            <div id="participantEmail_${studysite.id}" class="ssValue">
 
                                 <input type="text" name="participant.email_${studysite.id}"
                                        value="${studyParticipantAssignment.participant.emailAddress}"
@@ -341,33 +356,38 @@
                                     </li>
                                 </ul>
                             </div>
-
-
                         </div>
 
+						<c:choose>
+							<c:when test="${!empty studyParticipantAssignment.homeWebLanguage and studyParticipantAssignment.homeWebLanguage != ''}">
+								<c:set var="langPref" value="${studyParticipantAssignment.homeWebLanguage}" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="langPref" value="${studyParticipantAssignment.clinicWebLanguage}" />
+							</c:otherwise>	
+						</c:choose>
                         <div class="row">
-                            <div class="label">
+                            <div class="ssLabel">
                                 <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
                             </div>
-                            <div class="value">
-                                <select id="home_web_lang_${studysite.id}"
-                                        name="home_web_lang_${studysite.id}">
-                                    <option value="" ${studyParticipantAssignment.homeWebLanguage eq "" ? "selected='selected'" : " "} >
+                            <div class="ssValue">
+                                <select id="home_web_lang_${studysite.id}" name="home_web_lang_${studysite.id}" class="${showWeb eq true ? "validate-NOTEMPTY":""}">
+                                    <option value="" ${langPref eq "" ? "selected='selected'" : " "} >
                                         Please select
                                     </option>
-                                    <option value="ENGLISH" ${studyParticipantAssignment.homeWebLanguage eq "ENGLISH" ? "selected='selected'" : " "} >
+                                    <option value="ENGLISH" ${langPref eq "ENGLISH" ? "selected='selected'" : " "} >
                                         English
                                     </option>
-                                    <option value="SPANISH" ${studyParticipantAssignment.homeWebLanguage eq "SPANISH" ? "selected='selected'" : " "} >
+                                    <option value="SPANISH" ${langPref eq "SPANISH" ? "selected='selected'" : " "} >
                                         Spanish
                                     </option>
                                 </select>
                             </div>
                         </div>
                     </td>
+                    
                     <td><br><br><br><br>
-
-                        <div style="margin-left:10px">
+                        <div style="margin-left:0px;margin-bottom:15px;">
                             <input type="checkbox" name="email_${studysite.id}" value="true"
                                    onclick="javascript:showEmail(${studysite.id}, this.checked);"
                                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
@@ -381,8 +401,8 @@
     </td>
     <td></td>
 </tr>
-<tr>
 
+<tr>
     <td colspan="3">
             <c:if test="${studyIvrs}">
                 <c:choose>
@@ -408,10 +428,10 @@
 <tr>
 <td>
     <div class="row">
-        <div class="label">
+        <div class="ssLabel">
             IVRS call-out
         </div>
-        <div class="value">
+        <div class="ssValue">
             <input type="checkbox" name="call_${studysite.id}" value="true"
                    onclick="javascript:showPhone(${studysite.id}, this.checked)"
                    id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
@@ -419,10 +439,10 @@
         </div>
     </div>
     <div class="row">
-        <div id="phoneLabel_${studysite.id}" class="label">
+        <div id="phoneLabel_${studysite.id}" class="ssLabel" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
             <span class="required-indicator">*&nbsp;&nbsp; </span> Phone
         </div>
-        <div id="participantPhone_${studysite.id}" class="value">
+        <div id="participantPhone_${studysite.id}" class="ssValue" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
             <input type="text" name="participant.phoneNumber_${studysite.id}"
                    value="${studyParticipantAssignment.participant.phoneNumber}"
                    id="participant.phoneNumber_${studysite.id}"
@@ -441,10 +461,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="label">
+        <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> IVRS user id
         </div>
-        <div class="value">
+        <div class="ssValue">
             <input type="text" name="participantUserNumber_${studysite.id}"
                    value="${studyParticipantAssignment.participant.userNumber}"
                    id="participant.userNumber_${studysite.id}" title="User Number"
@@ -461,10 +481,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="label">
+        <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> PIN number
         </div>
-        <div class="value">
+        <div class="ssValue">
             <input type="password" name="participantPinNumber_${studysite.id}"
                    value="${studyParticipantAssignment.participant.pinNumber}"
                    id="participant.pinNumber_${studysite.id}"
@@ -477,10 +497,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="label">
+        <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> Confirm
         </div>
-        <div class="value">
+        <div class="ssValue">
             <input type="password" name="participantPinNumberConfirm_${studysite.id}"
                    value="${studyParticipantAssignment.participant.confirmPinNumber}"
                    id="participant.confirmPinNumber_${studysite.id}"
@@ -492,11 +512,11 @@
             </ul>
         </div>
     </div>
-    <div id="callTime_${studysite.id}" class="row">
-        <div class="label">
+    <div id="callTime_${studysite.id}" class="row" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
+        <div class="ssLabel">
             <span class="required-indicator">*&nbsp; </span> Preferred call time
         </div>
-        <div id="ivrs_${studysite.id}" class="value" style="${showTime eq true ? "":"display:none"}">
+        <div id="ivrs_${studysite.id}" class="ssValue" style="${showTime eq true ? "":"display:none"}">
             <table>
                 <tr>
                     <td>
@@ -571,11 +591,11 @@
             </ul>
         </div>
     </div>
-    <div id="ivrsLanguage_${studysite.id}" class="row">
-        <div class="label">
+    <div id="ivrsLanguage_${studysite.id}" class="row" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
+        <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
         </div>
-        <div class="value">
+        <div class="ssValue">
             <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}"
                     title="Preferred language">
                 <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
@@ -629,10 +649,10 @@
                 <tr id="home_paper_${studysite.id}" style="${showBook eq true ? "":"display:none"}">
                     <td>
                         <div class="row">
-                            <div class="label">
+                            <div class="ssLabel">
                                 <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
                             </div>
-                            <div class="value">
+                            <div class="ssValue">
                                 <select id="home_paper_lang_${studysite.id}"
                                         name="home_paper_lang_${studysite.id}">
                                     <option value="" ${studyParticipantAssignment.homePaperLanguage eq "" ? "selected='selected'" : " "} >
@@ -659,7 +679,7 @@
 
 </table>
 </td>
-<td></td>
+<td width="19%"></td>
 </tr>
 
 

@@ -758,22 +758,23 @@ function showPhone(id, val) {
         jQuery('#phoneLabel_' +id).show();
         jQuery('#ivrsLanguage_' +id).show();
         jQuery('#callTime_' +id).show();
-        $('participantPhoneNumber_' +id).addClassName("validate-NOTEMPTY");
-        $('participantPhoneNumber_' +id).addClassName("validate-NOTEMPTY");
+        $('participant.phoneNumber_' +id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
         $('call_hour_' +id).addClassName("validate-NOTEMPTY");
         $('call_minute_' +id).addClassName("validate-NOTEMPTY");
         $('call_ampm_' +id).addClassName("validate-NOTEMPTY");
         $('call_timeZone_' +id).addClassName("validate-NOTEMPTY");
+        $('ivrs_lang_' +id).addClassName("validate-NOTEMPTY");
     } else {
         jQuery('#participantPhone_' +id).hide();
         jQuery('#phoneLabel_' +id).hide();
         jQuery('#ivrsLanguage_' +id).hide();
         jQuery('#callTime_' +id).hide();
-        $('participantPhoneNumber_' +id).removeClassName("validate-NOTEMPTY");
+        $('participant.phoneNumber_' +id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
         $('call_hour_' +id).removeClassName("validate-NOTEMPTY");
         $('call_minute_' +id).removeClassName("validate-NOTEMPTY");
         $('call_ampm_' +id).removeClassName("validate-NOTEMPTY");
         $('call_timeZone_' +id).removeClassName("validate-NOTEMPTY");
+        $('ivrs_lang_' +id).removeClassName("validate-NOTEMPTY");
     }
 }
 
@@ -897,6 +898,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#call_' + id).attr('checked', true);
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
         addIVRSRemoveEmailClassName(id);
+        showPhone(id, true);
     }
 
     if(!value1 && value2 == "IVRS"){
@@ -964,7 +966,6 @@ function isSpclChar(fieldName) {
         border-left: 0px solid #999999;
         padding-left: 5px;
     }
-
 </style>
 <!--[if IE]>
 <style>
@@ -984,7 +985,7 @@ function isSpclChar(fieldName) {
            </c:when>
            <c:otherwise>
                <c:set var="required" value="false"/>
-               <c:set var="maxLength" value="40"/>
+               <c:set var="maxLength" value="35"/>
            </c:otherwise>
        </c:choose>
            <tags:instructions code="participant.participant_details.top"/><br/>
