@@ -579,7 +579,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
         for (StudyParticipantCrf studyParticipantCrf : getStudyParticipantCrfs()) {
             boolean deleteSpCrf = true;
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals((CrfStatus.PASTDUE))) {
                     deleteSpCrf = false;
                     break;
                 }

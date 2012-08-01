@@ -212,7 +212,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     public void removeScheduledSpCrfSchedules() throws Exception {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
-            if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+            if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) && !studyParticipantCrfSchedule.getStatus().equals((CrfStatus.PASTDUE))) {
                 schedulesToRemove.add(studyParticipantCrfSchedule);
             }
         }
