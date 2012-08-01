@@ -17,9 +17,12 @@
 <head>
     <script type="text/javascript">
         function saveAndBack(type, id) {
-            document.forms[0].submitType.value = type;
-            document.forms[0].submit();
-//            window.location="../participant/edit?id="+id+"&tab=3";
+            if (type == 'back') {
+                window.location = "../participant/edit?id=" + id + "&tab=3";
+            } else {
+                document.forms[0].submitType.value = type;
+                document.forms[0].submit();
+            }
         }
 
         function saveResponse(type) {
@@ -66,25 +69,16 @@
 							    <a style="color:black" href="?id=${command.id}&lang=es">Spanish</a>
 		 			    
 		 </span>
-		
-
-<!-- This Script is from www.htmlfreecodes.com, Coded by: Krishna Eydat
-<SCRIPT LANGUAGE="JavaScript">
-if (window.print) {
-document.write('<form> ' + '<input type=button name=print value="Click" ' + 'onClick="javascript:window.print()"> To Print this page!</form>');
-}
-</script>
--->
 
 <script>
-printDivCSS = new String ('<link href="myprintstyle.css" rel="stylesheet" type="text/css">')
-function printDiv(divId) {
-    window.frames["print_frame"].document.body.innerHTML=  printDivCSS + document.getElementById(divId).innerHTML
-    window.frames["print_frame"].window.focus()
-    window.frames["print_frame"].window.print()
-}
-</script>		
-							    
+    printDivCSS = new String('<link href="myprintstyle.css" rel="stylesheet" type="text/css">')
+    function printDiv(divId) {
+        window.frames["print_frame"].document.body.innerHTML = printDivCSS + document.getElementById(divId).innerHTML
+        window.frames["print_frame"].window.focus()
+        window.frames["print_frame"].window.print()
+    }
+</script>
+
 <div id="printDiv">
 <table>
     <tr>
@@ -135,13 +129,7 @@ function printDiv(divId) {
 
     <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
         <c:set var="myindex" value="1"/>
-            <%--<c:set var="homeweblanguage"--%>
-            <%--value="${command.studyParticipantCrf.studyParticipantAssignment.homeWebLanguage}"/>--%>
-            <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
-            <%--<c:set var="homeweblanguage" value="ENGLISH"/>--%>
-            <%--</c:if>--%>
         <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
-            <%--<c:if test="${language eq 'en' || language eq 'es' && symptom.key.proCtcTermVocab.termSpanish ne null}">--%>
             <tr>
                 <td colspan="7"><br/></td>
             </tr>
@@ -189,7 +177,6 @@ function printDiv(divId) {
                 </tr>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </c:forEach>
-            <%--</c:if>--%>
         </c:forEach>
         <c:forEach items="${command.participantAddedProCtcQuestionsBySymptom}" var="symptom">
             <tr>
@@ -325,12 +312,19 @@ function printDiv(divId) {
         <tr>
             <td align="left">
                 <tags:button type="submit" color="blue" id="flow-prev"
-                             onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});" value="Save & Back" icon="Back"/>
+                             onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                             value="Back" icon="Back"/>
+                <tags:button type="submit" color="blue" id="flow-prev"
+                             onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                             value="Save & Back" icon="Back"/>
+            </td>
+            <td align="left">
+
             </td>
             <td align="right">
                 <tags:button color="green" id="flow-update"
                              cssClass="next" value="Save" icon="save" onclick="saveResponse('save');"/>
-                &nbsp;&nbsp;&nbsp;&nbsp;
+
                 <tags:button color="blue" id="flow-update"
                              cssClass="next" value="Submit" icon="save" onclick="saveResponse('submit');"/>
             </td>
