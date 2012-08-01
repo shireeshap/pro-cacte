@@ -45,8 +45,8 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery(true);
         spcsQuery.filterByUsername(userName);
-        if (!status.equals(CrfStatus.PASTDUE)) {
-            spcsQuery.filterByDate(current);
+        if (status.equals(CrfStatus.PASTDUE)) {
+            spcsQuery.filterByStatus(status);
         } else if (status.equals(CrfStatus.INPROGRESS)){
             spcsQuery.filterByStatus(status);
         } else {

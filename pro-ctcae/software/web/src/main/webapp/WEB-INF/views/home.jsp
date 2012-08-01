@@ -934,7 +934,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </tr>
 <tr>
     <td>
-        <c:if test="${studyLevelRole || siteLevelRole}">
+        <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
             <chrome:box title="My Calendar" collapsable="true" id="mycalendar" collapsed="false">
                 <table border="0" width="95%" align="center">
                     <tr>
@@ -992,7 +992,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </tr>
 <tr>
     <td align="center">
-        <c:if test="${siteLevelRole}">
+        <c:if test="${siteLevelRole || nurseLevelRole}">
             <chrome:box title="Available Forms" collapsable="true" id="myavailableforms" collapsed="false">
                 <div class="yui-skin-sam">
                     <table width="70%">
@@ -1011,7 +1011,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </tr>
 <tr>
     <td align="center">
-        <c:if test="${siteLevelRole}">
+        <c:if test="${siteLevelRole || nurseLevelRole}">
             <chrome:box title="Overdue forms" collapsable="true" id="overdueforms" collapsed="false">
                 <div class="yui-skin-sam">
                     <table width="70%">
@@ -1030,7 +1030,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </tr>
 <tr>
     <td align="center">
-        <c:if test="${siteLevelRole}">
+        <c:if test="${siteLevelRole || nurseLevelRole}">
             <chrome:box title="Upcoming forms" collapsable="true" id="upcomingforms" collapsed="false">
                 <div class="yui-skin-sam">
                     <table width="70%">
