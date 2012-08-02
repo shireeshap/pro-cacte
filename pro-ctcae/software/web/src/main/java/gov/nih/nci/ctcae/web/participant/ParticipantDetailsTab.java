@@ -119,6 +119,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setPinNumber(null);
                 }
             }
+            String confirmPinNumber = request.getParameter("participantPinNumberConfirm_" + studySite.getId());
+            if (!StringUtils.isBlank(confirmPinNumber)) {
+                try {
+                    command.getParticipant().setConfirmPinNumber(Integer.parseInt(confirmPinNumber));
+                } catch (Exception e) {
+                    command.getParticipant().setConfirmPinNumber(null);
+                }
+            }
             String email = request.getParameter("participant.email_" + studySite.getId());
             if (!StringUtils.isBlank(email)) {
                 try {
