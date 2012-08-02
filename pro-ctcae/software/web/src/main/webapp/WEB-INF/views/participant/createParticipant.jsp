@@ -77,19 +77,19 @@ function checkParticipantUserName(siteId) {
 }
 
 // validation check for email address
-function checkParticipantEmail(siteId) {
-    var emailAddress = $('participant.email_' + siteId).value;
+function checkParticipantEmail() {
+    var emailAddress = $('participant.emailAddress').value;
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
     isEmailError = false;
-    jQuery('#userEmailError_'+ siteId).hide();
+    jQuery('#userEmailError').hide();
     if (emailAddress != "") {
         uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback:
                                                                                   function(returnValue) {
                                                                                       if (returnValue) {
-                                                                                          jQuery('#userEmailError_' + siteId).show();
+                                                                                          jQuery('#userEmailError').show();
                                                                                           isEmailError = true;
                                                                                       }
                                                                                       else {
@@ -315,45 +315,46 @@ function validateCalloutTime(siteId, startTime, endTime) {
 
 
 var phoneNumberPattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
-function checkParticipantPhoneNumber(siteId) {
+function checkParticipantPhoneNumber() {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    var phoneNumber = $('participant.phoneNumber_' + siteId).value;
+    var phoneNumber = $('participant.phoneNumber').value;
     if (phoneNumber != "") {
         if (!phoneNumberPattern.test(phoneNumber)) {
-            jQuery('#PhonePatternError_' + siteId).show();
-            jQuery('#phoneNumberError_' + siteId).hide();
+            jQuery('#PhonePatternError').show();
+            jQuery('#phoneNumberError').hide();
             isPhoneNumberError = true;
         }
         else {
             var re = /[-]/g;
             var nonFormattedPhoneNumber = phoneNumber.replace(re, "");
             phoneNumber = nonFormattedPhoneNumber.substring(0, 3) + "-" + nonFormattedPhoneNumber.substring(3, 6) + "-" + nonFormattedPhoneNumber.substring(6, 10);
-            $('participant.phoneNumber_' + siteId).value = phoneNumber;
+            $('participant.phoneNumber').value = phoneNumber;
             uniqueParticipantUserNumber.validatePhoneNumber(phoneNumber, participantId, {callback:
                                                                                          function(returnValue) {
-                                                                                             jQuery('#PhonePatternError_' + siteId).hide();
-                                                                                             showOrHideErrorField(returnValue, '#phoneNumberError_' + siteId);
+                                                                                             jQuery('#PhonePatternError').hide();
+                                                                                             showOrHideErrorField(returnValue, '#phoneNumberError');
                                                                                              if (returnValue) {
                                                                                                  isPhoneNumberError = true;
                                                                                              }
                                                                                              else {
                                                                                                  isPhoneNumberError = false;
-                                                                                                 var userNumber = $('participant.userNumber_' + siteId).value;
-                                                                                                 if (userNumber == null || userNumber == "") {
-                                                                                                     var re = /[-]/g;
-                                                                                                     $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
-                                                                                                 }
+                                                                                                 //commenting out the part which defaults the user number to the phone number.
+                                                                                                 //var userNumber = $('participant.userNumber_' + siteId).value;
+                                                                                                 //if (userNumber == null || userNumber == "") {
+                                                                                                 //    var re = /[-]/g;
+                                                                                                 //    $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
+                                                                                                 //}
                                                                                              }
                                                                                              checkError();
                                                                                          }});
         }
     }
     else {
-        jQuery('#phoneNumberError_' + siteId).hide();
-        jQuery('#PhonePatternError_' + siteId).hide();
+        jQuery('#phoneNumberError').hide();
+        jQuery('#PhonePatternError').hide();
         isPhoneNumberError = false;
         checkError();
     }
@@ -593,9 +594,9 @@ function showForms(obj, id) {
         jQuery('#PinPatternError_' + sites[i].value).hide();
         jQuery('#confirmPinError_' + sites[i].value).hide();
         jQuery('#userNumberError_' + sites[i].value).hide();
-        jQuery('#PhonePatternError_' + sites[i].value).hide();
+        jQuery('#PhonePatternError').hide();
         jQuery('#preferred.calltime.error_' + sites[i].value).hide();
-        jQuery('#phoneNumberError_' + sites[i].value).hide();
+        jQuery('#phoneNumberError').hide();
         jQuery('#emailError_' + sites[i].value).hide();
         try {
             $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
@@ -682,7 +683,7 @@ function addEmailRemoveIVRSClassName(id) {
     //   $('participant.emailAddress_' + id).addClassName("validate-NOTEMPTY");
 //    $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
     $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
@@ -692,7 +693,7 @@ function addEmailRemoveIVRSClassName(id) {
 
     if (participantId == "") {
         $('participant.userNumber_' + id).value = "";
-        $('participant.phoneNumber_' + id).value = "";
+        $('participant.phoneNumber').value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
         $('call_minute_' + id).value = "";
@@ -710,7 +711,7 @@ function addIVRSRemoveEmailClassName(id) {
 //        $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
 //    }
     $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
-    $('participant.phoneNumber_' + id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
     $('call_hour_' + id).addClassName("validate-NOTEMPTY");
     $('call_minute_' + id).addClassName("validate-NOTEMPTY");
@@ -729,9 +730,8 @@ function removeEmailClassName(id) {
         participantId = "${patientId}";
     }
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-//    $('participant.emailAddress_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.phoneNumber_' + id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
     $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
@@ -739,64 +739,56 @@ function removeEmailClassName(id) {
     $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
     if (participantId == "") {
-//        $('participant.emailAddress_' + id).value = "";
         $('participant.userNumber_' + id).value = "";
-        $('participant.phoneNumber_' + id).value = "";
+        $('participant.phoneNumber').value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
         $('call_minute_' + id).value = "";
         $('call_ampm_' + id).value = "";
         $('call_timeZone_' + id).value = "";
         $('ivrs_lang_' + id).value = "";
-
     }
 }
 
 function showPhone(id, val) {
     if (val) {
-        jQuery('#participantPhone_' +id).show();
-        jQuery('#phoneLabel_' +id).show();
         jQuery('#ivrsLanguage_' +id).show();
         jQuery('#callTime_' +id).show();
-        $('participant.phoneNumber_' +id).addClassName("validate-NOTEMPTY&&US_PHONE_NO");
         $('call_hour_' +id).addClassName("validate-NOTEMPTY");
         $('call_minute_' +id).addClassName("validate-NOTEMPTY");
         $('call_ampm_' +id).addClassName("validate-NOTEMPTY");
         $('call_timeZone_' +id).addClassName("validate-NOTEMPTY");
         $('ivrs_lang_' +id).addClassName("validate-NOTEMPTY");
+
+        $('participant.phoneNumber').removeClassName("validate-US_PHONE_NO");
+        $('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     } else {
-        jQuery('#participantPhone_' +id).hide();
-        jQuery('#phoneLabel_' +id).hide();
         jQuery('#ivrsLanguage_' +id).hide();
         jQuery('#callTime_' +id).hide();
-        $('participant.phoneNumber_' +id).removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
         $('call_hour_' +id).removeClassName("validate-NOTEMPTY");
         $('call_minute_' +id).removeClassName("validate-NOTEMPTY");
         $('call_ampm_' +id).removeClassName("validate-NOTEMPTY");
         $('call_timeZone_' +id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' +id).removeClassName("validate-NOTEMPTY");
+
+        $('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+        $('participant.phoneNumber').addClassName("validate-US_PHONE_NO");
+        $('participant.phoneNumber').required = false;
     }
 }
 
 function showEmail(id, val) {
-
     if (val) {
-//        alert("checked");
-//        jQuery('#participantEmail_' + id).show();
-//        jQuery('#emailHeader_' + id).show();
-        $('participant.email_' + id).addClassName("validate-NOTEMPTY");
-//        jQuery('#webLang_' + id).show();
-//        addEmailClassName(id);
+		$('participant.emailAddress').removeClassName("validate-EMAIL");
+        $('participant.emailAddress').addClassName("validate-EMAIL&&NOTEMPTY");
     }
     else {
-//        jQuery('#participantEmail_' + id).hide();
-//        jQuery('#emailHeader_' + id).hide();
-        $('participant.email_' + id).removeClassName("validate-NOTEMPTY");
-//        removeEmailClassName(id);
+		$('participant.emailAddress').removeClassName("validate-EMAIL&&NOTEMPTY");
+		$('participant.emailAddress').addClassName("validate-EMAIL");
+		$('participant.emailAddress').required = false;
     }
-//    checkError();
 }
-<%--var clickCount = ${homeModeCount};--%>
+
 function showOrHideLanguage(value1, value2, id) {
     jQuery("#clinic_paper_lang_" + id).val('');
     jQuery('#clinic_paper_lang_' + id + '-msg').hide();
@@ -848,19 +840,20 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#email_' + id).attr('checked', true);
         jQuery('#emailInput_' + id).show();
         jQuery('#webLang_' + id).show();
-        jQuery('#emailHeader_' + id).show();
+        //jQuery('#emailHeader_' + id).show();
         $('participant.username_' + id).addClassName("validate-NOTEMPTY");
         $('participant.password_' + id).addClassName("validate-NOTEMPTY");
         $('participant.confirmPassword_' + id).addClassName("validate-NOTEMPTY");
         $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
         $('participant.email_' + id).addClassName("validate-NOTEMPTY");
+        showEmail(id, true);
     }
 
     if (!value1 && value2 == "HOMEWEB"){
         jQuery('#web_' + id).show();
         jQuery("#home_web_lang_" + id).hide();
         jQuery("#home_web_lang_" + id).val('');
-        jQuery('#emailHeader_' + id).hide();
+        //jQuery('#emailHeader_' + id).hide();
         jQuery('#web_' + id).hide();
         jQuery('#email_' + id).attr('checked', false);
         $('participant.username_' + id).removeClassName("validate-NOTEMPTY");
@@ -1085,9 +1078,28 @@ function isSpclChar(fieldName) {
                                             required="true" maxLength="${maxLength}" size="${maxLength}"
                                             onblur="isSpclChar('participant.lastName');"/>
                            <ul id="participant.lastName.error" style="display:none;" class="errors">
-                               <li><spring:message code='special.character.message'
-                                                   text='special.character.message'/></li>
+                               <li><spring:message code='special.character.message' text='special.character.message'/></li>
                            </ul>
+                           
+                           <div class="row">
+	                           <div class="label">
+	                           		<spring:message code='participant.label.phone' text=''/>
+	                           </div>
+	                           <div class="value">
+		                           <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
+		                                       id="participant.phoneNumber" onblur="checkParticipantPhoneNumber();" title="Phone" 
+		                                       class="${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].call ? "validate-NOTEMPTY&&US_PHONE_NO":"validate-US_PHONE_NO"}"/>
+								   
+								  <tags:errors path="participant.phoneNumber"/>
+					              <ul id="phoneNumberError" style="display:none" class="errors">
+					                  <li><spring:message code='participant.unique_phoneNumber' text='participant.unique_phoneNumber'/></li>
+					              </ul>
+					              <ul id="PhonePatternError" style="display:none" class="errors">
+					                  <li><spring:message code='participant.phonenumber_pattern' text='participant.phonenumber_pattern'/></li>
+					              </ul>
+	                           </div>                                         
+                           </div>
+                            
                        </td>
 
                        <td width="50%">
@@ -1095,21 +1107,37 @@ function isSpclChar(fieldName) {
                                <tags:renderDate propertyName="participant.birthDate"
                                                 displayName="participant.label.date_of_birth" required="true"/>
                            </c:if>
+                           
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="${required}" options="${genders}"/>
+                          
+                           <div class="row">
+	                           <div class="label">
+	                           		<spring:message code='participant.label.email_address' text=''/>
+	                           </div>
+	                           <div class="value">
+		                           <input type="text" name="participant.emailAddress" value="${command.participant.emailAddress}"
+		                                       id="participant.emailAddress" onblur="checkParticipantEmail();" title="Email" 
+		                                       class="${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].email ? "validate-EMAIL&&NOTEMPTY":"validate-EMAIL"}"/>
+								   
+		                           <ul id="userEmailError" style="display:none; padding-left:4em " class="errors">
+		                              <li><spring:message code='participant.unique_emailAddress' text='participant.unique_emailAddress'/>
+		                              </li>
+		                           </ul> 
+	                           </div>                                         
+                           </div>    
+                                                          
                            <c:if test="${command.mode eq 'N'}">
-                               <tags:renderText propertyName="participant.assignedIdentifier"
-                                                displayName="participant.label.participant_identifier"
+                               <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
                                                 required="true" onblur="checkParticipantMrn();"/>
                                <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
                                    <li><spring:message code='participant.unique_mrn'/></li>
                                </ul>
-                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;"
-                                   class="errors">
-                                   <li><spring:message code='special.character.message'
-                                                       text='special.character.message'/></li>
+                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;" class="errors">
+                                   <li><spring:message code='special.character.message' text='special.character.message'/></li>
                                </ul>
-                           </c:if>
+                          </c:if>
+                                                      
                        </td>
                    </tr>
                </table>

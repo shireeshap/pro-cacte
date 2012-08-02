@@ -236,24 +236,21 @@
 <c:if test="${fn:length(studysite.study.studyModes) > 0}">
 <tr>
     <td colspan="3">
-        &nbsp;&nbsp;&nbsp; <chrome:division title="Reporting options">
+    &nbsp;&nbsp;&nbsp; 
+    <chrome:division title="Reporting options">
         <br />
             <c:if test="${studyHweb}">
                     <c:choose>
                         <c:when test="${hweb}">
-                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true"
-                                                            value="HOMEWEB"
+                            &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEWEB"
                                                             onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br />
-                            <c:set var="isWebAdded" value="true"/>
                         </c:when>
                         <c:otherwise>
                             &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
                                                             onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
-                            <br />
-                            <c:set var="isWebAdded" value="true"/>
                         </c:otherwise>
                     </c:choose>
+                    <br /><c:set var="isWebAdded" value="true"/>
             </c:if>
     </chrome:division>
     </td>
@@ -338,26 +335,6 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div id="emailHeader_${studysite.id}" class="ssLabel"><spring:message
-                                    code="participant.label.email_address"/>&nbsp;</div>
-                            <div id="participantEmail_${studysite.id}" class="ssValue">
-
-                                <input type="text" name="participant.email_${studysite.id}"
-                                       value="${studyParticipantAssignment.participant.emailAddress}"
-                                       id="participant.email_${studysite.id}"
-                                       onblur="checkParticipantEmail(${studysite.id});" title="Email"
-                                       class="${showWeb eq true ? "":""}"/> &nbsp;&nbsp;
-
-                                <ul id="userEmailError_${studysite.id}" style="display:none; padding-left:12em "
-                                    class="errors">
-                                    <li><spring:message code='participant.unique_emailAddress'
-                                                        text='participant.unique_emailAddress'/>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
 						<c:choose>
 							<c:when test="${!empty studyParticipantAssignment.homeWebLanguage and studyParticipantAssignment.homeWebLanguage != ''}">
 								<c:set var="langPref" value="${studyParticipantAssignment.homeWebLanguage}" />
@@ -384,15 +361,20 @@
                                 </select>
                             </div>
                         </div>
-                    </td>
-                    
-                    <td><br><br><br><br>
-                        <div style="margin-left:0px;margin-bottom:15px;">
-                            <input type="checkbox" name="email_${studysite.id}" value="true"
+                        
+                        <div class="row">
+                            <div class="ssLabel">
+                                Get email reminders
+                            </div>
+                            <div class="ssValue">
+                            	<input type="checkbox" name="email_${studysite.id}" value="true"
                                    onclick="javascript:showEmail(${studysite.id}, this.checked);"
                                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
-                            reminder via email
+                            </div>
                         </div>
+                    </td>
+                    
+                    <td>
                     </td>
                 </tr>
             </table>
@@ -419,8 +401,8 @@
                 </c:choose>
             </c:if>
     </td>
-
 </tr>
+
 <tr id="c1_${studysite.id}" style="${showTime eq true ? "":"display:none"}">
 <td colspan="2">
 <div style="margin-left:45px">
@@ -438,28 +420,7 @@
             check if the system should call the participant. <br>
         </div>
     </div>
-    <div class="row">
-        <div id="phoneLabel_${studysite.id}" class="ssLabel" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
-            <span class="required-indicator">*&nbsp;&nbsp; </span> Phone
-        </div>
-        <div id="participantPhone_${studysite.id}" class="ssValue" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
-            <input type="text" name="participant.phoneNumber_${studysite.id}"
-                   value="${studyParticipantAssignment.participant.phoneNumber}"
-                   id="participant.phoneNumber_${studysite.id}"
-                   onblur="checkParticipantPhoneNumber(${studysite.id});" title="Phone number"
-                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-            <span class="phone-number">###-###-####</span>
-            <tags:errors path="participant.phoneNumber"/>
-            <ul id="phoneNumberError_${studysite.id}" style="display:none;" class="errors">
-                <li><spring:message code='participant.unique_phoneNumber'
-                                    text='participant.unique_phoneNumber'/></li>
-            </ul>
-            <ul id="PhonePatternError_${studysite.id}" style="display:none;" class="errors">
-                <li><spring:message code='participant.phonenumber_pattern'
-                                    text='participant.phonenumber_pattern'/></li>
-            </ul>
-        </div>
-    </div>
+
     <div class="row">
         <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> IVRS user id
