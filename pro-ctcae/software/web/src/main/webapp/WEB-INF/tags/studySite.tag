@@ -348,7 +348,7 @@
                                 <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
                             </div>
                             <div class="ssValue">
-                                <select id="home_web_lang_${studysite.id}" name="home_web_lang_${studysite.id}" class="${showWeb eq true ? "validate-NOTEMPTY":""}">
+                                <select id="home_web_lang_${studysite.id}" name="home_web_lang_${studysite.id}" class="${showWeb eq true ? "validate-NOTEMPTY":""}" title="Preferred language">
                                     <option value="" ${langPref eq "" ? "selected='selected'" : " "} >
                                         Please select
                                     </option>
@@ -544,11 +544,8 @@
                     </td>
                 </tr>
             </table>
-            <ul id="preferred.calltime.error_${studysite.id}" style="display:none;"
-                name="preferredcalltime.error_${studysite.id}" class="errors">
-                <li><spring:message code='callout.blackouttime'
-                                    text='callout.blackouttime'
-                                    arguments="${blackoutStartTime},${blackoutEndTime}"/></li>
+            <ul id="preferred.calltime.error_${studysite.id}" style="display:none;" name="preferredcalltime.error_${studysite.id}" class="errors">
+                <li><spring:message code='callout.blackouttime' text='callout.blackouttime' arguments="${blackoutStartTime},${blackoutEndTime}"/></li>
             </ul>
         </div>
     </div>
@@ -558,7 +555,7 @@
         </div>
         <div class="ssValue">
             <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}"
-                    title="Preferred language">
+                    title="Preferred language" class="${showTime eq true ? "validate-NOTEMPTY":""}">
                 <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
                     Please select
                 </option>
