@@ -96,7 +96,6 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
-        user.setNumberOfAttempts(0);
         user.setAccountNonExpired(true);
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff == null) {

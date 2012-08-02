@@ -26,7 +26,6 @@ public class ApplicationListener implements org.springframework.context.Applicat
                 auth.setAuthenticated(false);
             } else {
                 if (user.getNumberOfAttempts() > 0) {
-                    user = userRepository.findById(user.getId());
                     user.setNumberOfAttempts(0);
                     userRepository.save(user);
                     if(!auth.isAuthenticated()){
