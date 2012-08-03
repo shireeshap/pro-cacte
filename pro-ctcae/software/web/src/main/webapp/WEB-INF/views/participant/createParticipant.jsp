@@ -1008,6 +1008,33 @@ function isSpclChar(fieldName) {
                            
                            <div class="row">
 	                           <div class="label">
+	                           		<spring:message code='participant.label.email_address' text=''/>&nbsp;&nbsp;
+	                           </div>
+	                           <div class="value">
+		                           <input type="text" name="participant.emailAddress" value="${command.participant.emailAddress}"
+		                                       id="participant.emailAddress" onblur="checkParticipantEmail();" title="Email" maxlength="35" size="35"
+		                                       class="${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].email ? "validate-EMAIL&&NOTEMPTY":"validate-EMAIL"}"/>
+								   
+		                           <ul id="userEmailError" style="display:none; padding-left:4em " class="errors">
+		                              <li><spring:message code='participant.unique_emailAddress' text='participant.unique_emailAddress'/>
+		                              </li>
+		                           </ul> 
+	                           </div>                                         
+                           </div>
+                            
+                       </td>
+
+                       <td width="50%">
+                           <c:if test="${command.mode eq 'N'}">
+                               <tags:renderDate propertyName="participant.birthDate"
+                                                displayName="participant.label.date_of_birth" required="true"/>
+                           </c:if>
+                           
+                           <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
+                                              required="${required}" options="${genders}"/>
+                          
+    					   <div class="row">
+	                           <div class="label">
 	                           		<spring:message code='participant.label.phone' text=''/>&nbsp;&nbsp;
 	                           </div>
 	                           <div class="value">
@@ -1024,33 +1051,6 @@ function isSpclChar(fieldName) {
 					              </ul>
 	                           </div>                                         
                            </div>
-                            
-                       </td>
-
-                       <td width="50%">
-                           <c:if test="${command.mode eq 'N'}">
-                               <tags:renderDate propertyName="participant.birthDate"
-                                                displayName="participant.label.date_of_birth" required="true"/>
-                           </c:if>
-                           
-                           <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="${required}" options="${genders}"/>
-                          
-                           <div class="row">
-	                           <div class="label">
-	                           		<spring:message code='participant.label.email_address' text=''/>&nbsp;&nbsp;
-	                           </div>
-	                           <div class="value">
-		                           <input type="text" name="participant.emailAddress" value="${command.participant.emailAddress}"
-		                                       id="participant.emailAddress" onblur="checkParticipantEmail();" title="Email" 
-		                                       class="${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].email ? "validate-EMAIL&&NOTEMPTY":"validate-EMAIL"}"/>
-								   
-		                           <ul id="userEmailError" style="display:none; padding-left:4em " class="errors">
-		                              <li><spring:message code='participant.unique_emailAddress' text='participant.unique_emailAddress'/>
-		                              </li>
-		                           </ul> 
-	                           </div>                                         
-                           </div>    
                                                           
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
