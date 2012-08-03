@@ -734,6 +734,7 @@ function showEmail(id, val) {
         $('participant.emailAddress').addClassName("validate-EMAIL&&NOTEMPTY");
     }
     else {
+        $('participant.emailAddress').removeClassName("validate-NOTEMPTY");
 		$('participant.emailAddress').removeClassName("validate-EMAIL&&NOTEMPTY");
 		$('participant.emailAddress').addClassName("validate-EMAIL");
 		$('participant.emailAddress').required = false;
@@ -778,11 +779,13 @@ function showOrHideEmail(value1, value2, id) {
             $('participant.username_' + id).removeClassName("validate-NOTEMPTY");
             $('participant.username_' + id).required=false;        }
 
+        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
+        $('home_web_lang_' + id).required=false;
         $('participant.password_' + id).removeClassName("validate-NOTEMPTY");
         $('participant.password_' + id).required=false;
         $('participant.confirmPassword_' + id).removeClassName("validate-NOTEMPTY");
         $('participant.confirmPassword_' + id).required=false;
-        //$('participant.emailAddress').removeClassName("validate-NOTEMPTY");
+        $('participant.emailAddress').removeClassName("validate-NOTEMPTY");
         $('participant.emailAddress').removeClassName("validate-EMAIL&&NOTEMPTY");
         $('participant.emailAddress').required=false;
     }
@@ -1005,7 +1008,7 @@ function isSpclChar(fieldName) {
                            
                            <div class="row">
 	                           <div class="label">
-	                           		<spring:message code='participant.label.phone' text=''/>
+	                           		<spring:message code='participant.label.phone' text=''/>&nbsp;&nbsp;
 	                           </div>
 	                           <div class="value">
 		                           <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
@@ -1035,7 +1038,7 @@ function isSpclChar(fieldName) {
                           
                            <div class="row">
 	                           <div class="label">
-	                           		<spring:message code='participant.label.email_address' text=''/>
+	                           		<spring:message code='participant.label.email_address' text=''/>&nbsp;&nbsp;
 	                           </div>
 	                           <div class="value">
 		                           <input type="text" name="participant.emailAddress" value="${command.participant.emailAddress}"
@@ -1051,7 +1054,7 @@ function isSpclChar(fieldName) {
                                                           
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
-                                                required="true" onblur="checkParticipantMrn();"/>
+                                                required="true" onblur="checkParticipantMrn();"/>&nbsp;&nbsp;
                                <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
                                    <li><spring:message code='participant.unique_mrn'/></li>
                                </ul>

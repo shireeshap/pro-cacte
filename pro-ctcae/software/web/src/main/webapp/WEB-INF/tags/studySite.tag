@@ -142,7 +142,7 @@
                             <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
                                     code="study.label.arm"/></b>
                         </td>
-                        <td width="50%" class="data">
+                        <td width="50%" class="data" align="left">
                             &nbsp;&nbsp;
                             <select name="arm_${studysite.id}" title="arm"
                                     id="arm_${studysite.id}">
@@ -484,7 +484,7 @@
                         <c:set var="blackout"><tags:message code="callout.blackouttime"/></c:set>
                         <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"
                                 title="Hour"
-                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
                                 onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
                                 Hr
@@ -497,7 +497,7 @@
                         </select>&nbsp;
                         <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"
                                 title="Minute"
-                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
                                 onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
                                 Min
@@ -510,7 +510,7 @@
                         </select>&nbsp;
                         <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"
                                 title="AM PM"
-                                class="${showTime eq true ? "validate-NOTEMPTY":""}"
+                                class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
                                 onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                                 am
@@ -520,7 +520,7 @@
                             </option>
                         </select>&nbsp;
                         <select id="call_timeZone_${studysite.id}" name="call_timeZone_${studysite.id}"
-                                title="Time zone" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+                                title="Time zone" class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}">
 
                             <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
                                 Eastern Time
@@ -555,7 +555,7 @@
         </div>
         <div class="ssValue">
             <select id="ivrs_lang_${studysite.id}" name="ivrs_lang_${studysite.id}"
-                    title="Preferred language" class="${showTime eq true ? "validate-NOTEMPTY":""}">
+                    title="Preferred language" class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}">
                 <option value="" ${studyParticipantAssignment.ivrsLanguage eq "" ? "selected='selected'" : " "} >
                     Please select
                 </option>
