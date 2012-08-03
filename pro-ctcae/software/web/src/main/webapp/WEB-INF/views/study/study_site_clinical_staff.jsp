@@ -64,7 +64,7 @@
         }
 
         function changeStudySite() {
-            $('_target').name = '_target' + $('_page').value;
+            $('_target').name = null;
             $('changingStudySite').value = true;
             $('command').submit();
         }
