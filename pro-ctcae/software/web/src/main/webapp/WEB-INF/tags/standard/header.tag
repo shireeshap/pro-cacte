@@ -82,14 +82,15 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <a onclick="openQuickGuideWindow('/proctcae/images/quickstart_guide_v4.pdf');"
+                                                <c:set var="url" value="/proctcae/images/quickstart_guide_v4.pdf"/>
+                                                <c:if test="${param.lang eq 'es'}">
+                                                    <c:set var="url" value="/proctcae/images/quickstart_guide_spanish_v1.pdf"/>
+                                                </c:if>
+                                                <a onclick="openQuickGuideWindow('${url}');"
                                                    style="cursor:pointer;color:white;border:0px;background:none;">
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <%--<img style="margin:0px;"--%>
-                                                                     <%--src="<chrome:imageUrl name="/proctcae/images/table/pdf.jpg"/>"--%>
-                                                                     <%--alt=""/>--%>
                                                                     <img src="/proctcae/images/table/pdf.jpg"/>
                                                             </td>
                                                             <td>
@@ -123,20 +124,11 @@
 
                                 </div>
                             </div>
-                            <%--<span style="float: right;position:relative;bottom:35px">--%>
-                            <%--<a style="color:white" href="?lang=en">English</a>--%>
-                            <%--<span style="color:white">|</span>--%>
-                            <%--<a style="color:white" href="?lang=es">Spanish</a>--%>
-                            <%--</span>--%>
                         </c:if>
                     </td>
                 </tr>
             </table>
-            <%--<proctcae:urlAuthorize url="/pages/j_spring_security_logout">--%>
-            <%--<a id="home" href="<c:url value="/"/>">Home</a>--%>
-            <%--</proctcae:urlAuthorize>--%>
-
-            <div class="top-btns">
+           <div class="top-btns">
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                     <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
                     <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
