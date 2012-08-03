@@ -253,18 +253,6 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     }
 
     private String getHtmlContentForParticipantEmail(List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyParticipantAssignment studyParticipantAssignment) {
-//        Map<CRF, Set<StudyParticipantCrfSchedule>> participantCrfScheduleMap = new LinkedHashMap<CRF, Set<StudyParticipantCrfSchedule>>();
-//        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-//            CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
-//            Set<StudyParticipantCrfSchedule> scheduleSet;
-//            if (participantCrfScheduleMap.containsKey(crf)) {
-//                scheduleSet = participantCrfScheduleMap.get(crf);
-//            } else {
-//                scheduleSet = new LinkedHashSet<StudyParticipantCrfSchedule>();
-//                participantCrfScheduleMap.put(crf, scheduleSet);
-//            }
-//            scheduleSet.add(studyParticipantCrfSchedule);
-//        }
         List<StudyParticipantCrfSchedule> sortedStudyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>(studyParticipantCrfSchedules);
         Collections.sort(sortedStudyParticipantCrfSchedules);
 
@@ -278,29 +266,20 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         participantEmailContent.append(messageSource.getMessage("participant.email.comp1", null, locale) +
                 " <b><i>" + studyParticipantAssignment.getParticipant().getFirstName() + " " + studyParticipantAssignment.getParticipant().getLastName() + "</i></b><br/>");
         participantEmailContent.append("<br><b>" + messageSource.getMessage("participant.email.comp2", null, locale) + ": </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
-        participantEmailContent.append("<br><b>" + messageSource.getMessage("participant.email.comp3", null, locale) + ": </b>" + studyParticipantAssignment.getStudySite().getDisplayName() + "</br><br/>");
-//            for (CRF crf : participantCrfScheduleMap.keySet()) {
-//                participantEmailContent.append("<br><b>Form: " + crf.getTitle());
-//                participantEmailContent.append("<br><br><table border=\"1\">");
-//                addRow(participantEmailContent, new String[]{"Schedule start date", "Schedule  due date"});
-//                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-//                    addRow(participantEmailContent, new String[]{DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
-//                }
-//                participantEmailContent.append("</table>");
-//                participantEmailContent.append("</body></html>");
-//            }
-//        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : sortedStudyParticipantCrfSchedules) {
-//            participantEmailContent.append("FROM TITLE=>" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getTitle() + "<br/>");
-//            participantEmailContent.append("  due date ->" + studyParticipantCrfSchedule.getDueDate() + "<br/><br/>");
-//        }
+        participantEmailContent.append("<br><b>" + messageSource.getMessage("participant.email.comp3", null, locale) + ": </b>" + studyParticipantAssignment.getStudySite().getDisplayName() + "</br>");
         Date earliestDueDate = ((StudyParticipantCrfSchedule) sortedStudyParticipantCrfSchedules.get(0)).getDueDate();
         String baseUrl = properties.getProperty(BASE_URL);
-
-        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp4", null, locale) + "  : <b>" + DateUtils.format(earliestDueDate) + "</b><br/>");
-        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp5", null, locale) + ": ");
+        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp4", null, locale) + "<br/>");
         participantEmailContent.append("<p style='text-decoration:underline,color=blue'>" + baseUrl + "</p><br/>");
+        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp5", null, locale) + "  : <b>" + DateUtils.format(earliestDueDate) + "</b>");
+        participantEmailContent.append("<b> " + messageSource.getMessage("participant.email.comp6", null, locale) + "</b><br/>");
+        participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp7", null, locale) + "<br/>");
+        participantEmailContent.append("<br/><ul><li>" + messageSource.getMessage("participant.email.comp8", null, locale) + "</li><br/>");
+        participantEmailContent.append("<li>" + messageSource.getMessage("participant.email.comp9", null, locale) + "</li><br/>");
+        participantEmailContent.append("<li>" + messageSource.getMessage("participant.email.comp10", null, locale) + "</li></ul><br/>");
+        participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp11", null, locale) + "<br/>");
+        participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp12", null, locale) + "<br/>");
         participantEmailContent.append("</body></html>");
-        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp6", null, locale));
         return participantEmailContent.toString();
     }
 
