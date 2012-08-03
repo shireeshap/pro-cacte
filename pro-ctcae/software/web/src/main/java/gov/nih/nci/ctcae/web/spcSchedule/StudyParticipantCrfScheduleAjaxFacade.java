@@ -2,13 +2,13 @@ package gov.nih.nci.ctcae.web.spcSchedule;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
-import org.springframework.security.context.SecurityContextHolder;
 
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.context.SecurityContextHolder;
 
 /**
  * @author mehul
@@ -24,20 +24,17 @@ public class StudyParticipantCrfScheduleAjaxFacade {
 //        spcsQuery.setSortBy("spcs." + sortField);
 //        spcsQuery.setSortDirection(direction);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        spcsQuery.filterByUsername(userName);
         if (status.equals(CrfStatus.PASTDUE)) {
-            spcsQuery.filterByUsernameOnly(userName);
             spcsQuery.filterByMarkDelete();
             spcsQuery.filterByStatus(status);
         } else if (status.equals(CrfStatus.INPROGRESS)){
-            spcsQuery.filterByUsername(userName);
             spcsQuery.filterByDate(current);
         } else {
-            spcsQuery.filterByUsername(userName);
             spcsQuery.filterByStatus(CrfStatus.SCHEDULED);
             spcsQuery.filterByGreaterDate(current);
         }
 
-//        List<StudyParticipantCrfSchedule> schedules = (List<StudyParticipantCrfSchedule>) spcsRepository.find(spcsQuery);
         return spcsRepository.find(spcsQuery);
     }
 
@@ -46,6 +43,7 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery(true);
         spcsQuery.filterByUsername(userName);
         if (status.equals(CrfStatus.PASTDUE)) {
+        	spcsQuery.filterByMarkDelete();
             spcsQuery.filterByStatus(status);
         } else if (status.equals(CrfStatus.INPROGRESS)){
             spcsQuery.filterByStatus(status);
