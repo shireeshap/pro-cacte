@@ -14,11 +14,11 @@
         <td>
             <ctcae:form method="post">
            	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
-            
+
             <div id="releaseForm">
                 <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     <c:choose>
-                        <c:when test="${command.status eq 'Active'}">
+                        <c:when test="${command.status.displayName eq 'Active'}">
                             Please provide the date on which this Clinical staff will be effectively deactivated.
                         </c:when>
                         <c:otherwise>
@@ -33,7 +33,7 @@
 
                 <div class="flow-buttons">
                     <c:choose>
-                        <c:when test="${command.status eq 'Active'}">
+                        <c:when test="${command.status.displayName eq 'Active'}">
                             <tags:button color="orange" type="submit" id="flow-update"
                                          cssClass="next" value="De-activate" icon="check"
                                     />
