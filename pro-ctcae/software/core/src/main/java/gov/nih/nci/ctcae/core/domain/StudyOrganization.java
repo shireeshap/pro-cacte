@@ -163,7 +163,7 @@ public abstract class StudyOrganization extends BasePersistable {
     }
 
     public void addOrUpdateStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        if (studyOrganizationClinicalStaff != null) {
+        if (studyOrganizationClinicalStaff != null && studyOrganizationClinicalStaff.getOrganizationClinicalStaff() != null) {
 
             Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
             if (!expectedOrganization.equals(this.getOrganization())) {

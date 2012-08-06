@@ -60,9 +60,13 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
         }
 
         try {
+
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getLeadCRAs()){
         		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         	}
+        	if(command.getStudy().getLeadCRAs().size() == 0){
+        		errors.reject("error", "Please enter at least one Lead CRA.");
+    		}
         } catch (CtcAeSystemException ex) {
             errors.reject("error", ex.getMessage());
         }

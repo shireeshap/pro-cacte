@@ -127,7 +127,11 @@ public class StudyCommand {
 
         if (leadCRAs == null || leadCRAs.size() == 0) {
             leadCRAs = study.getLeadCRAs();
-
+            if (leadCRAs == null || leadCRAs.size() == 0) {
+            	StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
+            	socs.setRole(Role.LEAD_CRA);
+            	leadCRAs.add(socs);
+            }
         }
         return leadCRAs;
     }

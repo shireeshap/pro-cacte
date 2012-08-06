@@ -26,9 +26,8 @@
 	     </c:choose>	
     </td>
     <td>
-	     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-	       	href="javascript:deleteLeadCra('${index}');">
-	        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">
-	    </a>
+		     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deleteLeadCra('${index}');">
+		        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">
+		    </a>
 	</td>
 </tr>

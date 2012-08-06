@@ -43,6 +43,17 @@
             return aResults;
         }
 
+    	function getLeadStaff(sQuery) {
+    	    showIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+    	    var callbackProxy = function(results) {
+    	        aResults = results;
+    	    };
+    	    var callMetaData = { callback:callbackProxy, async:false};
+    	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
+    	    hideIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+    	    return aResults;
+    	}
+
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('overallDataCoordinator.organizationClinicalStaffInput', getODCStaff, handleSelect);
@@ -55,8 +66,14 @@
                 $('principalInvestigator.organizationClinicalStaffInput').value = "${command.principalInvestigator.displayName}";
                 $('principalInvestigator.organizationClinicalStaffInput').removeClassName('pending-search');
             }
-        })
-                ;
+            <c:if test="${fn:length(command.study.leadCRAs) == 0}">
+	            new YUIAutoCompleter('leadCRAs[0].organizationClinicalStaffInput', getLeadStaff, handleSelect);
+	            if ('${command.leadCRAs[0].organizationClinicalStaff.displayName}' != "") {
+	                $('leadCRAs[0].organizationClinicalStaffInput').value = "${command.leadCRAs[0].organizationClinicalStaff.displayName}";
+	                $('leadCRAs[0].organizationClinicalStaffInput').removeClassName('pending-search');
+	            }
+            </c:if>
+        });
 
         function handleSelect(stype, args) {
             var ele = args[0];
@@ -142,7 +159,7 @@
 	                       title="Overall Data Coordinator "
 	                       cssStyle="display:none;"/>
 	           <div class="row">
-	               <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+	               <div class="label"><tags:message code='study.label.clinical.staff'/></div>
 	               <div class="value">
 	                   <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
 	                                          value="${command.overallDataCoordinator.displayName}" required="false"
@@ -164,8 +181,18 @@
 		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                </tr>
 		                <tbody>
+		                	<c:if test="${fn:length(command.study.leadCRAs) == 0}">
+			                	<tr><td colspan="2">
+	       						   <form:input path="leadCRAs[0].organizationClinicalStaff" id="leadCRAs[0].organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+						            		title="Lead Site CRA" cssStyle="display:none;"/>
+				       				<tags:yuiAutocompleter inputName="leadCRAs[0].organizationClinicalStaffInput"
+				                              value="${command.leadCRAs[0].displayName}" required="false" hiddenInputName="leadCRAs[0].organizationClinicalStaff"/>
+				                </td>
+			                </tr>
+		                	</c:if>
+		                
 			                <c:forEach items="${command.study.leadCRAs}" var="leadCra" varStatus="status">
-			                        <tags:oneClinicalStaff index="${status.index}" leadCRA="${leadCra}" readOnly="true" inputName="leadCRAs[${status.index}].organizationClinicalStaffInput"/>
+			                        <tags:oneClinicalStaff index="${status.index}" leadCRA="${leadCra}" readOnly="true" inputName="leadCRAs[${status.index}].organizationClinicalStaff"/>
 			                </c:forEach>
 			                <tr></tr>
 		                </tbody>
@@ -188,7 +215,7 @@
 	                        title="Overall PI "
 	                        cssStyle="display:none;"/>
 	            <div class="row">
-	                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.clinical.staff'/></div>
+	                <div class="label"><tags:message code='study.label.clinical.staff'/></div>
 	                <div class="value">
 	                    <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
 	                                           value="${command.principalInvestigator.displayName}" required="false"
