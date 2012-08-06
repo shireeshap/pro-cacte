@@ -390,12 +390,12 @@
                 <c:choose>
                     <c:when test="${ivrs}">
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:when>
                     <c:otherwise>
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:otherwise>
                 </c:choose>
@@ -409,18 +409,6 @@
 <table border="0">
 <tr>
 <td>
-    <div class="row">
-        <div class="ssLabel">
-            IVRS call-out
-        </div>
-        <div class="ssValue">
-            <input type="checkbox" name="call_${studysite.id}" value="true"
-                   onclick="javascript:showPhone(${studysite.id}, this.checked)"
-                   id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
-            check if the system should call the participant. <br>
-        </div>
-    </div>
-
     <div class="row">
         <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> IVRS user id
@@ -473,6 +461,19 @@
             </ul>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="ssLabel">
+            IVRS call-out
+        </div>
+        <div class="ssValue">
+            <input type="checkbox" name="call_${studysite.id}" value="true"
+                   onclick="javascript:showPhone(${studysite.id}, this.checked);"
+                   id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
+            check if the system should call the participant. <br>
+        </div>
+    </div>
+    
     <div id="callTime_${studysite.id}" class="row" style="${studyParticipantAssignment.studyParticipantModes[0].call ? '':'display:none'}">
         <div class="ssLabel">
             <span class="required-indicator">*&nbsp; </span> Preferred call time

@@ -285,6 +285,7 @@ function validateCalloutTime(siteId, startTime, endTime) {
     }
 }
 
+
 var phoneNumberPattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
 function checkParticipantPhoneNumber() {
     var participantId = "${param['id']}";
@@ -855,7 +856,19 @@ function isSpclChar(fieldName) {
     return false;
 }
 
+function populateDefaultUserNumber(siteId){
+	var pNumber = $('participant.phoneNumber').value;
+	var nonFormattedPNumber;
+    if (pNumber != null && pNumber != "") {
+    	var re = /[-]/g;
+    	nonFormattedPNumber = pNumber.replace(re, "");
 
+    	var uNumber = $('participant.userNumber_' + siteId).value;
+        if (uNumber == null || uNumber == "") {
+            $('participant.userNumber_' + siteId).value = nonFormattedPNumber;
+        }
+    }
+}
 </script>
 <style type="text/css">
     .tableHeader {
@@ -1032,6 +1045,25 @@ function isSpclChar(fieldName) {
                            
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="${required}" options="${genders}"/>
+                             
+                           <c:if test="${command.mode eq 'N'}">
+	                           <div class="row">
+		                           <div class="label">
+		                           		<span class="required-indicator">*&nbsp;&nbsp;</span><spring:message code='participant.label.participant_identifier' />&nbsp;&nbsp;
+		                           </div>
+		                           <div class="value">
+			                           <input type="text" name="participant.assignedIdentifier" value="${command.participant.assignedIdentifier}"
+			                                       id="participant.assignedIdentifier" onblur="checkParticipantMrn();" title="MRN" class="validate-NOTEMPTY"/>
+									   
+		                              <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
+		                                   <li><spring:message code='participant.unique_mrn'/></li>
+		                              </ul>
+		                              <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;" class="errors">
+		                                   <li><spring:message code='special.character.message' text='special.character.message'/></li>
+		                              </ul>
+		                           </div>                                         
+	                           </div>
+                          </c:if>
                           
     					   <div class="row">
 	                           <div class="label">
@@ -1052,17 +1084,6 @@ function isSpclChar(fieldName) {
 	                           </div>                                         
                            </div>
                                                           
-                           <c:if test="${command.mode eq 'N'}">
-                               <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
-                                                required="true" onblur="checkParticipantMrn();"/>&nbsp;&nbsp;
-                               <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
-                                   <li><spring:message code='participant.unique_mrn'/></li>
-                               </ul>
-                               <ul id="participant.assignedIdentifier.error" style="display:none;padding-left:4em;" class="errors">
-                                   <li><spring:message code='special.character.message' text='special.character.message'/></li>
-                               </ul>
-                          </c:if>
-                                                      
                        </td>
                    </tr>
                </table>
