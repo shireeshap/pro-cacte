@@ -312,30 +312,43 @@
 </div>
 </div>
 </ctcae:form>
-<c:if test="${command.status.displayName ne 'Completed'}">
-    <table width="100%" style="margin-top:10px;">
-        <tr>
-            <td align="left">
-                <tags:button type="submit" color="blue" id="flow-prev"
-                             onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
-                             value="Back" icon="Back"/>
-                <tags:button type="submit" color="blue" id="flow-prev"
-                             onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
-                             value="Save & Back" icon="Back"/>
-            </td>
-            <td align="left">
+<c:choose>
+    <c:when test="${command.status.displayName ne 'Completed'}">
+        <table width="100%" style="margin-top:10px;">
+            <tr>
+                <td align="left">
+                    <tags:button type="submit" color="blue" id="flow-prev"
+                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                                 value="Back" icon="Back"/>
+                    <tags:button type="submit" color="blue" id="flow-prev"
+                                 onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                                 value="Save & Back" icon="Back"/>
+                </td>
+                <td align="left">
 
-            </td>
-            <td align="right">
-                <tags:button color="green" id="flow-update"
-                             cssClass="next" value="Save" icon="save" onclick="saveResponse('save');"/>
+                </td>
+                <td align="right">
+                    <tags:button color="green" id="flow-update"
+                                 cssClass="next" value="Save" icon="save" onclick="saveResponse('save');"/>
 
-                <tags:button color="blue" id="flow-update"
-                             cssClass="next" value="Submit" icon="save" onclick="saveResponse('submit');"/>
-            </td>
-        </tr>
-    </table>
-</c:if>
+                    <tags:button color="blue" id="flow-update"
+                                 cssClass="next" value="Submit" icon="save" onclick="saveResponse('submit');"/>
+                </td>
+            </tr>
+        </table>
+    </c:when>
+    <c:otherwise>
+        <table width="100%" style="margin-top:10px;">
+            <tr>
+                <td align="left">
+                    <tags:button type="submit" color="blue" id="flow-prev"
+                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                                 value="Back" icon="Back"/>
+                </td>
+            </tr>
+        </table>
+    </c:otherwise>
+</c:choose>
 </chrome:box>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 </body>
