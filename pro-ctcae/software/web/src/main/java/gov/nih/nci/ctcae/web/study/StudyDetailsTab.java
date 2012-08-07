@@ -124,28 +124,43 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             }
         }
 
-        if (!StringUtils.isBlank(studyCommand.getArmIndexToRemove())) {
-            Integer armIndex = Integer.valueOf(studyCommand.getArmIndexToRemove());
-            Arm arm = studyCommand.getStudy().getArms().get(armIndex);
-            studyCommand.getStudy().getArms().remove(arm);
-            studyCommand.setArmIndexToRemove("");
+        List<Arm> armsToRemove = new ArrayList<Arm>();
+        for(int i = 0; i < studyCommand.getArmIndicesToRemove().size(); i++){
+        	Integer armIndex = Integer.valueOf(studyCommand.getArmIndicesToRemove().get(i));
+            Arm armToRemove = studyCommand.getStudy().getArms().get(armIndex);
+            
+            FormArmSchedule fas;
+            if (studyCommand.getStudy().getCrfs().size() > 0) {
+                for (CRF crf : studyCommand.getStudy().getCrfs()) {
+                    fas = crf.getFormArmScheduleForArm(armToRemove);
+                    crf.getFormArmSchedules().remove(fas);
+                }
+            }
+            armsToRemove.add(armToRemove);
+        }
+        for(Arm armToRemove : armsToRemove){
+        	studyCommand.getStudy().getArms().remove(armToRemove);
+        }
+        studyCommand.getArmIndicesToRemove().clear();
+        
+        if (studyCommand.getStudy().getArms().size() == 0) {
+            Study study = studyCommand.getStudy();
+            Arm arm = new Arm();
+            arm.setTitle("Default Arm");
+            arm.setDescription("This is a default arm on the study.");
+            arm.setDefaultArm(true);
+            study.addArm(arm);
         } else {
-            if (studyCommand.getStudy().getArms().size() == 0) {
-                Study study = studyCommand.getStudy();
-                Arm arm = new Arm();
-                arm.setTitle("Default Arm");
-                arm.setDescription("This is a default arm on the study.");
-                arm.setDefaultArm(true);
-                study.addArm(arm);
-            } else {
-                if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
-                    for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
-                        Arm arm1 = arm.next();
-                        if (arm1.isDefaultArm()) {
-//                            arm.remove();
-                        }
-
+        	List<Arm> defaultArmsToBeDeleted = new ArrayList<Arm>();
+            if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
+                for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
+                    Arm arm1 = arm.next();
+                    if (arm1.isDefaultArm()) {
+                    	defaultArmsToBeDeleted.add(arm1);
                     }
+                }
+                for(Arm arm : defaultArmsToBeDeleted){
+                	studyCommand.getStudy().getArms().remove(arm);
                 }
             }
         }

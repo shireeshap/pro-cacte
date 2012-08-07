@@ -5,19 +5,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<tr id="${inputName}-row">
+<tr id="${index}-row">
     <td style="border-right:none;">
-        <tags:renderText propertyName="study.arms[${index}].title" displayName="Name"
-                         size="20" noForm="true" propertyValue="${arm.title}" required="true"/>
+    	&nbsp;<tags:requiredIndicator />&nbsp;<b>Name&nbsp;&nbsp;</b>
+    	<input name="study.arms[${index}].title" type="text" size="20"  value="${arm.title}" />
     </td>
     <td>
-        <tags:renderText propertyName="study.arms[${index}].description" displayName="Description"
-                         size="45" noForm="true" propertyValue="${arm.description}"/>
+     	&nbsp;<b>Description&nbsp;&nbsp;</b>
+    	<input name="study.arms[${index}].description" type="text" size="45"  value="${arm.description}" />
     </td>
     <c:if test="${param['studyId'] eq null}">
         <td style="border-left:none;">
-            <a id="del"
-               href="javascript:deleteArm('${index}');">
+            <a id="del" href="javascript:deleteArm('${index}');">
                 <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
                      style="vertical-align:middle">
             </a>

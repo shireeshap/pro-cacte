@@ -35,7 +35,7 @@ public class StudyCommand {
 
     List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
 
-    private String armIndexToRemove;
+    private List<String> armIndicesToRemove = new ArrayList<String>();
     private boolean activeDefaultArm = false;
     private Organization defaultOrganization;
 
@@ -202,14 +202,6 @@ public class StudyCommand {
         this.selectedStudySite = selectedStudySite;
     }
 
-    public String getArmIndexToRemove() {
-        return armIndexToRemove;
-    }
-
-    public void setArmIndexToRemove(String armIndexToRemove) {
-        this.armIndexToRemove = armIndexToRemove;
-    }
-
     public boolean isActiveDefaultArm() {
         return activeDefaultArm;
     }
@@ -248,6 +240,14 @@ public class StudyCommand {
 
 	public List<Integer> getCraIndexesToRemove() {
 		return craIndexesToRemove;
+	}
+
+	public List<String> getArmIndicesToRemove() {
+		return armIndicesToRemove;
+	}
+
+	public void setArmIndicesToRemove(List<String> armIndicesToRemove) {
+		this.armIndicesToRemove = armIndicesToRemove;
 	}
 }
 

@@ -41,12 +41,20 @@
         }
 
         function deleteArm(armIndex) {
-            $('armIndexToRemove').value = armIndex;
-            var ele = document.getElementsByName('study.arms[' + armIndex + '].title')[0];
-            if (ele.value == '') {
-                ele.value = ".";
-            }
-            refreshPage();
+            //$('armIndexToRemove').value = armIndex;
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudyArm"/>", {
+                onComplete:function(){
+	                //var ele = document.getElementsByName('study.arms[' + armIndex + '].title')[0];
+	                //if (ele.value == '') {
+	                //    ele.value = ".";
+	                //}
+	                $(armIndex+'-row').remove();
+            	},
+                parameters:<tags:ajaxstandardparams/>+"&action=deleteArm&armIndex="+armIndex,
+                method:'get'
+            })
+
+            //refreshPage();
         }
 
         function refreshPage() {
@@ -310,33 +318,29 @@
                                            hiddenInputName="study.leadStudySite.organization"/>
                 </div>
             </div>
+       <br />
 
-    <br>
+       <chrome:division title="study.section.study_arms">
+           <p><tags:instructions code="study.study_arms.top"/></p>
 
-      <%--<c:if test="${not command.activeDefaultArm}">--%>
-          <chrome:division title="study.section.study_arms">
-              <p><tags:instructions code="study.study_arms.top"/></p>
+           <div align="left" style="margin-left: 50px">
+               <table width="90%" class="tablecontent" id="studyArmTable">
+                   <tr id="sa-table-head" class="amendment-table-head">
+                       <th class="tableHeader"><spring:message code='study.label.arms' text=''/></th>
+                       <th class="tableHeader">&nbsp;</th>
+                   </tr>
+                   <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
+                       <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
+                   </c:forEach>
+                   <tr id="hiddenDiv" align="center"></tr>
+               </table>
+           </div>
+       </chrome:division>
+       <div align="left" style="padding-top:1em;padding-left:4em">
+           <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
+                        value="study.button.add_study_arm"/>
+       </div>
 
-              <div align="left" style="margin-left: 50px">
-                  <table width="95%" class="tablecontent" id="studyArmTable">
-                      <tr id="sa-table-head" class="amendment-table-head">
-                          <th class="tableHeader"><spring:message
-                                  code='study.label.arms' text=''/></th>
-                          <th class="tableHeader">&nbsp;</th>
-
-                      </tr>
-                      <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
-                          <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
-                      </c:forEach>
-                      <tr id="hiddenDiv" align="center"></tr>
-                  </table>
-              </div>
-          </chrome:division>
-          <div align="left" style="padding-left:4em">
-              <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
-                           value="study.button.add_study_arm"/></div>
-          <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
-      <%--</c:if>--%>
        <br>
        <chrome:division title="study.sections.study_modes"><br/>
        <table border="0">
