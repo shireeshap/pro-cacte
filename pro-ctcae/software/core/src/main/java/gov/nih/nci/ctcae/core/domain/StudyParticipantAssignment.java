@@ -333,13 +333,8 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public List<StudyParticipantClinicalStaff> getTreatingPhysicians() {
 
         if (treatingPhysicians == null || treatingPhysicians.isEmpty()) {
-            treatingPhysicians = getStudyParticipantClinicalStaffByRole(Role.TREATING_PHYSICIAN);
+            treatingPhysicians = getListByRole(Role.TREATING_PHYSICIAN);
         }
-//        if (treatingPhysicians == null || treatingPhysicians.isEmpty()) {
-//            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-//            studyParticipantClinicalStaff.setPrimary(true);
-//            treatingPhysicians.add(studyParticipantClinicalStaff);
-//        }
         return treatingPhysicians;
     }
 
@@ -351,13 +346,8 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public List<StudyParticipantClinicalStaff> getResearchNurses() {
         if (researchNurses == null || researchNurses.isEmpty()) {
-            researchNurses = getStudyParticipantClinicalStaffByRole(Role.NURSE);
+            researchNurses = getListByRole(Role.NURSE);
         }
-//        if (researchNurses == null || researchNurses.isEmpty()) {
-//            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-//            studyParticipantClinicalStaff.setPrimary(true);
-//            researchNurses.add(studyParticipantClinicalStaff);
-//        }
         return researchNurses;
     }
 

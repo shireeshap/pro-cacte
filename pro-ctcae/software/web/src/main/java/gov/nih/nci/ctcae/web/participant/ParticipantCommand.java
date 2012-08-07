@@ -239,7 +239,7 @@ public class ParticipantCommand {
         }
 
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs()) {
-            if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)) {
+            if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA) || studyOrganizationClinicalStaff.getRole().equals(Role.TREATING_PHYSICIAN) || studyOrganizationClinicalStaff.getRole().equals(Role.NURSE)) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
                 studyParticipantClinicalStaff.setPrimary(false);
                 studyParticipantClinicalStaff.setNotify(true);
