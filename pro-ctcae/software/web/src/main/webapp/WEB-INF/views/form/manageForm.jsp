@@ -237,7 +237,11 @@
 				            <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
 				            <tags:indicator id="indicator"/>
 		    			</td>
-		    			<td width="25%" align="right"><tags:button color="blue" markupWithTag="a" icon="createForm" type="button" value='Create Form' href="/proctcae/pages/form/basicForm" /></td>
+		    			<td width="25%" align="right">
+		    				<proctcae:urlAuthorize url="/pages/form/basicForm">
+		    					<tags:button color="blue" markupWithTag="a" icon="createForm" type="button" value='Create Form' href="/proctcae/pages/form/basicForm" />
+		    				</proctcae:urlAuthorize>
+		    			</td>
 		    		</tr>
 		    	</table>
   	        	<br/><br/>

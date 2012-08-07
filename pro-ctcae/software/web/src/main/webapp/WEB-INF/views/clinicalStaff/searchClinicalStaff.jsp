@@ -231,8 +231,10 @@
                     </ul>
                 </td>
                 <td align="right">
-                    <tags:button color="blue" markupWithTag="a" id="newStaff" icon="add"
-                                 value="New Staff" href="/proctcae/pages/admin/createClinicalStaff"/>
+	                <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+	                    <tags:button color="blue" markupWithTag="a" id="newStaff" icon="add"
+	                                 value="New Staff" href="/proctcae/pages/admin/createClinicalStaff"/>
+	                </proctcae:urlAuthorize>
                 </td>
             </tr>
         </table>

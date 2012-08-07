@@ -257,8 +257,10 @@
                         <div id="error"></div>
 			        </td>
 			        <td width="25%" align="right">
-	                     <tags:button color="blue" markupWithTag="a" id="newStudy" icon="add"
+			        	<proctcae:urlAuthorize url="/pages/study/createStudy">
+	                     	<tags:button color="blue" markupWithTag="a" id="newStudy" icon="add"
 			                          value="Create Study" href="/proctcae/pages/study/createStudy"/>
+			            </proctcae:urlAuthorize>
 			        </td>
 		        </tr>
         	</table>
