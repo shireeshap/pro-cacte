@@ -293,7 +293,12 @@
             <td colspan="7">
                 <c:choose>
                     <c:when test="${command.status.displayName eq 'Completed'}">
-                        ${command.verbatim}
+                    	<c:if test="${empty command.verbatim}">
+                        	No additional symptoms were reported.
+                        </c:if>
+                        <c:if test="${!empty command.verbatim}">
+                        	${command.verbatim}
+                        </c:if>
                     </c:when>
                     <c:otherwise>
                         <form:textarea path="verbatim" cols="60" rows="2" id="verbatim"/>
