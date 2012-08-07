@@ -82,7 +82,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         List<ProCtcTerm> tempProTermList = new ArrayList<ProCtcTerm>();
         for (Iterator<CtcCategory> categoryIterator = ctcCategoryList.iterator(); categoryIterator.hasNext();) {
             CtcCategory ctcCate = categoryIterator.next();
-            if (ctcCate.getName().equals("Core terms")) {
+            if (ctcCate.getName().equals("Core symptoms")) {
                 tempProTermList = ctcCategoryMap.get(ctcCate);
                 Collections.sort(tempProTermList, new ProCtcTermComparator());
                 result.put(ctcCate, tempProTermList);
@@ -91,7 +91,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
             CtcCategory ctcCategory = it.next();
             List<ProCtcTerm> proCtcTermList = ctcCategoryMap.get(ctcCategory);
-            if (!ctcCategory.getName().equals("Core terms")) {
+            if (!ctcCategory.getName().equals("Core symptoms")) {
                 Collections.sort(proCtcTermList, new ProCtcTermComparator());
                 result.put(ctcCategory, proCtcTermList);
             }
