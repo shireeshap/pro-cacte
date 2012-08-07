@@ -34,7 +34,7 @@
     </td>
 	     <c:choose>
 	         <c:when test="${readOnly}">
-						<td width=7%" >
+						<td width="7%" >
 		                     <tags:renderSelect propertyName="${propertyName}.notify" doNotshowLabel="true"
 		                             required="false" options="${notifyOptions}" propertyValue="${notify}"/>
 		                 </td>
