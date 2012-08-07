@@ -52,7 +52,7 @@
 		                         </c:otherwise>
 		                     </c:choose>
 		                 </td>
-		                 <td width="18%" >Effectively ${studyOrganizationClinicalStaff.roleStatus} from <tags:formatDate
+		                 <td width="18%" >${studyOrganizationClinicalStaff.roleStatus.displayName} since <tags:formatDate
 		                         value="${studyOrganizationClinicalStaff.statusDate}"/></td>
 	         </c:when>
 	         <c:otherwise>
