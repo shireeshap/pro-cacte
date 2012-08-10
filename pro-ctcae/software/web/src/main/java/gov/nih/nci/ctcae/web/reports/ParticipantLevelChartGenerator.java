@@ -102,8 +102,10 @@ public class ParticipantLevelChartGenerator {
                     for (Question question : dataForChart.keySet()) {
                         ArrayList<ValidValue> proCtcValidValues = dataForChart.get(question);
                         ValidValue proCtcValidValue = proCtcValidValues.get(i);
-                        String questionType = question.getQuestionType().getDisplayName();
-                        baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
+                        if(proCtcValidValue != null){
+                        	String questionType = question.getQuestionType().getDisplayName();
+                        	baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
+                        }
                     }
                 }
                 i++;
