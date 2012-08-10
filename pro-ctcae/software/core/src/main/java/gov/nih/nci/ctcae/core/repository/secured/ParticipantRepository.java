@@ -112,8 +112,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
             user.setAccountNonLocked(true);
         }
 
-        userRepository.saveOrUpdate(participant.getUser(), participant.getPassword());
+        userRepository.saveOrUpdate(user, participant.getPassword());
         genericRepository.saveOrUpdate(participant);
+        participant.setPassword(user.getPassword());
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
 
     }
