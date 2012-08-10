@@ -227,15 +227,6 @@ function moreRows() {
     refreshPage();
 }
 
-//function loadMyCalendar() {
-<%--var request = new Ajax.Request("<c:url value="/pages/participant/userCalendar"/>", {--%>
-//        onComplete:function(transport) {
-//            new Insertion.After('calendar_inner', transport.responseText);
-//        },
-//        method:'get'
-//    })
-//}
-
 function getCalendar(dir) {
     $('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/user/displayUserCalendar"/>", {
