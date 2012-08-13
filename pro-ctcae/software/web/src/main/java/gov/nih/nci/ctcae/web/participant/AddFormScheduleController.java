@@ -69,7 +69,7 @@ public class AddFormScheduleController extends AbstractController {
             }
             if (crf.getChildCrf() == null && !crf.isHidden()) {
                 for (CRF cr : crfListMap.keySet()) {
-                    if (cr.equals(studyParticipantCrf.getCrf())) {
+                    if (cr.equals(studyParticipantCrf.getCrf()) && crfListMap.get(cr)) {
                         cExists = true;
                     }
                 }
