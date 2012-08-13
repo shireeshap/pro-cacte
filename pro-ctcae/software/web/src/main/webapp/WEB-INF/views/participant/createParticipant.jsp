@@ -601,21 +601,81 @@ function participantOffStudy(id) {
     })
 }
 
+function beginHoldOnSchedules(index, date, action, pid) {
+
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+
+        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+            onComplete:function(transport) {
+
+                if (transport.responseText == "getCalendar") {
+                    getCalendar(index, "dir=refresh");
+                } else {
+                    showConfirmationWindow(transport, 650, 210);
+                }
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&id=" + pid,
+            method:'get'
+        })
+    }
+}
 
 var _winOffHold;
-function participantOffHold(id, date) {
-    var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&subview=x";
-    _winOffHold = showModalWindow(url, 600, 350);
+//function participantOffHold(id, date) {
+    <%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&index=" +0+"&subview=x";--%>
+//    _winOffHold = showModalWindow(url, 600, 350);
+//}
+
+function participantOffHold(id, date, index) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+        onComplete:function(transport) {
+                showConfirmationWindow(transport, 650, 350);
+        },
+        parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" +0,
+        method:'get'
+    })
 }
 
 function participantOnHold(id, date) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date,
+        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date + "&index=" +0,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 600, 350);
         },
         method:'get'
     })
+}
+
+function participantOffHoldPost(index, date, cycle, day, action) {
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+
+        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+            onComplete:function(transport) {
+
+                if (transport.responseText == "getCalendar") {
+                    getCalendar(index, "dir=refresh");
+                } else {
+                    showConfirmationWindow(transport, 650, 210);
+                }
+            },
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+            method:'get'
+        })
+    }
 }
 
 function participantRptModeHistoryDisplay(id) {
