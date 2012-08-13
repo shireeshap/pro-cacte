@@ -89,8 +89,6 @@ public class ScheduleCrfAjaxFacade {
      * @return the list< participant>
      */
     public List<Participant> matchParticipants(String text, Integer studyId) {
-//        ParticipantQuery participantQuery = new ParticipantQuery();
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         boolean siteStaff = false;
@@ -178,25 +176,6 @@ public class ScheduleCrfAjaxFacade {
             }
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
-
-//            for (String meddraTerm : meddraTerms) {
-//                List<CtcTerm> ctcTerms;
-//                if (language.equals(SupportedLanguageEnum.ENGLISH.getName())) {
-//                   ctcTerms = meddraRepository.findCtcTermForMeddraTerm(meddraTerm);
-//                } else {
-//                   ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm);
-//                }
-//                if (ctcTerms != null) {
-//                    for (CtcTerm ctcTerm : ctcTerms) {
-//                        if (ctcTerm != null) {
-//                            List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
-//                            if (proCtcTerms != null && proCtcTerms.size() > 0) {
-//                                results.add(meddraTerm + " (" + proCtcTerms.get(0) + ")");
-//                            }
-//                        }
-//                    }
-//                }
-//            }
             results.addAll(meddraTerms);
         }
         results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
