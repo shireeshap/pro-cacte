@@ -9,6 +9,8 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,10 +57,12 @@ public class ScheduleCrfTab extends Tab<ParticipantCommand> {
         map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
         map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
         int crfsIndex=0;
+        List<CRF> crfs = new ArrayList<CRF>();
         if(command.getParticipant().getStudyParticipantAssignments().get(0)!=null){
             for (StudyParticipantCrf studyParticipantCrf : command.getParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs()) {
                 CRF crf = studyParticipantCrf.getCrf();
-                if (crf.getChildCrf() == null) {
+                if (crf.getChildCrf() == null && !crfs.contains(crf)) {
+                    crfs.add(crf);
                     crfsIndex++;
                 }
             }

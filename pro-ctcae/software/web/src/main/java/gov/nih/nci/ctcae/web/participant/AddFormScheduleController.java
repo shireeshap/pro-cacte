@@ -49,34 +49,43 @@ public class AddFormScheduleController extends AbstractController {
         ModelAndView mv = new ModelAndView("participant/addSchedule");
         String sids = request.getParameter("sids");
         List<String> listExistingCrfs = new ArrayList<String>();
-        if(sids!=null){
+        if (sids != null) {
             String[] sidArr = sids.split("_");
-             listExistingCrfs = Arrays.asList(sidArr);         
+            listExistingCrfs = Arrays.asList(sidArr);
         }
-        LinkedHashMap<CRF,Boolean> crfListMap = new LinkedHashMap<CRF,Boolean>();
+        LinkedHashMap<CRF, Boolean> crfListMap = new LinkedHashMap<CRF, Boolean>();
         CRF crf;
         boolean crfExists;
+        boolean cExists;
         for (StudyParticipantCrf studyParticipantCrf : participantCommand.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
             crf = studyParticipantCrf.getCrf();
             crfExists = false;
-            for(StudyParticipantCrfSchedule studyParticipantCrfSchedule:studyParticipantCrf.getStudyParticipantCrfSchedules()){
-                if(listExistingCrfs.contains(studyParticipantCrfSchedule.getId().toString())){
-                      crfExists = true;
-                      break;
+            cExists = false;
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                if (listExistingCrfs.contains(studyParticipantCrfSchedule.getId().toString())) {
+                    crfExists = true;
+                    break;
                 }
             }
             if (crf.getChildCrf() == null && !crf.isHidden()) {
-                crfListMap.put(crf,crfExists);
+                for (CRF cr : crfListMap.keySet()) {
+                    if (cr.equals(studyParticipantCrf.getCrf())) {
+                        cExists = true;
+                    }
+                }
+                if (!cExists) {
+                    crfListMap.put(crf, crfExists);
+                }
             }
         }
 
         mv.addObject("crfs", crfListMap);
-        if(crfListMap.size() > 0){
-        	mv.addObject("firstCrf", (CRF)crfListMap.keySet().iterator().next());
+        if (crfListMap.size() > 0) {
+            mv.addObject("firstCrf", (CRF) crfListMap.keySet().iterator().next());
         } else {
-        	mv.addObject("firstCrf", null);
+            mv.addObject("firstCrf", null);
         }
-        
+
         mv.addObject("day", request.getParameter("date"));
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));
