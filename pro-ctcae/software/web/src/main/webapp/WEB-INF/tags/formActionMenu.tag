@@ -176,7 +176,7 @@ function showPopUpMenuAlerts(uid, spcrfid, uuid, pid) {
 	    html += '<li><a href="#" onclick="location.href=\'<c:url value="reports/participantReport"/>?sid=' + spcrfid + '\'">Show report</a></li>';
 	</proctcae:urlAuthorize>
 	<proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
+	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '&tab=' + 3 +'\'">Manage schedule</a></li>';
 	</proctcae:urlAuthorize>
 	
     html += '<li><a href="#" onclick="javascript:deleteMsg(' + uid + ',\'' + uuid + '\')">Clear</a></li>';
