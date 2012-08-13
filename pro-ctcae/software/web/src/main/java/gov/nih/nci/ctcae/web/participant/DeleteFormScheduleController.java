@@ -50,9 +50,8 @@ public class DeleteFormScheduleController extends AbstractController {
         String[] sidArr = sids.split("_");
         for (String sid : sidArr) {
             if (!StringUtils.isBlank(sid)) {
-               StudyParticipantCrfSchedule schedule =   genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(sid));
-                //crfs.add(schedule.getStudyParticipantCrf().getCrf());
-                crfListMap.put(schedule.getStudyParticipantCrf().getCrf(),schedule.getStatus().equals(CrfStatus.COMPLETED)||schedule.getStatus().equals(CrfStatus.INPROGRESS));
+               StudyParticipantCrfSchedule schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(sid));
+                crfListMap.put(schedule.getStudyParticipantCrf().getCrf(),schedule.getStatus().equals(CrfStatus.COMPLETED)||schedule.getStatus().equals(CrfStatus.INPROGRESS)||schedule.getStatus().equals(CrfStatus.PASTDUE));
             }
         }
         mv.addObject("crfsList", crfListMap);

@@ -145,6 +145,7 @@ function initializeCalendar(index) {
                     }
                     if (status == 'Past-due') {
                         item.style.background = 'red';
+                        showDeleteOption = false;
                     }
                     if (status == 'On-hold') {
                         item.style.background = 'yellow';
