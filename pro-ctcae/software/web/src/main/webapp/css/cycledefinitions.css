@@ -10,7 +10,7 @@ tr.top-header {
 }
 
 table.widget {
-    border-left: 9px solid #C3D9FF;
+    /*border-left: 9px solid #C3D9FF;*/
     border-bottom: 6px solid #C3D9FF;
     width: 60%;
     table-layout: fixed;
