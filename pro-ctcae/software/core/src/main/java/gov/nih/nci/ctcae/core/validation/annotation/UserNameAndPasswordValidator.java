@@ -75,7 +75,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      * @param user  The User
      * @return false if error occurs and vise versa
      */
-    private boolean validateUniqueName(User user) {
+    public boolean validateUniqueName(User user) {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(user.getUsername());
         List<User> users = new ArrayList<User>(userRepository.find(userQuery));

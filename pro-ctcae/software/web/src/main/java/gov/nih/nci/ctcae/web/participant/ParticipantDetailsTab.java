@@ -244,6 +244,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             errors.reject("participant.study");
         }
 
+        //checking for unique username
+        if (command.getParticipant().getUser().getUsername() != null) {
+           boolean validUsername = userNameAndPasswordValidator.validateUniqueName(command.getParticipant().getUser());
+            if (!validUsername) {
+                errors.reject("user.user_exists");
+            }
+        }
         // checking for unique email address
         if (command.getParticipant().getEmailAddress() != null) {
             boolean validEmail = uniqueParticipantEmailAddressValidator.validateEmail(command.getParticipant().getEmailAddress(), command.getParticipant().getId());
