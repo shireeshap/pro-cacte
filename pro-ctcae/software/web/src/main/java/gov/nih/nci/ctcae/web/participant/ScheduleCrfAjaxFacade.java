@@ -227,7 +227,7 @@ public class ScheduleCrfAjaxFacade {
             ctcTerms.add(proCtcTerm.getCtcTerm());
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
                 if (language.equals("en")) {
-                    return proCtcTerm.getCtcTerm().getTerm(SupportedLanguageEnum.ENGLISH);
+                    return proCtcTerm.getProCtcTermVocab().getTermEnglish();
                 } else {
                     return proCtcTerm.getProCtcTermVocab().getTermSpanish();
                 }
@@ -243,7 +243,7 @@ public class ScheduleCrfAjaxFacade {
             }
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
                 if (language.equals("en")) {
-                    return ctcTerms.get(0).getTerm(SupportedLanguageEnum.ENGLISH);
+                    return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermEnglish();
                 } else {
                     return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermSpanish();
                 }
