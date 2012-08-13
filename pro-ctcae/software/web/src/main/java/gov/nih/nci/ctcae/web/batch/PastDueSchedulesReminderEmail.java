@@ -158,7 +158,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                         if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
                             locale = new Locale("es");
                         }
-                        String participantSubject = messageSource.getMessage("participant.email.comp7", null, locale);
+                        String participantSubject = messageSource.getMessage("participant.email.comp13", null, locale);
                         participantMessage.setSubject(participantSubject);
                         participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
                         MimeMessageHelper helper = new MimeMessageHelper(participantMessage, true);
