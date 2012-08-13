@@ -263,13 +263,12 @@
             <div align="left" style="margin-left: 50px">
                 <table class="tablecontent" width="65%" id="tpTable">
                     <tr>
-                        <th class="tableHeader" width="76%">
+                        <th class="tableHeader" width="82%">
                             <tags:message code="participant.label.name"/>
                         </th>
-                        <th width=19%>
+                        <th width=18%>
                             <tags:message code="participant.label.notification"/>
                         </th>
-                        <th width="5%" class="tableHeader">&nbsp;</th>
                     </tr>
                     <c:forEach items="${command.selectedStudyParticipantAssignment.treatingPhysicians}"
                                var="treatingPhy" varStatus="tpstatus">
@@ -296,13 +295,12 @@
             <div align="left" style="margin-left: 50px">
                 <table class="tablecontent" width="65%" id="rnTable">
                     <tr class="amendment-table-head">
-                        <th class="tableHeader" width="76%">
+                        <th class="tableHeader" width="82%">
                             <tags:message code='participant.label.name'/>
                         </th>
-                        <th width=19%>
+                        <th width=18%>
                             <tags:message code="participant.label.notification"/>
                         </th>
-                        <th width="5%" class="tableHeader">&nbsp;</th>
                     </tr>
                     <c:forEach items="${command.selectedStudyParticipantAssignment.researchNurses}" var="nurse"
                                varStatus="nstatus">
