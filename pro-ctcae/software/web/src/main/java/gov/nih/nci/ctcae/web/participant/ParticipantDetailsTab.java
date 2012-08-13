@@ -281,23 +281,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
-        
-//        try {
-//            boolean validUser = userNameAndPasswordValidator.validate(user);
-//            if (!validUser) {
-//                if (userNameAndPasswordValidator.message().contains("Username")) {
-//                    errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
-//                } else if (userNameAndPasswordValidator.message().contains("Password")) {
-//                    errors.rejectValue("participant.user.password", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
-//                }
-//            }
-//        } catch (PasswordCreationPolicyException ex) {
-//            for (ValidationError ve : ex.getErrors().getErrors()) {
-//                errors.rejectValue("participant.user.password", ve.getMessage(), ve.getMessage());
-//            }
-//            command.setReadOnlyUserName(false);
-//        }
-
 
         for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
             String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
