@@ -42,6 +42,11 @@
         }
     </script>
 
+	<style type="text/css">
+		div.label_nomargin {
+		    width: 8em;
+		}
+	</style>
 </head>
 <body>
 <c:if test="${param['successMessage']}">
@@ -119,6 +124,21 @@
         </td>
         <td>
             <div class="value_nomargin"><tags:formatDate value="${dueDate}"/></div>
+        </td>
+    </tr>
+    <tr>
+		<td><div class="label_nomargin"><span class="required-indicator">*&nbsp;&nbsp;</span><b>Survey administration date:</b></div></td>
+		<td>
+			<div class="value_nomargin">
+				<c:choose>
+					<c:when test="${isSadEditable}">
+						<tags:renderDate propertyName="completionDate" doNotshowLabel="true" required="true" displayName="Survey administration date"/>
+					</c:when>
+					<c:otherwise>
+						<tags:formatDate value="${command.completionDate}"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
         </td>
     </tr>
 

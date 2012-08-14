@@ -66,6 +66,11 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             language = "en";
         }
         spcSchedule.setLanguage(language);
+        if(spcSchedule.getStatus().equals(CrfStatus.COMPLETED)){
+        	map.put("isSadEditable", "false");
+        } else {
+        	map.put("isSadEditable", "true");
+        }
         map.put("language", language);
         map.put("study", study);
         map.put("crf", crf);
@@ -90,7 +95,6 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         } else {
             studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
-            studyParticipantCrfSchedule.setCompletionDate(new Date());
             List<StudyParticipantCrfItem> spcItems = studyParticipantCrfSchedule.getStudyParticipantCrfItems();
             if (spcItems != null) {
                 for (StudyParticipantCrfItem spcCrfItem : spcItems) {
