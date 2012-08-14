@@ -320,9 +320,6 @@
                     <tags:button type="submit" color="blue" id="flow-prev"
                                  onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
                                  value="Back" icon="Back"/>
-                    <tags:button type="submit" color="blue" id="flow-prev"
-                                 onclick="saveAndBack('saveandback', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
-                                 value="Save & Back" icon="Back"/>
                 </td>
                 <td align="left">
 
