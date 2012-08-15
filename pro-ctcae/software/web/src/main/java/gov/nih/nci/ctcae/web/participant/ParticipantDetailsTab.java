@@ -246,7 +246,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         //checking for unique username
         if (command.getParticipant().getUser().getUsername() != null && command.getParticipant().getUser().getId() == null) {
-           boolean validUsername = userNameAndPasswordValidator.validateUniqueName(command.getParticipant().getUser());
+            boolean validUsername = userNameAndPasswordValidator.validateUniqueName(command.getParticipant().getUser());
             if (!validUsername) {
                 errors.reject("user.user_exists");
             }
@@ -276,6 +276,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             if (validUserNumber) {
                 //   errors.rejectValue("studyParticipantAssignment.participant.phoneNumber" , "participant.unique_userNumber", "participant.unique_userNumber");
                 errors.reject("participant.unique_userNumber");
+            }
+        }
+
+        //check for unique mrn
+        if (command.getParticipant().getAssignedIdentifier() != null) {
+            boolean duplicateMRN = uniqueStudyIdentifierForParticipantValidator.validateUniqueParticipantMrn(command.getOrganizationId(), command.getParticipant().getAssignedIdentifier(), command.getParticipant().getId());
+            if (duplicateMRN) {
+                errors.reject("participant.unique_mrn");
             }
         }
 
