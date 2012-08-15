@@ -245,7 +245,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         }
 
         //checking for unique username
-        if (command.getParticipant().getUser().getUsername() != null) {
+        if (command.getParticipant().getUser().getUsername() != null && command.getParticipant().getUser().getId() == null) {
            boolean validUsername = userNameAndPasswordValidator.validateUniqueName(command.getParticipant().getUser());
             if (!validUsername) {
                 errors.reject("user.user_exists");
