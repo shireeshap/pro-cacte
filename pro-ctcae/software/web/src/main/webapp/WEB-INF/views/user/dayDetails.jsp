@@ -86,7 +86,7 @@ Event(s) for <b>${date}</b>:
                     <a
                     class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                     id="scheduleAct${schedule.id}"
-                    onmouseover="javascript:showPo('${schedule.id}','${schedule.studyParticipantCrf.studyParticipantAssignment.participant.id}', '${schedule.studyParticipantCrf.studyParticipantAssignment.participant.phoneNumber}', '${schedule.studyParticipantCrf.studyParticipantAssignment.participant.emailAddress}')"><span
+                    onmouseover="javascript:showPo('${schedule.id}','${schedule.studyParticipantCrf.studyParticipantAssignment.participant.id}', '${schedule.studyParticipantCrf.studyParticipantAssignment.participant.phoneNumber}', '${schedule.studyParticipantCrf.studyParticipantAssignment.participant.emailAddress}', '${schedule.status}')"><span
                     class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
             </td>
         </tr>
