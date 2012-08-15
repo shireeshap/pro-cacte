@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 //
+
 /**
  * The Class AddCrfComponentController.
  *
@@ -66,15 +67,27 @@ public class AddCrfComponentController extends AbstractCrfController {
 
         } else if (StringUtils.equals(componentType, CTC_CATEGORY_COMPONENT)) {
             Integer ctcCategoryId = ServletRequestUtils.getIntParameter(request, "ctcCategoryId");
-
+            String categoryName = request.getParameter("categoryName");
 
             ProCtcTermQuery query = new ProCtcTermQuery();
             query.filterByCtcTermHavingQuestionsOnly();
             query.filterByCtcCategoryId(ctcCategoryId);
             query.filterByCurrency();
             List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>(proCtcTermRepository.find(query));
+            if (categoryName.equals("Core symptoms")) {
+                List<ProCtcTerm> termsToRemove = new ArrayList();
+                for (ProCtcTerm pTerm : proCtcTerms) {
+                    if (!pTerm.isCore()) {
+                        termsToRemove.add(pTerm);
+                    }
+                }
+                if (termsToRemove.size() > 0) {
+                    for (ProCtcTerm removeTerm : termsToRemove) {
+                        proCtcTerms.remove(removeTerm);
+                    }
+                }
+            }
             Collections.sort(proCtcTerms, new ProCtcTermComparator());
-
             List<CRFPage> addedCrfPages = new ArrayList<CRFPage>();
             List<CrfPageItem> addedCrfPageItems = new ArrayList<CrfPageItem>();
 

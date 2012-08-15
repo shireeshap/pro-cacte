@@ -84,6 +84,17 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
             CtcCategory ctcCate = categoryIterator.next();
             if (ctcCate.getName().equals("Core symptoms")) {
                 tempProTermList = ctcCategoryMap.get(ctcCate);
+                List<ProCtcTerm> termsToRemove = new ArrayList();
+                for (ProCtcTerm pTerm : tempProTermList) {
+                    if (!pTerm.isCore()) {
+                         termsToRemove.add(pTerm);
+                    }
+                }
+                if (termsToRemove.size()>0) {
+                    for(ProCtcTerm removeTerm : termsToRemove) {
+                        tempProTermList.remove(removeTerm);
+                    }
+                }
                 Collections.sort(tempProTermList, new ProCtcTermComparator());
                 result.put(ctcCate, tempProTermList);
             }

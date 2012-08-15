@@ -519,10 +519,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <script type="text/javascript">
 
-    function addCtcCategory(ctcCategoryId) {
-
+    function addCtcCategory(ctcCategoryId, categoryName) {
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&ctcCategoryId=" + ctcCategoryId + "&componentType=ctcCategory",
+            parameters:<tags:ajaxstandardparams/>+"&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory",
             onComplete:function(transport) {
 
                 var response = transport.responseText;
@@ -940,7 +939,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                         <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
                             <li>${ctcCategory.key.name}<a
-                                    href="javascript:addCtcCategory(${ctcCategory.key.id})"
+                                    href="javascript:addCtcCategory('${ctcCategory.key.id}', '${ctcCategory.key.name}')"
                                     id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
                                 <img src="/proctcae/images/blue/select_question_btn.png"
                                      alt="Add" onclick=""/></a>
