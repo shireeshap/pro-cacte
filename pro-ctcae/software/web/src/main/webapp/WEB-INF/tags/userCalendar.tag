@@ -15,7 +15,7 @@
         </td>
         <td>
             <div style="background-color:blue;color:white;margin-bottom:3px;margin-left:3px" align="center">Blue</div>
-            <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
+            <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange</div>
         </td>
 
         <td align="right" colspan="2">
@@ -23,7 +23,7 @@
             Past-due =
         </td>
         <td>
-            <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange</div>
+            <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
             <div style="background-color:red;color:white;margin-bottom:3px;margin-left:3px" align="center">Red</div>
         </td>
     </tr>
