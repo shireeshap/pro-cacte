@@ -265,18 +265,16 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         participantEmailContent.append("<html><head></head><body>");
         participantEmailContent.append(messageSource.getMessage("participant.email.comp1", null, locale) +
                 " <b><i>" + studyParticipantAssignment.getParticipant().getFirstName() + " " + studyParticipantAssignment.getParticipant().getLastName() + "</i></b><br/>");
-        participantEmailContent.append("<br><b>" + messageSource.getMessage("participant.email.comp2", null, locale) + ": </b>" + studyParticipantAssignment.getStudySite().getStudy().getDisplayName());
-        participantEmailContent.append("<br><b>" + messageSource.getMessage("participant.email.comp3", null, locale) + ": </b>" + studyParticipantAssignment.getStudySite().getDisplayName() + "</br>");
         Date earliestDueDate = ((StudyParticipantCrfSchedule) sortedStudyParticipantCrfSchedules.get(0)).getDueDate();
         String baseUrl = properties.getProperty(BASE_URL);
         participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp4", null, locale) + "<br/>");
-        participantEmailContent.append("<p style='text-decoration:underline,color=blue'>" + baseUrl + "</p><br/>");
-        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp5", null, locale) + "  : <b>" + DateUtils.format(earliestDueDate) + "</b>");
-        participantEmailContent.append("<b> " + messageSource.getMessage("participant.email.comp6", null, locale) + "</b><br/>");
+        participantEmailContent.append("<p style='text-decoration:underline,color=blue'>" + baseUrl + "</p>");
+        participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp5", null, locale) + " <b>" + DateUtils.format(earliestDueDate) + ".</b>");
+        participantEmailContent.append(" " + messageSource.getMessage("participant.email.comp6", null, locale) + "<br/>");
         participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp7", null, locale) + "<br/>");
         participantEmailContent.append("<br/><ul><li>" + messageSource.getMessage("participant.email.comp8", null, locale) + "</li><br/>");
         participantEmailContent.append("<li>" + messageSource.getMessage("participant.email.comp9", null, locale) + "</li><br/>");
-        participantEmailContent.append("<li>" + messageSource.getMessage("participant.email.comp10", null, locale) + "</li></ul><br/>");
+        participantEmailContent.append("<li>" + messageSource.getMessage("participant.email.comp10", null, locale) + "</li></ul>");
         participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp11", null, locale) + "<br/>");
         participantEmailContent.append("<br/>" + messageSource.getMessage("participant.email.comp12", null, locale) + "<br/>");
         participantEmailContent.append("</body></html>");
