@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class StudyParticipantCrfScheduleAjaxFacade {
 
     public List<StudyParticipantCrfSchedule> searchSchedules(Integer startIndex, Integer results, String sortField, String direction, CrfStatus status, Date current) {
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
+        List<CrfStatus> statuses = new ArrayList<CrfStatus>();
         spcsQuery.setFirstResult(startIndex);
         spcsQuery.setMaximumResults(results);
 //        spcsQuery.setSortBy("spcs." + sortField);
@@ -29,6 +31,9 @@ public class StudyParticipantCrfScheduleAjaxFacade {
             spcsQuery.filterByMarkDelete();
             spcsQuery.filterByStatus(status);
         } else if (status.equals(CrfStatus.INPROGRESS)){
+        	statuses.add(CrfStatus.INPROGRESS);
+        	statuses.add(CrfStatus.SCHEDULED);
+        	spcsQuery.filterByStatuses(statuses);
             spcsQuery.filterByDate(current);
         } else {
             spcsQuery.filterByStatus(CrfStatus.SCHEDULED);

@@ -21,6 +21,8 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     private static String SP_CRF_IDS = "sp_crf_ids";
     private static String USERNAME = "username";
     private static String MARK_DELETE = "markDelete";
+    private static String STATUSES = "statuses";
+
 
     public StudyParticipantCrfScheduleQuery() {
         super(queryString);
@@ -94,6 +96,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     public void filterByStatus(CrfStatus status) {
         andWhere("spcs.status =:status");
         setParameter("status", status);
+    }
+    
+    public void filterByStatuses(List<CrfStatus> statuses) {
+        andWhere("spcs.status in (:" + STATUSES + ")");
+        setParameterList(STATUSES, statuses);
     }
 
     public void filterByMarkDelete() {
