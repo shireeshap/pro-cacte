@@ -288,13 +288,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
 
-//        try {
-//            userNameAndPasswordValidator.validatePasswordPolicy(user);
-//        } catch (PasswordCreationPolicyException ex) {
-//            for (ValidationError ve : ex.getErrors().getErrors()) {
-//                errors.reject("password", ve.getMessage());
-//            }
-//        }
+            try {
+                userNameAndPasswordValidator.validatePasswordPolicy(user);
+            } catch (PasswordCreationPolicyException ex) {
+                for (ValidationError ve : ex.getErrors().getErrors()) {
+                    errors.reject("password", ve.getMessage());
+                }
+            }
+
 
         for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
             String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
