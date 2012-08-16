@@ -255,6 +255,7 @@ public class ParticipantCommand {
         StudyParticipantAssignment studyParticipantAssignment = getSelectedStudyParticipantAssignment();
         Date studyStartDate = studyParticipantAssignment.getStudyStartDate();
         Study study = studyParticipantAssignment.getStudySite().getStudy();
+
         List<StudyParticipantCrf> spcList = new ArrayList<StudyParticipantCrf>();
         for (StudyParticipantCrf spcrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             spcList.add(spcrf);
@@ -268,7 +269,8 @@ public class ParticipantCommand {
                             for (StudyParticipantCrf spc : spcList) {
                                 if (spc.getCrf().equals(crf) && spc.getArm().equals(studyParticipantAssignment.getArm())) {
                                         studyParticipantCrf = spc;
-                                        studyParticipantCrf.createSchedules(armChange);
+                                            studyParticipantCrf.setStartDate(getNewStartDate());
+                                        studyParticipantCrf.createSchedules(true);
                                         createSpCrf = false;
                                 }
                             }

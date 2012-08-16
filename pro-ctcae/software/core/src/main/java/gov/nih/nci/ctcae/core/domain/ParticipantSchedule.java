@@ -441,6 +441,7 @@ public class ParticipantSchedule {
                     String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
                     String calendarDate = sdf.format(c.getTime());
                     if (calendarDate.equals(scheduleDate)) {
+                        if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED))
                         schToRemove = studyParticipantCrfSchedule;
                         break;
                     }
