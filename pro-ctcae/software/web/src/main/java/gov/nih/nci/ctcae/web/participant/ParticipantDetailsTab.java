@@ -284,10 +284,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_mrn");
             }
         }
-
+        //check for password policy
         User user = command.getParticipant().getUser();
         user.addUserRole(new UserRole(Role.PARTICIPANT));
-
+          if (user.getPassword()!=null) {
             try {
                 userNameAndPasswordValidator.validatePasswordPolicy(user);
             } catch (PasswordCreationPolicyException ex) {
@@ -295,7 +295,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     errors.reject("password", ve.getMessage());
                 }
             }
-
+          }
 
         for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
             String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
