@@ -20,7 +20,7 @@
             }   </script>
     </head>
     <body>
-    	
+
         <chrome:box title="participant.label.remove_hold_date">
             <chrome:division>
                 <div id="offTreatment">
@@ -29,7 +29,7 @@
                 <p align="left">
                     Surveys for the participant have been put on hold
                     beginning
-                    <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>, <c:if test="${cycle ne null && cycle ne 0}">which was <b>Cycle ${cycle}</b>, <b>Day ${day}</b>.</c:if><br> <br>
+                    <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.
                     Specify the date on which surveys will resume.
 
                       <div class="value">
@@ -45,16 +45,6 @@
                     </a>
                     <i>(mm/dd/yyyy)</i>
                 </div>
-                    <p align="left">
-                    Specify the cycle and day corresponding to the above selected off hold date. <br>
-                     </p>
-                <div id="cycle_day" style="display:block;width:258px" align="right">
-                    <b> Cycle</b> &nbsp;<input name="cycle" id="cycle" type="text" size="2"> and <b> Day </b> &nbsp;<input
-                        name="day"
-                        type="text" id="day"
-                        size="2">
-                </div>
-
 
                 </p>
 
@@ -70,7 +60,7 @@
                           </td>
                           <td align="right">
                                <input type="button" value="Remove hold"
-                   onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, $('cycle').value, $('day').value,'offhold')"/>
+                   onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"/>
 
                           </td>
                       </tr>
