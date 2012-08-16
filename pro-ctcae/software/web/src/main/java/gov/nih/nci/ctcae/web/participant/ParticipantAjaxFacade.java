@@ -208,14 +208,34 @@ public class ParticipantAjaxFacade {
     }
 
     public List<Participant> matchParticipantByStudySiteId(final String text, Integer studySiteId, Integer studyId) {
-        if (studySiteId != null) {
-            List<Participant> participants = participantRepository.findByStudySiteId(text, studySiteId);
-            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
-        } else {
-            List<Participant> participants = participantRepository.findByStudyId(text, studyId);
-            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
-
+    	
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        boolean siteStaff = false;
+        boolean leadStaff = false;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.SITE_PI) || userRole.getRole().equals(Role.SITE_CRA) || userRole.getRole().equals(Role.NURSE) || userRole.getRole().equals(Role.TREATING_PHYSICIAN)) {
+                siteStaff = true;
+            } else {
+                leadStaff = true;
+            }
         }
+        ParticipantQuery participantQuery;
+        if (leadStaff) {
+            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true);
+        } else {
+            participantQuery = new ParticipantQuery(Role.SITE_CRA, true);
+        }
+        participantQuery.filterByAll(text, "" + 0);
+        if(studySiteId != null){
+            participantQuery.filterByStudySite(studySiteId);
+        }
+        if(studyId != null){
+        	participantQuery.filterByStudy(studyId);
+        }
+        List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
+        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier", "displayName");
+
     }
 
 
