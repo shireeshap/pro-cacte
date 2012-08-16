@@ -10,7 +10,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <tags:dwrJavascriptLink
-        objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation,uniqueParticipantEmailAddress"/>
+        objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
 <tags:javascriptLink name="ui_fields_validation"/>
 
 <html>
@@ -62,7 +62,7 @@ function checkParticipantUserName(siteId) {
                                                                                       else {
                                                                                           isUserNameError = false;
                                                                                       }
-                                                                                      checkError();
+                                                                                      //checkError();
                                                                                   }});
             jQuery('#userNameLengthError_'+siteId).hide();
             return;
@@ -73,7 +73,7 @@ function checkParticipantUserName(siteId) {
         jQuery('#userNameLengthError_'+siteId).hide();
         isUserNameError = false;
     }
-    checkError();
+    //checkError();
 }
 
 // validation check for email address
@@ -95,15 +95,15 @@ function checkParticipantEmail() {
                                                                                       else {
                                                                                           isEmailError = false;
                                                                                       }
-                                                                                      checkError();
+                                                                                      //checkError();
                                                                                   }
         }
                 );
     }
     else {
-        checkError();
+        //checkError();
     }
-    checkError();
+    //checkError();
 }
 
 function userReturnValue(returnValue) {
@@ -114,19 +114,9 @@ function userReturnValue(returnValue) {
     else {
         isUserNameError = false;
     }
-    checkError();
+    //checkError();
 }
 
-function checkError() {
-//    if (isUserNameError || isPasswordError || isConfirmPassError || isUserIdError || isIdentifierError || isPinError || isPhoneNumberError || isBlackoutCallTime || isEmailError || isConfirmPinError) {
-//        jQuery('#flow-update').attr('disabled', true);
-//        jQuery('#flow-next').attr('disabled', true);
-//    }
-//    else {
-//        jQuery('#flow-update').attr('disabled', false);
-//        jQuery('#flow-next').attr('disabled', false);
-//    }
-}
 
 //validation check for password policy
 function checkPasswordPolicy(siteId) {
@@ -144,7 +134,7 @@ function checkPasswordPolicy(siteId) {
         jQuery('#passwordError').hide();
         isPasswordError = false;
     }
-    checkError();
+    //checkError();
 }
 
 function passReturnValue(returnValue) {
@@ -159,7 +149,7 @@ function passReturnValue(returnValue) {
         jQuery('#passwordError').hide();
         isPasswordError = false;
     }
-    checkError();
+    //checkError();
 }
 
 function checkPinMatch(siteId) {
@@ -173,7 +163,7 @@ function checkPinMatch(siteId) {
             isConfirmPassError = true;
         }
     }
-    checkError();
+    //checkError();
 }
 
 // validation check for confirm password
@@ -195,7 +185,7 @@ function checkPasswordMatch(siteId) {
         jQuery('#passwordErrorConfirm_'+siteId).hide();
         isConfirmPassError = false;
     }
-    checkError();
+    //checkError();
 }
 
 function validateCalloutTime(siteId, startTime, endTime) {
@@ -266,7 +256,7 @@ function validateCalloutTime(siteId, startTime, endTime) {
             //    $('call_minute_' + siteId).value = "";
         }
 
-        checkError();
+        //checkError();
     }
 
 
@@ -322,7 +312,7 @@ function checkParticipantPhoneNumber() {
                                                                                                  //    $('participant.userNumber_' + siteId).value = nonFormattedPhoneNumber;
                                                                                                  //}
                                                                                              }
-                                                                                             checkError();
+                                                                                             //checkError();
                                                                                          }});
         }
     }
@@ -330,9 +320,9 @@ function checkParticipantPhoneNumber() {
         jQuery('#phoneNumberError').hide();
         jQuery('#PhonePatternError').hide();
         isPhoneNumberError = false;
-        checkError();
+        //checkError();
     }
-    checkError();
+    //checkError();
 }
 
 var userNumberPattern = /^[0-9]{10}$/;
@@ -360,7 +350,7 @@ function checkParticipantUserNumber(siteId) {
                                                                                            else {
                                                                                                isUserIdError = false;
                                                                                            }
-                                                                                           checkError();
+                                                                                           //checkError();
                                                                                        }});
         }
     }
@@ -368,9 +358,9 @@ function checkParticipantUserNumber(siteId) {
         jQuery('#userNumberError_' + siteId).hide();
         jQuery('#UserPatternError_' + siteId).hide();
         isUserIdError = false;
-        checkError();
+        //checkError();
     }
-    checkError();
+    //checkError();
 }
 var pinPattern = /^[0-9]{4}$/;
 // validation check for participant pin number (IVRS)
@@ -395,7 +385,7 @@ function checkParticipantPinNumber(siteId) {
         jQuery('#PinPatternError_' + siteId).hide();
         isPinError = false;
     }
-    checkError();
+    //checkError();
 }
 
 // validation check for participant study identifier
@@ -419,14 +409,14 @@ function checkParticipantStudyIdentifier(id, siteId) {
                                     else {
                                         isIdentifierError = false;
                                     }
-                                    checkError();
+                                    //checkError();
                                 }});
         return;
     }
     else {
         jQuery('#uniqueError_' + siteId).hide();
         isIdentifierError = false;
-        checkError();
+        //checkError();
     }
 }
 
@@ -452,14 +442,14 @@ function checkParticipantMrn() {
                                     else {
                                         isIdentifierError = false;
                                     }
-                                    checkError();
+                                    //checkError();
                                 }});
         return;
     }
     else {
         jQuery('#uniqueError_mrn').hide();
         isIdentifierError = false;
-        checkError();
+        //checkError();
     }
 }
 
@@ -584,7 +574,7 @@ function showForms(obj, id) {
     isPinError = false;
     isEmail = false;
     isBlackoutCallTime = false;
-    checkError();
+    //checkError();
     try {
         $('arm_' + id).addClassName("validate-NOTEMPTY");
     } catch(e) {
@@ -811,7 +801,7 @@ function showOrHideEmail(value1, value2, id) {
     isEmail = false;
     isPhoneNumberError = false;
     isBlackoutCallTime = false;
-    checkError();
+    //checkError();
 
     if (value1 && value2 == "HOMEWEB") {
         jQuery("#home_web_lang_" + id).show();
