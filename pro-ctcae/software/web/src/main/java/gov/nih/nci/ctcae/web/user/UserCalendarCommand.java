@@ -82,6 +82,12 @@ public class UserCalendarCommand {
     public void createCurrentMonthScheduleMap() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery();
+        List<CrfStatus> statuses = new ArrayList<CrfStatus>();
+        statuses.add(CrfStatus.INPROGRESS);
+        statuses.add(CrfStatus.SCHEDULED);
+        statuses.add(CrfStatus.PASTDUE);
+        statuses.add(CrfStatus.COMPLETED);
+        statuses.add(CrfStatus.ONHOLD);
         if (isScra()) {
             spcsQuery.filterBySiteIds(organizationIds);
         } else {
@@ -95,6 +101,7 @@ public class UserCalendarCommand {
         c.set(Calendar.DAY_OF_MONTH, daysInMonth);
         Date endDate = c.getTime();
         spcsQuery.filterByStartEndDate(startDate, endDate);
+        spcsQuery.filterByStatuses(statuses);
         List<StudyParticipantCrfSchedule> spcs = spcsRepository.find(spcsQuery);
 
         scheduleDates = new TreeMap();
