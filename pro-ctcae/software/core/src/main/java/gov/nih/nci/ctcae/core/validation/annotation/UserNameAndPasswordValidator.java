@@ -128,7 +128,7 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
      * @param user The user
      * @return false if error
      */
-    private boolean validatePasswordPolicy(User user) {
+    public boolean validatePasswordPolicy(User user) {
         return passwordPolicyService.validatePasswordAgainstCreationPolicy(user);
     }
 

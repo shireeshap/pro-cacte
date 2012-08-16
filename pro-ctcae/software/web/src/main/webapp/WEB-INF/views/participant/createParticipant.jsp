@@ -150,7 +150,9 @@ function checkPasswordPolicy(siteId) {
 function passReturnValue(returnValue) {
     if (returnValue != "") {
         jQuery('#passwordError').show();
+        if (document.getElementById('passwordError1')!=null) {
         document.getElementById('passwordError1').innerHTML = returnValue + "";
+        }
         isPasswordError = true;
     }
     else {
