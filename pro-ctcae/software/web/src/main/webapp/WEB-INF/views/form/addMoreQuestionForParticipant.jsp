@@ -197,20 +197,21 @@
         oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
 
         oAC.maxResultsDisplayed = 100;
-        $('participantSymptomInput').addClassName('pending-search');
+        $('participantSymptomInput').className+=" pending-search";
         $('participantSymptomInput').value = greeting;
 
         Event.observe($('participantSymptomInput'), 'click', function() {
             if ($('participantSymptomInput').value == greeting) {
                 $('participantSymptomInput').value = '';
             }
-            $('participantSymptomInput').removeClassName('pending-search');
+            //$('participantSymptomInput').removeClassName('pending-search');
+            removeCssClass($('participantSymptomInput'), 'pending-search');
         })
         Event.observe($('participantSymptomInput'), 'blur', function() {
             if ($('participantSymptomInput').value == '')
             {
                 $('participantSymptomInput').value = greeting;
-                $('participantSymptomInput').addClassName('pending-search');
+                $('participantSymptomInput').className+=" pending-search";
             }
         })
     }
@@ -306,7 +307,7 @@
 
             var td2 = document.createElement("TD");
             td2.id = 'td_' + nextColumnIndex + '_b';
-            $(td2).addClassName('buttonLook');
+            $(td2).className+=" buttonLook";
             td2.onmouseover = function() {
                 addHoverClass(idVar);
             }
@@ -338,10 +339,10 @@
         divTag.id = "div1_" + nextColumnIndex;
         divTag.setAttribute("align", "left");
         divTag.style.margin = "0px auto";
-        divTag.className = "check";
+        divTag.className += " check";
         divTag.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
         if (nextColumnIndex > 0) {
-            tdb.addClassName('buttonLook');
+            tdb.className+=" buttonLook";
         }
         tdb.appendChild(chkbox);
         tdb.appendChild(divTag);
@@ -359,7 +360,7 @@
         var x = document.getElementById(index);
         var td = $('td_' + index + '_b');
         x.checked = true;
-        td.addClassName("selected");
+        td.className+=" selected";
     }
 
     function changeTdClass(index) {
@@ -375,17 +376,20 @@
     //            alert("checked");
             x.checked = false;
     //            document.getElementById("img_"+index).style.display = "none";
-            $(td).removeClassName("selected");
-            $(td).addClassName('');
-            div.removeClassName('check');
-            div.addClassName('hideTd');
+            //$(td).removeClassName("selected");
+            removeCssClass($(td), "selected");
+            $(td).className+="";
+            //div.removeClassName('check');
+            removeCssClass($(div), "check");
+            div.className+=" hideTd";
         } else {
     //            alert("uncheck");
     //                document.getElementById("img_" + index).style.display = "block";
             x.checked = true;
-            td.removeClassName("");
-            td.addClassName("selected");
-            div.addClassName('check');
+            //td.removeClassName("");
+            //removeCssClass($(div), "check");
+            td.className+=" selected";
+            div.className+=" check";
         }
     }
 
@@ -395,7 +399,8 @@
         while (columnIndex <= count) {
     //                alert(columnIndex);
     //                alert(count);
-            $('td_' + columnIndex + '_b').removeClassName('buttonLook');
+            //$('td_' + columnIndex + '_b').removeClassName('buttonLook');
+            removeCssClass($('td_' + columnIndex + '_b'), "buttonLook");
     //        $('td_' + columnIndex + '_b').addClassName('hideTd');
             columnIndex++;
         }
@@ -404,11 +409,12 @@
     function addHoverClass(index) {
     //    alert(1);
         var columnIndex = index;
-        $('td_' + columnIndex + '_b').addClassName('tdHoverLook');
+        $('td_' + columnIndex + '_b').className+=" tdHoverLook";
     }
     function removeHoverClass(index) {
         var columnIndex = index;
-        $('td_' + columnIndex + '_b').removeClassName('tdHoverLook');
+        //$('td_' + columnIndex + '_b').removeClassName('tdHoverLook');
+        removeCssClass($('td_' + columnIndex + '_b'), "tdHoverLook");
     }
 
     Event.observe(window, "load", function() {
@@ -418,11 +424,13 @@
     function changeClass(obj, index) {
         var div = $('div_' + index);
         if (obj.checked) {
-            $(div).removeClassName("norm");
-            $(div).addClassName('over');
+            //$(div).removeClassName("norm");
+            removeCssClass($(div), "norm");
+            $(div).className+=" over";
         } else {
-            div.removeClassName("over");
-            div.addClassName("norm");
+            //div.removeClassName("over");
+            removeCssClass($(div), "over");
+            div.className+=" norm";
         }
     }
     function submitForm(direction) {
@@ -439,6 +447,22 @@
         addSymptom(selectedValueNew);
         closeWindow();
     }
+
+	function removeCssClass(element, classToRemove){
+		var origCss = element.className;
+		var origCssParts = origCss.split(" ");
+		var finalCss = "";
+		for ( var i = 0; i < origCssParts.length; i++ ){
+			if(origCssParts[i].trim() != classToRemove){
+				finalCss+=origCssParts[i].trim() + " ";
+			}
+		}
+		element.className="";
+		element.className=finalCss;
+	}
+
+	String.prototype.trim=function(){return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');};
+	
     </script>
 </head>
 <body>
