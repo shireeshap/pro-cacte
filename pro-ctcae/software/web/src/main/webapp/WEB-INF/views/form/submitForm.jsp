@@ -126,12 +126,12 @@
 
         function showOtherQuestions() {
             for (var i = 1; i < totalQuestionsOnPage; i++) {
-                $('question_' + i).show();
+                $('question_' + i).style.display='';
             }
         }
         function hideOtherQuestions() {
             for (var i = 1; i < totalQuestionsOnPage; i++) {
-                $('question_' + i).hide();
+                $('question_' + i).style.display='none';
             }
         }
         function clearResponsesForOtherQuestions() {
@@ -245,17 +245,6 @@
                             <c:if test="${lang eq 'es' }">
                                 &#191;${displayQuestion.questionTextSpanish}?<br/>
                             </c:if>
-                                <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
-                                <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
-                                <%--${displayQuestion.questionText}?<br/>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
-                                <%--&#191;${displayQuestion.questionTextSpanish}?<br/>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
-                                <%--${displayQuestion.questionText}?<br/>--%>
-                                <%--</c:if>--%>
-                                <%--</c:if>--%>
                         </div>
                     </td>
                 </tr>
@@ -282,35 +271,6 @@
                                              validValueIndexForQuestion="${validvaluestatus.index}"
                                     />
                         </c:if>
-                        <%--<c:if test="${homeweblanguage eq null || homeweblanguage eq ''}">--%>
-                        <%--<c:if test="${ivrslanguage eq 'ENGLISH'}">--%>
-                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                        <%--title="${validValue.value}"--%>
-                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                        <%--displayOrder="${validValue.displayOrder}"--%>
-                        <%--questionIndexOnPage="${varStatus.index}"--%>
-                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                        <%--/>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${ivrslanguage eq 'SPANISH'}">--%>
-                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                        <%--title="${validValue.valueSpanish}"--%>
-                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                        <%--displayOrder="${validValue.displayOrder}"--%>
-                        <%--questionIndexOnPage="${varStatus.index}"--%>
-                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                        <%--/>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${ivrslanguage eq null || ivrslanguage eq ''}">--%>
-                        <%--<tags:validvalue validValueId="${validValue.id}"--%>
-                        <%--title="${validValue.value}"--%>
-                        <%--selectedId="${displayQuestion.selectedValidValue.id}"--%>
-                        <%--displayOrder="${validValue.displayOrder}"--%>
-                        <%--questionIndexOnPage="${varStatus.index}"--%>
-                        <%--validValueIndexForQuestion="${validvaluestatus.index}"--%>
-                        <%--/>--%>
-                        <%--</c:if>--%>
-                        <%--</c:if>--%>
                     </c:forEach>
                 </tr>
             </table>
