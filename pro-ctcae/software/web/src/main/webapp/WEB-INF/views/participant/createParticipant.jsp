@@ -628,7 +628,7 @@ var _winOffHold;
 function participantOffHold(id, date, index) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
         onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 350);
+                showConfirmationWindow(transport, 650, 250);
         },
         parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" +0,
         method:'get'
@@ -639,7 +639,7 @@ function participantOnHold(id, date) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date + "&index=" +0,
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 600, 350);
+            showConfirmationWindow(transport, 600, 250);
         },
         method:'get'
     })

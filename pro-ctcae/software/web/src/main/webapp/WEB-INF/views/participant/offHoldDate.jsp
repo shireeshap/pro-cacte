@@ -26,30 +26,25 @@
                 <div id="offTreatment">
                     <tags:errors path="*"/>
                 </div>
-                <p align="left">
+                <%--<p align="left">--%>
                     Surveys for the participant have been put on hold
                     beginning
                     <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.
-                    Specify the date on which surveys will resume.
+
 
                       <div class="value">
                     <input id="offHoldTreatmentDate" class="date validate-NOTEMPTY&&DATE"
                            name="offHoldTreatmentDate"
                            title="Off hold date"
                            value="${newdate}" size="20" enabled=""
-                           type="text">
-                    <a href="#" id="offHoldTreatmentDate-calbutton">
-                        <img src="/proctcae/images/chrome/b-calendar.gif" alt="Calendar" width="17"
-                             align="absmiddle" border="0"
-                             height="16">
-                    </a>
-                    <i>(mm/dd/yyyy)</i>
-                </div>
-
-                </p>
+                           type="hidden">
 
                 </div>
 
+                <%--</p>--%>
+
+                </div>
+                  <br>
                 <div class="flow-buttons">
                   <table width="100%" border="0">
                       <tr>

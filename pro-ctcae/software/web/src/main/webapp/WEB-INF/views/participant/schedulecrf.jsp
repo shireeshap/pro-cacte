@@ -215,7 +215,7 @@ function participantOffHold(id, date, index) {
             if (transport.responseText == "getCalendar") {
                 getCalendar(index, "dir=refresh");
             } else {
-                showConfirmationWindow(transport, 650, 350);
+                showConfirmationWindow(transport, 650, 250);
             }
         },
         parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" + index,

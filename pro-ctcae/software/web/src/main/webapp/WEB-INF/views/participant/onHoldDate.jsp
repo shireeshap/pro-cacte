@@ -37,12 +37,22 @@
             </div>
                    
             <div class="flow-buttons">
-                <input type="button" value="Begin hold"
-                   onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>
-                <spring:message code="participant.button.cancel" var="cancel"/>
-                <tags:button type="button" id="flow-cancel"
+                <table width="100%" border="0">
+                      <tr>
+                          <td align="left">
+                            <spring:message code="participant.button.cancel" var="cancel"/>
+                              <tags:button type="button" id="flow-cancel"
                              cssClass="previous ibutton" value="${cancel}" icon="x" color="red" size="small"
                              onclick="closeWindow()"/>
+                              </td>
+                          <td align="right">
+                              <input type="button" value="Begin hold"
+                   onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>
+                          </td>
+                        </tr>
+                    </table>
+
+
             </div>
 
 
