@@ -26,7 +26,7 @@
                 <div id="offTreatment">
                     <tags:errors path="*"/>
                 </div>
-                <%--<p align="left">--%>
+                <div style="margin-left:12px">
                     Surveys for the participant have been put on hold
                     beginning
                     <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.    <br>
@@ -40,7 +40,7 @@
 
                 </div>
 
-                <%--</p>--%>
+                </p>
 
                 </div>
                   <br>

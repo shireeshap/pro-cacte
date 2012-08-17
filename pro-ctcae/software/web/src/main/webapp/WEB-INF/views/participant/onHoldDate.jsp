@@ -15,12 +15,12 @@
     <chrome:box title="participant.label.on_hold_date">
         <chrome:division>
 
-            <div id="offTreatment">
+            <div id="offTreatment" style="margin-left:12px">
                 <div >
                     <div><spring:message code='participant.onHold'/></div>
                 </div>
                      <spring:message code='participant.onHold2'/>
-                 <div class="value">
+                 <div class="value"> <br/>
                     <input id="effectiveStartDate" class="date validate-NOTEMPTY&&DATE"
                            name="effectiveStartDate"
                            title="On hold date"
