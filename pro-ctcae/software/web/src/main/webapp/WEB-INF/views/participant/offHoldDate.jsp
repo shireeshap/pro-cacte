@@ -29,9 +29,8 @@
                 <%--<p align="left">--%>
                     Surveys for the participant have been put on hold
                     beginning
-                    <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.
-
-
+                    <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.    <br>
+                Click the "Remove hold" to resume survey administration for this participant.
                       <div class="value">
                     <input id="offHoldTreatmentDate" class="date validate-NOTEMPTY&&DATE"
                            name="offHoldTreatmentDate"
@@ -50,12 +49,12 @@
                       <tr>
                           <td align="left">
                               <tags:button type="button" id="flow-cancel"
-                                 cssClass="previous ibutton" value="Cancel" icon="x" color="red"  size="small"
+                                 cssClass="previous ibutton" value="Cancel" icon="x" color="red"  size="large"
                                  onclick="closeWindow()"/>
                           </td>
                           <td align="right">
-                               <input type="button" value="Remove hold"
-                   onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"/>
+                              <tags:button value="Remove hold" color="blue" id="flow-update" cssClass="next" size="large" icon="check"
+                              onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"/>
 
                           </td>
                       </tr>

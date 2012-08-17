@@ -42,12 +42,15 @@
                           <td align="left">
                             <spring:message code="participant.button.cancel" var="cancel"/>
                               <tags:button type="button" id="flow-cancel"
-                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red" size="small"
+                             cssClass="previous ibutton" value="${cancel}" icon="x" color="red" size="large"
                              onclick="closeWindow()"/>
                               </td>
                           <td align="right">
-                              <input type="button" value="Begin hold"
-                   onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>
+                              <tags:button type="submit" id="flow-update" cssClass="next" value="Begin hold" color="blue" size="large"
+                               onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"
+                               icon="check"/>
+                              <%--<input type="button" value="Begin hold"--%>
+                   <%--onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>--%>
                           </td>
                         </tr>
                     </table>
