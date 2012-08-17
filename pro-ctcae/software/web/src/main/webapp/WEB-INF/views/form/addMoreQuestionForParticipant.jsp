@@ -222,18 +222,21 @@
         if($F('participantSymptomInput') != greeting){
             scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
                 if (values != '') {
-
                     var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
                         parameters:<tags:ajaxstandardparams/>+"&values=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + false +"&CSRF_TOKEN=${sessionScope.CSRF_TOKEN}",
                         onComplete:function(transport) {
-                            showConfirmationWindow(transport, 600, 250);
+                        	if(isIe7()){
+                        		myWindow = window.open('','','width=600,height=250');
+                        		myWindow.document.write(transport.responseText);
+                        		myWindow.focus();
+                        	} else {
+                        		showConfirmationWindow(transport, 600, 250);
+                        	}
                             clearInput();
                         },
                         method:'post'
                     })
-
                 } else {
-        //            alertForAdd();
                     checkMapping(selectedChoice);
                     addSymptom(selectedChoice);
                 }
@@ -249,7 +252,13 @@
                 var request = new Ajax.Request("<c:url value="/pages/participant/confirmSymptom?subview=subview"/>", {
                     parameters:<tags:ajaxstandardparams/>+"&mappedValues=" + values + "&selectedChoice=" + selectedChoice + "&isMapped=" + true +"&CSRF_TOKEN=${sessionScope.CSRF_TOKEN}",
                     onComplete:function(transport) {
-                        showConfirmationWindow(transport, 500, 150);
+                    	if(isIe7()){
+                    		myWindow = window.open('','','width=500,height=150');
+                    		myWindow.document.write(transport.responseText);
+                    		myWindow.focus();
+                    	} else {
+                            showConfirmationWindow(transport, 500, 150);
+                    	}
                     },
                     method:'post'
                 })
@@ -261,7 +270,13 @@
     function alertForAdd() {
         var request = new Ajax.Request("<c:url value="/pages/participant/alertForAdd"/>", {
             onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 180);
+        	if(isIe7()){
+        		myWindow = window.open('','','width=650,height=180');
+        		myWindow.document.write(transport.responseText);
+        		myWindow.focus();
+        	} else {
+        		showConfirmationWindow(transport, 650, 180);
+        	}
             },
             parameters:<tags:ajaxstandardparams/> +"&index=ind",
             method:'get'
@@ -462,7 +477,22 @@
 	}
 
 	String.prototype.trim=function(){return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');};
-	
+
+	function isIe7(){
+		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ //test for MSIE x.x;
+			 var ieversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+			 if (ieversion>=9)
+				 return false;
+			 else if (ieversion>=8)
+				 return false;
+			 else if (ieversion>=7)
+			  	return true;
+			 else if (ieversion>=6)
+				 return false;
+			 else if (ieversion>=5)
+				 return false;
+		}
+	}
     </script>
 </head>
 <body>
