@@ -4,7 +4,8 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.CollectionUtils;
@@ -33,10 +34,10 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
     public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
             ParticipantQuery participantQuery = new ParticipantQuery();
             participantQuery.filterByStudy(studyId);
-            participantQuery.filterByStudyParticipantIdentifier(assignedIdentifier);
+            participantQuery.filterByStudyParticipantIdentifierExactMatch(assignedIdentifier);
             participantQuery.excludeByParticipantId(participantID);
 
-            Collection<Participant> participants = participantRepository.find(participantQuery);
+            List<Participant> participants = (ArrayList<Participant>) participantRepository.find(participantQuery);
             if(!CollectionUtils.isEmpty(participants)){
                 return true;
             }
@@ -56,10 +57,10 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
     public boolean validateUniqueParticipantMrn(Integer siteId, String mrn, Integer participantID) {
 	       ParticipantQuery participantQuery = new ParticipantQuery();
 	       participantQuery.filterBySite(siteId);
-	       participantQuery.filterByParticipantIdentifier(mrn);
+	       participantQuery.filterByParticipantIdentifierExactMatch(mrn);
 	       participantQuery.excludeByParticipantId(participantID);
 	
-	       Collection<Participant> participants = participantRepository.find(participantQuery);
+	       List<Participant> participants = (ArrayList<Participant>) participantRepository.find(participantQuery);
 	       if(!CollectionUtils.isEmpty(participants)){
 	           return true;
 	       }

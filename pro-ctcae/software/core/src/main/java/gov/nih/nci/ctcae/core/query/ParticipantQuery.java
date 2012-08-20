@@ -148,6 +148,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         setParameter(LAST_NAME, searchString);
     }
 
+
     /**
      * Filter by participant identifier(also referred to as assigned identifier/MRN).
      *
@@ -156,6 +157,18 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     public void filterByParticipantIdentifier(final String identifier) {
         String searchString = "%" + identifier.toLowerCase() + "%";
         andWhere("lower(p.assignedIdentifier) LIKE :" + IDENTIFIER);
+        setParameter(IDENTIFIER, searchString);
+    }
+    
+
+    /**
+     * Filter by participant identifier exact match.
+     *
+     * @param identifier the identifier
+     */
+    public void filterByParticipantIdentifierExactMatch(final String identifier) {
+        String searchString = identifier.toLowerCase();
+        andWhere("lower(p.assignedIdentifier) = :" + IDENTIFIER);
         setParameter(IDENTIFIER, searchString);
     }
 
@@ -270,11 +283,18 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         }
     }
 
-
     public void filterByStudyParticipantIdentifier(String spIdentifier) {
         if (spIdentifier != null) {
             leftJoin("p.studyParticipantAssignments as spa");
             andWhere("lower(spa.studyParticipantIdentifier) LIKE :" + STUDY_PARTICIPANT_IDENTIFIER);
+            setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier.toLowerCase());
+        }
+    }
+
+    public void filterByStudyParticipantIdentifierExactMatch(String spIdentifier) {
+        if (spIdentifier != null) {
+            leftJoin("p.studyParticipantAssignments as spa");
+            andWhere("lower(spa.studyParticipantIdentifier) =:" + STUDY_PARTICIPANT_IDENTIFIER);
             setParameter(STUDY_PARTICIPANT_IDENTIFIER, spIdentifier.toLowerCase());
         }
     }
