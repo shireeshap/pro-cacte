@@ -13,6 +13,7 @@ import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberV
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 import java.util.*;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
 
 //
@@ -39,6 +42,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
     private OrganizationRepository organizationRepository;
 
+	protected static final Log logger = LogFactory.getLog(ParticipantDetailsTab.class);
+
+	
     /**
      * Instantiates a new participant details tab.
      */
@@ -127,7 +133,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setConfirmPinNumber(null);
                 }
             }
-            String email = request.getParameter("participant.email_" + studySite.getId());
+            String email = request.getParameter("participant.emailAddress");
             if (!StringUtils.isBlank(email)) {
                 try {
                     command.getParticipant().setEmailAddress(email);
@@ -135,17 +141,17 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setEmailAddress(null);
                 }
             }
-            String phone = request.getParameter("participant.phoneNumber_" + studySite.getId());
+            String phone = request.getParameter("participant.phoneNumber");
             if (!StringUtils.isBlank(phone)) {
                 try {
                     command.getParticipant().setPhoneNumber(phone);
-                    //                   String userNumber = phone.replaceAll("-", "");
-                    //                   command.getParticipant().setUserNumber(userNumber);
                 } catch (Exception e) {
                     command.getParticipant().setPhoneNumber(null);
+                    logger.error("Invalid particpant phone number: setting phone number as null in exception flow.");		
                 }
+            } else {
+            	command.getParticipant().setPhoneNumber(null);
             }
-//            }
         } else {
             //Create flow (Participant is not saved yet)
             command.getParticipant().removeAllStudyParticipantAssignments();
@@ -206,7 +212,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     }
                 }
 
-                String email = request.getParameter("participant.email_" + studySite.getId());
+                String email = request.getParameter("participant.emailAddress");
                 if (!StringUtils.isBlank(email)) {
                     try {
                         command.getParticipant().setEmailAddress(email);
@@ -214,7 +220,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         command.getParticipant().setEmailAddress(null);
                     }
                 }
-                String phone = request.getParameter("participant.phoneNumber_" + studySite.getId());
+                String phone = request.getParameter("participant.phoneNumber");
                 if (!StringUtils.isBlank(phone)) {
                     try {
                         command.getParticipant().setPhoneNumber(phone);
