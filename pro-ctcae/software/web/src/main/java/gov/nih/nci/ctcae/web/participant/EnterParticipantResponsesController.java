@@ -60,16 +60,16 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         String participantName = spcSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName();
         Date startDate = spcSchedule.getStartDate();
         Date dueDate = spcSchedule.getDueDate();
-       Map<String, Object> map = super.referenceData(request, command, errors);
+        Map<String, Object> map = super.referenceData(request, command, errors);
         String language = request.getParameter("lang");
         if (language == null || language == "") {
             language = "en";
         }
         spcSchedule.setLanguage(language);
-        if(spcSchedule.getStatus().equals(CrfStatus.COMPLETED)){
-        	map.put("isSadEditable", "false");
+        if (spcSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+            map.put("isSadEditable", "false");
         } else {
-        	map.put("isSadEditable", "true");
+            map.put("isSadEditable", "true");
         }
         map.put("language", language);
         map.put("study", study);
@@ -90,7 +90,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         if (language == null || language == "") {
             language = "en";
         }
-        if ("save".equals(submitType)||"saveandback".equals(submitType)) {
+        if ("save".equals(submitType) || "saveandback".equals(submitType)) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
         } else {
             studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
@@ -98,24 +98,28 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             List<StudyParticipantCrfItem> spcItems = studyParticipantCrfSchedule.getStudyParticipantCrfItems();
             if (spcItems != null) {
                 for (StudyParticipantCrfItem spcCrfItem : spcItems) {
-                    spcCrfItem.setReponseDate(new Date());
-                    spcCrfItem.setResponseMode(AppMode.CLINICWEB);
-                    spcCrfItem.setUpdatedBy(user.getUsername());
+                    if (spcCrfItem.getResponseMode() == null) {
+                        spcCrfItem.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
+                        spcCrfItem.setResponseMode(AppMode.CLINICWEB);
+                        spcCrfItem.setUpdatedBy(user.getUsername());
+                    }
                 }
             }
             List<StudyParticipantCrfScheduleAddedQuestion> spcsAdded = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions();
             if (spcsAdded != null) {
                 for (StudyParticipantCrfScheduleAddedQuestion spcsaq : spcsAdded) {
-                    spcsaq.setReponseDate(new Date());
-                    spcsaq.setResponseMode(AppMode.CLINICWEB);
-                    spcsaq.setUpdatedBy(user.getUsername());
+                    if (spcsaq.getResponseMode() == null) {
+                        spcsaq.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
+                        spcsaq.setResponseMode(AppMode.CLINICWEB);
+                        spcsaq.setUpdatedBy(user.getUsername());
+                    }
                 }
             }
         }
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId() + "&lang="+language));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId() + "&lang=" + language));
         if ("saveandback".equals(submitType)) {
-         modelAndView = new ModelAndView(new RedirectView("edit?id=" + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getId() + "&tab=3"));
+            modelAndView = new ModelAndView(new RedirectView("edit?id=" + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getId() + "&tab=3"));
         }
         modelAndView.addObject("successMessage", "true");
         return modelAndView;
