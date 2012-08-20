@@ -55,8 +55,7 @@
 <proctcae:urlAuthorize url="/pages/participant/create">
     <c:set var="readOnly" value="false"/>
 </proctcae:urlAuthorize>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc || readOnly}" showFinish="true"
-              showCreate="true" createLink="/pages/participant/create" createText="Save & add new participant">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc || readOnly}" showFinish="false">
 <jsp:attribute name="singleFields">
 
 <chrome:division title="participant.label.site">
