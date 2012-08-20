@@ -45,7 +45,7 @@ public class AddFormScheduleController extends AbstractController {
         Calendar c = new GregorianCalendar();
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("date")));
-
+        
         ModelAndView mv = new ModelAndView("participant/addSchedule");
         String sids = request.getParameter("sids");
         List<String> listExistingCrfs = new ArrayList<String>();
@@ -62,6 +62,7 @@ public class AddFormScheduleController extends AbstractController {
             crfExists = false;
             cExists = false;
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            	//check to ensure crf isnt already scheduled for the selected date.
                 if (listExistingCrfs.contains(studyParticipantCrfSchedule.getId().toString())) {
                     crfExists = true;
                     break;
@@ -74,7 +75,11 @@ public class AddFormScheduleController extends AbstractController {
                     }
                 }
                 if (!cExists) {
-                    crfListMap.put(crf, crfExists);
+                	//ensure crf schedule date is greater than crf effective date and participant start date.
+                	//not checking for crf effective end date.
+                	if(c.getTime().after(crf.getEffectiveStartDate()) && c.getTime().after(participantCommand.getParticipant().getStudyParticipantAssignments().get(0).getStudyStartDate())){
+                		crfListMap.put(crf, crfExists);
+                	}
                 }
             }
         }
