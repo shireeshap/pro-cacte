@@ -42,6 +42,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
 
     public static final String HELP_VIDEO_URL_EN  = "help.video.url.en";
     public static final String HELP_VIDEO_URL_ES  = "help.video.url.es";
+    public static final String BASE_URL = "base.url";
 
     /**
      * Instantiates a new participant inbox controller.
@@ -99,9 +100,9 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
                 lang="en";
             }
         }
-        String videoUrl = properties.getProperty(HELP_VIDEO_URL_EN);
+        String videoUrl = properties.getProperty(BASE_URL) + "/public/showVideo";
         if(lang.equals("es"))
-            videoUrl = properties.getProperty(HELP_VIDEO_URL_ES);
+            videoUrl = properties.getProperty(BASE_URL) + "/public/showVideo";
         modelAndView.put("videoUrl",videoUrl);
         return modelAndView;    //To change body of overridden methods use File | Settings | File Templates.
     }
