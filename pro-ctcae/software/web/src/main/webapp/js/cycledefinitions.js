@@ -52,7 +52,7 @@ function initializeCalendar(index) {
                 item.addClassName('blue');
                 item.removeClassName('passive');
                 item.style.cursor = 'default';
-                if (myschedule.length >1) {
+                if (myschedule.length > 1) {
                     var baseline = false;
                     item.style.background = 'green';
                     var title = '';
@@ -61,10 +61,45 @@ function initializeCalendar(index) {
                     var allNa = true;
                     var hasPastDue = false;
                     var onHold = false;
+                    var check = false;
+                    var hasScheduled = false;
+                    var hasInprogress = false;
+                    var hasCompleted = false;
                     for (var a = 0; a < myschedule.length; a++) {
                         scheduleid += myschedule[a][3] + '_';
                         title = title + forms[index][myschedule[a][3]];
                         var status = myschedule[a][0];
+                        if (check == false) {
+                            if (status == 'Past-due') {
+                                hasPastDue = true;
+                                hasScheduled = false;
+                                hasCompleted = false;
+                                hasInprogress = false;
+                                check = true;
+                            }
+                            if (hasInprogress == false) {
+                                if (hasScheduled == false) {
+                                    if (status == 'Completed') {
+                                        hasCompleted == true;
+                                        hasPastDue = false;
+                                        hasScheduled = false;
+                                        hasInprogress = false;
+                                    }
+                                    if (status == 'Scheduled') {
+                                        hasPastDue = false;
+                                        hasScheduled = true;
+                                        hasCompleted = false;
+                                        hasInprogress = false;
+                                    }
+                                }
+                                if (status == 'In-progress') {
+                                    hasPastDue = false;
+                                    hasScheduled = false;
+                                    hasCompleted = false;
+                                    hasInprogress = true;
+                                }
+                            }
+                        }
                         if (status == 'Past-due') {
                             hasPastDue = true;
                         }
@@ -92,23 +127,29 @@ function initializeCalendar(index) {
                         }
                     }
                     item.innerHTML = '<br/>Multiple forms<br/>';
-                    if (allCompleted) {
-                        item.style.background = '#00cc00';
+                    if (hasCompleted) {
+                        item.style.background = 'green';
                         item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
-                        showDeleteOption = false;
+                        showDeleteOption = true;
                         isEnableDrag = false;
                     }
-                    if (allInprogress) {
+                    if (hasScheduled) {
+                        item.style.background = 'blue';
+                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
+                        showDeleteOption = true;
+                        isEnableDrag = false;
+                    }
+                    if (hasInprogress) {
                         item.style.background = '#ff9900';
                         item.innerHTML = '<br/>Multiple forms<br/>(In-progress)';
-                        showDeleteOption = false;
+                        showDeleteOption = true;
                         isEnableDrag = false;
                     }
                     if (allNa) {
                         item.style.background = 'lightgrey';
                         item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
                         //showDeleteOption = false;
-                       // isEnableDrag = false;
+                        // isEnableDrag = false;
                         showdropdown = false;
                     }
                     if (hasPastDue) {
@@ -118,8 +159,11 @@ function initializeCalendar(index) {
                     if (onHold) {
                         item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
                     }
-                    if(!allNa){
+                    if (!allNa) {
                         showdropdown = true;
+                    }
+                    if (allCompleted || allInprogress) {
+                        showDeleteOption = false;
                     }
                     item.title = title;
 
@@ -134,12 +178,16 @@ function initializeCalendar(index) {
                     if (baseline == 'true') {
                         item.innerHTML = item.innerHTML + '<br/>(baseline)';
                     }
+                    if (status == 'Scheduled') {
+                        item.style.background = 'blue';
+                        showDeleteOption = true;
+                    }
                     if (status == 'In-progress') {
-                        item.style.background = '#ff9900';
+                        item.style.background = 'orange';
                         showDeleteOption = false;
                     }
                     if (status == 'Completed') {
-                        item.style.background = '#00cc00';
+                        item.style.background = 'green';
                         showDeleteOption = false;
                         isEnableDrag = false;
                     }
@@ -159,7 +207,7 @@ function initializeCalendar(index) {
                         item.style.background = 'lightgrey';
                     }
 
-                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status=='Completed') {
+                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status == 'Completed') {
                         if (holiday == 'true') {
 //                            item.style.background = 'blue';
                             item.addClassName('blue');
@@ -170,27 +218,27 @@ function initializeCalendar(index) {
                 }
                 if (showdropdown) {
                     var delIcon = '<div style="float:right">' +
-                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
-                                  '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
-                                  '</div>';
+                            '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
+                            '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
+                            '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day, index, scheduleid,showDeleteOption);
-                    if(isEnableDrag){
+                    showPopUpMenuSchedule(day, index, scheduleid, showDeleteOption);
+                    if (isEnableDrag) {
                         myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                     }
 
                 }
-                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
+                myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
 
             } else {
                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
                 var delIcon = '<div style="float:right">' +
-                                  '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
-                                  '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
-                                  '</div>';
-                    item.innerHTML = delIcon + item.innerHTML;
-                
-                showPopUpMenuSchedule(day, index, null,true);
+                        '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
+                        '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
+                        '</div>';
+                item.innerHTML = delIcon + item.innerHTML;
+
+                showPopUpMenuSchedule(day, index, null, true);
 //                Event.observe(div_id, "click", function() {
 //                    showAddWindow(getDate(this), getIndex(this));
 //                })
@@ -236,7 +284,7 @@ function initialize() {
         },
 
         onDragDrop: function(e, id) {
-           
+
             var oDD;
 
             if ("string" == typeof id) {
