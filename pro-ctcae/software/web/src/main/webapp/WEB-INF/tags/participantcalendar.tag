@@ -42,21 +42,27 @@
     <tr>
         <td align="right" colspan="2">
             Scheduled =  <br>
-            In-progress =
+            In-progress = <br>
+            Cancelled/N/A =
         </td>
         <td>
             <div style="background-color:blue;color:white;margin-bottom:3px;margin-left:3px" align="center">Blue</div>
             <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange</div>
+            <div style="background-color:#d3d3d3;color:black;margin-bottom:3px;margin-left:3px" align="center">Light gray</div>
         </td>
 
         <td align="right" colspan="2">
             Completed =             <br>
-            Past-due =
+            Past-due =     <br>
+            On-hold =
         </td>
         <td>
             <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
             <div style="background-color:red;color:white;margin-bottom:3px;margin-left:3px" align="center">Red</div>
+            <div style="background-color:yellow;color:black;margin-bottom:3px;margin-left:3px" align="center">Yellow</div>
+
         </td>
+
     </tr>
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
