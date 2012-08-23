@@ -670,11 +670,12 @@ var myUpcomingFormsDataTable;
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.Basic = function() {
         var myColumnDefs = [
-            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:140},
-            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:140},
-            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:140},
-            {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
-            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:90}
+            {key:"participantName", label:"Participant",sortable:false, resizeable:false, width:100},
+            {key:"studyTitle", label:"Study", sortable:true,resizeable:false, width:117},
+            {key:"formTitle", label:"Form title", sortable:false, resizeable:false, width:110},
+            {key:"status", label:"Status", sortable:false, resizeable:false, width:90},
+            {key:"dueDate", label:"Due date", formatter:"date", sortable:false, resizeable:false, width:80},
+            {key:"actions", label:"Actions", sortable:false, resizeable:false, width:75}
         ];
 
         var myUpcomingFormsDataSource = new YAHOO.util.DataSource("/proctcae/pages/spcSchedule/fetchUpcomingForms?");

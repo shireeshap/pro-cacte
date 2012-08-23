@@ -195,9 +195,12 @@ function showPopUpMenuAlerts(uid, spcrfid, uuid, pid) {
     });
 }
 
-function showPopUpMenuOverdue(spcrfid) {
+function showPopUpMenuOverdue(spcrfid, formName) {
     var html = '<div id="search-engines"><ul>';
     html += '<li><a href="#" onclick="javascript:removeOverdueSchedule(' + spcrfid + ')">Clear</a></li>';
+    <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/enterResponses"/>?id=' + spcrfid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+    </proctcae:urlAuthorize>
     html += '</ul></div>';
     jQuery('#overdueActions' +spcrfid).menu({
         content: html,
@@ -226,6 +229,32 @@ function showPopUpMenuSpcs(sid, pid, formName) {
 	
     html += '</ul></div>';
     jQuery('#spcsActions' + sid).menu({
+        content: html,
+        maxHeight: 180,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+        },
+        showSpeed: 300
+    });
+}
+
+function showPopUpMenuSpcsUpcoming(sid, pid, formName) {
+    var html = '<div id="search-engines"><ul>';
+
+	<proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Manage schedule</a></li>';
+	</proctcae:urlAuthorize>
+	<proctcae:urlAuthorize url="/pages/participant/enterResponses">
+	    html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/printSchedule"/>?lang=en&id=' + sid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/printSchedule"/>?lang=es&id=' + sid + '\'">Spanish</a></li></ul></li>';
+	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/enterResponses"/>?id=' + sid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+	</proctcae:urlAuthorize>
+
+    html += '</ul></div>';
+    jQuery('#spcsActionsUpcoming' + sid).menu({
         content: html,
         maxHeight: 180,
         positionOpts: {
