@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 
 import javax.net.ssl.SSLEngineResult;
 import java.util.Date;
@@ -124,6 +125,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
                 "left outer join spc.studyParticipantAssignment as spa " +
                 "left outer join spa.studySite as ss " +
                 "left outer join ss.organization as org");
+    }
+
+    public void filterByParticipantStatusNot(RoleStatus status) {
+         andWhere("spc.studyParticipantAssignment.status <> :status");
+        setParameter("status", status);
     }
 
     public void filterByUsername(final String userName) {

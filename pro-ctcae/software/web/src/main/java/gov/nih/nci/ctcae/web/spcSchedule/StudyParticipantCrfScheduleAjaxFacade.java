@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.spcSchedule;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
@@ -27,6 +28,7 @@ public class StudyParticipantCrfScheduleAjaxFacade {
 //        spcsQuery.setSortDirection(direction);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         spcsQuery.filterByUsername(userName);
+        spcsQuery.filterByParticipantStatusNot(RoleStatus.OFFSTUDY);
         if (status.equals(CrfStatus.PASTDUE)) {
             spcsQuery.filterByMarkDelete();
             spcsQuery.filterByStatus(status);
