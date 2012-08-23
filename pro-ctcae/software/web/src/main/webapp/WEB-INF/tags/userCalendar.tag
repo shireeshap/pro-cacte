@@ -104,6 +104,9 @@
                                             <c:set var="inprog" value="true"/>
                                         </c:if>
                                     </c:if>
+                                    <c:if test="${sch.status.displayName eq 'On-hold'}">
+                                            <c:set var="class" value="yellow"/>
+                                    </c:if>
                                 </c:if>
 
                             </c:forEach>
