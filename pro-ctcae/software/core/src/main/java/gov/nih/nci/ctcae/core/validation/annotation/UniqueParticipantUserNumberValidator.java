@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.CollectionUtils;
@@ -17,14 +18,14 @@ import java.util.Collection;
  */
 public class UniqueParticipantUserNumberValidator extends AbstractValidator<UniqueParticipantUserNumber>{
     private String message;
-    private ParticipantRepository participantRepository;
+    private GenericRepository genericRepository;
     public boolean validateUserNumber(String userNumber, Integer participantID){
      //   Integer userNum = Integer.parseInt(userNumber);
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUserNumber(userNumber);
         participantQuery.excludeByParticipantId(participantID);
 
-        Collection<Participant> participants = participantRepository.find(participantQuery);
+        Collection<Participant> participants = genericRepository.find(participantQuery);
         if(!CollectionUtils.isEmpty(participants)) {
             return true;
         }
@@ -36,7 +37,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
         participantQuery.excludeByParticipantId(participantID);
         participantQuery.filterByPhoneNumber(phoneNumber);
 
-        Collection<Participant> participants = participantRepository.find(participantQuery);
+        Collection<Participant> participants = genericRepository.find(participantQuery);
         if(!CollectionUtils.isEmpty(participants)) {
             return true;
         }
@@ -52,7 +53,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
     }
 
     @Required
-    public void setParticipantRepository(ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

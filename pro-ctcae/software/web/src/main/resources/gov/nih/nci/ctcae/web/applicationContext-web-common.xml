@@ -57,13 +57,14 @@
     
     <bean id="uniqueParticipantUserNumberValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator">
-          <property name="participantRepository" ref="participantRepository"/>
+          <property name="genericRepository" ref="genericRepository"/>
     </bean>
     
     <bean id="uniqueParticipantEmailAddressValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator">
+                  <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
-        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     
      <bean id="uniqueStudyIdentifierForParticipantValidator"
@@ -74,6 +75,12 @@
     <bean id="uniqueIdentifierForStudyValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">
         <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+    
+    <bean id="uniqueStaffEmailAddressValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
     
     <bean id="webControllerValidator"

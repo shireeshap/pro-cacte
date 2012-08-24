@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Required;
@@ -22,12 +23,13 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
     private String message;
     private ParticipantRepository participantRepository;
     private ClinicalStaffRepository clinicalStaffRepository;
+    private GenericRepository genericRepository;
 
     public boolean validateEmail(String emailAddress, Integer participantID) {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByEmail(emailAddress);
         participantQuery.excludeByParticipantId(participantID);
-        Collection<Participant> participants = participantRepository.find(participantQuery);
+        Collection<Participant> participants = genericRepository.find(participantQuery);
         if(!CollectionUtils.isEmpty(participants)) {
             return true;
         }
@@ -35,7 +37,7 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByEmail(emailAddress);
      //   clinicalStaffQuery.excludeByStaffId(participantID);
-        Collection<ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
+        Collection<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
         if (clinicalStaffs != null && !clinicalStaffs.isEmpty()) {
             return true;
         }
@@ -58,4 +60,9 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
     public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
+
+    @Required
+	public void setGenericRepository(GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
+	}
 }
