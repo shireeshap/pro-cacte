@@ -235,15 +235,11 @@ public class NotificationsEvaluationService {
         HashMap<String, String> firstScheduleMap = null;
 
         List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
-        if (allSchedules.size() == 1) {
-            previousSchedule = allSchedules.get(0);
-            previousScheduleMap = getMapForSchedule(previousSchedule);
-        }
         if (allSchedules.size() > 1) {
             firstSchedule = allSchedules.get(0);
             firstScheduleMap = getMapForSchedule(firstSchedule);
 
-            previousSchedule = allSchedules.get(allSchedules.size() - 1);
+            previousSchedule = allSchedules.get(allSchedules.size() - 2);
             previousScheduleMap = getMapForSchedule(previousSchedule);
         }
 
