@@ -59,8 +59,8 @@ public class FetchStudyController extends AbstractController {
             searchStrings = searchText.split("\\s+");
         }
 
-        List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir);
         Long totalRecords = studyAjaxFacade.resultCount(searchStrings);
+        List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords.intValue());
         
         Study study;
         SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();

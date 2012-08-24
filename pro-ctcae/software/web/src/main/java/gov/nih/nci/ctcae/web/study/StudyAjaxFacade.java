@@ -53,12 +53,12 @@ public class StudyAjaxFacade {
 
     }
 
-    public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir) {
-        List<Study> studies = getObjects(searchStrings, startIndex, results, sort, dir);
+    public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords) {
+        List<Study> studies = getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
         return studies;
     }
 
-    private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir) {
+    private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir,  Integer totalRecords) {
         StudyQuery studyQuery = new StudyQuery(true, true);
 
         studyQuery.setFirstResult(startIndex);
@@ -77,12 +77,11 @@ public class StudyAjaxFacade {
         }
         List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
         if (!user.isAdmin() && !user.isCCA()) {
-            Long searchCount = resultCount(searchStrings);
             if (studies.size() == results) {
                 return studies;
             } else {
                 int index = startIndex;
-                while (studies.size() != results && studies.size() != searchCount) {
+                while (studies.size() < results && studies.size() < totalRecords-startIndex) {
                     index = startIndex + results;
                     studyQuery.setFirstResult(index);
                     List<Study> l = (List<Study>) studyRepository.find(studyQuery);
@@ -109,12 +108,10 @@ public class StudyAjaxFacade {
     }
 
     public Long resultCount(String[] searchTexts) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName = user.getUsername();
         StudyQuery studyQuery = new StudyQuery(true);
-        if (!user.isAdmin() && !user.isCCA()) {
-            studyQuery.filterByUsername(userName);
-        } else {
+//        if (!user.isAdmin() && !user.isCCA()) {
+//            studyQuery.filterByUsername(userName);
+//        } else {
             if (searchTexts != null) {
                 int index = 0;
                 for (String searchText : searchTexts) {
@@ -124,7 +121,7 @@ public class StudyAjaxFacade {
                     }
                 }
             }
-        }
+//        }
         return studyRepository.findWithCount(studyQuery);
     }
 
