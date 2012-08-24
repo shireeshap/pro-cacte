@@ -285,7 +285,7 @@
                                                value="${command.participant.user.username}"
                                                id="participant.username_${studysite.id}" title="Username"
                                                onblur="checkParticipantUserName(${studysite.id});"
-                                               class="${showWeb eq true ? "validate-NOTEMPTY":""}"/>
+                                               class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                         <ul id="userNameError_${studysite.id}" style="display:none;" class="errors">
                                             <li><spring:message code='participant.unique_userName'
                                                                 text='participant.unique_userName'/></li>
@@ -312,7 +312,7 @@
                                        value="${participant.user.password}"
                                        id="participant.password_${studysite.id}"
                                        onblur="checkPasswordPolicy(${studysite.id});" title="Password"
-                                       class="${showWeb eq true ? "validate-NOTEMPTY":""}"/>
+                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                 <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
                                     <li id="passwordError1_${studysite.id}"></li>
                                 </ul>
@@ -327,7 +327,7 @@
                                        value="${participant.user.password}"
                                        id="participant.confirmPassword_${studysite.id}"
                                        onblur="checkPasswordMatch(${studysite.id});" title="Confirm"
-                                       class="${showWeb eq true ? "validate-NOTEMPTY":""}"/>
+                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                 <ul id="passwordErrorConfirm_${studysite.id}" style="display:none; padding-left:12em "
                                     class="errors">
                                     <li id="passwordErrorConfirm1_${studysite.id}"></li>
@@ -348,7 +348,7 @@
                                 <span class="required-indicator">*&nbsp;&nbsp; </span> Preferred language
                             </div>
                             <div class="ssValue">
-                                <select id="home_web_lang_${studysite.id}" name="home_web_lang_${studysite.id}" class="${showWeb eq true ? "validate-NOTEMPTY":""}" title="Preferred language">
+                                <select id="home_web_lang_${studysite.id}" name="home_web_lang_${studysite.id}" class="${showWeb and selected ? "validate-NOTEMPTY":""}" title="Preferred language">
                                     <option value="" ${langPref eq "" ? "selected='selected'" : " "} >
                                         Please select
                                     </option>
