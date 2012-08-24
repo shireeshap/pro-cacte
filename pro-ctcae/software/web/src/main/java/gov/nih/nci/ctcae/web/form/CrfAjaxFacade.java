@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-//
-
 /**
  * The Class CrfAjaxFacade.
  *
@@ -23,9 +21,6 @@ import java.util.TreeSet;
  */
 public class CrfAjaxFacade {
 
-    /**
-     * The crf repository.
-     */
     private CRFRepository crfRepository;
     private GenericRepository genericRepository;
 
@@ -66,19 +61,17 @@ public class CrfAjaxFacade {
 
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         if (!user.isAdmin()) {
-            Long searchCount = totalRecords;
-
             if (crfs.size() == results) {
                 return crfs;
             } else {
                 int i = 0;
                 int index = startIndex;
-                while (crfs.size() != results && crfs.size() != searchCount-startIndex) {
+                while (crfs.size() < results && crfs.size() < totalRecords-startIndex) {
                     index = results + index;
                     crfQuery.setFirstResult(index);
                     List<CRF> l = (List<CRF>) crfRepository.find(crfQuery);
-                    for (CRF crf : l) {
-                        crfs.add(crf);
+                    if (l != null && l.size() > 0) {
+                        crfs.addAll(l);
                     }
                     l.clear();
                     i++;
@@ -103,6 +96,7 @@ public class CrfAjaxFacade {
             for (String searchText : searchTexts) {
                 if (!StringUtils.isBlank(searchText)) {
                     crfQuery.filterByAll(searchText, "" + index);
+                    index++;
                 }
             }
         }
