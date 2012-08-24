@@ -300,12 +300,12 @@ public class NotificationsEvaluationService {
         emailContent.append("<td><b>Symptom</b></td>");
         emailContent.append("<td><b>Attribute</b></td>");
         if (firstSchedule != null) {
-            emailContent.append("<td><b>First visit (").append(DateUtils.format(firstSchedule.getStartDate())).append(")</b></td>");
+            emailContent.append("<td><b>First visit (").append(DateUtils.format(firstSchedule.getCompletionDate())).append(")</b></td>");
         }
         if (previousSchedule != null) {
-            emailContent.append("<td><b>Previous visit (").append(DateUtils.format(previousSchedule.getStartDate())).append(")</b></td>");
+            emailContent.append("<td><b>Previous visit (").append(DateUtils.format(previousSchedule.getCompletionDate())).append(")</b></td>");
         }
-        emailContent.append("<td><b>Current visit (").append(DateUtils.format(studyParticipantCrfSchedule.getStartDate())).append(")</b></td>");
+        emailContent.append("<td><b>Current visit (").append(DateUtils.format(studyParticipantCrfSchedule.getCompletionDate())).append(")</b></td>");
         emailContent.append("</tr>");
 
         for (String[] symptom : criticalSymptoms) {
