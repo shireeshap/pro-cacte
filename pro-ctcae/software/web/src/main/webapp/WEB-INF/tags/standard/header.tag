@@ -55,7 +55,7 @@
                     <td width="50%" style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
                         <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>&nbsp;&nbsp;&nbsp;
                     </td>
-                    <td align="right" width="200px">
+                    <td align="right" width="252px">
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
                             <c:if test="${empty param.lang}">
                                 <c:set var="currentEn" value="current"/>
@@ -73,7 +73,7 @@
                                 <c:set var="currentEn" value=""/>
                                 <c:set var="currentEs" value="current"/>
                             </c:if>
-                            <div class="language-toggle1" style="float:right;margin-right:18px">
+                            <div class="language-toggle1" style="float:right;margin-right:26px">
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
                                 <a class="right ${currentEs}" href="?lang=es">Español</a>
                             </div>
