@@ -273,7 +273,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
 
-        //checking for unique phone number
+        //checking for unique IVRS user number
         if (command.getParticipant().getUserNumber() != null) {
             String userNumber = command.getParticipant().getUserNumber().toString();
             boolean validUserNumber = uniqueParticipantUserNumberValidator.validateUserNumber(userNumber, command.getParticipant().getId());
