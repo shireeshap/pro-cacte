@@ -118,10 +118,10 @@ public class ClinicalStaffAjaxFacade {
             if (searchStrings == null) {
 
                 clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
-                if (clinicalStaffs.size() >= results || clinicalStaffs.size() == searchCount) {
+                if (clinicalStaffs.size() >= results || clinicalStaffs.size() >= searchCount) {
                     return clinicalStaffs;
                 } else {
-                    while (clinicalStaffs.size() != results && clinicalStaffs.size() != (searchCount-startIndex)) {
+                    while (clinicalStaffs.size() < results && clinicalStaffs.size() < (searchCount-startIndex)) {
                     	sIndex = results + sIndex;
                         clinicalStaffQuery.setFirstResult(sIndex);
                         List<ClinicalStaff> l = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);

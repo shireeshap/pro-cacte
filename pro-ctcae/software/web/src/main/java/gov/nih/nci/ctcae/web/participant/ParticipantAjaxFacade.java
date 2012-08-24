@@ -70,10 +70,7 @@ public class ParticipantAjaxFacade {
         }
 
         if (searchTexts != null) {
-
-//            participantQuery.setLeftJoin();
             int index = 0;
-
             for (String searchText : searchTexts) {
                 if (!StringUtils.isBlank(searchText)) {
                     participantQuery.filterByAll(searchText, "" + index);
