@@ -389,7 +389,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
-                        command.assignCrfsToParticipant(false);
+                        command.assignCrfsToParticipant(true);
                     }
                     if (!studyParticipantAssignment.getArm().getId().equals(command.getArmId())) {
                         for (Arm arm : studyParticipantAssignment.getStudySite().getStudy().getArms()) {
