@@ -93,6 +93,14 @@ td.data1 {
     cursor: pointer;
 }
 
+.yellow {
+    background-color: yellow;
+    height: 50px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
 .hoverActive {
     background-color: #990033;
 }
