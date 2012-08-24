@@ -82,7 +82,6 @@ Event(s) for <b>${date}</b>:
                 <tags:formatDate value="${schedule.completionDate}"/>
             </td>
             <td class="data1">
-                <%--<input type="button" value="Ok" onclick="javascript:showPo()"/>--%>
                     <a
                     class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                     id="scheduleAct${schedule.id}"
@@ -96,8 +95,7 @@ Event(s) for <b>${date}</b>:
         <td width="17%"></td>
         <td width="15%"></td>
         <td width="11%"><br>
-            <tags:button value="Ok" color="blue" size="big" onclick="closeWindow()"/>
-            <%--<input type="button" value="Ok" size="59%" onclick="closeWindow()"/>--%>
+            <tags:button value="Close" color="blue" size="big" onclick="closeWindow()"/>
         </td>
         <td width="10%"></td>
         <td width="10%"></td>
