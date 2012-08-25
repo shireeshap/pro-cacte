@@ -535,13 +535,21 @@ function unique(arrayName) {
 }
 
 function checkBaseline(obj) {
-    var div = document.getElementById("div_0_0_1");
-    if (obj.checked) {
-        $('crf.createBaseline').value = true;
-        selectday(div, 0, 0, 1);
-    } else {
-        $('crf.createBaseline').value = false;
-        unselectday(div, 0, 0, 1);
+
+	//getting all div elements which have id starting with "cycle_definition_"
+	//the first div in this array is the first cycle on the page (even if user adds/deletes cycles)
+	var allDefs = jQuery("div[id^='cycle_definition_']");
+	var index = allDefs[0].id.split('_')[2];
+	//use index from first "cycle_definition_" to construct the baseline day div id.
+    var div = document.getElementById("div_" + index + "_0_1");
+    if(div != null){
+        if (obj.checked) {
+            $('crf.createBaseline').value = true;
+            selectday(div, 0, 0, 1);
+        } else {
+            $('crf.createBaseline').value = false;
+            unselectday(div, 0, 0, 1);
+        }
     }
 }
 
@@ -618,12 +626,15 @@ jQuery(document).ready(function() {
             </select>
         </div>
         <c:if test="${fn:length(command.crf.nonDefaultFormArmSchedules) gt 1 }">
-            <table class="label1">
+			<table class="label1">
                 <tr>
-                    <td style="vertical-align: top;">
-                        <spring:message code="form.calendar.arm.copy"></spring:message>
+                    <td colspan="2" style="vertical-align: top;">
+                        <spring:message code="form.calendar.arm.copy"></spring:message>:
                     </td>
-                    <td style="vertical-align: middle;">
+                </tr>
+                <tr>
+                	<td width="8%"></td>
+                    <td style="margin-left:10px;vertical-align: middle;">
                         <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple"
                                 size="${fn:length(command.crf.nonDefaultFormArmSchedules)-1}">
 
