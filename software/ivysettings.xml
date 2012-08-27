@@ -1,0 +1,43 @@
+<ivysettings>
+    <settings defaultResolver="proctcae-resolver" validate="false"/>
+    <caches default="proCtcAeCache">
+        <cache name="proCtcAeCache" basedir="${user.home}/.ivy2/proCtcAe"/>
+    </caches>
+    <resolvers>
+        <chain name="proctcae-resolver" returnFirst="true" dual="true">
+        	<!--  Local Ivy repository -->
+            <filesystem name="proctcae-local" local="true">
+                <ivy pattern="${local.repo.dir}/[organisation]/[module]/ivy-[revision].xml"/>
+                <artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+                <artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+            </filesystem>
+
+            <!-- Local Ivy Cache -->
+            <filesystem name="ivy-cache" local="true">
+                <ivy pattern="${user.home}/.ivy2/proCtcAe/[organisation]/[module]/ivy-[revision].xml"/>
+                <artifact
+                        pattern="${user.home}/.ivy2/proCtcAe/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+            </filesystem>
+
+        
+          
+	        <!-- Nexus NCI -->
+	        <ibiblio name="maven2-NCI-group" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/groups/public"
+	                 changingPattern="SNAPSHOT"/> 
+	        <ibiblio name="maven2-NCI-public" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/public"
+	                 changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-3rdparty" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/thirdparty"
+	                 changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-jboss" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/jboss"
+	                 changingPattern="SNAPSHOT"/>
+			<ibiblio name="maven2-NCI-releases"  m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/releases"
+	               	 changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-apache-releases" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/apache-releases/"
+	                 changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-m2central" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/central"
+	                 changingPattern="SNAPSHOT"/>
+        
+        </chain>
+    </resolvers>
+</ivysettings>
+
