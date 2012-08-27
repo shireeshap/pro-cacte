@@ -149,7 +149,6 @@ function changeinput(obj, index, value) {
     }
 }
 
-
 function none() {
 }
 Event.observe(window, "load", function () {
