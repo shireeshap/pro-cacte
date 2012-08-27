@@ -633,7 +633,7 @@ jQuery(document).ready(function() {
                     </td>
                 </tr>
                 <tr>
-                	<td width="8%"></td>
+                	<td width="45px;"></td>
                     <td style="margin-left:10px;vertical-align: middle;">
                         <select id="copySelectedArmScheduleIds" name="copySelectedArmScheduleIds" multiple="multiple"
                                 size="${fn:length(command.crf.nonDefaultFormArmSchedules)-1}">
