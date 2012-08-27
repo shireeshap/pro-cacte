@@ -314,7 +314,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
             }
         }
-
+        
+        //check for response modes.
+        Study study = command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getStudy();
+        if(study.getStudyModes().size() > 0){
+            if (command.getResponseModes() == null || command.getResponseModes().length == 0) {
+                errors.reject("participant.missing_response_mode");
+            }
+        }
 
     }
 
