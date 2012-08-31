@@ -22,6 +22,7 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     private static String SP_CRF_IDS = "sp_crf_ids";
     private static String USERNAME = "username";
     private static String MARK_DELETE = "markDelete";
+    private static String HIDDEN = "hidden";
     private static String STATUSES = "statuses";
 
 
@@ -125,6 +126,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
                 "left outer join spc.studyParticipantAssignment as spa " +
                 "left outer join spa.studySite as ss " +
                 "left outer join ss.organization as org");
+    }
+
+    public void filterByHidden(boolean hidden) {
+        andWhere("crf.hidden = :" + HIDDEN);
+        setParameter(HIDDEN, hidden);
     }
 
     public void filterByParticipantStatusNot(RoleStatus status) {

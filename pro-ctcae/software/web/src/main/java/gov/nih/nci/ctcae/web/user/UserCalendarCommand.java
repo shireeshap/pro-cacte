@@ -92,6 +92,7 @@ public class UserCalendarCommand {
             spcsQuery.filterBySiteIds(organizationIds);
         } else {
             spcsQuery.filterByUsername(userName);
+            spcsQuery.filterByHidden(false);
         }
 //        Calendar c = new GregorianCalendar(proCtcAECalendar.getCalendar().getTime());
         Calendar c = (Calendar) proCtcAECalendar.getCalendar().clone();
@@ -100,6 +101,7 @@ public class UserCalendarCommand {
         int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         c.set(Calendar.DAY_OF_MONTH, daysInMonth);
         Date endDate = c.getTime();
+
         spcsQuery.filterByStartEndDate(startDate, endDate);
         spcsQuery.filterByStatuses(statuses);
         List<StudyParticipantCrfSchedule> spcs = spcsRepository.find(spcsQuery);
