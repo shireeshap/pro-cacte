@@ -697,12 +697,10 @@ function addEmailRemoveIVRSClassName(id) {
 
     if (participantId == "") {
         $('participant.userNumber_' + id).value = "";
-        //$('participant.phoneNumber').value = "";
+        $('participant.confirmPinNumber_' +id).value = "";
         $('participant.pinNumber_' + id).value = "";
         $('call_hour_' + id).value = "";
         $('call_minute_' + id).value = "";
-        $('call_ampm_' + id).value = "";
-        $('call_timeZone_' + id).value = "";
     }
 }
 
@@ -780,7 +778,7 @@ function showOrHideEmail(value1, value2, id) {
         jQuery('#web_' + id).show();
         jQuery('#email_' + id).attr('checked', true);
         jQuery('#emailInput_' + id).show();
-        jQuery('#webLang_' + id).show();
+        //jQuery('#webLang_' + id).show();
         if($('participant.username_' + id) != null){
         	$('participant.username_' + id).addClassName("validate-NOTEMPTY");
         }
