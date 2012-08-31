@@ -150,19 +150,6 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             arm.setDescription("This is a default arm on the study.");
             arm.setDefaultArm(true);
             study.addArm(arm);
-        } else {
-        	List<Arm> defaultArmsToBeDeleted = new ArrayList<Arm>();
-            if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
-                for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
-                    Arm arm1 = arm.next();
-                    if (arm1.isDefaultArm()) {
-                    	defaultArmsToBeDeleted.add(arm1);
-                    }
-                }
-                for(Arm arm : defaultArmsToBeDeleted){
-                	studyCommand.getStudy().getArms().remove(arm);
-                }
-            }
         }
     }
 
