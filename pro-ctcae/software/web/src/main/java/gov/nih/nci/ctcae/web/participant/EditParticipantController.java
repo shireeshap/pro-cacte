@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
@@ -89,7 +90,11 @@ public class EditParticipantController extends ParticipantController {
             }
         }
         
-        participantCommand.setReadOnlyUserName(true);
+        if (StringUtils.isEmpty(participantCommand.getParticipant().getUser().getUsername())) {
+        	participantCommand.setReadOnlyUserName(false);
+        } else {
+        	participantCommand.setReadOnlyUserName(true);
+        }
         map.put("homeModeCount", homeModes.size());
         return map;
     }
