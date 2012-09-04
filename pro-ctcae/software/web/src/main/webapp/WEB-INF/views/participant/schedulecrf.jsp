@@ -263,16 +263,27 @@ function validateAndSubmit(date, form) {
     form.submit();
 }
 
-function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
+function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, showDeleteOption) {
     var html = '';
     var menuindex = date;
     var holdDate = date;
+    var newHoldDate = -1;
+    var newHoldMonth = -1;
+    var newHoldYear = -1;
+    <c:if test="${command.selectedStudyParticipantAssignment.onHoldTreatmentDate ne null}">
+	    newHoldDate = ${command.selectedStudyParticipantAssignment.onHoldTreatmentDate.date};
+	    newHoldMonth = ${command.selectedStudyParticipantAssignment.onHoldTreatmentDate.month} + 1;
+	    newHoldYear = ${command.selectedStudyParticipantAssignment.onHoldTreatmentDate.year} + 1900;
+	</c:if>
+
     if (sid == null) {
         html = '<div id="search-engines"><ul>';
         if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
                 html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+            } else if(newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate){
+            	html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
             } else {
                 html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
@@ -316,11 +327,8 @@ function showPopUpMenuSchedule(date, index, sid, showDeleteOption) {
                     }
                 }
             } else {
-                var newHoldDate = -1;
-            <c:if test="${command.selectedStudyParticipantAssignment.onHoldTreatmentDate ne null}">
-                newHoldDate = ${command.selectedStudyParticipantAssignment.onHoldTreatmentDate.date};
-            </c:if>
-                if (newHoldDate > holdDate) {
+                //ensure the onHoldDate is greater than the current date before showing the options.
+                if (newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate) {
                     if (${crfsSize>1}) {
                         html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }

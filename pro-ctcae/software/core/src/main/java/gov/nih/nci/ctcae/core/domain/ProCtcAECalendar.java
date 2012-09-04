@@ -197,6 +197,16 @@ public class ProCtcAECalendar {
     public Date getTime() {
         return calendar.getTime();
     }
+    
+    //IMP: returns 1-12......modified for UI.
+    public int getMonth() {
+        return calendar.get(Calendar.MONTH) + 1;
+    }
+    
+    //returns current year -1900
+    public int getYear() {
+        return calendar.get(Calendar.YEAR);
+    }
 
     /**
      * Gets the number of repetitions.

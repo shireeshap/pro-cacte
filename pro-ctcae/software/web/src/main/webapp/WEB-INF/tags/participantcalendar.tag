@@ -111,5 +111,5 @@
     </c:forEach>
 </table>
 <script type="text/javascript">
-    initializeCalendar('${index}');
+    initializeCalendar('${index}', '${schedule.proCtcAECalendar.month}', '${schedule.proCtcAECalendar.year}');
 </script>

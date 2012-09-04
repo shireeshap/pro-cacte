@@ -32,7 +32,7 @@ function getScheduleIdsForDay(index, day) {
         return scheduleid;
     }
 }
-function initializeCalendar(index) {
+function initializeCalendar(index, month, year) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
@@ -222,7 +222,7 @@ function initializeCalendar(index) {
                             '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                             '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day, index, scheduleid, showDeleteOption);
+                    showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption);
                     if (isEnableDrag) {
                         myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                     }
@@ -238,7 +238,7 @@ function initializeCalendar(index) {
                         '</div>';
                 item.innerHTML = delIcon + item.innerHTML;
 
-                showPopUpMenuSchedule(day, index, null, true);
+                showPopUpMenuSchedule(day,  month, year, index, null, true);
 //                Event.observe(div_id, "click", function() {
 //                    showAddWindow(getDate(this), getIndex(this));
 //                })
