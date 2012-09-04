@@ -165,7 +165,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:choose>
-                            <c:when test="${command.onDefaultArm}">
+                            <c:when test="${command.onDefaultArm}">xxx
                                 <td class="data" align="right" width="20%" style="display:none">
                                     <b><span class="required-indicator">&nbsp;&nbsp;</span><spring:message
                                             code="study.label.arm"/></b>
@@ -186,14 +186,21 @@
                                 </td>
                             </c:when>
                             <c:otherwise>
-                                <td align="right" class="data" width="20%">
-                                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
-                                            code="study.label.arm"/></b>
-                                </td>
-                                <td class="data">   &nbsp;&nbsp;
-                                    <input type="hidden" name="arm_${studysite.id}"
-                                           value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
-                                </td>
+                            	<c:choose>
+                            		<c:when test="${not empty studysite.study.nonDefaultArms[0].title}">
+                            			<td align="right" class="data" width="20%">
+		                                    <b><span class="required-indicator">*&nbsp;&nbsp;</span><spring:message
+		                                            code="study.label.arm"/></b>
+		                                </td>
+		                                <td class="data">   &nbsp;&nbsp;
+		                                    <input type="hidden" name="arm_${studysite.id}"
+		                                           value="${studysite.study.nonDefaultArms[0].id}">${studysite.study.nonDefaultArms[0].title}
+		                                </td>
+                            		</c:when>
+                            		<c:otherwise>
+                            			<td colspan="2"></td>
+                            		</c:otherwise>
+                            	</c:choose>
                             </c:otherwise>
                         </c:choose>
                     </c:otherwise>
