@@ -105,7 +105,7 @@
                                             <c:set var="inprog" value="true"/>
                                         </c:if>
                                     </c:if>
-                                    <c:if test="${sch.status.displayName eq 'On-hold' && sched eq false}">
+                                    <c:if test="${sch.status.displayName eq 'On-hold' && sched eq false && inprog eq false}">
                                             <c:set var="class" value="yellow"/>
                                     </c:if>
                                 </c:if>
