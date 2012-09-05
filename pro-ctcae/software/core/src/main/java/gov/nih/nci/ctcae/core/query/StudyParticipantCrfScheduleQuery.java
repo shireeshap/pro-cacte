@@ -128,6 +128,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
                 "left outer join ss.organization as org");
     }
 
+    public void setLeftJoinForCrf() {
+        leftJoin("spcs.studyParticipantCrf as spc " +
+                "left outer join spc.crf as crf ");
+    }
+
     public void filterByHidden(boolean hidden) {
         andWhere("crf.hidden = :" + HIDDEN);
         setParameter(HIDDEN, hidden);

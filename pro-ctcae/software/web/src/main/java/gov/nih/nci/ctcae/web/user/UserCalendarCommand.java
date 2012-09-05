@@ -90,6 +90,8 @@ public class UserCalendarCommand {
         statuses.add(CrfStatus.ONHOLD);
         if (isScra()) {
             spcsQuery.filterBySiteIds(organizationIds);
+            spcsQuery.setLeftJoinForCrf();
+            spcsQuery.filterByHidden(false);
         } else {
             spcsQuery.filterByUsername(userName);
             spcsQuery.filterByHidden(false);
