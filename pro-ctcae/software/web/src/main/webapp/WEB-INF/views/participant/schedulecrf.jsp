@@ -282,7 +282,7 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
                 html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-            } else if(newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate){
+            } else if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
             	html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
             } else {
                 html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
@@ -328,7 +328,8 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                 }
             } else {
                 //ensure the onHoldDate is greater than the current date before showing the options.
-                if (newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate) {
+                //if (newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate) {
+                if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
                     if (${crfsSize>1}) {
                         html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }
@@ -366,6 +367,19 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
     });
 }
 
+
+function isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, currentDate){
+	if(newHoldYear > currentYear){
+		return true;
+	}
+	if(newHoldYear == currentYear && newHoldMonth > currentMonth){
+		return true;
+	}
+	if(newHoldYear == currentYear && newHoldMonth == currentMonth && newHoldDate > currentDate){
+		return true;
+	}	
+	return false;
+}
 
 </script>
 <style type="text/css">
