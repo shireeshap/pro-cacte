@@ -8,27 +8,31 @@
     <img src="<tags:imageUrl name="ajax-loading.gif"/>"/>
 </div>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="50%">
-     <tr>
+    <tr>
         <td align="right" colspan="2">
-            Scheduled =  <br>
-            In-progress =  <br>
+            Scheduled = <br>
+            In-progress = <br>
             Cancelled/N/A =
         </td>
         <td>
             <div style="background-color:blue;color:white;margin-bottom:3px;margin-left:3px" align="center">Blue</div>
-            <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange</div>
-            <div style="background-color:#d3d3d3;color:black;margin-bottom:3px;margin-left:3px" align="center">Light gray</div>
+            <div style="background-color:orange;color:white;margin-bottom:3px;margin-left:3px" align="center">Orange
+            </div>
+            <div style="background-color:#d3d3d3;color:black;margin-bottom:3px;margin-left:3px" align="center">Light
+                gray
+            </div>
         </td>
 
         <td align="right" colspan="2">
-            Completed =             <br>
-            Past-due =            <br>
+            Completed = <br>
+            Past-due = <br>
             On-hold =
         </td>
         <td>
             <div style="background-color:green;color:white;margin-bottom:3px;margin-left:3px" align="center">Green</div>
             <div style="background-color:red;color:white;margin-bottom:3px;margin-left:3px" align="center">Red</div>
-            <div style="background-color:yellow;color:black;margin-bottom:3px;margin-left:3px" align="center">Yellow</div>
+            <div style="background-color:yellow;color:black;margin-bottom:3px;margin-left:3px" align="center">Yellow
+            </div>
         </td>
     </tr>
 
@@ -90,23 +94,23 @@
                                         <c:set var="class" value="red"/>
                                         <c:set var="break" value="true"/>
                                     </c:if>
-                                    <c:if test="${inprog eq false}">
-                                        <c:if test="${sched eq false}">
+                                    <c:if test="${sched eq false}">
+                                        <c:if test="${inprog eq false}">
                                             <c:if test="${sch.status.displayName eq 'Completed'}">
                                                 <c:set var="class" value="green"/>
                                             </c:if>
-                                            <c:if test="${sch.status.displayName eq 'Scheduled'}">
-                                                <c:set var="class" value="blue"/>
-                                                <c:set var="sched" value="true"/>
+                                            <c:if test="${sch.status.displayName eq 'In-progress'}">
+                                                <c:set var="class" value="orange"/>
+                                                <c:set var="inprog" value="true"/>
                                             </c:if>
                                         </c:if>
-                                        <c:if test="${sch.status.displayName eq 'In-progress'}">
-                                            <c:set var="class" value="orange"/>
-                                            <c:set var="inprog" value="true"/>
+                                        <c:if test="${sch.status.displayName eq 'Scheduled'}">
+                                            <c:set var="class" value="blue"/>
+                                            <c:set var="sched" value="true"/>
                                         </c:if>
                                     </c:if>
                                     <c:if test="${sch.status.displayName eq 'On-hold' && sched eq false && inprog eq false}">
-                                            <c:set var="class" value="yellow"/>
+                                        <c:set var="class" value="yellow"/>
                                     </c:if>
                                 </c:if>
 
