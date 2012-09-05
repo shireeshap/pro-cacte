@@ -8,11 +8,11 @@
 <tr id="${index}-row">
     <td style="border-right:none;">
     	&nbsp;<tags:requiredIndicator />&nbsp;<b>Name&nbsp;&nbsp;</b>
-    	<input name="study.arms[${index}].title" type="text" size="20"  value="${arm.title}" />
+    	<input name="nonDefaultArms[${index}].title" type="text" size="20"  value="${arm.title}" class="validate-NOTEMPTY"/>
     </td>
     <td>
      	&nbsp;<b>Description&nbsp;&nbsp;</b>
-    	<input name="study.arms[${index}].description" type="text" size="45"  value="${arm.description}" />
+    	<input name="nonDefaultArms[${index}].description" type="text" size="45"  value="${arm.description}" />
     </td>
     <c:if test="${param['studyId'] eq null}">
         <td style="border-left:none;">

@@ -35,6 +35,9 @@ public class EditStudyController extends StudyController {
             if (arm.isDefaultArm() && (arm.getStudyParticipantAssignments().size() > 0 || arm.getFormArmSchedules().size() > 0)) {
                 studyCommand.setActiveDefaultArm(true);
             }
+            if(!arm.isDefaultArm()){
+            	studyCommand.getNonDefaultArms().add(arm);
+            }
         }
         return studyCommand;
     }

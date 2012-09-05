@@ -329,7 +329,7 @@
                        <th class="tableHeader"><spring:message code='study.label.arms' text=''/></th>
                        <th class="tableHeader">&nbsp;</th>
                    </tr>
-                   <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
+                   <c:forEach items="${command.nonDefaultArms}" var="arm" varStatus="status">
                        <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
                    </c:forEach>
                    <tr id="hiddenDiv" align="center"></tr>

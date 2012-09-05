@@ -40,9 +40,9 @@ public class AddStudyArmController extends AbstractController {
             return null;
         }
         
-        Arm arm = addArm(request, study);
+        Arm arm = addArm(request, studyCommand);
 
-        int index = study.getArms().size() - 1;
+        int index = studyCommand.getNonDefaultArms().size() - 1;
         modelAndView.addObject("index", index);
         modelAndView.addObject("arm", arm);
         return modelAndView;
@@ -53,16 +53,10 @@ public class AddStudyArmController extends AbstractController {
         studyCommand.getArmIndicesToRemove().add(armIndex);
     }
     
-    private Arm addArm(final HttpServletRequest request, Study study){
-        
+    private Arm addArm(final HttpServletRequest request, StudyCommand studyCommand){
         Arm arm = new Arm();
         arm.setTitle(" ");
-        study.addArm(arm);
-        if (study.getCrfs().size() > 0) {
-            for (CRF crf : study.getCrfs()) {
-                crf.addFormArmSchedule(arm);
-            }
-        }
+        studyCommand.getNonDefaultArms().add(arm);
         return arm;
     }
 

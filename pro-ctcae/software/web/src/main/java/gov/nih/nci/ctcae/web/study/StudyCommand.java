@@ -39,6 +39,7 @@ public class StudyCommand {
     private boolean activeDefaultArm = false;
     private Organization defaultOrganization;
 
+    private List<Arm> nonDefaultArms = new ArrayList<Arm>();
 
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
     private List<Integer> craIndexesToRemove = new ArrayList<Integer>();
@@ -248,6 +249,14 @@ public class StudyCommand {
 
 	public void setArmIndicesToRemove(List<String> armIndicesToRemove) {
 		this.armIndicesToRemove = armIndicesToRemove;
+	}
+
+	public List<Arm> getNonDefaultArms() {
+		return nonDefaultArms;
+	}
+
+	public void setNonDefaultArms(List<Arm> nonDefaultArms) {
+		this.nonDefaultArms = nonDefaultArms;
 	}
 }
 

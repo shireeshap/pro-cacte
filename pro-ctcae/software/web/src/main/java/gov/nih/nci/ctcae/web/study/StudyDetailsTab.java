@@ -127,21 +127,30 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
         List<Arm> armsToRemove = new ArrayList<Arm>();
         for(int i = 0; i < studyCommand.getArmIndicesToRemove().size(); i++){
         	Integer armIndex = Integer.valueOf(studyCommand.getArmIndicesToRemove().get(i));
-            Arm armToRemove = studyCommand.getStudy().getArms().get(armIndex);
-            
-            FormArmSchedule fas;
-            if (studyCommand.getStudy().getCrfs().size() > 0) {
-                for (CRF crf : studyCommand.getStudy().getCrfs()) {
-                    fas = crf.getFormArmScheduleForArm(armToRemove);
-                    crf.getFormArmSchedules().remove(fas);
-                }
-            }
-            armsToRemove.add(armToRemove);
+            //Arm armToRemove = studyCommand.getStudy().getArms().get(armIndex);
+            armsToRemove.add(studyCommand.getNonDefaultArms().get(armIndex));
         }
+        
         for(Arm armToRemove : armsToRemove){
-        	studyCommand.getStudy().getArms().remove(armToRemove);
+        	if(studyCommand.getStudy().getArms().contains(armToRemove)){
+        		studyCommand.getStudy().getArms().remove(armToRemove);
+                FormArmSchedule fas;
+                if (studyCommand.getStudy().getCrfs().size() > 0) {
+                    for (CRF crf : studyCommand.getStudy().getCrfs()) {
+                        fas = crf.getFormArmScheduleForArm(armToRemove);
+                        crf.getFormArmSchedules().remove(fas);
+                    }
+                }
+        	}
+        	studyCommand.getNonDefaultArms().remove(armToRemove);
         }
         studyCommand.getArmIndicesToRemove().clear();
+        
+        if(studyCommand.getNonDefaultArms() != null && studyCommand.getNonDefaultArms().size() > 0){
+        	for(Arm arm: studyCommand.getNonDefaultArms()){
+        		addArm(arm, studyCommand.getStudy());
+        	}
+        }
         
         if (studyCommand.getStudy().getArms().size() == 0) {
             Study study = studyCommand.getStudy();
@@ -150,7 +159,39 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             arm.setDescription("This is a default arm on the study.");
             arm.setDefaultArm(true);
             study.addArm(arm);
-        }
+	    } 
+//        else {
+//	    	List<Arm> defaultArmsToBeDeleted = new ArrayList<Arm>();
+//	        if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
+//	            for (Iterator<Arm> arm = studyCommand.getStudy().getArms().iterator(); arm.hasNext();) {
+//	                Arm arm1 = arm.next();
+//	                if (arm1.isDefaultArm()) {
+//	                	defaultArmsToBeDeleted.add(arm1);
+//	                }
+//	            }
+//	            for(Arm arm : defaultArmsToBeDeleted){
+//	            	studyCommand.getStudy().getArms().remove(arm);
+//	            }
+//	        }
+//	    }
+    }
+    
+    private void addArm(Arm arm, Study study){
+        //arm.setTitle(" ");
+    	int existingArmIndex = -1;
+    	if(study.getArms().contains(arm)){
+    		existingArmIndex = study.getArms().indexOf(arm);
+    		study.getArms().get(existingArmIndex).setTitle(arm.getTitle());
+    		study.getArms().get(existingArmIndex).setDescription(arm.getDescription());
+    	} else {
+            study.addArm(arm);
+            if (study.getCrfs().size() > 0) {
+                for (CRF crf : study.getCrfs()) {
+                    crf.addFormArmSchedule(arm);
+                }
+            }
+    	}
+        return;
     }
 
     public void setUserRepository(UserRepository userRepository) {
