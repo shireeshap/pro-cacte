@@ -812,24 +812,6 @@ public class ParticipantCommand {
                         studySite.getStudy().getAllStudyOrganizationClinicalStaffs().size();
                         studySite.getStudy().getStudyModes().size();
                         studySite.getStudy().getHomeModes();
-                        for (CRF crf : studySite.getStudy().getCrfs()) {
-                            for (FormArmSchedule fas : crf.getFormArmSchedules()) {
-                                if (fas.getCrfCalendars() != null) fas.getCrfCalendars().size();
-                                if (fas.getCrfCycleDefinitions() != null) {
-                                    fas.getCrfCycleDefinitions().size();
-                                    for (CRFCycleDefinition ccd : fas.getCrfCycleDefinitions()) {
-                                        if (ccd.getCrfCycles() != null) ccd.getCrfCycles().size();
-                                    }
-                                }
-                            }
-                            if (crf.getCrfPages() != null) crf.getCrfPages().size();
-                            for (CRFPage cpage : crf.getCrfPages()) {
-                                if (cpage.getCrfPageItems() != null) cpage.getCrfPageItems().size();
-                                for (CrfPageItem cpItem : cpage.getCrfPageItems()) {
-                                    cpItem.getInstructions();
-                                }
-                            }
-                        }
                     }
                 }
 

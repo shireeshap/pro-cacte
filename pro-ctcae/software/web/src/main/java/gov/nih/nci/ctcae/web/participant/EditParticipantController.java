@@ -63,11 +63,6 @@ public class EditParticipantController extends ParticipantController {
             Organization organization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
             command.setSelectedStudyParticipantAssignmentId(participant.getStudyParticipantAssignments().get(0).getId());
 
-//            if (!user.isAdmin()) {
-//                if (!command.getClinicalStaffOrgs().contains(organization)) {
-//                    command.setReadOnly(true);
-//                }
-//            }
             String siteName = organization.getName();
             command.setOrganizationId(organization.getId());
             command.setSiteName(siteName);
