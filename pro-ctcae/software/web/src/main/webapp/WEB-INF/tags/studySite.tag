@@ -165,7 +165,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:choose>
-                            <c:when test="${command.onDefaultArm}">xxx
+                            <c:when test="${command.onDefaultArm}">
                                 <td class="data" align="right" width="20%" style="display:none">
                                     <b><span class="required-indicator">&nbsp;&nbsp;</span><spring:message
                                             code="study.label.arm"/></b>
