@@ -156,7 +156,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             Study study = studyCommand.getStudy();
             Arm arm = new Arm();
             arm.setTitle("Default Arm");
-            arm.setDescription("This is a default arm on the study.");
+            arm.setDescription("This is a defa ult arm on the study.");
             arm.setDefaultArm(true);
             study.addArm(arm);
 	    } 
@@ -185,9 +185,11 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     		study.getArms().get(existingArmIndex).setDescription(arm.getDescription());
     	} else {
             study.addArm(arm);
+            FormArmSchedule fas = null;
             if (study.getCrfs().size() > 0) {
                 for (CRF crf : study.getCrfs()) {
-                    crf.addFormArmSchedule(arm);
+                    fas = crf.addFormArmSchedule(arm);
+                    arm.getFormArmSchedules().add(fas);
                 }
             }
     	}
