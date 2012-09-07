@@ -156,7 +156,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             Study study = studyCommand.getStudy();
             Arm arm = new Arm();
             arm.setTitle("Default Arm");
-            arm.setDescription("This is a defa ult arm on the study.");
+            arm.setDescription("This is a default arm on the study.");
             arm.setDefaultArm(true);
             study.addArm(arm);
 	    } 
