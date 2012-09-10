@@ -684,6 +684,8 @@ function addEmailRemoveIVRSClassName(id) {
     }
     $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
     $('participant.pinNumber_' + id).required = false;
+    $('participant.confirmPinNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.confirmPinNumber_' + id).required = false;
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
     $('call_hour_' + id).required = false;
     $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
@@ -708,6 +710,7 @@ function addIVRSRemoveEmailClassName(id) {
     $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
     $('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
     $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
+    $('participant.confirmPinNumber_' + id).addClassName("validate-NOTEMPTY");
     $('call_hour_' + id).addClassName("validate-NOTEMPTY");
     $('call_minute_' + id).addClassName("validate-NOTEMPTY");
     $('call_ampm_' + id).addClassName("validate-NOTEMPTY");

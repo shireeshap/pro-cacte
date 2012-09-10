@@ -246,6 +246,14 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if (command.getParticipant().getStudyParticipantAssignments() == null ||
                 command.getParticipant().getStudyParticipantAssignments().size() == 0) {
             errors.reject("participant.study");
+        } else {
+            //check for response modes. 
+            Study study = command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getStudy();
+            if(study.getStudyModes().size() > 0){
+                if (command.getResponseModes() == null || command.getResponseModes().length == 0) {
+                    errors.reject("participant.missing_response_mode");
+                }
+            }
         }
 
         //checking for unique username
@@ -315,14 +323,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         
-        //check for response modes.
-        Study study = command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getStudy();
-        if(study.getStudyModes().size() > 0){
-            if (command.getResponseModes() == null || command.getResponseModes().length == 0) {
-                errors.reject("participant.missing_response_mode");
-            }
-        }
-
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
