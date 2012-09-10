@@ -30,7 +30,7 @@
                     Surveys for the participant have been put on hold
                     beginning
                     <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.    <br>
-                Click the "Remove hold" to resume survey administration for this participant.
+                Click "Remove hold" to resume survey administration for this participant.
                       <div class="value">
                     <input id="offHoldTreatmentDate" class="date validate-NOTEMPTY&&DATE"
                            name="offHoldTreatmentDate"
