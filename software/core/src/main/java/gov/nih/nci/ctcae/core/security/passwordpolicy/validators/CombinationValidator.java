@@ -49,8 +49,8 @@ public class CombinationValidator implements PasswordPolicyValidator {
 
     private boolean validateNonAlphaNumeric(CombinationPolicy policy, User user, ValidationErrors validationErrors){
         if (policy.isNonAlphaNumericRequired() && user.getPassword().matches("[\\p{Alnum}]+")) {
-            //throw new ValidationException("The password should have at least one special charcter");
-        	validationErrors.addValidationError("PCP_006", "The password should have at least one special charcter");
+            //throw new ValidationException("The password should have at least one special character");
+        	validationErrors.addValidationError("PCP_006", "The password should have at least one special character");
         	return false;
         }
         return true;
