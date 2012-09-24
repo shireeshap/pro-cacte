@@ -102,17 +102,26 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                         }
                         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                            	
+                            	//For all schedules that are past their due date, update status to Pastdue or completed accordingly
+                            	if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                            		if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                                        studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+	                            	} else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+	                                    studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+	                                }                            		
+                            	}
+
+                            	//for all schedules that went past-due Yesterday (and yesterday only), add to past-due notifications email list.
                                 if (today.after(studyParticipantCrfSchedule.getDueDate()) && yesterday.before(studyParticipantCrfSchedule.getDueDate())) {
                                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
-                                        studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                                         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
                                             addScheduleToEmailList(siteClincalStaffAndParticipantAssignmentMap, studyParticipantCrfSchedule, studyOrganizationClinicalStaff);
                                         }
-                                    } else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
-                                        studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
                                     }
                                 }
 
+                                //for all schedules that are scheduled or in-progress and available, send out patient reminders.
                                 if (web && today.after(studyParticipantCrfSchedule.getStartDate()) && today.before(studyParticipantCrfSchedule.getDueDate())) {
                                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                                         addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
@@ -169,13 +178,14 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (AddressException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            tx.commit();
         }
-        tx.commit();
         logger.debug("Nightly trigger bean job ends....");
     }
 
