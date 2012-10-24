@@ -153,40 +153,42 @@ public class LoginController extends AbstractController {
         mv.addObject("loadUpcoming", loadUpcoming);
         mv.addObject("loadOverdue", loadOverdue);
         
+        /*Commented out for PRKC-1945 v2.1.1
         List<StudyParticipantCrfSchedule> previouslyEvaluatedOverdueList = (List<StudyParticipantCrfSchedule>)request.getSession().getAttribute("overdue");
         List<StudyParticipantCrfSchedule> previouslyEvaluatedupcomingList = (List<StudyParticipantCrfSchedule>)request.getSession().getAttribute("upcoming");
         
         if (siteLevelRole) {
-            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff, loadUpcoming, loadOverdue);
+            List<List<StudyParticipantCrfSchedule>> schedules = null;//getOverdueAndUpcomingSchedules(clinicalStaff, loadUpcoming, loadOverdue);
             
-            if(loadOverdue == null && previouslyEvaluatedOverdueList == null){
-            	//login case
-            	mv.addObject("overdue", schedules.get(0));
-                request.getSession().setAttribute("overdue", schedules.get(0));
-            } else if(loadOverdue != null){
-            	//all or less on overdue case
-            	mv.addObject("overdue", schedules.get(0));
-                request.getSession().setAttribute("overdue", schedules.get(0));
-            } else {
-            	mv.addObject("overdue", previouslyEvaluatedOverdueList);
-            	request.getSession().setAttribute("overdue", previouslyEvaluatedOverdueList);
-            }
-            
-            if(loadUpcoming == null && previouslyEvaluatedupcomingList == null){
-            	//login case
-            	mv.addObject("overdue", schedules.get(1));
-                request.getSession().setAttribute("upcoming", schedules.get(1));
-            } else if(loadUpcoming != null){
-            	//all or less on upcoming case
-            	mv.addObject("upcoming", schedules.get(1));
-                request.getSession().setAttribute("upcoming", schedules.get(1));
-            } else {
-            	mv.addObject("upcoming", previouslyEvaluatedupcomingList);
-            	request.getSession().setAttribute("upcoming", previouslyEvaluatedupcomingList);
-            }
-            
+    		if(schedules != null){
+    			if(loadOverdue == null && previouslyEvaluatedOverdueList == null){
+                	//login case
+                	mv.addObject("overdue", schedules.get(0));
+                    request.getSession().setAttribute("overdue", schedules.get(0));
+                } else if(loadOverdue != null){
+                	//all or less on overdue case
+                	mv.addObject("overdue", schedules.get(0));
+                    request.getSession().setAttribute("overdue", schedules.get(0));
+                } else {
+                	mv.addObject("overdue", previouslyEvaluatedOverdueList);
+                	request.getSession().setAttribute("overdue", previouslyEvaluatedOverdueList);
+                }
+                
+                if(loadUpcoming == null && previouslyEvaluatedupcomingList == null){
+                	//login case
+                	mv.addObject("overdue", schedules.get(1));
+                    request.getSession().setAttribute("upcoming", schedules.get(1));
+                } else if(loadUpcoming != null){
+                	//all or less on upcoming case
+                	mv.addObject("upcoming", schedules.get(1));
+                    request.getSession().setAttribute("upcoming", schedules.get(1));
+                } else {
+                	mv.addObject("upcoming", previouslyEvaluatedupcomingList);
+                	request.getSession().setAttribute("upcoming", previouslyEvaluatedupcomingList);
+                }
+    		}
 //            mv.addObject("load", load);
-        }
+        }*/
         return mv;
     }
 
