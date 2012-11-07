@@ -38,6 +38,7 @@ public class FetchParticipantController extends AbstractController {
     protected Properties proCtcAEProperties;
     
     List<Participant> completeParticipantsList = new ArrayList<Participant>();
+    public static final int rowsPerPageInt = 25;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -83,10 +84,10 @@ public class FetchParticipantController extends AbstractController {
         Participant participant;
         SearchParticipantWrapper searchParticipantWrapper = new SearchParticipantWrapper();
         searchParticipantWrapper.setTotalRecords(Long.valueOf(totalRecords));
-        searchParticipantWrapper.setRecordsReturned(25);
+        searchParticipantWrapper.setRecordsReturned(participantsForCurrentSearch.size());
         searchParticipantWrapper.setStartIndex(Integer.valueOf(startIndex));
-        searchParticipantWrapper.setPageSize(25);
-        searchParticipantWrapper.setDir("asc");
+        searchParticipantWrapper.setPageSize(rowsPerPageInt);
+        searchParticipantWrapper.setDir(direction);
         searchParticipantWrapper.setSearchParticipantDTOs(new SearchParticipantDTO[participantsForCurrentSearch.size()]);
         SearchParticipantDTO searchParticipantDTO;
         

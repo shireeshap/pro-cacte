@@ -102,7 +102,7 @@ public class ScheduleCrfAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery();
+            participantQuery = new ParticipantQuery(false);
         } else {
             participantQuery = new ParticipantQuery(true);
         }

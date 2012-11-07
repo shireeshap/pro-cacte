@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
@@ -29,7 +30,7 @@ public class ParticipantAjaxFacade {
      * The participant repository.
      */
     private ParticipantRepository participantRepository;
-
+    private static String OTHER = "every_case_other_than_organization";
     /**
      * Search participant.
      *
@@ -116,14 +117,21 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true);
-        } else {
-            participantQuery = new ParticipantQuery(Role.SITE_CRA, true);
+            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true, OTHER);
+        } else if(sortField.equalsIgnoreCase("organizationName")){
+        	participantQuery = new ParticipantQuery(Role.SITE_CRA, true,"organizationName");        	
+        }
+        else {
+            participantQuery = new ParticipantQuery(Role.SITE_CRA, true, OTHER);
         }
 
         if (sortField.equals("studyParticipantIdentifier")) {
             participantQuery.setSortBy("p.studyParticipantAssignments.studyParticipantIdentifier");
-        } else {
+        } else if(sortField.equalsIgnoreCase("organizationName")){
+        	participantQuery.setSortBy("ss.organization.name");
+        }else if(sortField.equalsIgnoreCase("studyShortTitle")){
+        	participantQuery.setSortBy("study.shortTitle");
+        }else {
             participantQuery.setSortBy("p." + sortField);
         }
         participantQuery.setSortDirection(direction);
@@ -144,7 +152,6 @@ public class ParticipantAjaxFacade {
 
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
-
 
         return participants;
     }
@@ -172,11 +179,10 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery();
+            participantQuery = new ParticipantQuery(false);
         } else {
             participantQuery = new ParticipantQuery(true);
         }
-//         participantQuery = new ParticipantQuery();
 
         if (StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName) && StringUtils.isBlank(identifier) && StringUtils.isBlank(studyId) && StringUtils.isBlank(spIdentifier) && StringUtils.isBlank(siteId)) {
             participantQuery.setMaximumResults(75);
@@ -219,9 +225,9 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true);
+            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true, OTHER);
         } else {
-            participantQuery = new ParticipantQuery(Role.SITE_CRA, true);
+            participantQuery = new ParticipantQuery(Role.SITE_CRA, true, OTHER);
         }
         participantQuery.filterByAll(text, "" + 0);
         if(studySiteId != null){
