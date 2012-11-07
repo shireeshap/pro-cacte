@@ -11,7 +11,6 @@
 
 
 <p id="splitter"/>
-
 <c:set var="propertyName"
        value="studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}]"/>
 
@@ -42,12 +41,12 @@
 		                     <c:choose>
 		                         <c:when test="${studyOrganizationClinicalStaff.roleStatus.displayName eq 'Active'}">
 		                             <tags:button color="red" type="button" value="De-activate"
-		                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
+		                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}','${tab.targetNumber}')"
 		                                          size="small"/>
 		                         </c:when>
 		                         <c:otherwise>
 		                             <tags:button color="blue" type="button" value="Activate"
-		                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}')"
+		                                          onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus.displayName}','${studyOrganizationClinicalStaff.id}','${tab.targetNumber}')"
 		                                          size="small"/>
 		                         </c:otherwise>
 		                     </c:choose>

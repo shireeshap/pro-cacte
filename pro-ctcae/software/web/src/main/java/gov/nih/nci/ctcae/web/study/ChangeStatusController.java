@@ -63,8 +63,11 @@ public class ChangeStatusController extends CtcAeSimpleFormController {
         if (RoleStatus.IN_ACTIVE.getDisplayName().equals(status)) {
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
         }
+        
+        String tabNumber= ServletRequestUtils.getStringParameter(request, "tabNumber");
+        
         studyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.save(studyOrganizationClinicalStaff);
-        RedirectView redirectView = new RedirectView("editStudy?tab=1&studyId=" + studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getId());
+        RedirectView redirectView = new RedirectView("editStudy?tab=" + tabNumber + "&studyId=" +studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getId());
         return new ModelAndView(redirectView);
     }
 
