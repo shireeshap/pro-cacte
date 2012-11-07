@@ -58,7 +58,7 @@ public class ForgotUsernameController extends AbstractFormController {
             clinicalStaffQuery.filterByEmail(email);
             List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
             if (clinicalStaffs == null || clinicalStaffs.size() == 0){
-                ParticipantQuery participantQuery = new ParticipantQuery();
+                ParticipantQuery participantQuery = new ParticipantQuery(false);
                 participantQuery.filterByEmail(email);
                 List<Participant> participants = genericRepository.find(participantQuery);
                 if(participants == null || participants.size() ==0){

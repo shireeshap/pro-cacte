@@ -161,31 +161,31 @@ public class LoginController extends AbstractController {
             List<List<StudyParticipantCrfSchedule>> schedules = null;//getOverdueAndUpcomingSchedules(clinicalStaff, loadUpcoming, loadOverdue);
             
     		if(schedules != null){
-    			if(loadOverdue == null && previouslyEvaluatedOverdueList == null){
-                	//login case
-                	mv.addObject("overdue", schedules.get(0));
-                    request.getSession().setAttribute("overdue", schedules.get(0));
-                } else if(loadOverdue != null){
-                	//all or less on overdue case
-                	mv.addObject("overdue", schedules.get(0));
-                    request.getSession().setAttribute("overdue", schedules.get(0));
-                } else {
-                	mv.addObject("overdue", previouslyEvaluatedOverdueList);
-                	request.getSession().setAttribute("overdue", previouslyEvaluatedOverdueList);
-                }
-                
-                if(loadUpcoming == null && previouslyEvaluatedupcomingList == null){
-                	//login case
-                	mv.addObject("overdue", schedules.get(1));
-                    request.getSession().setAttribute("upcoming", schedules.get(1));
-                } else if(loadUpcoming != null){
-                	//all or less on upcoming case
-                	mv.addObject("upcoming", schedules.get(1));
-                    request.getSession().setAttribute("upcoming", schedules.get(1));
-                } else {
-                	mv.addObject("upcoming", previouslyEvaluatedupcomingList);
-                	request.getSession().setAttribute("upcoming", previouslyEvaluatedupcomingList);
-                }
+            if(loadOverdue == null && previouslyEvaluatedOverdueList == null){
+            	//login case
+            	mv.addObject("overdue", schedules.get(0));
+                request.getSession().setAttribute("overdue", schedules.get(0));
+            } else if(loadOverdue != null){
+            	//all or less on overdue case
+            	mv.addObject("overdue", schedules.get(0));
+                request.getSession().setAttribute("overdue", schedules.get(0));
+            } else {
+            	mv.addObject("overdue", previouslyEvaluatedOverdueList);
+            	request.getSession().setAttribute("overdue", previouslyEvaluatedOverdueList);
+            }
+            
+            if(loadUpcoming == null && previouslyEvaluatedupcomingList == null){
+            	//login case
+            	mv.addObject("overdue", schedules.get(1));
+                request.getSession().setAttribute("upcoming", schedules.get(1));
+            } else if(loadUpcoming != null){
+            	//all or less on upcoming case
+            	mv.addObject("upcoming", schedules.get(1));
+                request.getSession().setAttribute("upcoming", schedules.get(1));
+            } else {
+            	mv.addObject("upcoming", previouslyEvaluatedupcomingList);
+            	request.getSession().setAttribute("upcoming", previouslyEvaluatedupcomingList);
+            }
     		}
 //            mv.addObject("load", load);
         }*/
@@ -201,7 +201,7 @@ public class LoginController extends AbstractController {
      */
     private String getParticipantsPreferredLanguage(User user) {
     	String lang = "en";
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByUsername(user.getUsername());
         Collection<Participant> participantCollection = participantRepository.find(participantQuery);
         List<StudyParticipantAssignment> studyParticipantAssignments = null; 
