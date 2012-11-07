@@ -87,7 +87,7 @@
 	    </span>
 	     <span class="prev">
 	        <c:if test="${crf.status.displayName ne 'Released'}">
-	            <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab2"
+	            <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tab.number - 1}"
 	                             value="Back" icon="Back"/>
 	        </c:if>
 	    </span>
