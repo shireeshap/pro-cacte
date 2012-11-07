@@ -207,7 +207,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 			Date liveAccessTime = ivrsSchedule.getStudyParticipantAssignment().getLiveAccessTimestamp();
 			if(liveAccessTime == null  || (liveAccessTime != null && DateUtils.hoursBetweenDates(DateUtils.getCurrentDate(), liveAccessTime) > resetPeriod)){
 				//Get the participant using the StudyParticipantAssignment and get the phoneNumber from the participant.
-				participantQuery = new ParticipantQuery();
+				participantQuery = new ParticipantQuery(false);
 				participantQuery.filterByStudyParticipantAssignmentId(ivrsSchedule.getStudyParticipantAssignment().getId());
 				Collection<Participant> participantList = genericRepository.find(participantQuery);
 				if(participantList.size() > 1){

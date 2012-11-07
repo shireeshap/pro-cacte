@@ -20,7 +20,7 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
     private Participant participant;
 
     private void deleteExistingParticipant() {
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("john1.locke1");
         genericRepository.delete(genericRepository.findSingle(pq));
         UserQuery uq = new UserQuery();

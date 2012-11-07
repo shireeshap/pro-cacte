@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.User;
@@ -12,8 +13,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-//
-
 /**
  * The Class ParticipantQuery.
  *
@@ -21,23 +20,14 @@ import org.apache.commons.lang.StringUtils;
  */
 
 public class ParticipantQuery extends SecuredQuery<Organization> {
-
+	
     /**
-     * The query string.
-     */
-    private static String queryString = "SELECT p from Participant p order by p.id";
-
-    private static String queryString1 = "SELECT count(distinct p) from Participant p";
-
-    private static String queryString2 = "SELECT distinct p from Participant p";
-
-    /**
-     * The FIRS t_ name.
+     * The FIRST name.
      */
     private static String FIRST_NAME = "firstName";
 
     /**
-     * The LAS t_ name.
+     * The LAST name.
      */
     private static String LAST_NAME = "lastName";
 
@@ -63,37 +53,30 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     
     private boolean isStudySiteLevel = false;
 
-    /**
-     * Instantiates a new participant query.
+    /** Instantiates a new participant query.
      */
-    public ParticipantQuery() {
-
-        super(queryString, false);
-    }
-
     public ParticipantQuery(boolean secure) {
-        super(queryString, secure);
+        super(QueryStrings.PARTICIPANT_QUERY_STRING.getCode(), secure);
         if (secure) {
             leftJoinStudySites();
         }
     }
 
     public ParticipantQuery(boolean count, boolean secure) {
-        super(queryString1, secure);
-
-
+        super(QueryStrings.PARTICIPANT_QUERY_STRING1.getCode(), secure);
     }
 
     public ParticipantQuery(boolean sort, boolean count, boolean secure) {
-        super(queryString2, secure);
+        super(QueryStrings.PARTICIPANT_QUERY_STRING2.getCode(), secure);
         if (secure) {
             leftJoinStudySites();
         }
     }
     
     public ParticipantQuery(boolean count, Role role, boolean secure) {
-        super(queryString1, false);
-        User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+    	super(QueryStrings.PARTICIPANT_QUERY_STRING1.getCode(), false);	
+       
+    	User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
         List<Integer> objectIds = new ArrayList<Integer>();
         if (secure) {
             leftJoinStudySites();
@@ -108,12 +91,17 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         filterByObjectIds(objectIds);
     }
 
-    public ParticipantQuery(Role role, boolean secure) {
-        super(queryString2, false);
+    public ParticipantQuery(Role role, boolean secure, String sortField) {
+        super(QueryStrings.PARTICIPANT_QUERY_STRING2.getCode(), false);
+       
         User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
         List<Integer> objectIds = new ArrayList<Integer>();
         if (secure) {
-            leftJoinStudySites();
+        	if(sortField.compareToIgnoreCase("organizationName")==0){
+        		leftJoinForSortBySite();
+        	}else{        	
+        		leftJoinStudySites();
+        	}
             if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
                 objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
 
@@ -123,7 +111,6 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
             }
         }
         filterByObjectIds(objectIds);
-
     }
 
     /**
@@ -148,7 +135,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         setParameter(LAST_NAME, searchString);
     }
 
-
+    
     /**
      * Filter by participant identifier(also referred to as assigned identifier/MRN).
      *
@@ -221,7 +208,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
 
     }
-
+    
     public void filterByAll(String text, String key) {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
 
@@ -273,9 +260,13 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     }
 
     public void leftJoinStudySites() {
-        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
+        leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study ");
     }
 
+    public void leftJoinForSortBySite(){
+    	leftJoin(" p.studyParticipantAssignments as spa left join spa.studySite as ss ");   	
+    }    
+    
     public void filterByUsername(String username) {
         if (username != null) {
             andWhere("p.user.username =:" + USERNAME);

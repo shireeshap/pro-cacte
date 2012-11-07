@@ -125,8 +125,8 @@
                 {key:"title", label:"Title", sortable:true,resizeable:false, width:225},
                 {key:"version", label:"Version", sortable:true, resizeable:false, width:70},
                 {key:"effectiveStartDate", label:"Effective date", formatter:"date", sortable:true, resizeable:false, width:100},
-                {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:225},
-                {key:"status", label:"Status", sortable:false, resizeable:false, width:80},
+                {key:"studyShortTitle", label:"Study", sortable:true, resizeable:false, width:225},
+                {key:"status", label:"Status", sortable:true, resizeable:false, width:80},
                 {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
             ];
 

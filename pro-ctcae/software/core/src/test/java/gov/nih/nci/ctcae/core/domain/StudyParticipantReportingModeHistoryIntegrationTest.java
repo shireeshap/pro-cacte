@@ -21,7 +21,7 @@ public class StudyParticipantReportingModeHistoryIntegrationTest extends TestDat
 
 
     private void saveParticipant() {
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("1");
         genericRepository.delete(genericRepository.findSingle(pq));
         UserQuery uq = new UserQuery();

@@ -20,7 +20,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
 
 
     private void saveParticipant() {
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("1");
         genericRepository.delete(genericRepository.findSingle(pq));
         UserQuery uq = new UserQuery();
@@ -78,7 +78,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
     public void testFindByFirstName() {
         saveParticipant();
 
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByParticipantFirstName("J%");
 
         Collection<? extends Participant> participants = participantRepository
@@ -98,7 +98,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
     public void testFindByLastName() {
         saveParticipant();
 
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByParticipantLastName("D%");
 
         Collection<? extends Participant> participants = participantRepository
@@ -119,7 +119,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
         saveParticipant();
         login(participant.getUser().getUsername());
 
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByUsername(participant.getUser().getUsername());
         Collection<? extends Participant> participants = participantRepository
                 .find(participantQuery);

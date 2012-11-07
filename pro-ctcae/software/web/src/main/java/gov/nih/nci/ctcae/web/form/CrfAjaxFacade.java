@@ -46,7 +46,11 @@ public class CrfAjaxFacade {
         CRFQuery crfQuery = new CRFQuery(true, false);
         crfQuery.setFirstResult(startIndex);
         crfQuery.setMaximumResults(results);
-        crfQuery.setSortBy("o." + sortField);
+        if(sortField.compareToIgnoreCase("studyShortTitle")==0){
+        	crfQuery.setSortBy("o.study.shortTitle");
+        }else{
+        	crfQuery.setSortBy("o." + sortField);
+        }
         crfQuery.setSortDirection(direction);
         crfQuery.filterByHidden(false);
         crfQuery.filterByNullNextVersionId();

@@ -49,7 +49,7 @@ public class FetchCrfController extends AbstractController {
         searchCRFWrapper.setRecordsReturned(25);
         searchCRFWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchCRFWrapper.setPageSize(25);
-        searchCRFWrapper.setDir("asc");
+        searchCRFWrapper.setDir(dir);
         searchCRFWrapper.setSearchCrfDTOs(new SearchCrfDTO[crfs.size()]);
         int index = 0;
         for (CRF crf: crfs) {

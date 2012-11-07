@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 
 import org.apache.commons.lang.StringUtils;
-
-//
 
 /**
  * The Class StudyQuery.
@@ -15,13 +14,6 @@ import org.apache.commons.lang.StringUtils;
  * @since Oct 14, 2008
  */
 public class StudyQuery extends SecuredQuery<Study> {
-
-    /**
-     * The query string.
-     */
-    private static String queryString = "Select distinct study from Study study order by study.shortTitle ";
-    private static String queryString1 = "SELECT count(distinct study) from Study study ";
-    private static String queryString2 = "SELECT distinct study from Study study ";
 
     /**
      * The Constant SHORT_TITLE.
@@ -66,19 +58,23 @@ public class StudyQuery extends SecuredQuery<Study> {
      * Instantiates a new study query. 
      */
     public StudyQuery() {
-        super(queryString);
+        super(QueryStrings.STUDY_QUERY_STRING.getCode());
     }
     
     public StudyQuery(boolean sort, boolean count, boolean secure) {
-        super(queryString, secure);
+        super(QueryStrings.STUDY_QUERY_STRING.getCode(), secure);
     }
     
     public StudyQuery(boolean count){
-        super(queryString1);
+        super(QueryStrings.STUDY_QUERY_STRING1.getCode());
     }
 
     public StudyQuery(boolean sort, boolean count){
-        super(queryString2);
+        super(QueryStrings.STUDY_QUERY_STRING2.getCode());
+    }
+    
+    public StudyQuery(boolean sort, boolean count, String str){
+        super(QueryStrings.STUDY_QUERY_STRING3.getCode());
     }
 
     /**
@@ -190,6 +186,14 @@ public class StudyQuery extends SecuredQuery<Study> {
         setLeftJoinForUserName();
         andWhere("user.username = :" + USERNAME);
         setParameter(USERNAME, userName);
+    }
+    
+    public void filterByFundingSponsor(){
+    	andWhere("so.class='FSP'");
+    }
+
+    public void filterByCoordinatingCenter(){
+    	andWhere("so.class='DCC'");
     }
 
     /**

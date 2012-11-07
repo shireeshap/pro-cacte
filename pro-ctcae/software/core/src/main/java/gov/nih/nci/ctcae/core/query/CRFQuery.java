@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.query;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 /**
  * The Class CRFQuery.
  *
@@ -11,13 +11,6 @@ import org.apache.commons.lang.StringUtils;
  * @created Oct 14, 2008
  */
 public class CRFQuery extends AbstractQuery {
-
-    /**
-     * The query string.
-     */
-    private static String queryString = "SELECT o from CRF o order by o.id";
-    private static String queryString1 = "SELECT count(distinct o) from CRF o";
-    private static String queryString2 = "SELECT distinct o from CRF o";
 
     /**
      * The Constant TITLE.
@@ -49,15 +42,15 @@ public class CRFQuery extends AbstractQuery {
      */
     public CRFQuery() {
 
-        super(queryString);
+        super(QueryStrings.CRF_QUERY_STRING.getCode());
     }
 
     public CRFQuery(boolean count) {
-        super(queryString1);
+        super(QueryStrings.CRF_QUERY_STRING1.getCode());
     }
 
     public CRFQuery(boolean sort, boolean count) {
-        super(queryString2);
+        super(QueryStrings.CRF_QUERY_STRING2.getCode());
     }
 
     public void filterByCRFIds(List<Integer> crfIds) {

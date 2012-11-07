@@ -123,7 +123,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
         boolean isLeadStaff = SecurityHelper.isUserSiteIndependent();
         ParticipantQuery query;
         if (isLeadStaff) {
-            query = new ParticipantQuery();
+            query = new ParticipantQuery(false);
         } else {
             query = new ParticipantQuery(true);
         }
@@ -136,7 +136,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
         boolean isLeadStaff = SecurityHelper.isUserSiteIndependent();
         ParticipantQuery query;
         if (isLeadStaff) {
-            query = new ParticipantQuery();
+            query = new ParticipantQuery(false);
         } else {
             query = new ParticipantQuery(true);
         }

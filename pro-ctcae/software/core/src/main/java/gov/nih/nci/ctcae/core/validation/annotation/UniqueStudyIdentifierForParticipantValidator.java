@@ -32,7 +32,7 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
      * @return true, if successful
      */
     public boolean validateUniqueParticipantIdentifier(Integer studyId,String assignedIdentifier,Integer participantID) {
-            ParticipantQuery participantQuery = new ParticipantQuery();
+            ParticipantQuery participantQuery = new ParticipantQuery(false);
             participantQuery.filterByStudy(studyId);
             participantQuery.filterByStudyParticipantIdentifierExactMatch(assignedIdentifier);
             participantQuery.excludeByParticipantId(participantID);
@@ -55,7 +55,7 @@ public class UniqueStudyIdentifierForParticipantValidator extends AbstractValida
      * @return true, if successful
      */
     public boolean validateUniqueParticipantMrn(Integer siteId, String mrn, Integer participantID) {
-	       ParticipantQuery participantQuery = new ParticipantQuery();
+	       ParticipantQuery participantQuery = new ParticipantQuery(false);
 	       participantQuery.filterBySite(siteId);
 	       participantQuery.filterByParticipantIdentifierExactMatch(mrn);
 	       participantQuery.excludeByParticipantId(participantID);

@@ -40,7 +40,7 @@ public class IVRSApiTest extends TestDataManager{
         }
         commitAndStartNewTransaction();
         
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
         System.out.println("p.spa: "+participant.getStudyParticipantAssignments().size());
@@ -50,7 +50,7 @@ public class IVRSApiTest extends TestDataManager{
     private void deleteIVRSTestData() {
         //delete existing participant
     	System.out.println("Starting deleteIVRSTestData");
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         genericRepository.delete(genericRepository.findSingle(pq));
         UserQuery uq = new UserQuery();
@@ -63,7 +63,7 @@ public class IVRSApiTest extends TestDataManager{
     }
     public void testIVRSApi(){
         //saveIVRSParticipant();
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
     

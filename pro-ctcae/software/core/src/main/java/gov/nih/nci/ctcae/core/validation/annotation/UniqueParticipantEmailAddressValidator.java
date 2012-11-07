@@ -26,7 +26,7 @@ public class UniqueParticipantEmailAddressValidator extends AbstractValidator<Un
     private GenericRepository genericRepository;
 
     public boolean validateEmail(String emailAddress, Integer participantID) {
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByEmail(emailAddress);
         participantQuery.excludeByParticipantId(participantID);
         Collection<Participant> participants = genericRepository.find(participantQuery);

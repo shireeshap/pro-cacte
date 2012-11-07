@@ -32,7 +32,7 @@ public class UniqueStaffEmailAddressValidator extends AbstractValidator<UniqueSt
             return true;
         }
 
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByEmail(emailAddress);
       //  participantQuery.excludeByParticipantId(participantID);
         Collection<Participant> participants = participantRepository.find(participantQuery);

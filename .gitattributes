@@ -2383,6 +2383,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermCo
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermVocab.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueVocab.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/QueryStrings.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Question.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ResponseCode.java -text

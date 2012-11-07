@@ -21,7 +21,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
     private GenericRepository genericRepository;
     public boolean validateUserNumber(String userNumber, Integer participantID){
      //   Integer userNum = Integer.parseInt(userNumber);
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.filterByUserNumber(userNumber);
         participantQuery.excludeByParticipantId(participantID);
 
@@ -33,7 +33,7 @@ public class UniqueParticipantUserNumberValidator extends AbstractValidator<Uniq
     }
 
      public boolean validatePhoneNumber(String phoneNumber, Integer participantID){
-        ParticipantQuery participantQuery = new ParticipantQuery();
+        ParticipantQuery participantQuery = new ParticipantQuery(false);
         participantQuery.excludeByParticipantId(participantID);
         participantQuery.filterByPhoneNumber(phoneNumber);
 

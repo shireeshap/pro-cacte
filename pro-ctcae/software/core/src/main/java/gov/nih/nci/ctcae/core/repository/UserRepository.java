@@ -352,7 +352,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     public Participant findParticipantForUser(User user) {
-        ParticipantQuery query = new ParticipantQuery();
+        ParticipantQuery query = new ParticipantQuery(false);
         query.filterByUsername(user.getUsername());
         return genericRepository.findSingle(query);
     }

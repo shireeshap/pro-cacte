@@ -44,7 +44,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
     }
     private void deleteScheduleTestData() {
         //delete existing participant
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         genericRepository.delete(genericRepository.findSingle(pq));
         UserQuery uq = new UserQuery();
@@ -56,7 +56,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
     }
     public void testGetDueDateForFormSchedule() throws Exception {
        //saveTestScheduleParticipant();
-         ParticipantQuery pq = new ParticipantQuery();
+         ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
 
@@ -81,7 +81,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
     }
 
      public void testGetReschedulePastDueForms() throws Exception {
-        ParticipantQuery pq = new ParticipantQuery();
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
          participantSchedule=new ParticipantSchedule();
@@ -114,7 +114,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
 
     public void testUpdateSchedule() throws Exception {
           //saveTestScheduleParticipant();
-           ParticipantQuery pq = new ParticipantQuery();
+           ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
 
