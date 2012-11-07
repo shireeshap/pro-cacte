@@ -54,17 +54,41 @@ public class StudyAjaxFacade {
     }
 
     public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords) {
-        List<Study> studies = getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
+    	List<Study> studies;
+
+    	studies = getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
         return studies;
     }
 
     private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir,  Integer totalRecords) {
-        StudyQuery studyQuery = new StudyQuery(true, true);
-
-        studyQuery.setFirstResult(startIndex);
-        studyQuery.setMaximumResults(results);
-        studyQuery.setSortBy("study." + sort);
-        studyQuery.setSortDirection(dir);
+       
+    	 StudyQuery studyQuery=null;
+        
+        
+        if(sort.compareToIgnoreCase("fundingSponsorDisplayName")==0){
+       	 	 studyQuery = new StudyQuery(true, true,"fundingSponsorDisplayName");
+        	 studyQuery.setFirstResult(startIndex);
+             studyQuery.setMaximumResults(results);
+             studyQuery.filterByFundingSponsor();
+             studyQuery.setSortBy("so.organization.name" );
+             studyQuery.setSortDirection(dir);
+             
+        }else if(sort.compareToIgnoreCase("coordinatingCenterDisplayName")==0){
+        	 studyQuery = new StudyQuery(true, true,"coordinatingCenterDisplayName");
+ 		     studyQuery.setFirstResult(startIndex);
+	         studyQuery.setMaximumResults(results);
+	         studyQuery.filterByCoordinatingCenter();
+             studyQuery.setSortBy("so.organization.name" );
+             studyQuery.setSortDirection(dir);
+        	 
+    	}else{
+    		 studyQuery = new StudyQuery(true, true);
+  		     studyQuery.setFirstResult(startIndex);
+	         studyQuery.setMaximumResults(results);
+	         studyQuery.setSortBy("study." + sort);
+	         studyQuery.setSortDirection(dir); 
+	         }
+    
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (searchStrings != null) {
             int index = 0;
@@ -93,9 +117,11 @@ public class StudyAjaxFacade {
                 return studies;
             }
         }
+        
+        
         return studies;
     }
-
+  
 
     /**
      * Sets the study repository.
