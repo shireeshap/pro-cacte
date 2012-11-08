@@ -145,7 +145,7 @@
                         <td width="50%" class="data" align="left">
                             &nbsp;&nbsp;
                             <select name="arm_${studysite.id}" title="arm"
-                                    id="arm_${studysite.id}">
+                                    id="arm_${studysite.id}" onchange="confirmSelection()">
                                 <c:choose>
                                     <c:when test="${command.onDefaultArm}">
                                         <option value="${studyParticipantAssignment.arm.id}">Please select</option>
@@ -173,7 +173,7 @@
                                 <td width="50%" class="data" style="display:none">
                                     &nbsp;&nbsp;
                                     <select name="arm_${studysite.id}" title="arm"
-                                            id="arm_${studysite.id}">
+                                            id="arm_${studysite.id}" onchange="confirmSelection()">
                                         <option value="${studyParticipantAssignment.arm.id}" selected>Please select
                                         </option>
                                         <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
@@ -220,7 +220,7 @@
             <c:when test="${selected}">
                 <tags:renderDate
                         propertyName="study_date_${studysite.id}"
-                        doNotshowLabel="true" required="true"
+                        doNotshowLabel="true" required="true" onchange="confirmDateselection('study_date_${studysite.id}')"
                         noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
             </c:when>
             <c:otherwise>

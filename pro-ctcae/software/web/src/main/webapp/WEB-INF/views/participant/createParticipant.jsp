@@ -37,6 +37,34 @@ var isBlackoutCallTime = false;
 var isEmailError = false;
 var isConfirmPinError = false;
 
+//remove leading and trailing spaces
+String.prototype.trim = function () {
+   return this.replace(/^\s+|\s+$/g, '');
+};
+
+String.prototype.isEmpty = function () {
+   // if null or undefined or empty string return true
+   if (!this || this.trim() === '') {
+       return true;
+   }
+   return false;
+};
+
+
+function confirmSelection(){
+	alert("Schedule cycles will be deleted and re-created on changing this!");
+}
+
+function confirmDateselection(siteId){
+	var modifiedValue = jQuery('#'+siteId)[0].value.trim();
+	var originalValue = jQuery('#'+siteId)[0].defaultValue.trim();
+	 if (originalValue !== modifiedValue){
+		confirmSelection();
+	 }
+}
+
+
+
 // validation check for username
 function checkParticipantUserName(siteId) {
     var participantId = "${param['id']}";
@@ -599,7 +627,7 @@ var _winOffHold;
 function participantOffHold(id, date, index) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
         onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 250);
+                showConfirmationWindow(transport, 650, 200);
         },
         parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" +0,
         method:'get'
@@ -610,7 +638,7 @@ function participantOnHold(id, date) {
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date + "&index=" +0,
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 600, 250);
+            showConfirmationWindow(transport, 600, 200);
         },
         method:'get'
     })
@@ -927,6 +955,7 @@ function togglePhoneNumber(isChecked){
         border-left: 0px solid #999999;
         padding-left: 5px;
     }
+     
 </style>
 <!--[if IE]>
 <style>
@@ -955,7 +984,6 @@ function togglePhoneNumber(isChecked){
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
                        <input type="hidden" name="organizationId" id="organizationId"
                               value="${command.organizationId}"/>
-
                        <div class="row">
                            <div class="label"><spring:message code="study.label.clinical.staff"/>:&nbsp;</div>
                            <div class="value">${command.siteName}</div>

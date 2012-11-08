@@ -12,12 +12,14 @@
 <%@ attribute name="dateValue" type="java.util.Date" %>
 <%@attribute name="size" %>
 <%@attribute name="disabled" %>
+<%@attribute name="onchange" %>
 
  <c:set var="enabledisable" value="${disabled?'disabled':'enabled'}"/>
+ 
 <c:choose>
     <c:when test="${noForm}">
         <input type="text" id="${path}" class="date ${cssClass}" name="${path}"
-               title="${displayName}"
+               title="${displayName}" onchange="${onchange}"
                value="<tags:formatDate value="${dateValue}"/>"
                size="${empty size ? empty attributes.size ? '20' : attributes.size : size}" ${enabledisable}/>
 

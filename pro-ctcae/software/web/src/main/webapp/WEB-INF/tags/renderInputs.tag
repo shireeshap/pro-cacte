@@ -82,7 +82,7 @@
 <c:when test="${categoryName == 'date'}">
     <tags:dateInput path="${propertyName}" displayName="${title}"
                     cssClass="${cssClass}" noForm="${noForm}"
-                    dateValue="${dateValue}"
+                    dateValue="${dateValue}" onchange="${onchange}"
                     doNotShowFormat="${doNotShowFormat}" size="${size}" disabled="${disabled}"/>
 </c:when>
 <c:when test="${categoryName == 'textarea'}">

@@ -4,6 +4,7 @@
 <%@ attribute name="required" %>
 <%@ attribute name="size" %>
 <%@ attribute name="disabled" %>
+<%@ attribute name="onchange" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -15,6 +16,6 @@
 
 <tags:renderRow propertyName="${propertyName}" displayName="${displayName}" categoryName="date"
                 required="${required}" noForm="${noForm}"
-                dateValue="${dateValue}"
+                dateValue="${dateValue}" onchange="${onchange}"
                 doNotShowFormat="${doNotShowFormat}" doNotshowLabel="${doNotshowLabel}"
                 cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}" size="${size}" disabled="${disabled}"/>
