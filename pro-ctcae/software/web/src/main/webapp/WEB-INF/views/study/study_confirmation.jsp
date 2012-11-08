@@ -153,9 +153,16 @@
                             <tags:message code="study.label.clinical.staff.lead.site_pi"/>
                         </td>
                         <td>
-                            <c:forEach items="${studySite.sitePIs}" var="sitePI">
-                                ${sitePI.displayName}<br/>
-                            </c:forEach>
+                            <c:choose>
+		                       	<c:when test="${fn:length(studySite.sitePIs) == 0}">
+										<tags:message code="study.label.clinical.staff.noShow.displayItem"/>                    		
+		                       	</c:when>	
+		                       	<c:otherwise>
+			                        <c:forEach items="${studySite.sitePIs}" var="sitePI">
+	                                	${sitePI.displayName}<br/>
+	                            	</c:forEach>
+		                        </c:otherwise>
+                           </c:choose>
                         </td>
                     </tr>
                     <tr>
@@ -163,9 +170,16 @@
                             <tags:message code="study.label.clinical.staff.lead.site_cra"/>
                         </td>
                         <td>
-                            <c:forEach items="${studySite.siteCRAs}" var="siteCRA">
-                                ${siteCRA.displayName}<br/>
-                            </c:forEach>
+                            <c:choose>
+		                       	<c:when test="${fn:length(studySite.siteCRAs) == 0}">
+										<tags:message code="study.label.clinical.staff.noShow.displayItem"/>                    		
+		                       	</c:when>	
+		                       	<c:otherwise>
+			                        <c:forEach items="${studySite.siteCRAs}" var="siteCRA">
+	                                ${siteCRA.displayName}<br/>
+	                            </c:forEach>
+		                        </c:otherwise>
+                           </c:choose>
                         </td>
                     </tr>
                     <tr>
@@ -173,9 +187,16 @@
                             <tags:message code="study.label.clinical.staff.lead.treating_physican"/>
                         </td>
                         <td>
-                            <c:forEach items="${studySite.treatingPhysicians}" var="treatingPhysician">
-                                ${treatingPhysician.displayName}<br/>
-                            </c:forEach>
+                            <c:choose>
+		                       	<c:when test="${fn:length(studySite.treatingPhysicians) == 0}">
+										<tags:message code="study.label.clinical.staff.noShow.displayItem"/>                    		
+		                       	</c:when>	
+		                       	<c:otherwise>
+				                    <c:forEach items="${studySite.treatingPhysicians}" var="treatingPhysician">
+		                                ${treatingPhysician.displayName}<br/>
+		                            </c:forEach>
+		                        </c:otherwise>
+                           </c:choose>
                         </td>
                     </tr>
                     <tr>
@@ -183,9 +204,16 @@
                             <tags:message code="study.label.clinical.staff.lead.nurse"/>
                         </td>
                         <td>
-                            <c:forEach items="${studySite.researchNurses}" var="researchNurse">
-                                ${researchNurse.displayName}<br/>
-                            </c:forEach>
+                            <c:choose>
+		                       	<c:when test="${fn:length(studySite.researchNurses) == 0}">
+										<tags:message code="study.label.clinical.staff.noShow.displayItem"/>                    		
+		                       	</c:when>	
+		                       	<c:otherwise>
+				                    <c:forEach items="${studySite.researchNurses}" var="researchNurse">
+		                                ${researchNurse.displayName}<br/>
+		                            </c:forEach>
+		                        </c:otherwise>
+                           </c:choose>
                         </td>
                     </tr>
                 </table>
