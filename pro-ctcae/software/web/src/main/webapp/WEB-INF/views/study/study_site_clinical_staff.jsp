@@ -19,9 +19,9 @@
 
 
     <script type="text/javascript">
-        function changeStatus(status, id) {
+        function changeStatus(status, id, tabNumber) {
             var request = new Ajax.Request("<c:url value="/pages/study/changeStatus"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status,
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status + "&tabNumber=" +tabNumber,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 580, 200);
                 },
