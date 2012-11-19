@@ -50,6 +50,7 @@ a:hover {color: #0163C6}
     background-image: url(../images/blue/thirdlevelnav_grey_gradient.png);
     background-repeat: repeat-x;
     background-position: bottom;
+    bottom:10px;
 }
 
 .workflow-tabs2 {
@@ -918,6 +919,9 @@ ul.tabs li {
 #flash-message.info {
     border-color: #390;
     background-color: #aea;
+    position:relative;
+    top:20px;
+    bottom:2px;
 }
 
 #flash-message.error {
@@ -939,6 +943,8 @@ ul.tabs li {
     margin-bottom: 12px;
     background-image: url(../images/blue/box_bg.jpg);
     background-repeat: repeat-x;
+    position:relative;
+    top:20px;
 }
 
 .box .header {
