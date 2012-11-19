@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class FetchCrfController extends AbstractController {
 
     private CrfAjaxFacade crfAjaxFacade;
+    public static final int rowsPerPageInt = 25;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
@@ -46,9 +47,9 @@ public class FetchCrfController extends AbstractController {
         
         SearchCRFWrapper searchCRFWrapper = new SearchCRFWrapper();
         searchCRFWrapper.setTotalRecords(totalRecords);
-        searchCRFWrapper.setRecordsReturned(25);
+        searchCRFWrapper.setRecordsReturned(crfs.size());
         searchCRFWrapper.setStartIndex(Integer.parseInt(startIndex));
-        searchCRFWrapper.setPageSize(25);
+        searchCRFWrapper.setPageSize(rowsPerPageInt);
         searchCRFWrapper.setDir(dir);
         searchCRFWrapper.setSearchCrfDTOs(new SearchCrfDTO[crfs.size()]);
         int index = 0;
