@@ -108,8 +108,8 @@
                 {key:"studyParticipantIdentifier", label:"Identifier",sortable:true, resizeable:false, width:100},
                 {key:"lastName", label:"Last name", sortable:true, resizeable:false, width:100},
                 {key:"firstName", label:"First name", sortable:true, resizeable:false, width:100},
-                {key:"organizationName", label:"Site", sortable:false, resizeable:false, width:180},
-                {key:"studyShortTitle", label:"Study", sortable:false, resizeable:false, width:220},
+                {key:"organizationName", label:"Site", sortable:true, resizeable:false, width:180},
+                {key:"studyShortTitle", label:"Study", sortable:true, resizeable:false, width:220},
                 {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
             ];
 
