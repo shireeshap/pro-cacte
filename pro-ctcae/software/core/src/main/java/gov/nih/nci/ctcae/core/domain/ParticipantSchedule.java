@@ -209,6 +209,10 @@ public class ParticipantSchedule {
                             if (today.after(dueDateNew)) {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
                             }
+                            
+                            if(spa.getStatus().equals(RoleStatus.ONHOLD)){
+                            	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
+                            }
                             if (cycleNumber != -1) {
                                 studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
