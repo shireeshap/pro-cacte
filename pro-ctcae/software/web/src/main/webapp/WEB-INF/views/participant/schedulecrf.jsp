@@ -309,18 +309,24 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                     var scheduleid = split[a];
                     if (scheduleid != '') {
                         var formName = forms[index][scheduleid];
+                        
                     <proctcae:urlAuthorize url="/pages/participant/enterResponses">
                         html += '<li><hr></li>';
                     </proctcae:urlAuthorize>
                         if (${command.selectedStudyParticipantAssignment.homeWebLanguage ne null && command.selectedStudyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
                         <proctcae:urlAuthorize url="/pages/participant/enterResponses">
+                        
                             html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-                            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
+                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){  
+                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
+                        }
                         </proctcae:urlAuthorize>
                         } else {
                         <proctcae:urlAuthorize url="/pages/participant/enterResponses">
                             html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-                            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
+                           	 html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+                           }
                         </proctcae:urlAuthorize>
                         }
 
@@ -342,9 +348,12 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                         var scheduleid = split[a];
                         if (scheduleid != '') {
                             var formName = forms[index][scheduleid];
-                            html += '<li><hr></li>';
-                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
-                            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                            
+                            	html += '<li><hr></li>';
+	                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+	                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
+	                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                            	}
                         }
                     }
                 }
@@ -379,6 +388,30 @@ function isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, curr
 		return true;
 	}	
 	return false;
+}
+
+
+/*
+ * Entering responses should not be an available action option for form schedules that are not yet available.  
+ */
+function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
+	
+	var currentTime= new Date();
+	var month= currentTime.getMonth() + 1;
+	var day= currentTime.getDate();
+	var year= currentTime.getFullYear();
+	
+	
+	if(selectedYear > year)
+		return false;
+	
+	if(selectedYear == year && selectedMonth > month)
+		return false;
+	
+	if(selectedYear == year && selectedMonth == month && selectedDay > day)
+		return false;
+	
+	return true;
 }
 
 </script>
