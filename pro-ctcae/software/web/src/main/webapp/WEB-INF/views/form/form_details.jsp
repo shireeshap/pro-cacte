@@ -805,7 +805,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <div style="float:right; margin-right:10px;">
+    <div style="float:right; margin-right:10px; position:relative; top:30px; bottom:10px">
     <tags:button type="submit" icon="Save & Continue" color="green"
                    id="flow-next" value="Save & Continue"/></div>
     <br />  <br /> <br />  
