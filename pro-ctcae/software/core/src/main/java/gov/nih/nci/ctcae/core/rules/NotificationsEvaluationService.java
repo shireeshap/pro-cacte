@@ -108,13 +108,14 @@ public class NotificationsEvaluationService {
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
         for (NotificationRuleRole notificationRuleRole : notificationRuleRoles) {
-            ClinicalStaff cs = null;
+            List<ClinicalStaff> cs = new ArrayList<ClinicalStaff>();
             if (notificationRuleRole.getRole().equals(Role.NURSE)) {
                 List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList = studyParticipantAssignment.getResearchNurses();
             	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
 	                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
 	                    if (studyParticipantClinicalStaff.isNotify()) {
-	                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+	                      //  cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+	                    	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
 	                    }
 	                }
             	}
@@ -124,7 +125,8 @@ public class NotificationsEvaluationService {
             	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                         if (studyParticipantClinicalStaff.isNotify()) {
-                            cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                            cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
             	}
@@ -133,7 +135,8 @@ public class NotificationsEvaluationService {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                         if (studyParticipantClinicalStaff.isNotify()) {
-                            cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
                 }
@@ -142,7 +145,8 @@ public class NotificationsEvaluationService {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                         if (studyParticipantClinicalStaff.isNotify()) {
-                            cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
                 }
@@ -150,7 +154,8 @@ public class NotificationsEvaluationService {
             if (notificationRuleRole.getRole().equals(Role.PI)) {
                 StudyOrganizationClinicalStaff investigator = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator();
                 if (investigator != null && investigator.getOrganizationClinicalStaff() != null) {
-                    cs = investigator.getOrganizationClinicalStaff().getClinicalStaff();
+                    //cs = investigator.getOrganizationClinicalStaff().getClinicalStaff();
+                	cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
                 }
             }
             
@@ -172,13 +177,14 @@ public class NotificationsEvaluationService {
                 }
             }
             
-            if (cs != null && cs.getUser() != null) {
-                addEmail(cs.getEmailAddress(), emails);
-                users.add(cs.getUser());
-            }
-            
+            for(ClinicalStaff clinicalStaff: cs){
+	            if (clinicalStaff != null && clinicalStaff.getUser() != null) {
+	                addEmail(clinicalStaff.getEmailAddress(), emails);
+	                users.add(clinicalStaff.getUser());
+	            }
+	        }
         }
-
+        
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
             if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
                 if (studyParticipantClinicalStaff.isNotify()) {
