@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
 import java.util.Collection;
 import java.util.ArrayList;
@@ -20,10 +21,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT distinct cs from ClinicalStaff cs order by cs.id";
-    private static String queryString1 = "SELECT count(distinct cs) from ClinicalStaff cs";
-    private static String queryString2 = "SELECT distinct cs from ClinicalStaff cs ";
-
+    
     private static String ORGANIZATION_ID = "organizationId";
     private static String ORGANIZATION_CLASS = "domainObjectClass";
 
@@ -55,19 +53,19 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * Instantiates a new clinical staff query.
      */
     public ClinicalStaffQuery() {
-        super(queryString);
+        super(QueryStrings.STAFF_QUERY_STRING.getCode());
         filterByActive();
     }
 
     public ClinicalStaffQuery(boolean count, boolean showInactive) {
-        super(queryString1);
+        super(QueryStrings.STAFF_QUERY_STRING1.getCode());
         if (!showInactive) {
             filterByActive();
         }
     }
 
     public ClinicalStaffQuery(boolean sort, boolean count, boolean showInactive) {
-        super(queryString2);
+        super(QueryStrings.STAFF_QUERY_STRING2.getCode());
         if (!showInactive) {
             filterByActive();
         }
@@ -81,14 +79,30 @@ public class ClinicalStaffQuery extends AbstractQuery {
         
     }
 
-
     public ClinicalStaffQuery(boolean showInactive) {
-        super(queryString);
+        super(QueryStrings.STAFF_QUERY_STRING.getCode());
         if (!showInactive) {
             filterByActive();
         }
     }
 
+    /*
+     * Sorting by study site name name. But this feature of sorting by study site 
+     * is not made available as the join produces duplicate results. 
+     */
+    public void leftJoinForsortBySite(){
+    	leftJoin("cs.organizationClinicalStaffs ocs ");
+    }
+    
+    /*
+     * Sorting by study name name. But this feature of sorting by study 
+     * is not made available as the join produces duplicate results. 
+     */
+    public void leftJoinForsortByStudy(){
+    	leftJoin("cs.organizationClinicalStaffs ocs left join ocs.studyOrganizationClinicalStaff socs left join  socs.studyOrganization so ");
+    }
+    
+     
     /**
      * Filter by clinical staff first name.
      *
