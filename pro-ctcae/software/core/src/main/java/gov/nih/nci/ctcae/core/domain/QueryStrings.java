@@ -15,7 +15,10 @@ public enum  QueryStrings implements CodedEnum<String>{
 	STUDY_QUERY_STRING3("SELECT study from Study study left outer join study.studyOrganizations as so "),
 	CRF_QUERY_STRING("SELECT o from CRF o order by o.id "),
 	CRF_QUERY_STRING1("SELECT count(distinct o) from CRF o"),
-	CRF_QUERY_STRING2("SELECT o from CRF o ");
+	CRF_QUERY_STRING2("SELECT o from CRF o "),
+	STAFF_QUERY_STRING("SELECT distinct cs from ClinicalStaff cs order by cs.id "),
+	STAFF_QUERY_STRING1("SELECT count(distinct cs) from ClinicalStaff cs "),
+	STAFF_QUERY_STRING2("SELECT distinct cs from ClinicalStaff cs ");
 	
 	private String queryString;
 	//private String queryString;
