@@ -37,7 +37,8 @@
             <div class="flow-buttons">
                  <spring:message code="participant.button.assignDate" var="assignDate"/>
                 <tags:button type="submit" id="flow-update"
-                             cssClass="next" value="${assignDate}" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('offTreatmentDate').value,document.forms[0])"/>
+                             cssClass="next" value="${assignDate}" icon="check" color="orange" markupWithTag="a" onclick="validateAndSubmit($('offTreatmentDate').value,document.forms[0])"
+                             overRideStyle=" position:relative; top:0px;" />
 
                  <spring:message code="participant.button.cancel" var="cancel"/>
                 <tags:button type="button" id="flow-cancel"
