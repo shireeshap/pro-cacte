@@ -101,6 +101,12 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
                 lang="en";
             }
         }
+        String language = request.getParameter("language");
+        if(language!=null){
+        	if(!language.equalsIgnoreCase("")){
+        		lang=language;
+        	}
+        }
         String videoUrl = properties.getProperty(BASE_URL) + BASE_URL_SUFFIX;
         if(lang.equals("es"))
             videoUrl = properties.getProperty(BASE_URL) + BASE_URL_SUFFIX;
