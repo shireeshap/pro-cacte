@@ -15,7 +15,7 @@
 </c:if>
 <td class="${class}"
     onmouseover="javascript:this.className = getClassName('${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad', 'selected' , 'over');"  ${onmouseout}
-    onclick="selectValidValue(this,'${displayOrder}','${questionIndexOnPage}','${validValueIndexForQuestion}')"
+    onclick="selectValidValue(this,'${displayOrder}','${questionIndexOnPage}','${validValueIndexForQuestion}','${title}')"
     id="${validValueIndexForQuestion}_column_${questionIndexOnPage}" >
     <div class="label">
         <input type="radio" id="${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad"
