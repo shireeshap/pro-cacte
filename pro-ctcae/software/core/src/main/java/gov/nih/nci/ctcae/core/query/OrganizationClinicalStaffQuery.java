@@ -29,13 +29,18 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
         super(queryString);
     }
 
-    public OrganizationClinicalStaffQuery(final Integer organizationId) {
+    public OrganizationClinicalStaffQuery(final Integer organizationId, final Integer originalStudyOrganizationId) {
         super(queryString);
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
         filterByActive();
+        filterDuplicateStaff(originalStudyOrganizationId);
     }
 
+    
+    public void filterDuplicateStaff(final Integer organizationId){
+    	andWhere(" scs.id not in ( select socs.organizationClinicalStaff.id from StudyOrganizationClinicalStaff socs where socs.studyOrganization.id = "+organizationId+" and socs.roleStatus ='ACTIVE' ) ");
+    }
 
     public void filterByFirstNameOrLastNameOrNciIdentifier(final String searchText) {
         String searchString = "%" + searchText.toLowerCase() + "%";
