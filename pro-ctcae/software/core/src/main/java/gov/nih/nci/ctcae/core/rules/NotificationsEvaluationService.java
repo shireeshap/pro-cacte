@@ -70,6 +70,21 @@ public class NotificationsEvaluationService {
         ProCtcQuestionType proCtcQuestionType = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType();
         ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
 
+        //"Prefer not to answer", "Not applicable", or "Not sexually active"  response should not trigger symptom notification emails.
+        if(studyParticipantCrfItem.getProCtcValidValue()!=null){
+        	ProCtcValidValue proctcValidValue =studyParticipantCrfItem.getProCtcValidValue();
+        
+		     if(proctcValidValue.getProCtcValidValueVocab().getValueEnglish().equalsIgnoreCase(" Not applicable") ||
+		    		 proctcValidValue.getProCtcValidValueVocab().getValueEnglish().equalsIgnoreCase("Prefer not to answer") ||
+		    		 proctcValidValue.getProCtcValidValueVocab().getValueEnglish().equalsIgnoreCase("Not sexually active")||
+		    		 proctcValidValue.getProCtcValidValueVocab().getValueSpanish().equalsIgnoreCase("No corresponde") ||
+		    		 proctcValidValue.getProCtcValidValueVocab().getValueSpanish().equalsIgnoreCase("Prefiero no contestar") ||
+		    		 proctcValidValue.getProCtcValidValueVocab().getValueSpanish().equalsIgnoreCase("No tengo actividad sexual")){
+		    	 
+		    	return false;
+		     }
+        }
+        
         if (value != null) {
             int threshold = value.getDisplayOrder();
             for (NotificationRuleSymptom notificationRuleSymptom : notificationRule.getNotificationRuleSymptoms()) {
