@@ -148,9 +148,11 @@ public class StudyParticipantCrf extends BaseVersionable {
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
         try {
             if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null && !getScheduleInitialized()) {
-                //creating schedules dynamically
-                createSchedules(false);
-                setScheduleInitialized(true);
+                //creating schedules dynamically, except for OFFSTUDY participants
+            	if (!getStudyParticipantAssignment().getStatus().equals(RoleStatus.OFFSTUDY)){
+                    createSchedules(false);
+                    setScheduleInitialized(true);	
+            	}
             }
         } catch (ParseException pe) {
             logger.error(pe.getStackTrace());
