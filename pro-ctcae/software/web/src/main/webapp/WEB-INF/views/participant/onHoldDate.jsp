@@ -11,16 +11,16 @@
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <body>
 
-	
+    
     <chrome:box title="participant.label.on_hold_date">
         <chrome:division>
-
+        
             <div id="offTreatment" style="margin-left:12px">
-                <div >
+                <div style="text-align: left; margin-left: 0.5em;">
                     <div><spring:message code='participant.onHold'/></div>
+                    <div><spring:message code='participant.onHold2'/></div>
                 </div>
-                     <spring:message code='participant.onHold2'/>
-                 <div class="value"> <br/>
+                 <div class="value" style="margin-left:12px" > <br/>
                     <input id="effectiveStartDate" class="date validate-NOTEMPTY&&DATE"
                            name="effectiveStartDate"
                            title="On hold date"
@@ -48,7 +48,7 @@
                           <td align="right">
                               <tags:button type="submit" id="flow-update" cssClass="next" value="Begin hold" color="blue" size="large"
                                onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"
-                               icon="check"/>
+                               icon="check" overRideStyle=" position:relative; top:0px;"/>
                               <%--<input type="button" value="Begin hold"--%>
                    <%--onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>--%>
                           </td>
