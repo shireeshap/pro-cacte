@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
+    private static String queryString = "SELECT distinct spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
     private static String queryString1 = "SELECT count(distinct spcs) from StudyParticipantCrfSchedule spcs";
     private static String CRF_IDS = "ids";
     private static String SITE_IDS = "ids";
@@ -105,6 +105,11 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         setParameterList(STATUSES, statuses);
     }
 
+    //Prevent hidden forms to be populated in Upcoming Forms section for a clinical staff login
+    public void filterByHiddenForms(){
+    	andWhere(" spcs.studyParticipantCrf.crf.hidden = false ");
+    }
+    
     public void filterByMarkDelete() {
         andWhere("spcs.markDelete = :" + MARK_DELETE);
         setParameter(MARK_DELETE, false);
