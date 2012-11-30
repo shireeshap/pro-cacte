@@ -12,7 +12,7 @@
             aResults = results;
         };
         var callMetaData = { callback:callbackProxy, async:false};
-        organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+        organization.matchOrganizationForStudySites(unescape(sQuery), ${command.study.id}, callMetaData);
         hideIndicator("study.studySites[${index}].organizationInput-indicator");
         return aResults;
     }
