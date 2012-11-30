@@ -94,13 +94,14 @@
             }
         }
 
+        var ALL_STUDY_SITES='Get all study sites';
         function getOrgs(sQuery) {
             showIndicator("study.studySponsor.organizationInput-indicator");
             var callbackProxy = function(results) {
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
             hideIndicator("study.studySponsor.organizationInput-indicator");
             return aResults;
         }
@@ -111,7 +112,7 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
             hideIndicator("study.dataCoordinatingCenter.organizationInput-indicator");
             return aResults;
         }
@@ -122,7 +123,7 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
             hideIndicator("study.fundingSponsor.organizationInput-indicator");
             return aResults;
         }
@@ -133,7 +134,7 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
             hideIndicator("study.leadStudySite.organizationInput-indicator");
             return aResults;
         }
