@@ -201,7 +201,7 @@ public class SubmitFormController extends SimpleFormController {
                                 if (mainQuestion.isMeddraQuestion()) {
                                     value = genericRepository.findById(MeddraValidValue.class, new Integer(selectedValidValueIdForMainQuestion));
                                 }
-                                if (value == null || value.getDisplayOrder() == 0) {
+                                if (value == null || value.getDisplayOrder() == 0 || value.getValue().equalsIgnoreCase(" Not applicable")) {
                                     continue;
                                 }
                             }
