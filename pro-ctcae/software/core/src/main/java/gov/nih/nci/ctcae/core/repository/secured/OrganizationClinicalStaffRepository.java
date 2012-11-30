@@ -56,11 +56,13 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
     }
 
     public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
-        StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
+        Integer originalStudyOrganizationId= studyOrganizationId;
+    	StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
         if (studyOrganization != null) {
             Integer organizationId = studyOrganization.getOrganization().getId();
 
-            OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId);
+            //OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId);   // commenting this statement and replacing it by below
+            OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId,originalStudyOrganizationId); //used for autocompleter not showing duplicate staff 
             query.filterByFirstNameOrLastNameOrNciIdentifier(text);
             return genericRepository.find(query);
         }
