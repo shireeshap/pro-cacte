@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class OrganizationAjaxFacade {
-
+private final String ALL_STUDY_SITES="Get all study sites"; 
     /**
      * The organization repository.
      */
@@ -74,9 +74,15 @@ public class OrganizationAjaxFacade {
 
     }
 
-    public List<Organization> matchOrganizationForStudySites(final String text) {
+    public List<Organization> matchOrganizationForStudySites(final String text, String value) {
         logger.info("in match organization method. Search string :" + text);
-        OrganizationQuery organizationQuery = new OrganizationQuery(false);
+        OrganizationQuery organizationQuery;
+        if(!value.equalsIgnoreCase("Get all study sites")){
+        	organizationQuery = new OrganizationQuery(false,value);
+        	organizationQuery.whereToFilterDuplicateSites(value);
+        }else
+        	organizationQuery = new OrganizationQuery(false);
+        
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
         //organizationQuery.setMaximumResults(25);
         List<Organization> organizations = genericRepository.find(organizationQuery);
@@ -119,7 +125,7 @@ public class OrganizationAjaxFacade {
                 organizations = new ArrayList(orgSet);
                 return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
             } else {
-                return matchOrganizationForStudySites(text);
+                return matchOrganizationForStudySites(text,ALL_STUDY_SITES);
             }
 
         }
