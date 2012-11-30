@@ -11,6 +11,7 @@
 <%@ attribute name="color" required="true" %>
 <%@ attribute name="size" required="false" %>
 <%@ attribute name="type" required="false" %>
+<%@ attribute name="overRideStyle" required="false" %>
 <%@ attribute name="disabled" required="false" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -28,6 +29,9 @@
 	</c:if>
 	<c:if test="${not empty onclick}">
     	onclick="${onclick}"
+	</c:if>
+	<c:if test="${not empty overRideStyle}">
+		style="${overRideStyle}" 
 	</c:if>>
 	<table <c:if test="${not empty href}">onclick="location.href='${href}';"</c:if> style="border:none">
 		<tr style="border:none">
