@@ -40,6 +40,8 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         } else {
             spcsQuery.filterByStatus(CrfStatus.SCHEDULED);
             spcsQuery.filterByGreaterDate(current);
+            //Prevent hidden forms to be populated in Upcoming Forms section for a clinical staff login
+            spcsQuery.filterByHiddenForms();
         }
 
         return spcsRepository.find(spcsQuery);
