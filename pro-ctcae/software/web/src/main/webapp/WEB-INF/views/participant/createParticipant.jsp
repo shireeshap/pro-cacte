@@ -478,8 +478,9 @@ function getOrgs(sQuery) {
     var callbackProxy = function(results) {
         aResults = results;
     };
+    var ALL_STUDY_SITES='Get all study sites';
     var callMetaData = { callback:callbackProxy, async:false};
-    organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+    organization.matchOrganizationForStudySites(unescape(sQuery),ALL_STUDY_SITES, callMetaData);
     hideIndicator("organizationId-input-indicator");
     return aResults;
 }
@@ -1129,8 +1130,8 @@ function togglePhoneNumber(isChecked){
 	                           		<span class="required-indicator">*&nbsp;&nbsp;</span><spring:message code='participant.label.phone' text=''/>&nbsp;&nbsp;
 	                           </div>
 	                           <div class="value">
-	                           	   
-		                           <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
+	                               
+	                               <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
 		                                       id="participant.phoneNumber" onblur="checkParticipantPhoneNumber();" title="Phone" 
 		                                       class="${isPhNumDisabled ? '':'validate-NOTEMPTY&&US_PHONE_NO'}"
 		                                       ${isPhNumDisabled ? 'disabled':''}/>
