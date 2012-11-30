@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,6 +180,7 @@ public class StudyCommand {
 
     }
 
+    @UniqueObjectInCollection(message = "Duplicate Clinical Staff")
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         if (studyOrganizationClinicalStaffs.isEmpty()) {
             studyOrganizationClinicalStaffs = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
