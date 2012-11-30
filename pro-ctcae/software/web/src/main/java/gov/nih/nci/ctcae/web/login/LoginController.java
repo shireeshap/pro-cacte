@@ -84,6 +84,10 @@ public class LoginController extends AbstractController {
             	if(request.getSession().getAttribute("lang") != null){
             		lang = request.getSession().getAttribute("lang").toString();
             	}
+            	//Use Locale value of the requesting page to set the language.
+            	if(RequestContextUtils.getLocale(request)!=null){
+            		lang=RequestContextUtils.getLocale(request).toString();
+            	}
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
                 return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
             } else {
@@ -277,7 +281,7 @@ public class LoginController extends AbstractController {
 	  	                    } else {
 	  	                    	break;
 	  	                    }
-            			} else if(DateUtils.daysBetweenDates(spcs.getStartDate(), today) >= 0  && DateUtils.daysBetweenDates(spcs.getStartDate(), week) < 0 ){
+            			} else if(spc.getCrf().isHidden()==false && DateUtils.daysBetweenDates(spcs.getStartDate(), today) >= 0  && DateUtils.daysBetweenDates(spcs.getStartDate(), week) < 0 ){
             				if (loadUpcoming != null && upcomingCount > 0) {
     	                		  upcoming.add(spcs);
     		                      upcomingCount--;
