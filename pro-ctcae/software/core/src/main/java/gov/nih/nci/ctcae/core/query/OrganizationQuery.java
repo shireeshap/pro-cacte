@@ -15,7 +15,8 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
      * The query string.
      */
     private static String queryString = "SELECT distinct(o) from Organization o order by o.id";
-
+    private static String queryString1 = "SELECT distinct(o) from Organization o ";
+    
     /**
      * The ORGANIZATIO n_ name.
      */
@@ -36,8 +37,13 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
     public OrganizationQuery(boolean secure) {
         super(queryString, secure);
     }
-
-
+   
+    // Query to filter the list of studySites already assigned to a study and not populate them in Autocompleter list.
+    public OrganizationQuery(boolean secure, String StudyId) {
+    		super(queryString1, secure);
+    }
+    
+    
     /**
      * Filter by organization name.
      *
@@ -60,7 +66,12 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
         setParameter(ORGANIZATION_NAME, searchString);
         setParameter(NCI_CODE, searchString);
     }
-
+    
+    public void whereToFilterDuplicateSites(String studyId) {
+    	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"') ");
+    	
+    }
+   
     /**
      * Filter by nci institute code.
      *
