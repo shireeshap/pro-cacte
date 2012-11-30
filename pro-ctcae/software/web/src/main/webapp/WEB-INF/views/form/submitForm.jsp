@@ -90,9 +90,9 @@
                 document.myForm.submit();
             }
         }
-        function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion) {
-//            alert(questionIndexOnPage);
-//            alert(validValueIndexForQuestion);
+        function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
+//           alert(questionIndexOnPage);
+//           alert(validValueIndexForQuestion);
 
             var x = document.getElementsByName('response' + questionIndexOnPage);
             x[validValueIndexForQuestion].checked = true;
@@ -115,7 +115,7 @@
                 }
             }
             if (questionIndexOnPage == 0) {
-                if (validValueDisplayOrder > 0) {
+                if (validValueDisplayOrder > 0 && displayName!=' Not applicable' && displayName!='No corresponde') {
                     showOtherQuestions();
                 } else {
                     hideOtherQuestions();
