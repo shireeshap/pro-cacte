@@ -47,7 +47,7 @@
                               </td>
                           <td align="right">
                               <tags:button type="submit" id="flow-update" cssClass="next" value="Begin hold" color="blue" size="large"
-                               onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"
+                               onclick="parent.CP.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"
                                icon="check" overRideStyle=" position:relative; top:0px;"/>
                               <%--<input type="button" value="Begin hold"--%>
                    <%--onclick="parent.beginHoldOnSchedules('${index}',$('effectiveStartDate').value,'onhold','${pid}')"/>--%>

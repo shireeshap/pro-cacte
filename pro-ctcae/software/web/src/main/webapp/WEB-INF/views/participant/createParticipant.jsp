@@ -12,6 +12,7 @@
 <tags:dwrJavascriptLink
         objects="uniqueParticipantIdentifier,uniqueParticipantUserNumber,uniqueParticipantEmailAddress,userNameValidation"/>
 <tags:javascriptLink name="ui_fields_validation"/>
+<tags:javascriptLink name="participant/createParticipant"/>
 
 <html>
 <head>
@@ -24,32 +25,46 @@
 <tags:dwrJavascriptLink objects="organization"/>
 
 <script type="text/javascript">
-
-var isUserNameError = false;
-var isUserIdError = false;
-var isPinError = false;
-var isIdentifierError = false;
-var isPasswordError = false;
-var isConfirmPassError = false;
-var isEmail = false;
-var isPhoneNumberError = false;
-var isBlackoutCallTime = false;
-var isEmailError = false;
-var isConfirmPinError = false;
-
-//remove leading and trailing spaces
-String.prototype.trim = function () {
-   return this.replace(/^\s+|\s+$/g, '');
+var CP = {
+    isUserNameError: false,
+    isUserIdError: false,
+    isIdentifierError: false,
+    isPasswordError: false,
+    isConfirmPassError: false,
+    isPhoneNumberError: false,
+    isBlackoutCallTime: false,
+    isEmailError: false
 };
 
-String.prototype.isEmpty = function () {
-   // if null or undefined or empty string return true
-   if (!this || this.trim() === '') {
-       return true;
-   }
-   return false;
-};
-
+Event.observe(window, 'load', function() {
+    <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
+        try {
+            new YUIAutoCompleter('organizationId-input', CP.getOrgs, CP.handleSelect);
+            var orgName = "${command.selectedOrganization.displayName}";
+            if (orgName != '') {
+                $('organizationId-input').value = "${command.selectedOrganization.displayName}";
+                $('organizationId-input').removeClassName('pending-search');
+            }
+        } catch(err) {
+            document.println(err.getMessage());
+        }
+    </c:if>
+    Event.observe('organizationId', 'change', function() {
+        CP.getStudySites();
+    })
+   
+    //need to make the ajax call, when there is validation error in create flow
+    if (${hasValidationErrors}) {
+        if ('${command.participant.id}' == '') {
+            //populate the site value-
+            if ($('organizationId-input')) {
+                //admin user login
+                $('organizationId-input').value = '${command.selectedOrganization.displayName}'
+            }
+            CP.getStudySites();
+        }
+    }
+});
 
 function confirmSelection(){
 	alert("Schedule cycles will be deleted and re-created on changing this!");
@@ -66,29 +81,29 @@ function confirmDateselection(siteId){
 
 
 // validation check for username
-function checkParticipantUserName(siteId) {
-    var participantId = "${param['id']}";
-    var userName = $('participant.username_'+siteId).value;
+CP.checkParticipantUserName = function(siteId) {
+    var participantId, userName, userId;
+    participantId = "${param['id']}";
+    userName = $('participant.username_'+siteId).value;
     if (participantId == "") {
-        var userId = "${userId}";
+        userId = "${userId}";
     }
     jQuery('#userNameError_'+siteId).hide();
-    isUserNameError = false;
+    CP.isUserNameError = false;
     if (userName != "") {
         if (userName.length < 6) {
             jQuery('#userNameError_'+siteId).hide();
             jQuery('#userNameLengthError_'+siteId).show();
-            isUserNameError = true;
+            CP.isUserNameError = true;
         }
         else {
-            userNameValidation.validateDwrUniqueName(userName, userId, {callback:
-                                                                                  function(returnValue) {
+            userNameValidation.validateDwrUniqueName(userName, userId, {callback: function(returnValue) {
                                                                                       if (returnValue) {
                                                                                           jQuery('#userNameError_' + siteId).show();
-                                                                                          isUserNameError = true;
+                                                                                          CP.isUserNameError = true;
                                                                                       }
                                                                                       else {
-                                                                                          isUserNameError = false;
+                                                                                          CP.isUserNameError = false;
                                                                                       }
                                                                                   }});
             jQuery('#userNameLengthError_'+siteId).hide();
@@ -98,120 +113,105 @@ function checkParticipantUserName(siteId) {
     else {
         jQuery('#userNameError_'+siteId).hide();
         jQuery('#userNameLengthError_'+siteId).hide();
-        isUserNameError = false;
+        CP.isUserNameError = false;
     }
 }
 
 // validation check for email address
-function checkParticipantEmail() {
+CP.checkParticipantEmail = function() {
     var emailAddress = $('participant.emailAddress').value;
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    isEmailError = false;
+    CP.isEmailError = false;
     jQuery('#userEmailError').hide();
     if (emailAddress != "") {
-        uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback:
-                                                                                  function(returnValue) {
+        uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback: function(returnValue) {
                                                                                       if (returnValue) {
                                                                                           jQuery('#userEmailError').show();
-                                                                                          isEmailError = true;
+                                                                                          CP.isEmailError = true;
                                                                                       }
                                                                                       else {
-                                                                                          isEmailError = false;
+                                                                                          CP.isEmailError = false;
                                                                                       }
-                                                                                      //checkError();
                                                                                   }
         });
     }
-    else {
-    }
 }
-
-function userReturnValue(returnValue) {
-    showOrHideErrorField(returnValue, '#userNameError');
-    if (returnValue) {
-        isUserNameError = true;
-    }
-    else {
-        isUserNameError = false;
-    }
-}
-
 
 //validation check for password policy
-function checkPasswordPolicy(siteId) {
+CP.checkPasswordPolicy = function(siteId) {
     var userPassword = $('participant.password_'+siteId).value;
     var userName = $('participant.username_'+siteId).value;
     var confirmPassword = $('participant.confirmPassword_'+siteId).value;
     if (confirmPassword != "") {
-        checkPasswordMatch(siteId);
+        CP.checkPasswordMatch(siteId);
     }
     if (userPassword != "") {
-        userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, passReturnValue);
+        userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, CP.passReturnValue);
         return;
     }
     else {
         jQuery('#passwordError').hide();
-        isPasswordError = false;
+        CP.isPasswordError = false;
     }
 }
 
-function passReturnValue(returnValue) {
+CP.passReturnValue = function(returnValue) {
     if (returnValue != "") {
         jQuery('#passwordError').show();
         if (document.getElementById('passwordError1')!=null) {
         document.getElementById('passwordError1').innerHTML = returnValue + "";
         }
-        isPasswordError = true;
+        CP.isPasswordError = true;
     }
     else {
         jQuery('#passwordError').hide();
-        isPasswordError = false;
+        CP.isPasswordError = false;
     }
 }
 
-function checkPinMatch(siteId) {
+CP.checkPinMatch = function(siteId) {
     var password = $('participant.pinNumber_' + siteId).value;
     var confirmPassword = $('participant.confirmPinNumber_' + siteId).value;
     jQuery('#confirmPinError_' + siteId).hide();
-    isConfirmPassError = false;
+    CP.isConfirmPassError = false;
     if (password != "" && confirmPassword != "") {
         if (password != confirmPassword) {
             jQuery('#confirmPinError_' + siteId).show();
-            isConfirmPassError = true;
+            CP.isConfirmPassError = true;
         }
     }
 }
 
 // validation check for confirm password
-function checkPasswordMatch(siteId) {
+CP.checkPasswordMatch = function(siteId) {
     var password = $('participant.password_'+siteId).value;
     var confirmPassword = $('participant.confirmPassword_'+siteId).value;
     if (password != "" && confirmPassword != "") {
         if (password == confirmPassword) {
             jQuery('#passwordErrorConfirm_'+siteId).hide();
-            isConfirmPassError = false;
+            CP.isConfirmPassError = false;
         }
         else {
             jQuery('#passwordErrorConfirm_'+siteId).show();
             document.getElementById('passwordErrorConfirm1_'+siteId).innerHTML = "Password does not match confirm password.";
-            isConfirmPassError = true;
+            CP.isConfirmPassError = true;
         }
     }
     else {
         jQuery('#passwordErrorConfirm_'+siteId).hide();
-        isConfirmPassError = false;
+        CP.isConfirmPassError = false;
     }
 }
 
-function validateCalloutTime(siteId, startTime, endTime) {
+CP.validateCalloutTime = function(siteId, startTime, endTime) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
-    isBlackoutCallTime = false;
+    CP.isBlackoutCallTime = false;
     $('preferred.calltime.error_' + siteId).hide();
     var callHour = $('call_hour_' + siteId).value;
     var callMin = $('call_minute_' + siteId).value;
@@ -269,12 +269,11 @@ function validateCalloutTime(siteId, startTime, endTime) {
 
         if (blockPreferredTime) {
             $('preferred.calltime.error_' + siteId).show();
-            isBlackoutCallTime = true;
+            CP.isBlackoutCallTime = true;
             //     $('call_hour_' + siteId).value = "";
             //    $('call_minute_' + siteId).value = "";
         }
     }
-
 
     function isSameDay1(hhStart, mmStart, hhEnd, mmEnd) {
         var isSameDay = false;
@@ -294,8 +293,8 @@ function validateCalloutTime(siteId, startTime, endTime) {
 }
 
 
-var phoneNumberPattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
-function checkParticipantPhoneNumber() {
+CP.checkParticipantPhoneNumber = function() {
+    var phoneNumberPattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
@@ -305,7 +304,7 @@ function checkParticipantPhoneNumber() {
         if (!phoneNumberPattern.test(phoneNumber)) {
             jQuery('#PhonePatternError').show();
             jQuery('#phoneNumberError').hide();
-            isPhoneNumberError = true;
+            CP.isPhoneNumberError = true;
         }
         else {
             var re = /[-]/g;
@@ -317,10 +316,10 @@ function checkParticipantPhoneNumber() {
                                                                                              jQuery('#PhonePatternError').hide();
                                                                                              showOrHideErrorField(returnValue, '#phoneNumberError');
                                                                                              if (returnValue) {
-                                                                                                 isPhoneNumberError = true;
+                                                                                                 CP.isPhoneNumberError = true;
                                                                                              }
                                                                                              else {
-                                                                                                 isPhoneNumberError = false;
+                                                                                                 CP.isPhoneNumberError = false;
                                                                                                  //commenting out the part which defaults the user number to the phone number.
                                                                                                  //var userNumber = $('participant.userNumber_' + siteId).value;
                                                                                                  //if (userNumber == null || userNumber == "") {
@@ -334,23 +333,23 @@ function checkParticipantPhoneNumber() {
     else {
         jQuery('#phoneNumberError').hide();
         jQuery('#PhonePatternError').hide();
-        isPhoneNumberError = false;
+        CP.isPhoneNumberError = false;
     }
 }
 
-var userNumberPattern = /^[0-9]{10}$/;
+CP.userNumberPattern = /^[0-9]{10}$/;
 // validation check for participant user number (IVRS)
-function checkParticipantUserNumber(siteId) {
+CP.checkParticipantUserNumber = function(siteId) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
     var userNumber = $('participant.userNumber_' + siteId).value;
     if (userNumber != "") {
-        if (!userNumberPattern.test(userNumber)) {
+        if (!CP.userNumberPattern.test(userNumber)) {
             jQuery('#UserPatternError_' + siteId).show();
             jQuery('#userNumberError_' + siteId).hide();
-            isUserIdError = true;
+            CP.isUserIdError = true;
         }
         else {
             uniqueParticipantUserNumber.validateUserNumber(userNumber, participantId, {callback:
@@ -358,10 +357,10 @@ function checkParticipantUserNumber(siteId) {
                                                                                            jQuery('#UserPatternError_' + siteId).hide();
                                                                                            showOrHideErrorField(returnValue, '#userNumberError_' + siteId);
                                                                                            if (returnValue) {
-                                                                                               isUserIdError = true;
+                                                                                               CP.isUserIdError = true;
                                                                                            }
                                                                                            else {
-                                                                                               isUserIdError = false;
+                                                                                               CP.isUserIdError = false;
                                                                                            }
                                                                                        }});
         }
@@ -369,111 +368,91 @@ function checkParticipantUserNumber(siteId) {
     else {
         jQuery('#userNumberError_' + siteId).hide();
         jQuery('#UserPatternError_' + siteId).hide();
-        isUserIdError = false;
-    }
-}
-var pinPattern = /^[0-9]{4}$/;
-// validation check for participant pin number (IVRS)
-function checkParticipantPinNumber(siteId) {
-    var pinNumber = $('participant.pinNumber_' + siteId).value;
-    if (pinNumber != "") {
-        if (!pinPattern.test(pinNumber)) {
-            jQuery('#PinPatternError_' + siteId).show();
-            isPinError = true;
-        }
-        else {
-            isPinError = false;
-            jQuery('#PinPatternError_' + siteId).hide();
-        }
-    }
-    else {
-        jQuery('#PinPatternError_' + siteId).hide();
-        isPinError = false;
+        CP.isUserIdError = false;
     }
 }
 
-// validation check for participant study identifier
-function checkParticipantStudyIdentifier(id, siteId) {
+
+//validation check for participant study identifier
+CP.checkParticipantStudyIdentifier = function(id, siteId) {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
-    }
-    var identifier = $('participantStudyIdentifier_' + siteId).value;
-    if (isSpclChar('participantStudyIdentifier_' + siteId)) {
-        return;
-    }
-    if (identifier != "") {
-        uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier,
-                participantId, {callback:
-                                function(returnValue) {
-                                    showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
-                                    if (returnValue) {
-                                        isIdentifierError = true;
-                                    }
-                                    else {
-                                        isIdentifierError = false;
-                                    }
-                                }});
-        return;
-    }
-    else {
-        jQuery('#uniqueError_' + siteId).hide();
-        isIdentifierError = false;
-    }
+        }
+     var identifier = $('participantStudyIdentifier_' + siteId).value;
+     if (CP_NS.isSpclChar('participantStudyIdentifier_' + siteId)) {
+         return;
+     }
+     if (identifier != "") {
+         uniqueParticipantIdentifier.validateUniqueParticipantIdentifier(id, identifier,
+             participantId, {callback:
+                             function(returnValue) {
+                                 showOrHideErrorField(returnValue, '#uniqueError_' + siteId);
+                                 if (returnValue) {
+                                     CP.isIdentifierError = true;
+                                 }
+                                 else {
+                                     CP.isIdentifierError = false;
+                                 }
+                             }});
+         return;
+     } else {
+         jQuery('#uniqueError_' + siteId).hide();
+         CP.isIdentifierError = false;
+     }
 }
 
 //validation check for participant  identifier
-function checkParticipantMrn() {
+CP.checkParticipantMrn = function() {
     var participantId = "${param['id']}";
     if (participantId == "") {
         participantId = "${patientId}";
     }
     var mrn = $('participant.assignedIdentifier').value;
-    if (isSpclChar('participant.assignedIdentifier')) {
+    if (CP_NS.isSpclChar('participant.assignedIdentifier')) {
         return;
-    }
+        }
     var siteId = $('organizationId').value;
     if (siteId != "" && mrn != "") {
         uniqueParticipantIdentifier.validateUniqueParticipantMrn(siteId, mrn,
-                participantId, {callback:
-                                function(returnValue) {
-                                    showOrHideErrorField(returnValue, '#uniqueError_mrn');
-                                    if (returnValue) {
-                                        isIdentifierError = true;
-                                    }
-                                    else {
-                                        isIdentifierError = false;
-                                    }
-                                }});
-        return;
-    }
-    else {
-        jQuery('#uniqueError_mrn').hide();
-        isIdentifierError = false;
-    }
+             participantId, { callback:
+                                  function(returnValue) {
+                                      showOrHideErrorField(returnValue, '#uniqueError_mrn');
+                                      if (returnValue) {
+                                          CP.isIdentifierError = true;
+                                      } else {
+                                          CP.isIdentifierError = false;
+                                      }
+                                  }
+                             });
+         return;
+     } else {
+         jQuery('#uniqueError_mrn').hide();
+         CP.isIdentifierError = false;
+     }
 }
 
-function getStudySites() {
+CP.getStudySites = function() {
     var organizationId = $('organizationId').value;
     if (organizationId == '') {
         $("studysitestable").innerHTML = '';
         return;
     }
-    var id = '${param['id']}';
+    var id = "${param['id']}";
     if (id == '') {
         id = '${command.participant.id}';
     }
-    var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
+    var request = new Ajax.Request("<c:url value='/pages/participant/displaystudysites'/>", {
         onComplete:function(transport) {
-            var response = transport.responseText;
-            $("studysitestable").update(response);
-        },
-        parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
-        method:'get'
-    })
+        var response = transport.responseText;
+        $("studysitestable").update(response);
+    },
+    parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
+    method:'get'
+ })
 }
 
-function getOrgs(sQuery) {
+CP.getOrgs = function(sQuery) {
     showIndicator("organizationId-input-indicator");
     var callbackProxy = function(results) {
         aResults = results;
@@ -485,7 +464,7 @@ function getOrgs(sQuery) {
     return aResults;
 }
 
-function handleSelect(stype, args) {
+CP.handleSelect = function(stype, args) {
     var ele = args[0];
     var oData = args[2];
     if (oData == null) {
@@ -497,94 +476,14 @@ function handleSelect(stype, args) {
         var id = ele.getInputEl().id;
         var hiddenInputId = id.substring(0, id.indexOf('-input'));
         $(hiddenInputId).value = oData.id;
-        getStudySites();
+        CP.getStudySites();
         jQuery('#studies').show();
-    }
-    checkParticipantMrn();
+     }
+     CP.checkParticipantMrn();
 }
 
-function clearInput(inputId) {
-    $(inputId).clear();
-    $(inputId + '-input').clear();
-    $(inputId + '-input').focus();
-    $(inputId + '-input').blur();
-}
-
-Event.observe(window, 'load', function() {
-
-    <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
-    try {
-//        acCreate(new siteAutoComplter('organizationId'));
-//        initSearchField();
-        new YUIAutoCompleter('organizationId-input', getOrgs, handleSelect);
-        var orgName = "${command.selectedOrganization.displayName}";
-        if (orgName != '') {
-            $('organizationId-input').value = "${command.selectedOrganization.displayName}";
-            $('organizationId-input').removeClassName('pending-search');
-        }
-    } catch(err) {
-    }
-    </c:if>
-    Event.observe('organizationId', 'change', function() {
-        getStudySites();
-    })
-
-    //need to make the ajax call, when there is validation error in create flow
-    if (${hasValidationErrors}) {
-        if ('${command.participant.id}' == '') {
-            //populate the site value-
-            if ($('organizationId-input')) {
-                //admin user login
-                $('organizationId-input').value = '${command.selectedOrganization.displayName}'
-            }
-            getStudySites();
-        }
-
-    }
-
-});
-function doPostProcessing() {
-    getStudySites();
-}
-
-
-function showForms(obj, id) {
-    var sites = document.getElementsByName('studySites');
-    for (var i = 0; i < sites.length; i++) {
-        $('subform_' + sites[i].value).hide();
-        $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
-        $('participantStudyIdentifier_' + sites[i].value).value = "";
-        jQuery('#uniqueError_' + sites[i].value).hide();
-        jQuery('#UserPatternError_' + sites[i].value).hide();
-        jQuery('#PinPatternError_' + sites[i].value).hide();
-        jQuery('#confirmPinError_' + sites[i].value).hide();
-        jQuery('#userNumberError_' + sites[i].value).hide();
-        jQuery('#PhonePatternError').hide();
-        jQuery('#preferred.calltime.error_' + sites[i].value).hide();
-        jQuery('#phoneNumberError').hide();
-        jQuery('#emailError_' + sites[i].value).hide();
-        try {
-            $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
-        } catch(e) {
-        }
-    }
-    $('subform_' + id).show();
-    $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
-    isIdentifierError = false;
-    isUserIdError = false;
-    isPinError = false;
-    isEmail = false;
-    isBlackoutCallTime = false;
-    try {
-        $('arm_' + id).addClassName("validate-NOTEMPTY");
-    } catch(e) {
-    }
-    AE.registerCalendarPopups();
-}
-
-
-function participantOffStudy(id) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
+CP.participantOffStudy = function(id) {
+    var request = new Ajax.Request("<c:url value='/pages/participant/participantOffStudy'/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id  ,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 600, 350);
@@ -593,8 +492,7 @@ function participantOffStudy(id) {
     })
 }
 
-function beginHoldOnSchedules(index, date, action, pid) {
-
+CP.beginHoldOnSchedules = function(index, date, action, pid) {
     if (date == null || date == '') {
         alert('Please enter a date');
         return;
@@ -603,15 +501,13 @@ function beginHoldOnSchedules(index, date, action, pid) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
-
-        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
             onComplete:function(transport) {
-
-                if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh");
-                } else {
-                    showConfirmationWindow(transport, 650, 210);
-                }
+	            if (transport.responseText == "getCalendar") {
+	                getCalendar(index, "dir=refresh");
+	            } else {
+	                showConfirmationWindow(transport, 650, 210);
+	            }
             },
             parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&id=" + pid,
             method:'get'
@@ -619,14 +515,9 @@ function beginHoldOnSchedules(index, date, action, pid) {
     }
 }
 
-var _winOffHold;
-//function participantOffHold(id, date) {
-    <%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=participant&id=" + id + "&date=" + date + "&index=" +0+"&subview=x";--%>
-//    _winOffHold = showModalWindow(url, 600, 350);
-//}
 
-function participantOffHold(id, date, index) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
+CP.participantOffHold = function(id, date, index) {
+    var request = new Ajax.Request("<c:url value='/pages/participant/participantOffHold'/>", {
         onComplete:function(transport) {
                 showConfirmationWindow(transport, 650, 200);
         },
@@ -635,8 +526,8 @@ function participantOffHold(id, date, index) {
     })
 }
 
-function participantOnHold(id, date) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
+CP.participantOnHold = function(id, date) {
+    var request = new Ajax.Request("<c:url value='/pages/participant/participantOnHold'/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date + "&index=" +0,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 600, 200);
@@ -645,7 +536,7 @@ function participantOnHold(id, date) {
     })
 }
 
-function participantOffHoldPost(index, date, cycle, day, action) {
+CP.participantOffHoldPost = function(index, date, cycle, day, action) {
     if (date == null || date == '') {
         alert('Please enter a date');
         return;
@@ -654,281 +545,27 @@ function participantOffHoldPost(index, date, cycle, day, action) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
-
-        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
-            onComplete:function(transport) {
-
-                if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh");
-                } else {
-                    showConfirmationWindow(transport, 650, 210);
-                }
-            },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
-            method:'get'
-        })
+        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
+	        onComplete:function(transport) {
+	
+	            if (transport.responseText == "getCalendar") {
+	                getCalendar(index, "dir=refresh");
+	            } else {
+	                showConfirmationWindow(transport, 650, 210);
+	            }
+	         },
+	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+	         method:'get'
+         })
     }
 }
 
-function participantRptModeHistoryDisplay(id) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/participantReportingModeHistory"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id,
-        onComplete:function(transport) {
-            showConfirmationWindow(transport, 600, 350);
-        },
-        method:'get'
-    })
-}
 
-function showpassword(show) {
-    if (show) {
-        $('passwordfields').show();
-        $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
-    } else {
-        $('passwordfields').hide();
-        $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
-    }
-}
-
-function validateAndSubmit(date, form) {
-    if (date == '') {
-        alert('Please provide a valid date');
-        return;
-    }
-    form.submit();
-}
-
-function addEmailRemoveIVRSClassName(id) {
-    var participantId = "${param['id']}";
-    if (participantId == "") {
-        participantId = "${patientId}";
-    }
-
-//    $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
-    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.userNumber_' + id).required = false;
-    $('declinePhNum').disabled = false;
-    if($('declinePhNum').checked){
-        $('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
-    }
-    $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.pinNumber_' + id).required = false;
-    $('participant.confirmPinNumber_' + id).removeClassName("validate-NOTEMPTY");
-    $('participant.confirmPinNumber_' + id).required = false;
-    $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
-    $('call_hour_' + id).required = false;
-    $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
-    $('call_minute_' + id).required = false;
-    $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
-    $('call_ampm_' + id).required = false;
-    $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
-    $('call_timeZone_' + id).required = false;
-    $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
-    $('ivrs_lang_' + id).required = false;
-
-    if (participantId == "") {
-        $('participant.userNumber_' + id).value = "";
-        $('participant.confirmPinNumber_' +id).value = "";
-        $('participant.pinNumber_' + id).value = "";
-        $('call_hour_' + id).value = "";
-        $('call_minute_' + id).value = "";
-    }
-}
-
-function addIVRSRemoveEmailClassName(id) {
-    $('participant.userNumber_' + id).addClassName("validate-NOTEMPTY");
-    $('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
-    $('participant.pinNumber_' + id).addClassName("validate-NOTEMPTY");
-    $('participant.confirmPinNumber_' + id).addClassName("validate-NOTEMPTY");
-    $('call_hour_' + id).addClassName("validate-NOTEMPTY");
-    $('call_minute_' + id).addClassName("validate-NOTEMPTY");
-    $('call_ampm_' + id).addClassName("validate-NOTEMPTY");
-    $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
-    $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
-    $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-    $('home_web_lang_' + id).required = false;
-}
-
-function showPhone(id, val) {
-    if (val) {
-        jQuery('#ivrsLanguage_' +id).show();
-        jQuery('#callTime_' +id).show();
-        $('call_hour_' +id).addClassName("validate-NOTEMPTY");
-        $('call_minute_' +id).addClassName("validate-NOTEMPTY");
-        $('call_ampm_' +id).addClassName("validate-NOTEMPTY");
-        $('call_timeZone_' +id).addClassName("validate-NOTEMPTY");
-        $('ivrs_lang_' +id).addClassName("validate-NOTEMPTY");
-
-        $('participant.phoneNumber').disabled = false;
-        $('declinePhNum').checked = false;
-        $('declinePhNum').disabled = true;
-        $('participant.phoneNumber').removeClassName("validate-US_PHONE_NO");
-        $('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
-    } else {
-        jQuery('#ivrsLanguage_' +id).hide();
-        jQuery('#callTime_' +id).hide();
-        $('call_hour_' +id).removeClassName("validate-NOTEMPTY");
-        $('call_hour_' +id).required=false;
-        $('call_minute_' +id).removeClassName("validate-NOTEMPTY");
-        $('call_minute_' +id).required=false;
-        $('call_ampm_' +id).removeClassName("validate-NOTEMPTY");
-        $('call_ampm_' +id).required=false;
-        $('call_timeZone_' +id).removeClassName("validate-NOTEMPTY");
-        $('call_timeZone_' +id).required=false;
-        $('ivrs_lang_' +id).removeClassName("validate-NOTEMPTY");
-        $('ivrs_lang_' +id).required=false;
-
-        $('declinePhNum').disabled = false;
-        $('participant.phoneNumber').required = false;
-    }
-}
-
-function showEmail(id, val) {
-    if (val) {
-		$('participant.emailAddress').removeClassName("validate-EMAIL");
-        $('participant.emailAddress').addClassName("validate-EMAIL&&NOTEMPTY");
-    }
-    else {
-        $('participant.emailAddress').removeClassName("validate-NOTEMPTY");
-		$('participant.emailAddress').removeClassName("validate-EMAIL&&NOTEMPTY");
-		$('participant.emailAddress').addClassName("validate-EMAIL");
-		$('participant.emailAddress').required = false;
-    }
-}
-
-function showOrHideEmail(value1, value2, id) {
-
-    isUserIdError = false;
-    isPinError = false;
-    isEmail = false;
-    isPhoneNumberError = false;
-    isBlackoutCallTime = false;
-
-    if (value1 && value2 == "HOMEWEB") {
-        jQuery("#home_web_lang_" + id).show();
-        jQuery('#div_contact').show();
-        jQuery('#web_' + id).show();
-        jQuery('#email_' + id).attr('checked', true);
-        jQuery('#emailInput_' + id).show();
-        //jQuery('#webLang_' + id).show();
-        if($('participant.username_' + id) != null){
-        	$('participant.username_' + id).addClassName("validate-NOTEMPTY");
-        }
-        $('participant.password_' + id).addClassName("validate-NOTEMPTY");
-        $('participant.confirmPassword_' + id).addClassName("validate-NOTEMPTY");
-        $('home_web_lang_' + id).addClassName("validate-NOTEMPTY");
-        $('participant.emailAddress').addClassName("validate-NOTEMPTY");
-        showEmail(id, true);
-    }
-
-    if (!value1 && value2 == "HOMEWEB"){
-        jQuery('#web_' + id).show();
-        jQuery("#home_web_lang_" + id).hide();
-        jQuery('#web_' + id).hide();
-        jQuery('#email_' + id).attr('checked', false);
-        if($('participant.username_' + id) != null){
-            $('participant.username_' + id).removeClassName("validate-NOTEMPTY");
-            $('participant.username_' + id).required=false;        
-        }
-
-        $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
-        $('home_web_lang_' + id).required=false;
-        $('participant.password_' + id).removeClassName("validate-NOTEMPTY");
-        $('participant.password_' + id).required=false;
-        $('participant.confirmPassword_' + id).removeClassName("validate-NOTEMPTY");
-        $('participant.confirmPassword_' + id).required=false;
-        $('participant.emailAddress').removeClassName("validate-NOTEMPTY");
-        $('participant.emailAddress').removeClassName("validate-EMAIL&&NOTEMPTY");
-        $('participant.emailAddress').required=false;
-    }
-
-    if (value1 && value2 == "HOMEBOOKLET") {
-        jQuery('#home_paper_' + id).show();
-        $('home_paper_lang_' + id).addClassName("validate-NOTEMPTY");
-    }
-
-    if (!value1 && value2 == "HOMEBOOKLET"){
-        jQuery('#home_paper_' + id).hide();
-        $('home_paper_lang_' + id).removeClassName("validate-NOTEMPTY");
-        $('home_paper_lang_' + id).required=false;
-        jQuery("#home_paper_lang_" + id).val('');
-    }
-
-    if (value1 && value2 == "IVRS") {
-        jQuery('#div_contact').show();
-        jQuery('#div_contact_ivrs').show();
-        jQuery('#ivrs_' + id).show();
-        jQuery('#c_' + id).show();
-        jQuery('#c1_' + id).show();
-        jQuery('#c2_' + id).show();
-        jQuery('#c3_' + id).show();
-        jQuery('#c4_' + id).show();
-        jQuery('#reminder_' + id).show();
-        jQuery('#ivrs_reminder_' + id).show();
-        jQuery('#ivrsLang_' + id).show();
-        jQuery('#call_' + id).attr('checked', true);
-        addIVRSRemoveEmailClassName(id);
-        showPhone(id, true);
-    }
-
-    if(!value1 && value2 == "IVRS"){
-        jQuery('#call_' + id).attr('checked', false);
-        jQuery('#participantUserNumber_' + id).val('');
-        jQuery('#participantPinNumberConfirm_' + id).val('');
-        addEmailRemoveIVRSClassName(id);
-        jQuery('#ivrs_' + id).hide();
-        jQuery('#ivrs_reminder_' + id).hide();
-        jQuery('#reminder_' + id).hide();
-        jQuery('#ivrsLang_' + id).hide();
-        jQuery('#c_' + id).hide();
-        jQuery('#c1_' + id).hide();
-        jQuery('#c2_' + id).hide();
-        jQuery('#c3_' + id).hide();
-        jQuery('#c4_' + id).hide();
-    }
-}
-
-function isSpclChar(fieldName) {
-    var iChars = "!@#$%^&*+=[]\\\';,./{}|\":<>?";
-    var fieldValue = $(fieldName).value;
-    jQuery('#' + fieldName + '.error').hide();
-    $(fieldName + '.error').hide();
-    for (var i = 0; i < fieldValue.length; i++) {
-        if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
-            // alert ("The box has special characters. \nThese are not allowed.\n");
-            jQuery('#' + fieldName + '.error').show();
-            $(fieldName + '.error').show();
-            $(fieldName).value = "";
-            return true;
-        }
-    }
-    return false;
-}
-
-function populateDefaultUserNumber(siteId){
-	var pNumber = $('participant.phoneNumber').value;
-	var nonFormattedPNumber;
-    if (pNumber != null && pNumber != "") {
-    	var re = /[-]/g;
-    	nonFormattedPNumber = pNumber.replace(re, "");
-
-    	var uNumber = $('participant.userNumber_' + siteId).value;
-        if (uNumber == null || uNumber == "") {
-            $('participant.userNumber_' + siteId).value = nonFormattedPNumber;
-        }
-    }
-}
-
-function togglePhoneNumber(isChecked){
-	if(isChecked){
-		$('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
-		$('participant.phoneNumber').disabled = true;
-	} else {
-		$('participant.phoneNumber').disabled = false;
-		$('participant.phoneNumber').addClassName("validate-NOTEMPTY&&US_PHONE_NO");
-	}
+function doPostProcessing() {
+    CP.getStudySites();
 }
 </script>
+
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
@@ -956,7 +593,6 @@ function togglePhoneNumber(isChecked){
         border-left: 0px solid #999999;
         padding-left: 5px;
     }
-     
 </style>
 <!--[if IE]>
 <style>
@@ -985,6 +621,7 @@ function togglePhoneNumber(isChecked){
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
                        <input type="hidden" name="organizationId" id="organizationId"
                               value="${command.organizationId}"/>
+
                        <div class="row">
                            <div class="label"><spring:message code="study.label.clinical.staff"/>:&nbsp;</div>
                            <div class="value">${command.siteName}</div>
@@ -1028,7 +665,7 @@ function togglePhoneNumber(isChecked){
                                        </div>
                                        <script type="text/javascript">
                                            Event.observe(window, 'load', function() {
-                                               getStudySites();
+                                               CP.getStudySites();
                                            });
                                        </script>
                                    </c:when>
@@ -1056,7 +693,7 @@ function togglePhoneNumber(isChecked){
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
                                             required="true" maxLength="${maxLength}" size="${maxLength}"
-                                            onblur="isSpclChar('participant.firstName');"/>
+                                            onblur="CP_NS.isSpclChar('participant.firstName');"/>
                            <ul id="participant.firstName.error" style="display:none;left-padding:8em;" class="errors">
                                <li><spring:message code='special.character.message'
                                                    text='special.character.message'/></li>
@@ -1064,7 +701,7 @@ function togglePhoneNumber(isChecked){
                            <c:if test="${command.mode eq 'N'}">
                                <tags:renderText propertyName="participant.middleName"
                                                 displayName="participant.label.middle_name" maxLength="${maxLength}"
-                                                size="${maxLength}" onblur="isSpclChar('participant.middleName');"/>
+                                                size="${maxLength}" onblur="CP_NS.isSpclChar('participant.middleName');"/>
                                <ul id="participant.middleName.error" style="display:none;" class="errors">
                                    <li><spring:message code='special.character.message'
                                                        text='special.character.message'/></li>
@@ -1073,7 +710,7 @@ function togglePhoneNumber(isChecked){
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
                                             required="true" maxLength="${maxLength}" size="${maxLength}"
-                                            onblur="isSpclChar('participant.lastName');"/>
+                                            onblur="CP_NS.isSpclChar('participant.lastName');"/>
                            <ul id="participant.lastName.error" style="display:none;" class="errors">
                                <li><spring:message code='special.character.message' text='special.character.message'/></li>
                            </ul>
@@ -1084,7 +721,7 @@ function togglePhoneNumber(isChecked){
 	                           </div>
 	                           <div class="value">
 		                           <input type="text" name="participant.emailAddress" value="${command.participant.emailAddress}"
-		                                       id="participant.emailAddress" onblur="checkParticipantEmail();" title="Email" maxlength="35" size="35"
+		                                       id="participant.emailAddress" onblur="CP.checkParticipantEmail();" title="Email" maxlength="35" size="35"
 		                                       class="${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].email ? "validate-EMAIL&&NOTEMPTY":"validate-EMAIL"}"/>
 								   
 		                           <ul id="userEmailError" style="display:none; padding-left:4em " class="errors">
@@ -1112,7 +749,7 @@ function togglePhoneNumber(isChecked){
 		                           </div>
 		                           <div class="value">
 			                           <input type="text" name="participant.assignedIdentifier" value="${command.participant.assignedIdentifier}"
-			                                       id="participant.assignedIdentifier" onblur="checkParticipantMrn();" title="MRN" class="validate-NOTEMPTY"/>
+			                                       id="participant.assignedIdentifier" onblur="CP.checkParticipantMrn();" title="MRN" class="validate-NOTEMPTY"/>
 									   
 		                              <ul id="uniqueError_mrn" style="display:none; padding-left:4em " class="errors">
 		                                   <li><spring:message code='participant.unique_mrn'/></li>
@@ -1130,15 +767,15 @@ function togglePhoneNumber(isChecked){
 	                           		<span class="required-indicator">*&nbsp;&nbsp;</span><spring:message code='participant.label.phone' text=''/>&nbsp;&nbsp;
 	                           </div>
 	                           <div class="value">
-	                               
-	                               <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
-		                                       id="participant.phoneNumber" onblur="checkParticipantPhoneNumber();" title="Phone" 
+	                           	   
+		                           <input type="text" name="participant.phoneNumber" value="${command.participant.phoneNumber}"
+		                                       id="participant.phoneNumber" onblur="CP.checkParticipantPhoneNumber();" title="Phone" 
 		                                       class="${isPhNumDisabled ? '':'validate-NOTEMPTY&&US_PHONE_NO'}"
 		                                       ${isPhNumDisabled ? 'disabled':''}/>
 								  <input type="checkbox" id="declinePhNum" name="declinePhNum" value="declinePhNum" 
 								  		 ${isPhNumDisabled ? 'checked':''}
 								  		 ${command.participant.studyParticipantAssignments[0].studyParticipantModes[0].call ? 'disabled':''}
-                                         onclick="javascript:togglePhoneNumber(this.checked);"/>&nbsp;Decline to provide.
+                                         onclick="javascript:CP_NS.togglePhoneNumber(this.checked);"/>&nbsp;Decline to provide.
 								  <tags:errors path="participant.phoneNumber"/>
 					              <ul id="phoneNumberError" style="display:none" class="errors">
 					                  <li><spring:message code='participant.unique_phoneNumber' text='participant.unique_phoneNumber'/></li>

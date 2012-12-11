@@ -39,7 +39,7 @@
 <tr>
     <td align="center">
         <input type="radio" name="studySites" value="${studysite.id}"
-               onclick="javascript:showForms(this, '${studysite.id}')"
+               onclick="javascript:CP_NS.showForms(this, '${studysite.id}')"
                <c:if test="${selected}">checked</c:if>/>
     </td>
     <td>
@@ -69,16 +69,16 @@
                     <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/><br>
                 </c:when>
                 <c:otherwise>
-                    <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a>
+                    <a href="javascript:CP.participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a>
                     <br>
                     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
-                        <a href="javascript:participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
+                        <a href="javascript:CP.participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
                             hold</a> <br>
                     </c:if>
                     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                         Treatment on-hold from <tags:formatDate
                             value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                        <a href="javascript:participantOffHold('${studyParticipantAssignment.id}', null,0)"> Put
+                        <a href="javascript:CP.participantOffHold('${studyParticipantAssignment.id}', null,0)"> Put
                             participant
                             on
                             treatment </a>
@@ -108,7 +108,7 @@
                value="${studyParticipantAssignment.studyParticipantIdentifier}"
                title="identifier"
                id="participantStudyIdentifier_${studysite.id}"
-               onblur="checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"
+               onblur="CP.checkParticipantStudyIdentifier(${studysite.study.id},${studysite.id});"
                class="${not selected?'':'validate-NOTEMPTY'}"/>
         <ul id="uniqueError_${studysite.id}" style="display:none" class="errors">
             <li><spring:message code='participant.unique_assignedIdentifier'
@@ -250,11 +250,11 @@
                     <c:choose>
                         <c:when test="${hweb}">
                             &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEWEB"
-                                                            onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                                                            onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
                         </c:when>
                         <c:otherwise>
                             &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEWEB"
-                                                            onclick="javascript:showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
+                                                            onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'HOMEWEB', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Web
                         </c:otherwise>
                     </c:choose>
                     <br /><c:set var="isWebAdded" value="true"/>
@@ -291,7 +291,7 @@
                                         <input type="text" name="participant.username_${studysite.id}"
                                                value="${command.participant.user.username}"
                                                id="participant.username_${studysite.id}" title="Username"
-                                               onblur="checkParticipantUserName(${studysite.id});"
+                                               onblur="CP.checkParticipantUserName(${studysite.id});"
                                                class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                         <ul id="userNameError_${studysite.id}" style="display:none;" class="errors">
                                             <li><spring:message code='participant.unique_userName'
@@ -318,7 +318,7 @@
                                 <input type="password" name="participant.password_${studysite.id}"
                                        value="${participant.user.password}"
                                        id="participant.password_${studysite.id}"
-                                       onblur="checkPasswordPolicy(${studysite.id});" title="Password"
+                                       onblur="CP.checkPasswordPolicy(${studysite.id});" title="Password"
                                        class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                 <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
                                     <li id="passwordError1_${studysite.id}"></li>
@@ -333,7 +333,7 @@
                                 <input type="password" name="participant.confirmPassword_${studysite.id}"
                                        value="${participant.user.password}"
                                        id="participant.confirmPassword_${studysite.id}"
-                                       onblur="checkPasswordMatch(${studysite.id});" title="Confirm"
+                                       onblur="CP.checkPasswordMatch(${studysite.id});" title="Confirm"
                                        class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
                                 <ul id="passwordErrorConfirm_${studysite.id}" style="display:none; padding-left:12em "
                                     class="errors">
@@ -375,7 +375,7 @@
                             </div>
                             <div class="ssValue">
                             	<input type="checkbox" name="email_${studysite.id}" value="true"
-                                   onclick="javascript:showEmail(${studysite.id}, this.checked);"
+                                   onclick="javascript:CP_NS.showEmail(${studysite.id}, this.checked);"
                                    id="email_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].email ? "checked" : " "} />
                             </div>
                         </div>
@@ -397,12 +397,12 @@
                 <c:choose>
                     <c:when test="${ivrs}">
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');CP_NS.populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:when>
                     <c:otherwise>
                         &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="IVRS"
-                                                        onclick="javascript:showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
+                                                        onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'IVRS', '${studysite.id}');CP_NS.populateDefaultUserNumber(${studysite.id});"/>&nbsp;&nbsp;&nbsp;IVRS/Automated
                         Telephone <br>
                     </c:otherwise>
                 </c:choose>
@@ -424,7 +424,7 @@
             <input type="text" name="participantUserNumber_${studysite.id}"
                    value="${studyParticipantAssignment.participant.userNumber}"
                    id="participant.userNumber_${studysite.id}" title="User Number"
-                   onblur="checkParticipantUserNumber(${studysite.id});"
+                   onblur="CP.checkParticipantUserNumber(${studysite.id});"
                    class="${showTime eq true ? "validate-NOTEMPTY":""}"/> ( 10 digits )
             <ul id="userNumberError_${studysite.id}" style="display:none;" class="errors">
                 <li><spring:message code='participant.unique_userNumber'
@@ -444,7 +444,7 @@
             <input type="password" name="participantPinNumber_${studysite.id}"
                    value="${studyParticipantAssignment.participant.pinNumber}"
                    id="participant.pinNumber_${studysite.id}"
-                   onblur="checkParticipantPinNumber(${studysite.id});" title="Pin number"
+                   onblur="CP_NS.checkParticipantPinNumber(${studysite.id});" title="Pin number"
                    class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
             <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
                 <li><spring:message code='participant.pinnumber_pattern'
@@ -460,7 +460,7 @@
             <input type="password" name="participantPinNumberConfirm_${studysite.id}"
                    value="${studyParticipantAssignment.participant.confirmPinNumber}"
                    id="participant.confirmPinNumber_${studysite.id}"
-                   onblur="checkPinMatch(${studysite.id});" title="Confirm Pin number"
+                   onblur="CP.checkPinMatch(${studysite.id});" title="Confirm Pin number"
                    class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
             <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
                 <li><spring:message code='participant.confirm_pinnumber'
@@ -475,7 +475,7 @@
         </div>
         <div class="ssValue">
             <input type="checkbox" name="call_${studysite.id}" value="true"
-                   onclick="javascript:showPhone(${studysite.id}, this.checked);"
+                   onclick="javascript:CP_NS.showPhone(${studysite.id}, this.checked);"
                    id="call_${studysite.id}" ${studyParticipantAssignment.studyParticipantModes[0].call ? "checked" : " "}/>
             check if the system should call the participant. <br>
         </div>
@@ -493,7 +493,7 @@
                         <select id="call_hour_${studysite.id}" name="call_hour_${studysite.id}"
                                 title="Hour"
                                 class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
-                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                                onblur="CP.validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="" ${studyParticipantAssignment.callHour eq "" ? "selected='selected'" : " "} >
                                 Hr
                             </option>
@@ -506,7 +506,7 @@
                         <select id="call_minute_${studysite.id}" name="call_minute_${studysite.id}"
                                 title="Minute"
                                 class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
-                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                                onblur="CP.validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="" ${studyParticipantAssignment.callMinute eq "" ? "selected='selected'" : " "} >
                                 Min
                             </option>
@@ -519,7 +519,7 @@
                         <select id="call_ampm_${studysite.id}" name="call_ampm_${studysite.id}"
                                 title="AM PM"
                                 class="${studyParticipantAssignment.studyParticipantModes[0].call eq true ? "validate-NOTEMPTY":""}"
-                                onblur="validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
+                                onblur="CP.validateCalloutTime(${studysite.id},'${blackoutStartTime}','${blackoutEndTime}');">
                             <option value="am" ${studyParticipantAssignment.callAmPm eq "am" ? "selected='selected'" : " "} >
                                 am
                             </option>
@@ -594,12 +594,12 @@
             <c:choose>
                 <c:when test="${hbook}">
                     &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" checked="true" value="HOMEBOOKLET"
-                                                    onclick="javascript:showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
+                                                    onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
                     <br />
                 </c:when>
                 <c:otherwise>
                     &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="responseModes" value="HOMEBOOKLET"
-                                                    onclick="javascript:showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
+                                                    onclick="javascript:CP_NS.showOrHideEmail(this.checked, 'HOMEBOOKLET', '${studysite.id}');"/>&nbsp;&nbsp;&nbsp;Paper form
                     <br />
                 </c:otherwise>
             </c:choose>

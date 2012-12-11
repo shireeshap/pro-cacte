@@ -17,7 +17,8 @@
         <script type="text/javascript">
             function closeWindow() {
                      window.parent.Windows.close(window.parent._winOffHold.getId());
-            }   </script>
+            }   
+        </script>
     </head>
     <body>
 
@@ -54,7 +55,7 @@
                           </td>
                           <td align="right">
                               <tags:button value="Remove hold" color="blue" id="flow-update" cssClass="next" size="large" icon="check"
-                              onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"
+                              onclick="parent.CP.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"
                               overRideStyle=" position:relative; top:0px;" />
 
                           </td>
