@@ -3256,6 +3256,9 @@ pro-ctcae/software/web/src/main/webapp/images/PRO-CTCAE_mfull_spanish.webm -text
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.mp4 -text svneol=unset#unset
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.theora.ogv -text
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.webm -text
+pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.mp4 -text
+pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.theora.ogv -text
+pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.webm -text
 pro-ctcae/software/web/src/main/webapp/images/add_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/ajax-loading.gif -text
 pro-ctcae/software/web/src/main/webapp/images/allCommon-Icons.gif.png -text
