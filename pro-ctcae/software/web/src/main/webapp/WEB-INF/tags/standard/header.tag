@@ -102,8 +102,16 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a onclick="openNewWindow('showVideo');"
-                                                   style="cursor:pointer;color:white;border:0px;background:none; ">
+                                                <c:choose>
+                                                    <c:when test="${param.lang eq 'es'}">
+                                                            <a onclick="openNewWindow('showVideo?lang=es');"
+                                                                style="cursor:pointer;color:white;border:0px;background:none;">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                            <a onclick="openNewWindow('showVideo?lang=en');"
+                                                                style="cursor:pointer;color:white;border:0px;background:none;">
+                                                    </c:otherwise>
+                                                </c:choose>
                                                     <table width="100%">
                                                         <tr>
                                                             <td width="35px;" align="left">
