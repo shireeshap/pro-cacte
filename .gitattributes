@@ -3170,7 +3170,7 @@ software/web/src/main/webapp/WEB-INF/views/passwordExpired.jsp -text
 software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 software/web/src/main/webapp/WEB-INF/views/password_policy_configure.jsp -text
 software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
-software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text
+software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text svneol=unset#text/plain
 software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
@@ -3252,6 +3252,9 @@ software/web/src/main/webapp/decorated-error.jsp -text
 software/web/src/main/webapp/images/Pro-CTCAE_mfull.mp4 -text svneol=unset#unset
 software/web/src/main/webapp/images/Pro-CTCAE_mfull.theora.ogv -text
 software/web/src/main/webapp/images/Pro-CTCAE_mfull.webm -text
+software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.mp4 -text
+software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.theora.ogv -text
+software/web/src/main/webapp/images/Pro-CTCAE_mfull_spanish.webm -text
 software/web/src/main/webapp/images/add_icon.png -text
 software/web/src/main/webapp/images/ajax-loading.gif -text
 software/web/src/main/webapp/images/allCommon-Icons.gif.png -text
