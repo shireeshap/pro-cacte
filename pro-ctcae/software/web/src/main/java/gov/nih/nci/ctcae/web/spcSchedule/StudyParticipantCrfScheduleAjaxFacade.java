@@ -51,6 +51,7 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         StudyParticipantCrfScheduleQuery spcsQuery = new StudyParticipantCrfScheduleQuery(true);
         spcsQuery.filterByUsername(userName);
+        spcsQuery.filterByParticipantStatusNot(RoleStatus.OFFSTUDY);
         if (status.equals(CrfStatus.PASTDUE)) {
         	spcsQuery.filterByMarkDelete();
             spcsQuery.filterByStatus(status);
@@ -59,6 +60,8 @@ public class StudyParticipantCrfScheduleAjaxFacade {
         } else {
             spcsQuery.filterByStatus(CrfStatus.SCHEDULED);
             spcsQuery.filterByGreaterDate(current);
+            //Prevent hidden forms to be populated in Upcoming Forms section for a clinical staff login
+            spcsQuery.filterByHiddenForms();
         }
         return spcsRepository.findWithCount(spcsQuery);
     }
