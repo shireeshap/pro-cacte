@@ -382,12 +382,12 @@ public class ProCtcAECalendar {
         Calendar tempCalendar = (Calendar)c.clone();
         tempCalendar.setTimeInMillis(c.getTimeInMillis());
         if ("Hours".equals(dueAfter)) {
-            tempCalendar.add(Calendar.HOUR,dueAfterValue);
+            tempCalendar.add(Calendar.HOUR,dueAfterValue-1);
         }else if ("Days".equals(dueAfter)) {
-            tempCalendar.add(Calendar.DATE,dueAfterValue);
+            tempCalendar.add(Calendar.DATE,dueAfterValue-1);
         }
         else if ("Weeks".equals(dueAfter)) {
-            tempCalendar.add(Calendar.WEEK_OF_YEAR,dueAfterValue);
+            tempCalendar.add(Calendar.WEEK_OF_YEAR,dueAfterValue-1);
         }
 
         return tempCalendar.getTime();
