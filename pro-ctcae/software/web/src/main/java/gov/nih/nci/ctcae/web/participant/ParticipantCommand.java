@@ -706,23 +706,14 @@ public class ParticipantCommand {
 
     public void lazyInitializeAssignment(GenericRepository genericRepository, boolean save) {
 
-        if (save) {
-            for (ParticipantSchedule participantSchedule : getParticipantSchedules()) {
-                for (StudyParticipantCrf studyParticipantCrf : participantSchedule.getStudyParticipantCrfs()) {
-                    genericRepository.save(studyParticipantCrf);
-                }
-            }
+    	if (save) {
             participant = genericRepository.findById(Participant.class, participant.getId());
-//            studyParticipantAssignment = genericRepository.save(participant.getStudyParticipantAssignments().get(0));
         }
 
         for (StudyParticipantCrf studyParticipantCrf : getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
             lazyInitializeStudyParticipantCrf(studyParticipantCrf);
         }
-
-
         getParticipantSchedules();
-
     }
 
 
