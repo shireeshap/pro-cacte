@@ -42,7 +42,7 @@ function initializeCalendar(index, month, year) {
         if (isdefined(myCalendar[day])) {
             var div_id = index + '_schedule_' + day;
             var myschedule = mySchedules[day];
-            var showdropdown = false;
+            var showdropdown = true;
             var showDeleteOption = true;
             var isEnableDrag = true;
             var item = $(div_id);
@@ -150,7 +150,7 @@ function initializeCalendar(index, month, year) {
                         item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
                         //showDeleteOption = false;
                         // isEnableDrag = false;
-                        showdropdown = false;
+                        showdropdown = true;
                     }
                     if (hasPastDue) {
                         item.style.background = 'red';
@@ -213,8 +213,8 @@ function initializeCalendar(index, month, year) {
                             item.addClassName('blue');
                         }
                         item.style.cursor = 'pointer';
-                        showdropdown = true;
                     }
+                    showdropdown = true;
                 }
                 if (showdropdown) {
                     var delIcon = '<div style="float:right">' +
