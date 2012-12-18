@@ -26,10 +26,12 @@
 
                 <div class="flow-buttons content autoclear">
                     <span class="prev">
-                    	<tags:button type="button" id="flow-cancel" cssClass="previous ibutton" value="Cancel" color="blue" icon="x" onclick="closeWindow()"/>
+                    	<tags:button type="button" id="flow-cancel" cssClass="previous ibutton" value="Cancel" color="blue" icon="x" onclick="closeWindow()"
+                    	overRideStyle=" position:relative; top:-10px;"/>
 					</span>
 					<span class="next">
-						<tags:button type="submit" id="flow-update" cssClass="next" value="Version" color="green" icon="check"/>
+						<tags:button type="submit" id="flow-update" cssClass="next" value="Version" color="green" icon="check"
+						overRideStyle=" position:relative; top:-10px;"/>
 					</span>
                 </div>
             </chrome:division>
