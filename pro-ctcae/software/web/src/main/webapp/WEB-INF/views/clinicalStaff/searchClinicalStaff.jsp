@@ -64,11 +64,6 @@
 
     function showPopUpMenuClinicalStaff(cid, status, odc) {
         var html = '<div id="search-engines"><ul>';
-        if (odc == true || odc == 'true') {
-        <proctcae:urlAuthorize url="/pages/admin/viewClinicalStaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
-        </proctcae:urlAuthorize>
-        } else {
         <proctcae:urlAuthorize url="/pages/admin/viewClinicalStaff">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/viewClinicalStaff"/>?clinicalStaffId=' + cid + '\'">View staff</a></li>';
         </proctcae:urlAuthorize>
@@ -80,7 +75,7 @@
                 html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
             }
         </proctcae:urlAuthorize>
-        }
+
         html += '</ul></div>';
         jQuery('#clinicalStaffActions' + cid).menu({
             content: html,
