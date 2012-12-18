@@ -3,12 +3,13 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
-
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -51,36 +52,43 @@ public class ParticipantAjaxFacade {
     }
 
     public Long resultCount(String[] searchTexts, Integer startIndex, Integer resultsCount) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        boolean leadStaff = false;
-        for (UserRole userRole : user.getUserRoles()) {
-            if (userRole.getRole().equals(Role.LEAD_CRA) || userRole.getRole().equals(Role.PI)) {
-                leadStaff = true;
-                break;
-            }
-        }
-        ParticipantQuery participantQuery;
-        if (leadStaff) {
-            participantQuery = new ParticipantQuery(true, Role.LEAD_CRA, true);
-        } else {
-            participantQuery = new ParticipantQuery(true, Role.SITE_CRA, true);
-        }
-        participantQuery.setFirstResult(startIndex);
-        if(resultsCount != null){
-          participantQuery.setMaximumResults(resultsCount);
-        }
-
-        if (searchTexts != null) {
-            int index = 0;
-            for (String searchText : searchTexts) {
-                if (!StringUtils.isBlank(searchText)) {
-                    participantQuery.filterByAll(searchText, "" + index);
-                    index++;
-                }
-            }
-        }
-        return participantRepository.findWithCount(participantQuery);
-    }
+        
+    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Integer> objectIds = user.findAccessibleObjectIds(StudyOrganization.class);
+        /* If user privileges are such that he has an empty list of AccessibleObjectIds associated with him, then return 0 as resultCount
+    	 * else get the actual resutCount from the database. 
+    	*/
+	        boolean leadStaff = false;
+	        for (UserRole userRole : user.getUserRoles()) {
+	            if (userRole.getRole().equals(Role.LEAD_CRA) || userRole.getRole().equals(Role.PI)) {
+	                leadStaff = true;
+	                break;
+	            }
+	        }
+	        ParticipantQuery participantQuery;
+	        if (leadStaff) {
+	            participantQuery = new ParticipantQuery(true, Role.LEAD_CRA, true);
+	        } else {
+	            participantQuery = new ParticipantQuery(true, Role.SITE_CRA, true);
+	        }
+	        participantQuery.setFirstResult(startIndex);
+	        if(resultsCount != null){
+	          participantQuery.setMaximumResults(resultsCount);
+	        }
+	        
+	       
+	
+	        if (searchTexts != null) {
+	            int index = 0;
+	            for (String searchText : searchTexts) {
+	                if (!StringUtils.isBlank(searchText)) {
+	                    participantQuery.filterByAll(searchText, "" + index);
+	                    index++;
+	                }
+	            }
+	        }
+	        return participantRepository.findWithCount(participantQuery);
+ }
 
     public List<Participant> getParticipantList() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
