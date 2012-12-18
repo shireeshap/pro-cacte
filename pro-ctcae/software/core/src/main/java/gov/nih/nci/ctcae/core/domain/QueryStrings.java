@@ -4,6 +4,10 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 
+/*
+Author: Amey
+*/
+
 public enum  QueryStrings implements CodedEnum<String>{
 	
 	PARTICIPANT_QUERY_STRING("SELECT p from Participant p order by p.id"), 
