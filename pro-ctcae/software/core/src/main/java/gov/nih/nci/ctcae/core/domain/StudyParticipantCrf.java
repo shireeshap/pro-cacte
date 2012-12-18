@@ -148,10 +148,15 @@ public class StudyParticipantCrf extends BaseVersionable {
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
         try {
             if ((studyParticipantCrfSchedules == null || studyParticipantCrfSchedules.size() == 0) && getCrf().getChildCrf() == null && !getScheduleInitialized()) {
-                //creating schedules dynamically, except for OFFSTUDY participants
-            	if (!getStudyParticipantAssignment().getStatus().equals(RoleStatus.OFFSTUDY)){
-                    createSchedules(false);
-                    setScheduleInitialized(true);	
+                
+            	if(getStudyParticipantAssignment().getStatus()!=null){     					/* changed if..else structure to address added to handle nullpointer exception.. */
+            		//creating schedules dynamically, except for OFFSTUDY participants																			
+	            	if (getStudyParticipantAssignment().getStatus().equals(RoleStatus.OFFSTUDY)){
+	            		return studyParticipantCrfSchedules;
+	            	}else{
+	            		createSchedules(false);
+	                    setScheduleInitialized(true);	
+	            	}
             	}
             }
         } catch (ParseException pe) {
