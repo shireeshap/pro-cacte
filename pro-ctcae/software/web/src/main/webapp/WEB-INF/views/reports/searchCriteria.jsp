@@ -266,7 +266,7 @@
 								</div>
 							</div> 
                         </div>
-                        <div class="row" id="divStudySiteRow" style="display:none">
+                        <div class="row" id="divStudySiteRow" style="display:none; ;position:relative; left:12px;">
                             <div class="label"><tags:message code="reports.label.site"/></div>
                             <div class="value" id="studySiteDisplayName"></div>
                         </div>
@@ -283,7 +283,7 @@
             <c:if test="${study ne null}">
                 <c:set var="filterstyle" value=""/>
             </c:if>
-            <div class="row" id="filterByDiv" style="${filterstyle}">
+            <div class="row" id="filterByDiv" style="${filterstyle};position:relative; left:12px;">
                 <div class="label"><tags:message code="reports.label.FilterBy"/></div>
                 <div class="value">
                     <select id="filterBy" title="Filter By" onchange="showText(this);">
