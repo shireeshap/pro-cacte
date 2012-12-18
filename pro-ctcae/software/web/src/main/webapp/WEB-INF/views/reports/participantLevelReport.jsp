@@ -29,10 +29,17 @@
             initializeFields();
         }
         function initializeFields() {
-        <c:if test="${showReports}">
-            setTimeout("participantCareResultsFromHome();", 1000);
-        </c:if>
-        }
+	        <c:if test="${showReports}">
+	            setTimeout("participantCareResultsFromHome();", 1000);
+	        </c:if>
+			
+	        if(	{
+	        	jQuery('#formDropDown').css("position","relative");
+	        	jQuery('#formDropDown').css("left","12px");
+	        	jQuery('#visitOptions').css("position","relative");
+	        	jQuery('#visitOptions').css("left","12px");
+			}
+	    }
 
         function participantCareResultsFromHome() {
              var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
