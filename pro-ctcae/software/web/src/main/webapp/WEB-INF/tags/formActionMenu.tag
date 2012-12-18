@@ -27,7 +27,7 @@ function versionForm(crfId) {
     var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
         parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
         onComplete:function(transport) {
-            showConfirmationWindow(transport);
+            showConfirmationWindow(transport,600, 250);
         },
         method:'get'
     })
