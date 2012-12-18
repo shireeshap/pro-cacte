@@ -70,9 +70,14 @@ public class FetchParticipantController extends AbstractController {
         }
         Integer resultsCount = Integer.valueOf(results);
         Integer totalRecords = 0;
-
-        participantsForCurrentSearch = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), resultsCount, sortField, direction);
-    	totalRecords = participantAjaxFacade.resultCount(searchStrings, Integer.valueOf(startIndex), resultsCount).intValue();
+        
+        totalRecords = participantAjaxFacade.resultCount(searchStrings, Integer.valueOf(startIndex), resultsCount).intValue();
+         /*Fetch the records only if totalRecords are determined to be greater than zero */
+         if(totalRecords > 0)
+        	participantsForCurrentSearch = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), resultsCount, sortField, direction);
+         else 
+        	participantsForCurrentSearch=null;
+    	
         
         
 //        if(resultsCount > completeParticipantsList.size()){
@@ -83,52 +88,54 @@ public class FetchParticipantController extends AbstractController {
 
         Participant participant;
         SearchParticipantWrapper searchParticipantWrapper = new SearchParticipantWrapper();
-        searchParticipantWrapper.setTotalRecords(Long.valueOf(totalRecords));
-        searchParticipantWrapper.setRecordsReturned(participantsForCurrentSearch.size());
-        searchParticipantWrapper.setStartIndex(Integer.valueOf(startIndex));
-        searchParticipantWrapper.setPageSize(rowsPerPageInt);
-        searchParticipantWrapper.setDir(direction);
-        searchParticipantWrapper.setSearchParticipantDTOs(new SearchParticipantDTO[participantsForCurrentSearch.size()]);
-        SearchParticipantDTO searchParticipantDTO;
         
-        List<Study> studiesOnWhichUserIsOdc;
-        StudyQuery studyQuery  = new StudyQuery();
-        studyQuery.filterStudiesByUserAndRole(user, Role.ODC);
-        studiesOnWhichUserIsOdc = (List<Study>) studyRepository.find(studyQuery);
-        Study study;
-        boolean odc;
-        for (int index = 0; index < participantsForCurrentSearch.size(); index++) {
-            participant = participantsForCurrentSearch.get(index);
-
-            searchParticipantDTO = new SearchParticipantDTO();
-            searchParticipantDTO.setFirstName(participant.getFirstName());
-            searchParticipantDTO.setLastName(participant.getLastName());
-            searchParticipantDTO.setOrganizationName(participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getName());
-            searchParticipantDTO.setStudyParticipantIdentifier(participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier());
-            searchParticipantDTO.setStudyShortTitle(participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy().getShortTitle());
-
-            odc = false;
-            if (participant.getStudyParticipantAssignments().size() > 0) {
-                study = participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
-                if(studiesOnWhichUserIsOdc.contains(study)){
-                	odc = true;
-                }
-            }
-
-            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
-                    + participant.getId() + "'"
-                    + " onmouseover=\"javascript:showPopUpMenuParticipant('"
-                    + participant.getId()
-                    + "','"
-                    + odc
-                    + "');\">"
-                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
-
-
-            searchParticipantDTO.setActions(actions);
-            searchParticipantWrapper.getSearchParticipantDTOs()[index] = searchParticipantDTO;
+        if(participantsForCurrentSearch != null){
+	        searchParticipantWrapper.setTotalRecords(Long.valueOf(totalRecords));
+	        searchParticipantWrapper.setRecordsReturned(participantsForCurrentSearch.size());
+	        searchParticipantWrapper.setStartIndex(Integer.valueOf(startIndex));
+	        searchParticipantWrapper.setPageSize(rowsPerPageInt);
+	        searchParticipantWrapper.setDir(direction);
+	        searchParticipantWrapper.setSearchParticipantDTOs(new SearchParticipantDTO[participantsForCurrentSearch.size()]);
+	        SearchParticipantDTO searchParticipantDTO;
+	        
+	        List<Study> studiesOnWhichUserIsOdc;
+	        StudyQuery studyQuery  = new StudyQuery();
+	        studyQuery.filterStudiesByUserAndRole(user, Role.ODC);
+	        studiesOnWhichUserIsOdc = (List<Study>) studyRepository.find(studyQuery);
+	        Study study;
+	        boolean odc;
+	        for (int index = 0; index < participantsForCurrentSearch.size(); index++) {
+	            participant = participantsForCurrentSearch.get(index);
+	
+	            searchParticipantDTO = new SearchParticipantDTO();
+	            searchParticipantDTO.setFirstName(participant.getFirstName());
+	            searchParticipantDTO.setLastName(participant.getLastName());
+	            searchParticipantDTO.setOrganizationName(participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getName());
+	            searchParticipantDTO.setStudyParticipantIdentifier(participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier());
+	            searchParticipantDTO.setStudyShortTitle(participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy().getShortTitle());
+	
+	            odc = false;
+	            if (participant.getStudyParticipantAssignments().size() > 0) {
+	                study = participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
+	                if(studiesOnWhichUserIsOdc.contains(study)){
+	                	odc = true;
+	                }
+	            }
+	
+	            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
+	                    + participant.getId() + "'"
+	                    + " onmouseover=\"javascript:showPopUpMenuParticipant('"
+	                    + participant.getId()
+	                    + "','"
+	                    + odc
+	                    + "');\">"
+	                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+	
+	
+	            searchParticipantDTO.setActions(actions);
+	            searchParticipantWrapper.getSearchParticipantDTOs()[index] = searchParticipantDTO;
+	        }
         }
-
         String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
 
         modelAndView.addObject("mode", mode);
