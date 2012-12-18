@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -206,11 +207,11 @@ public class ParticipantSchedule {
                             }
                             studyParticipantCrfSchedule.setDueDate(dueDateNew);
 
-                            if (today.after(dueDateNew)) {
+                            if (today.after(dueDateNew) && !today.equals(dueDateNew)) {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
                             }
                             
-                            if(spa.getStatus().equals(RoleStatus.ONHOLD)){
+                            if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD)){
                             	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
                             }
                             if (cycleNumber != -1) {
@@ -319,10 +320,13 @@ public class ParticipantSchedule {
      * @param newCalendar Calendar, of reschedule date
      * @param formIds     List<String>, crfs for which schedules needs to be modified
      * @param resultMap   LinkedHashMap<String, List<String>>, stores the failure and success forms list map
+     * @throws ParseException 
      */
-    public void updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap) {
+    @SuppressWarnings("deprecation")
+	public void updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap) throws ParseException {
         List<String> updatedForms = new ArrayList<String>();
         List<String> completedForms = new ArrayList<String>();
+        StudyParticipantCrfSchedule save = null;
         if (newCalendar != null) {
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
 
@@ -336,6 +340,15 @@ public class ParticipantSchedule {
                         String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
                         String calendarDate = DateUtils.format(oldCalendar.getTime());
                         String calendarNewDate = DateUtils.format(newCalendar.getTime());
+                        if(calendarDate.equals(scheduleDate) && studyParticipantCrfSchedule.getStatus().equals(CrfStatus.NOTAPPLICABLE)){
+                        	 DateFormat dateFormat= new SimpleDateFormat("mm/dd/yyyy");
+                        	 Date newscheduledDate= dateFormat.parse(calendarNewDate);
+                        	 Date oldscheduledDate= dateFormat.parse(scheduleDate);
+                        	 if(DateUtils.compareDate(newscheduledDate,oldscheduledDate) > 0){
+                        		 studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                        		 save= studyParticipantCrfSchedule;
+                             }
+                        }
                         if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
                             schToUpdate = studyParticipantCrfSchedule;
                             alreadyExists = true;
@@ -376,6 +389,10 @@ public class ParticipantSchedule {
                 }
             }
         }
+        
+        if(completedForms.size()>0 && save !=null)
+        	save.setStatus(CrfStatus.NOTAPPLICABLE);
+        	
         resultMap.put("successForms", updatedForms);
         resultMap.put("failedForms", completedForms);
     }
