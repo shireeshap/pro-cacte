@@ -318,6 +318,19 @@ public class User extends BaseVersionable implements UserDetails {
         return accessableObjectIds;
     }
 
+    public boolean checkGroupPrivilege(Class<? extends Persistable> persistableClass){
+    	List<Integer> accessableObjectIds = new ArrayList<Integer>();
+    	for (String grantedAuthority : findAllAuthorities()) {
+    		String requiredGrouPrivilege = persistableClass.getName() + ".GROUP";
+            if (grantedAuthority.contains(requiredGrouPrivilege)) {
+            	return true;
+            }
+    		
+    	}
+    	return false;
+    }
+    
+    
     public List<String> findAllAuthorities() {
         List<String> allAuthorites = new ArrayList<String>();
 
