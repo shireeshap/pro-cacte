@@ -14,7 +14,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
-
+import gov.nih.nci.ctcae.core.domain.Persistable;
 //
 
 /**
@@ -54,9 +54,12 @@ public class StudyAjaxFacade {
     }
 
     public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords) {
-    	List<Study> studies;
-
+    	List<Study> studies = null;
+    	
+    	// Fetch the records only if totalRecords are determined to be greater than zero
+    	if(totalRecords != 0){
     	studies = getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
+    	}
         return studies;
     }
 
@@ -134,21 +137,28 @@ public class StudyAjaxFacade {
     }
 
     public Long resultCount(String[] searchTexts) {
-        StudyQuery studyQuery = new StudyQuery(true);
-//        if (!user.isAdmin() && !user.isCCA()) {
-//            studyQuery.filterByUsername(userName);
-//        } else {
-            if (searchTexts != null) {
-                int index = 0;
-                for (String searchText : searchTexts) {
-                    if (!StringUtils.isBlank(searchText)) {
-                        studyQuery.filterByAll(searchText, "" + index);
-                        index++;
-                    }
-                }
-            }
-//        }
-        return studyRepository.findWithCount(studyQuery);
-    }
-
+    	
+    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	List<Integer> objectIds = user.findAccessibleObjectIds(Study.class);
+    	/* If user privileges are such that he has an empty list of AccessibleObjectIds associated with him, then return 0 as resultCount
+    	 * else get the actual resutCount from the database. 
+    	*/
+    	boolean groupPrivilege = user.checkGroupPrivilege(Study.class);
+    	if((objectIds != null && objectIds.size() > 0) || groupPrivilege){
+    		StudyQuery studyQuery = new StudyQuery(true);
+	          if (searchTexts != null) {
+	                int index = 0;
+	                for (String searchText : searchTexts) {
+	                    if (!StringUtils.isBlank(searchText)) {
+	                        studyQuery.filterByAll(searchText, "" + index);
+	                        index++;
+	                    }
+	                }
+	            }
+	        return studyRepository.findWithCount(studyQuery);
+    	}
+    	
+    		return (long) 0;
+    }    	
+    
 }
