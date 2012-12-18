@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-
+import gov.nih.nci.ctcae.core.service.ParticipantScheduleService;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class AddCrfScheduleController extends AbstractController {
 
     GenericRepository genericRepository;
+    ParticipantScheduleService participantScheduleService;  
 
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -156,7 +157,8 @@ public class AddCrfScheduleController extends AbstractController {
             c.set(Calendar.DATE, Integer.parseInt(date));
             Calendar dueCalendar = (Calendar) c.clone();
             dueCalendar.add(Calendar.DATE, 1);
-            participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
+            participantScheduleService.createAndSaveSchedules(c, null, -1, -1, formIds, false, false, participantSchedule);
+           // participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
             participantCommand.lazyInitializeAssignment(genericRepository, true);
         }
         if ("del".equals(action)) {
@@ -192,5 +194,10 @@ public class AddCrfScheduleController extends AbstractController {
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+    
+    @Required
+    public void setParticipantScheduleService(ParticipantScheduleService participantScheduleService) {
+        this.participantScheduleService = participantScheduleService;
     }
 }
