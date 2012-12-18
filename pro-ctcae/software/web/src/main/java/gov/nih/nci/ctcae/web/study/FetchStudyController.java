@@ -62,47 +62,48 @@ public class FetchStudyController extends AbstractController {
         Long totalRecords = studyAjaxFacade.resultCount(searchStrings);
         List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords.intValue());
         
-        Study study;
-        SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();
-        searchStudyWrapper.setTotalRecords(totalRecords.intValue());
-        searchStudyWrapper.setRecordsReturned(studies.size());
-        searchStudyWrapper.setStartIndex(Integer.parseInt(startIndex));
-        searchStudyWrapper.setPageSize(rowsPerPageInt);
-        searchStudyWrapper.setDir(dir);
-        searchStudyWrapper.setSort(sort);
-        searchStudyWrapper.setSearchStudyDTO(new SearchStudyDTO[studies.size()]);
-        SearchStudyDTO studyCommand;
-        for (int index = 0; index < studies.size(); index++) {
-            study = studies.get(index);
-            
-            studyCommand = new SearchStudyDTO();
-            studyCommand.setShortTitle(study.getShortTitle());
-            studyCommand.setAssignedIdentifier(study.getAssignedIdentifier());
-            studyCommand.setFundingSponsorDisplayName(study.getFundingSponsor().getOrganization().getDisplayName());
-            studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
-            
-            boolean odcOnStudy = false;
-            if (user.isCCA() || user.isAdmin()) {
-                odcOnStudy = false;
-            } else {
-                if (user.isODCOnStudy(study)) {
-                    odcOnStudy = true;
-                }
-            }
-            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
-                    + study.getId() + "'"
-                    + " onmouseover=\"javascript:showPopUpMenuStudy('"
-                    + study.getId()
-                    + "','"
-                    + odcOnStudy
-                    + "');\">"
-                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
-
-            studyCommand.setActions(actions);
-            
-            searchStudyWrapper.getSearchStudyDTO()[index] = studyCommand;
-        }
-
+	        Study study;
+	        SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();
+	        if(studies!=null){
+		        searchStudyWrapper.setTotalRecords(totalRecords.intValue());
+		        searchStudyWrapper.setRecordsReturned(studies.size());
+		        searchStudyWrapper.setStartIndex(Integer.parseInt(startIndex));
+		        searchStudyWrapper.setPageSize(rowsPerPageInt);
+		        searchStudyWrapper.setDir(dir);
+		        searchStudyWrapper.setSort(sort);
+		        searchStudyWrapper.setSearchStudyDTO(new SearchStudyDTO[studies.size()]);
+		        SearchStudyDTO studyCommand;
+		        for (int index = 0; index < studies.size(); index++) {
+		            study = studies.get(index);
+		            
+		            studyCommand = new SearchStudyDTO();
+		            studyCommand.setShortTitle(study.getShortTitle());
+		            studyCommand.setAssignedIdentifier(study.getAssignedIdentifier());
+		            studyCommand.setFundingSponsorDisplayName(study.getFundingSponsor().getOrganization().getDisplayName());
+		            studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
+		            
+		            boolean odcOnStudy = false;
+		            if (user.isCCA() || user.isAdmin()) {
+		                odcOnStudy = false;
+		            } else {
+		                if (user.isODCOnStudy(study)) {
+		                    odcOnStudy = true;
+		                }
+		            }
+		            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
+		                    + study.getId() + "'"
+		                    + " onmouseover=\"javascript:showPopUpMenuStudy('"
+		                    + study.getId()
+		                    + "','"
+		                    + odcOnStudy
+		                    + "');\">"
+		                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+		
+		            studyCommand.setActions(actions);
+		            
+		            searchStudyWrapper.getSearchStudyDTO()[index] = studyCommand;
+		        }
+	        }
         JSONObject jsonObject = JSONObject.fromObject(searchStudyWrapper);  
         Map<String,Object> modelMap = new HashMap<String,Object>();
         modelMap.put("shippedRecordSet", jsonObject);
