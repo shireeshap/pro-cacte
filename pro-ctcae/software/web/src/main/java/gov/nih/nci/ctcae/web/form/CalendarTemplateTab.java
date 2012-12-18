@@ -88,6 +88,27 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
         return map;
     }
 
+    @Override
+    public void validate(CreateFormCommand command, Errors errors) {
+    	 super.validate(command, errors);
+    	 List<FormArmSchedule> formArmSchedules= command.getCrf().getFormArmSchedules();
+    	 for(FormArmSchedule formArmSchedule : formArmSchedules){
+    		 List<CRFCycleDefinition> crfCycleDefinitions = formArmSchedule.getCrfCycleDefinitions();
+    		 for(CRFCycleDefinition crfCycleDefinition : crfCycleDefinitions){
+    			 int index=0;
+    			 String dueDateValue = crfCycleDefinition.getDueDateValue();
+    			 if(dueDateValue.contains(".") ){
+    				 String field="cycle_due_"+index;
+    				 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
+    			 }else if (Integer.parseInt(dueDateValue) <= 0){
+    				 String field="cycle_due_"+index;
+    				 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
+    			 }
+    			 
+    			 index++;
+    		 }
+    	 }
+    }
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
@@ -129,7 +150,10 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             }
             command.getCopySelectedArmScheduleIds().clear();
         }
-        command.setCrf(crfRepository.save(command.getCrf()));
+        
+        if(!errors.hasErrors()){
+        	command.setCrf(crfRepository.save(command.getCrf()));
+        }
         super.postProcess(request, command, errors);
 
     }
