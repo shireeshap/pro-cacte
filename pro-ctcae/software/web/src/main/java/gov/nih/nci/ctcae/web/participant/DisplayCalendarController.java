@@ -41,8 +41,11 @@ public class DisplayCalendarController extends AbstractController {
         if (direction.equals("refresh")) {
             participantSchedule.getProCtcAECalendar().add(0);
         }
+        
+        String spa = request.getParameter("spa");
 
         modelAndView.addObject("participantSchedule", participantCommand.getParticipantSchedules().get(index));
+        modelAndView.addObject("spa", participantCommand.getSelectedStudyParticipantAssignment());
         modelAndView.addObject("index", index);
 
         return modelAndView;
