@@ -10,6 +10,8 @@
     calendarArr[${index}] = new Array();
     scheduleArr[${index}] = new Array();
     forms[${index}] = new Array();
+    isOffStudy=false;
+    var Off_TreatmentDate ='${studyParticipantAssignment.offTreatmentDate}';
 </script>
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule" varStatus="status">
@@ -33,10 +35,16 @@
 
 <tags:instructions code="schedulecrf.instructions"/>
 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
-<div style="margin-left:15px">
-<font color="red" size="2"><b>Surveys for the participant <i>"${studyParticipantAssignment.participant.displayName}"</i> have been put on hold beginning <tags:formatDate value="${studyParticipantAssignment.onHoldTreatmentDate}"/></b></font>
-</div>
-    </c:if>
+	<div style="margin-left:15px">
+	<font color="red" size="2"><b>Surveys for the participant <i>"${studyParticipantAssignment.participant.displayName}"</i> have been put on hold beginning <tags:formatDate value="${studyParticipantAssignment.onHoldTreatmentDate}"/></b></font>
+	</div>
+</c:if>
+
+<c:if test="${studyParticipantAssignment.status eq 'OFFSTUDY'}">
+	<div style="margin-left:15px">
+		<font color="red" size="2"><b>This participant <i>"${studyParticipantAssignment.participant.displayName}"</i>  was taken off study on: <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/></b></font>
+	</div>
+</c:if>
 <br/>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr>
