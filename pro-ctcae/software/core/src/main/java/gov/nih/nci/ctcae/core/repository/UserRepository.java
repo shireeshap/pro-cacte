@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty.Int;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
@@ -74,8 +75,15 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
 
+        //only adding the roles which are active on atleast one study
+        boolean isAdminOrCCA = user.hasRole(Role.ADMIN, Role.CCA);  
         for (UserRole userRole : user.getUserRoles()) {
-            roles.add(userRole.getRole());
+        	//for all roles (except ADMIN and CCA) check if user is Active on atleast one of the assigned studies.
+        	if(!isAdminOrCCA){
+	            if(isRoleActive(user.getId(), userRole.getRole()))
+	            	roles.add(userRole.getRole());
+        	}else
+        		roles.add(userRole.getRole());
         }
 
         if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
@@ -194,6 +202,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return users;
     }
 
+    private boolean isRoleActive(Integer userId, Role roleName){
+    	UserQuery query = new UserQuery(true, true, true);
+    	query.filterInActiveRoles(userId, roleName);
+        return ((genericRepository.findWithCount(query) > 0 )? true : false);
+    }
+    
     private void checkAccountLock(User user, PasswordPolicy passwordPolicy) {
         if (checkAccountLockout) {
             Integer numOfAttempts = user.getNumberOfAttempts();
