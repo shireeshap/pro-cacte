@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.service;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
@@ -8,9 +9,14 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -25,15 +31,9 @@ import org.springframework.beans.factory.annotation.Required;
  * (is used as an alternative for createSchedule method of ParticipantSchedule.java for better time performance)
 */
 
-
-
 public class ParticipantScheduleService {
  
 	StudyParticipantCrfRepository studyParticipantCrfRepository;
-	
-	public String helloworld(){
-		return "testing";
-	}
 	
 	public void createAndSaveSchedules(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline, boolean armChange,ParticipantSchedule participantSchedule){
 		
@@ -48,6 +48,98 @@ public class ParticipantScheduleService {
 		}
 	}
 	
+	
+	public void updateAndSaveSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, LinkedHashMap<String, List<String>> resultMap, ParticipantSchedule participantSchedule) throws ParseException{
+	
+		List<String> updatedForms = new ArrayList<String>();
+		List<String> completedForms = new ArrayList<String>();
+		List<StudyParticipantCrf> studyParticipantCrfs = participantSchedule.getStudyParticipantCrfs();
+		
+	     StudyParticipantCrfSchedule save = null;
+	     if (newCalendar != null) {
+	
+	         StudyParticipantCrfSchedule schToUpdate = null;
+	         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+	        	 if(updateSchedule(oldCalendar, newCalendar, formIds, updatedForms, completedForms, studyParticipantCrf)){
+	        		 studyParticipantCrfRepository.save(studyParticipantCrf);
+	        	 }
+	        	 
+	         }
+	     }
+	     resultMap.put("successForms", updatedForms);
+	     resultMap.put("failedForms", completedForms);
+	}
+
+
+public boolean updateSchedule(Calendar oldCalendar, Calendar newCalendar, List<String> formIds, List<String> updatedForms,List<String> completedForms, StudyParticipantCrf studyParticipantCrf) throws ParseException{
+    int alreadyExistsCount = 0;
+    boolean alreadyExists = false;
+    boolean alreadyPresentNewDate = false;
+    boolean saveSchedules;
+    StudyParticipantCrfSchedule save = null;
+    StudyParticipantCrfSchedule schToUpdate = null;
+    Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+    
+    if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
+            String calendarDate = DateUtils.format(oldCalendar.getTime());
+            String calendarNewDate = DateUtils.format(newCalendar.getTime());
+            if(calendarDate.equals(scheduleDate) && studyParticipantCrfSchedule.getStatus().equals(CrfStatus.NOTAPPLICABLE)){
+            	 DateFormat dateFormat= new SimpleDateFormat("mm/dd/yyyy");
+            	 Date newscheduledDate= dateFormat.parse(calendarNewDate);
+            	 Date oldscheduledDate= dateFormat.parse(scheduleDate);
+            	 if(DateUtils.compareDate(newscheduledDate,oldscheduledDate) > 0){
+            		 studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+            		 save= studyParticipantCrfSchedule;
+                 }
+            }
+            if (calendarDate.equals(scheduleDate) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+                schToUpdate = studyParticipantCrfSchedule;
+                alreadyExists = true;
+            }
+            if (calendarNewDate.equals(scheduleDate)) {
+                schToUpdate = studyParticipantCrfSchedule;
+                alreadyPresentNewDate = true;
+            }
+            if (alreadyExists && alreadyPresentNewDate) {
+                break;
+            }
+
+        }
+        //checking for if same form is present in current and moving date or not
+        //if moving date has same form then do not process that record.
+        if (alreadyExists && !alreadyPresentNewDate) {
+            int dateOffsetBetweenStartAndDueDate = DateUtils.daysBetweenDates(schToUpdate.getDueDate(), schToUpdate.getStartDate());
+            int dateOffsetBetweenOldAndNewStartDates = DateUtils.daysBetweenDates(newCalendar.getTime(), schToUpdate.getStartDate());
+            schToUpdate.setStartDate(newCalendar.getTime());
+            //update ivrsSchedules
+            schToUpdate.updateIvrsSchedules(studyParticipantCrf, dateOffsetBetweenOldAndNewStartDates);
+
+            Calendar dueCalendar = (Calendar) newCalendar.clone();
+            dueCalendar.add(Calendar.DATE, dateOffsetBetweenStartAndDueDate);
+            schToUpdate.setDueDate(dueCalendar.getTime());
+            if (today.after(schToUpdate.getDueDate())) {
+                schToUpdate.setStatus(CrfStatus.PASTDUE);
+            } else {
+                if (schToUpdate.getStatus().equals(CrfStatus.PASTDUE)) {
+                    schToUpdate.setStatus(CrfStatus.SCHEDULED);
+                }
+            }
+
+            updatedForms.add(studyParticipantCrf.getCrf().getTitle());
+            return true;
+            
+        } else {
+            completedForms.add(studyParticipantCrf.getCrf().getTitle());
+        }
+    }
+    if(completedForms.size()>0 && save !=null)
+    	save.setStatus(CrfStatus.NOTAPPLICABLE);
+    
+    return false;
+}
+
 	
 public boolean createStudyParticipantCrfSchedules(Calendar c, Date dueDate, int cycleNumber, int cycleDay, List<String> formIds, boolean baseline, boolean armChange, StudyParticipantCrf studyParticipantCrf, ParticipantSchedule participantSchedule){
 		 SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
