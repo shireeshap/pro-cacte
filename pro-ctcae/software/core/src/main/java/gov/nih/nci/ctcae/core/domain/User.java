@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -373,6 +374,18 @@ public class User extends BaseVersionable implements UserDetails {
         }
         return false;
     }
+    
+    //check if user has any of the roles listed in param 'roles'
+    public boolean hasRole(Role ... roles) {
+    	ArrayList<Role> paramRolesAsList = new ArrayList<Role>(Arrays.asList(roles));
+        for (UserRole userRole : userRoles) {
+            if (paramRolesAsList.contains(userRole.getRole())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
 
     public boolean isODCOnStudy(Study study) {
