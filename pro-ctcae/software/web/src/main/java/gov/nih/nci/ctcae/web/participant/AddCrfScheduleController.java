@@ -90,7 +90,9 @@ public class AddCrfScheduleController extends AbstractController {
 
             Calendar newCalendar = new GregorianCalendar();
             newCalendar.setTime(newDate);
-            participantSchedule.updateSchedule(c, newCalendar, formIds, resultMap);
+            //using service layer object to save moved schedules
+            participantScheduleService.updateAndSaveSchedule(c, newCalendar, formIds, resultMap, participantSchedule);
+//            participantSchedule.updateSchedule(c, newCalendar, formIds, resultMap);
             participantCommand.lazyInitializeAssignment(genericRepository, true);
             mv.addObject("day", request.getParameter("date"));
             mv.addObject("index", request.getParameter("index"));
@@ -157,6 +159,7 @@ public class AddCrfScheduleController extends AbstractController {
             c.set(Calendar.DATE, Integer.parseInt(date));
             Calendar dueCalendar = (Calendar) c.clone();
             dueCalendar.add(Calendar.DATE, 1);
+            //using service layer object to save newly added schedules
             participantScheduleService.createAndSaveSchedules(c, null, -1, -1, formIds, false, false, participantSchedule);
            // participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
             participantCommand.lazyInitializeAssignment(genericRepository, true);
