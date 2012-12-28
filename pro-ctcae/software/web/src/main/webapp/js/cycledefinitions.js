@@ -32,12 +32,48 @@ function getScheduleIdsForDay(index, day) {
         return scheduleid;
     }
 }
+function isEqual(d1,d2){
+	 if(d2 ='undefined')
+		 return false;
+	 if(d1.getYear() == d2.getYear())
+		if(d1.getMonth() == d2.getMonth())
+			if(d1.getDate() == d2.getDate())
+				return true;
+	return false;
+}
+
 function initializeCalendar(index, month, year) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
+    var offTreatmentDateString = Off_TreatmentDate;
+    var isOffTreatment = (Off_TreatmentDate !=''? true : false);
+    var offTreatmentDate = new Date();
+    var postOffTreatmentDate = false;
+    if(isOffTreatment){
+    	var dateElements = offTreatmentDateString.substring(0,10).split("-");
+	    offTreatmentDate.setYear(dateElements[0]);
+	    offTreatmentDate.setMonth(dateElements[1]-1);
+	    offTreatmentDate.setDate(dateElements[2]);
+    }
+   
 //    var item = $(div_id);
     for (var day = 0; day < myCalendar.length; day++) {
+    	var currentDate = new Date();
+    	currentDate.setYear(year);
+    	currentDate.setMonth(month-1);
+    	currentDate.setDate(day);
+    	
+    	if(isOffTreatment && (currentDate > offTreatmentDate))
+    		postOffTreatmentDate = true;
+
+    	//for particpant put off-study, display 
+    	if(isEqual(currentDate,offTreatmentDate) && isOffTreatment){
+    		var div_id = index + '_schedule_' + day;
+    		var item = $(div_id);
+        	item.style.background = 'blue';
+        	item.innerHTML = '<br/>offStudy<br/>';
+        }
 //        var item = $(div_id);
         if (isdefined(myCalendar[day])) {
             var div_id = index + '_schedule_' + day;
@@ -46,7 +82,7 @@ function initializeCalendar(index, month, year) {
             var showDeleteOption = true;
             var isEnableDrag = true;
             var item = $(div_id);
-            if (isdefined(myschedule)) {
+            if (isdefined(myschedule)&& !postOffTreatmentDate) {
                 var scheduleid = '';
                 var item = $(div_id);
                 item.addClassName('blue');
@@ -126,97 +162,103 @@ function initializeCalendar(index, month, year) {
                             title = title + ', '
                         }
                     }
-                    item.innerHTML = '<br/>Multiple forms<br/>';
-                    if (hasCompleted) {
-                        item.style.background = 'green';
-                        item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
-                        showDeleteOption = true;
-                        isEnableDrag = false;
-                    }
-                    if (hasScheduled) {
-                        item.style.background = 'blue';
-                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
-                        showDeleteOption = true;
-                        isEnableDrag = false;
-                    }
-                    if (hasInprogress) {
-                        item.style.background = '#ff9900';
-                        item.innerHTML = '<br/>Multiple forms<br/>(In-progress)';
-                        showDeleteOption = true;
-                        isEnableDrag = false;
-                    }
-                    if (allNa) {
-                        item.style.background = 'lightgrey';
-                        item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
-                        //showDeleteOption = false;
-                        // isEnableDrag = false;
-                        showdropdown = true;
-                    }
-                    if (hasPastDue) {
-                        item.style.background = 'red';
-                        item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
-                    }
-                    if (onHold) {
-                        item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
-                    }
-                    if (!allNa) {
-                        showdropdown = true;
-                    }
-                    if (allCompleted || allInprogress) {
-                        showDeleteOption = false;
-                    }
+                    
+	                    item.innerHTML = '<br/>Multiple forms<br/>';
+	                    if (hasCompleted) {
+	                        item.style.background = 'green';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
+	                        showDeleteOption = true;
+	                        isEnableDrag = false;
+	                    }
+	                    if (hasScheduled) {
+	                        item.style.background = 'blue';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
+	                        showDeleteOption = true;
+	                        isEnableDrag = false;
+	                    }
+	                    if (hasInprogress) {
+	                        item.style.background = '#ff9900';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(In-progress)';
+	                        showDeleteOption = true;
+	                        isEnableDrag = false;
+	                    }
+	                    if (allNa) {
+	                        item.style.background = 'lightgrey';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
+	                        //showDeleteOption = false;
+	                        // isEnableDrag = false;
+	                        showdropdown = true;
+	                    }
+	                    if (hasPastDue) {
+	                        item.style.background = 'red';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
+	                    }
+	                    if (onHold) {
+	                        item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
+	                    }
+	                    if (!allNa) {
+	                        showdropdown = true;
+	                    }
+	                    if (allCompleted || allInprogress) {
+	                        showDeleteOption = false;
+	                    }
+                  
                     item.title = title;
 
                 } else {
-                    myschedule = myschedule[0];
-                    var status = myschedule[0];
-                    var baseline = myschedule[1];
-                    var holiday = myschedule[2];
-                    scheduleid = myschedule[3];
-                    item.innerHTML = '<br/>' + status;
-                    item.title = forms[index][scheduleid];
-                    if (baseline == 'true') {
-                        item.innerHTML = item.innerHTML + '<br/>(baseline)';
-                    }
-                    if (status == 'Scheduled') {
-                        item.style.background = 'blue';
-                        showDeleteOption = true;
-                    }
-                    if (status == 'In-progress') {
-                        item.style.background = 'orange';
-                        showDeleteOption = false;
-                    }
-                    if (status == 'Completed') {
-                        item.style.background = 'green';
-                        showDeleteOption = false;
-                        isEnableDrag = false;
-                    }
-                    if (status == 'Past-due') {
-                        item.style.background = 'red';
-                        showDeleteOption = false;
-                    }
-                    if (status == 'On-hold') {
-                        item.style.background = 'yellow';
-                        item.style.color = 'black';
-                    }
-                    if (status == 'Cancelled') {
-                        item.style.background = 'lightgrey';
-                    }
-
-                    if (status == 'N/A') {
-                        item.style.background = 'lightgrey';
-                    }
-
-                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status == 'Completed') {
-                        if (holiday == 'true') {
-//                            item.style.background = 'blue';
-                            item.addClassName('blue');
-                        }
-                        item.style.cursor = 'pointer';
-                    }
-                    showdropdown = true;
-                }
-                if (showdropdown) {
+	                    myschedule = myschedule[0];
+	                    var status = myschedule[0];
+	                    var baseline = myschedule[1];
+	                    var holiday = myschedule[2];
+	                    scheduleid = myschedule[3];
+	                    item.innerHTML = '<br/>' + status;
+	                    item.title = forms[index][scheduleid];
+	                    if (baseline == 'true') {
+	                        item.innerHTML = item.innerHTML + '<br/>(baseline)';
+	                    }
+	                    if (status == 'Scheduled') {
+	                        item.style.background = 'blue';
+	                        showDeleteOption = true;
+	                    }
+	                    if (status == 'In-progress') {
+	                        item.style.background = 'orange';
+	                        showDeleteOption = false;
+	                    }
+	                    if (status == 'Completed') {
+	                        item.style.background = 'green';
+	                        showDeleteOption = false;
+	                        isEnableDrag = false;
+	                    }
+	                    if (status == 'Past-due') {
+	                        item.style.background = 'red';
+	                        showDeleteOption = false;
+	                    }
+	                    if (status == 'On-hold') {
+	                        item.style.background = 'yellow';
+	                        item.style.color = 'black';
+	                    }
+	                    if (status == 'Cancelled') {
+	                        item.style.background = 'lightgrey';
+	                    }
+	
+	                    if (status == 'N/A') {
+	                        item.style.background = 'lightgrey';
+	                    }
+	
+	                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status == 'Completed') {
+	                        if (holiday == 'true') {
+	//                            item.style.background = 'blue';
+	                            item.addClassName('blue');
+	                        }
+	                        item.style.cursor = 'pointer';
+	                    }
+	                    showdropdown = true;
+                
+              }
+                
+               /*show dropdown menu for participants not put off-study and
+               for participants who are put off-study, do not show dropdown menu for dates later than participants off-study date */
+                if (showdropdown && !postOffTreatmentDate){
                     var delIcon = '<div style="float:right">' +
                             '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
                             '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
@@ -226,22 +268,26 @@ function initializeCalendar(index, month, year) {
                     if (isEnableDrag) {
                         myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                     }
-
                 }
+                
                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
 
             } else {
                 myCalendar[day] = new YAHOO.util.DDTarget(div_id, 'date');
+               
                 var delIcon = '<div style="float:right">' +
                         '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + day + '">' +
                         '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                         '</div>';
-                item.innerHTML = delIcon + item.innerHTML;
 
-                showPopUpMenuSchedule(day,  month, year, index, null, true);
-//                Event.observe(div_id, "click", function() {
-//                    showAddWindow(getDate(this), getIndex(this));
-//                })
+                //show dropdown menu for participants not put off-study 
+                if(!postOffTreatmentDate) {
+                	item.innerHTML = delIcon + item.innerHTML;
+                    showPopUpMenuSchedule(day,  month, year, index, null, true);
+//                    Event.observe(div_id, "click", function() {
+//                        showAddWindow(getDate(this), getIndex(this));
+//                    })
+                }
             }
         }
     }
