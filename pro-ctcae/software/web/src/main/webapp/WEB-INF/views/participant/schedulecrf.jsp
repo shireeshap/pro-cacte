@@ -278,7 +278,9 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
 
     if (sid == null) {
         html = '<div id="search-engines"><ul>';
-        if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+        /* commenting off-study check, as dropdown arrow is prevented from showing up in 
+        the first place, for dates greater than off-study date */
+        //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
                 html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
@@ -287,14 +289,16 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
             } else {
                 html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
-        }
+        //}
         html += '</ul></div>';
     } else {
         //TODO:Suneel A needs to clean up commented line after issue resolved
         //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
         html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Show details</a></li>';
-        if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
+        /* commenting off-study check, as dropdown arrow is prevented from showing up in 
+        the first place, for dates greater than off-study date */
+        //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 if (${crfsSize>1}) {
                     html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
@@ -359,7 +363,7 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                 }
                 html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
             }
-        }
+        //}
         html += '</ul></div>';
     }
     jQuery('#scheduleActions' + menuindex).menu({
