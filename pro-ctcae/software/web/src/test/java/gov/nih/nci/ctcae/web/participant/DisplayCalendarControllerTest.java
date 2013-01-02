@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
     DisplayCalendarController controller;
     ParticipantSchedule participantSchedule;
     ProCtcAECalendar calendar;
+    StudyParticipantAssignment spa;
     StudyParticipantCommand studyParticipantCommand;
     ParticipantCommand participantCommand;
 
@@ -28,6 +30,8 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         studyParticipantCommand = registerMockFor(StudyParticipantCommand.class);
         participantCommand = registerMockFor(ParticipantCommand.class);
         participantSchedule = registerMockFor(ParticipantSchedule.class);
+        spa = registerMockFor(StudyParticipantAssignment.class);
+        
         calendar = registerMockFor(ProCtcAECalendar.class);
         List l = new ArrayList();
         l.add(participantSchedule);
