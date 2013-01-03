@@ -122,7 +122,9 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                                 }
 
                                 //for all schedules that are scheduled or in-progress and available, send out patient reminders.
-                                if (web && (today.equals(studyParticipantCrfSchedule.getStartDate())||today.after(studyParticipantCrfSchedule.getStartDate())) && (today.before(studyParticipantCrfSchedule.getDueDate())||today.equals(studyParticipantCrfSchedule.getDueDate()))) {
+                                if (web && 
+                                		(today.equals(studyParticipantCrfSchedule.getStartDate()) || today.after(studyParticipantCrfSchedule.getStartDate())) && 
+                                		(today.before(studyParticipantCrfSchedule.getDueDate()) || today.equals(studyParticipantCrfSchedule.getDueDate()))) {
                                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                                         addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
                                     }
