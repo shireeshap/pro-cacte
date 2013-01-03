@@ -16,6 +16,7 @@ import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -76,14 +79,15 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
 
         //only adding the roles which are active on atleast one study
-        boolean isAdminOrCCA = user.hasRole(Role.ADMIN, Role.CCA);  
+        boolean isAdminOrCCAOrParticipant = user.hasRole(Role.ADMIN, Role.CCA, Role.PARTICIPANT);  
         for (UserRole userRole : user.getUserRoles()) {
-        	//for all roles (except ADMIN and CCA) check if user is Active on atleast one of the assigned studies.
-        	if(!isAdminOrCCA){
+        	//for all roles (except ADMIN and CCA and Participant) check if user is Active on atleast one of the assigned studies.
+        	if(!isAdminOrCCAOrParticipant){
 	            if(isRoleActive(user.getId(), userRole.getRole()))
 	            	roles.add(userRole.getRole());
-        	}else
+        	} else {
         		roles.add(userRole.getRole());
+        	}
         }
 
         if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
