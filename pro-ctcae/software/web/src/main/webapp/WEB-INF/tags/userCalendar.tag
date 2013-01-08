@@ -117,12 +117,12 @@
                             </c:forEach>
                             <c:choose>
                                 <c:when test="${hasSchedules eq true}">
-                                    <div style="float:right"><a
+                                    <div id="schedule_${day}" class="${class}" style="text-align:center;" title="">
+                                     <div style="float:right;"><a
                                             class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                                             id="scheduleActions${day}"
                                             onmouseover="javascript:showPopUpMenuAlert('${day}')"><span
                                             class="ui-icon ui-icon-triangle-1-s"></span></a></div>
-                                    <div id="schedule_${day}" class="${class}" style="text-align:center;" title="">
                                         <br><br> <c:if
                                             test="${fn:length(currentSchedule.value) eq 1}">Form (${fn:length(currentSchedule.value)})</c:if>
                                         <c:if test="${fn:length(currentSchedule.value)>1}">Multiple forms (${fn:length(currentSchedule.value)})</c:if>
@@ -140,3 +140,14 @@
         </tr>
     </c:forEach>
 </table>
+<script type="text/javascript">
+if (isIE()){
+	if(getIEVersion()==8){
+		jQuery('a[id^="scheduleActions"]').css("height","6");
+		jQuery('a[id^="scheduleActions"]').css("width","30");
+	}
+	if(getIEVersion()==9){
+		jQuery('a[id^="scheduleActions"]').attr("style","height:6px; width:30px;");
+	}
+}	
+</script>
