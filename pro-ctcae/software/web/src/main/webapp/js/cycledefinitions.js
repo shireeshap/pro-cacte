@@ -116,7 +116,7 @@ function initializeCalendar(index, month, year) {
                             if (hasInprogress == false) {
                                 if (hasScheduled == false) {
                                     if (status == 'Completed') {
-                                        hasCompleted == true;
+                                        hasCompleted = true;
                                         hasPastDue = false;
                                         hasScheduled = false;
                                         hasInprogress = false;
@@ -134,7 +134,15 @@ function initializeCalendar(index, month, year) {
                                     hasCompleted = false;
                                     hasInprogress = true;
                                 }
+                            }else{
+                            	if (status == 'Scheduled') {
+                                    hasPastDue = false;
+                                    hasScheduled = true;
+                                    hasCompleted = false;
+                                    hasInprogress = false;
+                                }                            	
                             }
+                            
                         }
                         if (status == 'Past-due') {
                             hasPastDue = true;
@@ -164,15 +172,21 @@ function initializeCalendar(index, month, year) {
                     }
                     
 	                    item.innerHTML = '<br/>Multiple forms<br/>';
+	                    
+	                    if (allNa) {
+	                        item.style.background = 'lightgrey';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
+	                        //showDeleteOption = false;
+	                        // isEnableDrag = false;
+	                        showdropdown = true;
+	                    }
+	                    if (onHold) {
+	                    	item.style.background = 'yellow';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
+	                    }
 	                    if (hasCompleted) {
 	                        item.style.background = 'green';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
-	                        showDeleteOption = true;
-	                        isEnableDrag = false;
-	                    }
-	                    if (hasScheduled) {
-	                        item.style.background = 'blue';
-	                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
 	                        showDeleteOption = true;
 	                        isEnableDrag = false;
 	                    }
@@ -182,20 +196,17 @@ function initializeCalendar(index, month, year) {
 	                        showDeleteOption = true;
 	                        isEnableDrag = false;
 	                    }
-	                    if (allNa) {
-	                        item.style.background = 'lightgrey';
-	                        item.innerHTML = '<br/>Multiple forms<br/>(N/A)';
-	                        //showDeleteOption = false;
-	                        // isEnableDrag = false;
-	                        showdropdown = true;
+	                    if (hasScheduled) {
+	                        item.style.background = 'blue';
+	                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
+	                        showDeleteOption = true;
+	                        isEnableDrag = false;
 	                    }
 	                    if (hasPastDue) {
 	                        item.style.background = 'red';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(Past-due)';
 	                    }
-	                    if (onHold) {
-	                        item.innerHTML = '<br/>Multiple forms<br/>(On-hold)';
-	                    }
+	                    
 	                    if (!allNa) {
 	                        showdropdown = true;
 	                    }
