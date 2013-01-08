@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-//
 /**
  * The Class AbstractQuery.
  *
@@ -14,75 +14,40 @@ import java.util.Set;
  */
 public abstract class AbstractQuery implements Query {
 
-    /**
-     * The query string.
-     */
     private final String queryString;
-
-    /**
-     * The query buffer.
-     */
     private StringBuffer queryBuffer;
-
-    /**
-     * The and conditions.
-     */
     private final Set<String> andConditions = new HashSet<String>();
-
-    /**
-     * The or conditions.
-     */
     private final Set<String> orConditions = new HashSet<String>();
-
-    /**
-     * The joins.
-     */
     private final Set<String> joins = new HashSet<String>();
-
-    /**
-     * The query parameter map.
-     */
     private final Map<String, Object> queryParameterMap;
     private final Map<String, Collection> queryParameterListMap;
-
-    /**
-     * The Constant ID.
-     */
     public final static String ID = "OBJID";
-
-    /**
-     * The Constant WHERE.
-     */
     public final static String WHERE = "WHERE";
-
-    /**
-     * The Constant AND.
-     */
     public final static String AND = "AND";
-
-    /**
-     * The Constant OR.
-     */
     public final static String OR = "OR";
-
-    /**
-     * The maximum results.
-     */
     private Integer maximumResults;
-
     private Integer firstResult;
-
     private String sortBy;
-
     private String sortDirection;
 
     /**
      * Instantiates a new abstract query.
      *
      * @param queryString the query string
-     */
+     *///to be removed later. instead use AbstractQuery(QueryStrings query) method.
     public AbstractQuery(final String queryString) {
         this.queryString = queryString;
+        queryParameterMap = new HashMap<String, Object>(0);
+        queryParameterListMap = new HashMap<String, Collection>(0);
+    }
+    
+    /**
+     * Instantiates a new abstract query. This is a new method and should completely replace used instances of above method.
+     *
+     * @param queryString the query string
+     */
+    public AbstractQuery(QueryStrings query) {
+        this.queryString = query.getCode();
         queryParameterMap = new HashMap<String, Object>(0);
         queryParameterListMap = new HashMap<String, Collection>(0);
     }
@@ -207,7 +172,6 @@ public abstract class AbstractQuery implements Query {
      */
     protected void join(String objectQuery) {
         addToJoinsSet(" join " + objectQuery);
-
     }
 
     /**
