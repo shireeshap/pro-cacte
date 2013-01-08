@@ -55,7 +55,7 @@
                           </td>
                           <td align="right">
                               <tags:button value="Remove hold" color="blue" id="flow-update" cssClass="next" size="large" icon="check"
-                              onclick="parent.CP.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"
+                              onclick="parent.participantOffHoldPost('${index}',$('offHoldTreatmentDate').value, 0, 0,'offhold')"
                               overRideStyle=" position:relative; top:0px;" />
 
                           </td>

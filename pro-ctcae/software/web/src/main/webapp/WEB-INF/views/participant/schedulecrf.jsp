@@ -222,30 +222,7 @@ function participantOffHold(id, date, index) {
         method:'get'
     })
 }
-function participantOffHoldPost(index, date, cycle, day, action) {
-    if (date == null || date == '') {
-        alert('Please enter a date');
-        return;
-    }
-    closeWindow();
-    if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
-    } else {
 
-        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
-            onComplete:function(transport) {
-
-                if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh");
-                } else {
-                    showConfirmationWindow(transport, 650, 210);
-                }
-            },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
-            method:'get'
-        })
-    }
-}
 
 function showHideCycleDay(value) {
     if (value) {
@@ -379,6 +356,31 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         showSpeed: 300
     });
 }
+
+
+participantOffHoldPost = function(index, date, cycle, day, action) {
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
+	        onComplete:function(transport) {
+	
+	            if (transport.responseText == "getCalendar") {
+	                getCalendar(index, "dir=refresh");
+	            } else {
+	                showConfirmationWindow(transport, 650, 210);
+	            }
+	         },
+	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+	         method:'get'
+         })
+    }
+};
 
 
 function isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, currentDate){

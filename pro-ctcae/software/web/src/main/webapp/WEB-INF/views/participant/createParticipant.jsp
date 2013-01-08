@@ -432,6 +432,30 @@ CP.checkParticipantMrn = function() {
      }
 }
 
+participantOffHoldPost = function(index, date, cycle, day, action) {
+    if (date == null || date == '') {
+        alert('Please enter a date');
+        return;
+    }
+    closeWindow();
+    if (action == 'cancel') {
+        getCalendar(index, "dir=refresh");
+    } else {
+        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
+	        onComplete:function(transport) {
+	
+	            if (transport.responseText == "getCalendar") {
+	                getCalendar(index, "dir=refresh");
+	            } else {
+	                showConfirmationWindow(transport, 650, 210);
+	            }
+	         },
+	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+	         method:'get'
+         })
+    }
+};
+
 CP.getStudySites = function() {
     var organizationId = $('organizationId').value;
     if (organizationId == '') {
@@ -535,31 +559,6 @@ CP.participantOnHold = function(id, date) {
         method:'get'
     })
 }
-
-CP.participantOffHoldPost = function(index, date, cycle, day, action) {
-    if (date == null || date == '') {
-        alert('Please enter a date');
-        return;
-    }
-    closeWindow();
-    if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
-    } else {
-        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
-	        onComplete:function(transport) {
-	
-	            if (transport.responseText == "getCalendar") {
-	                getCalendar(index, "dir=refresh");
-	            } else {
-	                showConfirmationWindow(transport, 650, 210);
-	            }
-	         },
-	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
-	         method:'get'
-         })
-    }
-}
-
 
 function doPostProcessing() {
     CP.getStudySites();
