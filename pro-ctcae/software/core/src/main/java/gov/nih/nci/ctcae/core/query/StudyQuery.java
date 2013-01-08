@@ -15,42 +15,14 @@ import org.apache.commons.lang.StringUtils;
  */
 public class StudyQuery extends SecuredQuery<Study> {
 
-    /**
-     * The Constant SHORT_TITLE.
-     */
     private static final String SHORT_TITLE = "shortTitle";
-
-    /**
-     * The Constant LONG_TITLE.
-     */
     private static final String LONG_TITLE = "longTitle";
-
-    /**
-     * The Constant ASSIGNED_IDENTIFIER.
-     */
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
-
-    /**
-     * The Constant PARTICIPANT_ID.
-     */
     private static final String PARTICIPANT_ID = "participantId";
     private static final String ROLE = "role";
-
-    /**
-     * The ORGANIZATION id.
-     */
     private static String ORGANIZATION_ID = "organizationId";
-    
-    private static String ORGANIZATION_NAME = "organizationName";
-
-    /**
-     * The Constant STUDY_SITE.
-     */
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
-    private static final String F_SPONSOR = "fundingSponsor";
-    private static final String DCC = "dataCoordinatingCenter";
-    private static final String S_SPONSOR = "studySponsor";
     private static final String USERNAME = "username";
 
     /**
@@ -58,25 +30,13 @@ public class StudyQuery extends SecuredQuery<Study> {
      * Instantiates a new study query. 
      */
     public StudyQuery() {
-        super(QueryStrings.STUDY_QUERY_STRING.getCode());
+        super(QueryStrings.STUDY_QUERY_BASIC);
     }
     
-    public StudyQuery(boolean sort, boolean count, boolean secure) {
-        super(QueryStrings.STUDY_QUERY_STRING.getCode(), secure);
+    public StudyQuery(QueryStrings query, boolean secure) {
+        super(query, secure);
     }
     
-    public StudyQuery(boolean count){
-        super(QueryStrings.STUDY_QUERY_STRING1.getCode());
-    }
-
-    public StudyQuery(boolean sort, boolean count){
-        super(QueryStrings.STUDY_QUERY_STRING2.getCode());
-    }
-    
-    public StudyQuery(boolean sort, boolean count, String str){
-        super(QueryStrings.STUDY_QUERY_STRING3.getCode());
-    }
-
     /**
      * Filter studies with matching text.
      *

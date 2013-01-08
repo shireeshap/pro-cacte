@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import java.util.ArrayList;
 import java.util.List;
 
-//
 /**
  * The Class StudyOrganizationQuery.
  *
@@ -12,40 +12,18 @@ import java.util.List;
  */
 public class StudyOrganizationQuery extends AbstractQuery {
 
-    /**
-     * The query string.
-     */
-    private static String queryString = "SELECT o from StudyOrganization o order by o.organization.name";
-
-    /**
-     * The STUD y_ id.
-     */
     private static String STUDY_ID = "studyId";
-
-    /**
-     * The ORGANIZATIO n_ id.
-     */
     private static String ORGANIZATION_ID = "organizationId";
-
-    /**
-     * The Constant STUDY_SITE.
-     */
     private static final String STUDY_SITE = "studySite";
     private static final String ORGANIZATION_NAME = "name";
-    /**
-     * The NCI code.
-     */
     private static String NCI_CODE = "nciInstituteCode";
-
 
     /**
      * Instantiates a new study organization query.
      */
     public StudyOrganizationQuery() {
-
-        super(queryString);
+        super(QueryStrings.SO_QUERY_BASIC);
     }
-
 
     /**
      * Filter by study id.

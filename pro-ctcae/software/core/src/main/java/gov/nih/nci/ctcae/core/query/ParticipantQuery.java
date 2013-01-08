@@ -21,24 +21,9 @@ import org.apache.commons.lang.StringUtils;
 
 public class ParticipantQuery extends SecuredQuery<Organization> {
 	
-    /**
-     * The FIRST name.
-     */
     private static String FIRST_NAME = "firstName";
-
-    /**
-     * The LAST name.
-     */
     private static String LAST_NAME = "lastName";
-
-    /**
-     * The IDENTIFIER.
-     */
     private static String IDENTIFIER = "assignedIdentifier";
-
-    /**
-     * The Constant STUDY_ID.
-     */
     private static final String STUDY_ID = "studyId";
     private static final String STUDY_SITE_ID = "studySiteId";
     private static final String ORGANIZATION_ID = "siteId";
@@ -50,54 +35,34 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static final String LEAD_SITE = "leadSite";
     private static final String SHORT_TITLE = "shortTitle";
     private static final String NAME = "name";
-    
+    private static final String ORGANIZATION_NAME = "sortByOrganizationName";
     private boolean isStudySiteLevel = false;
+    
 
     /** Instantiates a new participant query.
      */
     public ParticipantQuery(boolean secure) {
-        super(QueryStrings.PARTICIPANT_QUERY_STRING.getCode(), secure);
+        super(QueryStrings.PARTICIPANT_QUERY_BASIC, secure);
         if (secure) {
             leftJoinStudySites();
         }
     }
 
-    public ParticipantQuery(boolean count, boolean secure) {
-        super(QueryStrings.PARTICIPANT_QUERY_STRING1.getCode(), secure);
-    }
-
-    public ParticipantQuery(boolean sort, boolean count, boolean secure) {
-        super(QueryStrings.PARTICIPANT_QUERY_STRING2.getCode(), secure);
+    public ParticipantQuery(QueryStrings query, boolean secure) {
+        super(query, secure);
         if (secure) {
             leftJoinStudySites();
         }
     }
     
-    public ParticipantQuery(boolean count, Role role, boolean secure) {
-    	super(QueryStrings.PARTICIPANT_QUERY_STRING1.getCode(), false);	
-       
-    	User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
-        List<Integer> objectIds = new ArrayList<Integer>();
-        if (secure) {
-            leftJoinStudySites();
-            if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
-                objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
 
-            } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
-            	isStudySiteLevel = true;
-                objectIds = currentLoggedInUser.findAccessibleObjectIds(StudyOrganization.class);
-            }
-        }
-        filterByObjectIds(objectIds);
-    }
-
-    public ParticipantQuery(Role role, boolean secure, String sortField) {
-        super(QueryStrings.PARTICIPANT_QUERY_STRING2.getCode(), false);
+    public ParticipantQuery(QueryStrings query, Role role, boolean secure, String sortField) {
+        super(query, false);
        
         User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
         List<Integer> objectIds = new ArrayList<Integer>();
         if (secure) {
-        	if(sortField.compareToIgnoreCase("organizationName")==0){
+        	if(sortField.equalsIgnoreCase(ORGANIZATION_NAME)){
         		leftJoinForSortBySite();
         	}else{        	
         		leftJoinStudySites();

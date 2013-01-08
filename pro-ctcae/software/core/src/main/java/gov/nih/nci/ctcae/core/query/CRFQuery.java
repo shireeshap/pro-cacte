@@ -12,62 +12,31 @@ import gov.nih.nci.ctcae.core.domain.QueryStrings;
  */
 public class CRFQuery extends AbstractQuery {
 
-    /**
-     * The Constant TITLE.
-     */
     private static final String TITLE = "title";
-
-    /**
-     * The Constant CRFID.
-     */
     private static final String CRFID = "crfId";
-
-    /**
-     * The Constant STUDYID.
-     */
     private static final String STUDYID = "studyId";
-
     private static String CRF_IDS = "ids";
-
     private static String IS_HIDDEN = "hidden";
     private static final String SHORT_TITLE = "shortTitle";
     private static final String USERNAME = "username";
-    /**
-     * The Constant CRF_VERSION.
-     */
     private static final String CRF_VERSION = "crfVersion";
 
     /**
      * Instantiates a new cRF query.
      */
     public CRFQuery() {
-
-        super(QueryStrings.CRF_QUERY_STRING.getCode());
+        super(QueryStrings.CRF_QUERY_BASIC);
     }
-
-    public CRFQuery(boolean count) {
-        super(QueryStrings.CRF_QUERY_STRING1.getCode());
-    }
-
-    public CRFQuery(boolean sort, boolean count) {
-        super(QueryStrings.CRF_QUERY_STRING2.getCode());
-    }
-
-    public void filterByCRFIds(List<Integer> crfIds) {
-        andWhere("o.id in (:" + CRF_IDS + ")");
-        setParameterList(CRF_IDS, crfIds);
-    }
-
 
     /**
      * Instantiates a new cRF query.
-     *
-     * @param queryString the query string
+     * @param query
      */
-    public CRFQuery(String queryString) {
-        super(queryString);
+    public CRFQuery(QueryStrings query) {
+        super(query);
     }
 
+    
     /**
      * Filter by title exact match.
      *
@@ -79,7 +48,17 @@ public class CRFQuery extends AbstractQuery {
             setParameter(TITLE, title.toLowerCase());
         }
     }
-
+    
+    /**
+     * Filter by CRF ID
+     * @param crfIds
+     */
+    public void filterByCRFIds(List<Integer> crfIds) {
+        andWhere("o.id in (:" + CRF_IDS + ")");
+        setParameterList(CRF_IDS, crfIds);
+    }
+    
+    
     /**
      * Filter by not having crf id.
      *

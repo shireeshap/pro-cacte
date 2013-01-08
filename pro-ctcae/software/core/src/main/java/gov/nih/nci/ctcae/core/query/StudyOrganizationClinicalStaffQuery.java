@@ -1,41 +1,30 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 
 import java.util.Collection;
 import java.util.Date;
 
-//
 /**
  * User: Harsh Agarwal
  * Date: Feb 25, 2008.
  */
 public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
 
-    /**
-     * The query string.
-     */
-    private static String queryString = "SELECT socs from StudyOrganizationClinicalStaff socs order by socs.organizationClinicalStaff.clinicalStaff.firstName";
-
     private static String STUDY_ORGANIZATION_ID = "studyOrganizationId";
     private static String CLINICAL_STAFF_ID = "clinicalStaffId";
-
     private static String FIRST_NAME = "firstName";
-
     private static String LAST_NAME = "lastName";
-
     private static String NCI_IDENTIFIER = "nciIdentifier";
-
     private static String ROLE = "role";
     private static String ROLE_STATUS = "roleStatus";
     private static String TODAYS_DATE = "todaysDate";
 
-
     public StudyOrganizationClinicalStaffQuery() {
-        super(queryString);
+        super(QueryStrings.SOCS_QUERY_BASIC);
     }
-
 
     public void filterByFirstNameOrLastNameOrNciIdentifier(final String searchText) {
         String searchString = "%" + searchText.toLowerCase() + "%";

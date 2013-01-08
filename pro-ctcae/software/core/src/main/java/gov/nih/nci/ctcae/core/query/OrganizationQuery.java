@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
-//
 /**
  * The Class OrganizationQuery.
  *
@@ -11,38 +11,19 @@ import gov.nih.nci.ctcae.core.domain.Organization;
  */
 public class OrganizationQuery extends SecuredQuery<Organization> {
 
-    /**
-     * The query string.
-     */
-    private static String queryString = "SELECT distinct(o) from Organization o order by o.id";
-    private static String queryString1 = "SELECT distinct(o) from Organization o ";
-    
-    /**
-     * The ORGANIZATIO n_ name.
-     */
     private static String ORGANIZATION_NAME = "name";
-
-    /**
-     * The NC i_ code.
-     */
     private static String NCI_CODE = "nciInstituteCode";
 
     /**
      * Instantiates a new organization query.
      */
     public OrganizationQuery() {
-        this(true);
+        this(QueryStrings.ORGANIZATION_QUERY_BASIC, true);
     }
 
-    public OrganizationQuery(boolean secure) {
-        super(queryString, secure);
+    public OrganizationQuery(QueryStrings query, boolean secure) {
+        super(query, secure);
     }
-   
-    // Query to filter the list of studySites already assigned to a study and not populate them in Autocompleter list.
-    public OrganizationQuery(boolean secure, String StudyId) {
-    		super(queryString1, secure);
-    }
-    
     
     /**
      * Filter by organization name.
@@ -67,6 +48,11 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
         setParameter(NCI_CODE, searchString);
     }
     
+    /**
+     * Where to filter duplicate sites.
+     *
+     * @param studyId the study id
+     */
     public void whereToFilterDuplicateSites(String studyId) {
     	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"') ");
     	
@@ -95,12 +81,9 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
 
     public Class<Organization> getPersistableClass() {
         return Organization.class;
-
     }
 
     protected String getObjectIdQueryString() {
         return "o.id";
-
-
     }
 }

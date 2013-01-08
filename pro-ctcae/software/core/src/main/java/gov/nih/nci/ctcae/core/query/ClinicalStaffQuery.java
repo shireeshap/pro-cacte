@@ -1,16 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
-
-import java.util.Collection;
-import java.util.ArrayList;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-
-//
 
 /**
  * User: Mehul Gulati
@@ -18,32 +12,13 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ClinicalStaffQuery extends AbstractQuery {
 
-    /**
-     * The query string.
-     */
-    
     private static String ORGANIZATION_ID = "organizationId";
-    private static String ORGANIZATION_CLASS = "domainObjectClass";
-
-    /**
-     * The FIRS t_ name.
-     */
     private static String FIRST_NAME = "firstName";
-
-    /**
-     * The LAS t_ name.
-     */
     private static String LAST_NAME = "lastName";
     private static String USER_ID = "userId";
     private static String EMAIL = "emailAddress";
-
-    /**
-     * The NC i_ identifier.
-     */
     private static String NCI_IDENTIFIER = "nciIdentifier";
     private static String STUDY_ASSIGNED_IDENTIFIER = "assignedIdentifier";
-    private String ROLES = "roles";
-
     private static final String NAME = "name";
     private static final String SHORT_TITLE = "shortTitle";
     private static final String NCI_INSTITUTIONAL_CODE = "nciInstituteCode";
@@ -53,50 +28,28 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * Instantiates a new clinical staff query.
      */
     public ClinicalStaffQuery() {
-        super(QueryStrings.STAFF_QUERY_STRING.getCode());
+        super(QueryStrings.STAFF_QUERY_BASIC);
         filterByActive();
     }
 
-    public ClinicalStaffQuery(boolean count, boolean showInactive) {
-        super(QueryStrings.STAFF_QUERY_STRING1.getCode());
+    public ClinicalStaffQuery(QueryStrings query, boolean showInactive) {
+        super(query);
         if (!showInactive) {
             filterByActive();
         }
     }
-
-    public ClinicalStaffQuery(boolean sort, boolean count, boolean showInactive) {
-        super(QueryStrings.STAFF_QUERY_STRING2.getCode());
-        if (!showInactive) {
-            filterByActive();
-        }
-        
-//        List<Integer> objectIds = new ArrayList<Integer>();
-//        if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
-//            User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
-//            objectIds = currentLoggedInUser.findAccessibleObjectIds(Organization.class);
-//        }
-//        filterByOrganization(objectIds);
-        
-    }
-
-    public ClinicalStaffQuery(boolean showInactive) {
-        super(QueryStrings.STAFF_QUERY_STRING.getCode());
-        if (!showInactive) {
-            filterByActive();
-        }
-    }
-
-    /*
+    
+    /**
      * Sorting by study site name name. But this feature of sorting by study site 
-     * is not made available as the join produces duplicate results. 
+       is not made available as the join produces duplicate results. 
      */
     public void leftJoinForsortBySite(){
     	leftJoin("cs.organizationClinicalStaffs ocs ");
     }
     
-    /*
+    /**
      * Sorting by study name name. But this feature of sorting by study 
-     * is not made available as the join produces duplicate results. 
+       is not made available as the join produces duplicate results. 
      */
     public void leftJoinForsortByStudy(){
     	leftJoin("cs.organizationClinicalStaffs ocs left join ocs.studyOrganizationClinicalStaff socs left join  socs.studyOrganization so ");
