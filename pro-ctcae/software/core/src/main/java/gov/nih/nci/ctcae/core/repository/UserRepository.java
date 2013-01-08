@@ -207,7 +207,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     private boolean isRoleActive(Integer userId, Role roleName){
-    	UserQuery query = new UserQuery(true, true, true);
+    	UserQuery query = new UserQuery(QueryStrings.SOCS_QUERY_COUNT);
     	query.filterInActiveRoles(userId, roleName);
         return ((genericRepository.findWithCount(query) > 0 )? true : false);
     }
@@ -371,7 +371,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     
     public List<Study> findAllStudiesAssociatedWithOrganization(OrganizationClinicalStaff organizationClinicalStaff){
     	Integer siteId = organizationClinicalStaff.getOrganization().getId();
-    	StudyQuery studyQuery = new StudyQuery(false, false, false);
+    	StudyQuery studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_BASIC, false);
     	studyQuery.filterStudiesForStudySite(siteId);
     	return genericRepository.find(studyQuery);
     }
