@@ -7,7 +7,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
-
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +43,7 @@ public class CrfAjaxFacade {
     }
 
     public List<CRF> searchCrfs(String[] searchStrings, Integer startIndex, Integer results, String sortField, String direction, Long totalRecords) {
-        CRFQuery crfQuery = new CRFQuery(true, false);
+        CRFQuery crfQuery = new CRFQuery(QueryStrings.CRF_QUERY_SORTBY_FIELDS);
         crfQuery.setFirstResult(startIndex);
         crfQuery.setMaximumResults(results);
         if(sortField.equalsIgnoreCase("studyShortTitle")){
@@ -91,7 +91,7 @@ public class CrfAjaxFacade {
     public Long resultCount(String[] searchTexts) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
-        CRFQuery crfQuery = new CRFQuery(true);
+        CRFQuery crfQuery = new CRFQuery(QueryStrings.CRF_QUERY_COUNT);
         crfQuery.filterByHidden(false);
         crfQuery.filterByNullNextVersionId();
         if (!user.isAdmin()) {

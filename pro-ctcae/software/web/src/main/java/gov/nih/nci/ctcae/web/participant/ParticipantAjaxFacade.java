@@ -31,7 +31,8 @@ public class ParticipantAjaxFacade {
      * The participant repository.
      */
     private ParticipantRepository participantRepository;
-    private static String OTHER = "every_case_other_than_organization";
+    private static String OTHER = "sortByFiledOtherThanOrganizationName";
+    private static final String ORGANIZATION_NAME = "sortByOrganizationName";
     /**
      * Search participant.
      *
@@ -67,9 +68,9 @@ public class ParticipantAjaxFacade {
 	        }
 	        ParticipantQuery participantQuery;
 	        if (leadStaff) {
-	            participantQuery = new ParticipantQuery(true, Role.LEAD_CRA, true);
+	            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_COUNT, Role.LEAD_CRA, true, OTHER);
 	        } else {
-	            participantQuery = new ParticipantQuery(true, Role.SITE_CRA, true);
+	            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_COUNT, Role.SITE_CRA, true, OTHER);
 	        }
 	        participantQuery.setFirstResult(startIndex);
 	        if(resultsCount != null){
@@ -104,9 +105,9 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(true, false, false);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, false);
         } else {
-            participantQuery = new ParticipantQuery(true, false, true);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, true);
         }
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);
@@ -125,12 +126,12 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true, OTHER);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, Role.LEAD_CRA, true, OTHER);
         } else if(sortField.equalsIgnoreCase("organizationName")){
-        	participantQuery = new ParticipantQuery(Role.SITE_CRA, true,"organizationName");        	
+        	participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, Role.SITE_CRA, true,ORGANIZATION_NAME);        	
         }
         else {
-            participantQuery = new ParticipantQuery(Role.SITE_CRA, true, OTHER);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, Role.SITE_CRA, true, OTHER);
         }
 
         if (sortField.equals("studyParticipantIdentifier")) {
@@ -233,9 +234,9 @@ public class ParticipantAjaxFacade {
         }
         ParticipantQuery participantQuery;
         if (leadStaff) {
-            participantQuery = new ParticipantQuery(Role.LEAD_CRA, true, OTHER);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, Role.LEAD_CRA, true, OTHER);
         } else {
-            participantQuery = new ParticipantQuery(Role.SITE_CRA, true, OTHER);
+            participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_WITH_JOINS, Role.SITE_CRA, true, OTHER);
         }
         participantQuery.filterByAll(text, "" + 0);
         if(studySiteId != null){

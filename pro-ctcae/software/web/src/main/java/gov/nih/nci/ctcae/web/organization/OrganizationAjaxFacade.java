@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.organization;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
@@ -78,10 +79,11 @@ private final String ALL_STUDY_SITES="Get all study sites";
         logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery;
         if(!value.equalsIgnoreCase("Get all study sites")){
-        	organizationQuery = new OrganizationQuery(false,value);
+        	organizationQuery = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_FILTER_STUDYSITES, false);
+        	//Filter the list of studySites already assigned to a study and not populate them in Autocompleter list.
         	organizationQuery.whereToFilterDuplicateSites(value);
         }else
-        	organizationQuery = new OrganizationQuery(false);
+        	organizationQuery = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_BASIC,false);
         
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
         //organizationQuery.setMaximumResults(25);

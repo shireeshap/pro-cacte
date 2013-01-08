@@ -7,18 +7,16 @@ import gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffReposi
 import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
 import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
 //
 
@@ -31,7 +29,6 @@ import org.springframework.security.context.SecurityContextHolder;
 public class ClinicalStaffAjaxFacade {
 
     protected final Log logger = LogFactory.getLog(getClass());
-
     /**
      * The clinical staff repository.
      */
@@ -82,7 +79,7 @@ public class ClinicalStaffAjaxFacade {
     }
 
     public List<ClinicalStaff> getClinicalStaffObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, boolean showInactive, Long totalRecords) {
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(true, true, true);
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(QueryStrings.STAFF_QUERY_SORTBY_FIELDS, true);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         String userName = user.getUsername();
@@ -107,7 +104,7 @@ public class ClinicalStaffAjaxFacade {
             return clinicalStaffs;
         } else {
             
-            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(false, false, false);
+            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(QueryStrings.STAFF_QUERY_SORTBY_FIELDS, false);
             clinicalStaffQuery1.filterByUserName(userName);
             List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery1);
             List<Integer> orgs = new ArrayList<Integer>();
@@ -147,12 +144,12 @@ public class ClinicalStaffAjaxFacade {
 
 
     public Long resultCount(String[] searchTexts) {
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(true, true);
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(QueryStrings.STAFF_QUERY_COUNT, true);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         String userName = user.getUsername();
         if (!user.isAdmin() && !isLeadStaff()) {
-            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(false, false, false);
+            ClinicalStaffQuery clinicalStaffQuery1 = new ClinicalStaffQuery(QueryStrings.STAFF_QUERY_SORTBY_FIELDS, false);
             clinicalStaffQuery1.filterByUserName(userName);
             List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery1);
             List<Integer> orgs = new ArrayList<Integer>();
