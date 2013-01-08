@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
@@ -69,7 +70,7 @@ public class StudyAjaxFacade {
         
         
         if(sort.compareToIgnoreCase("fundingSponsorDisplayName")==0){
-       	 	 studyQuery = new StudyQuery(true, true,"fundingSponsorDisplayName");
+       	 	 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true);
         	 studyQuery.setFirstResult(startIndex);
              studyQuery.setMaximumResults(results);
              studyQuery.filterByFundingSponsor();
@@ -77,7 +78,7 @@ public class StudyAjaxFacade {
              studyQuery.setSortDirection(dir);
              
         }else if(sort.compareToIgnoreCase("coordinatingCenterDisplayName")==0){
-        	 studyQuery = new StudyQuery(true, true,"coordinatingCenterDisplayName");
+        	 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true);
  		     studyQuery.setFirstResult(startIndex);
 	         studyQuery.setMaximumResults(results);
 	         studyQuery.filterByCoordinatingCenter();
@@ -85,7 +86,7 @@ public class StudyAjaxFacade {
              studyQuery.setSortDirection(dir);
         	 
     	}else{
-    		 studyQuery = new StudyQuery(true, true);
+    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS, true);
   		     studyQuery.setFirstResult(startIndex);
 	         studyQuery.setMaximumResults(results);
 	         studyQuery.setSortBy("study." + sort);
@@ -145,7 +146,7 @@ public class StudyAjaxFacade {
     	*/
     	boolean groupPrivilege = user.checkGroupPrivilege(Study.class);
     	if((objectIds != null && objectIds.size() > 0) || groupPrivilege){
-    		StudyQuery studyQuery = new StudyQuery(true);
+    		StudyQuery studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
 	          if (searchTexts != null) {
 	                int index = 0;
 	                for (String searchText : searchTexts) {
