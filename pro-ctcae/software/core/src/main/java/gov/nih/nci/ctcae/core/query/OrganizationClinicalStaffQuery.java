@@ -1,12 +1,13 @@
 package gov.nih.nci.ctcae.core.query;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import java.util.Date;
-import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
 /**
  * User: Vinay Kumar
  * Date: Oct 15, 2008.
  */
+
 public class OrganizationClinicalStaffQuery extends AbstractQuery {
 
     private static String ORGANIZATION_ID = "organizationId";
@@ -69,6 +70,19 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
     public void filterByExactMatchNciIdentifier(final String nciIdentifier) {
         andWhere(String.format("lower(scs.clinicalStaff.nciIdentifier) = :%s)", NCI_IDENTIFIER));
         setParameter(NCI_IDENTIFIER, nciIdentifier.toLowerCase());
+    }
+      
+    /**
+     * Filter by exact match nci identifier and organization
+     * 
+     * @param nciIdentifier
+     * @param organizationId
+     */
+    public void filterByExactMatchNciIdentifierAndOrganization(final String nciIdentifier, final Integer organizationId) {
+        andWhere(String.format("lower(scs.clinicalStaff.nciIdentifier) = :%s)", NCI_IDENTIFIER));
+        setParameter(NCI_IDENTIFIER, nciIdentifier.toLowerCase());
+        andWhere("scs.organization.id = :" + ORGANIZATION_ID);
+        setParameter(ORGANIZATION_ID, organizationId);
     }
 
     /**
