@@ -111,7 +111,7 @@ public class StudyTestHelper {
     private static void addOrUpdateStudyOrganizationClinicalStaff(String nciId, Role role, StudyOrganization so) {
         StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
         socs.setRole(role);
-        OrganizationClinicalStaff organizationClinicalStaffByNciIdentifier = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId);
+        OrganizationClinicalStaff organizationClinicalStaffByNciIdentifier = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifierAndOrganization(nciId,so.getOrganization().getId());
         if (organizationClinicalStaffByNciIdentifier == null) {
             ClinicalStaffTestHelper.createDefaultClinicalStaff();
             organizationClinicalStaffByNciIdentifier = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId);
@@ -129,6 +129,7 @@ public class StudyTestHelper {
         addOrUpdateStudyOrganizationClinicalStaff("KBUECKERS", Role.NURSE, sSiteDuke);
 
         //MSKCC
+        addOrUpdateStudyOrganizationClinicalStaff("CDAVIS", Role.SITE_CRA, sSiteMskcc);
         addOrUpdateStudyOrganizationClinicalStaff("LARCHER", Role.SITE_PI, sSiteMskcc);
         addOrUpdateStudyOrganizationClinicalStaff("HTODD", Role.SITE_CRA, sSiteMskcc);
         addOrUpdateStudyOrganizationClinicalStaff("JHENNAGIR", Role.TREATING_PHYSICIAN, sSiteMskcc);

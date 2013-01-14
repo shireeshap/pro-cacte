@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.helper;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
@@ -46,14 +48,33 @@ public class ClinicalStaffTestHelper {
         createClinicalStaff("Diane", "Opland", "DOPLAND", mskcc);
 
         createClinicalStaff("cca", "cca", "CCCA", duke);
+        //adding Cathy Davis to mskcc
+        addStudySite("CDAVIS", mskcc);
+        
     }
 
+    public static void addStudySite(final String nciIdentifier, final Organization organization){
+    	ClinicalStaff staff = ClinicalStaffTestHelper.findClinicalStaffByNCIIdentifier("CDAVIS");
+    	OrganizationClinicalStaff organizationalClinicalStaff = new OrganizationClinicalStaff();
+    	organizationalClinicalStaff.setOrganization(organization);
+    	staff.addOrganizationClinicalStaff(organizationalClinicalStaff);
+
+    	clinicalStaffRepository.save(staff);
+    }
+    
     public static OrganizationClinicalStaff findOrganizationClinicalStaffByNciIdentifier(String nciIdentifier) {
         OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
         query.filterByExactMatchNciIdentifier(nciIdentifier);
         return organizationClinicalStaffRepository.findSingle(query);
     }
 
+    public static OrganizationClinicalStaff findOrganizationClinicalStaffByNciIdentifierAndOrganization(String nciIdentifier, final Integer organizationId) {
+        OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
+        query.filterByExactMatchNciIdentifierAndOrganization(nciIdentifier, organizationId);
+        return organizationClinicalStaffRepository.findSingle(query);
+    }
+    
+    
     private static ClinicalStaff findClinicalStaffByNCIIdentifier(String nciIdentifier) {
         ClinicalStaffQuery query = new ClinicalStaffQuery();
         query.filterByNciIdentifier(nciIdentifier);
