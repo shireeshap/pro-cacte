@@ -69,9 +69,9 @@ public class DomainObjectPrivilegeGenerator {
     }
 
     private Set<String> generatePrivilege(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        Set<String> privileges = new HashSet<String>();
-        privileges.addAll(generatePrivilege(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment()));
-
+    	Set<String> privileges = new HashSet<String>();
+        //for studyParticipantCrfSchedule persistable class, only generate studyOrganization privileges.
+        privileges.addAll(generatePrivilege(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite()));
         return privileges;
     }
 
