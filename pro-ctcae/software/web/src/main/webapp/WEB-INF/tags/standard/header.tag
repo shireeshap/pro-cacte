@@ -59,7 +59,7 @@
                         <c:if test="${pageContext.request.requestURI eq '/proctcae/public/login'}">
                             <c:if test="${empty param.lang}">
                                 <c:set var="currentEn" value="current"/>
-                                <c:if test="${pageContext.response.locale == 'es'}">
+                                <c:if test="${pageContext.response.locale eq 'es'}">
                                     <c:set var="currentEs" value="current"/>
                                     <c:set var="currentEn" value=""/>
                                 </c:if>
@@ -139,17 +139,18 @@
            <div class="top-btns">
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                     <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
-                    <c:set var="helpKey" value="${currentTask.linkName}${_tabNum}"/>
                     <c:choose>
-	                    <c:when test="${empty helpKey or helpKey eq 'null' }">
+                    	 <c:when test="${not empty currentSection.tasks}">
+                     		<c:set var="helpLinkCode" value="${currentTask.linkName}" />
+	                    </c:when>
+	                    <c:when test="${not empty currentSection.mainController and currentSection.mainController ne 'null' }">
 	                        <c:set var="helpLinkCode" value="${currentSection.mainController}" />
 	                    </c:when>
 	                    <c:otherwise>
-	                    	<c:set var="helpLinkCode" value="${helpKey}" />
+	                    	<c:set var="helpLinkCode" value="_home" /> 
 	                    </c:otherwise>
                     </c:choose>
-                    <spring:message var="helpLink" code="${helpLinkCode}"
-                                    text="NO_${helpKey}"/>
+                    <spring:message var="helpLink" code="${helpLinkCode}" text=""/>
                     <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
                        target="_blank">Help</a>
                 </proctcae:urlAuthorize>
