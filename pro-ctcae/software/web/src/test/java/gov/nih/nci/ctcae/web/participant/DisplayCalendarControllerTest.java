@@ -38,7 +38,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         request.getSession().setAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command", studyParticipantCommand);
         request.getSession().setAttribute(CreateParticipantController.class.getName() + ".FORM." + "command", participantCommand);
         expect(participantCommand.getParticipantSchedules()).andReturn(l).anyTimes();
-
+        expect(participantCommand.getSelectedStudyParticipantAssignment()).andReturn(spa);
     }
 
     public void testController() throws Exception {

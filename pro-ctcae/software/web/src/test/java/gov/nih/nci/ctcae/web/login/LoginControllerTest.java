@@ -1,18 +1,18 @@
 package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.core.helper.CrfScheduleTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -71,38 +71,16 @@ public class LoginControllerTest extends AbstractWebTestCase {
         String username = StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser().getUsername();
         login(username);
         LoginController controller = new LoginController();
-        controller.setClinicalStaffRepository(clinicalStaffRepository);
         controller.setUserRepository(userRepository);
-        controller.setStudyOrganizationClinicalStaffRepository(studyOrganizationClinicalStaffRepository);
-        controller.setGenericRepository(genericRepository);
         ModelAndView mv = controller.handleRequestInternal(request, response);
+        
         assertEquals("home", mv.getViewName());
-        List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
-        assertNotNull(over);
-        for (StudyParticipantCrfSchedule spc : over) {
-            assertTrue(spc.getStartDate().before(new Date()));
-        }
-        List<StudyParticipantCrfSchedule> up = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("upcoming");
-        assertNotNull(up);
-        for (StudyParticipantCrfSchedule spc : up) {
-            assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
-        }
-
-        username = StudyTestHelper.getLeadSiteStaffByRole(Role.SITE_CRA).getUser().getUsername();
-        login(username);
-        mv = controller.handleRequestInternal(request, response);
-        assertEquals("home", mv.getViewName());
-        over = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("overdue");
-        assertNotNull(over);
-        for (StudyParticipantCrfSchedule spc : over) {
-            assertTrue(spc.getStartDate().before(new Date()));
-        }
-        up = (List<StudyParticipantCrfSchedule>) request.getSession().getAttribute("upcoming");
-        assertNotNull(up);
-        for (StudyParticipantCrfSchedule spc : up) {
-            assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
-        }
-
+        //Ensure Site CRA is loaded as a site level role.
+        assertEquals(true, mv.getModelMap().get("siteLevelRole"));
+        
+        assertEquals(false,mv.getModelMap().get("studyLevelRole"));
+        assertEquals(false,mv.getModelMap().get("studyLevelRole"));
+        assertEquals(false,mv.getModelMap().get("odc"));
     }
 
 }
