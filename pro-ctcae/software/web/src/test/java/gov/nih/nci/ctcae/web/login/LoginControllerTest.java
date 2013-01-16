@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
-import gov.nih.nci.ctcae.core.helper.CrfScheduleTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.security.context.SecurityContextHolder;
