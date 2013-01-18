@@ -2585,6 +2585,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrat
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopulatorInterceptorTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/dao/ProCtcDaoTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
