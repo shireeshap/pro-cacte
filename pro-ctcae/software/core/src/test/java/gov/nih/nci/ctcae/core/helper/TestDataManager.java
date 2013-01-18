@@ -2,12 +2,16 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
+import gov.nih.nci.ctcae.core.dao.LowLevelTermDao;
+import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
+import gov.nih.nci.ctcae.core.dao.ProCtcDaoTest;
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
@@ -20,6 +24,7 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+ 
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -54,6 +59,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static IvrsScheduleRepository ivrsScheduleRepository;
     public static IvrsCallHistoryRepository ivrsCallHistoryRepository;
     public static StudyParticipantCRFScheduleSymptomRecordRepository studyParticipantCRFScheduleSymptomRecordRepository;
+    public static LowLevelTermDao lowLevelTermDao; 
+    public static MeddraVersionDao meddraVersionDao;
     
 
     private static final String[] context = new String[]{
@@ -77,6 +84,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
         ParticipantTestHelper.initialize();
+//        ProCtcDaoTest.initialize();
     }
 
     @Override
@@ -367,7 +375,17 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public void setPrivilegeAuthorizationCheck(PrivilegeAuthorizationCheck privilegeAuthorizationCheck) {
         TestDataManager.privilegeAuthorizationCheck = privilegeAuthorizationCheck;
     }
-
+    
+    @Required
+    public void setLowLevelTermDao(LowLevelTermDao lowLevelTermDao) {
+        TestDataManager.lowLevelTermDao = lowLevelTermDao;
+    }
+    
+    @Required
+    public void setMeddraVersionDao(MeddraVersionDao meddraVersionDao) {
+        TestDataManager.meddraVersionDao = meddraVersionDao;
+    }
+    
     @Required
     public static void setProCtcValidValueRepository(ProCtcValidValueRepository proCtcValidValueRepository) {
         TestDataManager.proCtcValidValueRepository = proCtcValidValueRepository;
