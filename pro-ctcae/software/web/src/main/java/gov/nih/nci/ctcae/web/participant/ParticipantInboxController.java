@@ -109,7 +109,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
         }
         String videoUrl = properties.getProperty(BASE_URL) + BASE_URL_SUFFIX;
         if(lang.equals("es"))
-            videoUrl = properties.getProperty(BASE_URL) + BASE_URL_SUFFIX;
+            videoUrl = videoUrl + "?lang=es";
         modelAndView.put("videoUrl",videoUrl);
         return modelAndView;    //To change body of overridden methods use File | Settings | File Templates.
     }
