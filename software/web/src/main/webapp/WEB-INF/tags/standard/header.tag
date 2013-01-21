@@ -140,7 +140,7 @@
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                     <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
                     <c:choose>
-                    	 <c:when test="${not empty currentSection.tasks}">
+                    	 <c:when test="${not empty currentSection.tasks and not empty currentTask}">
                      		<c:set var="helpLinkCode" value="${currentTask.linkName}" />
 	                    </c:when>
 	                    <c:when test="${not empty currentSection.mainController and currentSection.mainController ne 'null' }">
