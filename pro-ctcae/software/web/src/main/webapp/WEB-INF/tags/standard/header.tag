@@ -1,4 +1,4 @@
-﻿<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -75,7 +75,7 @@
                             </c:if>
                             <div class="language-toggle1" style="float:right;margin-right:26px">
                                 <a class="left ${currentEn}" href="?lang=en">English</a>
-                                <a class="right ${currentEs}" href="?lang=es">Español</a>
+                                <a class="right ${currentEs}" href="?lang=es">Espa�ol</a>
                             </div>
                             <div style="margin-top:0px;margin-right:-5px">
                                 <div style="margin-top:30px;color:white;margin-left:0px;font-size:12px;font-family:'Lucida Grande',sans-serif;text-shadow:none">
@@ -140,7 +140,7 @@
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                     <c:set var="_tabNum" value="${(not empty tab and tab.number gt 0) ? tab.number : ''}"/>
                     <c:choose>
-                    	 <c:when test="${not empty currentSection.tasks}">
+                    	 <c:when test="${not empty currentSection.tasks and not empty currentTask}">
                      		<c:set var="helpLinkCode" value="${currentTask.linkName}" />
 	                    </c:when>
 	                    <c:when test="${not empty currentSection.mainController and currentSection.mainController ne 'null' }">
