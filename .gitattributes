@@ -3726,6 +3726,7 @@ pro-ctcae/software/web/src/main/webapp/js/validation.js -text
 pro-ctcae/software/web/src/main/webapp/js/yui-autocomplete.js -text
 pro-ctcae/software/web/src/main/webapp/js/yui.js -text
 pro-ctcae/software/web/src/test/Test.iml -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/core/service/ParticipantScheduleServiceTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/CreateClinicalStaffSeleniumTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/SearchClinicalStaffSeleniumTest.java -text
