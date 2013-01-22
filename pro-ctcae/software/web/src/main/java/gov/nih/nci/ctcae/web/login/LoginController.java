@@ -43,10 +43,6 @@ public class LoginController extends AbstractController {
         String lang  = "en";
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
-            	//use LocaleContextHolder to set the display using the language selected on the login screen
-            	if(request.getSession().getAttribute("lang") != null){
-            		lang = request.getSession().getAttribute("lang").toString();
-            	}
             	//Use Locale value of the requesting page to set the language.
             	if(RequestContextUtils.getLocale(request)!= null){
             		lang = RequestContextUtils.getLocale(request).toString();
@@ -88,7 +84,7 @@ public class LoginController extends AbstractController {
                     						 break;
                     	
                     case ODC: odc = true;
-                    		  		break;
+                    		  break;
                     
                     case LEAD_CRA:
                     case PI: studyLevelRole = true;
