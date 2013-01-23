@@ -199,6 +199,7 @@
     
     <bean id="participantScheduleService" class="gov.nih.nci.ctcae.core.service.ParticipantScheduleService">
     	<property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
+    	<property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
       </bean>
 
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository"
@@ -314,6 +315,20 @@
     <bean id="studyParticipantCRFScheduleSymptomRecordRepository"
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantCRFScheduleSymptomRecordRepository"
           p:genericRepository-ref="genericRepository">
+    </bean>
+    
+    <bean id="meddraVersionDao"
+          class="gov.nih.nci.ctcae.core.dao.MeddraVersionDao">
+        <property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean>
+    <bean id="meddraDao"
+          class="gov.nih.nci.ctcae.core.dao.MedDRADao">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="properties" ref="proCtcAeProperties"/>
+    </bean>
+    <bean id="lowLevelTermDao"
+          class="gov.nih.nci.ctcae.core.dao.LowLevelTermDao">
+        <property name="hibernateTemplate" ref="hibernateTemplate"></property>
     </bean>
     <!-- IVRS introduced repos -->
 
