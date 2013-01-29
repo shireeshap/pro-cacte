@@ -4,33 +4,51 @@ import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
 import gov.nih.nci.ctcae.core.dao.LowLevelTermDao;
 import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
-import gov.nih.nci.ctcae.core.dao.ProCtcDaoTest;
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
-import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
-import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.core.repository.secured.*;
+import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.IvrsCallHistoryRepository;
+import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCRFScheduleSymptomRecordRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.CombinationValidatorTest;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
- 
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 /**
  * @author Harsh Agarwal
@@ -61,8 +79,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCRFScheduleSymptomRecordRepository studyParticipantCRFScheduleSymptomRecordRepository;
     public static LowLevelTermDao lowLevelTermDao; 
     public static MeddraVersionDao meddraVersionDao;
+    public static HibernateTemplate hibernateTemplate;
     
-
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
             , "classpath*:gov/nih/nci/ctcae/core/testapplicationContext-util.xml"
@@ -84,7 +102,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
         ParticipantTestHelper.initialize();
-//        ProCtcDaoTest.initialize();
     }
 
     @Override
@@ -314,6 +331,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     @Required
     public void setUserRepository(UserRepository userRepository) {
         TestDataManager.userRepository = userRepository;
+    }
+    
+    @Required
+    public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+        TestDataManager.hibernateTemplate = hibernateTemplate;
     }
 
     @Required

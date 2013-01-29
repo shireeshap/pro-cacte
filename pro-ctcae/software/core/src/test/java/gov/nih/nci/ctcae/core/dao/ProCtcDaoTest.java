@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.dao;
 import java.util.ArrayList;
 import java.util.List;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
+import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 
@@ -31,12 +33,19 @@ public class ProCtcDaoTest extends TestDataManager{
 	
 	public void testGetByMeddraCode(){
 		List<LowLevelTerm> lowLevelTerm = lowLevelTermDao.getByMeddraCode("10000424");
+		List<LowLevelTermVocab> lowLevelTermVocab = getLowLevelTermVocab(100005);
 		if(!lowLevelTerm.isEmpty()){
 			LowLevelTerm llt = lowLevelTerm.get(0);
 			assertEquals(llt.getLowLevelTermVocab().getMeddraTermEnglish(), "Ache");
+		    assertTrue(lowLevelTermVocab.get(0).equals(llt.getLowLevelTermVocab()));
+		    assert(lowLevelTermVocab.get(0).hashCode() == llt.getLowLevelTermVocab().hashCode());
 		}
 	}
 	
+	public List<LowLevelTermVocab> getLowLevelTermVocab(int id){
+		return hibernateTemplate.find("from LowLevelTermVocab where id =?", new Object[]{id});
+		
+	}
 	
 	public void testGetMeddraByName(){
 		MeddraVersion testMeddraVersion = new MeddraVersion();
