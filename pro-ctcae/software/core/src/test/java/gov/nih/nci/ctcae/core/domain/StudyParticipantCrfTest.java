@@ -129,7 +129,7 @@ public class StudyParticipantCrfTest extends TestDataManager {
 		assert (studyParticipantCrf.getStudyParticipantCrfSchedules().size() == 5);
     }
     
-    public void testStudyParticipantCrfAddedQuestion(){
+    public void testStudyParticipantCrfAddedQuestion() throws Exception{
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
     	
@@ -137,6 +137,9 @@ public class StudyParticipantCrfTest extends TestDataManager {
     	StudyParticipantCrfAddedQuestion firstAddedQuestion = studyParticipantCrfAddedQuestion.get(0);
     	studyParticipantCrf.removeStudyParticipantCrfAddedQuestion(firstAddedQuestion);
     	assertFalse(studyParticipantCrf.getStudyParticipantCrfAddedQuestions().contains(firstAddedQuestion));
+    	commitAndStartNewTransaction();
+    	deleteTestData();
+    	createTestData();
     }
     
     
