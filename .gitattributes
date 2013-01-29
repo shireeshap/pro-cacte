@@ -2666,6 +2666,8 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/repository/IvrsCall
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/repository/IvrsScheduleRepositoryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCRFScheduleSymptomRecordRepositoryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRASecurityTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/security/passwordpolicy/validators/CombinationValidatorTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/security/passwordpolicy/validators/LoginPolicyValidatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/utils/ranking/RankBasedSorterUtilsTest.java -text
