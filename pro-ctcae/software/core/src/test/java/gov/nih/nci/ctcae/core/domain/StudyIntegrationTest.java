@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
@@ -316,6 +317,25 @@ public class StudyIntegrationTest extends TestDataManager {
         }
 
     }
+    
+    public void testGetStudyOrganization(){
+    	Study study = StudyTestHelper.getDefaultStudy();
+    	StudyOrganizationClinicalStaff socs = study.getStudyOrganizationClinicalStaffByRole(Role.PI).get(0);
+    	assertEquals(socs.getStudyOrganization(), study.getStudyOrganization(socs));
+    }
+    
+    public void testGetStudySiteLevelStudyOrganizationClinicalStaffs(){
+    	Study study = StudyTestHelper.getDefaultStudy();
+    	List<StudyOrganizationClinicalStaff> socsList = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
+    	assertEquals(9, socsList.size()); 
+    }
 
+    public void testGetStudySiteLevelStudyOrganizationClinicalStaffsByRole(){
+    	Study study = StudyTestHelper.getDefaultStudy();
+    	List<StudyOrganizationClinicalStaff> socsList = study.getStudySiteLevelStudyOrganizationClinicalStaffsByRole(Role.PI);
+    	for(StudyOrganizationClinicalStaff socs : socsList){
+    		assertTrue(socs.getRole().equals(Role.PI));
+    	}
+    }
 
 }
