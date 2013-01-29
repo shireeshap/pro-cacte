@@ -15,7 +15,7 @@ public class CombinationValidatorTest extends TestDataManager{
 	public static CombinationValidator combinationValidator;
 	public static User user;
 	
-	public static void initialize(){
+	public CombinationValidatorTest(){
 		combinationPolicy = new CombinationPolicy();
 		passwordCreationPolicy = new PasswordCreationPolicy();
 		passwordPolicy = new PasswordPolicy();
