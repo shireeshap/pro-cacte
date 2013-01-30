@@ -78,7 +78,6 @@ public class StudyParticipantCrfTest extends TestDataManager {
     		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.INPROGRESS);
     	}
     	
-    	
     	//Put the crfSchedules On-Hold on a date corresponding to yesterday.
     	studyParticipantCrf.putOnHold(DateUtils.addDaysToDate(new Date(), -1));
     	//Expect schedules 0 to 4 to be having COMPLETED status, after putting COMPLETED
@@ -124,9 +123,9 @@ public class StudyParticipantCrfTest extends TestDataManager {
     public void testRemoveScheduledSpCrfSchedules() throws Exception{
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	studyParticipantCrf.removeScheduledSpCrfSchedules();
-		// Out of total 15 scheduled surveys expect, 10 surverys to be deleted
+		// Out of total 15 scheduled surveys expect, 10 surveys to be deleted
 		// and 5 surveys having CrfStatus as COMPLETED not to be deleted.
-		assert (studyParticipantCrf.getStudyParticipantCrfSchedules().size() == 5);
+		assertEquals(studyParticipantCrf.getStudyParticipantCrfSchedules().size(), 5);
     }
     
     public void testStudyParticipantCrfAddedQuestion() throws Exception{
@@ -137,9 +136,6 @@ public class StudyParticipantCrfTest extends TestDataManager {
     	StudyParticipantCrfAddedQuestion firstAddedQuestion = studyParticipantCrfAddedQuestion.get(0);
     	studyParticipantCrf.removeStudyParticipantCrfAddedQuestion(firstAddedQuestion);
     	assertFalse(studyParticipantCrf.getStudyParticipantCrfAddedQuestions().contains(firstAddedQuestion));
-    	commitAndStartNewTransaction();
-    	deleteTestData();
-    	createTestData();
     }
     
     
