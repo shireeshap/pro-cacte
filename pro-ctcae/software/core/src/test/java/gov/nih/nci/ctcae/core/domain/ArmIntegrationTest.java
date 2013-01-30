@@ -28,10 +28,10 @@ public class ArmIntegrationTest extends TestDataManager {
     	Arm otherArm = fetchArmFromRepositoryForOtherStudy(studyArm.getTitle(), study.getId()).get(0);
 
     	assertTrue(studyArm.equals(fetchedArm));
-    	assert(studyArm.hashCode() == fetchedArm.hashCode());
+    	assertEquals(studyArm.hashCode(), fetchedArm.hashCode());
     	
     	assertFalse(studyArm.equals(otherArm));
-    	assert(studyArm.hashCode() != otherArm.hashCode());
+    	assertFalse(studyArm.hashCode() != otherArm.hashCode());
     }
     
     public void testIsDefaultArm(){
