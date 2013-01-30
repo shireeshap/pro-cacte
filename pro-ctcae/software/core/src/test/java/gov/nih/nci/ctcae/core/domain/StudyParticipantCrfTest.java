@@ -92,10 +92,6 @@ public class StudyParticipantCrfTest extends TestDataManager {
     	for(int i=9; i<13; i++){
     		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.ONHOLD);
     	}
-    	
-    	commitAndStartNewTransaction();
-    	deleteTestData();
-    	createTestData();
     }
     
     public void testRemoveCrfSchedule() throws ParseException{
