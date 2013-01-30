@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.core.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
 import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
+
+import java.util.List;
 
 /** Test class for Dao Package.
  *  Tests cases covers ProCtcDao, MeddraVersionDao and LowLevelTermDao 
