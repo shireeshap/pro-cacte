@@ -87,7 +87,7 @@ public class CombinationValidatorTest extends TestDataManager{
 		assertFalse(combinationValidator.validate(passwordPolicy, user, new ValidationErrors()));
 	}
 	
-	public PasswordPolicy createPasswordPolicy(boolean isBaseTenDigit,	boolean isLowerCaseAlphabetRequired, int maxSubstringLength,
+	private PasswordPolicy createPasswordPolicy(boolean isBaseTenDigit,	boolean isLowerCaseAlphabetRequired, int maxSubstringLength,
 			boolean isNonAlphaNumericRequired,	boolean isUpperCaseAlphabetRequired, int passwordLength) {
 		
 		combinationPolicy.setBaseTenDigitRequired(isBaseTenDigit);
