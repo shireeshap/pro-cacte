@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/jms
 	    http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
         http://activemq.apache.org/schema/core
-   	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd ">
+   	    http://activemq.apache.org/schema/core/activemq-core.xsd ">
 
     <!--  lets create an embedded ActiveMQ Broker -->
     <amq:broker id="broker" useJmx="false" persistent="false">
