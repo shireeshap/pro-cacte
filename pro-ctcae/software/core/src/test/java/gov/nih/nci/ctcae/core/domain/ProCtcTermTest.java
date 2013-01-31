@@ -70,6 +70,41 @@ public class ProCtcTermTest extends TestCase {
 
     }
 
+    public void testProCtcTermVocabEqualsAndHashcode(){
+    	String termEnglishText1 = "Aching muscles";
+    	String termEnglishText2 = "Decreased appetite";
+    	String termSpanishText1 = "Dolor muscular";
+    	String termSpanishText2 = "Disminución del apetito";
+    	
+    	ProCtcTerm proCtcTerm1 = new ProCtcTerm();
+    	ProCtcTermVocab proCtcTermVocab1 = new ProCtcTermVocab();
+    	proCtcTermVocab1.setTermEnglish(termEnglishText1);
+    	proCtcTermVocab1.setTermSpanish(termSpanishText1);
+    	proCtcTerm1.setProCtcTermVocab(proCtcTermVocab1);
+    	
+    	ProCtcTerm proCtcTerm2 = new ProCtcTerm();
+    	ProCtcTermVocab proCtcTermVocab2 = new ProCtcTermVocab();
+    	proCtcTermVocab2.setTermEnglish(termEnglishText2);
+    	proCtcTermVocab2.setTermSpanish(termSpanishText2);
+    	proCtcTerm2.setProCtcTermVocab(proCtcTermVocab2);
+    	
+    	assertTrue(proCtcTerm1.getProCtcTermVocab().equals(proCtcTermVocab1));
+    	assertTrue(proCtcTerm2.getProCtcTermVocab().equals(proCtcTermVocab2));
+    	// If proCtcTermVocab1 & proCtcTermVocab2 have different English and
+		// different Spanish Text, expect equals() and hashcode() to return false 
+    	assertFalse(proCtcTerm1.getProCtcTermVocab().equals(proCtcTerm2.getProCtcTermVocab()));
+    	assertNotSame(proCtcTerm1.getProCtcTermVocab().hashCode(),proCtcTerm2.getProCtcTermVocab().hashCode());
+    	
+		// If proCtcTermVocab1 & proCtcTermVocab2 have same English text but
+		// different Spanish Text, expect equals() and hashcode() to return true 
+    	proCtcTermVocab2.setTermEnglish(termEnglishText1);
+    	assertTrue(proCtcTerm1.getProCtcTermVocab().equals(proCtcTerm2.getProCtcTermVocab()));
+    	assertEquals(proCtcTerm1.getProCtcTermVocab().hashCode(),proCtcTerm2.getProCtcTermVocab().hashCode());
+    	
+    	assertEquals(proCtcTerm1.getProCtcTermVocab().toString(), termEnglishText1);
+    	assertNotSame(proCtcTerm1.getProCtcTermVocab().toString(), termSpanishText1);
+    	
+    }
 
 
 
