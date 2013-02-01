@@ -2619,6 +2619,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermIn
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/RolePrivilegeTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTypeTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
