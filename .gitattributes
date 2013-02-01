@@ -2615,6 +2615,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableV
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcAECalendarTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTypeTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermComparatorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
