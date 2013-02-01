@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import junit.framework.TestCase;
 
 import java.util.Calendar;
@@ -11,6 +12,31 @@ import java.util.Date;
  * @since Jan 17, 2010
  */
 public class ProCtcAECalendarTest extends TestCase {
+	
+	ProCtcAECalendar proCtcAECalendar;
+	CRFCycle cycle;
+	Calendar c;
+	CRFCycleDefinition crfCycleDefinition;
+	
+	public ProCtcAECalendarTest(){
+		proCtcAECalendar = new ProCtcAECalendar();
+        c = Calendar.getInstance();
+        c.setTime(DateUtils.addDaysToDate(new Date(), 5));
+        proCtcAECalendar.setCalendar(c);
+        crfCycleDefinition = new CRFCycleDefinition();
+        crfCycleDefinition.setCycleLength(14);
+        crfCycleDefinition.setCycleLengthUnit("Days");
+        crfCycleDefinition.setRepeatTimes("2");
+        crfCycleDefinition.setOrder(0);
+        crfCycleDefinition.setDueDateUnit("Days");
+        crfCycleDefinition.setDueDateValue("3");  
+        cycle = new CRFCycle();
+        cycle.setOrder(0);
+        cycle.setCycleDays(",1,8,13");
+        cycle.setCrfDefinition(crfCycleDefinition);
+	}
+	
+	
     /**
      * **
      * Testing the  due dates for different dates
@@ -80,6 +106,41 @@ public class ProCtcAECalendarTest extends TestCase {
         assertEquals(c6.get(Calendar.YEAR), 2012);
         assertEquals(c6.getTime(), dueDate);
     }
-
+    
+    public void testIsDateAfterOrWithinMonth(){
+    	Date today = new Date();
+    	
+    	assertFalse(proCtcAECalendar.isDateAfterMonth(today));
+    	assertFalse(proCtcAECalendar.isDateWithinMonth(today));
+    }
+    
+    public void testSetCycleParameters(){
+    	Date today = new Date();
+    	int cycleNumber =1;
+    	proCtcAECalendar.setCycleParameters(cycle, today, cycleNumber);
+    	
+    	assertEquals(proCtcAECalendar.getDueDateUnit(), "Days");
+    	assertEquals(proCtcAECalendar.getDueDateAmount(), 3);
+    	assertEquals(proCtcAECalendar.getStartDate(),today);
+    	assertEquals(proCtcAECalendar.getCycleNumber(), cycleNumber);
+    }
+    
+    public void testSetGeneralScheduleParameters(){
+    	Date today = new Date();
+    	CRFCalendar calendar = new CRFCalendar();
+        calendar.setRepeatEveryValue("2");
+        calendar.setRepeatEveryUnit("Days");
+        calendar.setDueDateValue("24");
+        calendar.setDueDateUnit("Hours");
+        calendar.setRepeatUntilValue("2");
+        calendar.setRepeatUntilUnit("Number");
+         
+        proCtcAECalendar.setGeneralScheduleParameters(calendar, today);
+        
+        assertEquals(proCtcAECalendar.getRepeatUntilUnit(), "Number");
+        assertEquals(proCtcAECalendar.getRepeatUntilValue(), "2");
+        assertEquals(proCtcAECalendar.getDueDateUnit(), "Hours");
+        assertEquals(proCtcAECalendar.getDueDateAmount(), 24);
+    }
 
 }
