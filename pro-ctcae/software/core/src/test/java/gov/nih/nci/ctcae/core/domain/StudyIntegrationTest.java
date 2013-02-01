@@ -338,4 +338,18 @@ public class StudyIntegrationTest extends TestDataManager {
     	}
     }
 
+    
+    public void testStudyModes(){
+    	
+    	Study study = StudyTestHelper.getDefaultStudy();
+    	StudyMode studyMode = new StudyMode();
+    	
+    	studyMode.setId(11);
+    	studyMode.setStudy(study);
+    	studyMode.setMode(AppMode.IVRS);
+    	study.addStudyMode(studyMode);
+    	
+    	assertEquals(study.getStudyModes().get(0).getMode(), AppMode.IVRS);
+    	assertEquals(studyMode.getStudy(), study);
+    }
 }

@@ -1,14 +1,21 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import junit.framework.TestCase;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Harsh Agarwal
  * @since Dec 12, 2008
  */
-public class StudyParticipantCrfScheduleTest extends TestCase {
+public class StudyParticipantCrfScheduleTest extends TestDataManager {
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
     public void testConstructor() {
@@ -91,6 +98,67 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
 
 
     }
+    
+    public void testAddParticipantAddedQuestions(){
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
+    	
+    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
+    	assertTrue(fetchAddedQuestionFromRepository().isEmpty());
+    	
+    	studyParticipantCrfSchedule.addParticipantAddedQuestions();
+    	StudyParticipantCrfScheduleAddedQuestion studyParticipantCrSchedulefAddedQuestion_spcrfs = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0);
+    	StudyParticipantCrfScheduleAddedQuestion fetchedAddedQuestion = fetchAddedQuestionFromRepository().get(0);
+    	assertTrue(fetchedAddedQuestion.equals(studyParticipantCrSchedulefAddedQuestion_spcrfs));
+    	assert(fetchedAddedQuestion.hashCode() == studyParticipantCrSchedulefAddedQuestion_spcrfs.hashCode());
+    }
+   
+    public void testGetParticipantAddedSymptoms(){
 
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
+    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
+    	studyParticipantCrfSchedule.addParticipantAddedQuestions();
+    	Set symptoms = studyParticipantCrfSchedule.getParticipantAddedSymptoms();
+    	assertTrue(symptoms.contains("Fatigue"));
+    }
+    
+    public void testGetDisplayRules(){
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
+    	Hashtable<Integer, String> displayRules = studyParticipantCrfSchedule.getDisplayRules();
+    	List<CrfPageItem> crfPageItems = getCrfPageItemsForCrf(studyParticipantCrf.getCrf().getId());
+    	for(CrfPageItem cpi: crfPageItems){
+    		assert(displayRules.containsKey(cpi.getId()));
+    	}
+    	
+    }
+    
+    
+    public Question getProCtcQuestion(){
+    	CtcTerm ctcTerm = new CtcTerm();
+        ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
+        ProCtcTerm proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setTermEnglish("Fatigue", SupportedLanguageEnum.ENGLISH);
+        proCtcTerm.setCtcTerm(ctcTerm);
+        ProCtcQuestion proCtaddedQuestion = new ProCtcQuestion();
+        proCtaddedQuestion.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
+        proCtaddedQuestion.setDisplayOrder(1);
+        proCtaddedQuestion.setId(1);
+        proCtcTerm.addProCtcQuestion(proCtaddedQuestion);
+        return proCtaddedQuestion;
+    }
+    
+    public List<StudyParticipantCrfScheduleAddedQuestion> fetchAddedQuestionFromRepository(){
+    	return hibernateTemplate.find("from StudyParticipantCrfScheduleAddedQuestion");
+    	
+    }
+    
+    public List<CrfPageItem> getCrfPageItemsForCrf(Integer id){
+    	return hibernateTemplate.find("select cpi from CrfPageItem cpi left join cpi.crfPage as cp where cp.crf.id =?", new Object[]{id});
+    }
+    public StudyParticipantCrf getDefaultStudyParticipantCrf(){
+    	return StudyTestHelper.getDefaultStudy().getArms().get(0).getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+    }
 
 }
