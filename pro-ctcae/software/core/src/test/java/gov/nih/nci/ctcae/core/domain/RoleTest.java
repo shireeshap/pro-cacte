@@ -15,6 +15,21 @@ public class RoleTest extends TestCase {
         assertNotNull(role);
 
     }
+    
+    public void testGetByDisplayNameAndRoleType(){
+    	Role role = Role.ADMIN;
+    	RoleType roleType = RoleType.ADMIN;
+    	
+    	assertEquals(Role.getByDisplayName("ADMIN"), Role.ADMIN);
+    	assertEquals(role.getRoleType(), roleType);
+    }
+    
+    public void testGetDisplayNameAndText(){
+    	Role role = Role.ADMIN;
+    	
+    	assertEquals(role.getDisplayName(), "ADMIN");
+    	assertEquals(role.getScreenText(), "Admin");
+    }
 
 
 }
