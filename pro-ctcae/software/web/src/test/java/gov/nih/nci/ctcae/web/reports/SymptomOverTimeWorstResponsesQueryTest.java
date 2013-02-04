@@ -21,7 +21,7 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
         query.filterByArm(crf.getStudy().getArms().get(0));
 
         List list = genericRepository.find(query);
-        assertEquals(20, list.size());
+        assertEquals(24, list.size());
 
     }
 
