@@ -28,7 +28,7 @@ public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
 
         pl = facade.matchParticipantByStudySiteId("s",ss.getId(), s.getId());
         assertNotNull(pl);
-        assertEquals(8,pl.size());
+        assertEquals(9,pl.size());
 
     }
 
