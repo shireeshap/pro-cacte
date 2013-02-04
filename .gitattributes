@@ -2590,6 +2590,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrati
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CategoryTermSetTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfCreationModeTest.java -text
