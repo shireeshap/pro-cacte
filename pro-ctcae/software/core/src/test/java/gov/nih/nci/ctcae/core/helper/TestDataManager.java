@@ -265,19 +265,46 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
     }
 
-    private void deleteProCtcTerms() {
-        System.out.println("  Deleting ProCtcTerms...");
-        long start = System.currentTimeMillis();
+    protected void deleteProCtcTermsInTestData() {
+		deleteTestData();
+		deleteProCtcTerms();
+	}
 
-        jdbcTemplate.execute("delete from question_display_rules");
-        jdbcTemplate.execute("delete from pro_ctc_valid_values");
-        jdbcTemplate.execute("delete from pro_ctc_questions");
-        jdbcTemplate.execute("delete from pro_ctc_terms");
-        jdbcTemplate.execute("delete from pro_ctc");
-        commitAndStartNewTransaction();
-        long end = System.currentTimeMillis();
-        System.out.println("  ProCtcTerms deleted (" + (end - start) / 1000 + " seconds)");
-    }
+	
+	protected void deleteLowLevelTermInTestData(){
+		deleteLowLevelTerms();
+	}
+	
+	private void deleteLowLevelTerms(){
+		System.out.println("  Deleting LowLevelTerms...");
+		long start = System.currentTimeMillis();
+		
+		jdbcTemplate.execute("delete from meddra_llt_vocab");
+		jdbcTemplate.execute("delete from meddra_llt");
+		commitAndStartNewTransaction();
+		long end = System.currentTimeMillis();
+		System.out.println(" LowLevelTerms deleted (" + (end - start) / 1000 
+				+ " seconds");
+	}
+	
+	private void deleteProCtcTerms() {
+		System.out.println("  Deleting ProCtcTerms...");
+		long start = System.currentTimeMillis();
+
+		jdbcTemplate.execute("delete from question_display_rules");
+		jdbcTemplate.execute("delete from pro_ctc_valid_values_vocab");
+		jdbcTemplate.execute("delete from pro_ctc_valid_values");
+		jdbcTemplate.execute("delete from pro_ctc_questions_vocab");
+		jdbcTemplate.execute("delete from pro_ctc_questions");
+		jdbcTemplate.execute("delete from pro_ctc_terms_vocab");
+		jdbcTemplate.execute("delete from pro_ctc_terms");
+		jdbcTemplate.execute("delete from pro_ctc");
+		commitAndStartNewTransaction();
+		long end = System.currentTimeMillis();
+		System.out.println("  ProCtcTerms deleted (" + (end - start) / 1000
+				+ " seconds)");
+	}
+
 
     private User getAdminUser() {
         UserQuery userQuery = new UserQuery();
