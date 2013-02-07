@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcTermVocab;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValueVocab;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
@@ -183,6 +184,8 @@ public class UpdateProCtcTermsImporterV4 {
 
             if (objCtcTerm != null) {
                 ProCtcTerm objProCtcTerm = new ProCtcTerm();
+                ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(objProCtcTerm);
+                objProCtcTerm.setProCtcTermVocab(proCtcTermVocab);
                 objProCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTerm);
                 objProCtcTerm.setCtcTerm(objCtcTerm);
                 objProCtcTerm.setProCtc(proCtc);
