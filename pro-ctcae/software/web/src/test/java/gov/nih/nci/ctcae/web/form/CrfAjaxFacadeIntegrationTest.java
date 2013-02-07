@@ -30,12 +30,16 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         assertEquals(10, proCtcTerms.size());
 
         Integer id = proCtcTerms.get(1).getId();
+        System.out.println("ProCtcTerm is :"+ proCtcTerms.get(1));
         List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
+        System.out.println("Attribute size: "+attributes.size());
+        System.out.println("Attribute 1: "+attributes.get(0));
+        System.out.println("Attribute 1: "+attributes.get(1));
         assertEquals(1, attributes.size());
         assertEquals("Severity", attributes.get(0));
 
     }
-
+    
     @Required
     public void setCRFAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
         this.crfAjaxFacade = crfAjaxFacade;
