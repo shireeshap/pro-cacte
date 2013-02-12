@@ -301,6 +301,14 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     
+    <bean id="loaderHelper" class="gov.nih.nci.ctcae.core.csv.loader.LoaderHelper">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcRepository" ref="proCtcRepository"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+    </bean>
+    
+    
     <!-- IVRS introduced repos -->
     <bean id="ivrsScheduleRepository"
           class="gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository"
