@@ -43,8 +43,8 @@ public class ProCtcTermsImporterV4Test extends TestDataManager{
         assertFalse(proCtcTerms.isEmpty());
         System.out.println("Total number of questions after are :" + proCtcQuestions.size());
         System.out.println("Total number of ProCtcTerms after are :" + proCtcTerms.size());
-        assertEquals(120, proCtcQuestions.size());
-        assertEquals(78, proCtcTerms.size());
+        assertEquals(123, proCtcQuestions.size());
+        assertEquals(80, proCtcTerms.size());
 	}
 	
 	
