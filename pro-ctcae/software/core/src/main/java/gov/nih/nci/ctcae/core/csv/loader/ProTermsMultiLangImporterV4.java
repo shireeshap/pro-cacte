@@ -44,75 +44,87 @@ public class ProTermsMultiLangImporterV4 {
     public void updateMultiLangProTerms() throws IOException {
         CsvReader reader;
         ClassPathResource classPathResource = new ClassPathResource("Spanish_Pro-CTCAE_items_08.10.2011.csv");
-//        reader = new CsvReader(new InputStreamReader(classPathResource.getInputStream()));
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
 
         while (reader.readRecord()) {
 
-            String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
-            String questionText = reader.get(QUESTION_TEXT).trim();
+            String proCtcTermEnglish = reader.get(PRO_CTC_TERM).trim();
+            String questionSpanishText = reader.get(QUESTION_TEXT).trim();
             String attribute = reader.get(QUESTION_TYPE).trim();
             String proCtcTermLang = reader.get(PRO_CTC_TERM_LANG).trim();
-            String firstLetter = questionText.substring(0, 1);
-            questionText = firstLetter.toUpperCase() + questionText.substring(1);
+            String firstLetter = questionSpanishText.substring(0, 1);
+            questionSpanishText = firstLetter.toUpperCase() + questionSpanishText.substring(1);
             String questionType = attribute.substring(attribute.indexOf('-') + 1);
-            List<String> values = new ArrayList<String>();
-            String value1 = reader.get(VALID_VALUE1).trim();
-            String value2 = reader.get(VALID_VALUE2).trim();
-            String value3 = reader.get(VALID_VALUE3).trim();
-            String value4 = reader.get(VALID_VALUE4).trim();
-            String value5 = reader.get(VALID_VALUE5).trim();
-            String value6 = reader.get(VALID_VALUE6).trim();
-            String value7 = reader.get(VALID_VALUE7).trim();
-            values.add(value1);
-            values.add(value2);
-            values.add(value3);
-            values.add(value4);
-            values.add(value5);
-            values.add(value6);
-            values.add(value7);
+            List<String> spanishValidValuesList = new ArrayList<String>();
+            spanishValidValuesList = getValidValueListFromCurrentRecord(reader);
 
-            ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
-            proCtcQuestionQuery.filterByQuestionType(ProCtcQuestionType.getByCode(questionType));
-            proCtcQuestionQuery.filterByTerm(proCtcTerm);
-            List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
-            if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
-                ProCtcQuestion proCtcQuestion = proCtcQuestions.get(0);
-//                if (language.equalsIgnoreCase("Spanish")) {
-                System.out.println(questionText);
-                proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionText);
-
-
-//                }
-                int i = 0;
-                for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                    if (StringUtils.isNotBlank(values.get(i))) {
-//                        if (language.equalsIgnoreCase("Spanish")) {
-                        System.out.println(values.get(i));
-                        validValue.getProCtcValidValueVocab().setValueSpanish(values.get(i));
-//                            System.out.println("spanish value set");
-//                        }
-                    }
-                    i++;
-                }
+            ProCtcQuestion proCtcQuestion = getProCtcQuestionByProCtcTermAndQuestionType(proCtcTermEnglish, questionType);
+            if (proCtcQuestion != null ) {
+                System.out.println(questionSpanishText);
+                updateSpanishTextForProCtcQuestionAndProCtcValidValues(proCtcQuestion, spanishValidValuesList, questionSpanishText);
                 proCtcQuestionRepository.save(proCtcQuestion);
             }
 
-            ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-            proCtcTermQuery.filterByTerm(proCtcTerm);
-            List<ProCtcTerm> proTerms = (List<ProCtcTerm>) proCtcTermRepository.find(proCtcTermQuery);
-            if (proTerms != null && proTerms.size() > 0) {
-                ProCtcTerm proTerm = proTerms.get(0);
-//                if (language.equalsIgnoreCase("Spanish")) {
-                proTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
+            ProCtcTerm proCtcTerm = findProCtcTermFromRepository(proCtcTermEnglish);
+            if (proCtcTerm != null ) {
+            	proCtcTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
                 System.out.println("spanish proCtcTerm set");
-//                }
-                proCtcTermRepository.save(proTerm);
+                proCtcTermRepository.save(proCtcTerm);
             }
-
-
         }
+    }
+    
+    private void updateSpanishTextForProCtcQuestionAndProCtcValidValues(ProCtcQuestion proCtcQuestion, List<String> spanishValidValuesList, String questionSpanishText){
+    	 proCtcQuestion.getProCtcQuestionVocab().setQuestionTextSpanish(questionSpanishText);
+         int i = 0;
+         for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
+             if (StringUtils.isNotBlank(spanishValidValuesList.get(i))) {
+                 System.out.println(spanishValidValuesList.get(i));
+                 validValue.getProCtcValidValueVocab().setValueSpanish(spanishValidValuesList.get(i));
+             }
+             i++;
+         }
+    }
+    
+    private ProCtcTerm findProCtcTermFromRepository(String proCtcTermEnglish){
+    	 ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+         proCtcTermQuery.filterByTerm(proCtcTermEnglish);
+         List<ProCtcTerm> proTerms = (List<ProCtcTerm>) proCtcTermRepository.find(proCtcTermQuery);
+         if (proTerms != null && proTerms.size() > 0) {
+        	 return proTerms.get(0);
+         }
+         return null;
+    }
+    
+    private ProCtcQuestion getProCtcQuestionByProCtcTermAndQuestionType(String proCtcTerm, String questionType){
+    	 ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
+         proCtcQuestionQuery.filterByQuestionType(ProCtcQuestionType.getByCode(questionType));
+         proCtcQuestionQuery.filterByTerm(proCtcTerm);
+         List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
+         if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
+             return proCtcQuestions.get(0);
+         }
+         return null;
+    }
+    
+    private List<String> getValidValueListFromCurrentRecord(CsvReader reader) throws IOException{
+    	List<String> values = new ArrayList<String>();
+    	String value1 = reader.get(VALID_VALUE1).trim();
+        String value2 = reader.get(VALID_VALUE2).trim();
+        String value3 = reader.get(VALID_VALUE3).trim();
+        String value4 = reader.get(VALID_VALUE4).trim();
+        String value5 = reader.get(VALID_VALUE5).trim();
+        String value6 = reader.get(VALID_VALUE6).trim();
+        String value7 = reader.get(VALID_VALUE7).trim();
+        values.add(value1);
+        values.add(value2);
+        values.add(value3);
+        values.add(value4);
+        values.add(value5);
+        values.add(value6);
+        values.add(value7);
+        return values;
     }
 
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {

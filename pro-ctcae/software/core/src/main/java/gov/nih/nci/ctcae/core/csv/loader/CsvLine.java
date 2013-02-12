@@ -34,6 +34,11 @@ public class CsvLine {
     public String getProctcTerm() {
         return proctcTerm;
     }
+    
+    public boolean getCoreItem() {
+        return coreItem;
+    }
+
 
     public void setProctcTerm(String proctcTerm) {
         this.proctcTerm = proctcTerm;

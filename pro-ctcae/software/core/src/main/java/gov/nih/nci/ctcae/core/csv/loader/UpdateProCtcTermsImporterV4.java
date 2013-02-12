@@ -14,6 +14,7 @@ import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.csvreader.CsvReader;
 
+
 /**
  * @author mehul gulati
  *         Date: Jun 28, 2010
@@ -38,6 +40,7 @@ public class UpdateProCtcTermsImporterV4 {
     ProCtcQuestionRepository proCtcQuestionRepository;
     CtcTermRepository ctcTermRepository;
     ProCtcTermRepository proCtcTermRepository;
+    ProCtcRepository proCtcRepository;
 
     private static final String QUESTION_TEXT = "PROCTCAE Wording";
     private static final String PRO_CTC_TERM = "PRO-CTCAE Term";
@@ -46,214 +49,176 @@ public class UpdateProCtcTermsImporterV4 {
     private static final String PRO_CTC_VALID_VALUES = "Response Options";
     private static final String CTC_TERM = "CTCAE v4 Term";
     private static final String GENDER = "Gender";
-
+    private static final int OnlySpecialCaseDisplayOrderToBeAssigned = -1;
+    private static LoaderHelper loaderHelper;
+    
+    
     public void updateProCtcTerms(ProCtc proCtc) throws IOException {
         CsvReader reader;
+        loaderHelper = getLoaderHelper();
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
 
         ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
+        
         reader.readHeaders();
         String oldProCtcTerm = "";
         int displayOrderI = 0;
 
         while (reader.readRecord()) {
-            CsvLine csvLine = new CsvLine();
-            String question = reader.get(QUESTION_TEXT).trim();
-            String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
-            if (proCtcTerm.equals(oldProCtcTerm)) {
-                displayOrderI++;
-            } else {
-                displayOrderI = 1;
-            }
+            CsvLine csvLine;
+         	String proCtcTerm = reader.get(PRO_CTC_TERM).trim();
+        	if (proCtcTerm.equals(oldProCtcTerm)) {
+               displayOrderI++;
+        	}else {
+    	       displayOrderI = 1;
+    	     }
+            csvLine = fetchRecordAndReturnCsvLine(reader, proCtcTerm, displayOrderI);
             oldProCtcTerm = proCtcTerm;
-            String core = reader.get(CORE_ITEM).trim();
-            String attribute = reader.get(QUESTION_TYPE).trim();
-            String ctcTerm = reader.get(CTC_TERM).trim();
-            String firstLetter = question.substring(0, 1);
-            question = firstLetter.toUpperCase() + question.substring(1);
-            String questionType = attribute.substring(attribute.indexOf('-') + 1);
-            String validValues = reader.get(PRO_CTC_VALID_VALUES).trim();
-            String gender = reader.get(GENDER).trim();
-            String displayOrder = "" + displayOrderI;
 
-            csvLine.setProctcTerm(proCtcTerm);
-            csvLine.setCtcTerm(ctcTerm);
-            csvLine.setDisplayOrder(displayOrder);
-            csvLine.setQuestionType(questionType);
-            csvLine.setQuestionText(question);
-            csvLine.setProctcValidValues(validValues);
-            csvLine.setCoreItem(!StringUtils.isBlank(core));
-            csvLine.setGender(gender);
-
-            ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
-            proCtcQuestionQuery.filterByQuestionType(ProCtcQuestionType.getByCode(questionType));
-            proCtcQuestionQuery.filterByTerm(proCtcTerm);
-            List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
-            if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
-                ProCtcQuestion ctcQuestion = proCtcQuestions.get(0);
-                ctcQuestion.getProCtcTerm().setGender(gender);
-                ctcQuestion.setQuestionText(question, SupportedLanguageEnum.ENGLISH);
-                if (ctcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                    for (ProCtcValidValue proCtcValidValue : ctcQuestion.getValidValues()) {
-                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
-                            proCtcValidValue.setDisplayOrder(1);
-                        }
-                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("No")) {
-                            proCtcValidValue.setDisplayOrder(0);
-                        }
-                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not applicable")) {
-                            proCtcValidValue.setDisplayOrder(2);
-                        }
-                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not sexually active")) {
-                            proCtcValidValue.setDisplayOrder(3);
-                        }
-                        if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Prefer not to answer")) {
-                            proCtcValidValue.setDisplayOrder(4);
-                        }
-                    }
-                }
-                setResponseCode(ctcQuestion);
-                StringTokenizer st1 = new StringTokenizer(validValues, "/");
-                Collection<ProCtcValidValue> values = ctcQuestion.getValidValues();
-                Collection<String> validValues1 = new ArrayList();
-                for (ProCtcValidValue proValue : values) {
-                    String value = proValue.getValue(SupportedLanguageEnum.ENGLISH).trim();
-                    validValues1.add(value);
-                }
-                int j = validValues1.size();
-                while (st1.hasMoreTokens()) {
-                    String nextToken = st1.nextToken().trim();
-                    if (!validValues1.contains(nextToken)) {
-                        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-                        ProCtcValidValueVocab proCtcValidValueVocab = new ProCtcValidValueVocab();
-                        proCtcValidValueVocab.setValueEnglish(nextToken);
-                        proCtcValidValueVocab.setProCtcValidValue(proCtcValidValue);
-                        proCtcValidValue.setProCtcValidValueVocab(proCtcValidValueVocab);
-                        proCtcValidValue.setDisplayOrder(j);
-                        j++;
-                        ctcQuestion.addValidValue(proCtcValidValue);
-                    }
-                }
-                ctcQuestion.getProCtcTerm().setCurrency("Y");
-                ctcQuestion.getProCtcTerm().setCore(!StringUtils.isBlank(core));
-                proCtcQuestionRepository.save(ctcQuestion);
+            ProCtcQuestion proCtcQuestion = getProCtcQuestionByProCtcTermAndQuestionType(csvLine.getProctcTerm(), csvLine.getQuestionType());
+            if (proCtcQuestion != null ) {
+            	setProCtcQuestionWithCsvLineValuesAndSave(proCtcQuestion, csvLine);
             } else {
-                CtcQuery ctcQuery = new CtcQuery();
-                ctcQuery.filterByName(ctcTerm);
-                List<CtcTerm> ctcTerms = ctcTermRepository.find(ctcQuery);
-                if (ctcTerms != null && ctcTerms.size() > 0) {
-                    CtcTerm ctcTer = ctcTerms.get(0);
-                    if (ctcTer.getProCtcTerms().size() > 0) {
-                        ctcTer.getProCtcTerms().get(0).getProCtcTermVocab().setTermEnglish(proCtcTerm);
-                        ctcTer.getProCtcTerms().get(0).setGender(gender);
-                        ctcTermRepository.save(ctcTer);
+                CtcTerm ctcTerm = findCtcTermFromRepository(ctcTermRepository, csvLine.getCtcTerm());
+                if (ctcTerm != null) {
+                    if (ctcTerm.getProCtcTerms().size() > 0) {
+                        ctcTerm.getProCtcTerms().get(0).getProCtcTermVocab().setTermEnglish(proCtcTerm);
+                        ctcTerm.getProCtcTerms().get(0).setGender(csvLine.getGender());
+                        ctcTermRepository.save(ctcTerm);
                     } else {
-                        if (hm.containsKey(csvLine.getProctcTerm())) {
-                            List list = hm.get(csvLine.getProctcTerm());
-                            list.add(csvLine);
-                        } else {
-                            ArrayList list = new ArrayList();
-                            list.add(csvLine);
-                            hm.put(csvLine.getProctcTerm(), list);
-                        }
+                        loaderHelper.addToProCtcTermHashMap(hm, csvLine);
                     }
                 }
             }
         }
 
-        HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
+        System.out.println("No of entries in hashmap: "+ hm.size());
+        loaderHelper.createProCtcTermsAndProCtcQuestionsFromHashMap(hm, proCtc);
+        proCtcRepository.save(proCtc);
 
-        for (String hmKey : hm.keySet()) {
-            List<CsvLine> list = hm.get(hmKey);
-            String ctcTerm = list.get(0).getCtcTerm();
-            String proCtcTerm = hmKey;
-            CtcQuery ctcQuery = new CtcQuery();
-            ctcQuery.filterByName(ctcTerm);
-            List<CtcTerm> ctcTerms = ctcTermRepository.find(ctcQuery);
-            CtcTerm objCtcTerm = null;
-            if (ctcTerms.size() == 0) {
-                System.out.println("Could not find ctc term for " + proCtcTerm + ". Skipping " + proCtcTerm);
-            } else {
-                if (ctcTerms.size() > 1) {
-                    System.out.println("Multiple ctc terms found for " + proCtcTerm + ". Skipping " + proCtcTerm);
-                } else {
-                    objCtcTerm = ctcTerms.get(0);
-                }
-            }
-
-            if (objCtcTerm != null) {
-                ProCtcTerm objProCtcTerm = new ProCtcTerm();
-                ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(objProCtcTerm);
-                objProCtcTerm.setProCtcTermVocab(proCtcTermVocab);
-                objProCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTerm);
-                objProCtcTerm.setCtcTerm(objCtcTerm);
-                objProCtcTerm.setProCtc(proCtc);
-                objProCtcTerm.setCurrency("Y");
-                proCtc.addProCtcTerm(objProCtcTerm);
-
-                for (CsvLine hmValue : list) {
-                    ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-                    proCtcQuestion.setQuestionText(hmValue.getQuestionText(), SupportedLanguageEnum.ENGLISH);
-                    proCtcQuestion.setDisplayOrder(new Integer(hmValue.getDisplayOrder()));
-                    proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.getByDisplayName(hmValue.getQuestionType()));
-                    proCtcQuestion.setProCtcTerm(objProCtcTerm);
-                    objProCtcTerm.addProCtcQuestion(proCtcQuestion);
-                    objProCtcTerm.setCore(hmValue.isCoreItem());
-                    if (hmValue.getGender() != null) {
-                        objProCtcTerm.setGender(hmValue.getGender());
-                    }
-                    StringTokenizer st1 = new StringTokenizer(hmValue.getProctcValidValues(), "/");
-                    int j = 0;
-                    while (st1.hasMoreTokens()) {
-                        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-                        proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
-                        if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
-                                proCtcValidValue.setDisplayOrder(1);
-                            }
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("No")) {
-                                proCtcValidValue.setDisplayOrder(0);
-                            }
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not applicable")) {
-                                proCtcValidValue.setDisplayOrder(2);
-                            }
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not sexually active")) {
-                                proCtcValidValue.setDisplayOrder(3);
-                            }
-                            if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Prefer not to answer")) {
-                                proCtcValidValue.setDisplayOrder(4);
-                            }
-                        } else {
-                            proCtcValidValue.setDisplayOrder(j);
-                        }
-                        j++;
-                        proCtcQuestion.addValidValue(proCtcValidValue);
-                    }
-                    if (new Integer(hmValue.getDisplayOrder()) == 1) {
-                        firstQuestions.put(hmValue.getProctcTerm(), proCtcQuestion);
-                    }
-                    if (new Integer(hmValue.getDisplayOrder()) > 1) {
-                        int i = 0;
-                        ProCtcQuestion firstQuestion = firstQuestions.get(hmValue.getProctcTerm());
-                        if (firstQuestion != null) {
-                            for (ProCtcValidValue v : firstQuestion.getValidValues()) {
-                                if (i == 0) {
-                                    i++;
-                                } else {
-                                    ProCtcQuestionDisplayRule rule = new ProCtcQuestionDisplayRule();
-                                    rule.setProCtcValidValue(v);
-                                    proCtcQuestion.addDisplayRules(rule);
-                                }
-                            }
-                        }
-                    }
-                }
-                proCtcTermRepository.save(objProCtcTerm);
-            }
-
+    }
+    
+    private void setProCtcQuestionWithCsvLineValuesAndSave(ProCtcQuestion proCtcQuestion, CsvLine csvLine){
+    	   proCtcQuestion.getProCtcTerm().setGender(csvLine.getGender());
+           proCtcQuestion.setQuestionText(csvLine.getQuestionText(), SupportedLanguageEnum.ENGLISH);
+           if (ProCtcQuestionType.PRESENT.equals(proCtcQuestion.getProCtcQuestionType())) {
+           	 for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
+           		 setProCtcValidValueDisplayOrder(proCtcQuestion, proCtcValidValue, OnlySpecialCaseDisplayOrderToBeAssigned);		 
+           	 }
+           }
+           setResponseCode(proCtcQuestion);
+           includeNewlyAddedProCtcValidValuesIfAny(csvLine, proCtcQuestion);
+           proCtcQuestion.getProCtcTerm().setCurrency("Y");
+           proCtcQuestion.getProCtcTerm().setCore(csvLine.getCoreItem());
+           proCtcQuestionRepository.save(proCtcQuestion);
+    }
+    
+    private LoaderHelper getLoaderHelper(){
+     LoaderHelper loaderHelper = new LoaderHelper();
+     loaderHelper.setCtcTermRepository(ctcTermRepository);
+     loaderHelper.setProCtcQuestionRepository(proCtcQuestionRepository);
+     loaderHelper.setProCtcTermRepository(proCtcTermRepository);
+     return loaderHelper;
+    }
+    
+    private CtcTerm findCtcTermFromRepository(CtcTermRepository ctcTermRepository, String ctcTermEnglishText){
+   	 CtcQuery ctcQuery = new CtcQuery();
+        ctcQuery.filterByName(ctcTermEnglishText);
+        List<CtcTerm> ctcTerms = ctcTermRepository.find(ctcQuery);
+        if (ctcTerms != null && ctcTerms.size() > 0) {
+            return ctcTerms.get(0);
         }
-
+        return null;
+   }
+    
+    private void includeNewlyAddedProCtcValidValuesIfAny(CsvLine csvLine, ProCtcQuestion proCtcQuestion){
+        StringTokenizer st1 = new StringTokenizer(csvLine.getProctcValidValues(), "/");
+        Collection<ProCtcValidValue> values = proCtcQuestion.getValidValues();
+        Collection<String> validValues1 = new ArrayList();
+        for (ProCtcValidValue proValue : values) {
+            String value = proValue.getValue(SupportedLanguageEnum.ENGLISH).trim();
+            validValues1.add(value);
+        }
+        int j = validValues1.size();
+        while (st1.hasMoreTokens()) {
+            String nextToken = st1.nextToken().trim();
+            if (!validValues1.contains(nextToken)) {
+                ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
+                ProCtcValidValueVocab proCtcValidValueVocab = new ProCtcValidValueVocab();
+                proCtcValidValueVocab.setValueEnglish(nextToken);
+                proCtcValidValueVocab.setProCtcValidValue(proCtcValidValue);
+                proCtcValidValue.setProCtcValidValueVocab(proCtcValidValueVocab);
+                proCtcValidValue.setDisplayOrder(j);
+                j++;
+                proCtcQuestion.addValidValue(proCtcValidValue);
+            }
+        }
+    }
+    
+    private void setProCtcValidValueDisplayOrder(ProCtcQuestion proCtcQuestion, ProCtcValidValue proCtcValidValue, int displayOrder){
+    	 if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
+             if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Yes")) {
+                 proCtcValidValue.setDisplayOrder(1);
+             }
+             if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("No")) {
+                 proCtcValidValue.setDisplayOrder(0);
+             }
+             if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not applicable")) {
+                 proCtcValidValue.setDisplayOrder(2);
+             }
+             if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Not sexually active")) {
+                 proCtcValidValue.setDisplayOrder(3);
+             }
+             if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).trim().equals("Prefer not to answer")) {
+                 proCtcValidValue.setDisplayOrder(4);
+             }
+         } else {
+        	 if(displayOrder != -1){
+        		 proCtcValidValue.setDisplayOrder(displayOrder);
+        	 }
+         }
+    }
+    
+    private ProCtcQuestion getProCtcQuestionByProCtcTermAndQuestionType(String proCtcTerm, String questionType){
+   	 ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
+        proCtcQuestionQuery.filterByQuestionType(ProCtcQuestionType.getByCode(questionType));
+        proCtcQuestionQuery.filterByTerm(proCtcTerm);
+        List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
+        if (proCtcQuestions != null && proCtcQuestions.size() > 0) {
+            return proCtcQuestions.get(0);
+        }
+        return null;
+   }
+    
+    private CsvLine fetchRecordAndReturnCsvLine(CsvReader reader, String proCtcTerm, int displayOrderI) throws IOException{
+    	CsvLine csvLine = new CsvLine();
+    	String question = reader.get(QUESTION_TEXT).trim();
+	     String core = reader.get(CORE_ITEM).trim();
+	     String attribute = reader.get(QUESTION_TYPE).trim();
+	     String validValues = reader.get(PRO_CTC_VALID_VALUES).trim();
+	     String ctcTerm = reader.get(CTC_TERM).trim();
+	     String displayOrder = "" + displayOrderI;
+	     String questionType = attribute.substring(attribute.indexOf('-') + 1);
+	     String firstLetter = question.substring(0, 1);
+	     question = firstLetter.toUpperCase() + question.substring(1);
+	     String gender = reader.get(GENDER).trim();
+	     csvLine = setCsvLine(proCtcTerm, ctcTerm, displayOrder, questionType, questionType, validValues, core, gender);
+	     return csvLine;
+    }
+    
+    private CsvLine setCsvLine(String proCtcTerm, String ctcTerm, String displayOrder, String questionType, String question, String validValues, String core, String gender){
+    	CsvLine csvLine = new CsvLine();
+    	 csvLine.setProctcTerm(proCtcTerm);
+         csvLine.setCtcTerm(ctcTerm);
+         csvLine.setDisplayOrder(displayOrder);
+         csvLine.setQuestionType(questionType);
+         csvLine.setQuestionText(question);
+         csvLine.setProctcValidValues(validValues);
+         csvLine.setCoreItem(!StringUtils.isBlank(core));
+         csvLine.setGender(gender);
+         
+         return csvLine;
     }
 
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
@@ -266,6 +231,10 @@ public class UpdateProCtcTermsImporterV4 {
 
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+    
+    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
+        this.proCtcRepository = proCtcRepository;
     }
 
     public void setResponseCode(ProCtcQuestion proCtcQuestion) {
