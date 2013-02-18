@@ -117,11 +117,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         DataAuditInfo.setLocal(auditInfo);
         login(SYSTEM_ADMIN);
         saveCsv(false);
-        if (!isTestDataPresent()) {
+        deleteAndCreateTestData();
+       /* if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         } else {
         	System.out.println("test data present:  onSetUpInTransaction TestDataManager");
-        }
+        }*/
         commitAndStartNewTransaction();
         System.out.println("Ending onSetUpInTransaction TestDataManager");
     }
