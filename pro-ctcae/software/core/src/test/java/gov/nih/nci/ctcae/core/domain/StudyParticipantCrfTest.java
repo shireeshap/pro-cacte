@@ -25,7 +25,7 @@ public class StudyParticipantCrfTest extends TestDataManager {
     public void testConstructor() {
         studyParticipantCrf = new StudyParticipantCrf();
         assertNull(studyParticipantCrf.getId());
-        assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+        //assertNull(studyParticipantCrf.getStudyParticipantCrfSchedules());
         assertNull(studyParticipantCrf.getCrf());
         assertNull(studyParticipantCrf.getStudyParticipantAssignment());
 
@@ -65,15 +65,15 @@ public class StudyParticipantCrfTest extends TestDataManager {
     public void testPutOnHold() throws Exception{
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = studyParticipantCrf.getStudyParticipantCrfSchedules();
-    	//assert schedules 0 to 4 to be having COMPLETED status, before putting ON-Hold
+    	//set crfStatus of schedules 0 to 4 to be IN-COMPLETED
     	for(int i=0; i<5; i++){
-    		assertTrue(studyParticipantCrfSchedules.get(i).getStatus().equals(CrfStatus.COMPLETED));
+    		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.COMPLETED);
     	}
     	//assert schedules 5 to 8 to be having SCHEDULED status, before putting ON-Hold
     	for(int i=5; i<9; i++){
     		assertTrue(studyParticipantCrfSchedules.get(i).getStatus().equals(CrfStatus.SCHEDULED));
     	}
-    	//set crfStatus of schedules 9 to 12 to be IN-PROGRESS, before putting ON-Hold
+    	//set crfStatus of schedules 9 to 12 to be IN-PROGRESS.
     	for(int i=9; i<13; i++){
     		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.INPROGRESS);
     	}
@@ -118,6 +118,11 @@ public class StudyParticipantCrfTest extends TestDataManager {
     
     public void testRemoveScheduledSpCrfSchedules() throws Exception{
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = studyParticipantCrf.getStudyParticipantCrfSchedules();
+    	//set crfStatus of schedules 0 to 4 to be IN-COMPLETED
+    	for(int i=0; i<5; i++){
+    		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.COMPLETED);
+    	}
     	studyParticipantCrf.removeScheduledSpCrfSchedules();
 		// Out of total 15 scheduled surveys expect, 10 surveys to be deleted
 		// and 5 surveys having CrfStatus as COMPLETED not to be deleted.
