@@ -39,7 +39,7 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
         proTermsMultiLangImporter.updateMultiLangProTerms();
         
         assertNotSame(proCtcQuestions.get(0).getProCtcQuestionVocab().getQuestionTextEnglish(), proCtcQuestions.get(0).getProCtcQuestionVocab().getQuestionTextSpanish());
-		//assertNotSame(proCtcTerms.get(0).getProCtcTermVocab().getTermEnglish(), proCtcTerms.get(0).getProCtcTermVocab().getTermSpanish());
+		assertNotSame(proCtcTerms.get(0).getProCtcTermVocab().getTermEnglish(), proCtcTerms.get(0).getProCtcTermVocab().getTermSpanish());
 	}
 	
 	
