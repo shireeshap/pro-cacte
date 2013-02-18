@@ -38,10 +38,7 @@ public class CtcTermTest extends TestCase {
         anotherCtcTerm = new CtcTerm();
         assertEquals(anotherCtcTerm, ctcTerm);
         assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
-
-        assertFalse(ctcTerm.equals(anotherCtcTerm));
-        assertEquals(anotherCtcTerm.hashCode(), ctcTerm.hashCode());
-        assertEquals(anotherCtcTerm, ctcTerm);
+        assertTrue(ctcTerm.equals(anotherCtcTerm)); // need to make it assertTrue for the test to pass
 
         ctcTerm.setCtepCode("ctep code");
         assertFalse(ctcTerm.equals(anotherCtcTerm));
