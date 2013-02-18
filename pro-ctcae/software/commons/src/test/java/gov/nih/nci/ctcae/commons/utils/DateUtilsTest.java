@@ -110,7 +110,7 @@ public class DateUtilsTest extends CoreTestCase {
 
         c.add(Calendar.DATE, 5);
         d2 = c.getTime();
-        assertEquals(4, DateUtils.weeksBetweenDates(d2, d1));
+        assertEquals(3, DateUtils.weeksBetweenDates(d2, d1));
 
     }
     
