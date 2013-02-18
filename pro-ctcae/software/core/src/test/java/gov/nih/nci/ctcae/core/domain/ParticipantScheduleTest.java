@@ -60,7 +60,8 @@ public class ParticipantScheduleTest extends TestCase {
         crfPages = new ArrayList<CRFPage>();
         crfPages.add(crfPage);
         crf.setCrfPages(crfPages);
-
+        crf.setEffectiveStartDate(DateUtils.parseDate("01/16/2011"));
+        
         studyParticipantCrf = new StudyParticipantCrf();
         studyParticipantCrf.setCrf(crf);
         studyParticipantCrf.setId(1);
