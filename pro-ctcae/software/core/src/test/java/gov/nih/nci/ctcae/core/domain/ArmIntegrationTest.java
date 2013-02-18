@@ -31,7 +31,7 @@ public class ArmIntegrationTest extends TestDataManager {
     	assertEquals(studyArm.hashCode(), fetchedArm.hashCode());
     	
     	assertFalse(studyArm.equals(otherArm));
-    	assertFalse(studyArm.hashCode() != otherArm.hashCode());
+    	assertNotSame(studyArm.hashCode(), otherArm.hashCode());
     }
     
     public void testIsDefaultArm(){
