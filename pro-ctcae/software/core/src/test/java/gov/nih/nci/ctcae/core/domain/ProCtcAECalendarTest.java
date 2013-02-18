@@ -50,14 +50,14 @@ public class ProCtcAECalendarTest extends TestCase {
         c1.set(Calendar.AM_PM, 0);
         c1.set(2011, 0, 17, 9, 20, 0);
 
-        Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(c1, "Hours", 2);
+        Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(c1, "Hours", 3);
         c1.add(Calendar.HOUR, 2);
         assertEquals(c1.getTime(), dueDate);
 
         Calendar c2 = Calendar.getInstance();
         c2.set(Calendar.AM_PM, 1);
         c2.set(2010, 11, 31, 9, 20, 0);
-        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c2, "Hours", 18);
+        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c2, "Hours", 19);
         c2.add(Calendar.HOUR, 18);
         assertEquals(c2.get(Calendar.DATE), 1);
         assertEquals(c2.get(Calendar.MONTH), 0);
@@ -67,7 +67,7 @@ public class ProCtcAECalendarTest extends TestCase {
         Calendar c3 = Calendar.getInstance();
         c3.set(Calendar.AM_PM, 0);
         c3.set(2010, 11, 30, 9, 20, 0);
-        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c3, "Days", 18);
+        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c3, "Days", 19);
         c3.add(Calendar.DATE, 18);
         assertEquals(c3.get(Calendar.DATE), 17);
         assertEquals(c3.get(Calendar.MONTH), 0);
@@ -77,7 +77,7 @@ public class ProCtcAECalendarTest extends TestCase {
         Calendar c4 = Calendar.getInstance();
         c4.set(Calendar.AM_PM, 0);
         c4.set(2011, 1, 25, 9, 20, 0);
-        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c4, "Days", 10);
+        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c4, "Days", 11);
         c4.add(Calendar.DATE, 10);
         assertEquals(c4.get(Calendar.DATE), 7);
         assertEquals(c4.get(Calendar.MONTH), 2);
@@ -88,7 +88,7 @@ public class ProCtcAECalendarTest extends TestCase {
         Calendar c5 = Calendar.getInstance();
         c5.set(Calendar.AM_PM, 0);
         c5.set(2011, 1, 25, 9, 20, 0);
-        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c5, "Weeks", 2);
+        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c5, "Weeks", 3);
         c5.add(Calendar.WEEK_OF_YEAR, 2);
         assertEquals(c5.get(Calendar.DATE), 11);
         assertEquals(c5.get(Calendar.MONTH), 2);
@@ -99,7 +99,7 @@ public class ProCtcAECalendarTest extends TestCase {
         Calendar c6 = Calendar.getInstance();
         c6.set(Calendar.AM_PM, 0);
         c6.set(2011, 11, 25, 9, 20, 0);
-        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c6, "Weeks", 3);
+        dueDate = proCtcAECalendar.getDueDateForCalendarDate(c6, "Weeks", 4);
         c6.add(Calendar.WEEK_OF_YEAR, 3);
         assertEquals(c6.get(Calendar.DATE), 15);
         assertEquals(c6.get(Calendar.MONTH), 0);
@@ -111,7 +111,13 @@ public class ProCtcAECalendarTest extends TestCase {
     	Date today = new Date();
     	
     	assertFalse(proCtcAECalendar.isDateAfterMonth(today));
-    	assertFalse(proCtcAECalendar.isDateWithinMonth(today));
+    	if(c.get(Calendar.MONTH) == today.getMonth()){
+    		assertTrue(proCtcAECalendar.isDateWithinMonth(today));
+    	}else{
+    		assertFalse(proCtcAECalendar.isDateWithinMonth(today));
+    	}
+    	
+    	
     }
     
     public void testSetCycleParameters(){
