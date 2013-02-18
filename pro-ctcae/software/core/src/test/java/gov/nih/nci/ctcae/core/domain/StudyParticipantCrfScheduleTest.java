@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import junit.framework.TestCase;
 
 import java.util.Date;
@@ -101,16 +102,18 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     
     public void testAddParticipantAddedQuestions(){
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
-    	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
+    	
+    	StudyParticipantCrfAddedQuestion spcrf_addedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestionFromRepository().get(11), studyParticipantCrf.getCrf().getCrfPages().size());
+    	genericRepository.save(spcrf_addedQuestion);
     	
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
-    	assertTrue(fetchAddedQuestionFromRepository().isEmpty());
     	
     	studyParticipantCrfSchedule.addParticipantAddedQuestions();
+    	genericRepository.save(studyParticipantCrfSchedule);
     	StudyParticipantCrfScheduleAddedQuestion studyParticipantCrSchedulefAddedQuestion_spcrfs = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0);
     	StudyParticipantCrfScheduleAddedQuestion fetchedAddedQuestion = fetchAddedQuestionFromRepository().get(0);
     	assertTrue(fetchedAddedQuestion.equals(studyParticipantCrSchedulefAddedQuestion_spcrfs));
-    	assert(fetchedAddedQuestion.hashCode() == studyParticipantCrSchedulefAddedQuestion_spcrfs.hashCode());
+    	assertEquals(fetchedAddedQuestion.hashCode(), studyParticipantCrSchedulefAddedQuestion_spcrfs.hashCode());
     }
    
     public void testGetParticipantAddedSymptoms(){
@@ -144,19 +147,23 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
         ProCtcQuestion proCtaddedQuestion = new ProCtcQuestion();
         proCtaddedQuestion.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
         proCtaddedQuestion.setDisplayOrder(1);
-        proCtaddedQuestion.setId(1);
+        //proCtaddedQuestion.setId(1);
         proCtcTerm.addProCtcQuestion(proCtaddedQuestion);
         return proCtaddedQuestion;
     }
     
     public List<StudyParticipantCrfScheduleAddedQuestion> fetchAddedQuestionFromRepository(){
-    	return hibernateTemplate.find("from StudyParticipantCrfScheduleAddedQuestion");
-    	
+    	return hibernateTemplate.find("select spcrfs_addedQs from StudyParticipantCrfScheduleAddedQuestion spcrfs_addedQs");
     }
     
     public List<CrfPageItem> getCrfPageItemsForCrf(Integer id){
     	return hibernateTemplate.find("select cpi from CrfPageItem cpi left join cpi.crfPage as cp where cp.crf.id =?", new Object[]{id});
     }
+    
+    public List<ProCtcQuestion> getProCtcQuestionFromRepository(){
+    	return hibernateTemplate.find("from ProCtcQuestion");
+    }
+    
     public StudyParticipantCrf getDefaultStudyParticipantCrf(){
     	return StudyTestHelper.getDefaultStudy().getArms().get(0).getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
     }
