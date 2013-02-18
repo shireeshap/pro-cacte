@@ -2311,6 +2311,7 @@ pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/018_update_ctc_cat
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/019_update_scra_privilege.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/005_elaboration_1/020_add_organizations.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/006_elaboration_1/001_add_Admin_Privileges.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/001_insert_cts.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
