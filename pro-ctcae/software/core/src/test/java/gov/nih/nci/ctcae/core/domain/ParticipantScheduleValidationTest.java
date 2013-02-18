@@ -66,6 +66,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         cal.setTime(new Date());
         Date dueDate = participantSchedule.getDueDateForFormSchedule(cal,participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0));
         cal.add(Calendar.DATE,1);
+        cal.add(Calendar.HOUR, -1);
         assertEquals(dueDate, cal.getTime());
 
         CRFQuery query = new CRFQuery();
@@ -74,7 +75,7 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         crf.getFormArmSchedules().get(0).getCrfCalendars().clear();
 
         Date dueDateNew = participantSchedule.getDueDateForFormSchedule(cal2,participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0));
-        cal2.add(Calendar.DATE, 5);
+        cal2.add(Calendar.DATE, 4);
         assertEquals(dueDateNew,cal2.getTime());
 
 
@@ -98,18 +99,27 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         query.filterByTitleExactMatch("IVRSForm");
         CRF crf = crfRepository.findSingle(query);
         int offset = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getStartDate(),studyParticipantCrfSchedule.getDueDate());
-        newCalender.add(Calendar.DATE, offset-1);
+        if(offset>0){
+        	newCalender.add(Calendar.DATE, -offset);
+        }else{
+        	newCalender.add(Calendar.DATE, -5);
+        }
+        	
         List<String>  formids = new ArrayList<String>();
         formids.add(crf.getId().toString());
 
         List<String> pastdueForms = participantSchedule.getReschedulePastDueForms(cal, newCalender,formids);
          assertEquals(1,pastdueForms.size());
          assertEquals(crf.getTitle(),pastdueForms.get(0));
-        newCalender.add(Calendar.DATE,1);
+        newCalender.setTime(studyParticipantCrfSchedule.getStartDate());
+        if(offset>0){
+        	newCalender.add(Calendar.DATE, offset);
+        }else{
+        	newCalender.add(Calendar.DATE, 5);
+        }
         List<String> noPastDueForms = participantSchedule.getReschedulePastDueForms(cal, newCalender,formids);
          assertEquals(0,noPastDueForms.size());
           deleteScheduleTestData();
-
     }
 
     public void testUpdateSchedule() throws Exception {
@@ -156,11 +166,8 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         assertEquals(list.size(),2);
         assertEquals(list.get("failedForms").size(),1);
         assertEquals(list.get("failedForms").get(0),crf.getTitle());
-
         assertEquals(list.get("successForms").size(),0);
-       /* deleteScheduleTestData();
-        commitAndStartNewTransaction();*/
-
+       
     }
 
 
