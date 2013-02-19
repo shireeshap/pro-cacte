@@ -2648,6 +2648,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/UserIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/UserTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/rules/NotificationRuleIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExceptionTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/AudioFileRenameHelper.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/helper/ClinicalStaffTestHelper.java -text
