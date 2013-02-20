@@ -170,6 +170,8 @@ public class PersistableValidatorIntegrationTestCase extends TestDataManager {
     }
 
     private Object getColumnValue(Class<?> returnType) throws InstantiationException, IllegalAccessException {
+    	Object columnValue;
+    	
         if (ClassUtils.isAssignable(String.class, returnType)) {
             return DEFAULT_STRING;
         }
@@ -177,7 +179,14 @@ public class PersistableValidatorIntegrationTestCase extends TestDataManager {
             Object[] enumConstants = returnType.getEnumConstants();
             return enumConstants[0].toString();
         }
-        Object columnValue = returnType.newInstance();
+        
+        
+        if(returnType.getName().equals("java.lang.Boolean")){
+        	columnValue = Boolean.valueOf(false);
+        }else{
+        	columnValue = returnType.newInstance();
+        }
+        
 
         return columnValue;
     }
