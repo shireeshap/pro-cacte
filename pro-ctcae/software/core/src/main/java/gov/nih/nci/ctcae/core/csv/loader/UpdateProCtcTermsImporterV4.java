@@ -61,11 +61,14 @@ public class UpdateProCtcTermsImporterV4 {
         CsvReader reader;
         loaderHelper = getLoaderHelper();
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
-        Resource resource = new FileSystemResource("web/src/main/resources/");
+   /*     Resource resource = new FileSystemResource("web/src/main/resources/");
     	Resource resource1 = resource.createRelative("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
         File f = new File(resource1.getFile().getCanonicalPath());
         System.out.println(f.getCanonicalPath());
-        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
+        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));*/
+        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
+        
         reader.readHeaders();
         String oldProCtcTerm = "";
         int displayOrderI = 0;
@@ -101,6 +104,7 @@ public class UpdateProCtcTermsImporterV4 {
         System.out.println("No of entries in hashmap: "+ hm.size());
         loaderHelper.createProCtcTermsAndProCtcQuestionsFromHashMap(hm, proCtc);
         proCtcRepository.save(proCtc);
+        reader.close();
 
     }
     

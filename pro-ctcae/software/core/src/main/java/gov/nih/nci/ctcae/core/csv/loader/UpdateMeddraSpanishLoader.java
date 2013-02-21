@@ -31,11 +31,13 @@ public class UpdateMeddraSpanishLoader {
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
-        Resource resource = new FileSystemResource("web/src/main/resources/");
+       /* Resource resource = new FileSystemResource("web/src/main/resources/");
     	Resource resource1 = resource.createRelative("MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv");
         File f = new File(resource1.getFile().getCanonicalPath());
         System.out.println(f.getCanonicalPath());
-        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
+        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));*/
+        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_ES_prelim_updated_08.04.2011.csv");
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
 
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");
@@ -50,6 +52,7 @@ public class UpdateMeddraSpanishLoader {
             }
         }
         meddraLoaderRepository.batchExecute(updateTerms);
+        reader.close();
 
     }
 

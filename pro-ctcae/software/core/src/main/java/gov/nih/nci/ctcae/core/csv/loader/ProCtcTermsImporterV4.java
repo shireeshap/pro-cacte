@@ -68,6 +68,7 @@ public class ProCtcTermsImporterV4 {
         loaderHelper.createProCtcTermsAndProCtcQuestionsFromHashMap(hm, proCtc);
         proCtc.setProCtcVersion("4.0");
         proCtc.setReleaseDate(new Date());
+        reader.close();
         return proCtc;
     }
     

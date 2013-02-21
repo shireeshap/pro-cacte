@@ -47,11 +47,14 @@ public class ProTermsMultiLangImporterV4 {
 
     public void updateMultiLangProTerms() throws IOException {
         CsvReader reader;
-        Resource resource = new FileSystemResource("web/src/main/resources/");
+        /*Resource resource = new FileSystemResource("web/src/main/resources/");
     	Resource resource1 = resource.createRelative("Spanish_Pro-CTCAE_items_08.10.2011.csv");
         File f = new File(resource1.getFile().getCanonicalPath());
         System.out.println(f.getCanonicalPath());
-        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
+        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));*/
+        ClassPathResource classPathResource = new ClassPathResource("Spanish_Pro-CTCAE_items_08.10.2011.csv");
+        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
+        reader.readHeaders();
 
         while (reader.readRecord()) {
 
@@ -79,6 +82,7 @@ public class ProTermsMultiLangImporterV4 {
                 proCtcTermRepository.save(proCtcTerm);
             }
         }
+        reader.close();
     }
     
     private void updateSpanishTextForProCtcQuestionAndProCtcValidValues(ProCtcQuestion proCtcQuestion, List<String> spanishValidValuesList, String questionSpanishText){
