@@ -2590,6 +2590,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopu
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/ProTermsMultiLangImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraLoaderTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoaderTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/dao/ProCtcDaoTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text
