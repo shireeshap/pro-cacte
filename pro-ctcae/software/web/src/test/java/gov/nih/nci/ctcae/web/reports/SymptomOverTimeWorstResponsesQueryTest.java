@@ -13,15 +13,18 @@ import java.util.List;
  */
 public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase {
 
-    public void testQuery() {
-
+    public void testQuery() throws Exception {
+    	
+    	deleteTestData();
+    	createTestData();
+    	
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery("cycle");
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         query.filterByCrf(crf.getId());
         query.filterByArm(crf.getStudy().getArms().get(0));
 
         List list = genericRepository.find(query);
-        assertEquals(24, list.size());
+        assertEquals(20, list.size());
 
     }
 
