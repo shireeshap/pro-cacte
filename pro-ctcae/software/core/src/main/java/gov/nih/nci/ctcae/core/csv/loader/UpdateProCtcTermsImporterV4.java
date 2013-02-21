@@ -17,6 +17,8 @@ import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import com.csvreader.CsvReader;
 
@@ -57,10 +61,11 @@ public class UpdateProCtcTermsImporterV4 {
         CsvReader reader;
         loaderHelper = getLoaderHelper();
         HashMap<String, List<CsvLine>> hm = new LinkedHashMap<String, List<CsvLine>>();
-
-        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
-        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
-        
+        Resource resource = new FileSystemResource("web/src/main/resources/");
+    	Resource resource1 = resource.createRelative("PRO-CTCAE_items_updated_05.17.2011_formatted.csv");
+        File f = new File(resource1.getFile().getCanonicalPath());
+        System.out.println(f.getCanonicalPath());
+        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
         reader.readHeaders();
         String oldProCtcTerm = "";
         int displayOrderI = 0;

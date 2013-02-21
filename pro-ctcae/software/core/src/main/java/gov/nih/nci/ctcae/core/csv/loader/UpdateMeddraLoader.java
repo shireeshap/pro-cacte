@@ -4,12 +4,16 @@ import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import com.csvreader.CsvReader;
 
@@ -30,9 +34,11 @@ public class UpdateMeddraLoader  {
 
     public void updateMeddraTerms() throws Exception {
         CsvReader reader;
-        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv");
-        reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF8"));
-        reader.readHeaders();
+        Resource resource = new FileSystemResource("web/src/main/resources/");
+    	Resource resource1 = resource.createRelative("MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv");
+        File f = new File(resource1.getFile().getCanonicalPath());
+        System.out.println(f.getCanonicalPath());
+        reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));
 
         MeddraQuery meddraQuery = new MeddraQuery(true, "es");
         List existingMeddraCodes = genericRepository.find(meddraQuery);
