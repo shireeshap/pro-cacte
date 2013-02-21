@@ -24,7 +24,11 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         assertTrue(list.size()>0);
     }
 
-    public void testGetSymptomsForCrf_GetAttributesForSymptom() {
+    public void testGetSymptomsForCrf_GetAttributesForSymptom() throws Exception {
+    	
+    	deleteTestData();
+    	createTestData();
+    	
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         List<ProCtcTerm> proCtcTerms = crfAjaxFacade.getSymptomsForCrf(crf.getId());
         assertEquals(10, proCtcTerms.size());
@@ -34,9 +38,9 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
         System.out.println("Attribute size: "+attributes.size());
         System.out.println("Attribute 1: "+attributes.get(0));
-        System.out.println("Attribute 1: "+attributes.get(1));
         assertEquals(1, attributes.size());
         assertEquals("Severity", attributes.get(0));
+
 
     }
     
