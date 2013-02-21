@@ -1,9 +1,11 @@
 package gov.nih.nci.ctcae.core.dao;
 
+import gov.nih.nci.ctcae.core.csv.loader.UpdateMeddraLoader;
 import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
 
 import java.util.List;
 
@@ -13,12 +15,19 @@ import java.util.List;
  *
  */
 public class ProCtcDaoTest extends TestDataManager{
+	public static MeddraLoaderRepository meddraLoaderRepository;
 	
-	public ProCtcDaoTest(){
+	public  void initialize() throws Exception{
+		UpdateMeddraLoader updateMeddraLoader = new UpdateMeddraLoader();
+		updateMeddraLoader.setGenericRepository(genericRepository);
+		updateMeddraLoader.setMeddraLoaderRepository(meddraLoaderRepository);
+		updateMeddraLoader.updateMeddraTerms();
 	}
 
+	
 
-	public void testFindAll(){
+	public void testFindAll() throws Exception{
+		initialize();
 		List<LowLevelTerm> lowLevelTerm = lowLevelTermDao.findAll(null);
 		assertFalse(lowLevelTerm.isEmpty());
 	}
@@ -30,7 +39,8 @@ public class ProCtcDaoTest extends TestDataManager{
 		
 	}
 	
-	public void testGetByMeddraCode(){
+	public void testGetByMeddraCode() throws Exception{
+		initialize();
 		List<LowLevelTerm> lowLevelTerm = lowLevelTermDao.getByMeddraCode("10000424");
 		List<LowLevelTermVocab> lowLevelTermVocab = getLowLevelTermVocab(100005);
 		if(!lowLevelTerm.isEmpty() && !lowLevelTermVocab.isEmpty()){
@@ -46,6 +56,7 @@ public class ProCtcDaoTest extends TestDataManager{
 		
 	}
 	
+
 	public void testGetMeddraByName(){
 		MeddraVersion testMeddraVersion = new MeddraVersion();
 		testMeddraVersion.setName("testMeddra");
@@ -68,6 +79,10 @@ public class ProCtcDaoTest extends TestDataManager{
 		
 		meddraVersionDao.delete(testMeddraVersion);
 		assertTrue(meddraVersionDao.getMeddraByName("testMeddra").size() == 0);	
+	}
+	
+	public void setMeddraLoaderRepository(MeddraLoaderRepository meddraLoaderRepository){
+		ProCtcDaoTest.meddraLoaderRepository = meddraLoaderRepository;
 	}
 	
 }
