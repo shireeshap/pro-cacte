@@ -15,8 +15,7 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
 
     public void testQuery() throws Exception {
     	
-    	deleteTestData();
-    	createTestData();
+    	saveCsv(true);
     	
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery("cycle");
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);

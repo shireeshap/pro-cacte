@@ -26,8 +26,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
     public void testGetSymptomsForCrf_GetAttributesForSymptom() throws Exception {
     	
-    	deleteTestData();
-    	createTestData();
+    	saveCsv(true);
     	
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         List<ProCtcTerm> proCtcTerms = crfAjaxFacade.getSymptomsForCrf(crf.getId());
