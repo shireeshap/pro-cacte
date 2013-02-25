@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -43,6 +44,13 @@ public class MoveFormScheduleValidateController extends AbstractController {
         String strNewdate = date.substring(0, date.indexOf(","));
         Date newDate = DateUtils.parseDate(strNewdate);
         String olddate = date.substring(date.indexOf(",") + 1);
+        
+        StudyParticipantAssignment spa = participantCommand.getSelectedStudyParticipantAssignment();
+        if(spa.getStudyStartDate() != null){
+        	if(spa.getStudyStartDate().after(DateUtils.addDaysToDate(newDate, -1))){
+        		return new ModelAndView("participant/denyMove");
+        	}
+        }
 
         c.set(Calendar.DATE, Integer.parseInt(olddate));
         mv.addObject("olddate", DateUtils.format(c.getTime()));
@@ -50,11 +58,10 @@ public class MoveFormScheduleValidateController extends AbstractController {
         newCalendar.setTime(newDate);
         mv.addObject("newDate", DateUtils.format(newCalendar.getTime()));
         List<String> issueForms = participantSchedule.getReschedulePastDueForms(c, newCalendar, formIds);
-
+        
         if (issueForms.size() == 0) {
            return new ModelAndView("participant/confirmMove");
         }
-
 
         mv.addObject("day", request.getParameter("olddate"));
         mv.addObject("issueForms", issueForms);

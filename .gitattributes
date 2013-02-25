@@ -3168,6 +3168,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmSymptom.
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/delSchedule.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/denyMove.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/detailsSchedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/inputParticipantResponses.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text

@@ -106,7 +106,11 @@ function addRemoveValidationSchedule(index, date, action, pid) {
 
                 if (transport.responseText == "getCalendar") {
                     addRemoveSchedule(index, date, action, pid);
-                } else {
+                } else if (transport.responseText == "denyMoveToDate"){
+            		alert("Cannot move the schedule prior to start date");
+            		closeWindow();
+            		getCalendar(index, "dir=refresh");
+            	}else {
                     showConfirmationWindow(transport, 650, 210);
                 }
 
@@ -125,8 +129,15 @@ function showMoveWindow(olddate, newdate, index, sids, pid) {
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
         parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids + "&id=" + pid,
         onComplete:function(transport) {
-            showConfirmationWindow(transport, 650, 210);
-            AE.registerCalendarPopups();
+        	if (transport.responseText == "denyMoveToDate"){
+        		alert("Cannot move the schedule prior to start date");
+        		closeWindow();
+        		getCalendar(index, "dir=refresh");
+        	}else{
+        		showConfirmationWindow(transport, 650, 210);
+                AE.registerCalendarPopups();
+        	}
+            
         },
         method:'get'
     })

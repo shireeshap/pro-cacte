@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
@@ -40,6 +41,13 @@ public class MoveFormScheduleController extends AbstractController {
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("newdate")));
         mv.addObject("newdate", DateUtils.format(c.getTime()));
+        
+        StudyParticipantAssignment spa = participantCommand.getSelectedStudyParticipantAssignment();
+        if(spa.getStudyStartDate() != null){
+        	if(spa.getStudyStartDate().after(DateUtils.addDaysToDate(c.getTime(), -1))){
+        		return new ModelAndView("participant/denyMove");
+        	}
+        }
 
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("olddate")));
         mv.addObject("olddate", DateUtils.format(c.getTime()));
