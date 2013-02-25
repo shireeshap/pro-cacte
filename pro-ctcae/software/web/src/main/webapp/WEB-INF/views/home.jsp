@@ -950,7 +950,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         <c:if test="${studyLevelRole}">
             <chrome:box title="My Forms" collapsable="true" id="myforms" collapsed="false">
                 <div class="yui-skin-sam">
-                    <table width="70%" align="left">
+                    <table width="70%">
                         <tr>
                             <td width="68%">
                                 <div id="pag"></div>
