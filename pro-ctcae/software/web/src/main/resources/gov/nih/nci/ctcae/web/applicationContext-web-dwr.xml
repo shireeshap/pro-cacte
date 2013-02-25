@@ -60,6 +60,7 @@
         <property name="meddraVersionDao" ref="meddraVersionDao"/>
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
+    <!-- Including into applicationContext-core  
     <bean id="meddraVersionDao"
           class="gov.nih.nci.ctcae.core.dao.MeddraVersionDao">
         <property name="hibernateTemplate" ref="hibernateTemplate"></property>
@@ -73,6 +74,6 @@
           class="gov.nih.nci.ctcae.core.dao.LowLevelTermDao">
         <property name="hibernateTemplate" ref="hibernateTemplate"></property>
     </bean>
-    
+     -->
 
 </beans>
