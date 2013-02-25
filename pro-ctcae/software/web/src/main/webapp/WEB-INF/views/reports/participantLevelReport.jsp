@@ -21,6 +21,8 @@
     <tags:javascriptLink name="yui-autocomplete"/>
     <tags:dwrJavascriptLink objects="study"/>
     <tags:javascriptLink name="reports_common"/>
+    <tags:javascriptLink name="common_help"/>
+    
     <script type="text/javascript">
         displayParticipants = true;
         displaySymptom = false;
@@ -33,7 +35,7 @@
 	            setTimeout("participantCareResultsFromHome();", 1000);
 	        </c:if>
 			
-	        if(	{
+	        if(isIE()){
 	        	jQuery('#formDropDown').css("position","relative");
 	        	jQuery('#formDropDown').css("left","12px");
 	        	jQuery('#visitOptions').css("position","relative");
