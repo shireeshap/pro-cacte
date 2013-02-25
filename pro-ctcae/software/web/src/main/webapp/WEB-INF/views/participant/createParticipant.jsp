@@ -35,7 +35,7 @@ var CP = {
     isBlackoutCallTime: false,
     isEmailError: false
 };
-
+ 
 Event.observe(window, 'load', function() {
     <c:if test="${command.admin eq true && empty command.participant.studyParticipantAssignments}">
         try {
@@ -52,7 +52,7 @@ Event.observe(window, 'load', function() {
     Event.observe('organizationId', 'change', function() {
         CP.getStudySites();
     })
-   
+  
     //need to make the ajax call, when there is validation error in create flow
     if (${hasValidationErrors}) {
         if ('${command.participant.id}' == '') {
@@ -443,9 +443,9 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
     } else {
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
-	
+	            document.forms[0].submit();// added to refresh the page after taking off hold..	        	 
 	            if (transport.responseText == "getCalendar") {
-	                getCalendar(index, "dir=refresh");
+	                getCalendar(index, "dir=refresh");	
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
@@ -516,7 +516,7 @@ CP.participantOffStudy = function(id) {
     })
 }
 
-CP.beginHoldOnSchedules = function(index, date, action, pid) {
+beginHoldOnSchedules = function(index, date, action, pid) {
     if (date == null || date == '') {
         alert('Please enter a date');
         return;
@@ -527,6 +527,7 @@ CP.beginHoldOnSchedules = function(index, date, action, pid) {
     } else {
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
             onComplete:function(transport) {
+            	 document.forms[0].submit();// added to refresh the page after putting on hold..	  
 	            if (transport.responseText == "getCalendar") {
 	                getCalendar(index, "dir=refresh");
 	            } else {
@@ -550,6 +551,7 @@ CP.participantOffHold = function(id, date, index) {
     })
 }
 
+
 CP.participantOnHold = function(id, date) {
     var request = new Ajax.Request("<c:url value='/pages/participant/participantOnHold'/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=participant&id=" + id + "&date=" + date + "&index=" +0,
@@ -558,6 +560,7 @@ CP.participantOnHold = function(id, date) {
         },
         method:'get'
     })
+   
 }
 
 function doPostProcessing() {

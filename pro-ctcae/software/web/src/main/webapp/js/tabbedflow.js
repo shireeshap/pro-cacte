@@ -14,6 +14,21 @@ AE.tabbedFlowUpdateTarget = function(evt) {
     AE.tabbedFlowDisableTarget(evt);
 }
 
+// Reload the page with updated message on putting a participant onHold or taking the participant offHold
+// Need to set _target property here, to stay on the same page after reload.
+AE.RefreshPage = function(){
+	var currentPage = $('_target').name.slice(7,8);
+	currentPage = currentPage - 1;
+	$('_target').name = "_target" + currentPage
+    if (Prototype.Browser.IE) {
+        if ($('command')._finish) $('_finish').disable()
+    } else {
+        if ($('command')._finish) $('command')._finish.disable()
+    }
+    AE.tabbedFlowDisableTarget(evt);
+	
+}
+
 AE.tabbedFlowSelectAndSubmit = function(click) {
     Event.stop(click)
     AE.tabbedFlowUpdateTarget(click)
@@ -38,4 +53,6 @@ Event.observe(window, "load", function() {
     if ($("flow-prev")) Event.observe("flow-prev", "click", AE.tabbedFlowUpdateTarget)
     if ($("flow-update")) Event.observe("flow-update", "click", AE.tabbedFlowUpdateTarget)
     if ($("flow-next")) Event.observe("flow-next", "click", AE.tabbedFlowDisableTarget)
+    if ($("putOnHold")) Event.observe("putOnHold", "click", AE.RefreshPage)
+    if ($("putOffHold")) Event.observe("putOffHold", "click", AE.RefreshPage)
 })
