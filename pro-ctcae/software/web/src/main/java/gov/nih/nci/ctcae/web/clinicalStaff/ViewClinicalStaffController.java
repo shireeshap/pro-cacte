@@ -37,7 +37,7 @@ public class ViewClinicalStaffController extends CtcAeSimpleFormController {
         if (clinicalStaffId != null) {
             clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
         }
-
+        request.setAttribute("searchString", (String) request.getSession().getAttribute("ParticipantSearchString"));
         return clinicalStaff;
     }
 

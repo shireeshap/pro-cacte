@@ -117,12 +117,13 @@
             </table>
         </div>
     </chrome:division>
+   
 </chrome:box>
 <div style="float:right">
     <table>
-        <tr>
+        <tr><!--On hitting back button load the search results back by passing along the user search string to the searchClinicalStaffController request-->
             <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
-                             href="searchClinicalStaff"/></td>
+                             href="searchClinicalStaff?searchString=${searchString}"/></td>
             <td>
 
         </tr>
