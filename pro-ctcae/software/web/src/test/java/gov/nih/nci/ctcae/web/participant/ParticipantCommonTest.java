@@ -110,7 +110,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
     	assertEquals(spa.getClinicWebLanguage(), "ENGLISH");
     	
     	StudyParticipantMode spMode = spa.getStudyParticipantModes().get(0);
-    	assertEquals(spMode.getMode(), "IVRS/Automated Telephone");
+    	assertEquals(spMode.getMode(), AppMode.IVRS);
     	assertFalse(spMode.getEmail());
     	assertFalse(spMode.getCall());
     	assertFalse(spMode.getText());
