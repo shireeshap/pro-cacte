@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
@@ -26,19 +27,18 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
     public void testGetSymptomsForCrf_GetAttributesForSymptom() throws Exception {
     	
-    	saveCsv(true);
-    	
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         List<ProCtcTerm> proCtcTerms = crfAjaxFacade.getSymptomsForCrf(crf.getId());
         assertEquals(10, proCtcTerms.size());
-
+                
         Integer id = proCtcTerms.get(1).getId();
+        List<ProCtcQuestionType> questionTypes = fetchProCtcQuestionTypes(proCtcTerms.get(1));
         System.out.println("ProCtcTerm is :"+ proCtcTerms.get(1));
         List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
         System.out.println("Attribute size: "+attributes.size());
         System.out.println("Attribute 1: "+attributes.get(0));
-        assertEquals(1, attributes.size());
-        assertEquals("Severity", attributes.get(0));
+        assertEquals(questionTypes.size(), attributes.size());
+        assertEquals(questionTypes.get(0).getDisplayName(), attributes.get(0));
 
 
     }
@@ -48,4 +48,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         this.crfAjaxFacade = crfAjaxFacade;
     }
 
+    public List<ProCtcQuestionType> fetchProCtcQuestionTypes(ProCtcTerm proCtcTerm){
+    	return hibernateTemplate.find("select question.proCtcQuestionType from ProCtcQuestion question where question.proCtcTerm = ?", new Object[]{proCtcTerm});
+    }
 }
