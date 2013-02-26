@@ -109,6 +109,12 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
     	assertEquals(spa.getClinicPaperLanguage(), "ENGLISH");
     	assertEquals(spa.getClinicWebLanguage(), "ENGLISH");
     	
+    	StudyParticipantMode spMode = spa.getStudyParticipantModes().get(0);
+    	assertEquals(spMode.getMode(), "IVRS/Automated Telephone");
+    	assertFalse(spMode.getEmail());
+    	assertFalse(spMode.getCall());
+    	assertFalse(spMode.getText());
+    	
     	request.setParameter("call_minute_" + studySite.getId(), "44");
     	participantCommand.setParticipantModesAndReminders(studySite, spa, request);
     	today.setHours(2);
