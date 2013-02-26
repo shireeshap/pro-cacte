@@ -12,13 +12,16 @@ import java.util.Properties;
  * @since Nov 4, 2008
  */
 public class ParticipantInboxControllerTest extends AbstractWebTestCase {
-
+	public static final String BASE_URL = "base.url";
+	
     public void testControllerParticipant() throws Exception {
         login(ParticipantTestHelper.getDefaultParticipant().getUser().getUsername());
         ParticipantInboxController controller = new ParticipantInboxController();
         request.setMethod("GET");
         controller.setUserRepository(userRepository);
-        controller.setProperties(new Properties());
+        Properties properties = new Properties();
+        properties.setProperty(BASE_URL, "http://localhost:8090/proctcae/");
+        controller.setProperties(properties);
         controller.handleRequest(request, response);
         assertEquals(gov.nih.nci.ctcae.core.domain.Participant.class, controller.getCommandClass());
     }
