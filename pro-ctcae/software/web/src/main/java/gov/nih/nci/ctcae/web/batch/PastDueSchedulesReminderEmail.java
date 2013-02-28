@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -71,46 +70,33 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
+        
         logger.debug("Nightly trigger bean job starts....");
-        Query query = session.createQuery(new String("Select study from Study study"));
+        Query query = session.createQuery(new String("Select study from Study study where study.id=15"));
         List<Study> studies = query.list();
+        
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         cal.add(Calendar.DATE, -2);
         Date yesterday = ProCtcAECalendar.getCalendarForDate(cal.getTime()).getTime();
-        boolean web = false;
+        
         for (Study study : studies) {
-
             for (StudySite studySite : study.getStudySites()) {
-            	//add the study site level clinicians
-                List<StudyOrganizationClinicalStaff> clinicalStaffList = studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
-                clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
-                //add the study level clinicians
-            	clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
-            	clinicalStaffList.addAll(study.getStudyOrganizationClinicalStaffByRole(Role.PI));
-            	
+                List<StudyOrganizationClinicalStaff> clinicalStaffList = buildClinicalStaffList(studySite);
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                	web = false;
+                	boolean web = false;
                     if (studyParticipantAssignment.getStatus() != null && studyParticipantAssignment.getStatus().equals(RoleStatus.ACTIVE)) {
                         for (StudyParticipantMode mode : studyParticipantAssignment.getStudyParticipantModes()) {
-                            if (mode.getMode().equals(AppMode.HOMEWEB)) {
-                                if (mode.getEmail()) {
-                                    web = true;
-                                }
+                            if (mode.getMode().equals(AppMode.HOMEWEB) && mode.getEmail()) {
+                                web = true;
+                                break;
                             }
                         }
                         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                             	
-                            	//For all schedules that are past their due date, update status to Pastdue or completed accordingly
-                            	if (today.after(studyParticipantCrfSchedule.getDueDate())) {
-                            		if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
-                                        studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
-	                            	} else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
-	                                    studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
-	                                }                            		
-                            	}
+                            	updateScheduleStatusForPastDueSurveys(studyParticipantCrfSchedule, today);
 
                             	//for all schedules that went past-due Yesterday (and yesterday only), add to past-due notifications email list.
                                 if (today.after(studyParticipantCrfSchedule.getDueDate()) && yesterday.before(studyParticipantCrfSchedule.getDueDate())) {
@@ -122,8 +108,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                                 }
 
                                 //for all schedules that are scheduled or in-progress and available, send out patient reminders.
-                                if (web && 
-                                		(today.equals(studyParticipantCrfSchedule.getStartDate()) || today.after(studyParticipantCrfSchedule.getStartDate())) && 
+                                if (web && (today.equals(studyParticipantCrfSchedule.getStartDate()) || today.after(studyParticipantCrfSchedule.getStartDate())) && 
                                 		(today.before(studyParticipantCrfSchedule.getDueDate()) || today.equals(studyParticipantCrfSchedule.getDueDate()))) {
                                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
                                         addScheduleForParticipant(studyParticipantAndSchedulesMap, studyParticipantCrfSchedule, studyParticipantAssignment);
@@ -136,62 +121,93 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
             }
         }
         try {
-            String subject = "PRO-CTCAE System Notification: Recently Missed Surveys";
-            JavaMailSender javaMailSender = new JavaMailSender();
-            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : siteClincalStaffAndParticipantAssignmentMap.keySet()) {
-                if (siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff).size() > 0) {
-                    String emailAddress = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
-                    String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
-                    if (StringUtils.isNotBlank(emailAddress)) {
-                        System.out.println("Sending ClinicalStaff email to " + emailAddress);
-                        logger.debug("Sending ClinicalStaff email to " + emailAddress);
-                        MimeMessage message = javaMailSender.createMimeMessage();
-                        message.setSubject(subject);
-                        message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-                        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-                        helper.setTo(emailAddress);
-                        helper.setText(content, javaMailSender.isHtml());
-                        javaMailSender.send(message);
-                    }
-                }
-            }
-
-            logger.debug("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
-            if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
-                for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
-                    String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
-                    String participantEmailContent = getHtmlContentForParticipantEmail(studyParticipantAndSchedulesMap.get(studyParticipantAssignment), studyParticipantAssignment);
-                    if (StringUtils.isNotBlank(participantEmailAddress)) {
-                        System.out.println("Sending Survey Reminder email to " + participantEmailAddress);
-                        logger.debug("Sending Survey Reminder email to " + participantEmailAddress);
-                        MimeMessage participantMessage = javaMailSender.createMimeMessage();
-                        Locale locale = Locale.ENGLISH;
-                        if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
-                            locale = new Locale("es");
-                        }
-                        String participantSubject = messageSource.getMessage("participant.email.comp13", null, locale);
-                        participantMessage.setSubject(participantSubject);
-                        participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-                        MimeMessageHelper helper = new MimeMessageHelper(participantMessage, true);
-                        helper.setTo(participantEmailAddress);
-                        helper.setText(participantEmailContent, javaMailSender.isHtml());
-                        javaMailSender.send(participantMessage);
-                    }
-                }
-            }
+        	sendOutNotifications(siteClincalStaffAndParticipantAssignmentMap, studyParticipantAndSchedulesMap);
         } catch (IOException e) {
-            logger.error(e.getMessage());
-        } catch (AddressException e) {
             logger.error(e.getMessage());
         } catch (MessagingException e) {
             logger.error(e.getMessage());
-        } finally {
+        } catch(Exception e){
+            logger.error(e.getMessage());
+        }	
+        finally {
             tx.commit();
         }
         logger.debug("Nightly trigger bean job ends....");
     }
 
-    private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+    /**
+     * add the study site level clinicians
+     */
+    private List<StudyOrganizationClinicalStaff> buildClinicalStaffList(StudySite studySite) {
+    	List<StudyOrganizationClinicalStaff> clinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
+    	studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
+        clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
+        //add the study level clinicians
+    	clinicalStaffList.addAll(studySite.getStudy().getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+    	clinicalStaffList.addAll(studySite.getStudy().getStudyOrganizationClinicalStaffByRole(Role.PI));
+    	return clinicalStaffList;
+	}
+    
+
+	private void sendOutNotifications(Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, 
+    										Map<StudyParticipantAssignment, List<StudyParticipantCrfSchedule>> studyParticipantAndSchedulesMap) throws IOException, MessagingException{
+        String subject = "PRO-CTCAE System Notification: Recently Missed Surveys";
+        JavaMailSender javaMailSender = new JavaMailSender();
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : siteClincalStaffAndParticipantAssignmentMap.keySet()) {
+            if (siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff).size() > 0) {
+                String emailAddress = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
+                String content = getHtmlContent(siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff), studyOrganizationClinicalStaff);
+                if (StringUtils.isNotBlank(emailAddress)) {
+                    logger.error("Sending ClinicalStaff email to " + emailAddress);
+                    MimeMessage message = javaMailSender.createMimeMessage();
+                    message.setSubject(subject);
+                    message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+                    helper.setTo(emailAddress);
+                    helper.setText(content, javaMailSender.isHtml());
+                    javaMailSender.send(message);
+                }
+            }
+        }
+
+        logger.debug("Nightly trigger bean size of mails map...." + studyParticipantAndSchedulesMap.keySet().size());
+        if (studyParticipantAndSchedulesMap.keySet().size() > 0) {
+            for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAndSchedulesMap.keySet()) {
+                String participantEmailAddress = studyParticipantAssignment.getParticipant().getEmailAddress();
+                String participantEmailContent = getHtmlContentForParticipantEmail(studyParticipantAndSchedulesMap.get(studyParticipantAssignment), studyParticipantAssignment);
+                if (StringUtils.isNotBlank(participantEmailAddress)) {
+                    logger.error("Sending Survey Reminder email to " + participantEmailAddress);
+                    MimeMessage participantMessage = javaMailSender.createMimeMessage();
+                    Locale locale = Locale.ENGLISH;
+                    if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
+                        locale = new Locale("es");
+                    }
+                    String participantSubject = messageSource.getMessage("participant.email.comp13", null, locale);
+                    participantMessage.setSubject(participantSubject);
+                    participantMessage.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                    MimeMessageHelper helper = new MimeMessageHelper(participantMessage, true);
+                    helper.setTo(participantEmailAddress);
+                    helper.setText(participantEmailContent, javaMailSender.isHtml());
+                    javaMailSender.send(participantMessage);
+                }
+            }
+        }	
+    }
+    
+    /**
+     *  For all schedules that are past their due date, update status to Pastdue or completed accordingly
+     */
+    private void updateScheduleStatusForPastDueSurveys(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Date today) {
+    	if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+    		if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+        	} else if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
+                studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+            }                            		
+    	}		
+	}
+
+	private void addScheduleToEmailList(Map<StudyOrganizationClinicalStaff, List<StudyParticipantCrfSchedule>> siteClincalStaffAndParticipantAssignmentMap, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         List<StudyParticipantCrfSchedule> participantAssignmentSet = siteClincalStaffAndParticipantAssignmentMap.get(studyOrganizationClinicalStaff);
         if (participantAssignmentSet == null) {
             participantAssignmentSet = new ArrayList<StudyParticipantCrfSchedule>();
@@ -252,7 +268,10 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                     emailContent.append("<br><br><table border=\"1\">");
                     addRow(emailContent, new String[]{"Participant", "Survey start date", "Survey due date"});
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studySiteScehduleMap.get(study).get(studySite).get(crf)) {
-                        addRow(emailContent, new String[]{studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName(), DateUtils.format(studyParticipantCrfSchedule.getStartDate()), DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
+                        addRow(emailContent, 
+                        		new String[]{studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName(), 
+                        		DateUtils.format(studyParticipantCrfSchedule.getStartDate()), 
+                        		DateUtils.format(studyParticipantCrfSchedule.getDueDate())});
                     }
                     emailContent.append("</table>");
                     emailContent.append("</body></html>");
@@ -265,9 +284,6 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     }
 
     private String getHtmlContentForParticipantEmail(List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules, StudyParticipantAssignment studyParticipantAssignment) {
-        List<StudyParticipantCrfSchedule> sortedStudyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>(studyParticipantCrfSchedules);
-        Collections.sort(sortedStudyParticipantCrfSchedules);
-
         Locale locale = Locale.ENGLISH;
         if (studyParticipantAssignment.getHomeWebLanguage() != null && studyParticipantAssignment.getHomeWebLanguage().equals("SPANISH")) {
             locale = new Locale("es");
@@ -277,7 +293,8 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         participantEmailContent.append("<html><head></head><body>");
         participantEmailContent.append(messageSource.getMessage("participant.email.comp1", null, locale) +
                 " <b><i>" + studyParticipantAssignment.getParticipant().getFirstName() + " " + studyParticipantAssignment.getParticipant().getLastName() + "</i></b><br/>");
-        Date earliestDueDate = ((StudyParticipantCrfSchedule) sortedStudyParticipantCrfSchedules.get(0)).getDueDate();
+        StudyParticipantCrfSchedule earliestSchedule = Collections.min(studyParticipantCrfSchedules);
+        Date earliestDueDate = earliestSchedule.getDueDate();
         String baseUrl = properties.getProperty(BASE_URL);
         participantEmailContent.append("<br>" + messageSource.getMessage("participant.email.comp4", null, locale) + "<br/>");
         participantEmailContent.append("<p style='text-decoration:underline,color=blue'>" + baseUrl + "</p>");
