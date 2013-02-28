@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
-import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 /**
@@ -40,9 +38,8 @@ public class EditParticipantController extends ParticipantController {
 
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-         request.getSession().setAttribute(CreateParticipantController.class.getName() + ".FORM." + "command",null);
+        request.getSession().setAttribute(CreateParticipantController.class.getName() + ".FORM." + "command", null);
 
         String id = request.getParameter(PARTICIPANT_ID);
         ParticipantCommand command = new ParticipantCommand();
@@ -50,6 +47,7 @@ public class EditParticipantController extends ParticipantController {
         Participant participant = participantRepository.findById(Integer.valueOf(id));
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
         participant.setConfirmPinNumber(participant.getPinNumber());
+        participant.setPassword(participant.getUser().getPassword());
         command.setReadOnly(false);
         if (participant.getUser().getUsername()==null || participant.getUser().getUsername()== "") {
             command.setReadOnlyUserName(false);
@@ -75,10 +73,10 @@ public class EditParticipantController extends ParticipantController {
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+    protected Map<String, Object> referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         ParticipantCommand participantCommand = (ParticipantCommand) command;
         Map<String, Object> map = super.referenceData(request, command, errors, page);
-        List<StudyParticipantMode> homeModes = new ArrayList();
+        List<StudyParticipantMode> homeModes = new ArrayList<StudyParticipantMode>();
         for (StudyParticipantMode studyParticipantMode : participantCommand.getParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantModes()) {
             if (studyParticipantMode.getMode().equals(AppMode.HOMEWEB) || studyParticipantMode.getMode().equals(AppMode.IVRS)) {
                 homeModes.add(studyParticipantMode);
@@ -97,7 +95,7 @@ public class EditParticipantController extends ParticipantController {
     @Override
     public Flow<ParticipantCommand> getFlow(ParticipantCommand command) {
         if (command.isReadOnly()) {
-            Flow readOnlyFlow = new Flow("Enter Participant");
+            Flow<ParticipantCommand> readOnlyFlow = new Flow<ParticipantCommand>("Enter Participant");
             ParticipantReviewTab participantReviewTab = new ParticipantReviewTab();
             participantReviewTab.setGenericRepository(genericRepository);
             readOnlyFlow.addTab(participantReviewTab);
