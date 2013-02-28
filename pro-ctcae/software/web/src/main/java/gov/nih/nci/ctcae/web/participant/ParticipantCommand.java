@@ -705,15 +705,20 @@ public class ParticipantCommand {
     }
 
     public void lazyInitializeAssignment(GenericRepository genericRepository, boolean save) {
-
     	if (save) {
-            participant = genericRepository.findById(Participant.class, participant.getId());
+    		lazyInitializeParticipant(genericRepository);
         }
 
         for (StudyParticipantCrf studyParticipantCrf : getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
             lazyInitializeStudyParticipantCrf(studyParticipantCrf);
         }
         getParticipantSchedules();
+    }
+    
+    private void lazyInitializeParticipant(GenericRepository genericRepository){
+    	participant = genericRepository.findById(Participant.class, participant.getId());
+    	//setting the transient "password" attribute in Participant as it is used by the edit participant flow.
+        participant.setPassword(participant.getUser().getPassword());
     }
 
 
