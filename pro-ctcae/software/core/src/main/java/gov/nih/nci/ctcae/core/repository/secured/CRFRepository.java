@@ -8,6 +8,9 @@ import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.FormArmSchedule;
+import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
@@ -105,24 +108,44 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 }
             }
             if (!isAlreadyPresent) {
-                int myPageNumber;
-                if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
-                    if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish())) {
-                        myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish());
-                    } else {
-                        myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
-                        symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getProCtcTermVocab().getTermEnglish(), myPageNumber);
-                    }
-                    i++;
-                    newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion(), myPageNumber);
+                ProCtcQuestion proCtcQuestion = studyParticipantCrfAddedQuestion.getProCtcQuestion();
+                MeddraQuestion meddraQuestion = studyParticipantCrfAddedQuestion.getMeddraQuestion();
+                if (proCtcQuestion != null) {
+                	String englishVocabTerm = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
+                	i = addQuestion(proCtcQuestion, newStudyParticipantCrf, englishVocabTerm, symptomPage, crf, i);
+                }else if(meddraQuestion != null){
+                	String englishVocabTerm = meddraQuestion.getLowLevelTerm().getLowLevelTermVocab().getMeddraTermEnglish();
+                	i = addQuestion(meddraQuestion, newStudyParticipantCrf, englishVocabTerm, symptomPage, crf, i);
                 }
             }
         }
     }
+    
+    
+	private int addQuestion(Question question, StudyParticipantCrf newStudyParticipantCrf, String englishVocabTerm, 
+			Hashtable<String, Integer> symptomPage, CRF crf, int i) {
+		int myPageNumber;
+		
+		/*
+		 * All the questions (i.e questions of each question types:
+		 * severity/frequency/presentAbsent and so on) corresponding to a single
+		 * proCtcTerm or ctcTerm should be displayed on one page. 
+		 * SymptomPage map used to get correct page number for displaying question based on the proCtc/ctc Term.
+		 */
+		if (symptomPage.containsKey(englishVocabTerm)){
+             myPageNumber = symptomPage.get(englishVocabTerm);
+         } else {
+             myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
+             symptomPage.put(englishVocabTerm, myPageNumber);
+         }
+         i++;
+         newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(question, myPageNumber);
+         return i;
+    }
 
     private boolean isOlderVersionStudyParticipantCrf(CRF crf, StudyParticipantCrf studyParticipantCrf) {
         CRF parent = crf;
-        while (parent.getParentCrf() != null) {
+        if (parent.getParentCrf() != null) {
             parent = parent.getParentCrf();
             if (studyParticipantCrf.getCrf().equals(parent)) {
                 return true;
