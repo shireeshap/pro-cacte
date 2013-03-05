@@ -298,6 +298,7 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="userRoleService" ref="userRoleServiceImpl"/>
     </bean>
 
     <bean name="/study/createStudy" id="createStudyController"
