@@ -110,11 +110,21 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
 
     @Override
     @SuppressWarnings({"unchecked"})
-    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
+    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page){
         C command = (C) oCommand;
-        super.postProcessPage(request, oCommand, errors, page);
+        try {
+			super.postProcessPage(request, oCommand, errors, page);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
         if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
-            save(command);
+        	try{
+        		save(command);
+        	} catch (Exception e){
+        		logger.error(e.getMessage());
+        		errors.reject("errors.cannotEditRecordAtThisTime","Another user is currently accessing this record, please come back later.");
+        	}
+            
             if (request.getParameter("_target" + page) != null) {
                 request.setAttribute("flashMessage", "save.confirmation");
             }
