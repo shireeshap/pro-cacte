@@ -68,9 +68,25 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
 
     @Override
+    //saves the studyOrg and is excluded in the shouldSave() so that the whole study doesnt have to be saved.
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
-        studyRepository.addStudyOrganizationClinicalStaff(command.getStudyOrganizationClinicalStaffs());
-
+    	boolean saveStudyOrganization = false;
+    	StudyOrganizationClinicalStaff socs = null;
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getStudyOrganizationClinicalStaffs()) {
+            if (studyOrganizationClinicalStaff != null) {
+            	if(command.getSelectedStudySite().getOrganization().getNciInstituteCode().equals(studyOrganizationClinicalStaff.getStudyOrganization().getOrganization().getNciInstituteCode())){
+            		saveStudyOrganization = true;
+            		socs = studyOrganizationClinicalStaff;
+                    studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+            	}
+            }
+        }
+        if(saveStudyOrganization && socs != null){
+        	studyOrganizationRepository.save(command.getStudy().getStudyOrganization(socs));
+            command.setStudy(studyRepository.findById(command.getStudy().getId()));
+            command.updateClinicalStaffs();
+            request.setAttribute("flashMessage", "save.confirmation");
+        }
     }
 
     public String getRequiredPrivilege() {
