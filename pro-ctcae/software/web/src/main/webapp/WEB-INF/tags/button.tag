@@ -1,6 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onclick" required="false" %>
 <%@ attribute name="icon" required="false" %>
@@ -13,7 +15,6 @@
 <%@ attribute name="type" required="false" %>
 <%@ attribute name="overRideStyle" required="false" %>
 <%@ attribute name="disabled" required="false" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <<c:choose><c:when test="${markupWithTag=='a'}">a</c:when><c:otherwise>button</c:otherwise></c:choose>
 	class="omnipotent-button ${color}<c:if test="${not empty size}"> ${size}</c:if><c:if test="${not empty cssClass}"> ${cssClass}</c:if>"
