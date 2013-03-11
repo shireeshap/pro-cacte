@@ -6,18 +6,12 @@ import java.beans.PropertyEditor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-//
 /**
  * The Class ControllerTools.
  *
  * @author
  */
 public class ControllerTools {
-
-    /**
-     * The date format.
-     */
-    private static ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>();
 
     // TODO: make date format externally configurable
     /**
