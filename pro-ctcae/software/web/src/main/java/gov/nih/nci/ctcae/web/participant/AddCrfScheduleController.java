@@ -39,6 +39,7 @@ public class AddCrfScheduleController extends AbstractController {
         String action = request.getParameter("action");
         String date = request.getParameter("date");
         String offHoldDate = request.getParameter("offHoldDate");
+        Date today = new Date();
         String fids = request.getParameter("fids");
         String[] strings;
         List formIds = new ArrayList();
@@ -102,7 +103,10 @@ public class AddCrfScheduleController extends AbstractController {
 
         if ("onhold".equals(action)) {
             studyParticipantAssignment.putOnHold(DateUtils.parseDate(date));
-            studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);
+           //For PRKC-1867: Updating the status to OnHold only if the onHoldTreatmentDate is equal to todays date.
+            if(DateUtils.compareDate(today, studyParticipantAssignment.getOnHoldTreatmentDate()) == 0){
+            	studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);
+            }
         }
 
         if ("offhold".equals(action)) {

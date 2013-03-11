@@ -756,6 +756,21 @@
         <property name="jmsTemplate" ref="consumerJmsTemplate"/>
         <property name="properties" ref="proCtcAeProperties"/>
     </bean>
+    
+     <bean name="updateOnHoldSchedulesBean" class="gov.nih.nci.ctcae.web.batch.UpdateOnHoldStatus">
+       <property name="sessionFactory" ref="sessionFactory"/>
+       <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean id="updateOnHoldSchedulesJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+          <property name="targetObject" ref="updateOnHoldSchedulesBean"/>
+       	  <property name="targetMethod" value="updateStatus"/>
+    </bean>
+    
+    <bean id="nightlyTriggerForScheduleStatusUpdate" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
+    	<property name="jobDetail" ref="updateOnHoldSchedulesJob" />
+    </bean>
 
     <bean id="formSubmissionNotificationBeanTarget" class="gov.nih.nci.ctcae.web.batch.FormSubmissionNotifications">
         <property name="genericRepository" ref="genericRepository"/>
@@ -801,6 +816,7 @@
                 <ref bean="nightlyTriggerForObjectCreation"/>
                 <ref bean="formSubmissionNotificationTrigger"/>
                 <ref bean="ivrsTrigger"/>
+                <ref bean="nightlyTriggerForScheduleStatusUpdate"/>
             </list>
         </property>
     </bean>
