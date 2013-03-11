@@ -55,23 +55,12 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
 
         try {
             command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(command.getOverallDataCoordinator());
-        } catch (CtcAeSystemException ex) {
-            errors.reject("error", ex.getMessage());
-        }
-
-        try {
-
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getLeadCRAs()){
         		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         	}
         	if(command.getStudy().getLeadCRAs().size() == 0){
         		errors.reject("error", "Please enter at least one Lead CRA.");
     		}
-        } catch (CtcAeSystemException ex) {
-            errors.reject("error", ex.getMessage());
-        }
-
-        try {
             command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(command.getPrincipalInvestigator());
         } catch (CtcAeSystemException ex) {
             errors.reject("error", ex.getMessage());
