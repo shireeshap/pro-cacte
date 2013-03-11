@@ -18,9 +18,10 @@
 <tags:stylesheetLink name="cycledefinitions"/>
 <tags:javascriptLink name="cycledefinitions"/>
 <tags:javascriptLink name="yui"/>
+
+
 <script type="text/javascript">
 function addRemoveSchedule(index, date, action, pid) {
-//    alert (1);
     var forms = document.getElementsByName("selectedForms")
     var fids = '';
     if (forms.length == 1) {
@@ -40,9 +41,10 @@ function addRemoveSchedule(index, date, action, pid) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
+        jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
-
+                jQuery('#ajaxLoadingImgDiv').hide();
                 if (transport.responseText == "getCalendar") {
                     getCalendar(index, "dir=refresh", pid);
                 } else {
@@ -65,10 +67,10 @@ function beginHoldOnSchedules(index, date, action, pid) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
-
+        jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
-
+                jQuery('#ajaxLoadingImgDiv').hide();
                 if (transport.responseText == "getCalendar") {
                     getCalendar(index, "dir=refresh");
                 } else {
@@ -101,9 +103,10 @@ function addRemoveValidationSchedule(index, date, action, pid) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh", pid);
     } else {
+        jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value="/pages/participant/moveFormScheduleValidate"/>", {
             onComplete:function(transport) {
-
+                jQuery('#ajaxLoadingImgDiv').hide();
                 if (transport.responseText == "getCalendar") {
                     addRemoveSchedule(index, date, action, pid);
                 } else if (transport.responseText == "denyMoveToDate"){
@@ -113,8 +116,6 @@ function addRemoveValidationSchedule(index, date, action, pid) {
             	}else {
                     showConfirmationWindow(transport, 650, 210);
                 }
-
-
             },
             parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids + "&id=" + pid,
             method:'get'
@@ -126,9 +127,11 @@ function showMoveWindow(olddate, newdate, index, sids, pid) {
     if (typeof(sids) == 'undefined') {
         sids = getScheduleIdsForDay(index, olddate);
     }
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
         parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids + "&id=" + pid,
         onComplete:function(transport) {
+            jQuery('#ajaxLoadingImgDiv').hide();
         	if (transport.responseText == "denyMoveToDate"){
         		alert("Cannot move the schedule prior to start date");
         		closeWindow();
@@ -144,8 +147,10 @@ function showMoveWindow(olddate, newdate, index, sids, pid) {
 
 }
 function showDeleteWindow(date, index, sids, pid) {
+    $('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
         onComplete:function(transport) {
+            $('ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 180);
         },
         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
@@ -153,8 +158,10 @@ function showDeleteWindow(date, index, sids, pid) {
     })
 }
 function showDetailsWindow(date, index, sids, pid) {
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
         onComplete:function(transport) {
+            jQuery('#ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 300);
         },
         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
@@ -163,9 +170,10 @@ function showDetailsWindow(date, index, sids, pid) {
 }
 
 function showAddWindow(id, date, index, sids) {
-
+    $('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
         onComplete:function(transport) {
+            $('ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 210);
         },
         parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&index=" + index + "&date=" + date + "&sids=" + sids,
@@ -174,9 +182,11 @@ function showAddWindow(id, date, index, sids) {
 }
 
 function showUpdateStartDateWindow(spcrfid) {
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/updateStudyParticipantCrfStartDate"/>", {
         parameters:<tags:ajaxstandardparams/>+"&spcrfid=" + spcrfid,
         onComplete:function(transport) {
+            jQuery('#ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 280);
             AE.registerCalendarPopups();
         },
@@ -186,8 +196,10 @@ function showUpdateStartDateWindow(spcrfid) {
 }
 
 function getCalendar(index, parameters, pid) {
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
         onComplete:function(transport) {
+            jQuery('#ajaxLoadingImgDiv').hide();
             showCalendar(index, transport);
         },
         parameters:<tags:ajaxstandardparams/>+"&id=" + pid +"&index=" + index + "&" + parameters,
@@ -207,9 +219,11 @@ function showCalendar(index, transport) {
 }
 
 function participantOnHold(id, date, index) {
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index,
         onComplete:function(transport) {
+            jQuery('#ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 600, 250);
         },
         method:'get'
@@ -218,11 +232,10 @@ function participantOnHold(id, date, index) {
 
 var _winOffHold;
 function participantOffHold(id, date, index) {
-<%--var url = "<c:url value="/pages/participant/participantOffHold"/>" + "?flow=schedulecrf&sid=" + id + "&date=" + date + "&index=" + index + "&subview=x";--%>
-//    _winOffHold = showModalWindow(url, 600, 350);
+    jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOffHold"/>", {
         onComplete:function(transport) {
-//            alert(22);
+            jQuery('#ajaxLoadingImgDiv').hide();
             if (transport.responseText == "getCalendar") {
                 getCalendar(index, "dir=refresh");
             } else {
@@ -378,9 +391,10 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
+        jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
-	
+	            jQuery('#ajaxLoadingImgDiv').hide();
 	            if (transport.responseText == "getCalendar") {
 	                getCalendar(index, "dir=refresh");
 	            } else {
@@ -412,12 +426,10 @@ function isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, curr
  * Entering responses should not be an available action option for form schedules that are not yet available.  
  */
 function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
-	
 	var currentTime= new Date();
 	var month= currentTime.getMonth() + 1;
 	var day= currentTime.getDate();
 	var year= currentTime.getFullYear();
-	
 	
 	if(selectedYear > year)
 		return false;
@@ -432,10 +444,6 @@ function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
 }
 
 </script>
-<style type="text/css">
-
-
-</style>
 </head>
 <body>
 <table>
@@ -455,8 +463,9 @@ function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
             <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
         </td>
     </tr>
-
 </table>
+<div id='ajaxLoadingImgDiv'>
+</div>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" formName="myForm">
     <jsp:attribute name="singleFields">
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">

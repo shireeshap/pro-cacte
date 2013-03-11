@@ -122,7 +122,10 @@
         color: blue;
         text-decoration: underline;
     }
-
+    
+    #ajaxLoadingImgDiv{
+        display: block;
+    }
 
 </style>
 <!--[if IE]>
@@ -741,6 +744,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </script>
 </head>
 <body>
+<div id="ajaxLoadingImgDiv">
+</div>
+
 <c:forEach items="${notifications}" var="usernotification">
     <c:if test="${!usernotification.markDelete}">
         <c:set var="numberofalerts" scope="page" value="${numberofalerts + 1}"/>
