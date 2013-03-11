@@ -122,10 +122,6 @@
         color: blue;
         text-decoration: underline;
     }
-    
-    #ajaxLoadingImgDiv{
-        display: block;
-    }
 
 </style>
 <!--[if IE]>
