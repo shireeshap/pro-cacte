@@ -2739,6 +2739,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionN
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/SpCrfItemCreator.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/UpdateOnHoldStatus.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommand.java -text
