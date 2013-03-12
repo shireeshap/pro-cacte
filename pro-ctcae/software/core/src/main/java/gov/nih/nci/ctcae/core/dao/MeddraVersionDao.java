@@ -19,7 +19,6 @@ public class MeddraVersionDao extends ProCtcDao<MeddraVersion> {
 	private static final List<String> EXACT_MATCH_PROPERTIES = Arrays.asList("name");
     /**
      * Get the Class representation of the domain object that this DAO is representing.
-     *
      * @return Class representation of the domain object that this DAO is representing.
      */
     public Class<MeddraVersion> domainClass() {
@@ -46,18 +45,8 @@ public class MeddraVersionDao extends ProCtcDao<MeddraVersion> {
     }
 
     /**
-     * TODO
-     *
-     * @return
-     */
-    public MeddraVersion getMeddraV9() {
-        return getById(9);
-    }
-
-    /**
      * Save or update the MeddraVersion in the db.
-     *
-     *                the meddraVersion
+     * the meddraVersion
      */
     @Transactional(readOnly = false)
     public void save(final MeddraVersion meddraVersion) {
@@ -66,8 +55,7 @@ public class MeddraVersionDao extends ProCtcDao<MeddraVersion> {
 
     /**
      * Delete the specified meddra version.
-     *
-     *                The meddra version.
+     * The meddra version.
      */
     @Transactional(readOnly = false)
     public void delete(MeddraVersion meddraVersion) {
