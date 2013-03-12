@@ -17,18 +17,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
-  User: Amey
-  Date: Dec 11, 2012
-  ParticipantScheduleService class.
-  create studyParticipantCrfSchedules tuples and only save the corresponding studyParticipantCrf's to avoid overhead of time and improve performance.
-  (is used as an alternative for createSchedule method of ParticipantSchedule.java for better time performance)
+ * @author: Amey
+ * Date: Dec 11, 2012
+ * ParticipantScheduleService class.
+ * create studyParticipantCrfSchedules tuples and only save the corresponding studyParticipantCrfSchedules to avoid overhead of time and improve performance.
+ * (is used as an alternative for createSchedule method of ParticipantSchedule.java for better time performance)
+ * Also contains save method which is called after deleting surveys on participant calendar.
 */
-
 public class ParticipantScheduleService {
 	StudyParticipantCrfRepository studyParticipantCrfRepository;
 	StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
@@ -280,6 +281,14 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	    }
 	    return null;
 		}
+	
+	
+	public void save(HashSet<StudyParticipantCrf> studyParticipantCrf) throws Exception{
+		for(StudyParticipantCrf spcrf : studyParticipantCrf){
+			studyParticipantCrfRepository.save(spcrf);
+		}
+	}
+	
 	
 /**
  * Sets the study participant crf repository.

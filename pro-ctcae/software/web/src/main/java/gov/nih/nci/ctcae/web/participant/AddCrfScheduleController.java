@@ -42,6 +42,7 @@ public class AddCrfScheduleController extends AbstractController {
         Date today = new Date();
         String fids = request.getParameter("fids");
         String[] strings;
+        boolean isSave = false;
         List formIds = new ArrayList();
         if (fids != null) {
             strings = fids.split(",");
@@ -55,7 +56,9 @@ public class AddCrfScheduleController extends AbstractController {
 
 
         if ("delall".equals(action)) {
-            participantSchedule.removeAllSchedules(formIds);
+        	 HashSet<StudyParticipantCrf> spcrfList = participantSchedule.removeAllSchedules(formIds);
+        	 participantScheduleService.save(spcrfList);
+        	 isSave = true;
         }
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
 
@@ -76,7 +79,9 @@ public class AddCrfScheduleController extends AbstractController {
         }
         if ("delallfuture".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.deleteFutureSchedules(c, formIds);
+            HashSet<StudyParticipantCrf> spcrfList = participantSchedule.deleteFutureSchedules(c, formIds);
+        	participantScheduleService.save(spcrfList);
+        	isSave = true;
         }
 
         if ("add,del".equals(action)) {
@@ -145,7 +150,10 @@ public class AddCrfScheduleController extends AbstractController {
                 } else {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                            if (studyParticipantCrfSchedule.getStartDate().getTime() >= DateUtils.parseDate(offHoldDate).getTime()) {
+							/* PKRC-1876: Survey cancellation criterion should be based on the due date and not on the start
+							* date of the survey (similar change in ParticipantOffHoldController.java) 
+							*/
+                           if (studyParticipantCrfSchedule.getDueDate().getTime() >= DateUtils.parseDate(offHoldDate).getTime()) {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                                 studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
                             } else {
@@ -166,17 +174,19 @@ public class AddCrfScheduleController extends AbstractController {
             //using service layer object to save newly added schedules
             participantScheduleService.createAndSaveSchedules(c, null, -1, -1, formIds, false, false, participantSchedule);
            // participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
-            participantCommand.lazyInitializeAssignment(genericRepository, true);
+            isSave = true;
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.removeSchedule(c, formIds);
+            HashSet<StudyParticipantCrf> spcrfList = participantSchedule.removeSchedule(c, formIds);
+            participantScheduleService.save(spcrfList);
+            isSave = true;
         }
 
-        participantCommand.lazyInitializeAssignment(genericRepository, false);
+        participantCommand.lazyInitializeAssignment(genericRepository, isSave);
         return new ModelAndView("participant/confirmMove");
     }
-
+    
     public void setScheduleDateAndStatus(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Long timeDiff, int dateOffset) {
         Date newStartDate = new Date(studyParticipantCrfSchedule.getStartDate().getTime() + timeDiff);
         Date newDueDate = new Date(studyParticipantCrfSchedule.getDueDate().getTime() + timeDiff);
