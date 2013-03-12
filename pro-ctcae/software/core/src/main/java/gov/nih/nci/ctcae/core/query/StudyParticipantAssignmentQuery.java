@@ -48,7 +48,14 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
             super(queryStringDistinct);
     }
 
-
+    /**
+     * Filter based on status of StudyParticipantAssignment
+     * @param status
+     */
+    public void filterByStatus(final String status){
+    	andWhere("o.status ='"+ status +"'");
+    }
+    
     /**
      * Filter by study id.
      *
