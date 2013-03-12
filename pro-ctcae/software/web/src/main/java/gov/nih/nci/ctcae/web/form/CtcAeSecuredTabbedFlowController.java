@@ -20,7 +20,6 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Properties;
@@ -110,25 +109,23 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
 
     @Override
     @SuppressWarnings({"unchecked"})
-    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page){
+    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception{
         C command = (C) oCommand;
         try {
 			super.postProcessPage(request, oCommand, errors, page);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-        if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
-        	try{
+	        if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
         		save(command);
-        	} catch (Exception e){
-        		logger.error(e.getMessage());
-        		errors.reject("errors.cannotEditRecordAtThisTime","Another user is currently accessing this record, please come back later.");
-        	}
-            
-            if (request.getParameter("_target" + page) != null) {
-                request.setAttribute("flashMessage", "save.confirmation");
-            }
-        }
+	            if (request.getParameter("_target" + page) != null) {
+	                request.setAttribute("flashMessage", "save.confirmation");
+	            }
+	        }
+        } catch(org.springframework.orm.hibernate3.HibernateOptimisticLockingFailureException e){
+    		logger.error(e.getMessage());
+    		errors.reject("errors.cannotEditRecordAtThisTime","Another user is currently accessing this record, please try again later.");
+    	} catch (Exception e) {
+			logger.error("Error while executing postProcessPage:" + e.getMessage());
+			throw e;
+		}
     }
 
     protected void save(C command) {
