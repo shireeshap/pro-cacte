@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ParticipantSchedule {
 
+	
     /**
      * The calendar.
      */
@@ -453,7 +454,8 @@ public class ParticipantSchedule {
      *
      * @param c the c
      */
-    public void removeSchedule(Calendar c, List<String> formIds) {
+    public HashSet<StudyParticipantCrf> removeSchedule(Calendar c, List<String> formIds) {
+    	HashSet<StudyParticipantCrf> spcfList = new HashSet<StudyParticipantCrf>();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         StudyParticipantCrfSchedule schToRemove = null;
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
@@ -468,15 +470,19 @@ public class ParticipantSchedule {
                     }
                 }
                 studyParticipantCrf.removeCrfSchedule(schToRemove);
+                spcfList.add(studyParticipantCrf);
+                
             }
         }
+        return spcfList;
     }
 
 
     /**
      * Removes all the schedules.
      */
-    public void removeAllSchedules(List<String> formIds) {
+    public HashSet<StudyParticipantCrf> removeAllSchedules(List<String> formIds) {
+    	HashSet<StudyParticipantCrf> spcrfList = new HashSet<StudyParticipantCrf>();
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
@@ -487,21 +493,24 @@ public class ParticipantSchedule {
                 }
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
                     studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+                    spcrfList.add(studyParticipantCrf);
                 }
             }
         }
+        return spcrfList;
     }
 
     public void moveAllSchedules(int offset, List<String> formIds) {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                    moveSingleSchedule(studyParticipantCrfSchedule, offset);
+                    moveSingleSchedule(studyParticipantCrfSchedule, offset,studyParticipantCrf.getStudyParticipantAssignment());
+                    studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offset);
                 }
             }
         }
     }
-
+ 
 
     public void moveFutureSchedules(Calendar c, int offset, List<String> formIds) {
         int month = c.get(Calendar.MONTH);
@@ -519,7 +528,7 @@ public class ParticipantSchedule {
                     b.clear();
                     b.set(yr, mon, dt);
                     if (b.getTimeInMillis() >= a.getTimeInMillis()) {
-                        moveSingleSchedule(studyParticipantCrfSchedule, offset);
+                        moveSingleSchedule(studyParticipantCrfSchedule, offset, studyParticipantCrf.getStudyParticipantAssignment());
                         studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offset);
                     }
                 }
@@ -527,7 +536,8 @@ public class ParticipantSchedule {
         }
     }
 
-    public void deleteFutureSchedules(Calendar c, List<String> formIds) {
+    public  HashSet<StudyParticipantCrf> deleteFutureSchedules(Calendar c, List<String> formIds) {
+    	HashSet<StudyParticipantCrf> spcrfList = new HashSet<StudyParticipantCrf>();
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         int date = c.get(Calendar.DATE);
@@ -549,12 +559,14 @@ public class ParticipantSchedule {
                 }
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
                     studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+                    spcrfList.add(studyParticipantCrf);
                 }
             }
         }
+        return spcrfList;
     }
 
-    private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
+    private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset, StudyParticipantAssignment spa) {
         if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
             Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
             Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
@@ -570,6 +582,12 @@ public class ParticipantSchedule {
                 if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
                     studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                 }
+            }
+            //if a survey is moved during on-hold period to a date later or equal to on-hold date, then set its status to 'ONHOLD'
+            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(),spa.getOnHoldTreatmentDate()) >= 0)){
+            	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
+            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(),spa.getOnHoldTreatmentDate()) < 0)){
+            	studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
             }
 
         }
