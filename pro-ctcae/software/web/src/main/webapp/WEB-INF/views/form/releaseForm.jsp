@@ -56,7 +56,7 @@
                         </div>
                         <div class="flow-buttons">
                             <tags:button color="orange" type="submit" id="flow-update"
-                                         cssClass="next" value="Release" icon="check" />
+                                         cssClass="next" value="Release" icon="check" overRideStyle=" position:relative; top:0px;" />
                                     
                             <tags:button color="blue" type="button" id="flow-cancel"
                                          cssClass="previous ibutton" value="Cancel" icon="x"
