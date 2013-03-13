@@ -426,6 +426,32 @@
                 />
         <echo message="project ${ant.project.name} published locally with version ${version}"/>
     </target>
+	
+    <target name="complete-coverage-report" description="--> Generates the complete cobertura report" >
+        
+        <mkdir dir="../reports/cobertura"/>
+        <echo message="APN ---->  ${ant.project.name}  AND  cobertura.dir  --->  ../reports/cobertura" />
+        <taskdef resource="tasks.properties" classpathref="test.classpath"/>
+        <cobertura-merge datafile="../reports/cobertura/cobertura.ser">
+            <fileset dir="." includes="**/cobertura.ser"/>
+        </cobertura-merge>
+        <cobertura-report format="xml" destdir="../reports/cobertura"
+                          datafile="../reports/cobertura/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <cobertura-report format="html" destdir="../reports/cobertura"
+                          datafile="../reports/cobertura/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <echo>================================================================</echo>
+        <echo>Code Coverage Report available at</echo>
+        <echo>/reports/cobertura/index.html</echo>
+        <echo>================================================================</echo>
+    </target>
 
     <!-- ====================================================
                target: clean-lib
