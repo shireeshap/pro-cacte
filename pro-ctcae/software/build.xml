@@ -24,6 +24,33 @@
         <subant target="publish-local" buildpathref="build-path"/>
     	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
+	
+    <target name="new-coverage-report" 
+            description="--> Generates the cobertura report" >
+        
+        <mkdir dir="${cobertura.dir}"/>
+        <echo message="APN ---->  ${ant.project.name}  AND  cobertura.dir  --->  ${cobertura.dir}" />
+        <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
+        <cobertura-merge datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir="." includes="**/cobertura.ser"/>
+        </cobertura-merge>
+        <cobertura-report format="xml" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <cobertura-report format="html" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <echo>================================================================</echo>
+        <echo>Code Coverage Report available at</echo>
+        <echo>${cobertura.dir}/index.html</echo>
+        <echo>================================================================</echo>
+    </target>
 
     <!-- =================================================================== -->
     <!-- Target for automated build  								         -->
