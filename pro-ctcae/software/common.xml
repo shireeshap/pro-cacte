@@ -428,9 +428,8 @@
     </target>
 	
     <target name="complete-coverage-report" description="--> Generates the complete cobertura report" >
-        
+        <!-- TODO: externalize realtive paths -->
         <mkdir dir="../reports/cobertura"/>
-        <echo message="APN ---->  ${ant.project.name}  AND  cobertura.dir  --->  ../reports/cobertura" />
         <taskdef resource="tasks.properties" classpathref="test.classpath"/>
         <cobertura-merge datafile="../reports/cobertura/cobertura.ser">
             <fileset dir="." includes="**/cobertura.ser"/>

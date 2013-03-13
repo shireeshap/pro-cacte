@@ -25,9 +25,12 @@
     	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
 	
+    <!-- ==================================================================
+              target : new-coverage-report. 
+              Merges the 3 reports and puts them in workspace/reports/cobertura. Used by Jenkins.
+          ====================================================================== -->
     <target name="new-coverage-report" 
             description="--> Generates the cobertura report" >
-        
        <subant target="complete-coverage-report" buildpath="commons/ivy-build.xml" />
     </target>
 
