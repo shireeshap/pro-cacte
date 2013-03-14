@@ -33,11 +33,11 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         List<ProCtcTerm> proCtcTerms = crfAjaxFacade.getSymptomsForCrf(crf.getId());
         assertEquals(10, proCtcTerms.size());
-        
+        int origId = 1;
 		List<ProCtcQuestion> questions = getProCtcQuestionsForProCtcTerm(proCtcTerms
-				.get(0).getTermEnglish(SupportedLanguageEnum.ENGLISH));
+				.get(origId).getTermEnglish(SupportedLanguageEnum.ENGLISH));
    
-        Integer id = proCtcTerms.get(1).getId();
+        Integer id = proCtcTerms.get(origId).getId();
         System.out.println("ProCtcTerm is :"+ proCtcTerms.get(1));
         List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
         System.out.println("Attribute size: "+attributes.size());
