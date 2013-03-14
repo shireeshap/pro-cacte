@@ -71,9 +71,10 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
         assertNotNull(notif.getStudyParticipantCrfSchedule());
         assertEquals(date, notif.getCompletionDate());
         commitAndStartNewTransaction();
+        deleteExistingParticipant();
     }
 
-    public void RetrieveStudyParticipantCrfScheduleNotification() {
+    public void testRetrieveStudyParticipantCrfScheduleNotification() {
         deleteExistingParticipant();
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
         Date date = new Date();
@@ -115,7 +116,7 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
         assertFalse(notif.isMailSent());
         assertNotNull(notif.getStudyParticipantCrfSchedule());
         assertNull(notif.getCompletionDate());
-        
+        deleteExistingParticipant();
     }
 
 }
