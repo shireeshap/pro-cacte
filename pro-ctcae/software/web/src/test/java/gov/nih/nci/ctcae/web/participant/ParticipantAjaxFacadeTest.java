@@ -17,18 +17,18 @@ public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
 
    
     public void testMatchParticipantByStudySiteId() {
-        Study s = StudyTestHelper.getDefaultStudy();
-        StudySite ss = s.getLeadStudySite();
+        Study study = StudyTestHelper.getDefaultStudy();
+        StudySite studySite = study.getLeadStudySite();
         ParticipantAjaxFacade facade = new ParticipantAjaxFacade();
         facade.setParticipantRepository(participantRepository);
 
-        List<Participant> pl = facade.matchParticipantByStudySiteId("s",null, s.getId());
+        List<Participant> pl = facade.matchParticipantByStudySiteId("s", null, study.getId());
         assertNotNull(pl);
-        assertEquals(15,pl.size());
+        assertEquals(15, pl.size());
 
-        pl = facade.matchParticipantByStudySiteId("s",ss.getId(), s.getId());
+        pl = facade.matchParticipantByStudySiteId("s", studySite.getId(), study.getId());
         assertNotNull(pl);
-        assertEquals(8,pl.size());
+        assertEquals(8, pl.size());
 
     }
 
