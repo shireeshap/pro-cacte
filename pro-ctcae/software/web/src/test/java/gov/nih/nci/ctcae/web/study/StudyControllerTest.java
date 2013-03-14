@@ -9,6 +9,8 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.service.UserRoleService;
+import gov.nih.nci.ctcae.core.service.UserRoleServiceImpl;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -30,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class StudyControllerTest extends WebTestCase {
     private StudyController controller;
     private WebControllerValidator validator;
- //   private UserRepository userRepository;
+    private UserRoleService userRoleService;
     private Study study;
     private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
     private User user;
@@ -47,11 +49,13 @@ public class StudyControllerTest extends WebTestCase {
         user.addUserRole(userRole);
 
         controller.setStudyRepository(studyRepository);
+
         controller.setWebControllerValidator(validator);
         controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
+        userRoleService = registerMockFor(UserRoleServiceImpl.class);
         userRepository = registerMockFor(UserRepository.class);
         uniqueIdentifierForStudyValidator = registerMockFor(UniqueIdentifierForStudyValidator.class);
-     //   uniqueIdentifierForStudyValidator = new UniqueIdentifierForStudyValidator();
+        controller.setUserRoleService(userRoleService);
         controller.setUserRepository(userRepository);
         UsernamePasswordAuthenticationToken token = registerMockFor(UsernamePasswordAuthenticationToken.class);
         SecurityContextHolder.getContext().setAuthentication(token);
@@ -63,9 +67,6 @@ public class StudyControllerTest extends WebTestCase {
         ArrayList<Organization> organizations = new ArrayList<Organization>();
         organizations.add(new Organization());
         expect(clinicalStaff.getOrganizationsWithCCARole()).andReturn(organizations);
-
-
-
 
     }
 
@@ -127,6 +128,7 @@ public class StudyControllerTest extends WebTestCase {
 
         request.setMethod("POST");
         request.setAttribute(controller.getClass().getName() + ".PAGE." + controller.getCommandName(), 1);
+        userRoleService.addUserRoleForUpdatedLCRAorPI(study);
         expect(studyRepository.save(study)).andReturn(study);
         replayMocks();
 
