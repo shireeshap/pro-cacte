@@ -159,7 +159,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
     }
 
     public Participant findSingle(ParticipantQuery query) {
-        return genericRepository.findSingle(query);
+        Participant participant = genericRepository.findSingle(query);
+        initialzeParticipant(participant);
+        return participant;
 
     }
 
