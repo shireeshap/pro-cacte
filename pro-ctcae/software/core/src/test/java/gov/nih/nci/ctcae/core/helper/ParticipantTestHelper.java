@@ -220,7 +220,8 @@ public class ParticipantTestHelper {
     public static Participant findParticpantByUserName(String username) {
         ParticipantQuery query = new ParticipantQuery(false);
         query.filterByUsername(username);
-        return participantRepository.findSingle(query);
+        List<Participant> pList = (List<Participant>)participantRepository.find(query);
+        return (pList.size() > 0)? pList.get(0): null;
     }
 
     private static void createNotifications(CRF crf) {
