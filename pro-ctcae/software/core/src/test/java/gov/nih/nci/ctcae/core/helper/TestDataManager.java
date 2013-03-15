@@ -329,7 +329,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected final boolean isDataPresentInTable(String tableName) {
-        return countRowsInTable(tableName) != 0;
+        return countRowsInTable(tableName) != 0 && countRowsInTable("participants") >= 5;
     }
 
     protected final boolean isTestDataPresent() {
