@@ -25,6 +25,10 @@ public class ParticipantOffStudyControllerTest extends AbstractWebIntegrationTes
         controller.setStudyParticipantAssignmentRepository(studyParticipantAssignmentRepository);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
         controller.setWebControllerValidator(new WebControllerValidatorImpl());
+        System.out.println("1: " + ParticipantTestHelper.getDefaultParticipant());
+        System.out.println("2: " + ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments());
+        System.out.println("3: " + ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().size());
+
         spAssignment = ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0);
     }
 
