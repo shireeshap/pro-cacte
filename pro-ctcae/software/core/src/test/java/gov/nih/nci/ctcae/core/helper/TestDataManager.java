@@ -117,7 +117,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         DataAuditInfo.setLocal(auditInfo);
         login(SYSTEM_ADMIN);
         saveCsv(false);
-       if (!isTestDataPresent()) {
+        if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         } else {
         	System.out.println("test data present:  onSetUpInTransaction TestDataManager");
@@ -329,11 +329,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected final boolean isDataPresentInTable(String tableName) {
-        return countRowsInTable(tableName) != 0 && countRowsInTable("participants") >= 5;
+        return countRowsInTable(tableName) != 0 ;
     }
 
     protected final boolean isTestDataPresent() {
-        return isDataPresentInTable("studies");
+        return isDataPresentInTable("studies") && countRowsInTable("participants") >= 5;
     }
 
     protected final boolean isProCtcTermsLoaded() {
