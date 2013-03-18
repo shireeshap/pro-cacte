@@ -225,7 +225,7 @@ function emptyTable(index) {
 }
 
 function addHiddenInput(cycleDefinitionIndex, cycleIndex) {
-    var hiddenInput = new Element('input', {'type':'hidden','name': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex,'id': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex});
+	var hiddenInput = new Element('input', {'type':'hidden','name': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex,'id': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex});
     $('hidden_inputs_div_' + cycleDefinitionIndex).appendChild(hiddenInput);
 }
 
@@ -285,7 +285,7 @@ function buildTable(index, days, repeat, pageload) {
     for (var k = 0; k < repeat; k++) {
         if (!pageload) {
             try {
-                addHiddenInput(index, k);
+            	addHiddenInput(index, k);
             } catch(err) {
             }
         }
@@ -487,12 +487,60 @@ function deleteCycleConfirm(crfCycleIndex) {
         parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfCyclePostConfirm&crfCycleIndex=" + crfCycleIndex,
         onComplete:function(transport) {
             $('cycle_definition_' + crfCycleIndex).remove();
+            if(jQuery("#hidden_inputs_div_" + crfCycleIndex).next().is("script") == true){
+            	jQuery("#hidden_inputs_div_" + crfCycleIndex).next().remove();     <!-- removing the java scirpt tag -->
+            }
+            $('hidden_inputs_div_'+ crfCycleIndex).remove();
             $('crfCycleIndexToRemove').value = "";
+            deleteCycleDefinitionsAfter(crfCycleIndex);
+            reloadCycleDefinitions(crfCycleIndex);
+            
         } ,
         method:'get'
     });
-
     //refreshPage();
+}
+
+function addHiddenInputDiv(transport,id){
+	var index = parseInt(id) - 1;
+	var response = transport.responseText;
+	new Insertion.Before("inputsHiddenDiv", response);
+	
+}
+
+function reloadHiddenInputs(id){
+	 var request = new Ajax.Request("<c:url value="/pages/form/reloadFormScheduleCycle"/>", {
+	        onComplete:function(transport){
+	        	addHiddenInputDiv(transport,id);
+	        	},
+	        parameters:<tags:ajaxstandardparams/>+"&indexToRelod="+id+"&reloadHiddenInputs=true",
+	        method:'get'
+	    })
+}
+
+function reloadCycleDefinitions(id){
+	 var request = new Ajax.Request("<c:url value="/pages/form/reloadFormScheduleCycle"/>", {
+	        onComplete:function(transport){
+	        	addCycleDiv(transport);
+	        	reloadHiddenInputs(id);
+	        	},
+	        parameters:<tags:ajaxstandardparams/>+"&indexToRelod="+id ,
+	        method:'get'
+	    })
+}
+
+function deleteCycleDefinitionsAfter(id){
+	var indx = parseInt(id) + 1;
+	var jSelectString = "#cycle_definition_"+ indx;
+	while(jQuery(jSelectString).length != 0){
+		jQuery("#cycle_definition_" + indx).remove();
+		 if(jQuery("#hidden_inputs_div_" + indx).next().is("script") == true){
+			 jQuery("#hidden_inputs_div_" + indx).next().remove();     //removing the java scirpt tag
+		 }
+		jQuery("#hidden_inputs_div_" + indx).remove();
+		indx = indx + 1;
+		jSelectString = "#cycle_definition_"+ indx;
+	}
 }
 
 function changePlannedRep(cycleDefinitionIndex, value) {
@@ -777,6 +825,7 @@ jQuery(document).ready(function() {
                 </script>
             </c:if>
         </c:forEach>
+        <div id="inputsHiddenDiv"></div>
     </div>
 </chrome:box>
 
