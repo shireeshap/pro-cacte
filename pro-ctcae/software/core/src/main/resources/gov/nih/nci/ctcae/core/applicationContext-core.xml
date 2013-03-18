@@ -204,6 +204,7 @@
       
     <bean id="userRoleServiceImpl" class="gov.nih.nci.ctcae.core.service.UserRoleServiceImpl">
         <property name="userRepository" ref="userRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
      </bean>
 
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository"
