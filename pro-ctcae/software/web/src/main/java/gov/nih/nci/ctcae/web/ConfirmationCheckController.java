@@ -35,8 +35,8 @@ public class ConfirmationCheckController extends AbstractController {
     private static final String DELETE_CRF_CYCLE = "deleteCrfCycle";
     
     private static final String DELETE_CRF_CYCLE_POST_CONFIRM = "deleteCrfCyclePostConfirm";
-
-
+    
+    
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = null;
         String confirmationType = request.getParameter("confirmationType");
@@ -65,13 +65,17 @@ public class ConfirmationCheckController extends AbstractController {
         } else if (StringUtils.equals(confirmationType, DELETE_CRF_CYCLE_POST_CONFIRM)) {
                 Integer crfCycleDefinitionIndex = Integer.valueOf(request.getParameter("crfCycleIndex"));
                 CreateFormCommand command = FormController.getCreateFormCommand(request);
+                
+				/* Get the crfCycleDefinition to be deleted using crfCycleDefinitionIndex and clear it associated crfCycles and
+				 * remove it from the command objects crfCycleDefinition list
+				*/
                 CRFCycleDefinition crfCycleDefinition = command.getSelectedFormArmSchedule().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
-                command.getInvalidCycleDefinitions().add(crfCycleDefinition);
-                //command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
+                crfCycleDefinition.getCrfCycles().clear();
+                command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
+                
                 command.setCrfCycleDefinitionIndexToRemove("");
                 map.put("cycleDefinitionIndex", "");
-        }
-
+        } 
         return modelAndView;
     }
     

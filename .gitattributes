@@ -2794,6 +2794,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HideFormControll
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ReloadFormScheduleCycleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCRFWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchCrfDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
@@ -3059,6 +3060,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/readOnlyRule.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/recallPeriodFormatter.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/release.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reloadFormScheduleCycleDefinition.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderDate.tag -text
@@ -3134,6 +3136,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSec
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCtcCategorySection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reloadFormScheduleCycleDefinition.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reloadHiddenInputsDefinition.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/calendar_template.jsp -text
