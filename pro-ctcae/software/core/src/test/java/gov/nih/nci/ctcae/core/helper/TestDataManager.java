@@ -333,7 +333,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected final boolean isTestDataPresent() {
-        return isDataPresentInTable("studies") && countRowsInTable("participants") >= 5;
+        return isDataPresentInTable("studies");
     }
 
     protected final boolean isProCtcTermsLoaded() {
