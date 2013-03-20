@@ -120,7 +120,9 @@ function showQuestionSettings() {
         var firstQuestion = $$('div.sortable')[1].id;
         var questionId = firstQuestion.substr(9, firstQuestion.length);
         //showCrfItemProperties(questionId);
-        $('pages_' + questionId).style.display = "none";
+        if($('pages_' + questionId) != null){
+        	$('pages_' + questionId).style.display = "none";
+        }
     }
 }
 function showQuestionSettingsTab() {
@@ -373,18 +375,24 @@ function showCrfItemProperties(selectedQuestionId) {
         }
     });
     //hide all conditions
-    var allConditions = document.getElementsByClassName("conditions");
-    for (var i = 0; i < allConditions.length; i++) {
-        $(allConditions[i]).hide();
+    if($$('.conditions').length != 0){
+ 		var allConditions = $$('.conditions');
+ 			for (var i = 0; i < allConditions.length; i++) {
+ 	     		$(allConditions[i]).hide();
+ 	    	}
     }
+  
 
     $('questionProperties_' + selectedQuestionId).show();
 
     questionIdsOfConditionsToDisplay.each(function(item) {
-        var conditions = document.getElementsByClassName("condition_" + item);
-        for (var i = 0; i < conditions.length; i++) {
-            $(conditions [i]).show();
-        }
+    	if($$('.conditions_' + item).length != 0){
+    		 var conditions = $$('.conditions_' + item);
+    	     for (var i = 0; i < conditions.length; i++) {
+    	     	$(conditions [i]).show();
+    	     }
+    	}
+       
     });
 
 
