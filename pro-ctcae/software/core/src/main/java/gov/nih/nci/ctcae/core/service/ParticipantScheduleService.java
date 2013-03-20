@@ -162,9 +162,9 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	                }
 	            
 		            //if a survey is moved during on-hold period to a date later or equal to on-hold date, then set its status to 'ONHOLD'
-		            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) >= 0)){
+		            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) <= 0)){
 		            	schToUpdate.setStatus(CrfStatus.ONHOLD);
-		            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) < 0)){
+		            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) > 0)){
 		            	schToUpdate.setStatus(CrfStatus.SCHEDULED);
 		            }
 	            } 
@@ -288,7 +288,6 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 			studyParticipantCrfRepository.save(spcrf);
 		}
 	}
-	
 	
 /**
  * Sets the study participant crf repository.
