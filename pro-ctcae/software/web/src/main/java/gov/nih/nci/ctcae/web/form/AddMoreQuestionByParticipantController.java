@@ -32,27 +32,29 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-         SubmitFormCommand sCommand = (SubmitFormCommand) command;
-        int pageNumber = Integer.parseInt(request.getParameter("p"));
-        if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
+    	SubmitFormCommand sCommand = (SubmitFormCommand) command;
+    	String direction = sCommand.getDirection();
+    	int pageNumber = sCommand.getNewPageIndex();
+        if ("continue".equals(direction)) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
-                 sCommand = (SubmitFormCommand) command;
+                sCommand = (SubmitFormCommand) command;
                 sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true);
             }
-            pageNumber++;
         } else {
-            if ("back".equals(((SubmitFormCommand) command).getDirection())) {
+            if ("back".equals(direction)) {
                  if (sCommand.getSortedSymptoms().size() == 0) {
                     pageNumber--;
                  }
-                pageNumber--;
             }
         }
+        //Setting the next or previous page number to be rendered in command object (will be used in SubmitFormController)
+        sCommand.setCurrentPageIndex(String.valueOf(pageNumber));
+        
         ModelAndView mv = showForm(request, errors, "");
-        request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", command);
-
-        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getSchedule().getId() + "&p=" + pageNumber));
+        request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", sCommand);
+        request.getSession().setAttribute("id", ((SubmitFormCommand) command).getSchedule().getId());
+        mv.setView(new RedirectView("submit"));
         return mv;
     }
 
@@ -61,12 +63,6 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-
-//        ProCtcTermQuery query = new ProCtcTermQuery();
-//        query.filterByCoreItemsOnly();
-//        List l = genericRepository.find(query);
-//        ArrayList<ProCtcTerm> proCtcTerms = (ArrayList<ProCtcTerm>) l;
-//        submitFormCommand.computeAdditionalSymptoms(proCtcTerms);
         return submitFormCommand;
     }
 

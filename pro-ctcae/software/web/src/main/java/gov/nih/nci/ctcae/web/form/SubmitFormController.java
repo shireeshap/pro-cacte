@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -50,19 +52,22 @@ public class SubmitFormController extends SimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand sCommand = (SubmitFormCommand) command;
+        
+		/* Save() call also updates the further page number to be rendered and stores it in the command object (increments or decrements
+		 * the page no. based on flow-button hit on the UI). 
+		*/
         boolean submit = save(sCommand);
         request.getSession().setAttribute(getFormSessionAttributeName(), sCommand);
         if (submit) {
             return showConfirmationPage(sCommand);
         } else {
-        	return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getNewPageIndex()));
+        	request.getSession().setAttribute("id", sCommand.getSchedule().getId());
+        	return new ModelAndView(new RedirectView("submit"));
         }
     }
     
 
     public boolean save(SubmitFormCommand sCommand) throws Exception {
-        // schedule = genericRepository.save(schedule);
-        //lazyInitializeSchedule();
         boolean submit = false;
 
         if ("save".equals(sCommand.getDirection())) {
@@ -102,7 +107,6 @@ public class SubmitFormController extends SimpleFormController {
             }
         }
         sCommand.setSchedule(studyParticipantCrfScheduleRepository.save(sCommand.getSchedule()));
-        //lazyInitializeSchedule();
         return submit;
     }
     
@@ -117,6 +121,9 @@ public class SubmitFormController extends SimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         SubmitFormCommand command = (SubmitFormCommand) request.getSession().getAttribute(getFormSessionAttributeName());
         String crfScheduleId = request.getParameter("id");
+        if(crfScheduleId == null){
+        	crfScheduleId = request.getSession().getAttribute("id").toString();  //request.getParameter("id");
+        }
         if (command != null && crfScheduleId.equals(command.getSchedule().getId().toString())) {
             command.lazyInitializeSchedule();
             return command;
@@ -136,18 +143,14 @@ public class SubmitFormController extends SimpleFormController {
         if (CrfStatus.COMPLETED.equals(submitFormCommand.getSchedule().getStatus())) {
             return showConfirmationPage(submitFormCommand);
         }
+        
         ModelAndView mv;
-        submitFormCommand.setCurrentPageIndex(request.getParameter("p"));
         int currentPageIndex = 0;
-        if (request.getParameter("p") == null || request.getParameter("p").equals("")) {
-           submitFormCommand.firstUnAnsweredPageIndex();
-        }
-
+        //Fetch next or previous page number of the page to be rendered using commandObject.
         currentPageIndex = submitFormCommand.getNewPageIndex();
-
         if (currentPageIndex == submitFormCommand.getAddMoreQuestionPageIndex()) {
             mv = showForm(request, errors, "");
-            mv.setView(new RedirectView("addMorequestion?p=" + currentPageIndex));
+            mv.setView(new RedirectView("addMorequestion"));
             return mv;
         }
         if (currentPageIndex >= submitFormCommand.getReviewPageIndex()) {
