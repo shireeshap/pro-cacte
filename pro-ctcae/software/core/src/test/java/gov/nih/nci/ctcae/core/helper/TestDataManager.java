@@ -332,7 +332,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         return countRowsInTable(tableName) != 0 ;
     }
 
-    protected final boolean isTestDataPresent() {
+    protected boolean isTestDataPresent() {
         return isDataPresentInTable("studies");
     }
 
