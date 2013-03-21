@@ -184,11 +184,11 @@ public class ParticipantTestHelper {
     }
 
     private static void assignCrfToParticipantAndCreateSchedules(Participant participant, StudySite studySite) throws ParseException {
-    	System.out.println("start assignCrfToParticipantAndCreateSchedules");
-    	System.out.println("studySite.getStudy().getCrfs" + studySite.getStudy().getCrfs().size());
+//    	System.out.println("start assignCrfToParticipantAndCreateSchedules");
+//    	System.out.println("studySite.getStudy().getCrfs" + studySite.getStudy().getCrfs().size());
         if (studySite.getStudy().getCrfs().size() > 0) {
             CRF crf = studySite.getStudy().getCrfs().get(0);
-            System.out.println("crf.status: " + crf.getStatus());
+//            System.out.println("crf.status: " + crf.getStatus());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf spc = new StudyParticipantCrf();
                 spc.setCrf(crf);
@@ -202,7 +202,7 @@ public class ParticipantTestHelper {
                 }
             }
         }
-    	System.out.println("end assignCrfToParticipantAndCreateSchedules");
+//    	System.out.println("end assignCrfToParticipantAndCreateSchedules");
     }
 
 

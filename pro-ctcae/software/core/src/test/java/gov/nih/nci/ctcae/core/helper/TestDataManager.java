@@ -111,7 +111,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
-    	System.out.println("Starting onSetUpInTransaction TestDataManager");
+//    	System.out.println("Starting onSetUpInTransaction TestDataManager");
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
@@ -123,7 +123,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         	System.out.println("test data present:  onSetUpInTransaction TestDataManager");
         }
         commitAndStartNewTransaction();
-        System.out.println("Ending onSetUpInTransaction TestDataManager");
+//        System.out.println("Ending onSetUpInTransaction TestDataManager");
     }
 
     protected void deleteAndCreateTestData() {
