@@ -94,8 +94,6 @@ public class ParticipantScheduleTest extends TestCase {
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
         participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
-        System.out.println("for break point purposes");
-
     }
 
     public void testCreateSchedule() throws Exception {

@@ -17,7 +17,7 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	public static ProCtc proCtc;
 	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
-	public void testupdateMultiLangProTerms() throws IOException{
+	public void testUpdateMultiLangProTerms() throws IOException{
         
 		deleteProCtcTermsInTestData();
         ProCtcTermsImporterV4 proCtcTermImporter = new ProCtcTermsImporterV4();

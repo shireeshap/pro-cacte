@@ -19,7 +19,7 @@ public class ProCtcTermsImporterV4Test extends TestDataManager{
 	public static ProCtc proCtc;
 	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
-	public void testloadProCtcTerms() throws IOException{
+	public void testLoadProCtcTerms() throws IOException{
         
 		deleteProCtcTermsInTestData();
 		
