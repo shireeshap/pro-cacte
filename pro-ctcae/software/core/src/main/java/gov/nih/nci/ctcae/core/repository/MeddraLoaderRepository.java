@@ -44,7 +44,7 @@ public class MeddraLoaderRepository extends JdbcDaoSupport {
 
 //          getJdbcTemplate().batchUpdate(list.toArray(new String[0]));
         for (String query: list) {
-            System.out.println(query);
+           // System.out.println(query);
             getJdbcTemplate().execute(query);
         }
     }
