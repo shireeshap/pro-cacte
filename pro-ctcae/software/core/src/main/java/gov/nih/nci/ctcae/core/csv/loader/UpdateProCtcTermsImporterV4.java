@@ -101,7 +101,7 @@ public class UpdateProCtcTermsImporterV4 {
             }
         }
 
-        System.out.println("No of entries in hashmap: "+ hm.size());
+        //System.out.println("No of entries in hashmap: "+ hm.size());
         loaderHelper.createProCtcTermsAndProCtcQuestionsFromHashMap(hm, proCtc);
         proCtcRepository.save(proCtc);
         reader.close();
