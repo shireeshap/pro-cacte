@@ -14,7 +14,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 /**
  * @author AmeyS
- *
+ * UserRoleServiceImpl is used to add userRoles of the overallStudyStaff (PI, ODC, LCRA) associated with a study.
  */
 public class UserRoleServiceImpl implements UserRoleService {
 	protected UserRepository userRepository;
@@ -29,42 +29,69 @@ public class UserRoleServiceImpl implements UserRoleService {
 	public void addUserRoleForUpdatedLCRAorPI(Study study){
 		User user;
 		
-		Study fetchedStudy = studyRepository.findById(study.getId());
-		StudyOrganizationClinicalStaff odc = fetchedStudy.getOverallDataCoordinator();
-		StudyOrganizationClinicalStaff pI = fetchedStudy.getPrincipalInvestigator();
-		List<StudyOrganizationClinicalStaff> previousLeadCraList = fetchedStudy.getLeadCRAs();
-		
-		//Add userRoles for updated ODC
-		if (!odc.getOrganizationClinicalStaff().getClinicalStaff()
-				.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff())) {
+		//studyId = null indicates first Save on studyDetailsTab in new study creation flow for which the below userRoleUpdation logic can be skipped.
+		if(study.getId() != null){
+			Study fetchedStudy = studyRepository.findById(study.getId());
+			StudyOrganizationClinicalStaff odc = fetchedStudy.getOverallDataCoordinator();
+			StudyOrganizationClinicalStaff pI = fetchedStudy.getPrincipalInvestigator();
+			List<StudyOrganizationClinicalStaff> previousLeadCraList = fetchedStudy.getLeadCRAs();
 			
-			removePreviousStaffUserRole(odc, odc.getRole());
-			user = getUserForStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
-			addUserRole(user, study.getOverallDataCoordinator().getRole());
-		}
-		
-		//Add userRoles for updated PI
-		if (!pI.getOrganizationClinicalStaff().getClinicalStaff()
-				.equals(study.getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff())) {
 			
-			removePreviousStaffUserRole(pI, pI.getRole());
-			user = getUserForStudyOrganizationClinicalStaff(study.getPrincipalInvestigator());
-			addUserRole(user, study.getPrincipalInvestigator().getRole());
-		}
-		
-		//Delete the userRole for the LCRA's removed from the study
-		List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getLeadCRAs());
-		for(StudyOrganizationClinicalStaff socs : previousLeadCraList){
-			if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
-				removePreviousStaffUserRole(socs, socs.getRole());
+			if(odc.getOrganizationClinicalStaff() != null && study.getOverallDataCoordinator().getOrganizationClinicalStaff() != null){
+				//Add userRoles for updated ODC
+				if (!odc.getOrganizationClinicalStaff().getClinicalStaff()
+						.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff())) {
+					
+					removePreviousStaffUserRole(odc, odc.getRole());
+					user = getUserForStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
+					addUserRole(user, study.getOverallDataCoordinator().getRole());
+				}
+			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for ODC, as no additional check is required 
+			else if(odc.getOrganizationClinicalStaff() == null && study.getOverallDataCoordinator().getOrganizationClinicalStaff() != null){
+				user = getUserForStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
+				addUserRole(user, study.getOverallDataCoordinator().getRole());
 			}
-		}
-		//Add userRole for newly added LCRA's
-		clinicalStaffList = getClinicalStaffList(previousLeadCraList);
-		for(StudyOrganizationClinicalStaff socs : study.getLeadCRAs()){
-			if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
-				 user = getUserForStudyOrganizationClinicalStaff(socs);
-				 addUserRole(user, socs.getRole());
+			
+			
+			if(pI.getOrganizationClinicalStaff() != null && study.getPrincipalInvestigator().getOrganizationClinicalStaff() != null){
+				//Add userRoles for updated PI
+				if (!pI.getOrganizationClinicalStaff().getClinicalStaff()
+						.equals(study.getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff())) {
+					
+					removePreviousStaffUserRole(pI, pI.getRole());
+					user = getUserForStudyOrganizationClinicalStaff(study.getPrincipalInvestigator());
+					addUserRole(user, study.getPrincipalInvestigator().getRole());
+				}
+			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for PI, as no additional check is required 
+			else if(pI.getOrganizationClinicalStaff() == null && study.getPrincipalInvestigator().getOrganizationClinicalStaff() != null){
+				user = getUserForStudyOrganizationClinicalStaff(study.getPrincipalInvestigator());
+				addUserRole(user, study.getPrincipalInvestigator().getRole());
+			}
+
+			
+			
+			if(previousLeadCraList.size() != 0 && study.getLeadCRAs().size() != 0){
+				//Delete the userRole for the LCRA's removed from the study
+				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getLeadCRAs());
+				for(StudyOrganizationClinicalStaff socs : previousLeadCraList){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						removePreviousStaffUserRole(socs, socs.getRole());
+					}
+				}
+				//Add userRole for newly added LCRA's onto the Study
+				clinicalStaffList = getClinicalStaffList(previousLeadCraList);
+				for(StudyOrganizationClinicalStaff socs : study.getLeadCRAs()){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						 user = getUserForStudyOrganizationClinicalStaff(socs);
+						 addUserRole(user, socs.getRole());
+					}
+				}
+			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the LCRA's, as no additional check is required 
+			else if(previousLeadCraList.size() == 0 && study.getLeadCRAs().size() != 0){
+				for(StudyOrganizationClinicalStaff socs : study.getLeadCRAs()){
+					 user = getUserForStudyOrganizationClinicalStaff(socs);
+					 addUserRole(user, socs.getRole());
+				}
 			}
 		}
 	}
