@@ -70,7 +70,7 @@ public class LoaderHelper {
            list.add(csvLine);
            hm.put(csvLine.getProctcTerm(), list);
        }
-       System.out.println(csvLine);
+       //System.out.println(csvLine);
    }
    
    private CtcTerm findCtcTermFromRepository(CtcTermRepository ctcTermRepository, String ctcTermEnglishText, String proCtcTermEnglishText){
