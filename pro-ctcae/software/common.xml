@@ -660,7 +660,7 @@
         <mkdir dir="${test.results.dir}"/>
 
         <junit printsummary="withOutAndErr" errorproperty="test.failed" failureproperty="test.failed"
-               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000" filtertrace="off">
+               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="1200000" filtertrace="off">
             <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.dir}/cobertura.ser"/>
             <classpath location="${instrumented.classes.dir}"/>
             <classpath refid="test.run.classpath"/>
