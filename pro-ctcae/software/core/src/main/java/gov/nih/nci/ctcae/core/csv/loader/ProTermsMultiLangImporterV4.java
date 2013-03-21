@@ -70,7 +70,7 @@ public class ProTermsMultiLangImporterV4 {
 
             ProCtcQuestion proCtcQuestion = getProCtcQuestionByProCtcTermAndQuestionType(proCtcTermEnglish, questionType);
             if (proCtcQuestion != null ) {
-                System.out.println(questionSpanishText);
+                //System.out.println(questionSpanishText);
                 updateSpanishTextForProCtcQuestionAndProCtcValidValues(proCtcQuestion, spanishValidValuesList, questionSpanishText);
                 proCtcQuestionRepository.save(proCtcQuestion);
             }
@@ -78,7 +78,7 @@ public class ProTermsMultiLangImporterV4 {
             ProCtcTerm proCtcTerm = findProCtcTermFromRepository(proCtcTermEnglish);
             if (proCtcTerm != null ) {
             	proCtcTerm.getProCtcTermVocab().setTermSpanish(proCtcTermLang);
-                System.out.println("spanish proCtcTerm set");
+                //System.out.println("spanish proCtcTerm set");
                 proCtcTermRepository.save(proCtcTerm);
             }
         }
@@ -90,7 +90,7 @@ public class ProTermsMultiLangImporterV4 {
          int i = 0;
          for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
              if (StringUtils.isNotBlank(spanishValidValuesList.get(i))) {
-                 System.out.println(spanishValidValuesList.get(i));
+                 //System.out.println(spanishValidValuesList.get(i));
                  validValue.getProCtcValidValueVocab().setValueSpanish(spanishValidValuesList.get(i));
              }
              i++;
