@@ -346,7 +346,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
-        DataAuditInfo.setLocal(null);
+        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+        DataAuditInfo.setLocal(auditInfo);
         super.onTearDownInTransaction();
     }
 

@@ -106,7 +106,7 @@ public class ProCtcTermsImporterV4 {
 	     String questionType = attribute.substring(attribute.indexOf('-') + 1);
 	     String firstLetter = question.substring(0, 1);
 	     question = firstLetter.toUpperCase() + question.substring(1);
-	     csvLine = setCsvLine(proCtcTerm, ctcTerm, displayOrder, questionType, questionType, validValues, core);
+	     csvLine = setCsvLine(proCtcTerm, ctcTerm, displayOrder, questionType, question, validValues, core);
 	     return csvLine;
     }
     

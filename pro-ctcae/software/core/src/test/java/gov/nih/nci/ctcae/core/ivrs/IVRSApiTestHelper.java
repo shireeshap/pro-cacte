@@ -1,12 +1,14 @@
 package gov.nih.nci.ctcae.core.ivrs;
 
+import java.sql.Types;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-
-import javax.sql.DataSource;
-import java.sql.Types;
 
 
 /**
@@ -17,6 +19,7 @@ import java.sql.Types;
  */
 public class IVRSApiTestHelper {
     private SimpleJdbcCall ivrsLoginFunction;
+    private JdbcTemplate jdbcTemplate;
     DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -54,7 +57,7 @@ public class IVRSApiTestHelper {
         System.out.println(result);
         return result;
     }
-
+    
     public Integer ivrsGetForm(int userId, int formNum) {
         String procedureName = "ivrs_getform";
         ivrsLoginFunction = new SimpleJdbcCall(dataSource)
@@ -448,9 +451,12 @@ public class IVRSApiTestHelper {
         return result;
     }
     
-
+    //invoked by the ivrsApiTest to insert dummy strings for filenames against every qs in pro-ctc_questions table
+    //the file names are mandated by the stored functions to work properly
+    public void ivrsUpdateFileNames(DataSource ds) {
+        jdbcTemplate = new JdbcTemplate(ds);
+        jdbcTemplate.execute("update pro_ctc_questions set question_file_name='x' where question_file_name is null");
+        return;
+    }
     
-
-    
-
 }

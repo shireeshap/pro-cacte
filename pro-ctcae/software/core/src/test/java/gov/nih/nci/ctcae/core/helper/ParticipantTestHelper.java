@@ -91,7 +91,6 @@ public class ParticipantTestHelper {
             }
             for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
                 List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-//                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(i % validValues.size()));
                 if (doMax) {
                     studyParticipantCrfItem.setProCtcValidValue(validValues.get(validValues.size() - 1));
                 } else {
@@ -133,6 +132,8 @@ public class ParticipantTestHelper {
         secondTab_ParticipantClinicalStaff(participant, studySite);
         participant = participantRepository.save(participant);
         assignCrfToParticipantAndCreateSchedules(participant, studySite);
+        //since baselines are not created by default anymore, we explicitly set the date of the first schedule to today.
+        participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0).setStartDate(new Date());
         participant = participantRepository.save(participant);
         return participant;
     }
@@ -184,17 +185,15 @@ public class ParticipantTestHelper {
     }
 
     private static void assignCrfToParticipantAndCreateSchedules(Participant participant, StudySite studySite) throws ParseException {
-//    	System.out.println("start assignCrfToParticipantAndCreateSchedules");
-//    	System.out.println("studySite.getStudy().getCrfs" + studySite.getStudy().getCrfs().size());
         if (studySite.getStudy().getCrfs().size() > 0) {
             CRF crf = studySite.getStudy().getCrfs().get(0);
-//            System.out.println("crf.status: " + crf.getStatus());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf spc = new StudyParticipantCrf();
                 spc.setCrf(crf);
                 spc.setArm(participant.getStudyParticipantAssignments().get(0).getArm());
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
+ 
                 spc.createSchedules(false);
                 //initialize the crfItems under every spcScheduleas crateSchedules does not crate crfItems
                 for(StudyParticipantCrfSchedule spcSchedule: spc.getStudyParticipantCrfSchedules()){
@@ -202,7 +201,6 @@ public class ParticipantTestHelper {
                 }
             }
         }
-//    	System.out.println("end assignCrfToParticipantAndCreateSchedules");
     }
 
 
