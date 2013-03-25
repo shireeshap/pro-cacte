@@ -633,6 +633,7 @@ BEGIN
 	ELSE
 		SELECT id INTO v_proctc_value_id from pro_ctc_valid_values where pro_ctc_question_id = questionid order by id LIMIT 1 OFFSET answerNum;
 	END IF;
+	--1 = normal flow, 0 = flow for participant added questions
 	IF questionCategory = 1 THEN
 		--get the proctc question id using schedule question (crf item id)
 		SELECT spci.id INTO v_crf_item_id from crf_page_items cpi
