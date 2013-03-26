@@ -13,10 +13,15 @@ import java.util.List;
  */
 public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase {
 
-    public void testQuery() throws Exception {
-    	
+	
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		// TODO Auto-generated method stub
+		super.onSetUpInTransaction();
     	saveCsv(true);
-    	
+	}
+	
+    public void testQuery() throws Exception {
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery("cycle");
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         query.filterByCrf(crf.getId());
@@ -24,7 +29,6 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
 
         List list = genericRepository.find(query);
         assertEquals(20, list.size());
-
     }
 
 
