@@ -21,10 +21,19 @@ public class ArmIntegrationTest extends TestDataManager {
     	System.out.println("testStudyArm starting..");
     	Study study = StudyTestHelper.getDefaultStudy();
         assertEquals(2, study.getArms().size());
-        assertEquals("test arm 1", study.getArms().get(0).getTitle());
-        assertEquals("desc 1", study.getArms().get(0).getDescription());
-        assertEquals("test arm 2", study.getArms().get(1).getTitle());
-        assertEquals("desc 2", study.getArms().get(1).getDescription());
+        Arm arm  = new Arm();
+        arm.setStudy(study);
+        arm.setTitle("test arm 1");
+        arm.setDescription("desc 1");
+        assertTrue(study.getArms().contains(arm));
+        arm.setTitle("test arm 2");
+        arm.setDescription("desc 2");
+        assertTrue(study.getArms().contains(arm));
+
+//        assertEquals("", study.getArms().get(0).getTitle());
+//        assertEquals("desc 1", study.getArms().get(0).getDescription());
+//        assertEquals("test arm 2", study.getArms().get(1).getTitle());
+//        assertEquals("desc 2", study.getArms().get(1).getDescription());
         System.out.println("testStudyArm complete..");
     }
     
