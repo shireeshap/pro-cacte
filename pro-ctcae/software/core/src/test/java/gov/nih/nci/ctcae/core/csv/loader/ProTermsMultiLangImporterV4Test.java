@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 
 import java.io.IOException;
@@ -17,9 +16,13 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	public static ProCtc proCtc;
 	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
-	public void testUpdateMultiLangProTerms() throws IOException{
-        
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
 		deleteProCtcTermsInTestData();
+	}
+	
+	public void testUpdateMultiLangProTerms() throws IOException{
         ProCtcTermsImporterV4 proCtcTermImporter = new ProCtcTermsImporterV4();
 		proCtcTermImporter.setCtcTermRepository(ctcTermRepository);
 		ProCtc proctc = proCtcTermImporter.loadProCtcTerms(true);
@@ -45,5 +48,11 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	
 	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
 		ProTermsMultiLangImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
+	}
+	
+	
+	@Override
+	protected void onTearDownInTransaction() throws Exception {
+		super.onTearDownInTransaction();
 	}
 }
