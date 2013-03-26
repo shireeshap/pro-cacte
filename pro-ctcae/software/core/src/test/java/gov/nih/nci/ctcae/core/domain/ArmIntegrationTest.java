@@ -11,6 +11,11 @@ import gov.nih.nci.ctcae.core.helper.TestDataManager;
  */
 public class ArmIntegrationTest extends TestDataManager {
 
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
+	}
+	
     public void testStudyArm() {
 
     	System.out.println("testStudyArm starting..");
@@ -55,5 +60,9 @@ public class ArmIntegrationTest extends TestDataManager {
     	return hibernateTemplate.find("from Arm where study.id <> ?", new Object[]{studyId});
     }
 
-
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+    	super.onTearDownInTransaction();
+    }
+    
 }

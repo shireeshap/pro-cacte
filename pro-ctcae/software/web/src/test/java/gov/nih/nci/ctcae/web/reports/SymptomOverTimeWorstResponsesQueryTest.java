@@ -16,7 +16,6 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
 	
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
-		// TODO Auto-generated method stub
 		super.onSetUpInTransaction();
     	saveCsv(true);
 	}
@@ -31,5 +30,9 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
         assertEquals(20, list.size());
     }
 
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+    	super.onTearDownInTransaction();
+    }
 
 }
