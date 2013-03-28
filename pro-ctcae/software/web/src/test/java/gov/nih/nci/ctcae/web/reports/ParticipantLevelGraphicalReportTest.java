@@ -3,11 +3,11 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
-import org.jfree.chart.JFreeChart;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Harsh Agarwal
@@ -27,19 +27,24 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
         List<String> dates = (List<String>) map.get("dates");
         assertEquals(schedules.size(), dates.size());
 
-        Integer symptomId = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm().getId();
-        request.setParameter("symptomId", symptomId.toString());
+        Integer symptomId;
+        int size = crf.getAllCrfPageItems().size();
+        if(size > 0){
+        	symptomId = crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getProCtcTerm().getId();
+        	request.setParameter("symptomId", symptomId.toString());
 
-        ParticipantLevelGraphicalReportController controller1 = new ParticipantLevelGraphicalReportController();
-        controller1.setGenericRepository(genericRepository);
-        controller1.setProCtcTermRepository(proCtcTermRepository);
-//        modelAndView = controller1.handleRequest(request, response);
-//        Map m = modelAndView.getModel();
-//        assertNotNull(m.get("participantReportChartFileName"));
-//        assertNotNull(m.get("participantReportChart"));
-//        JFreeChart participantReportChart = (JFreeChart) m.get("participantReportChart");
-//        GraphicalReportTestHelper.showCharts(participantReportChart);
-
+	        ParticipantLevelGraphicalReportController controller1 = new ParticipantLevelGraphicalReportController();
+	        controller1.setGenericRepository(genericRepository);
+	        controller1.setProCtcTermRepository(proCtcTermRepository);
+	//        modelAndView = controller1.handleRequest(request, response);
+	//        Map m = modelAndView.getModel();
+	//        assertNotNull(m.get("participantReportChartFileName"));
+	//        assertNotNull(m.get("participantReportChart"));
+	//        JFreeChart participantReportChart = (JFreeChart) m.get("participantReportChart");
+	//        GraphicalReportTestHelper.showCharts(participantReportChart);
+        } else {
+        	fail("Insufficient data in DB while running this test");
+        }
 
     }
 
