@@ -2599,6 +2599,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMe
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoaderTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/dao/ProCtcDaoTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/AddedQuestionTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFCalendarTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
