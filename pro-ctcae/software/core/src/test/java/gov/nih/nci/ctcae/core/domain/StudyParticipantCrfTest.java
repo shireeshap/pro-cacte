@@ -140,6 +140,44 @@ public class StudyParticipantCrfTest extends TestDataManager {
     }
     
     
+    public void testRemoveCrfSchedulesByStatusAndDate(){
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = studyParticipantCrf.getStudyParticipantCrfSchedules();
+    	//set crfStatus of schedules 0 to 4 to be IN-COMPLETED
+    	for(int i=0; i<5; i++){
+    		studyParticipantCrfSchedules.get(i).setStatus(CrfStatus.PASTDUE);
+    	}
+    	
+    	assertEquals(15, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+    	
+    	studyParticipantCrf.removeCrfSchedules(CrfStatus.PASTDUE, DateUtils.addDaysToDate(new Date(), -1));
+    	assertEquals(10, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+    }
+    
+    public void testEqualsAndHashCode(){
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	
+    	StudyParticipantCrf otherStudyParticipantCrf = new StudyParticipantCrf();
+    	Arm arm = new Arm();
+    	arm.setTitle("OtherArm");
+    	otherStudyParticipantCrf.setArm(arm);
+    	otherStudyParticipantCrf.setCrf(studyParticipantCrf.getCrf());
+    	// except assertion to be false as arm, crf, startDate, studyParticipantAssignment are not equal
+    	assertFalse(studyParticipantCrf.equals(otherStudyParticipantCrf));
+    	assertNotSame(studyParticipantCrf.hashCode(), otherStudyParticipantCrf.hashCode());
+    	
+    	otherStudyParticipantCrf.setStartDate(studyParticipantCrf.getStartDate());
+    	otherStudyParticipantCrf.setStudyParticipantAssignment(studyParticipantCrf.getStudyParticipantAssignment());
+    	// except assertion to be false as arm is not equal
+    	assertFalse(studyParticipantCrf.equals(otherStudyParticipantCrf));
+    	assertNotSame(studyParticipantCrf.hashCode(), otherStudyParticipantCrf.hashCode());
+    	
+    	otherStudyParticipantCrf.setArm(studyParticipantCrf.getArm());
+    	// except assertion to be true
+    	assertTrue(studyParticipantCrf.equals(otherStudyParticipantCrf));
+    	assertEquals(studyParticipantCrf.hashCode(), otherStudyParticipantCrf.hashCode());
+    }
+    
     public Question getProCtcQuestion(){
     	CtcTerm ctcTerm = new CtcTerm();
         ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
@@ -151,6 +189,11 @@ public class StudyParticipantCrfTest extends TestDataManager {
         proCtaddedQuestion.setId(1);
         proCtcTerm.addProCtcQuestion(proCtaddedQuestion);
         return proCtaddedQuestion;
+    }
+    
+    
+    public StudyParticipantAssignment getDefaultStudyParticipantAssignment(){
+    	return StudyTestHelper.getDefaultStudy().getArms().get(0).getStudyParticipantAssignments().get(0);
     }
     
     public StudyParticipantCrf getDefaultStudyParticipantCrf(){
