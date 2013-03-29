@@ -2620,6 +2620,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTermTest.
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/MeddraQuestionTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/MeddraValidValueTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/NotificationsTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationTest.java -text
