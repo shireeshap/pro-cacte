@@ -5,6 +5,10 @@ import java.util.List;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 
+/**
+ * @author AmeyS
+ * Testcases for MeddraQuestion and MeddraQuestionVocab
+ */
 public class MeddraQuestionTest extends TestDataManager{
 	private static MeddraQuestion meddraQuestion;
 	private static MeddraQuestion otherMeddraQuestion;
@@ -17,18 +21,24 @@ public class MeddraQuestionTest extends TestDataManager{
 		meddraQuestion = new MeddraQuestion();
 		meddraQuestion.setLowLevelTerm(fetchLowLevelTerm().get(0));
 		meddraQuestion.setDisplayOrder(11);
+		meddraQuestion.setMeddraQuestionVocab(null);
+		meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
 
 		assertEquals(Integer.valueOf(11), meddraQuestion.getDisplayOrder());
 		assertEquals(fetchLowLevelTerm().get(0), meddraQuestion.getLowLevelTerm());
+		assertNull(meddraQuestion.getMeddraQuestionVocab());
+		assertEquals(ProCtcQuestionType.SEVERITY, meddraQuestion.getProCtcQuestionType());
 	}
 	
 	public void testGetterAndSetterForMeddraQuestionVocab(){
 		meddraQuestionVocab = new MeddraQuestionVocab();
 		meddraQuestionVocab.setQuestionTextEnglish(QUESTION_TEXT_ENGLISH);
 		meddraQuestionVocab.setQuestionTextSpanish(QUESTION_TEXT_SPANISH);
+		meddraQuestionVocab.setMeddraQuestion(null);
 		
 		assertEquals(QUESTION_TEXT_ENGLISH, meddraQuestionVocab.getQuestionTextEnglish());
 		assertEquals(QUESTION_TEXT_SPANISH, meddraQuestionVocab.getQuestionTextSpanish());
+		assertNull(meddraQuestionVocab.getMeddraQuestion());
 	}
 	
 	public void testEqualsAndHashCodeForMeddraQuestion(){
