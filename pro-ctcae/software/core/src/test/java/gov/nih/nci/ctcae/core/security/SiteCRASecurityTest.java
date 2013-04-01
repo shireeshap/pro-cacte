@@ -32,7 +32,7 @@ public class SiteCRASecurityTest extends TestDataManager {
         login(clinicalStaff.getUser().getUsername());
 
         List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId("%", StudyTestHelper.getDefaultStudy().getId());
-        assertEquals(2, organizations.size());
+        assertEquals(clinicalStaff.getOrganizationClinicalStaffs().size(), organizations.size());
         assertEquals(OrganizationTestHelper.getMSKCC(), organizations.get(1).getOrganization());
 
     }
