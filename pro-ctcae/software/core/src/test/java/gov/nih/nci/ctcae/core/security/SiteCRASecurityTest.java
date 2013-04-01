@@ -33,8 +33,14 @@ public class SiteCRASecurityTest extends TestDataManager {
 
         List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId("%", StudyTestHelper.getDefaultStudy().getId());
         assertEquals(clinicalStaff.getOrganizationClinicalStaffs().size(), organizations.size());
-        assertEquals(OrganizationTestHelper.getMSKCC(), organizations.get(1).getOrganization());
-
+        
+        boolean isMskccPresent = false;
+        for(StudyOrganization o : organizations){
+        	if(o.getOrganization().getNciInstituteCode().equals(OrganizationTestHelper.getMSKCC().getNciInstituteCode())){
+        		isMskccPresent = true;
+        	}
+        }
+        assertTrue(isMskccPresent);
     }
 
     public void testInstance_StudySitesForLeadCRA() {
