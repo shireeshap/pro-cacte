@@ -23,12 +23,17 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
     private ParticipantSchedule participantSchedule;
     @Override
     protected void onSetUpInTransaction() throws Exception {
-
         super.onSetUpInTransaction();
         deleteScheduleTestData();
         commitAndStartNewTransaction();
         saveTestScheduleParticipant();
     }
+    
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+    	super.onTearDownInTransaction();
+    }
+    
     private void saveTestScheduleParticipant() {
         try{
             Study study = StudyTestHelper.createIVRSStudy();
@@ -38,10 +43,8 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
             e.printStackTrace();
         }
         commitAndStartNewTransaction();
-        /*ParticipantQuery pq = new ParticipantQuery();
-        pq.filterByUsername("ivrs.participant");
-        participant = genericRepository.findSingle(pq);*/
     }
+    
     private void deleteScheduleTestData() {
         //delete existing participant
         ParticipantQuery pq = new ParticipantQuery(false);
@@ -54,9 +57,9 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         StudyTestHelper.deleteIVRSStudy();
         commitAndStartNewTransaction();
     }
+    
     public void testGetDueDateForFormSchedule() throws Exception {
-       //saveTestScheduleParticipant();
-         ParticipantQuery pq = new ParticipantQuery(false);
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
 
@@ -64,7 +67,9 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         Calendar cal = new GregorianCalendar();
         Calendar cal2 = (Calendar)cal.clone();
         cal.setTime(new Date());
-        Date dueDate = participantSchedule.getDueDateForFormSchedule(cal,participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0));
+        
+        StudyParticipantCrf spCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+        Date dueDate = participantSchedule.getDueDateForFormSchedule(cal, spCrf);
         cal.add(Calendar.DATE,1);
         cal.add(Calendar.HOUR, -1);
         assertEquals(dueDate, cal.getTime());
@@ -74,18 +79,16 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         CRF crf = crfRepository.findSingle(query);
         crf.getFormArmSchedules().get(0).getCrfCalendars().clear();
 
-        Date dueDateNew = participantSchedule.getDueDateForFormSchedule(cal2,participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0));
+        Date dueDateNew = participantSchedule.getDueDateForFormSchedule(cal2, spCrf);
         cal2.add(Calendar.DATE, 4);
         assertEquals(dueDateNew,cal2.getTime());
-
-
     }
 
      public void testGetReschedulePastDueForms() throws Exception {
         ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
-         participantSchedule=new ParticipantSchedule();
+        participantSchedule=new ParticipantSchedule();
 
         List<StudyParticipantCrfSchedule> studyParticipantSchedules = participant.getStudyParticipantAssignments().get(0).
                                                                        getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
@@ -118,13 +121,12 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         	newCalender.add(Calendar.DATE, 5);
         }
         List<String> noPastDueForms = participantSchedule.getReschedulePastDueForms(cal, newCalender,formids);
-         assertEquals(0,noPastDueForms.size());
-          deleteScheduleTestData();
+        assertEquals(0,noPastDueForms.size());
+        deleteScheduleTestData();
     }
 
     public void testUpdateSchedule() throws Exception {
-          //saveTestScheduleParticipant();
-           ParticipantQuery pq = new ParticipantQuery(false);
+        ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
 
@@ -152,7 +154,6 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         assertEquals(list.size(),2);
         assertEquals(list.get("successForms").size(),1);
         assertEquals(list.get("successForms").get(0),crf.getTitle());
-
         assertEquals(list.get("failedForms").size(),0);
 
         StudyParticipantCrfSchedule  studyParticipantCrfSchedule1 = studyParticipantSchedules.get(1);
@@ -167,7 +168,6 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         assertEquals(list.get("failedForms").size(),1);
         assertEquals(list.get("failedForms").get(0),crf.getTitle());
         assertEquals(list.get("successForms").size(),0);
-       
     }
 
 
