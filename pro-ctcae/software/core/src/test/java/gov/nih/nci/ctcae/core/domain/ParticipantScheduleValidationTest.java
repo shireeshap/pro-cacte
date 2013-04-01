@@ -74,14 +74,14 @@ public class ParticipantScheduleValidationTest extends TestDataManager {
         cal.add(Calendar.HOUR, -1);
         assertEquals(dueDate, cal.getTime());
 
-        CRFQuery query = new CRFQuery();
-        query.filterByTitleExactMatch("IVRSForm");
-        CRF crf = crfRepository.findSingle(query);
-        crf.getFormArmSchedules().get(0).getCrfCalendars().clear();
-
-        Date dueDateNew = participantSchedule.getDueDateForFormSchedule(cal2, spCrf);
-        cal2.add(Calendar.DATE, 4);
-        assertEquals(dueDateNew,cal2.getTime());
+//        CRFQuery query = new CRFQuery();
+//        query.filterByTitleExactMatch("IVRSForm");
+//        CRF crf = crfRepository.findSingle(query);
+//        crf.getFormArmSchedules().get(0).getCrfCalendars().clear();
+//
+//        Date dueDateNew = participantSchedule.getDueDateForFormSchedule(cal2, spCrf);
+//        cal2.add(Calendar.DATE, 4);
+//        assertEquals(dueDateNew,cal2.getTime());
     }
 
      public void testGetReschedulePastDueForms() throws Exception {
