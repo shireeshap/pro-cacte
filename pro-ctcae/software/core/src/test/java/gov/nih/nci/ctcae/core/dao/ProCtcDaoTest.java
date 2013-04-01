@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 /** Test class for Dao Package.
@@ -37,6 +38,11 @@ public class ProCtcDaoTest extends TestDataManager{
 		List<LowLevelTerm> lowLevelTerm = lowLevelTermDao.findBySubname(null, null, null,null, null);
 		assertTrue(lowLevelTerm.size() == 0);
 		
+		lowLevelTerm = lowLevelTermDao.findBySubname(new String[]{"10003028"}, null, Arrays.asList("meddraCode"));
+		assertEquals(1, lowLevelTerm.size());
+		
+		lowLevelTerm = lowLevelTermDao.findBySubname(new String[]{"1000302"}, Arrays.asList("meddraCode"), null);
+		assertEquals(3, lowLevelTerm.size());
 	}
 	
 	public void testGetByMeddraCode() throws Exception{
@@ -49,6 +55,36 @@ public class ProCtcDaoTest extends TestDataManager{
 		    assertTrue(lowLevelTermVocab.get(0).equals(llt.getLowLevelTermVocab()));
 		    assert(lowLevelTermVocab.get(0).hashCode() == llt.getLowLevelTermVocab().hashCode());
 		}
+	}
+	
+	public void testSearchByExample(){
+		LowLevelTerm example = new LowLevelTerm();
+		example.setMeddraCode("10003028");
+		example.setCurrency("Y");
+		List<LowLevelTerm> lowLevelTermList = lowLevelTermDao.searchByExample(example);	
+		assertEquals(1, lowLevelTermList.size());
+		
+		example.setMeddraCode("10003028");
+		example.setCurrency("N");
+		lowLevelTermList = lowLevelTermDao.searchByExample(example);
+		assertEquals(0, lowLevelTermList.size());
+	}
+	
+	public void testRefresh(){
+		LowLevelTerm example = new LowLevelTerm();
+		example.setMeddraCode("10003028");
+		List<LowLevelTerm> lowLevelTermList = lowLevelTermDao.searchByExample(example);	
+		
+		// assert that JartCode is null
+		assertNull(lowLevelTermList.get(0).getJartCode());
+		// Set JartCode to some value and again refresh the domain object without saving
+		lowLevelTermList.get(0).setJartCode("-99");
+		lowLevelTermDao.refresh(lowLevelTermList.get(0));
+		
+		// Fetch the object from database and expect that its JartCode is null
+		lowLevelTermList = lowLevelTermDao.searchByExample(example);	
+		assertNotSame("-99", lowLevelTermList.get(0).getJartCode());
+		
 	}
 	
 	public List<LowLevelTermVocab> getLowLevelTermVocab(int id){
