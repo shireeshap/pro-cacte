@@ -1,13 +1,18 @@
 package gov.nih.nci.ctcae.web.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
 /**
  * @author Vinay Kumar
@@ -19,6 +24,9 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
     private ProCtcTermRepository proCtcTermRepository;
     private ProCtcTerm proCtcTerm;
+    private ProCtcTerm proCtcTerm2;
+    private ProCtcTerm proCtcTerm3;
+    private List<ProCtcTerm> proCtcTermList;
     private CreateFormCommand command;
     private ProCtcQuestion firstQuestion;
 
@@ -29,7 +37,21 @@ public class AddCrfComponentControllerTest extends WebTestCase {
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         controller.setProCtcTermRepository(proCtcTermRepository);
         proCtcTerm = new ProCtcTerm();
+        proCtcTerm2 = new ProCtcTerm();
+        proCtcTerm3 = new ProCtcTerm();
+        
+        proCtcTermList = new ArrayList<ProCtcTerm>();
+        proCtcTermList.add(proCtcTerm);
         proCtcTerm.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm2.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTerm3.setProCtcTermVocab(new ProCtcTermVocab());
+        proCtcTermList.add(proCtcTerm2);
+        proCtcTermList.add(proCtcTerm3);
+        
+        proCtcTerm.setTermEnglish("a", SupportedLanguageEnum.ENGLISH);
+        proCtcTerm2.setTermEnglish("b", SupportedLanguageEnum.ENGLISH);
+        proCtcTerm3.setTermEnglish("c", SupportedLanguageEnum.ENGLISH);
+        
         command = new CreateFormCommand();
 
         firstQuestion = new ProCtcQuestion();
@@ -64,7 +86,6 @@ public class AddCrfComponentControllerTest extends WebTestCase {
     }
 
     public void testAddProCtcTermAgainForBasicMode() throws Exception {
-
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
         request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
@@ -89,40 +110,30 @@ public class AddCrfComponentControllerTest extends WebTestCase {
     public void testSupportedMethod() {
         assertEqualArrays("only get is supported", new String[]{"GET"}, controller.getSupportedMethods());
     }
+    
+    
+    public void testAddCtcTerm() throws Exception {
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
-//    public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
-//        request.addParameter("proCtcTermId", new String[]{"1"});
-//        request.addParameter("crfPageNumber", new String[]{"1"});
-//        expect(proCtcTermRepository.find(1)).andReturn(null);
-//        replayMocks();
-//        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-//        verifyMocks();
-//        assertNull("must return null because no question is present for given id", modelAndView);
-//    }
-//
-//    public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
-//        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-//        command.addCrfPage();
-//        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
-//
-//        request.addParameter("proCtcTermId", new String[]{"1"});
-//        request.addParameter("crfPageNumber", new String[]{"0"});
-//        expect(proCtcTermRepository.find(1)).andReturn(proCtcTerm);
-//        replayMocks();
-//        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-//        verifyMocks();
-//        assertNotNull("must not return null because there is one proCtcTerm  for given id", modelAndView);
-//        assertNotNull("must return crfPageItems", modelAndView.getModel().get("crfPageItems"));
-//    }
-//
-//    public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
-//        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
-//
-//        request.addParameter("proCtcTermId", new String[]{"1"});
-//        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-//        View view = modelAndView.getView();
-//        assertTrue("must forward to add one crf page", view instanceof RedirectView);
-//        String url = ((RedirectView) view).getUrl();
-//        assertEquals("addOneCrfPage?subview=subview&proCtcTermId=1", url);
-//    }
+        request.addParameter("componentType", new String[]{AddCrfComponentController.CTC_CATEGORY_COMPONENT});
+        request.addParameter("ctcCategoryId", "2");
+        request.addParameter("categoryName", "Not a core symptom");
+       
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(proCtcTermList);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
+
+        assertEquals("must return view for new crf page", "form/ajax/oneCtcCategorySection", modelAndView.getViewName());
+        assertNotNull("must return added Crf Pages", modelAndView.getModel().get("crfPages"));
+        assertEquals("must not return crfPageItems", 0, ((List<CrfPageItem>) modelAndView.getModel().get("crfPageItems")).size());
+
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+        CRF crf = createFormCommand.getCrf();
+        assertFalse("must add crf page", crf.getCrfPagesSortedByPageNumber().isEmpty());
+        assertEquals("must add 3 pages", 3, crf.getCrfPagesSortedByPageNumber().size());
+    }
+
 }
