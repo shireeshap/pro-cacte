@@ -3790,6 +3790,7 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateC
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/AddFormRuleControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/AllConditionsControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/BasicFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/CopyFormControllerTest.java -text
