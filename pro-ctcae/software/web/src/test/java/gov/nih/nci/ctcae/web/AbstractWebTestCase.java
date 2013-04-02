@@ -57,7 +57,7 @@ public abstract class AbstractWebTestCase extends TestDataManager {
         new ReportResultsHelper().setGenericRepository(genericRepository);
     }
     
-    protected boolean isTestDataPresent() {
+    protected final boolean isTestDataPresent() {
         return isDataPresentInTable("studies") && countRowsInTable("participants") > 5 ;
     }
 }
