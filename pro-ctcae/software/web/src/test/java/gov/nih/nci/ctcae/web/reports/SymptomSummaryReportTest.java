@@ -76,7 +76,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         Integer symptomId;
         int size = crf.getAllCrfPageItems().size();
         if(size > 0){
-        	symptomId = crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getProCtcTerm().getId();        String arms = "";
+        	symptomId = crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getProCtcTerm().getId();        
+        	String arms = "";
 	        for (Arm arm : study.getArms()) {
 	            arms += arm.getId() + "_";
 	        }
