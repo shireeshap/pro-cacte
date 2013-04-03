@@ -148,7 +148,7 @@ public class CalendarTemplateTabTest extends WebTestCase {
 		verifyMocks();
 		assertEquals(",1,2,4,5", crfCycleDefinition.getCrfCycles().get(0).getCycleDays());
 		assertEquals(",1,2,4,5", crfCycleDefinition.getCrfCycles().get(1).getCycleDays());
-		assertEquals(",4,5", crfCycleDefinition3.getCrfCycles().get(0).getCycleDays());
+		assertEquals(",", crfCycleDefinition3.getCrfCycles().get(0).getCycleDays());
 		assertEquals("one invalid crfCycleDefinition is removed and now 2 crfCycleDefinition are associated " +
 				"with the formArmSchedule", 2, testFormArmSchedule.getCrfCycleDefinitions().size());
 	}
