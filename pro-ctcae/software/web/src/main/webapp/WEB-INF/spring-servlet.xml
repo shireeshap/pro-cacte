@@ -570,9 +570,18 @@
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    
+    <bean name="/reports/overallStudyAllSiteAndForms" id="studyLevelFullReportResultsController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportResultsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
     <bean name="/reports/studyLevelReportExcel" id="studyLevelReportExcelController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
+    </bean>
+    
+    <bean name="/reports/studyLevelFullReportExcel" id="studyLevelFullReportExcelController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportExcelController">
     </bean>
 
     <bean name="/reports/getParticipantItems" id="getParticipantCrfItemsController"
