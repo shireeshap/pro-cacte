@@ -3210,6 +3210,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/password_policy_configure.j
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/fullStudyReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
