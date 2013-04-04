@@ -1,13 +1,29 @@
 package gov.nih.nci.ctcae.web.form;
 
+import static org.easymock.EasyMock.expect;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.LeadStudySite;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar
@@ -20,7 +36,19 @@ public class CreateFormCommandTest extends WebTestCase {
     private ProCtcTerm proCtcTerm1, proCtcTerm2;
     ProCtcQuestionRepository proCtcQuestionRepository;
     private CreateFormCommand command;
-
+    private GenericRepository genericRepository;
+    private CRFNotificationRule crfNotificationRule;
+    private CRF crf;
+    private LeadStudySite leadStudySite;
+    private OrganizationClinicalStaff organizationClinicalStaff;
+    private ClinicalStaff clinicalStaff;
+    private User user;
+    private StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
+    private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs;
+    private List<UserRole> userRoles;
+    private UserRole userRole;
+    private Study study;
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -72,8 +100,88 @@ public class CreateFormCommandTest extends WebTestCase {
         proCtcTerm2.setTermEnglish("Constipation", SupportedLanguageEnum.ENGLISH);
         proCtcTerm2.addProCtcQuestion(fourthQuestion);
         proCtcTerm2.addProCtcQuestion(sixthQuestion);
-
+        
+        genericRepository = registerMockFor(GenericRepository.class);
+        crf = new CRF();
+        crfNotificationRule = new CRFNotificationRule();
+        leadStudySite = new LeadStudySite();
+        leadStudySite.setId(11);
+        
+        user = new User();
+        userRole = new UserRole();
+        userRole.setRole(Role.PI);
+        userRole.setUser(user);
+        userRoles = new ArrayList<UserRole>();
+        userRoles.add(userRole);
+        user.setUserRoles(userRoles);
+        clinicalStaff = new ClinicalStaff();
+        clinicalStaff.setUser(user);
+        
+        
+        organizationClinicalStaff = new OrganizationClinicalStaff();
+        organizationClinicalStaff.setClinicalStaff(clinicalStaff);
+        studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
+        studyOrganizationClinicalStaff.setStudyOrganization(leadStudySite);
+        
+        studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
+        studyOrganizationClinicalStaffs.add(studyOrganizationClinicalStaff);
     }
+    
+    public void testProcessRulesForForm(){
+    	request.setParameter("ruleIndices", new String[]{"1"});
+    	request.setParameter("notifications_1", "ADMIN");
+    	request.setParameter("symptoms_1", "1");
+    	request.setParameter("conditions_1", "1");
+    	request.setParameter("questiontype_1_1", "SEVERITY");
+    	request.setParameter("operator_1_1", "GREATER");
+    	request.setParameter("threshold_1_1", "3");
+    	command.setCrf(crf);
+    	
+    	expect(genericRepository.findById(ProCtcTerm.class, 1)).andReturn(proCtcTerm1).anyTimes();
+    	expect(genericRepository.save(crf)).andReturn(crf).anyTimes();
+    	
+    	assertEquals(0, crf.getCrfNotificationRules().size());
+    	replayMocks();
+    	command.processRulesForForm(request, genericRepository);
+    	verifyMocks();
+    	assertEquals(1, crf.getCrfNotificationRules().size());
+    }
+    
+    public void testProcessRulesForSite() throws Exception{
+    	request.setParameter("ruleIds", new String[]{"1"});
+    	request.setParameter("notifications_1", "ADMIN");
+    	request.setParameter("symptoms_1", "1");
+    	request.setParameter("conditions_1", "1");
+    	request.setParameter("questiontype_1_1", "Severity");
+    	request.setParameter("operator_1_1", "GREATER");
+    	request.setParameter("threshold_1_1", "3");
+    	command.setCrf(crf);
+    	command.setMyOrg(leadStudySite);
+    	
+    	expect(genericRepository.findById(ProCtcTerm.class, 1)).andReturn(proCtcTerm1).anyTimes();
+    	expect(genericRepository.save(leadStudySite)).andReturn(leadStudySite).anyTimes();
+    	
+    	assertEquals(0, command.getMyOrg().getSiteCRFNotificationRules().size());
+    	replayMocks();
+    	command.processRulesForSite(request, genericRepository);
+    	verifyMocks();
+    	assertEquals(1, command.getMyOrg().getSiteCRFNotificationRules().size());
+    }
+    
+    public void testGetOrganizationForUser(){
+    	LeadStudySite myOrg = new LeadStudySite();
+    	study = registerMockFor(Study.class);
+        command.getCrf().setStudy(study);
+        expect(command.getCrf().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffsByRole(Role.PI)).andReturn(studyOrganizationClinicalStaffs).anyTimes();
+        
+    	assertNotSame(myOrg, leadStudySite);
+    	replayMocks();
+    	myOrg = (LeadStudySite) command.getOrganizationForUser(user, Arrays.asList(Role.PI));
+    	verifyMocks();
+    	assertEquals(myOrg, leadStudySite);
+    }
+
 
     public void testGetSelectedProCtcTerms() {
         assertFalse("both terms must be different", proCtcTerm1.equals(proCtcTerm2));
@@ -90,9 +198,6 @@ public class CreateFormCommandTest extends WebTestCase {
         List<Integer> selectedProCtcTerms = command.getSelectedProCtcTerms();
 
         assertEquals("must have both terms as selected terms", 0, selectedProCtcTerms.size());
-//        assertTrue("must have both terms", selectedProCtcTerms.contains(proCtcTerm1.getId()));
-//        assertTrue("must have both terms", selectedProCtcTerms.contains(proCtcTerm2.getId()));
-
     }
 
     public void testGetSelectedProCtcTermsIfProCtCtermHasBeenAddedPartially() {
@@ -114,8 +219,6 @@ public class CreateFormCommandTest extends WebTestCase {
         List<Integer> selectedProCtcTerms = command.getSelectedProCtcTerms();
 
         assertEquals("must not have 2nd term as all questions of second term have not been added yet", 0, selectedProCtcTerms.size());
-        //assertTrue("must have both terms", selectedProCtcTerms.contains(proCtcTerm1.getId()));
-
     }
 
     public void testAddProCtcTermInBasicMode() {
@@ -129,8 +232,6 @@ public class CreateFormCommandTest extends WebTestCase {
         List<CrfPageItem> crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
         assertEquals("must have 3 crf page items", 3, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
-
-
     }
 
     public void testAddMultipleProCtcTermInBasicMode() {
@@ -143,8 +244,6 @@ public class CreateFormCommandTest extends WebTestCase {
         assertEquals("must have 2 pages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
         validateCrfPageAndCrfPageItemOrder(crf);
-
-
     }
 
     public void testReOrderCrfPagesInBasicMode() {
@@ -166,44 +265,8 @@ public class CreateFormCommandTest extends WebTestCase {
         assertEquals("must reorder crf page number", Integer.valueOf(0), crfPage.getPageNumber());
 
         validateCrfPageAndCrfPageItemOrder(crf);
-
-
     }
 
-//    public void testAddDeleteAddAndReOrderCrfPagesInBasicMode() {
-//
-//        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
-//        command.addProCtcTerm(proCtcTerm1);
-//        command.addProCtcTerm(proCtcTerm2);
-//
-//        //now remove one page
-//        command.setQuestionIdToRemove(firstQuestion.getId() + "," + secondQuestion.getId() + "," + thirdQuestion.getId());
-//
-//        assertEquals("proctc term 1 must have 3 questions only", 3, proCtcTerm1.getProCtcQuestions().size());
-//
-//        command.addProCtcTerm(proCtcTerm1);
-//
-//        CRF crf = command.getCrf();
-//
-//        assertEquals("must add one more page because 1st page is empty", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        command.setCrfPageNumbers("2,1");
-//
-//
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        assertEquals("must have 2 pages", 2, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        CRFPage crfPage = crf.getCrfPageItemByQuestion(proCtcTerm1.getProCtcQuestions().iterator().next()).getCrfPage();
-//        assertEquals("must reorder crf page number", Integer.valueOf(0), crfPage.getPageNumber());
-//
-//        crfPage = crf.getCrfPageItemByQuestion(proCtcTerm2.getProCtcQuestions().iterator().next()).getCrfPage();
-//
-//        assertEquals("must reorder crf page number", Integer.valueOf(1), crfPage.getPageNumber());
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//
-//    }
 
     public void testRemoveQuestionInBasicMode() {
 
@@ -218,7 +281,6 @@ public class CreateFormCommandTest extends WebTestCase {
         validateCrfPageAndCrfPageItemOrder(crf);
 
         //now remove 1 question
-
         command.setQuestionIdToRemove(String.valueOf(secondQuestion.getId()));
         expect(proCtcQuestionRepository.findById(secondQuestion.getId())).andReturn(secondQuestion);
         replayMocks();
@@ -226,8 +288,6 @@ public class CreateFormCommandTest extends WebTestCase {
         verifyMocks();
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
-
-
     }
 
     public void testRemoveAndAddSameQuestionInBasicMode() {
@@ -256,8 +316,6 @@ public class CreateFormCommandTest extends WebTestCase {
         command.addProCtcTerm(proCtcTerm1);
         assertEquals("must add only 1 question", 3, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
-
-
     }
 
 
@@ -265,571 +323,9 @@ public class CreateFormCommandTest extends WebTestCase {
         CRF crf = command.getCrf();
         assertNotNull("study crf must not be null", crf);
         assertNotNull("crf must not be null", crf);
-
-
     }
 
     public void testTitle() {
         assertEquals("Click here to name", command.getTitle());
-
-
     }
-
-//    public void testRemoveCrfPageWithQuestionsMustRemoveQuestionAlso() {
-//
-//        command.addCrfPage();
-//        command.addCrfPage();
-//        command.addCrfPage();
-//        CRF crf = command.getCrf();
-//
-//        assertEquals("must have three  pages", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//
-//        command.setQuestionsIds("11,12,13,14");
-//        command.setNumberOfQuestionsInEachPage("2,1,1");
-//        command.setCrfPageNumbers("0,1,2");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//        assertEquals("must have three  page", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        assertEquals("must have  2 questions ", 2, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
-//        assertEquals("must have  1 question ", 1, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
-//        assertEquals("must have  1 question ", 1, crf.getCrfPagesSortedByPageNumber().get(2).getCrfPageItems().size());
-//
-//
-//        //now remove 2nd page
-//        command.setQuestionsIds("11,12,14");
-//
-//
-//        command.setNumberOfQuestionsInEachPage("1,2");
-//        command.setCrfPageNumberToRemove("1");
-//
-//        command.setCrfPageNumbers("0,1");
-//        //command.clearCrfPage(1);
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//
-//        assertEquals("must have 2  pages", 2, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        assertEquals("must have  1 questions ", 1, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
-//        assertEquals("must have  2 question ", 2, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
-//        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
-//            assertNotSame("must remove the questions also when you remove a crf page", thirdQuestion, crfPageItem.getProCtcQuestion());
-//        }
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//    }
-
-
-//    public void testAddAndUpdateAndReorderButNotDeleteQuestionsInMultiplePages() {
-//
-//        command.addCrfPage();
-//        command.addCrfPage();
-//
-//        command.setQuestionsIds("11,12,13,14");
-//        command.setNumberOfQuestionsInEachPage("2,2");
-//        command.setCrfPageNumbers("0,1");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//
-//        CRF crf = getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have  2 questions ", 2, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
-//        assertEquals("must have  1 question ", 2, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
-//
-//        //now update and reorder questions
-//        CrfPageItem crfPageItem = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().get(1);
-//        crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-//        crfPageItem.setInstructions("inst");
-//        crfPageItem.setResponseRequired(Boolean.TRUE);
-//        CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
-//        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
-//
-//        command.setQuestionsIds("14,11,13,12");
-//        command.setNumberOfQuestionsInEachPage("1,3");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//
-//        assertEquals("must have  1 questions ", 1, crfPage.getCrfPageItems().size());
-//        assertSame("must preserve the order number  while moving the crf page items", fourthQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//        crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
-//        assertEquals("must have  3 question ", 3, crfPage.getCrfPageItems().size());
-//        assertSame("must preserve the order number  while moving the crf page items", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//        assertSame("must preserve the order number  while moving the crf page items", thirdQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
-//        assertSame("must preserve the order number  while moving the crf page items", secondQuestion, crfPage.getCrfPageItems().get(2).getProCtcQuestion());
-//
-//        CrfPageItem movedCrfPageItem = crfPage.getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
-//        assertSame("must update and move crf page items between pages", movedCrfPageItem, crfPageItem);
-//        assertSame("must update and move crf page items between pages", movedCrfPageItem.getCrfPage(), crfPage);
-//        assertSame("must update and move crf page items between pages", crfPageItem.getCrfPage(), crfPage);
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//    }
-
-//    public void testReOrderPageAndReorderCrfPageItem() {
-//
-//        command.addCrfPage();
-//        command.addCrfPage();
-//
-//        command.setQuestionsIds("11,12,13,14");
-//        command.setNumberOfQuestionsInEachPage("2,2");
-//        command.setCrfPageNumbers("0,1");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//
-//        CRF crf = getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//
-//        //now update and reorder questions  and reoder pages also
-//
-//        command.setQuestionsIds("14,11,13,12");
-//        command.setNumberOfQuestionsInEachPage("1,3");
-//        command.setCrfPageNumbers("1,0");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//
-//        assertEquals("must have 3  crf items", 3, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//        assertSame("must move the questions also while reordering the pages", thirdQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
-//        assertSame("must move the questions also while reordering the pages", secondQuestion, crfPage.getCrfPageItems().get(2).getProCtcQuestion());
-//
-//        crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
-//
-//        assertEquals("must have 1  crf items", 1, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", fourthQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//
-//    }
-
-
-//    public void testDeleteAndReorderPageAndReorderAndDeleteCrfPageItem() {
-//
-//        command.addCrfPage();
-//        command.addCrfPage();
-//        command.addCrfPage();
-//
-//        command.setQuestionsIds("11,12,13,14");
-//        command.setNumberOfQuestionsInEachPage("2,1,1");
-//        command.setCrfPageNumbers("0,1,2");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//
-//        CRF crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//
-//        //now reorder questions  and reoder pages also   and delete one page  and delte one question also
-//
-//        command.setQuestionsIds("14,11,12");
-//        command.setNumberOfQuestionsInEachPage("1,2");
-//        command.setCrfPageNumbers("2,0");
-//        command.setCrfPageNumberToRemove("1");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have 2  crf pages only because 1 crf page is removed", 2, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//
-//        assertEquals("must have 2  crf items", 2, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//        assertSame("must move the questions also while reordering the pages", secondQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
-//
-//        crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
-//
-//        assertEquals("must have 1  crf items", 1, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", fourthQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//
-//    }
-
-
-//    public void testAddAndUpdateAndReorderAndDeleteQuestionsInFirstPageOnly() {
-//        command.addCrfPage();
-//
-//        command.setQuestionsIds("11,12,14,13");
-//        command.setNumberOfQuestionsInEachPage("4");
-//        command.setCrfPageNumbers("0");
-//
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(14))).andReturn(fourthQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//
-//        CRF crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have  4 questions ", 4, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
-//
-//
-//        //now reorder and update and delete questions
-//        CrfPageItem crfPageItem = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().get(1);
-//        crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-//        crfPageItem.setInstructions("inst");
-//        crfPageItem.setResponseRequired(Boolean.TRUE);
-//        CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
-//        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
-//
-//        command.setQuestionsIds("11,13,12");
-//        command.setNumberOfQuestionsInEachPage("3");
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//        assertEquals("must have  3 question ", 3, crfPage.getCrfPageItems().size());
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        CrfPageItem movedCrfPageItem = crfPage.getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
-//        assertSame("must update and move crf page items between pages", movedCrfPageItem, crfPageItem);
-//        assertSame("must update and move crf page items between pages", movedCrfPageItem.getCrfPage(), crfPage);
-//        assertSame("must update and move crf page items between pages", crfPageItem.getCrfPage(), crfPage);
-//
-//
-//    }
-
-//    public void testAddQuestionInFirstPageOnly() {
-//        command.addCrfPage();
-//        command.updateCrfItems(proCtcQuestionRepository);
-//
-//        command.setQuestionsIds("11,12");
-//        command.setNumberOfQuestionsInEachPage("2");
-//        command.setCrfPageNumbers("0");
-//
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        CRF crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have only one default page", 1, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//        assertEquals("must have  2 questions ", 2, crfPage.getCrfPageItems().size());
-//        assertEquals("must preserve order no", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//        assertEquals("must preserve order no", secondQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
-//
-//
-//    }
-
-//    public void testReOrderPageButDoNotReorderCrfPageItem() {
-//        command.addCrfPage();
-//        command.addCrfPage();
-//        command.addCrfPage();
-//        CRF crf = command.getCrf();
-//
-//        assertEquals("must have three default page", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//
-//        command.setQuestionsIds("11,12,13,14");
-//        command.setNumberOfQuestionsInEachPage("2,1,1");
-//        command.setCrfPageNumbers("0,1,2");
-//
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        resetMocks();
-//        crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have three  page", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        //now reorder the crf page
-//        command.setCrfPageNumbers("2,0,1");
-//
-//
-//        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
-//        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
-//        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
-//        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
-//        replay(proCtcQuestionRepository);
-//        command.updateCrfItems(proCtcQuestionRepository);
-//        verify(proCtcQuestionRepository);
-//        crf = command.getCrf();
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//        assertEquals("must have three  page", 3, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
-//
-//        assertEquals("must have 1  crf items", 1, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", thirdQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//        crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
-//
-//        assertEquals("must have 1  crf items", 1, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", fourthQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//        crfPage = crf.getCrfPagesSortedByPageNumber().get(2);
-//        assertEquals("must have two  crf items", 2, crfPage.getCrfPageItems().size());
-//        assertSame("must move the questions also while reordering the pages", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
-//        assertSame("must move the questions also while reordering the pages", secondQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
-//
-//
-//    }
-
-
-//    public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingCrfPageItem() {
-//
-//        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
-//        command.addProCtcTerm(proCtcTerm1);
-//        CRF crf = command.getCrf();
-//
-//        assertEquals("must have 1 pages", 1, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        List<CrfPageItem> crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
-//        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
-//
-//        //now update one crf page item
-//        CrfPageItem crfPageItem = crfPageItems.get(0);
-//        crfPageItem.setInstructions("inst");
-//        crfPageItem.setResponseRequired(Boolean.TRUE);
-//
-//        //now add pro cterm again
-//
-//        command.addProCtcTerm(proCtcTerm1);
-//        crf = command.getCrf();
-//
-//        assertEquals("must not add any more pages", 1, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
-//        assertEquals("must not add any crf page items", 4, crfPageItems.size());
-//        assertEquals("must not remove existing crf page items", crfPageItem, crfPageItems.get(0));
-//
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//    }
-
-//    public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingAndRemovingCrfPageItem() {
-//
-//        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
-//        command.addProCtcTerm(proCtcTerm1);
-//        CRF crf = command.getCrf();
-//
-//        assertEquals("must have 1 pages", 1, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        List<CrfPageItem> crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
-//        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
-//
-//
-//        //now update one crf page item
-//        CrfPageItem crfPageItem = crfPageItems.get(0);
-//        crfPageItem.setInstructions("inst");
-//        crfPageItem.setResponseRequired(Boolean.TRUE);
-//
-//        //now remove this crf page item;
-//        command.setQuestionIdToRemove(String.valueOf(firstQuestion.getId()));
-//
-//        crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
-//        assertEquals("must have 3 crf page items", 3, crfPageItems.size());
-//
-//        //now add pro cterm again
-//
-//        command.addProCtcTerm(proCtcTerm1);
-//        crf = command.getCrf();
-//
-//        assertEquals("must not add any more pages", 1, crf.getCrfPagesSortedByPageNumber().size());
-//
-//        crfPageItems = crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems();
-//        assertEquals("must  add one crf page items", 4, crfPageItems.size());
-//        assertFalse("must  add a new empty crf page items", crfPageItem.equals(crfPageItems.get(0)));
-//        validateCrfPageAndCrfPageItemOrder(crf);
-//
-//
-//    }
-
-    private CRF getCrf() {
-        CRF crf = command.getCrf();
-        return crf;
-    }
-
-
-//	public void testAddAndReorderQuestionsAndDelete() {
-//
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(firstQuestion, 3);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(secondQuestion, 1);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(thirdQuestion, 2);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(fourthQuestion, 2);
-//		command.setQuestionsIds("12,13,11,14");
-//
-//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
-//		replay(finderRepository);
-//		command.updateCrfItems(finderRepository);
-//		verify(finderRepository);
-//		resetMocks();
-//		CRF crf = command.getCRF().getCrf();
-//		assertEquals("must have 4 questions ", 4,
-//			crf.getCrfPageItems().size());
-//		for (int i = 0; i < crf.getCrfPageItems().size(); i++) {
-//			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfPageItems().get(i).getDisplayOrder());
-//
-//		}
-//		assertEquals("must preserve order no", firstQuestion, crf.getCrfPageItems().get(2).getProCtcQuestion());
-//		assertEquals("must preserve order no", thirdQuestion, crf.getCrfPageItems().get(1).getProCtcQuestion());
-//		assertEquals("must preserve order no", secondQuestion, crf.getCrfPageItems().get(0).getProCtcQuestion());
-//		assertEquals("must preserve order no", fourthQuestion, crf.getCrfPageItems().get(3).getProCtcQuestion());
-//
-//		//now delete the first question
-//		command.setQuestionsIds("12,14,13");
-//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
-//		replay(finderRepository);
-//		command.updateCrfItems(finderRepository);
-//		verify(finderRepository);
-//		resetMocks();
-//		crf = command.getCRF().getCrf();
-//		assertEquals("must have 3 questions ", 3,
-//			crf.getCrfPageItems().size());
-//		for (int i = 0; i < crf.getCrfPageItems().size(); i++) {
-//			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfPageItems().get(i).getDisplayOrder());
-//
-//		}
-//		assertEquals("must preserve order no", thirdQuestion, crf.getCrfPageItems().get(2).getProCtcQuestion());
-//		assertEquals("must preserve order no", fourthQuestion, crf.getCrfPageItems().get(1).getProCtcQuestion());
-//		assertEquals("must preserve order no", secondQuestion, crf.getCrfPageItems().get(0).getProCtcQuestion());
-//
-//
-//	}
-
-//	public void testAddAndReorderAndDeleteAndAddAgain() {
-//
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(firstQuestion, 3);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(secondQuestion, 1);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(thirdQuestion, 2);
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(fourthQuestion, 2);
-//		command.setQuestionsIds("12,13,11,14");
-//
-//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
-//		replay(finderRepository);
-//		command.updateCrfItems(finderRepository);
-//		verify(finderRepository);
-//		resetMocks();
-//
-//		//now delete the first question and add again
-//		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(firstQuestion, 3);
-//		command.setQuestionsIds("12,13,11,14");
-//
-//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
-//		replay(finderRepository);
-//		command.updateCrfItems(finderRepository);
-//		verify(finderRepository);
-//
-//		CRF crf = command.getCRF().getCrf();
-//		assertEquals("must have 4 questions ", 4,
-//			crf.getAllCrfPageItems().size());
-//		for (int i = 0; i < crf.getAllCrfPageItems().size(); i++) {
-//			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getAllCrfPageItems().get(i).getDisplayOrder());
-//
-//		}
-//		assertEquals("must preserve order no", fourthQuestion, crf.getAllCrfPageItems().get(3).getProCtcQuestion());
-//		assertEquals("must preserve order no", firstQuestion, crf.getAllCrfPageItems().get(2).getProCtcQuestion());
-//		assertEquals("must preserve order no", thirdQuestion, crf.getAllCrfPageItems().get(1).getProCtcQuestion());
-//		assertEquals("must preserve order no", secondQuestion, crf.getAllCrfPageItems().get(0).getProCtcQuestion());
-//
-//
-//	}
 }
