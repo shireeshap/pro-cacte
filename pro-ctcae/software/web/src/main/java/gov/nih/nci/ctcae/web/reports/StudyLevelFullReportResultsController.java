@@ -51,8 +51,9 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		// Save the survey_answering_mode of the submitted surveys listed in 'list'
 		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>>(new CrfNameComparator());
 
-		generateQuestionMappingForTableHeader(proCtcQuestionMapping, meddraQuestionMapping, proCtcTermHeaders, meddraTermHeaders);
-		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = getCareResults(crfDateMap, crfModeMap, list);
+		int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
+		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = 
+			getCareResults(crfDateMap, crfModeMap, list, meddraQuestionMapping, meddraTermHeaders, col);
 
 		modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 	  //modelAndView.addObject("table", getHtmlTable(results, datesMap));
@@ -68,7 +69,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 	}
 
 	private int generateQuestionMappingForTableHeader(TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping,
-			TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, ArrayList<String> proCtcTermHeaders, ArrayList<String> meddraTermHeaders) {
+			 		ArrayList<String> proCtcTermHeaders) {
 		
 		int col = 0;
 		TreeMap<ProCtcQuestionType, String> typeMap;
@@ -86,29 +87,13 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				proCtcTermHeaders.add(proCtcTerm.getProCtcTermVocab().getTermEnglish()+ "_"	+ proCtcQuestion.getProCtcQuestionType());
 			}
 		}
-
-		MeddraQuery meddraQuery = new MeddraQuery();
-		List<LowLevelTerm> lowLevelTerms = genericRepository.find(meddraQuery);
-		for (LowLevelTerm lowLevelTerm : lowLevelTerms) {
-			if (lowLevelTerm.getMeddraQuestions().size() != 0) {
-				if (meddraQuestionMapping.containsKey(lowLevelTerm)) {
-					typeMap = proCtcQuestionMapping.get(lowLevelTerm);
-				} else {
-					typeMap = new TreeMap<ProCtcQuestionType, String>();
-					meddraQuestionMapping.put(lowLevelTerm, typeMap);
-				}
-				for (MeddraQuestion meddraQuestion : lowLevelTerm.getMeddraQuestions()) {
-					typeMap.put(meddraQuestion.getProCtcQuestionType(), 	String.valueOf(col++));
-					meddraTermHeaders.add(lowLevelTerm.getLowLevelTermVocab().getMeddraTermEnglish()+ "_"+ meddraQuestion.getProCtcQuestionType());
-				}
-			}
-		}
 		return col;
 	}
 
 	private TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> getCareResults(
-			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap,TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap,
-			List<StudyParticipantCrfSchedule> schedules) throws ParseException {
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap, TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap,
+			List<StudyParticipantCrfSchedule> schedules, TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, 
+			ArrayList<String> meddraTermHeaders, int col) throws ParseException {
 
 		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> organizationMap = 
 				new TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>(new OrganizationNameComparator());
@@ -207,6 +192,20 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 					validValue = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
 				} else {
 					validValue = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
+					LowLevelTerm llt = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm();
+					MeddraQuestion meddraQuestion = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion();
+					TreeMap<ProCtcQuestionType, String> typeMap;
+					if (meddraQuestionMapping.containsKey(llt)) {
+						typeMap = meddraQuestionMapping.get(llt);
+					} else {
+						typeMap = new TreeMap<ProCtcQuestionType, String>();
+						meddraQuestionMapping.put(llt, typeMap);
+					}
+					
+					if(!typeMap.containsKey(meddraQuestion.getProCtcQuestionType())){
+						typeMap.put(meddraQuestion.getProCtcQuestionType(), 	String.valueOf(col++));
+						meddraTermHeaders.add(llt.getLowLevelTermVocab().getMeddraTermEnglish()+ "_"+ meddraQuestion.getProCtcQuestionType());
+					}
 				}
 
 				value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
