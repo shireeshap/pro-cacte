@@ -4,7 +4,9 @@ import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import java.util.ArrayList;
@@ -72,7 +74,9 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
     }
     
     public void testGetReducedCrfs() throws Exception{
-    	crfs = crfAjaxFacade.searchCrf(62);
+    	Study study = StudyTestHelper.getSecondaryStudy();
+
+    	crfs = crfAjaxFacade.searchCrf(study.getId());
     	assertNotNull(crfs.get(0).getStudy());
     	assertNotNull(crfs.get(0).getEffectiveStartDate());
     	assertNotNull(crfs.get(0).getTitle());
@@ -83,7 +87,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
     	assertNotNull(crfs.get(1).getTitle());
     	assertNotNull(crfs.get(1).getId());
     	
-    	crfs = crfAjaxFacade.getReducedCrfs(62);
+    	crfs = crfAjaxFacade.getReducedCrfs(study.getId());
     	assertNull(crfs.get(0).getStudy());
     	assertNull(crfs.get(0).getEffectiveStartDate());
     	assertNotNull(crfs.get(0).getTitle());
