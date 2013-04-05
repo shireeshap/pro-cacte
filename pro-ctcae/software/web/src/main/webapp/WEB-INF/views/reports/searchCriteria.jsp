@@ -59,9 +59,9 @@
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
         function reportResults(group, arms) {
-            if (!performValidations()) {
+            /* if (!performValidations()) {
                 return;
-            }
+            } */
             showIndicator();
             var request = new Ajax.Request("${url}", {
                 parameters:getQueryString(group, arms),
@@ -218,7 +218,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none;margin-left:11px;">
-                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
+                        <div class="label"><tags:message code="reports.label.form"/></div>
                         <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
                     </div>
