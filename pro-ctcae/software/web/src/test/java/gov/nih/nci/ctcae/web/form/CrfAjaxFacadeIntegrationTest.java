@@ -6,12 +6,11 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-import org.springframework.beans.factory.annotation.Required;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * @author Mehul Gulati
@@ -21,6 +20,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
     private CrfAjaxFacade crfAjaxFacade;
     protected Map parameterMap;
+    private List<CRF> crfs;
 
     public void testSearchCRF() throws Exception {
         List<CRF> list = crfAjaxFacade.searchCrf(StudyTestHelper.getDefaultStudy().getId());
@@ -47,6 +47,52 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         System.out.println("testGetSymptomsForCrf_GetAttributesForSymptom complete..");
 
 
+    }
+    
+    public void testSearchCrfs(){
+    	crfs = new ArrayList<CRF>();
+    	crfs = crfAjaxFacade.searchCrfs(new String[]{}, 0, 25, "version", "asc", Long.valueOf(25));
+    	assertEquals(3, crfs.size());
+    	
+    	String searchByTitle = "PRO Form 1";
+    	crfs = crfAjaxFacade.searchCrfs(new String[]{searchByTitle}, 0, 25, "version", "asc", Long.valueOf(25));
+    	assertEquals( 1, crfs.size());
+    	assertEquals(searchByTitle, crfs.get(0).getTitle());
+    }
+    
+    public void testResultCount(){
+    	Long count;
+    	String searchByTitle = "PRO Form 1";
+    	
+    	count = crfAjaxFacade.resultCount(null);
+    	assertEquals(3, count.longValue());
+    	
+    	count = crfAjaxFacade.resultCount(new String[]{searchByTitle});
+    	assertEquals(1, count.longValue());
+    }
+    
+    public void testGetReducedCrfs() throws Exception{
+    	crfs = crfAjaxFacade.searchCrf(62);
+    	assertNotNull(crfs.get(0).getStudy());
+    	assertNotNull(crfs.get(0).getEffectiveStartDate());
+    	assertNotNull(crfs.get(0).getTitle());
+    	assertNotNull(crfs.get(0).getId());
+    	
+    	assertNotNull(crfs.get(1).getStudy());
+    	assertNotNull(crfs.get(1).getEffectiveStartDate());
+    	assertNotNull(crfs.get(1).getTitle());
+    	assertNotNull(crfs.get(1).getId());
+    	
+    	crfs = crfAjaxFacade.getReducedCrfs(62);
+    	assertNull(crfs.get(0).getStudy());
+    	assertNull(crfs.get(0).getEffectiveStartDate());
+    	assertNotNull(crfs.get(0).getTitle());
+    	assertNotNull(crfs.get(0).getId());
+    	
+    	assertNull(crfs.get(1).getStudy());
+    	assertNull(crfs.get(1).getEffectiveStartDate());
+    	assertNotNull(crfs.get(1).getTitle());
+    	assertNotNull(crfs.get(1).getId());
     }
     
     private List<ProCtcQuestion> getProCtcQuestionsForProCtcTerm(String proCtcTerm){
