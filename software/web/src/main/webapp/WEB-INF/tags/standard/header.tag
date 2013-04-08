@@ -82,9 +82,9 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <c:set var="url" value="/proctcae/images/quickstart_guide_v4.pdf"/>
+                                                <c:set var="url" value="/proctcae/images/quickstart_guide_v5.pdf"/>
                                                 <c:if test="${param.lang eq 'es'}">
-                                                    <c:set var="url" value="/proctcae/images/quickstart_guide_spanish_v1.pdf"/>
+                                                    <c:set var="url" value="/proctcae/images/quickstart_guide_spanish_v2.pdf"/>
                                                 </c:if>
                                                 <a onclick="openQuickGuideWindow('${url}');"
                                                    style="cursor:pointer;color:white;border:0px;background:none;">
