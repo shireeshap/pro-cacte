@@ -66,8 +66,10 @@ Event.observe(window, 'load', function() {
     }
 });
 
-function confirmSelection(){
-	alert("Schedule cycles will be deleted and re-created on changing this!");
+function confirmSelection(isCreateFlow){
+	if(isCreateFlow == false){
+		alert("Schedule cycles will be deleted and re-created on changing this!");	
+	}
 }
 
 function confirmDateselection(siteId){
@@ -787,7 +789,6 @@ function doPostProcessing() {
 					              </ul>
 	                           </div>                                         
                            </div>
-                                                          
                        </td>
                    </tr>
                </table>
@@ -821,10 +822,10 @@ function doPostProcessing() {
                     <c:forEach items="${command.participant.studyParticipantAssignments}"
                                var="studyParticipantAssignment" varStatus="spastatus">
                         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
-
+						
                         <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
                                         studyParticipantAssignment="${studyParticipantAssignment}"
-                                        participant="${command.participant}"/>
+                                        participant="${command.participant}" isCreateFlow="${isCreateFlow}"/>
                     </c:forEach>
 
                 </table>
