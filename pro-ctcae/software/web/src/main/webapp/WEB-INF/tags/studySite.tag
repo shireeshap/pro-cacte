@@ -2,6 +2,7 @@
 <%@ attribute name="participant" type="gov.nih.nci.ctcae.core.domain.Participant" %>
 <%@ attribute name="isEdit" %>
 <%@ attribute name="selected" %>
+<%@ attribute name="isCreateFlow"%>
 <%@ tag import="java.util.Date" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -145,7 +146,7 @@
                         <td width="50%" class="data" align="left">
                             &nbsp;&nbsp;
                             <select name="arm_${studysite.id}" title="arm"
-                                    id="arm_${studysite.id}" onchange="confirmSelection()">
+                                    id="arm_${studysite.id}" onchange="confirmSelection(${isCreateFlow})">
                                 <c:choose>
                                     <c:when test="${command.onDefaultArm}">
                                         <option value="${studyParticipantAssignment.arm.id}">Please select</option>
@@ -173,7 +174,7 @@
                                 <td width="50%" class="data" style="display:none">
                                     &nbsp;&nbsp;
                                     <select name="arm_${studysite.id}" title="arm"
-                                            id="arm_${studysite.id}" onchange="confirmSelection()">
+                                            id="arm_${studysite.id}" onchange="confirmSelection(${isCreateFlow})">
                                         <option value="${studyParticipantAssignment.arm.id}" selected>Please select
                                         </option>
                                         <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
