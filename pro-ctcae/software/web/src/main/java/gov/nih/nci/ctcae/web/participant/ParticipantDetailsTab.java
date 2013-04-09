@@ -331,7 +331,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         query.filterByStudySiteAndLeadSiteOnly();
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
-
         Set<Organization> organizationsHavingStudySite = new HashSet<Organization>();
         for (StudyOrganization studySite : studySites) {
             Organization o = studySite.getOrganization();
@@ -376,6 +375,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         referenceData.put("showTime", showTime);
         referenceData.put("showWeb", showWeb);
         referenceData.put("showBook", showBook);
+        referenceData.put("isCreateFlow", !command.getParticipant().isPersisted());
         return referenceData;
     }
 
