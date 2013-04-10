@@ -49,17 +49,20 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		// Save the start dates of the submitted surveys listed in 'list'
 		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>(new CrfNameComparator());
 		// Save the survey_answering_mode of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>>(new CrfNameComparator());
+		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>(new CrfNameComparator());
+		// Save the survey status of the submitted surveys listed in 'list'
+		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>(new CrfNameComparator());
 
 		int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
 		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = 
-			getCareResults(crfDateMap, crfModeMap, list, meddraQuestionMapping, meddraTermHeaders, col);
+			getCareResults(crfDateMap, crfModeMap, crfStatusMap, list, meddraQuestionMapping, meddraTermHeaders, col);
 
 		modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 	  //modelAndView.addObject("table", getHtmlTable(results, datesMap));
 		request.getSession().setAttribute("sessionResultsMap", overAllResults);
 		request.getSession().setAttribute("sessionCRFDatesMap", crfDateMap);
 		request.getSession().setAttribute("sessionCRFModeMap", crfModeMap);
+		request.getSession().setAttribute("sessionCRFStatusMap", crfStatusMap);
 		request.getSession().setAttribute("sessionProCtcQuestionMapping", proCtcQuestionMapping);
 		request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
 		request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
@@ -84,14 +87,18 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			}
 			for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
 				typeMap.put(proCtcQuestion.getProCtcQuestionType(), String.valueOf(col++));
-				proCtcTermHeaders.add(proCtcTerm.getProCtcTermVocab().getTermEnglish()+ "_"	+ proCtcQuestion.getProCtcQuestionType());
+				String proCtcTermEnglishTermText = proCtcTerm.getProCtcTermVocab().getTermEnglish();
+				if(proCtcTermEnglishTermText.length() > 28)
+					proCtcTermEnglishTermText = proCtcTermEnglishTermText.substring(0, 28);
+				proCtcTermHeaders.add(proCtcQuestion.getProCtcQuestionType().toString().substring(0,3)+ "_"+ proCtcTermEnglishTermText);
 			}
 		}
 		return col;
 	}
 
 	private TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> getCareResults(
-			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap, TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap,
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap, TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap,
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap,
 			List<StudyParticipantCrfSchedule> schedules, TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, 
 			ArrayList<String> meddraTermHeaders, int col) throws ParseException {
 
@@ -101,11 +108,11 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap;
 		TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap;
 		ArrayList<Date> dates;
-		ArrayList<AppMode> appModes;
+		ArrayList<String> appModes;
+		ArrayList<CrfStatus> statusList;
 		boolean participantAddedQuestion;
 		for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
 			Organization organization = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getOrganization();
-
 			if (organizationMap.containsKey(organization)) {
 				crfMap = organizationMap.get(organization);
 			} else {
@@ -120,7 +127,9 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>(new ParticipantNameComparator());
 				crfMap.put(crf, participantMap);
 			}
+			
 			Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
+			initialzeParticipant(participant);
 			if (participantMap.containsKey(participant)) {
 				symptomMap = participantMap.get(participant);
 			} else {
@@ -129,7 +138,8 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			}
 
 			LinkedHashMap<Participant, ArrayList<Date>> datesMap;
-			LinkedHashMap<Participant, ArrayList<AppMode>> modeMap;
+			LinkedHashMap<Participant,ArrayList<String>> modeMap;
+			LinkedHashMap<Participant,ArrayList<CrfStatus>> statusMap;
 			if (crfDateMap.containsKey(crf)) {
 				datesMap = crfDateMap.get(crf);
 			} else {
@@ -140,8 +150,15 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if (crfModeMap.containsKey(crf)) {
 				modeMap = crfModeMap.get(crf);
 			} else {
-				modeMap = new LinkedHashMap<Participant, ArrayList<AppMode>>();
+				modeMap = new LinkedHashMap<Participant, ArrayList<String>>();
 				crfModeMap.put(crf, modeMap);
+			}
+			
+			if(crfStatusMap.containsKey(crf)){
+				statusMap = crfStatusMap.get(crf);
+			} else {
+				statusMap = new LinkedHashMap<Participant, ArrayList<CrfStatus>>();
+				crfStatusMap.put(crf, statusMap);
 			}
 
 			if (datesMap.containsKey(participant)) {
@@ -154,15 +171,35 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if (modeMap.containsKey(participant)) {
 				appModes = modeMap.get(participant);
 			} else {
-				appModes = new ArrayList<AppMode>();
+				appModes = new ArrayList<String>();
 				modeMap.put(participant, appModes);
+			}
+			
+			if(statusMap.containsKey(participant)){
+				statusList = statusMap.get(participant);
+			} else {
+				statusList = new ArrayList<CrfStatus>();
+				statusMap.put(participant, statusList);
 			}
 
 			dates.add(studyParticipantCrfSchedule.getStartDate());
+			statusList.add(studyParticipantCrfSchedule.getStatus());
 			AppMode appModeForSurvery;
+			ArrayList<AppMode> tempModesList = new ArrayList<AppMode>();
+			String allUsedModes = "";
 			if (studyParticipantCrfSchedule.getStudyParticipantCrfItems().size() > 0) {
-				if (studyParticipantCrfSchedule.getStudyParticipantCrfItems().get(0).getResponseMode() != null) {
-					appModes.add(studyParticipantCrfSchedule.getStudyParticipantCrfItems().get(0).getResponseMode());
+				for(StudyParticipantCrfItem crfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
+					if (crfItem.getResponseMode() != null) {
+						if(!tempModesList.contains(crfItem.getResponseMode())){
+							tempModesList.add(crfItem.getResponseMode());
+						}
+					}
+				}
+				if (tempModesList.size() != 0) {
+					for(AppMode m : tempModesList){
+						allUsedModes += "," + m.toString();
+					}
+					appModes.add(allUsedModes.substring(1));
 				} else {
 					appModes.add(null);
 				}
@@ -182,7 +219,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
 				value = studyParticipantCrfItem.getProCtcValidValue();
 				participantAddedQuestion = false;
-				buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion);
+				buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus());
 			}
 			for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
 				Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
@@ -203,119 +240,57 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 					}
 					
 					if(!typeMap.containsKey(meddraQuestion.getProCtcQuestionType())){
-						typeMap.put(meddraQuestion.getProCtcQuestionType(), 	String.valueOf(col++));
-						meddraTermHeaders.add(llt.getLowLevelTermVocab().getMeddraTermEnglish()+ "_"+ meddraQuestion.getProCtcQuestionType());
+						typeMap.put(meddraQuestion.getProCtcQuestionType(), String.valueOf(col++));
+						String ctcTermEnglishTermText = llt.getLowLevelTermVocab().getMeddraTermEnglish();
+						if(ctcTermEnglishTermText.length() > 28)
+							ctcTermEnglishTermText = ctcTermEnglishTermText.substring(0, 28);
+						meddraTermHeaders.add(meddraQuestion.getProCtcQuestionType().toString().substring(0,2) + "_"+ ctcTermEnglishTermText);
 					}
 				}
 
 				value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
 				String symptom = question.getQuestionSymptom();
 				participantAddedQuestion = true;
-				buildMap(question, symptom, validValue, symptomMap, null, datesMap.get(participant).size() - 1, participantAddedQuestion);
+				buildMap(question, symptom, validValue, symptomMap, null, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus());
 			}
 		}
 
 		return organizationMap;
 	}
 
-	public TreeMap<Organization, TreeMap<Participant, String>> getHtmlTable(
-			TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> results, LinkedHashMap<Participant, ArrayList<Date>> datesMap) {
-		TreeMap<Organization, TreeMap<Participant, String>> organizationTableMap = new TreeMap<Organization, TreeMap<Participant, String>>(new OrganizationNameComparator());
-
-		for (Organization organization : results.keySet()) {
-			TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap = results.get(organization);
-			TreeMap<Participant, String> tableMap = new TreeMap<Participant, String>(new ParticipantNameComparator());
-			organizationTableMap.put(organization, tableMap);
-			for (Participant participant : participantMap.keySet()) {
-				StringBuilder table = new StringBuilder();
-				table.append("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
-				ArrayList valuesLists = new ArrayList();
-
-				int numOfColumns = 1;
-				TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap = participantMap.get(participant);
-				for (String proCtcTerm : symptomMap.keySet()) {
-					LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-					numOfColumns = numOfColumns + questionMap.keySet().size();
-					for (Question proCtcQuestion : questionMap.keySet()) {
-						ArrayList<ValidValue> valuesList = questionMap.get(proCtcQuestion);
-						valuesLists.add(valuesList);
-					}
-				}
-
-				startRow(table);
-				addColumn(table, "", 1, "");
-				for (String proCtcTerm : symptomMap.keySet()) {
-					LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-					addColumn(table, proCtcTerm, questionMap.keySet().size(),"header-top");
-				}
-				endRow(table);
-				startRow(table);
-				addColumn(table, "", 1, "");
-				for (String proCtcTerm : symptomMap.keySet()) {
-					LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-					for (Question question : questionMap.keySet()) {
-						ProCtcQuestion proQuestion = new ProCtcQuestion();
-						MeddraQuestion meddraQuestion = new MeddraQuestion();
-						if (question instanceof ProCtcQuestion) {
-							proQuestion = (ProCtcQuestion) question;
-							addColumn(table, proQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
-						}
-						boolean isMeddraQuestion = false;
-						if (question instanceof MeddraQuestion) {
-							isMeddraQuestion = true;
-							meddraQuestion = (MeddraQuestion) question;
-							addColumn(table, meddraQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
-						}
-
-					}
-				}
-				endRow(table);
-				ArrayList<Date> dates = null;
-				for (Participant participantT : datesMap.keySet()) {
-					if (participant.equals(participantT)) {
-						dates = datesMap.get(participant);
-						break;
-					}
-				}
-
-				int index = 0;
-				ArrayList<ValidValue> valueList;
-				if (dates != null) {
-					for (Date date : dates) {
-						startRow(table);
-						addColumn(table, DateUtils.format(date), 1, "");
-						for (Object obj : valuesLists) {
-							valueList = (ArrayList<ValidValue>) obj;
-							if (valueList.size() > index && valueList.get(index) != null) {
-								addColumn(
-										table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
-							} else {
-								addColumn(table, "", 1, "data");
-							}
-						}
-						index++;
-						endRow(table);
-					}
-				}
-
-				table.append("</table>");
-				tableMap.put(participant, table.toString());
-			}
-		}
-		return organizationTableMap;
-	}
-
+	private void initialzeParticipant(Participant participant) {
+	        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+	            StudyOrganization studyOrganization = studyParticipantAssignment.getStudySite();
+	            studyOrganization.getStudy();
+	            studyOrganization.getOrganization();
+	            studyParticipantAssignment.getParticipant();
+	            studyParticipantAssignment.getStudyParticipantCrfs();
+	            studyParticipantAssignment.getStudyParticipantClinicalStaffs();
+	            for (StudyParticipantMode studyParticipantMode : studyParticipantAssignment.getStudyParticipantModes()) {
+	                studyParticipantMode.getMode();
+	            }
+	            for (StudyMode studyMode : studyParticipantAssignment.getStudySite().getStudy().getStudyModes()) {
+	                studyMode.getMode();
+	            }
+	            for (StudyParticipantReportingModeHistory studyParticipantReportingModeHistory : studyParticipantAssignment.getStudyParticipantReportingModeHistoryItems()) {
+	                studyParticipantReportingModeHistory.getMode();
+	            }
+	        }
+	    }
+	   
 	private void buildMap(Question question, String symptom, ValidValue value, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap,
-			StudyParticipantCrfItem firstQuestion, Integer dateIndex, boolean participantAddedQuestion) {
+			StudyParticipantCrfItem firstQuestion, Integer dateIndex, boolean participantAddedQuestion, CrfStatus crfStatus) {
 		
 		LinkedHashMap<Question, ArrayList<ValidValue>> careResults;
 		ProCtcQuestion proQuestion = new ProCtcQuestion();
+		MeddraQuestion meddraQuestion = new MeddraQuestion();
 		if (question instanceof ProCtcQuestion) {
 			proQuestion = (ProCtcQuestion) question;
 		}
 		boolean isMeddraQuestion = false;
 		if (question instanceof MeddraQuestion) {
 			isMeddraQuestion = true;
+			meddraQuestion = (MeddraQuestion) question;
 		}
 		ArrayList<ValidValue> validValue;
 		if (symptomMap.containsKey(symptom)) {
@@ -331,29 +306,130 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			validValue = new ArrayList<ValidValue>();
 			for (int j = 0; j <= dateIndex; j++) {
 				if (validValue.size() < j) {
-					validValue.add(null);
+					if(isMeddraQuestion){
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						validValue.add(meddraValidValue);
+					}else{
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						validValue.add(proCtcValidValue);
+					}
 				}
 			}
 			careResults.put(question, validValue);
 		}
-		if (value == null && !isMeddraQuestion) {
-			ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, firstQuestion);
-			myProCtcValidValue.setDisplayOrder(0);
+		
+		/* survey status=SCHEDULED indicates survey not yet started (i.e for the current survey there are no responses captured yet)
+		 * 1. Fill in the previous empty validvalues if any, for the current question as NotAsked (-2000)
+		 * 2. Set the current response as FORCEDSKIP (-99)
+		 */
+		if(crfStatus.equals(CrfStatus.SCHEDULED)){
 			if (dateIndex > validValue.size()) {
 				for (int j = validValue.size(); j < dateIndex; j++) {
-					validValue.add(null);
+					if(isMeddraQuestion){
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						validValue.add(meddraValidValue);
+					}else{
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						validValue.add(proCtcValidValue);
+					}
 				}
 			}
-			validValue.add(dateIndex, myProCtcValidValue);
-		} else {
+			if(isMeddraQuestion){
+				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.FORCEDSKIP.getDisplayName(), null, -99);
+				validValue.add(dateIndex, meddraValidValue);
+			}else{
+				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.FORCEDSKIP.getDisplayName(), -99, null);
+				validValue.add(dateIndex, proCtcValidValue);
+			}
+			
+		} 
+		/* survey status=INPROGRESS or PASTDUE indicates a survey that can have a mix of captured validValues (participant responded with a validValue) and not answered empty validValues
+		 * Hence for the questions for which responses are not captured do the following:
+		 * 1. Fill in the previous empty validValues if any, for the current question as NotAsked (-2000)
+		 * 2. Set the current response as FORCEDSKIP (-99)
+		*/ 
+		else if(value == null && (crfStatus.equals(CrfStatus.INPROGRESS) || crfStatus.equals(CrfStatus.PASTDUE)) || crfStatus.equals(CrfStatus.ONHOLD)){
 			if (dateIndex > validValue.size()) {
 				for (int j = validValue.size(); j < dateIndex; j++) {
-					validValue.add(null);
+					if(isMeddraQuestion){
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						validValue.add(meddraValidValue);
+					}else{
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						validValue.add(proCtcValidValue);
+					}
 				}
 			}
-			validValue.add(dateIndex, value);
+			if(isMeddraQuestion){
+				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.FORCEDSKIP.getDisplayName(), null, -99);
+				validValue.add(dateIndex, meddraValidValue);
+			}else{
+				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.FORCEDSKIP.getDisplayName(), -99, null);
+				validValue.add(dateIndex, proCtcValidValue);
+			}
 		}
-
+		/* survey status=COMPLETED or INPROGRESS or PASTDUE indicates a survey that can have a mix of captured validValues (participant responded with a validValue) and not answered empty validValues
+		 * Hence, for the questions for which responses are captured and survey status is COMPLETED or INPROGRESS or PASTDUE do the following:
+		 * 		1. Fill in the previous empty validValues if any, for the current question as NotAsked (-2000)
+		 * 		2. Set the current response value with participant responded ValidValue
+		 * The questions for which responses are not captured, necessarily correspond to the survey which is COMPLETED and it may be a participantAdded meddra or proCtc question
+		 *  	1. Fill in the previous empty validValues if any, for the current question as NotAsked (-2000)
+		 *  	2. Set the current response as FORCEDSKIP (-99) or MANUALSKIP (-55) (based on the logic to handle conditional question)
+		 */
+		
+		else {
+			if (value == null && !isMeddraQuestion) {
+				ProCtcValidValue myProCtcValidValue = ReportResultsHelper.getValidValueResponseCode(proQuestion, firstQuestion);
+				myProCtcValidValue.setDisplayOrder(0);
+				if (dateIndex > validValue.size()) {
+					for (int j = validValue.size(); j < dateIndex; j++) {
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						validValue.add(proCtcValidValue);
+					}
+				}
+				validValue.add(dateIndex, myProCtcValidValue);
+			} else if(value == null && isMeddraQuestion){
+				MeddraValidValue meddraValidValue;
+				if (dateIndex > validValue.size()) {
+					for (int j = validValue.size(); j < dateIndex; j++) {
+						MeddraValidValue mValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						validValue.add(mValidValue);
+					}
+				}
+				meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.MANUALSKIP.getDisplayName(), null, -55);
+				validValue.add(dateIndex, meddraValidValue);
+			} else {
+				if (dateIndex > validValue.size()) {
+					for (int j = validValue.size(); j < dateIndex; j++) {
+						if(isMeddraQuestion){
+							MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+							validValue.add(meddraValidValue);
+						}else{
+							ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+							validValue.add(proCtcValidValue);
+						}
+					}
+				}
+				validValue.add(dateIndex, value);
+			}
+		}
+	}
+	
+	private ValidValue getAppropriateValidValue(boolean isMeddraQuestion, String value, Integer responseCode, Integer displayOrder){
+		ProCtcValidValue proCtcValidValue = null;
+		MeddraValidValue meddraValidValue = null;
+		
+		if(isMeddraQuestion){
+			meddraValidValue = new MeddraValidValue();
+			meddraValidValue.setValue(value);
+			meddraValidValue.setDisplayOrder(displayOrder);
+			return meddraValidValue;
+		} else {
+			proCtcValidValue = new ProCtcValidValue();
+			proCtcValidValue.setValue(value);
+			proCtcValidValue.setResponseCode(responseCode);
+			return proCtcValidValue;
+		}
 	}
 
 	private StudyParticipantCrfScheduleQuery parseRequestParametersAndFormQuery(
@@ -362,7 +438,15 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
 		Integer studyId = Integer.parseInt(request.getParameter("study"));
 		query.filterByStudy(studyId);
-		query.filterByStatus(CrfStatus.COMPLETED);
+
+		List<CrfStatus> crfStatusList = new ArrayList<CrfStatus>();
+		crfStatusList.add(CrfStatus.COMPLETED);
+		crfStatusList.add(CrfStatus.INPROGRESS);
+		crfStatusList.add(CrfStatus.SCHEDULED);
+		crfStatusList.add(CrfStatus.PASTDUE);
+		crfStatusList.add(CrfStatus.ONHOLD);
+		query.filterByStatuses(crfStatusList);
+		
 		request.getSession().setAttribute("study",
 				genericRepository.findById(Study.class, studyId));
 		return query;

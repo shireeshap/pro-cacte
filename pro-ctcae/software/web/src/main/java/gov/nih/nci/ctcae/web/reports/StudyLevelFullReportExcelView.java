@@ -38,7 +38,8 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
     	
 		TreeMap<Organization, TreeMap<CRF,TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> results = (TreeMap<Organization, TreeMap<CRF,TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>) request.getSession().getAttribute("sessionResultsMap");
     	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
-    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>> crfModeMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<AppMode>>>) request.getSession().getAttribute("sessionCRFModeMap");
+    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>) request.getSession().getAttribute("sessionCRFModeMap");
+    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>) request.getSession().getAttribute("sessionCRFStatusMap");
     	TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = (TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionProCtcQuestionMapping");
         TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = (TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionMeddraQuestionMapping");
         ArrayList<String> proCtcTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionProCtcTermHeaders");
@@ -97,9 +98,11 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
 	                    short questionCellNum = 0;
 	
 	                    LinkedHashMap<Participant, ArrayList<Date>> datesMap = crfDateMap.get(crf); 
-	                    LinkedHashMap<Participant, ArrayList<AppMode>> modesMap = crfModeMap.get(crf);
+	                    LinkedHashMap<Participant, ArrayList<String>> modesMap = crfModeMap.get(crf);
+	                    LinkedHashMap<Participant, ArrayList<CrfStatus>> statusMap = crfStatusMap.get(crf);
 	                    ArrayList<Date> dates = null;
-	                    ArrayList<AppMode> appModes = null;
+	                    ArrayList<String> appModes = null;
+	                    ArrayList<CrfStatus> statusList = null;
 	                    
 	                    for (Participant participantD : datesMap.keySet()) {
 	                        if (participant.equals(participantD)) {
@@ -113,27 +116,37 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
 	                    		break;
 	                    	}
 	                    }
+	                    for(Participant participantS : statusMap.keySet()){
+	                    	if(participant.equals(participantS)){
+	                    		statusList = statusMap.get(participant);
+	                    		break;
+	                    	}
+	                    }
 	                    AppMode appModeForSurvery;
 	                    if (dates != null && appModes!= null) {
 	                    	int index = 0;
 	                        for (Date date : dates) {
 	                            row = hssfSheet.createRow(rownum++);
+	                            markDefaultNotAdministered(row, (proCtcTermHeaders.size() + meddraTermHeaders.size()), centerStyle);
 	                            cell = row.createCell((short) 4);
 	                            cell.setCellStyle(centerStyle);
 	                            cell.setCellValue(new HSSFRichTextString(DateUtils.format(date)));
 	                            cell = row.createCell((short) 5);
 	                            cell.setCellStyle(centerStyle);
 	                            if(appModes.get(index) != null){
-	                            	cell.setCellValue(new HSSFRichTextString(appModes.get(index).getDisplayName()));
+	                            	cell.setCellValue(new HSSFRichTextString(appModes.get(index)));
 	                            } else {
 	                            	cell.setCellValue(new HSSFRichTextString(BLANK));
 	                            }
+	                            cell = row.createCell((short) 6);
+	                            cell.setCellStyle(centerStyle);
+	                            cell.setCellValue(new HSSFRichTextString(statusList.get(index).getDisplayName()));
 	                            index++;
 	                        }
 	                    }
 	
-	                    short cellNum = 6;
-	                    short posNotFound = 170;
+	                    short cellNum = 7;
+	                    short posNotFound = (short)(proCtcTermHeaders.size() + meddraTermHeaders.size() + 8);
 	                    for (String proCtcTerm : symptomMap.keySet()) {
 	                        LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
 	                        for (Question proCtcQuestion : questionMap.keySet()) {
@@ -147,11 +160,13 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
 	                                
 	                                createCurrentRowPrefix(row, participant.getStudyParticipantIdentifier(), study.getShortTitle(), organization.getDisplayName(), crf.getTitle(), centerStyle);
 	                                String pos;
+	                                int tempPos;
 	                                if (validValue instanceof ProCtcValidValue) {
 	                                    proCtcValidValue = (ProCtcValidValue) validValue;
-	                                     pos = getCellNumberForProCtcValidValue(proCtcQuestionMapping, proCtcValidValue);
+	                                     pos = getCellNumberForProCtcValidValue(proCtcQuestionMapping, (ProCtcQuestion) proCtcQuestion);
+	                                     tempPos = Integer.valueOf(pos) + 7;
 	                                     if(!pos.equals(DEFAULT_POSITION)){
-	                                    	 cellNum = Short.valueOf(pos);
+	                                    	 cellNum = (short) tempPos;
 	                                     } else {
 	                                    	 cellNum = posNotFound++;
 	                                     }
@@ -161,9 +176,10 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
 	                                }
 	                                if (validValue instanceof MeddraValidValue) {
 	                                    meddraValidValue = (MeddraValidValue) validValue;
-	                                    pos = getCellNumberForMeddraValidValue(meddraQuestionMapping, meddraValidValue);
+	                                    pos = getCellNumberForMeddraValidValue(meddraQuestionMapping, (MeddraQuestion) proCtcQuestion);
+	                                    tempPos = Integer.valueOf(pos) + 7;
 	                                     if(!pos.equals(DEFAULT_POSITION)){
-	                                    	 cellNum = Short.valueOf(pos);
+	                                    	 cellNum = (short) tempPos;
 	                                     } else {
 	                                    	 cellNum = posNotFound++;
 	                                     }
@@ -195,21 +211,21 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         }
     }
     
-    private String getCellNumberForProCtcValidValue(TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping, ProCtcValidValue proCtcValidValue){
-    	TreeMap<ProCtcQuestionType, String> typeMap = proCtcQuestionMapping.get(proCtcValidValue.getProCtcQuestion().getProCtcTerm());
+    private String getCellNumberForProCtcValidValue(TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping, ProCtcQuestion proCtcQuestion){
+    	TreeMap<ProCtcQuestionType, String> typeMap = proCtcQuestionMapping.get(proCtcQuestion.getProCtcTerm());
     	if(typeMap != null){
-    		if(typeMap.get(proCtcValidValue.getProCtcQuestion().getProCtcQuestionType()) != null){
-    			return typeMap.get(proCtcValidValue.getProCtcQuestion().getProCtcQuestionType());
+    		if(typeMap.get(proCtcQuestion.getProCtcQuestionType()) != null){
+    			return typeMap.get(proCtcQuestion.getProCtcQuestionType());
     		}
     	}
     	return DEFAULT_POSITION;
     }
     
-    private String getCellNumberForMeddraValidValue(TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, MeddraValidValue meddraValidValue){
-    	TreeMap<ProCtcQuestionType, String> typeMap = meddraQuestionMapping.get(meddraValidValue.getMeddraQuestion().getLowLevelTerm());
+    private String getCellNumberForMeddraValidValue(TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, MeddraQuestion meddraQuestion){
+    	TreeMap<ProCtcQuestionType, String> typeMap = meddraQuestionMapping.get(meddraQuestion.getLowLevelTerm());
     	if(typeMap != null){
-    		if(typeMap.get(meddraValidValue.getMeddraQuestion().getProCtcQuestionType()) != null){
-    			return typeMap.get(meddraValidValue.getMeddraQuestion().getProCtcQuestionType());
+    		if(typeMap.get(meddraQuestion.getProCtcQuestionType()) != null){
+    			return typeMap.get(meddraQuestion.getProCtcQuestionType());
     		}
     	}
     	return DEFAULT_POSITION;
@@ -234,7 +250,13 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
          headerCell = headerRow.createCell((short) 4);
          headerCell.setCellValue(new HSSFRichTextString("Survey start date"));
          headerCell.setCellStyle(greyStyle);
-         short col = 5;
+         headerCell = headerRow.createCell((short) 5);
+         headerCell.setCellValue(new HSSFRichTextString("Mode"));
+         headerCell.setCellStyle(greyStyle);
+         headerCell = headerRow.createCell((short) 6);
+         headerCell.setCellValue(new HSSFRichTextString("Status"));
+         headerCell.setCellStyle(greyStyle);
+         short col = 7;
          for(int i = 0; i<proCtcTermHeaders.size(); i++){
         	 headerCell = headerRow.createCell(col++);
              headerCell.setCellValue(new HSSFRichTextString(proCtcTermHeaders.get(i)));
@@ -268,6 +290,18 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellStyle(centerStyle);
         cell.setCellValue(formName);
     }
+    
+    private void markDefaultNotAdministered(HSSFRow row, int length, HSSFCellStyle centerStyle){
+    	String col;
+    	HSSFCell cell;
+    	
+    	for (int i = 7; i<length + 7; i++){
+    		col = String.valueOf(i);
+    		cell = row.createCell(Short.valueOf(col));
+    		cell.setCellStyle(centerStyle);
+    		cell.setCellValue(-2000);
+    	}
+    }
 
     private short buildLegend(HSSFSheet hssfSheet, short rownum, HSSFCellStyle aquaStyle) {
     	HSSFRow row;
@@ -300,7 +334,10 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(-66);
-
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(-2000);
+        
         row = hssfSheet.createRow(rownum++);
 
         cell = row.createCell((short) (0));
@@ -311,7 +348,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.FREQUENCY.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Forced skip"));
+        cell.setCellValue(new HSSFRichTextString("Not answered"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Manual skip"));
@@ -331,6 +368,10 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not asked"));
+        
 
         row = hssfSheet.createRow(rownum++);
 
@@ -342,7 +383,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.SEVERITY.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Forced skip"));
+        cell.setCellValue(new HSSFRichTextString("Not answered"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Manual skip"));
@@ -362,6 +403,9 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not asked"));
 
         row = hssfSheet.createRow(rownum++);
 
@@ -373,7 +417,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.INTERFERENCE.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Forced skip"));
+        cell.setCellValue(new HSSFRichTextString("Not answered"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Manual skip"));
@@ -393,6 +437,9 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not asked"));
 
 
         row = hssfSheet.createRow(rownum++);
@@ -405,7 +452,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.PRESENT.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Forced skip"));
+        cell.setCellValue(new HSSFRichTextString("Not answered"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Manual skip"));
@@ -433,6 +480,9 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not asked"));
 
         row = hssfSheet.createRow(rownum++);
 
@@ -444,7 +494,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(ProCtcQuestionType.AMOUNT.getDisplayName()));
         cell = row.createCell((short) (2));
         cell.setCellStyle(aquaStyle);
-        cell.setCellValue(new HSSFRichTextString("Forced skip"));
+        cell.setCellValue(new HSSFRichTextString("Not answered"));
         cell = row.createCell((short) (3));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Manual skip"));
@@ -464,6 +514,9 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) (11));
         cell.setCellStyle(aquaStyle);
         cell.setCellValue(new HSSFRichTextString("Not sexually active"));
+        cell = row.createCell((short) (12));
+        cell.setCellStyle(aquaStyle);
+        cell.setCellValue(new HSSFRichTextString("Not asked"));
 		
         return rownum;
 	}
