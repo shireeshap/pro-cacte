@@ -11,7 +11,8 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 public enum ResponseCode implements CodedEnum<String> {
 
     FORCEDSKIP("-99"),
-    MANUALSKIP("-55");
+    MANUALSKIP("-55"),
+    NotAsked("-2000");
 
     private final String displayText;
 
