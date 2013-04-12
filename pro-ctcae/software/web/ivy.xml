@@ -144,6 +144,9 @@
 		
 		<dependency org="net.sf.json-lib" name="json-lib-ext-spring" rev="1.0.2" />
         <dependency org="javax.servlet.jsp" name="jsp-api" rev="2.0" conf="build->default(*)"/>
+        
+        <!-- OpenCsv dependencies -->
+        <dependency org="net.sf.opencsv" name="opencsv" rev="2.0"/>
 		 
     </dependencies>
 </ivy-module>
