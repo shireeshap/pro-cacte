@@ -14,7 +14,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
  */
 public class StudyLevelFullReportExcelController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        StudyLevelFullReportExcelView view = new StudyLevelFullReportExcelView();
+        //StudyLevelFullReportExcelView view = new StudyLevelFullReportExcelView();
+    	StudyLevelFullReportCsvView view = new StudyLevelFullReportCsvView();
         return new ModelAndView(view);
     }
 }

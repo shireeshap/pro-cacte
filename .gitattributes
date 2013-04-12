@@ -2892,6 +2892,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantRe
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ProCtcTermNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportSearchCriteriaController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportCsvView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportExcelController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportExcelView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportResultsController.java -text
