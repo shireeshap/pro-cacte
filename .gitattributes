@@ -3829,6 +3829,7 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStu
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/ShowParticipantScheduleControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/EnrollmentReportResultsControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/ExtendedStackedBarRenderer.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/GraphicalReportTestHelper.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelGraphicalReportTest.java -text
