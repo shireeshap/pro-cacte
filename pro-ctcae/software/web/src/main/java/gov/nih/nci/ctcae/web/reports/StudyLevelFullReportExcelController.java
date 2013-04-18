@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +15,11 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * Time: 1:13:34 PM
  */
 public class StudyLevelFullReportExcelController extends AbstractController {
+	
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        //StudyLevelFullReportExcelView view = new StudyLevelFullReportExcelView();
-    	StudyLevelFullReportCsvView view = new StudyLevelFullReportCsvView();
+        Map model = null;
+        StudyLevelFullReportCsvView view = new StudyLevelFullReportCsvView();
         return new ModelAndView(view);
     }
+    
 }

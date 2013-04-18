@@ -28,11 +28,20 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class StudyLevelFullReportResultsController extends AbstractController {
 
 	GenericRepository genericRepository;
+	private static Integer MARK_MANUAL_SKIP = -55;
+	private static Integer MARK_FORCE_SKIP =-99;
+	private static Integer MARK_NOT_ADMINISTERED = -2000;
+	private static String FREQUENCY = "FREQ";
+	private static String INTERFERENCE = "INT";
+	private static String SEVERITY = "SEV";
+	private static String PRESENT =	"PRES";
+	private static String AMOUNT =	"AMT";
+	private static String GENDER_BOTH = "both";
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
 		ModelAndView modelAndView = new ModelAndView("reports/fullStudyReport");
-
+		
 		// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 		StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
 		List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
@@ -43,22 +52,23 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>(new lowLevelTermNameComparator());
 		// ProCtcQuestion List to be displayed in Report's table header (ordered according to proCtcQuestionMapping)
 		ArrayList<String> proCtcTermHeaders = new ArrayList<String>();
+		
 		// MeddraQuestion List to be displayed in Report's table header (ordered according to meddraQuestionMapping)
 		ArrayList<String> meddraTermHeaders = new ArrayList<String>();
-
 		// Save the start dates of the submitted surveys listed in 'list'
 		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>(new CrfNameComparator());
 		// Save the survey_answering_mode of the submitted surveys listed in 'list'
 		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>(new CrfNameComparator());
 		// Save the survey status of the submitted surveys listed in 'list'
 		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>(new CrfNameComparator());
-
+	  
 		int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
+		generateMeddraQuestionMappingForTableHeader(list, meddraQuestionMapping, meddraTermHeaders, col);
+		
 		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = 
 			getCareResults(crfDateMap, crfModeMap, crfStatusMap, list, meddraQuestionMapping, meddraTermHeaders, col);
 
 		modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
-	  //modelAndView.addObject("table", getHtmlTable(results, datesMap));
 		request.getSession().setAttribute("sessionResultsMap", overAllResults);
 		request.getSession().setAttribute("sessionCRFDatesMap", crfDateMap);
 		request.getSession().setAttribute("sessionCRFModeMap", crfModeMap);
@@ -67,14 +77,69 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
 		request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
 		request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
-
+		
+		
+		 
 		return modelAndView;
+	}
+	
+private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCrfSchedule> list, TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, ArrayList<String> meddraTermHeaders, int col){
+		
+		for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : list) {
+			for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+				if(studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null){
+					LowLevelTerm llt = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm();
+					MeddraQuestion meddraQuestion = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion();
+					TreeMap<ProCtcQuestionType, String> typeMap;
+					if (meddraQuestionMapping.containsKey(llt)) {
+						typeMap = meddraQuestionMapping.get(llt);
+					} else {
+						typeMap = new TreeMap<ProCtcQuestionType, String>();
+						meddraQuestionMapping.put(llt, typeMap);
+					}
+					
+					String prefix = "";
+					if(!typeMap.containsKey(meddraQuestion.getProCtcQuestionType())){
+						typeMap.put(meddraQuestion.getProCtcQuestionType(), String.valueOf(col++));
+						switch (meddraQuestion.getProCtcQuestionType()) {
+							case FREQUENCY:
+								prefix = FREQUENCY;					
+								break;
+								
+							case SEVERITY:
+								prefix = SEVERITY;					
+								break;
+								
+							case INTERFERENCE:
+								prefix = INTERFERENCE;					
+								break;
+								
+							case PRESENT:
+								prefix = PRESENT;					
+								break;
+							case AMOUNT:
+								prefix = AMOUNT;					
+								break;
+						}
+						String ctcTermEnglishTermText = prefix +"_"+ llt.getLowLevelTermVocab().getMeddraTermEnglish();
+						if(ctcTermEnglishTermText.length() > 32)
+							ctcTermEnglishTermText = ctcTermEnglishTermText.substring(0, 32);
+							
+							meddraTermHeaders.add(ctcTermEnglishTermText);
+					}
+				}
+			
+			}
+		}
+		
 	}
 
 	private int generateQuestionMappingForTableHeader(TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping,
 			 		ArrayList<String> proCtcTermHeaders) {
 		
 		int col = 0;
+		String prefix = "";
+		String proCtcTermEnglishTermText;
 		TreeMap<ProCtcQuestionType, String> typeMap;
 		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
 		List<ProCtcTerm> proCtcTerms = genericRepository.find(proCtcTermQuery);
@@ -87,10 +152,31 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			}
 			for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
 				typeMap.put(proCtcQuestion.getProCtcQuestionType(), String.valueOf(col++));
-				String proCtcTermEnglishTermText = proCtcTerm.getProCtcTermVocab().getTermEnglish();
-				if(proCtcTermEnglishTermText.length() > 28)
-					proCtcTermEnglishTermText = proCtcTermEnglishTermText.substring(0, 28);
-				proCtcTermHeaders.add(proCtcQuestion.getProCtcQuestionType().toString().substring(0,3)+ "_"+ proCtcTermEnglishTermText);
+				switch (proCtcQuestion.getProCtcQuestionType()) {
+					case FREQUENCY:
+						prefix = FREQUENCY;					
+						break;
+						
+					case SEVERITY:
+						prefix = SEVERITY;					
+						break;
+						
+					case INTERFERENCE:
+						prefix = INTERFERENCE;					
+						break;
+						
+					case PRESENT:
+						prefix = PRESENT;					
+						break;
+					case AMOUNT:
+						prefix = AMOUNT;					
+						break;
+				}
+				
+				proCtcTermEnglishTermText = prefix +"_"+ proCtcTerm.getProCtcTermVocab().getTermEnglish();
+				if(proCtcTermEnglishTermText.length() > 32)
+					proCtcTermEnglishTermText = proCtcTermEnglishTermText.substring(0, 32);
+				proCtcTermHeaders.add(proCtcTermEnglishTermText);
 			}
 		}
 		return col;
@@ -129,7 +215,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			}
 			
 			Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
-			initialzeParticipant(participant);
+			initializeParticipant(participant);
 			if (participantMap.containsKey(participant)) {
 				symptomMap = participantMap.get(participant);
 			} else {
@@ -219,7 +305,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				String symptom = proCtcQuestion.getProCtcTerm().getProCtcTermVocab().getTermEnglish();
 				value = studyParticipantCrfItem.getProCtcValidValue();
 				participantAddedQuestion = false;
-				buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus());
+				buildMap(proCtcQuestion, symptom, value, symptomMap, firstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus(), participant);
 			}
 			for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
 				Question question = studyParticipantCrfScheduleAddedQuestion.getQuestion();
@@ -228,6 +314,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
 					validValue = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
 				} else {
+					String prefix = "";
 					validValue = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
 					LowLevelTerm llt = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm();
 					MeddraQuestion meddraQuestion = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion();
@@ -241,24 +328,46 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 					
 					if(!typeMap.containsKey(meddraQuestion.getProCtcQuestionType())){
 						typeMap.put(meddraQuestion.getProCtcQuestionType(), String.valueOf(col++));
-						String ctcTermEnglishTermText = llt.getLowLevelTermVocab().getMeddraTermEnglish();
-						if(ctcTermEnglishTermText.length() > 28)
-							ctcTermEnglishTermText = ctcTermEnglishTermText.substring(0, 28);
-						meddraTermHeaders.add(meddraQuestion.getProCtcQuestionType().toString().substring(0,2) + "_"+ ctcTermEnglishTermText);
+
+						switch (meddraQuestion.getProCtcQuestionType()) {
+						case FREQUENCY:
+							prefix = FREQUENCY;					
+							break;
+							
+						case SEVERITY:
+							prefix = SEVERITY;					
+							break;
+							
+						case INTERFERENCE:
+							prefix = INTERFERENCE;					
+							break;
+							
+						case PRESENT:
+							prefix = PRESENT;					
+							break;
+						case AMOUNT:
+							prefix = AMOUNT;					
+							break;
+					}
+					String ctcTermEnglishTermText = prefix +"_"+ llt.getLowLevelTermVocab().getMeddraTermEnglish();
+					if(ctcTermEnglishTermText.length() > 32)
+						ctcTermEnglishTermText = ctcTermEnglishTermText.substring(0, 32);
+						
+						meddraTermHeaders.add(ctcTermEnglishTermText);
 					}
 				}
 
 				value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
 				String symptom = question.getQuestionSymptom();
 				participantAddedQuestion = true;
-				buildMap(question, symptom, validValue, symptomMap, null, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus());
+				buildMap(question, symptom, validValue, symptomMap, null, datesMap.get(participant).size() - 1, participantAddedQuestion, studyParticipantCrfSchedule.getStatus(), participant);
 			}
 		}
 
 		return organizationMap;
 	}
 
-	private void initialzeParticipant(Participant participant) {
+	private void initializeParticipant(Participant participant) {
 	        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
 	            StudyOrganization studyOrganization = studyParticipantAssignment.getStudySite();
 	            studyOrganization.getStudy();
@@ -277,9 +386,15 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 	            }
 	        }
 	    }
+	
+	private void initializeStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule){
+		studyParticipantCrfSchedule.getStudyParticipantCrfItems().size();
+		studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size();
+		studyParticipantCrfSchedule.getStudyParticipantCrfScheduleNotification();
+	}
 	   
 	private void buildMap(Question question, String symptom, ValidValue value, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap,
-			StudyParticipantCrfItem firstQuestion, Integer dateIndex, boolean participantAddedQuestion, CrfStatus crfStatus) {
+			StudyParticipantCrfItem firstQuestion, Integer dateIndex, boolean participantAddedQuestion, CrfStatus crfStatus, Participant participant) {
 		
 		LinkedHashMap<Question, ArrayList<ValidValue>> careResults;
 		ProCtcQuestion proQuestion = new ProCtcQuestion();
@@ -307,10 +422,10 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			for (int j = 0; j <= dateIndex; j++) {
 				if (validValue.size() < j) {
 					if(isMeddraQuestion){
-						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -MARK_NOT_ADMINISTERED);
 						validValue.add(meddraValidValue);
 					}else{
-						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), MARK_NOT_ADMINISTERED, null);
 						validValue.add(proCtcValidValue);
 					}
 				}
@@ -326,19 +441,27 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if (dateIndex > validValue.size()) {
 				for (int j = validValue.size(); j < dateIndex; j++) {
 					if(isMeddraQuestion){
-						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, MARK_NOT_ADMINISTERED);
 						validValue.add(meddraValidValue);
 					}else{
-						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), MARK_NOT_ADMINISTERED, null);
 						validValue.add(proCtcValidValue);
 					}
 				}
 			}
 			if(isMeddraQuestion){
-				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.FORCEDSKIP.getDisplayName(), null, -99);
+				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.MANUALSKIP.getDisplayName(), null, MARK_MANUAL_SKIP);
 				validValue.add(dateIndex, meddraValidValue);
 			}else{
-				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.FORCEDSKIP.getDisplayName(), -99, null);
+				Integer responseCode = MARK_MANUAL_SKIP;
+				String validVal = ResponseCode.MANUALSKIP.getDisplayName();
+				if(participant.getGender() != null && proQuestion.getProCtcTerm().getGender() != null){
+            		 if(!participant.getGender().equalsIgnoreCase(proQuestion.getProCtcTerm().getGender()) && !GENDER_BOTH.equalsIgnoreCase(proQuestion.getProCtcTerm().getGender())){
+            			 	responseCode = MARK_NOT_ADMINISTERED;
+            			 	validVal = ResponseCode.NotAsked.getDisplayName();
+            		 }
+            	 }
+				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, validVal, responseCode, null);
 				validValue.add(dateIndex, proCtcValidValue);
 			}
 			
@@ -352,19 +475,27 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if (dateIndex > validValue.size()) {
 				for (int j = validValue.size(); j < dateIndex; j++) {
 					if(isMeddraQuestion){
-						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, MARK_NOT_ADMINISTERED);
 						validValue.add(meddraValidValue);
 					}else{
-						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), MARK_NOT_ADMINISTERED, null);
 						validValue.add(proCtcValidValue);
 					}
 				}
 			}
 			if(isMeddraQuestion){
-				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.FORCEDSKIP.getDisplayName(), null, -99);
+				MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.MANUALSKIP.getDisplayName(), null, MARK_MANUAL_SKIP);
 				validValue.add(dateIndex, meddraValidValue);
 			}else{
-				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.FORCEDSKIP.getDisplayName(), -99, null);
+				Integer responseCode = MARK_MANUAL_SKIP;
+				String validVal = ResponseCode.MANUALSKIP.getDisplayName();
+				if(participant.getGender() != null && proQuestion.getProCtcTerm().getGender() != null){
+					if(!participant.getGender().equalsIgnoreCase(proQuestion.getProCtcTerm().getGender()) && !GENDER_BOTH.equalsIgnoreCase(proQuestion.getProCtcTerm().getGender())){
+						responseCode = MARK_NOT_ADMINISTERED;
+        			 	validVal = ResponseCode.NotAsked.getDisplayName();
+					}
+				}
+				ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, validVal, responseCode, null);
 				validValue.add(dateIndex, proCtcValidValue);
 			}
 		}
@@ -383,29 +514,37 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				myProCtcValidValue.setDisplayOrder(0);
 				if (dateIndex > validValue.size()) {
 					for (int j = validValue.size(); j < dateIndex; j++) {
-						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+						ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), MARK_NOT_ADMINISTERED, null);
 						validValue.add(proCtcValidValue);
 					}
 				}
+
+				if(participant.getGender() != null && proQuestion.getProCtcTerm().getGender() != null){
+            		 if(!participant.getGender().equalsIgnoreCase(proQuestion.getProCtcTerm().getGender()) && !GENDER_BOTH.equalsIgnoreCase(proQuestion.getProCtcTerm().getGender())){
+            			 	myProCtcValidValue.setResponseCode(MARK_NOT_ADMINISTERED);
+            			 	myProCtcValidValue.setValue(ResponseCode.NotAsked.getDisplayName());
+            		 }
+            	 }
+			
 				validValue.add(dateIndex, myProCtcValidValue);
 			} else if(value == null && isMeddraQuestion){
 				MeddraValidValue meddraValidValue;
 				if (dateIndex > validValue.size()) {
 					for (int j = validValue.size(); j < dateIndex; j++) {
-						MeddraValidValue mValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+						MeddraValidValue mValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, MARK_NOT_ADMINISTERED);
 						validValue.add(mValidValue);
 					}
 				}
-				meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.MANUALSKIP.getDisplayName(), null, -55);
+				meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.MANUALSKIP.getDisplayName(), null, MARK_MANUAL_SKIP);
 				validValue.add(dateIndex, meddraValidValue);
 			} else {
 				if (dateIndex > validValue.size()) {
 					for (int j = validValue.size(); j < dateIndex; j++) {
 						if(isMeddraQuestion){
-							MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, -2000);
+							MeddraValidValue meddraValidValue = (MeddraValidValue) getAppropriateValidValue(true, ResponseCode.NotAsked.getDisplayName(), null, MARK_NOT_ADMINISTERED);
 							validValue.add(meddraValidValue);
 						}else{
-							ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), -2000, null);
+							ProCtcValidValue proCtcValidValue = (ProCtcValidValue) getAppropriateValidValue(false, ResponseCode.NotAsked.getDisplayName(), MARK_NOT_ADMINISTERED, null);
 							validValue.add(proCtcValidValue);
 						}
 					}

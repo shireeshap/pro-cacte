@@ -16,25 +16,15 @@ import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.springframework.web.servlet.view.AbstractView;
-
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
@@ -44,8 +34,10 @@ import au.com.bytecode.opencsv.CSVWriter;
  */
 public class StudyLevelFullReportCsvView extends AbstractView {
 
-	private static String BLANK = "Not Available";
+	private static String NOT_AVAILABLE = "Not Available";
 	private static String DEFAULT_POSITION = "";
+	private static String FORCE_SKIP = "Forced skip";
+	private static String MANUAL_SKIP =	"Not answered";	
 	CSVWriter writer = null;
 	private static List reportInformation;
 	private static List legend;
@@ -53,6 +45,11 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	private static List<List<String>> rowSet; 
 	String[] emptyRow;
 	private static int maxRowSize;
+	private static String FREQUENCY = "FRQ";
+	private static String INTERFERENCE = "INT";
+	private static String SEVERITY = "SEV";
+	private static String PRESENT =	"PRES";
+	private static String AMOUNT =	"AMT";
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -142,7 +139,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		                            if(appModes.get(index) != null){
 		                            	row.add(5, appModes.get(index));
 		                            } else {
-		                            	row.add(5, BLANK);
+		                            	row.add(5, NOT_AVAILABLE);
 		                            }
 		                            row.add(6, statusList.get(index).getDisplayName());
 		                            markDefaultNotAdministered(row, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
@@ -223,102 +220,114 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	}
 	
     private void buildLegend() {
-    	
+    	int col = 0;
     	row = new ArrayList<String>();
-    	row.add(0, "Legend:");
-    	row.add(1, "");
-    	row.add(2, "-99");
-    	row.add(3, "-55");
+    	row.add(col++, "Legend:");
+    	row.add(col++, "");
+    	
     	for (int i = 0; i <= 4; i++) {
-    		row.add((4 + i), String.valueOf(i));
+    		row.add((col + i), String.valueOf(i));
     	}
-    	row.add(9, "-77");
-    	row.add(10, "-88");
-    	row.add(11, "-66");
-    	row.add(12, "-2000");
+    	col = 7;
+    	row.add(col++, "-77");
+    	row.add(col++, "-88");
+    	row.add(col++, "-66");
+    	row.add(col++, "-2000");
+    	row.add(col++, "-99");
+    	row.add(col++, "-55");
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
-    	row.add(0, "");
-    	row.add(1, ProCtcQuestionType.FREQUENCY.getDisplayName());
-    	row.add(2, "Not answered");
-    	row.add(3, "Manual skip");
+    	col = 0;
+    	row.add(col++, "");
+    	row.add(col++, ProCtcQuestionType.FREQUENCY.getDisplayName()+" ("+FREQUENCY+")");
+    	
     	int j = 0;
         for (String value : ProCtcQuestionType.FREQUENCY.getValidValues()) {
-        	row.add((4 + j), value);
+        	row.add((col + j), value);
             j++;
         }
-    	row.add(9, "Prefer not to answer");
-    	row.add(10, "Not applicable");
-    	row.add(11, "Not sexually active");
-    	row.add(12, "Not asked");
+        col = 7;
+    	row.add(col++, "Prefer not to answer");
+    	row.add(col++, "Not applicable");
+    	row.add(col++, "Not sexually active");
+    	row.add(col++, "Not asked");
+    	row.add(col++, FORCE_SKIP);
+    	row.add(col++, MANUAL_SKIP);
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
-    	row.add(0, "");
-    	row.add(1, ProCtcQuestionType.SEVERITY.getDisplayName());
-    	row.add(2, "Not answered");
-    	row.add(3, "Manual skip");
+    	col = 0;
+    	row.add(col++, "");
+    	row.add(col++, ProCtcQuestionType.SEVERITY.getDisplayName()+" ("+SEVERITY+")");
     	int k = 0;
         for (String value : ProCtcQuestionType.SEVERITY.getValidValues()) {
-        	row.add((4 + k), value);
+        	row.add((col + k), value);
             k++;
         }
-    	row.add(9, "Prefer not to answer");
-    	row.add(10, "Not applicable");
-    	row.add(11, "Not sexually active");
-    	row.add(12, "Not asked");
+        col = 7;
+    	row.add(col++, "Prefer not to answer");
+    	row.add(col++, "Not applicable");
+    	row.add(col++, "Not sexually active");
+    	row.add(col++, "Not asked");
+    	row.add(col++, FORCE_SKIP);
+    	row.add(col++, MANUAL_SKIP);
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
-    	row.add(0, "");
-    	row.add(1, ProCtcQuestionType.INTERFERENCE.getDisplayName());
-    	row.add(2, "Not answered");
-    	row.add(3, "Manual skip");
+    	col = 0;
+    	row.add(col++, "");
+    	row.add(col++, ProCtcQuestionType.INTERFERENCE.getDisplayName()+" ("+INTERFERENCE+")");
     	int l = 0;
         for (String value : ProCtcQuestionType.INTERFERENCE.getValidValues()) {
-        	row.add((4 + l), value);
+        	row.add((col + l), value);
             l++;
         }
-    	row.add(9, "Prefer not to answer");
-    	row.add(10, "Not applicable");
-    	row.add(11, "Not sexually active");
-    	row.add(12, "Not asked");
+        col = 7;
+    	row.add(col++, "Prefer not to answer");
+    	row.add(col++, "Not applicable");
+    	row.add(col++, "Not sexually active");
+    	row.add(col++, "Not asked");
+    	row.add(col++, FORCE_SKIP);
+    	row.add(col++, MANUAL_SKIP);
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
-    	row.add(0, "");
-    	row.add(1, ProCtcQuestionType.PRESENT.getDisplayName());
-    	row.add(2, "Not answered");
-    	row.add(3, "Manual skip");
-    	
-    	row.add(4, "No");
-    	row.add(5, "Yes");
+    	col = 0;
+    	row.add(col++, "");
+    	row.add(col++, ProCtcQuestionType.PRESENT.getDisplayName()+" ("+PRESENT+")");
+    	row.add(col++, "No");
+    	row.add(col++, "Yes");
     	for (int n = 0; n <= 2; n++) {
-    		row.add((6 + n), "");
+    		row.add((col + n), "");
         }
-    	row.add(9, "Prefer not to answer");
-    	row.add(10, "Not applicable");
-    	row.add(11, "Not sexually active");
-    	row.add(12, "Not asked");
+    	col = 7;
+    	row.add(col++, "Prefer not to answer");
+    	row.add(col++, "Not applicable");
+    	row.add(col++, "Not sexually active");
+    	row.add(col++, "Not asked");
+    	row.add(col++, FORCE_SKIP);
+    	row.add(col++, MANUAL_SKIP);
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	
     	row.clear();
-    	row.add(0, "");
-    	row.add(1, ProCtcQuestionType.AMOUNT.getDisplayName());
-    	row.add(2, "Not answered");
-    	row.add(3, "Manual skip");
-    	
+    	col = 0;
+    	row.add(col++, "");
+    	row.add(col++, ProCtcQuestionType.AMOUNT.getDisplayName()+" ("+AMOUNT+")");
     	int p = 0;
         for (String value : ProCtcQuestionType.AMOUNT.getValidValues()) {
-        	row.add((4 + p), value);
+        	row.add((col + p), value);
             p++;
         }
-    	row.add(9, "Prefer not to answer");
-    	row.add(10, "Not applicable");
-    	row.add(11, "Not sexually active");
-    	row.add(12, "Not asked");
+        col = 7;
+    	row.add(col++, "Prefer not to answer");
+    	row.add(col++, "Not applicable");
+    	row.add(col++, "Not sexually active");
+    	row.add(col++, "Not asked");
+    	row.add(col++, FORCE_SKIP);
+    	row.add(col++, MANUAL_SKIP);
+    	
     	writer.writeNext((String[]) row.toArray(new String[row.size()]));
 	}
     
