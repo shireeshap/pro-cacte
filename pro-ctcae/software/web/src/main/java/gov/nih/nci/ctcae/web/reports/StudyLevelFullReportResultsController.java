@@ -31,7 +31,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 	private static Integer MARK_MANUAL_SKIP = -55;
 	private static Integer MARK_FORCE_SKIP =-99;
 	private static Integer MARK_NOT_ADMINISTERED = -2000;
-	private static String FREQUENCY = "FREQ";
+	private static String FREQUENCY = "FRQ";
 	private static String INTERFERENCE = "INT";
 	private static String SEVERITY = "SEV";
 	private static String PRESENT =	"PRES";
