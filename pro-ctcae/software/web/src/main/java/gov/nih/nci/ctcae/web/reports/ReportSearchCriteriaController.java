@@ -120,9 +120,6 @@ public class ReportSearchCriteriaController extends AbstractController {
 
     private String getUrlForReportType(HttpServletRequest request) {
         String reportType = request.getParameter("rt");
-        if(reportType.equals("overallStudy")){
-        	reportType = "overallStudyAllSiteAndForms";
-        }
         return request.getContextPath() + "/pages/reports/" + reportType;
     }
 }
