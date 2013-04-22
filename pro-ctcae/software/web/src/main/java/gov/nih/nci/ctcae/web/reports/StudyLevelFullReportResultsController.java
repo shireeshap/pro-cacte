@@ -77,9 +77,6 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
 		request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
 		request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
-		
-		
-		 
 		return modelAndView;
 	}
 	
@@ -268,11 +265,12 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 				statusMap.put(participant, statusList);
 			}
 
-			dates.add(studyParticipantCrfSchedule.getStartDate());
 			statusList.add(studyParticipantCrfSchedule.getStatus());
 			AppMode appModeForSurvery;
 			ArrayList<AppMode> tempModesList = new ArrayList<AppMode>();
 			String allUsedModes = "";
+			Date firstResponseDate = null;
+			Date responseDate = null;
 			if (studyParticipantCrfSchedule.getStudyParticipantCrfItems().size() > 0) {
 				for(StudyParticipantCrfItem crfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
 					if (crfItem.getResponseMode() != null) {
@@ -280,17 +278,34 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 							tempModesList.add(crfItem.getResponseMode());
 						}
 					}
+					responseDate = crfItem.getReponseDate();
+					if(responseDate != null){
+						if(firstResponseDate != null){
+							if(DateUtils.compareDate(firstResponseDate, responseDate) > 0){
+								firstResponseDate = responseDate;
+							}
+						} else {
+							firstResponseDate = responseDate;
+						}
+					}
 				}
 				if (tempModesList.size() != 0) {
 					for(AppMode m : tempModesList){
-						allUsedModes += "," + m.toString();
+						allUsedModes += ";" + m.toString();
 					}
 					appModes.add(allUsedModes.substring(1));
 				} else {
 					appModes.add(null);
 				}
+				
+				if(firstResponseDate != null){
+					dates.add(firstResponseDate);
+				} else {
+					dates.add(null);
+				}
 			} else {
 				appModes.add(null);
+				dates.add(null);
 			}
 
 			StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
