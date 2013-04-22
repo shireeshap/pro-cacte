@@ -208,7 +208,10 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
             } else {
                 for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                     if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
-                        if (studyParticipantCrfSchedule.getStartDate().getTime() >= offHoldDate.getTime()) {
+                    	/* PKRC-1876: Survey cancellation criterion should be based on the due date and not on the start
+						* date of the survey (similar change in AddCrfScheduleController.java) 
+						*/
+                        if (studyParticipantCrfSchedule.getDueDate().getTime() >= offHoldDate.getTime()) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                             studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
                         } else {
