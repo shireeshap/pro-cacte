@@ -18,7 +18,7 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
     ParticipantLevelReportResultsController controller;
     List<StudyParticipantCrfSchedule> schedules;
     Study study ;
-    CRF crf ;
+    static CRF crf ;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
