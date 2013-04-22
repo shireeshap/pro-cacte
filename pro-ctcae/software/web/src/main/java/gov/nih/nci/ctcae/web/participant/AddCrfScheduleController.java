@@ -112,6 +112,7 @@ public class AddCrfScheduleController extends AbstractController {
             if(DateUtils.compareDate(today, studyParticipantAssignment.getOnHoldTreatmentDate()) == 0){
             	studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);
             }
+            participantScheduleService.saveStudyParticipantCrfAssignment(genericRepository, studyParticipantAssignment);
         }
 
         if ("offhold".equals(action)) {
@@ -148,21 +149,21 @@ public class AddCrfScheduleController extends AbstractController {
                         }
                     }
                 } else {
-                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+                		for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                			if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
 							/* PKRC-1876: Survey cancellation criterion should be based on the due date and not on the start
-							* date of the survey (similar change in ParticipantOffHoldController.java) 
-							*/
-                           if (studyParticipantCrfSchedule.getDueDate().getTime() >= DateUtils.parseDate(offHoldDate).getTime()) {
-                                studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
-                                studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
-                            } else {
-                                studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
-                                studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
-                            }
-                        }
-                    }
-                }
+							 * date of the survey (similar change in ParticipantOffHoldController.java) 
+							 */
+                				if (studyParticipantCrfSchedule.getDueDate().getTime() >= DateUtils.parseDate(offHoldDate).getTime()) {
+                					studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
+                				} else {
+                					studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
+                				}
+                			}
+                		}
+                  }
             }
             studyParticipantAssignment.setOnHoldTreatmentDate(null);
         }
