@@ -33,12 +33,11 @@ public class UpdateProCtcTermController extends AbstractController {
         updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
         updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
         updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
-//        updateProCtcTerms.setProCtcRepository(proCtcRepository);
+        updateProCtcTerms.setProCtcRepository(proCtcRepository);
         ProCtcQuery query = new ProCtcQuery();
         query.filterByProCtcVersion("4.0");
         ProCtc proCtc = proCtcRepository.findSingle(query);
         updateProCtcTerms.updateProCtcTerms(proCtc);
-//        proCtcRepository.save(proCtc1);
         System.out.println("ProCtcTerms Updated");
         
         return new ModelAndView("proCtcTermsLoaded");
