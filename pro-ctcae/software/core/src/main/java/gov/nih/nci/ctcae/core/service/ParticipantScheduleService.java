@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 
@@ -289,6 +290,9 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 		}
 	}
 	
+	public void saveStudyParticipantCrfAssignment(GenericRepository genericRepository, StudyParticipantAssignment studyParticipantAssignment){
+		genericRepository.save(studyParticipantAssignment);
+	}	
 /**
  * Sets the study participant crf repository.
  *
