@@ -135,7 +135,11 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		                        for (Date date : dates) {
 		                            row = createRow(rowSet, rownum++);
 		                            createCurrentRowPrefix(row, participant.getStudyParticipantIdentifier(), study.getShortTitle(), organization.getDisplayName(), crf.getTitle());
-		                            row.add(4, DateUtils.format(date));
+		                            if(date != null){
+		                            	row.add(4, DateUtils.format(date));
+		                            } else {
+		                            	row.add(4, NOT_AVAILABLE);
+		                            }
 		                            if(appModes.get(index) != null){
 		                            	row.add(5, appModes.get(index));
 		                            } else {
@@ -337,7 +341,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(1, "Study");
     	row.add(2, "Study Site");
     	row.add(3, "Survey name");
-    	row.add(4, "Survey start date");
+    	row.add(4, "First response date");
     	row.add(5, "Mode");
     	row.add(6, "Status");
 		int col = 7;
