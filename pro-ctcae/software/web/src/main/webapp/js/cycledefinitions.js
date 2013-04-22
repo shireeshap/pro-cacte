@@ -200,7 +200,7 @@ function initializeCalendar(index, month, year) {
 	                        item.style.background = 'blue';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
 	                        showDeleteOption = true;
-	                        isEnableDrag = false;
+	                        isEnableDrag = true;
 	                    }
 	                    if (hasPastDue) {
 	                        item.style.background = 'red';
