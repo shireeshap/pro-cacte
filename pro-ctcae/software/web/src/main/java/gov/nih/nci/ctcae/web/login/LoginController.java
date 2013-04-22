@@ -53,7 +53,14 @@ public class LoginController extends AbstractController {
                 request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.ENGLISH);
             }
             if (userRole.getRole().equals(Role.ADMIN)) {
-                return new ModelAndView("home");
+            	ModelAndView mv = new ModelAndView("home");
+            	if(user.hasRole(Role.LEAD_CRA)){
+                    mv.addObject("studyLevelRole", true);
+            	}
+            	if (user.hasRole(Role.SITE_CRA)){
+            		mv.addObject("siteLevelRole", true);
+            	}
+                return mv;
             }
         }
 
