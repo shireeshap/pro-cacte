@@ -135,7 +135,9 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         }
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarytable");
         modelAndView.addObject("results", results);
-        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        List<ProCtcQuestionType> proCtcQuestionTypes = ProCtcQuestionType.getAllDisplayTypes();
+        proCtcQuestionTypes.remove(proCtcQuestionTypes.size() - 1);
+        modelAndView.addObject("questionTypes", proCtcQuestionTypes);
         return modelAndView;
     }
 
