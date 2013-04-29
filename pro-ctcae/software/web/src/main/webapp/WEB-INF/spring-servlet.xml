@@ -570,19 +570,10 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantReportExcelController">
     </bean>
 
-    <bean name="/reports/overallStudy" id="studyLevelReportResultsController"
-          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportResultsController">
-        <property name="genericRepository" ref="genericRepository"/>
-    </bean>
-    
     <bean name="/reports/overallStudyAllSiteAndForms" id="studyLevelFullReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
 	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
-    </bean>
-    
-    <bean name="/reports/studyLevelReportExcel" id="studyLevelReportExcelController"
-          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
     </bean>
     
     <bean name="/reports/studyLevelFullReportExcel" id="studyLevelFullReportExcelController"
@@ -593,10 +584,6 @@
           class="gov.nih.nci.ctcae.web.reports.GetParticipantCrfItemsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-
-    <!--<bean name="/reports/studyLevelReportPdf" id="studyLevelReportPdfController"-->
-    <!--class="gov.nih.nci.ctcae.web.reports.StudyLevelReportPdfController">-->
-    <!--</bean>-->
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
