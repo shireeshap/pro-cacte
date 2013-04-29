@@ -3834,8 +3834,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLe
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/StackedBarChartDemo3.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportIntegrationTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportIntegrationTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeWorstResponsesQueryTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportTest.java -text
