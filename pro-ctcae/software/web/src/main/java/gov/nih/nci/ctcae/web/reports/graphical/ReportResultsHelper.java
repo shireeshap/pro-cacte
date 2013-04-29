@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.reports.graphical;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
@@ -41,16 +42,32 @@ public class ReportResultsHelper {
     }
 
     public static void parseRequestParametersAndFormQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {
-        int crfId = Integer.parseInt(request.getParameter("crf"));
         String studySiteId = request.getParameter("studySite");
-        CRF crf = genericRepository.findById(CRF.class, crfId);
-        List<Integer> crfIds = new ArrayList();
-        crfIds.add(crfId);
-        if (crf.getParentCrf() != null) {
-            crfIds.add(crf.getParentCrf().getId());
+        String crfIdParam = request.getParameter("crf");
+        String studyParam = request.getParameter("study");
+        if(!StringUtils.isBlank(studyParam) && StringUtils.isBlank(crfIdParam)){
+        	Integer studyId = Integer.parseInt(studyParam);
+        	List<CRF> crfList = getReducedCrfs(studyId);
+        	List<Integer> crfIds = new ArrayList<Integer>(); 
+        	for(CRF crf : crfList){
+        		crfIds.add(crf.getId());
+                if (crf.getParentCrf() != null) {
+                    crfIds.add(crf.getParentCrf().getId());
+                }
+        	}
+        	query.filterByCRFIds(crfIds);
         }
-        query.filterByCRFIds(crfIds);
-//        query.filterByCrf(crfId);
+        
+		if(!StringUtils.isBlank(crfIdParam)){
+        	Integer crfId = Integer.parseInt(crfIdParam);
+            CRF crf = genericRepository.findById(CRF.class, crfId);
+            List<Integer> crfIds = new ArrayList();
+            crfIds.add(crf.getId());
+            if (crf.getParentCrf() != null) {
+                crfIds.add(crf.getParentCrf().getId());
+            }
+            query.filterByCRFIds(crfIds);
+        }
         query.filterByAttributes(getSelectedAttributes(request));
         if (!StringUtils.isBlank(studySiteId)) {
             query.filterByStudySite(Integer.parseInt(studySiteId));
@@ -61,6 +78,22 @@ public class ReportResultsHelper {
         applyArmFilterToQuery(request, query);
         applyDateFilterToQuery(request, query);
 
+    }
+    
+    public static List<CRF> getReducedCrfs(Integer studyId){
+    	CRFQuery crfQuery = new CRFQuery();
+    	crfQuery.filterByStudyId(studyId);
+    	crfQuery.filterByNullNextVersionId();
+    	
+    	List<CRF> crfList = genericRepository.find(crfQuery);
+    	List<CRF> releasedCrfs = new ArrayList<CRF>();
+    	for(CRF crf :crfList){
+    		if(crf.getStatus().equals(CrfStatus.RELEASED)){
+    			releasedCrfs.add(crf);
+    		}
+    	}
+    	
+    	return releasedCrfs;
     }
 
     private static void applyDateFilterToQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {

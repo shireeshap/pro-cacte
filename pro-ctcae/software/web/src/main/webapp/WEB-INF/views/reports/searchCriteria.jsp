@@ -59,11 +59,12 @@
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
         function reportResults(group, arms) {
-            /* if (!performValidations()) {
+            var reportUrl = "${url}";
+            if (!performValidations()) {
                 return;
-            } */
+            }
             showIndicator();
-            var request = new Ajax.Request("${url}", {
+            var request = new Ajax.Request(reportUrl, {
                 parameters:getQueryString(group, arms),
                 onComplete:function(transport) {
                     if (showResultsInPopUpFlag) {
@@ -76,6 +77,13 @@
                 method:'get'
             }
                     )
+        }
+        
+        function showMessagePopUP(){
+        	var reportUrl = "${url}";
+        	if(reportUrl.substr(24) == "overallStudyAllSiteAndForms"){
+        		alert("Please wait as your report will be ready for download in few minutes.");        	
+        	}
         }
 
         function showText(obj) {
@@ -132,6 +140,10 @@
 					if (displayForm) {
 		                displayForms();
 		                displaySites();
+		                var reportUrl = "${url}";
+		                if(reportUrl.substr(24) == 'symptomOverTime'){
+		                	displaySymptoms('', $('study').value);
+		                }
 		                if (displayFilterBy) {
 		                    $('filterByDiv').show();
 		                }
@@ -188,33 +200,19 @@
         <c:if test="${not onlyStudy}">
             <c:choose>
                 <c:when test="${crfs ne null}">
-                    <c:choose>
-                        <c:when test="${fn:length(crfs)==1}">
-                        <div id="formDiv">
-                            <div class="row" style="margin-left:11px;">
-                                <div class="label"><tags:message code="reports.label.form"/></div>
-                                <div class="value">${crfs[0].title}</div>
-                                <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
-
-                            </div>
-                           </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="row" style="margin-left:11px;">
-                                <div class="label"><tags:requiredIndicator/><tags:message
-                                        code="reports.label.form"/></div>
-                                <div class="value">
-                                    <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
-                                        <option value="">Please select</option>
-                                        <c:forEach items="${crfs}" var="crf">
-                                            <option value="${crf.id}">${crf.title}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+	                <div class="row" style="margin-left:11px;">
+	                    <div class="label"><tags:requiredIndicator/><tags:message
+	                            code="reports.label.form"/></div>
+	                    <div class="value">
+	                        <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
+	                            <option value="">Please select</option>
+	                            <c:forEach items="${crfs}" var="crf">
+	                                <option value="${crf.id}">${crf.title}</option>
+	                            </c:forEach>
+	                        </select>
+	                    </div>
+	
+	                </div>
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none;margin-left:11px;">
@@ -226,7 +224,7 @@
             </c:choose>
             <c:choose>
                 <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
-                    <div class="row">
+                    <div class="row" style="display:none;margin-left:11px;">
                         <div class="label"><tags:message code="reports.label.symptoms"/></div>
                         <div class="value">
                             <select id="proCtcTermsSelect" title="symptom">
@@ -239,7 +237,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row" id="divSymptomsRow" style="display:none">
+                    <div class="row" id="divSymptomsRow" style="display:none; display:none; margin-left:11px;">
                         <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
                         <div class="value" id="proCtcTerms"></div>
                     </div>
@@ -304,7 +302,7 @@
         </c:if>
         <div id="search" class="row">
             <div style="margin-left:9em">
-                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="big"
+                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();showMessagePopUP()" size="big"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
@@ -321,6 +319,8 @@
 <div id="reportOuterDiv" style="display:none;">
     <div id="reportInnerDiv"/>
 </div>
+
+
 
 </body>
 </html>

@@ -39,9 +39,8 @@ public abstract class AbstractReportResultsController extends AbstractController
     }
 
     public final List<Arm> getArms(HttpServletRequest request) {
-        int crfId = Integer.parseInt(request.getParameter("crf"));
-        CRF crf = genericRepository.findById(CRF.class, crfId);
-        Study study = genericRepository.findById(Study.class, crf.getStudy().getId());
+        String studyParam = request.getParameter("study");
+        Study study = genericRepository.findById(Study.class, Integer.parseInt(studyParam));
         return study.getNonDefaultArms();
     }
 
