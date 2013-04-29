@@ -3845,7 +3845,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormContr
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyControllerTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyLevelReportExcelViewTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
