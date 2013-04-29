@@ -2893,12 +2893,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ProCtcTermNam
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportSearchCriteriaController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportCsvView.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportExcelController.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportExcelView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportResultsController.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelController.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelView.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyParticipantAssignmentComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractChartGenerator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractReportResultsController.java -text
