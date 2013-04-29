@@ -97,10 +97,6 @@
             }
         }
 
-        function showExcelLink() {
-            var sid = $('study').value;
-            window.location = '/proctcae/pages/reports/overallStudyExcel?id=' + sid;
-        }
     </script>
     
     <script type="text/javascript">
@@ -307,11 +303,6 @@
                 <tags:indicator id="indicator"/>
             </div>
             <div id="studydata" align="right" style="display:none;">
-                <%--
-                <c:if test="${reportType eq 'overallStudy'}">
-                	<tags:button value="Overall study data export" onclick="javascript:showExcelLink();" color="blue" size="small"/>
-                </c:if>
-                --%>
             </div>
         </div>
     </div>
