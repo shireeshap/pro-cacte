@@ -51,7 +51,10 @@
             </a>
         </div>
        
-        <c:forEach items="${organizationTable.value}" var="participantTable">
+       	<c:forEach items="${organizationTable.value}" var="crfTable">
+       		<chrome:division
+                    title="Crf: ${crfTable.key.title}"/>
+       		<c:forEach items="${crfTable.value}" var="participantTable">
             <chrome:division
                     title="Participant: ${participantTable.key.displayName}"/>
             <div id="careResultsTable">
@@ -59,6 +62,9 @@
                 <br/>
             </div>
         </c:forEach>
+       	
+       	</c:forEach>
+        
 
 
     </chrome:box>
