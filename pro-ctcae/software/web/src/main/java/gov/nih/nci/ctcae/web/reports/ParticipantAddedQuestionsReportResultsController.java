@@ -1,9 +1,12 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.query.ParticipantAddedQuestionsReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,18 +31,36 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
 
         ParticipantAddedQuestionsReportQuery query = new ParticipantAddedQuestionsReportQuery();
         parseRequestParametersAndFormQuery(request, query);
-
+        
         List result = genericRepository.find(query);
         modelAndView.addObject("results", result);
         return modelAndView;
     }
 
     protected void parseRequestParametersAndFormQuery(HttpServletRequest request, ParticipantAddedQuestionsReportQuery query) throws ParseException {
-        int crfId = Integer.parseInt(request.getParameter("crf"));
+    	String crfParam = request.getParameter("crf");
         String studySiteId = request.getParameter("studySite");
         String symptom = request.getParameter("symptom");
-
-        query.filterByCrf(crfId);
+        String studyParam = request.getParameter("study");
+        
+        if(StringUtils.isBlank(studyParam)){
+        	studyParam = (String) request.getSession().getAttribute("study");
+        } else {
+        	request.getSession().setAttribute("study", studyParam);
+        }
+        
+        if(!StringUtils.isBlank(crfParam)){
+    		int crfId = Integer.parseInt(crfParam);
+    		 query.filterByCrf(crfId);
+    	} else if(!StringUtils.isBlank(studyParam)){
+    		List<CRF> crfList = ReportResultsHelper.getReducedCrfs(Integer.parseInt(studyParam));
+    		List<Integer> crfIds = new ArrayList<Integer>();
+    		for(CRF crf : crfList){
+    			crfIds.add(crf.getId());
+    		}
+    		query.filterByCrfs(crfIds);
+    	}
+       
         if (!StringUtils.isBlank(studySiteId)) {
             query.filterByStudySite(Integer.parseInt(studySiteId));
         }
