@@ -66,10 +66,10 @@
                                     ${count.value} (<fmt:formatNumber pattern="0.0" value="${(count.value*100)/total}"/>)
                             </td>
                         </c:forEach>
-                        <c:if test="${fn:length(attribute.value)<6}">
-                            <td class="${bottom}">--</td>
-                            <td class="${bottom}">--</td>
-                            <td class="${bottom}">--</td>
+                        <c:if test="${fn:length(attribute.value)<7}">
+                        	<c:forEach begin="${fn:length(attribute.value) + 1}" end="7" varStatus="loop">
+                        		<td class="${bottom}">--</td>
+                        	</c:forEach>
                         </c:if>
                         <c:set var="bottom" value=""/>
                     </tr>
