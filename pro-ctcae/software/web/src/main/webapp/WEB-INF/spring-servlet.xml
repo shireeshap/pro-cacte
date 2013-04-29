@@ -285,6 +285,10 @@
     <bean name="/form/addFormScheduleCycle" id="addFormScheduleCycleController"
           class="gov.nih.nci.ctcae.web.form.AddFormScheduleCycleController">
     </bean>
+      <bean name="/form/reloadFormScheduleCycle" id="reloadFormScheduleCycleController"
+          class="gov.nih.nci.ctcae.web.form.ReloadFormScheduleCycleController">
+    </bean>	
+    
     <bean name="/form/addFormRule" id="addFormRuleController"
           class="gov.nih.nci.ctcae.web.form.AddFormRuleController">
         <property name="crfRepository" ref="crfRepository"/>
@@ -574,8 +578,9 @@
     <bean name="/reports/overallStudyAllSiteAndForms" id="studyLevelFullReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
+	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
-
+    
     <bean name="/reports/studyLevelReportExcel" id="studyLevelReportExcelController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
     </bean>
