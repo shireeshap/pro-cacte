@@ -9,7 +9,7 @@
             <proctcae:urlAuthorize url="/pages/reports/report">
                 <li id="thirdlevelnav-x" class="tab ${selected=='overallStudy'?'selected':''}">
                     <div>
-                        <a href="report?rt=overallStudy"><tags:message code="reports.tab.studyLevel"/></a>
+                        <a href="report?rt=overallStudyAllSiteAndForms"><tags:message code="reports.tab.studyLevel"/></a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
