@@ -30,7 +30,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
  */
 public class StudyLevelFullReportExcelView extends AbstractExcelView {
 
-	private static String BLANK = "Not Available";
+	private static String NOT_AVAILABLE = "Not Available";
 	private static String DEFAULT_POSITION = "";
 	
     @SuppressWarnings("unchecked")
@@ -136,7 +136,7 @@ public class StudyLevelFullReportExcelView extends AbstractExcelView {
 	                            if(appModes.get(index) != null){
 	                            	cell.setCellValue(new HSSFRichTextString(appModes.get(index)));
 	                            } else {
-	                            	cell.setCellValue(new HSSFRichTextString(BLANK));
+	                            	cell.setCellValue(new HSSFRichTextString(NOT_AVAILABLE));
 	                            }
 	                            cell = row.createCell((short) 6);
 	                            cell.setCellStyle(centerStyle);

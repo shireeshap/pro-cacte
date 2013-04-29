@@ -36,33 +36,43 @@ public class StudyLevelReportResultsController extends AbstractController {
 
         StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
-        LinkedHashMap<Participant, ArrayList<Date>> datesMap = new LinkedHashMap<Participant, ArrayList<Date>>();
+        TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDatesMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>(new CrfNameComparator());
 
-        TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> results = getCareResults(datesMap, list);
+        TreeMap<Organization,TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> results = getCareResults(crfDatesMap, list);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
-        modelAndView.addObject("table", getHtmlTable(results, datesMap));
+        modelAndView.addObject("table", getHtmlTable(results, crfDatesMap));
 
         request.getSession().setAttribute("sessionResultsMap", results);
-        request.getSession().setAttribute("sessionDatesMap", datesMap);
+        request.getSession().setAttribute("sessionDatesMap", crfDatesMap);
 
         return modelAndView;
     }
 
-    private TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> getCareResults(LinkedHashMap<Participant, ArrayList<Date>> datesMap, List<StudyParticipantCrfSchedule> schedules) throws ParseException {
+    private TreeMap<Organization,TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> getCareResults(TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap, List<StudyParticipantCrfSchedule> schedules) throws ParseException {
 
-        TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> organizationMap = new TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>(new OrganizationNameComparator());
+    	TreeMap<Organization,TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> organizationMap = new TreeMap<Organization,TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>(new OrganizationNameComparator());
         TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap;
+        TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> crfMap;
         TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap;
-        ArrayList<Date> dates;
+        ArrayList<Date> dates = null;
         boolean participantAddedQuestion;
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
             Organization organization = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getOrganization();
             if (organizationMap.containsKey(organization)) {
-                participantMap = organizationMap.get(organization);
-            } else {
-                participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>(new ParticipantNameComparator());
-                organizationMap.put(organization, participantMap);
-            }
+				crfMap = organizationMap.get(organization);
+			} else {
+				crfMap = new TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>(new CrfNameComparator());
+				organizationMap.put(organization, crfMap);
+			}
+            
+            CRF crf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
+			if (crfMap.containsKey(crf)) {
+				participantMap = crfMap.get(crf);
+			} else {
+				participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>(new ParticipantNameComparator());
+				crfMap.put(crf, participantMap);
+			}
+			
             Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
             if (participantMap.containsKey(participant)) {
                 symptomMap = participantMap.get(participant);
@@ -70,12 +80,22 @@ public class StudyLevelReportResultsController extends AbstractController {
                 symptomMap = new TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>();
                 participantMap.put(participant, symptomMap);
             }
-            if (datesMap.containsKey(participant)) {
-                dates = datesMap.get(participant);
-            } else {
-                dates = new ArrayList<Date>();
-                datesMap.put(participant, dates);
-            }
+            
+        	LinkedHashMap<Participant, ArrayList<Date>> datesMap;
+			if (crfDateMap.containsKey(crf)) {
+				datesMap = crfDateMap.get(crf);
+			} else {
+				datesMap = new LinkedHashMap<Participant, ArrayList<Date>>();
+				crfDateMap.put(crf, datesMap);
+			}
+			
+			if (datesMap.containsKey(participant)) {
+				dates = datesMap.get(participant);
+			} else {
+				dates = new ArrayList<Date>();
+				datesMap.put(participant, dates);
+			}
+			
             dates.add(studyParticipantCrfSchedule.getStartDate());
             StudyParticipantCrfItem firstQuestion = new StudyParticipantCrfItem();
             ProCtcQuestion proCtcQuestion;
@@ -111,87 +131,94 @@ public class StudyLevelReportResultsController extends AbstractController {
         return organizationMap;
     }
 
-    public TreeMap<Organization, TreeMap<Participant, String>> getHtmlTable(TreeMap<Organization, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> results, LinkedHashMap<Participant, ArrayList<Date>> datesMap) {
-        TreeMap<Organization, TreeMap<Participant, String>> organizationTableMap = new TreeMap<Organization, TreeMap<Participant, String>>(new OrganizationNameComparator());
+    public TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, String>>> getHtmlTable(TreeMap<Organization,TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> results, TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap) {
+    	TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, String>>> organizationTableMap = new TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, String>>>(new OrganizationNameComparator());
 
         for (Organization organization : results.keySet()) {
-            TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap = results.get(organization);
-            TreeMap<Participant, String> tableMap = new TreeMap<Participant, String>(new ParticipantNameComparator());
-            organizationTableMap.put(organization, tableMap);
-            for (Participant participant : participantMap.keySet()) {
-                StringBuilder table = new StringBuilder();
-                table.append("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
-                ArrayList valuesLists = new ArrayList();
+        	TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> crfMap = results.get(organization);
+        	TreeMap<CRF, TreeMap<Participant, String>> crfTableMap = new TreeMap<CRF, TreeMap<Participant,String>>(new CrfNameComparator());
+        	organizationTableMap.put(organization, crfTableMap);
+        	for(CRF crf : crfMap.keySet()){
+                TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap = crfMap.get(crf);
+                LinkedHashMap<Participant, ArrayList<Date>> datesMap = crfDateMap.get(crf);
+                TreeMap<Participant, String> tableMap = new TreeMap<Participant, String>(new ParticipantNameComparator());
+                crfTableMap.put(crf, tableMap);
+                
+                for (Participant participant : participantMap.keySet()) {
+                    StringBuilder table = new StringBuilder();
+                    table.append("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
+                    ArrayList valuesLists = new ArrayList();
 
-                int numOfColumns = 1;
-                TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap = participantMap.get(participant);
-                for (String proCtcTerm : symptomMap.keySet()) {
-                    LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    numOfColumns = numOfColumns + questionMap.keySet().size();
-                    for (Question proCtcQuestion : questionMap.keySet()) {
-                        ArrayList<ValidValue> valuesList = questionMap.get(proCtcQuestion);
-                        valuesLists.add(valuesList);
-                    }
-                }
-
-                startRow(table);
-                addColumn(table, "", 1, "");
-                for (String proCtcTerm : symptomMap.keySet()) {
-                    LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    addColumn(table, proCtcTerm, questionMap.keySet().size(), "header-top");
-                }
-                endRow(table);
-                startRow(table);
-                addColumn(table, "", 1, "");
-                for (String proCtcTerm : symptomMap.keySet()) {
-                    LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-                    for (Question question : questionMap.keySet()) {
-                        ProCtcQuestion proQuestion = new ProCtcQuestion();
-                        MeddraQuestion meddraQuestion = new MeddraQuestion();
-                        if (question instanceof ProCtcQuestion) {
-                            proQuestion = (ProCtcQuestion) question;
-                            addColumn(table, proQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
+                    int numOfColumns = 1;
+                    TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap = participantMap.get(participant);
+                    for (String proCtcTerm : symptomMap.keySet()) {
+                        LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                        numOfColumns = numOfColumns + questionMap.keySet().size();
+                        for (Question proCtcQuestion : questionMap.keySet()) {
+                            ArrayList<ValidValue> valuesList = questionMap.get(proCtcQuestion);
+                            valuesLists.add(valuesList);
                         }
-                        boolean isMeddraQuestion = false;
-                        if (question instanceof MeddraQuestion) {
-                            isMeddraQuestion = true;
-                            meddraQuestion = (MeddraQuestion) question;
-                            addColumn(table, meddraQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
-                        }
-
                     }
-                }
-                endRow(table);
-                ArrayList<Date> dates = null;
-                for (Participant participantT : datesMap.keySet()) {
-                    if (participant.equals(participantT)) {
-                        dates = datesMap.get(participant);
-                        break;
-                    }
-                }
 
-                int index = 0;
-                ArrayList<ValidValue> valueList;
-                if (dates != null) {
-                    for (Date date : dates) {
-                        startRow(table);
-                        addColumn(table, DateUtils.format(date), 1, "");
-                        for (Object obj : valuesLists) {
-                            valueList = (ArrayList<ValidValue>) obj;
-                            if (valueList.size() > index && valueList.get(index) != null) {
-                                addColumn(table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
-                            } else {
-                                addColumn(table, "", 1, "data");
+                    startRow(table);
+                    addColumn(table, "", 1, "");
+                    for (String proCtcTerm : symptomMap.keySet()) {
+                        LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                        addColumn(table, proCtcTerm, questionMap.keySet().size(), "header-top");
+                    }
+                    endRow(table);
+                    startRow(table);
+                    addColumn(table, "", 1, "");
+                    for (String proCtcTerm : symptomMap.keySet()) {
+                        LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                        for (Question question : questionMap.keySet()) {
+                            ProCtcQuestion proQuestion = new ProCtcQuestion();
+                            MeddraQuestion meddraQuestion = new MeddraQuestion();
+                            if (question instanceof ProCtcQuestion) {
+                                proQuestion = (ProCtcQuestion) question;
+                                addColumn(table, proQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
                             }
-                        }
-                        index++;
-                        endRow(table);
-                    }
-                }
+                            boolean isMeddraQuestion = false;
+                            if (question instanceof MeddraQuestion) {
+                                isMeddraQuestion = true;
+                                meddraQuestion = (MeddraQuestion) question;
+                                addColumn(table, meddraQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
+                            }
 
-                table.append("</table>");
-                tableMap.put(participant, table.toString());
-            }
+                        }
+                    }
+                    endRow(table);
+                    ArrayList<Date> dates = null;
+                    for (Participant participantT : datesMap.keySet()) {
+                        if (participant.equals(participantT)) {
+                            dates = datesMap.get(participant);
+                            break;
+                        }
+                    }
+
+                    int index = 0;
+                    ArrayList<ValidValue> valueList;
+                    if (dates != null) {
+                        for (Date date : dates) {
+                            startRow(table);
+                            addColumn(table, DateUtils.format(date), 1, "");
+                            for (Object obj : valuesLists) {
+                                valueList = (ArrayList<ValidValue>) obj;
+                                if (valueList.size() > index && valueList.get(index) != null) {
+                                    addColumn(table, valueList.get(index).getValue(SupportedLanguageEnum.ENGLISH), 1, "data");
+                                } else {
+                                    addColumn(table, "", 1, "data");
+                                }
+                            }
+                            index++;
+                            endRow(table);
+                        }
+                    }
+
+                    table.append("</table>");
+                    tableMap.put(participant, table.toString());
+                }
+        	}
         }
         return organizationTableMap;
     }
@@ -251,14 +278,18 @@ public class StudyLevelReportResultsController extends AbstractController {
         StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
         Integer studyId = Integer.parseInt(request.getParameter("study"));
         String studySite = request.getParameter("studySite");
-        Integer crfId = Integer.parseInt(request.getParameter("crf"));
-        CRF crf = genericRepository.findById(CRF.class, crfId);
-        List<Integer> crfIds = new ArrayList();
-        crfIds.add(crfId);
-        if (crf.getParentCrf() != null) {
-            crfIds.add(crf.getParentCrf().getId());
+        String crfIdParam = request.getParameter("crf");
+        if(!StringUtils.isBlank(crfIdParam)){
+        	Integer crfId = Integer.parseInt(crfIdParam);
+            CRF crf = genericRepository.findById(CRF.class, crfId);
+            List<Integer> crfIds = new ArrayList();
+            crfIds.add(crfId);
+            if (crf.getParentCrf() != null) {
+                crfIds.add(crf.getParentCrf().getId());
+            }
+            query.filterByCRFIds(crfIds);
+            request.getSession().setAttribute("crf", crf);
         }
-        query.filterByCRFIds(crfIds);
         query.filterByStudy(studyId);
         query.filterByStatus(CrfStatus.COMPLETED);
         if (!StringUtils.isBlank(studySite)) {
@@ -266,7 +297,7 @@ public class StudyLevelReportResultsController extends AbstractController {
             query.filterByStudySite(studySiteId);
         }
         request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
-        request.getSession().setAttribute("crf", genericRepository.findById(CRF.class, crfId));
+        
 
         return query;
     }
