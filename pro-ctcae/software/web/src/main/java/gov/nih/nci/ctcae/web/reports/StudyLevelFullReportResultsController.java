@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 
 import java.text.ParseException;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class StudyLevelFullReportResultsController extends AbstractController {
 
 	GenericRepository genericRepository;
+	StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 	private static Integer MARK_MANUAL_SKIP = -55;
 	private static Integer MARK_FORCE_SKIP =-99;
 	private static Integer MARK_NOT_ADMINISTERED = -2000;
@@ -44,7 +46,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		
 		// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 		StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
-		List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
+		List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
 
 		// Mapping a ProCtcQuestion to a column in Report.
 		TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>(new ProCtcTermNameComparator());
@@ -590,8 +592,39 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 			HttpServletRequest request) throws ParseException {
 		
 		StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
-		Integer studyId = Integer.parseInt(request.getParameter("study"));
-		query.filterByStudy(studyId);
+		String studyParam = request.getParameter("study");
+		String crfIdParam = request.getParameter("crf");
+		String studySite = request.getParameter("studySite");
+		
+		if(!StringUtils.isBlank(studyParam) && StringUtils.isBlank(crfIdParam)){
+        	Integer studyId = Integer.parseInt(studyParam);
+        	List<CRF> crfList = ReportResultsHelper.getReducedCrfs(studyId);
+        	List<Integer> crfIds = new ArrayList<Integer>(); 
+        	for(CRF crf : crfList){
+        		crfIds.add(crf.getId());
+                if (crf.getParentCrf() != null) {
+                    crfIds.add(crf.getParentCrf().getId());
+                }
+        	}
+        	query.filterByCRFIds(crfIds);
+        }
+		
+		if(!StringUtils.isBlank(crfIdParam)){
+        	Integer crfId = Integer.parseInt(crfIdParam);
+            CRF crf = genericRepository.findById(CRF.class, crfId);
+            List<Integer> crfIds = new ArrayList();
+            crfIds.add(crfId);
+            if (crf.getParentCrf() != null) {
+                crfIds.add(crf.getParentCrf().getId());
+            }
+            query.filterByCRFIds(crfIds);
+            request.getSession().setAttribute("crf", crf);
+        }
+		
+		if (!StringUtils.isBlank(studySite)) {
+	        Integer studySiteId = Integer.parseInt(studySite);
+	        query.filterByStudySite(studySiteId);
+		}
 
 		List<CrfStatus> crfStatusList = new ArrayList<CrfStatus>();
 		crfStatusList.add(CrfStatus.COMPLETED);
@@ -602,7 +635,7 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 		query.filterByStatuses(crfStatusList);
 		
 		request.getSession().setAttribute("study",
-				genericRepository.findById(Study.class, studyId));
+				genericRepository.findById(Study.class, Integer.parseInt(studyParam)));
 		return query;
 	}
 
@@ -628,5 +661,9 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 	@Required
 	public void setGenericRepository(GenericRepository genericRepository) {
 		this.genericRepository = genericRepository;
+	}
+	@Required
+	public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+		this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
 	}
 }
