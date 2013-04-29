@@ -145,6 +145,21 @@ public class CrfAjaxFacade {
         return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
     }
 
+    public List<ProCtcTerm> getSymptomsForCrfUsingStudyId(Integer id) {
+    	Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
+    	try {
+			List<CRF> crfList = getReducedCrfs(id);
+			
+			for(CRF crf : crfList){  
+				terms.addAll(getSymptomsForCrf(crf.getId()));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+        return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
+    }
     public List<String> getAttributesForSymptom(Integer id) {
         ProCtcTerm term = genericRepository.findById(ProCtcTerm.class, id);
         ArrayList<String> attributes = new ArrayList<String>();
