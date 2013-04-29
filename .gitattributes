@@ -3217,7 +3217,6 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantreportch
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/reportDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/reportDetails_participantItems.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/searchCriteria.jsp -text
-pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomovertimecharts.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomsummarycharts.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/symptomsummarytable.jsp -text
