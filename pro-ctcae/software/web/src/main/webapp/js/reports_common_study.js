@@ -52,22 +52,27 @@
            var value = crfs[0];
            $('formTitle').innerHTML = value['title'];
            $('form').value = value['id'];
-           displaySymptoms(value['id']);
+           displaySymptoms(value['id'], $('study').value);
        } else {
            var select = populate('formTitle', crfs, 'title', 'id', selectedCrf, 'Form');
            select.onchange = function() {
                $('form').value = this.value;
                if (displaySymptom) {
-                   displaySymptoms(this.value);
+                   displaySymptoms(this.value, $('study').value);
                }
            }
        }
    }
 
-   function displaySymptoms(crfid) {
+   function displaySymptoms(crfid, studyId) {
        $('form').value = crfid;
        if (displaySymptom) {
-           crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
+    	   if(crfid != ""){
+    		   crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
+    	   } else {
+    		   crf.getSymptomsForCrfUsingStudyId(studyId, updateSymptomDropDown);
+    	   }
+           
        }
    }
 
@@ -75,6 +80,10 @@
 
    function updateSymptomDropDown(symptoms) {
        $('divSymptomsRow').show();
+       var childNodes = $('proCtcTerms').childNodes;
+       for(i = 0; i< childNodes.length; i++){
+    	   $('proCtcTerms').removeChild(childNodes[i])
+       }
        var select = populate('proCtcTerms', symptoms, 'term', 'id', '', 'Symptom');
    }
 
@@ -97,9 +106,6 @@
        hasError = false;
        var j = 0;
        var arr = new Array();
-       if (displayForm) {
-           arr[j++] = 'form';
-       }
        if (displaySymptom) {
            arr[j++] = 'proCtcTermsSelect';
        }
