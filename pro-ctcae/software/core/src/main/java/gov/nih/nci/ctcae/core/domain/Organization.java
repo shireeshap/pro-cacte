@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "ORGANIZATIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_organizations_id")})
-public class Organization extends BaseVersionable {
+public class Organization extends BaseVersionable implements Comparable<Organization> {
 
     /**
      * The Constant DEFAULT_SITE_NAME.
@@ -151,4 +151,9 @@ public class Organization extends BaseVersionable {
     public String toString() {
         return getDisplayName();
     }
+
+	@Override
+	public int compareTo(Organization o) {
+		 return this.getDisplayName().toLowerCase().compareTo(o.getDisplayName().toLowerCase());
+	}
 }

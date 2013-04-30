@@ -28,7 +28,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "PARTICIPANTS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_participants_id")})
-public class Participant extends Person {
+public class Participant extends Person implements Comparable<Participant> {
 
     /**
      * The maiden name.
@@ -398,4 +398,9 @@ public class Participant extends Person {
     public void setConfirmPinNumber(Integer confirmPinNumber) {
         this.confirmPinNumber = confirmPinNumber;
     }
+
+	@Override
+	public int compareTo(Participant o) {
+		return this.getDisplayName().toLowerCase().compareTo(o.getDisplayName().toLowerCase());
+	}
 }

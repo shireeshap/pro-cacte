@@ -49,20 +49,20 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
 
 		// Mapping a ProCtcQuestion to a column in Report.
-		TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>(new ProCtcTermNameComparator());
+		TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
 		// Mapping a MeddraQuestion to a column in Report.
-		TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>(new lowLevelTermNameComparator());
+		TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>();
 		// ProCtcQuestion List to be displayed in Report's table header (ordered according to proCtcQuestionMapping)
 		ArrayList<String> proCtcTermHeaders = new ArrayList<String>();
 		
 		// MeddraQuestion List to be displayed in Report's table header (ordered according to meddraQuestionMapping)
 		ArrayList<String> meddraTermHeaders = new ArrayList<String>();
 		// Save the start dates of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>(new CrfNameComparator());
+		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>();
 		// Save the survey_answering_mode of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>(new CrfNameComparator());
+		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>();
 		// Save the survey status of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>(new CrfNameComparator());
+		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>();
 	  
 		int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
 		generateMeddraQuestionMappingForTableHeader(list, meddraQuestionMapping, meddraTermHeaders, col);
@@ -188,7 +188,7 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 			ArrayList<String> meddraTermHeaders, int col) throws ParseException {
 
 		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> organizationMap = 
-				new TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>(new OrganizationNameComparator());
+				new TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>();
 		TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> crfMap;
 		TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap;
 		TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap;
@@ -201,7 +201,7 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 			if (organizationMap.containsKey(organization)) {
 				crfMap = organizationMap.get(organization);
 			} else {
-				crfMap = new TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>(new CrfNameComparator());
+				crfMap = new TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>();
 				organizationMap.put(organization, crfMap);
 			}
 
@@ -209,7 +209,7 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 			if (crfMap.containsKey(crf)) {
 				participantMap = crfMap.get(crf);
 			} else {
-				participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>(new ParticipantNameComparator());
+				participantMap = new TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>();
 				crfMap.put(crf, participantMap);
 			}
 			

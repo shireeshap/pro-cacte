@@ -46,7 +46,7 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "CRFS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crfs_id")})
 
-public class CRF extends BaseVersionable {
+public class CRF extends BaseVersionable implements Comparable<CRF>{
 
 
     /**
@@ -944,5 +944,8 @@ public class CRF extends BaseVersionable {
 
     }
 
-
+	@Override
+	public int compareTo(CRF o) {
+		return this.getTitle().toLowerCase().compareTo(o.getTitle().toLowerCase());
+	}
 }

@@ -27,7 +27,7 @@ public class ReportDetailsController extends AbstractReportResultsController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HashMap<Integer, Integer> participants = new HashMap<Integer, Integer>();
-        TreeMap<Participant, Integer> results = new TreeMap<Participant, Integer>(new ParticipantNameComparator());
+        TreeMap<Participant, Integer> results = new TreeMap<Participant, Integer>();
 
         WorstResponsesDetailsQuery query = new WorstResponsesDetailsQuery();
         ReportResultsHelper.parseRequestParametersAndFormQuery(request, query);

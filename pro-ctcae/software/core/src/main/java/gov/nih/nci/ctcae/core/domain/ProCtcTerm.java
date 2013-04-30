@@ -36,7 +36,7 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "PRO_CTC_TERMS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
         @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
-public class ProCtcTerm extends BasePersistable {
+public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm> {
 
     /**
      * The id.
@@ -276,4 +276,9 @@ public class ProCtcTerm extends BasePersistable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+	@Override
+	public int compareTo(ProCtcTerm o) {
+		 return this.getProCtcTermVocab().getTermEnglish().toLowerCase().compareTo(o.getProCtcTermVocab().getTermEnglish().toLowerCase());
+	}
 }
