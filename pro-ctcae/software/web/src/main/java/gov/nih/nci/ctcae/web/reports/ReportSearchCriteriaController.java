@@ -37,7 +37,7 @@ public class ReportSearchCriteriaController extends AbstractController {
         cleanSession(request);
         String reportType = request.getParameter("rt");
         if (StringUtils.isBlank(reportType)) {
-            ModelAndView rv = new ModelAndView(new RedirectView("report?rt=overallStudyAllSiteAndForms"));
+            ModelAndView rv = new ModelAndView(new RedirectView("report?rt=overallStudyWideFormat"));
             return rv;
         }
         ModelAndView modelAndView = new ModelAndView("reports/searchCriteria");

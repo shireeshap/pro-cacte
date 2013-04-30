@@ -570,7 +570,7 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantReportExcelController">
     </bean>
 
-    <bean name="/reports/overallStudyAllSiteAndForms" id="studyLevelFullReportResultsController"
+    <bean name="/reports/overallStudyWideFormat" id="studyLevelFullReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
 	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
