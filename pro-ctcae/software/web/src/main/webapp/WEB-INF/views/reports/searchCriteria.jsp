@@ -64,6 +64,7 @@
                 return;
             }
             showIndicator();
+            showMessage();
             var request = new Ajax.Request(reportUrl, {
                 parameters:getQueryString(group, arms),
                 onComplete:function(transport) {
@@ -73,17 +74,18 @@
                         showResults(transport);
                     }
                     hideIndicator();
+                    $('waitMessage').hide();
                 },
                 method:'get'
             }
                     )
         }
         
-        function showMessagePopUP(){
+        function showMessage(){
         	var reportUrl = "${url}";
-        	if(reportUrl.substr(24) == "overallStudyAllSiteAndForms"){
-        		alert("Please wait as your report will be ready for download in few minutes.");        	
-        	}
+        	if(reportUrl.substr(24) == "overallStudyWideFormat"){
+           	 $('waitMessage').show();	
+           }
         }
 
         function showText(obj) {
@@ -106,6 +108,7 @@
                 new YUIAutoCompleter('studyInput', getStudies, handleSelect);
             }
             new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
+            $('waitMessage').hide();
         });
 
         function getStudies(sQuery) {
@@ -195,6 +198,27 @@
         </c:choose>
         <c:if test="${not onlyStudy}">
             <c:choose>
+                <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
+                    <div class="row" style="display:none;margin-left:11px;">
+                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value">
+                            <select id="proCtcTermsSelect" title="symptom">
+                                <option value="">Please select</option>
+                                <c:forEach items="${proctcterms}" var="proctcterm">
+                                    <option value="${proctcterm.id}">${proctcterm.term}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="row" id="divSymptomsRow" style="display:none; display:none; margin-left:11px;">
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value" id="proCtcTerms"></div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
                 <c:when test="${crfs ne null}">
 	                <div class="row" style="margin-left:11px;">
 	                    <div class="label"><tags:requiredIndicator/><tags:message
@@ -215,27 +239,6 @@
                         <div class="label"><tags:message code="reports.label.form"/></div>
                         <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-            <c:choose>
-                <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
-                    <div class="row" style="display:none;margin-left:11px;">
-                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
-                        <div class="value">
-                            <select id="proCtcTermsSelect" title="symptom">
-                                <option value="">Please select</option>
-                                <c:forEach items="${proctcterms}" var="proctcterm">
-                                    <option value="${proctcterm.id}">${proctcterm.term}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="row" id="divSymptomsRow" style="display:none; display:none; margin-left:11px;">
-                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
-                        <div class="value" id="proCtcTerms"></div>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -298,9 +301,16 @@
         </c:if>
         <div id="search" class="row">
             <div style="margin-left:9em">
-                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();showMessagePopUP()" size="big"
+                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="big"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
+                
+                <ul class="label" id="waitMessage" style="position:right">
+                	<br/> 
+                	<li> <tags:message code="reports.fullStudyLevelReport.waitMessage"/>
+                	</li>
+                </ul>
+                
             </div>
             <div id="studydata" align="right" style="display:none;">
             </div>
