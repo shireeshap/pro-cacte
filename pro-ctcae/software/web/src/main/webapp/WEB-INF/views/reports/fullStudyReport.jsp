@@ -7,7 +7,7 @@
 	<chrome:box title="reports.fullStudyLevelReport.results">
 		<div id="downloadExcelReport" style="position:relative; left:25px">
 			<br>
-			<a href="<c:url value='/pages/reports/studyLevelFullReportExcel'/>" target="_blank">
+			<a href="<c:url value='/pages/reports/studyLevelFullReportCsv'/>" target="_blank">
                 <tags:message code="reports.fullStudyLevelReport.download"/> <img src="/proctcae/images/table/xls.gif" alt="xls"/>
     		</a>
     		<br>

@@ -576,6 +576,10 @@
 	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
     
+     <bean name="/reports/studyLevelFullReportCsv" id="studyLevelFullReportCSVController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportCSVController">
+    </bean>
+    
     <bean name="/reports/getParticipantItems" id="getParticipantCrfItemsController"
           class="gov.nih.nci.ctcae.web.reports.GetParticipantCrfItemsController">
         <property name="genericRepository" ref="genericRepository"/>
