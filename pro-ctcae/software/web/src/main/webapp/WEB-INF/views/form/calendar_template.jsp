@@ -13,6 +13,7 @@
 <tags:stylesheetLink name="tabbedflow"/>
 <tags:includeScriptaculous/>
 <tags:includePrototypeWindow/>
+<tags:javascriptLink name="validation.js"/>
 <style type="text/css">
 
     table.top-widget {

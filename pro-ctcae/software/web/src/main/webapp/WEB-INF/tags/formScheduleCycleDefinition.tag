@@ -49,10 +49,11 @@
                 	<td>&nbsp;</td>
                     <td>
                         <b><tags:message code="form.schedule.cycle_length"/></b>
+                        <tags:requiredIndicator/>
                         <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
                                value="${crfCycleDefinition.cycleLength}"
                                name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLength"
-                               class="validate-NUMERIC"
+                               class="validate-NOTEMPTY"
                                title="Cycle Length"/>
                         <tags:renderSelect
                                 propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLengthUnit"
@@ -75,18 +76,20 @@
                                                    propertyName="select_repeat_${cycleDefinitionIndex}"/>
                             </c:otherwise>
                         </c:choose>
+                        <tags:requiredIndicator/>
                         <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
                                value="${crfCycleDefinition.repeatTimes}"
                                name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                            <%--class="validate-NUMERIC"--%>
+                               class="validate-NOTEMPTY"
                                title="Planned Repetitions"/>
                     </td>
                     <td>
-                        &nbsp;&nbsp;<b>Form expires after </b><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
+                        &nbsp;&nbsp;<b>Form expires after </b><tags:requiredIndicator/><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
                                                            value="${crfCycleDefinition.dueDateValue}"
                                                            name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"
-                        <%--class="validate-NUMERIC"--%>
-                            /> <b>Day(s)</b>
+                                                           title="Form expiry value"
+                        								   class="validate-NOTEMPTY"/> 
+                        	<b>Day(s)</b>
                             <%--<tags:renderText propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"--%>
                             <%--displayName="form.calendar.dueAfter" size="2"/>--%>
                     </td>
