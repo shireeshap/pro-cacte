@@ -250,6 +250,10 @@
           class="gov.nih.nci.ctcae.web.form.ViewFormController">
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
+    <bean name="/form/printForm" id="printFormController"
+          class="gov.nih.nci.ctcae.web.form.PrintFormController">
+        <property name="crfRepository" ref="crfRepository"/>
+    </bean>
 
     <bean name="/form/deleteForm" id="deleteFormController"
           class="gov.nih.nci.ctcae.web.form.DeleteFormController" parent="ctcaeSimpleFormController">
