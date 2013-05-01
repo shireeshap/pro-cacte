@@ -74,9 +74,12 @@ function showPopUpMenu(cid, status, showVersion) {
 	        html += '<li><a href="#" onclick="javascript:hideForm(' + cid + ')">Hide form</a></li>';
 	    </proctcae:urlAuthorize>
     }
+    
 	<proctcae:urlAuthorize url="/pages/form/copyForm">
 	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/copyForm"/>?crfId=' + cid + '\'">Copy form</a></li>';
 	</proctcae:urlAuthorize>
+	html += '<li id="nav"><a href="#" >Print form (' + cid + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=en&crfId=' + cid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=es&crfId=' + cid + '\'">Spanish</a></li></ul></li>';
+	
     if (status == 'Draft') {
 	    <proctcae:urlAuthorize url="/pages/form/releaseForm">
 	        html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
