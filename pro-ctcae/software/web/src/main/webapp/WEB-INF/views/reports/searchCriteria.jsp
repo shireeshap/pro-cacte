@@ -104,11 +104,11 @@
     <script type="text/javascript">
         var managerAutoComp;
         Event.observe(window, 'load', function() {
+        	$('waitMessage').hide();
             if (${study eq null}) {
                 new YUIAutoCompleter('studyInput', getStudies, handleSelect);
             }
             new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
-            $('waitMessage').hide();
         });
 
         function getStudies(sQuery) {
