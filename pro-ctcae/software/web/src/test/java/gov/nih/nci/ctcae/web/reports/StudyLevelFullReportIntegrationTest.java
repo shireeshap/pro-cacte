@@ -42,6 +42,7 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
         request.setMethod("GET");
         request.setParameter("study", study.getId().toString());
         controller.setGenericRepository(genericRepository);
+        controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
     }
 
     @SuppressWarnings("unchecked")
