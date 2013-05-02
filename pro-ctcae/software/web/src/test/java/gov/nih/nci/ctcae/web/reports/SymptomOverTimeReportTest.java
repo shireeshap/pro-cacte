@@ -32,6 +32,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
             request.setParameter("symptom", symptomId.toString());
             request.setParameter("attributes", "_Severity_Frequency");
             request.setParameter("group", "cycle");
+            request.setParameter("study", study.getId().toString());
             request.setMethod("GET");
 
             ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -63,6 +64,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 	        request.setParameter("attributes", "_Severity_Frequency");
 	        request.setParameter("group", "cycle");
 	        request.setParameter("arms", arms);
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -94,6 +96,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 	        request.setParameter("group", "cycle");
 	        request.setParameter("arms", arms);
 	        request.setParameter("chartType", "line");
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -121,6 +124,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 	        request.setParameter("attributes", "_Severity_Frequency");
 	        request.setParameter("group", "cycle");
 	        request.setParameter("arms", arms);
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
