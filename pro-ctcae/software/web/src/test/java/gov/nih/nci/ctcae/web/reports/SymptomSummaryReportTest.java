@@ -33,6 +33,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 	        request.setParameter("crf", crf.getId().toString());
 	        request.setParameter("symptom", symptomId.toString());
 	        request.setParameter("attributes", "_Severity_Frequency");
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -58,6 +59,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 	        request.setParameter("symptom", symptomId.toString());
 	        request.setParameter("attributes", "_Severity_Frequency");
 	        request.setParameter("arms", study.getArms().get(0).getId() + "_");
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -87,6 +89,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 	        request.setParameter("symptom", symptomId.toString());
 	        request.setParameter("attributes", "_Severity_Frequency");
 	        request.setParameter("arms", arms);
+	        request.setParameter("study", study.getId().toString());
 	        request.setMethod("GET");
 	
 	        ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -106,6 +109,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
+        request.setParameter("study", study.getId().toString());
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
