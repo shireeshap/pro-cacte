@@ -771,9 +771,11 @@ public class ParticipantCommand {
     public void initialize() {
         if (participant.getUser() != null) {
             if (participant.getUser().getUserRoles() != null) participant.getUser().getUserRoles().size();
+            if (participant.getUser().getUserPasswordHistory() != null) participant.getUser().getUserPasswordHistory().size();
         }
         if (participant.getStudyParticipantAssignments() != null) {
             participant.getStudyParticipantAssignments().size();
+            
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
                 if (studyParticipantAssignment.getStudyParticipantCrfs() != null) {
                     for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
@@ -785,8 +787,9 @@ public class ParticipantCommand {
                                 crfPageItem.getId();
                             }
                         }
-                        if (studyParticipantCrf.getCrf().getFormArmSchedules() != null)
+                        if (studyParticipantCrf.getCrf().getFormArmSchedules() != null){
                             studyParticipantCrf.getCrf().getFormArmSchedules().size();
+                        }
                         for (FormArmSchedule formArmSchedule : studyParticipantCrf.getCrf().getFormArmSchedules()) {
                             if (formArmSchedule.getCrfCalendars() != null) formArmSchedule.getCrfCalendars().size();
                             if (formArmSchedule.getCrfCycleDefinitions() != null)

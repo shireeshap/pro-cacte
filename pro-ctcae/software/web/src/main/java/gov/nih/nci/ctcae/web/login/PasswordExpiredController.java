@@ -39,8 +39,8 @@ public class PasswordExpiredController extends SimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         User user = (User) command;
         User realUser = userRepository.findByUserName(user.getUsername()).get(0);
-        realUser.setPassword(user.getNewPassword());
-        userRepository.saveWithoutCheck(realUser);
+//        realUser.setPassword(user.getNewPassword());
+        userRepository.saveOrUpdate(realUser, userRepository.getEncodedPassword(user));
         return new ModelAndView(new RedirectView("../pages/j_spring_security_logout"));
     }
 
@@ -50,7 +50,7 @@ public class PasswordExpiredController extends SimpleFormController {
         User user = (User) command;
         List<User> users = userRepository.findByUserName(user.getUsername());
         if (users == null || users.size() != 1) {
-            errors.reject("INVALID_USER", "The username that you have provided does not exist in the system. Please provide a valid username.");
+            errors.reject("INVALID_USER", " The username that you have provided does not exist in the system. Please provide a valid username.");
             clearAllPasswords(user);
         } else {
             User realUser = users.get(0);
@@ -63,10 +63,13 @@ public class PasswordExpiredController extends SimpleFormController {
                     errors.reject("INVALID_PASSWORD", "Please provide a new password different than the current password.");
                     clearAllPasswords(user);
                 } else {
-                    user.setId(realUser.getId());
+//                    user.setId(realUser.getId());
                     user.setPassword(user.getNewPassword());
+                    user.setUserPasswordHistory(realUser.getUserPasswordHistory());
+                    user.setUserRoles(realUser.getUserRoles());
+//                    userRepository.setUserPasswordWithoutSalting(user, user.getNewPassword());
                     try {
-                        boolean validUser = userNameAndPasswordValidator.validate(user);
+                        boolean validUser = userNameAndPasswordValidator.validate(user, false, true);
                         if (!validUser) {
                             errors.reject("INVALID_PASSWORD", userNameAndPasswordValidator.message());
                             clearAllPasswords(user);

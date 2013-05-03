@@ -1,8 +1,23 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyMode;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
@@ -13,10 +28,16 @@ import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberV
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStudyIdentifierForParticipantValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.ivrs.callout.IvrsCallOutScheduler;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +62,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private UniqueParticipantUserNumberValidator uniqueParticipantUserNumberValidator;
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
     private OrganizationRepository organizationRepository;
-
+    private UserRepository userRepository;
+    
 	protected static final Log logger = LogFactory.getLog(ParticipantDetailsTab.class);
 
 	
@@ -69,7 +91,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         if (command.getParticipant().isPersisted()) {
             //Edit flow
-//            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
             StudyParticipantAssignment studyParticipantAssignment = command.getSelectedStudyParticipantAssignment();
             StudySite studySite = studyParticipantAssignment.getStudySite();
             String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
@@ -96,19 +117,21 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             String userName = request.getParameter("participant.username_" + studySite.getId());
             if (!StringUtils.isBlank(userName)) {
                 try {
-                    command.getParticipant().getUser().setUsername(userName);
+                	command.getParticipant().getUser().setUsername(userName);
                 } catch (Exception e) {
-                    command.getParticipant().getUser().setUsername(null);
+                	command.getParticipant().getUser().setUsername(null);
                 }
             }
-            String password = request.getParameter("participant.password_" + studySite.getId());
-            if (!StringUtils.isBlank(password)) {
+            String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId()).trim();
+            if (!StringUtils.isBlank(newPasswordBeforeEncoding)) {
+            	//Participant obj has the new pwd from UI and User object has the existing pwd. They are used to determine if there has been any change in pwd.
                 try {
-                    command.getParticipant().getUser().setPassword(password);
+                	command.getParticipant().setPassword(newPasswordBeforeEncoding);
                 } catch (Exception e) {
-                    command.getParticipant().getUser().setPassword(null);
+                	command.getParticipant().setPassword(null);
                 }
             }
+            
             String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
             if (!StringUtils.isBlank(userNumber)) {
                 try {
@@ -174,19 +197,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 String userName = request.getParameter("participant.username_" + studySite.getId());
                 if (!StringUtils.isBlank(userName)) {
                     try {
-                        command.getParticipant().getUser().setUsername(userName);
+                    	command.getParticipant().getUser().setUsername(userName);
                     } catch (Exception e) {
-                        command.getParticipant().getUser().setUsername(null);
+                    	command.getParticipant().getUser().setUsername(null);
                     }
                 }
-                String password = request.getParameter("participant.password_" + studySite.getId());
-                if (!StringUtils.isBlank(password)) {
+                String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId());
+                if (!StringUtils.isBlank(newPasswordBeforeEncoding)) {
                     try {
-                        command.getParticipant().getUser().setPassword(password);
+                    	command.getParticipant().setPassword(newPasswordBeforeEncoding);
                     } catch (Exception e) {
-                        command.getParticipant().getUser().setPassword(null);
+                    	command.getParticipant().setPassword(null);
                     }
                 }
+             
                 String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(userNumber)) {
                     try {
@@ -298,18 +322,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_mrn");
             }
         }
-        //check for password policy
-        User user = command.getParticipant().getUser();
-        user.addUserRole(new UserRole(Role.PARTICIPANT));
-          if (user.getPassword()!=null) {
-            try {
-                userNameAndPasswordValidator.validatePasswordPolicy(user);
-            } catch (PasswordCreationPolicyException ex) {
-                for (ValidationError ve : ex.getErrors().getErrors()) {
-                    errors.reject("password", ve.getMessage());
+        //check for password policy if there is a change in password
+        if(!command.getParticipant().getPassword().equals(command.getParticipant().getUser().getPassword())){
+        	User cloneUserWithNewPassword = buildUserForPasswordValidation(command);
+            if (cloneUserWithNewPassword.getPassword() != null) {
+                try {
+                    userNameAndPasswordValidator.validatePasswordPolicy(cloneUserWithNewPassword);
+                    //encode pwd in participant after validation is successful.
+                    String newPasswordAfterEncoding = userRepository.getEncodedPassword(command.getParticipant().getUser(), command.getParticipant().getPassword());
+                    command.getParticipant().setPassword(newPasswordAfterEncoding);
+                } catch (PasswordCreationPolicyException ex) {
+                    for (ValidationError ve : ex.getErrors().getErrors()) {
+                        errors.reject("password", ve.getMessage());
+                    }
                 }
             }
-          }
+        }
 
         for (Integer studySiteId : command.getStudySubjectIdentifierMap().keySet()) {
             String ssi = command.getStudySubjectIdentifierMap().get(studySiteId);
@@ -325,11 +353,26 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         
     }
 
-    public Map<String, Object> referenceData(ParticipantCommand command) {
+    private User buildUserForPasswordValidation(ParticipantCommand command) {
+        User origUser = command.getParticipant().getUser();
+        User cloneUser = new User();
+        
+        cloneUser.setUsername(origUser.getUsername());
+        cloneUser.setUserPasswordHistory(origUser.getUserPasswordHistory());
+        cloneUser.setUserRoles(origUser.getUserRoles());
+        cloneUser.setPassword(command.getParticipant().getPassword());
+        cloneUser.addUserRole(new UserRole(Role.PARTICIPANT));
+        
+        return cloneUser;
+
+	}
+
+	public Map<String, Object> referenceData(ParticipantCommand command) {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByStudySiteAndLeadSiteOnly();
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
+
 
         Set<Organization> organizationsHavingStudySite = new HashSet<Organization>();
         for (StudyOrganization studySite : studySites) {
@@ -446,11 +489,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     }
 
-    /**
-     * Sets the crf repository.
-     *
-     * @param crfRepository the new crf repository
-     */
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
     }
@@ -462,10 +500,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
         this.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
-
-//    public void setProCtcAEProperties(Properties proCtcAEProperties) {
-//        this.proCtcAEProperties = proCtcAEProperties;
-//    }
 
     public void setUniqueStudyIdentifierForParticipantValidator(UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator) {
         this.uniqueStudyIdentifierForParticipantValidator = uniqueStudyIdentifierForParticipantValidator;
@@ -487,4 +521,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
+
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 }

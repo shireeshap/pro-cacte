@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
@@ -41,6 +42,7 @@ public class ResetPasswordController extends SimpleFormController {
         ResetPasswordCommand command = new ResetPasswordCommand();
         String token = request.getParameter("token");
         command.setUser(userRepository.findByUserToken(token));
+        command.getUser().getUserPasswordHistory().size();
         return command;
 
     }
@@ -49,12 +51,15 @@ public class ResetPasswordController extends SimpleFormController {
     protected ModelAndView showForm(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, BindException e) throws Exception {
         ResetPasswordCommand command = (ResetPasswordCommand) e.getTarget();
         ModelAndView modelAndView = super.showForm(httpServletRequest, httpServletResponse, e);
-
         User user = command.getUser();
-        if (user == null || (new Date().getTime() - user.getTokenTime().getTime() > 86400000)) {
+
+        PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+        long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
+        
+        if (user == null || (new Date().getTime() - user.getTokenTime().getTime() > lockoutDurationInMillis)) {
             modelAndView.addObject("expired", "true");
         } else {
-            modelAndView.addObject("passwordPolicy", passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy()));
+            modelAndView.addObject("passwordPolicy", passwordPolicy);
         }
         return modelAndView;
     }
@@ -63,14 +68,15 @@ public class ResetPasswordController extends SimpleFormController {
     protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
         super.onBindAndValidate(request, o, e);
         ResetPasswordCommand command = (ResetPasswordCommand) o;
-
         User cmdUser = command.getUser();
 
         User user = new User();
         user.setUsername(command.getUsername().toLowerCase().trim());
+        //user.setPassword(userRepository.getEncodedPassword(user));
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
         user.setUserRoles(cmdUser.getUserRoles());
+        user.setUserPasswordHistory(cmdUser.getUserPasswordHistory());
 
         if (!cmdUser.getUsername().equals(command.getUsername().toLowerCase())) {
         	Locale locale = LocaleContextHolder.getLocale();
@@ -88,19 +94,21 @@ public class ResetPasswordController extends SimpleFormController {
             }
         }
     }
-    
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o, BindException e) throws Exception {
 
         ResetPasswordCommand command = (ResetPasswordCommand) o;
+        //User user = userRepository.findById(command.getUser().getId());
         User user = command.getUser();
         user.setPassword(command.getPassword());
-        user.setToken(null);
-        userRepository.saveWithoutCheck(user);
+        user.setConfirmPassword(command.getConfirmPassword());
+        userRepository.saveWithoutCheck(user, true);
+        
         ModelAndView modelAndView = new ModelAndView("passwordReset");
         modelAndView.addObject("Message", "user.password.reset");
         return modelAndView;
+        
     }
 
     public void setUserRepository(UserRepository userRepository) {

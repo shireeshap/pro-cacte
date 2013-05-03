@@ -99,7 +99,7 @@ public class ForgotPasswordController extends AbstractFormController {
             user.setToken(UUID.randomUUID().toString());
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
-            userRepository.saveWithoutCheck(clinicalStaff.getUser());
+            userRepository.saveWithoutCheck(clinicalStaff.getUser(), false);
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
             content += "\nYou must reset your password by clicking on this link ";
             content += "\n\n" + StringUtils.replace(request.getRequestURL().toString(),"password","resetPassword") +"?token=" + token;
@@ -138,7 +138,7 @@ public class ForgotPasswordController extends AbstractFormController {
             user.setToken(UUID.randomUUID().toString());
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
-            userRepository.saveWithoutCheck(participant.getUser());
+            userRepository.saveWithoutCheck(participant.getUser(), false);
             
             String content = salutation + participant.getFirstName() + " " + participant.getLastName() + ", ";
             content += "\n" + msg1;
