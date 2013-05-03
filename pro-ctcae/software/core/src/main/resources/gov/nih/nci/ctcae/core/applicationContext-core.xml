@@ -89,7 +89,9 @@
 		<value>gov.nih.nci.ctcae.core.domain.IvrsCallHistory</value>
 		<value>gov.nih.nci.ctcae.core.domain.StudyParticipantCRFScheduleSymptomRecord</value>
         <value>gov.nih.nci.ctcae.core.domain.CategoryTermSet</value>
+        <value>gov.nih.nci.ctcae.core.domain.UserPasswordHistory</value>
     </util:list>
+    
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
           autowire="byName">
         <property name="namingStrategy">
@@ -352,19 +354,33 @@
         <property name="userPropertyToUse" value="getUsername"/>
     </bean>
 
-
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>
+    
     <bean id="passwordPolicyService" class="gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="passwordCreationPolicyValidator" ref="passwordCreationPolicyValidator"/>
+        <property name="loginPolicyValidator" ref="loginPolicyValidator"/>
     </bean>
+    
+    <bean id="passwordCreationPolicyValidator" class="gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyValidator">
+        <property name="combinationValidator" ref="combinationValidator"/>
+    </bean>
+    
+    <bean id="combinationValidator" class="gov.nih.nci.ctcae.core.security.passwordpolicy.validators.CombinationValidator">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+    
+    <bean id="loginPolicyValidator" class="gov.nih.nci.ctcae.core.security.passwordpolicy.validators.LoginPolicyValidator" />
+    
     <bean id="userNameAndPasswordValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
         <property name="userRepository" ref="userRepository"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
         <property name="messageSource" ref="messageSource"/>
     </bean>
+    
     <bean id="firstAndLastNameValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator">
         <property name="messageSource" ref="messageSource"/>
