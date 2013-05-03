@@ -132,16 +132,17 @@
                             </div>
                         </div>
 
-                        <%--<div class="nested_section">--%>
-                        <%--<div class="row">--%>
-                        <%--<div class="required_label">Password history size:</div>--%>
-                        <%--<div class="required_value">--%>
-                        <%--<form:input path="passwordCreationPolicy.passwordHistorySize" size="3"/>--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
+							<div class="nested_section">
+								<div class="row">
+									<div class="required_label">Password history size:</div>
+									<div class="required_value">
+										<form:input path="passwordCreationPolicy.passwordHistorySize"
+											size="3" />
+									</div>
+								</div>
+							</div>
 
-                        <div class="nested_section">
+							<div class="nested_section">
                             <div class="row">
                                 <div class="required_label">Minimum password length:</div>
                                 <div class="required_value">
