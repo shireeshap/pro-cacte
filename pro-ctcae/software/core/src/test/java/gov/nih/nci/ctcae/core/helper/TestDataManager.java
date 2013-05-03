@@ -10,6 +10,9 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordCreationPolicy;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
@@ -33,7 +36,10 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepos
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
-import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.CombinationValidatorTest;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.CombinationValidator;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.LoginPolicyValidator;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 
 import java.text.ParseException;
@@ -74,12 +80,20 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
     public static UserNameAndPasswordValidator userNameAndPasswordValidator;
-    public static IvrsScheduleRepository ivrsScheduleRepository;
+    public static PasswordPolicyService passwordPolicyService;
+    public static LoginPolicyValidator loginPolicyValidator;
+    public static PasswordCreationPolicyValidator passwordCreationPolicyValidator;
+	public static CombinationValidator combinationValidator;
+	public static IvrsScheduleRepository ivrsScheduleRepository;
     public static IvrsCallHistoryRepository ivrsCallHistoryRepository;
     public static StudyParticipantCRFScheduleSymptomRecordRepository studyParticipantCRFScheduleSymptomRecordRepository;
     public static LowLevelTermDao lowLevelTermDao; 
     public static MeddraVersionDao meddraVersionDao;
     public static HibernateTemplate hibernateTemplate;
+    
+	public static CombinationPolicy combinationPolicy = new CombinationPolicy();
+	public static PasswordCreationPolicy passwordCreationPolicy = new PasswordCreationPolicy();
+	public static PasswordPolicy passwordPolicy = new PasswordPolicy();
     
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
@@ -478,31 +492,29 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.studyParticipantCRFScheduleSymptomRecordRepository = studyParticipantCRFScheduleSymptomRecordRepository;
     }
     
-//    private void deleteUsingHibernate(){
-//                 StudyQuery query = new StudyQuery();
-//        List<Study> studies = (List) studyRepository.find(query);
-//        for (Study study : studies) {
-//            studyRepository.delete(study);
-//        }
-//
-//        ParticipantQuery pQuery = new ParticipantQuery();
-//        List<Participant> participants = (List) participantRepository.find(pQuery);
-//        for (Participant p : participants) {
-//            participantRepository.delete(p);
-//        }
-//
-//        ClinicalStaffQuery csQuery = new ClinicalStaffQuery();
-//        List<ClinicalStaff> clinicalStaffs = (List) clinicalStaffRepository.find(csQuery);
-//        for (ClinicalStaff cs : clinicalStaffs) {
-//            clinicalStaffRepository.delete(cs);
-//        }
-//
-//        UserQuery uQuery = new UserQuery();
-//        List<User> users = (List) userRepository.find(uQuery);
-//        for (User u : users) {
-//            userRepository.delete(u);
-//        }
-//    }
+    @Required
+    public static void setPasswordPolicyService(
+			PasswordPolicyService passwordPolicyService) {
+		TestDataManager.passwordPolicyService = passwordPolicyService;
+	}
+    
+    @Required
+    public static void setLoginPolicyValidator(
+			LoginPolicyValidator loginPolicyValidator) {
+		TestDataManager.loginPolicyValidator = loginPolicyValidator;
+	}
+
+    @Required
+	public static void setPasswordCreationPolicyValidator(
+			PasswordCreationPolicyValidator passwordCreationPolicyValidator) {
+		TestDataManager.passwordCreationPolicyValidator = passwordCreationPolicyValidator;
+	}
+
+    @Required
+	public static void setCombinationValidator(
+			CombinationValidator combinationValidator) {
+		TestDataManager.combinationValidator = combinationValidator;
+	}
 
     private void deleteUsingJdbcTemplate() {
         jdbcTemplate.execute("delete from user_notifications");
@@ -535,6 +547,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from user_roles");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from participants");
+        jdbcTemplate.execute("delete from password_history");
         jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from audit_event_values");
         jdbcTemplate.execute("delete from audit_events");
