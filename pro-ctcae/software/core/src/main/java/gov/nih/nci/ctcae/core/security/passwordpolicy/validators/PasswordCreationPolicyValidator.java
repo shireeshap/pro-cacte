@@ -8,11 +8,11 @@ import gov.nih.nci.ctcae.core.validation.ValidationErrors;
 public class PasswordCreationPolicyValidator implements PasswordPolicyValidator {
     private PasswordPolicyValidator combinationValidator;
 
-    public PasswordCreationPolicyValidator() {
-        combinationValidator = new CombinationValidator();
-    }
+	public void setCombinationValidator(PasswordPolicyValidator combinationValidator) {
+		this.combinationValidator = combinationValidator;
+	}
 
-    /**
+	/**
      * This method calls all the password creation policy validating methods
      */
     public boolean validate(PasswordPolicy policy, User user, ValidationErrors validationErrors)

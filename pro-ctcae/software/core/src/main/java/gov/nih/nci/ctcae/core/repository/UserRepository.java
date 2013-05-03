@@ -13,6 +13,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
+import gov.nih.nci.ctcae.core.domain.UserPasswordHistory;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
@@ -31,6 +32,7 @@ import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -271,8 +273,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     public User findById(Integer id) {
         return genericRepository.findById(User.class, id);
-
-
     }
 
     //TODO:SA Needs to remove after Clinical Staff refracted
@@ -282,44 +282,44 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
         }
         user.setUsername(user.getUsername().toLowerCase());
+    	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+        String encoded = getEncodedPassword(user);
+
         if (user.getId() == null) {
             List<User> users = findByUserName(user.getUsername());
             if (users.size() > 0) {
                 throw new UsernameAlreadyExistsException(user.getUsername());
             }
-            String encoded = getEncodedPassword(user);
-            user.setPassword(encoded);
-        } else {
+    		user.setUserPasswordWithSalting(passwordPolicy, encoded);
+    	} else {
             String myPassword = user.getPassword();
             if (myPassword != null) {
                 User temp = findById(user.getId());
                 String currentPassword = temp.getPassword();
                 if (!myPassword.equals(currentPassword)) {
-                    user.setPassword(getEncodedPassword(user));
-                }
+            		user.setUserPasswordWithSalting(passwordPolicy, encoded);                }
             }
         }
-
         user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         user.setConfirmPassword(user.getConfirmPassword());
         return user;
-
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void saveOrUpdate(User user, String currentPassword) {
-        String myPassword = user.getPassword();
+    public void saveOrUpdate(User user, String newEncodedPassword) {
+        String existingPwdEncoded = user.getPassword();
         String username = user.getUsername();
 
-        if (myPassword != null) {
-            if (!myPassword.equals(currentPassword)) {
-                String encoded = getEncodedPassword(user);
-                user.setPassword(encoded);
-                user.setConfirmPassword(encoded);
+        if (existingPwdEncoded != null) {
+            if (!existingPwdEncoded.equals(newEncodedPassword)) {
+            	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+        		user.setUserPasswordWithSalting(passwordPolicy, newEncodedPassword);
+        		
+        		user.setConfirmPassword(newEncodedPassword);
                 user.setPasswordLastSet(new Timestamp(new Date().getTime()));
             }
-            if (username != null && username != "") {
+            if (!StringUtils.isEmpty(username)) {
                 user.setUsername(username.toLowerCase());
             }
         }
@@ -327,14 +327,36 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public User saveWithoutCheck(User user) {
-        user.setPassword(getEncodedPassword(user));
-        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+    public User saveWithoutCheck(User user, boolean updateHistory) {
+    	if(updateHistory){
+        	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+    		user.setUserPasswordWithSalting(passwordPolicy, getEncodedPassword(user));
+    	}
+    	user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         user.setConfirmPassword(user.getPassword());
         return user;
     }
+    
+    public String getEncodedPassword(final User user) {
+        return getEncodedPassword(user, user.getPassword());
+    }
+    
+    public String getEncodedPassword(final User user, String password) {
+        if (!StringUtils.isBlank(password)) {
+            Object salt = saltSource.getSalt(user);
+            return passwordEncoder.encodePassword(password, salt);
+        }
+        return null;
+    }
+    
+    public ClinicalStaff findClinicalStaffForUser(User user) {
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByUserName(user.getUsername());
+        return genericRepository.findSingle(clinicalStaffQuery);
 
+    }
+    
     public void delete(User user) {
         genericRepository.delete(user);
     }
@@ -352,34 +374,14 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return genericRepository.findWithCount(query);
     }
 
-
     public Collection<User> getByRole(Role role) {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserRole(role);
         return find(userQuery);
-
-
     }
 
     public User findSingle(UserQuery query) {
         return genericRepository.findSingle(query);
-
-
-    }
-
-    public String getEncodedPassword(final User user) {
-        if (!StringUtils.isBlank(user.getPassword())) {
-            Object salt = saltSource.getSalt(user);
-            return passwordEncoder.encodePassword(user.getPassword(), salt);
-        }
-        return null;
-    }
-
-    public ClinicalStaff findClinicalStaffForUser(User user) {
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByUserName(user.getUsername());
-        return genericRepository.findSingle(clinicalStaffQuery);
-
     }
 
     /**
@@ -406,7 +408,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     	studyQuery.filterStudiesForStudySite(siteId);
     	return genericRepository.find(studyQuery);
     }
-
+    
     @Required
     public void setSaltSource(SaltSource saltSource) {
         this.saltSource = saltSource;

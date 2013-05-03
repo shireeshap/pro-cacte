@@ -1,8 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordCreationPolicy;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,11 +29,10 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
-//
 /**
  * The Class ClinicalStaff.
  *
- * @author mehul
+ * @author Mehul, Vinay G
  */
 
 @Entity
@@ -107,8 +110,20 @@ public class User extends BaseVersionable implements UserDetails {
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_login")
     protected Date lastLoginAttemptTime;
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserPasswordHistory> userPasswordHistory = new ArrayList<UserPasswordHistory>();
 
-    public User(final String username, final String password, final boolean enabled,
+    public void setUserPasswordHistory(List<UserPasswordHistory> userPasswordHistory) {
+		this.userPasswordHistory = userPasswordHistory;
+	}
+
+    public List<UserPasswordHistory> getUserPasswordHistory() {
+		return userPasswordHistory;
+	}
+
+	public User(final String username, final String password, final boolean enabled,
                 final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
 
         this.password = password;
@@ -117,7 +132,6 @@ public class User extends BaseVersionable implements UserDetails {
         this.accountNonLocked = accountNonLocked;
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
-
     }
 
 
@@ -129,7 +143,7 @@ public class User extends BaseVersionable implements UserDetails {
         this.salt = salt;
     }
 
-    public String getToken() {
+	public String getToken() {
         return token;
     }
 
@@ -216,8 +230,6 @@ public class User extends BaseVersionable implements UserDetails {
             grantedAuthorities = new GrantedAuthority[]{};
         }
         return grantedAuthorities;
-
-
     }
 
     public GrantedAuthority[] getGrantedAuthorities() {
@@ -320,7 +332,6 @@ public class User extends BaseVersionable implements UserDetails {
     }
 
     public boolean checkGroupPrivilege(Class<? extends Persistable> persistableClass){
-    	List<Integer> accessableObjectIds = new ArrayList<Integer>();
     	for (String grantedAuthority : findAllAuthorities()) {
     		String requiredGrouPrivilege = persistableClass.getName() + ".GROUP";
             if (grantedAuthority.contains(requiredGrouPrivilege)) {
@@ -330,7 +341,6 @@ public class User extends BaseVersionable implements UserDetails {
     	}
     	return false;
     }
-    
     
     public List<String> findAllAuthorities() {
         List<String> allAuthorites = new ArrayList<String>();
@@ -387,7 +397,6 @@ public class User extends BaseVersionable implements UserDetails {
     }
     
 
-
     public boolean isODCOnStudy(Study study) {
         if (study != null) {
             if (study.getOverallDataCoordinator().getOrganizationClinicalStaff() != null) {
@@ -408,9 +417,67 @@ public class User extends BaseVersionable implements UserDetails {
     public Role getRoleForPasswordPolicy() {
         Role role = null;
         if (getUserRoles().size() > 0) {
-            role = getUserRoles().get(0).getRole();
+        	role = Collections.min(getUserRoles()).getRole();
+            //role = getUserRoles().get(0).getRole();
         }
         return role;
+    }
+    
+    /** Expects the new pwd to be set in the user object. Checks if new pwd is different from current password*/
+    public void setUserPasswordWithSalting(PasswordPolicy passwordPolicy, String encodedPassword){
+    	if(this.getId() == null || password.equals(encodedPassword)){
+    		return;
+    	}
+    	setPassword(encodedPassword);
+    	addToPasswordHistory(passwordPolicy.getPasswordCreationPolicy());
+    	return;
+    }
+    
+    /** Adds the current pwd to userPwdHist and removes the oldest one from history if the size specified by the policy is exceeded.
+     */
+    public void addToPasswordHistory(PasswordCreationPolicy passwordCreationPolicy){
+    	if(isPasswordHistoryBeingMaintained(passwordCreationPolicy)){
+	    	
+	    	UserPasswordHistory currentUserPasswordHistory = new UserPasswordHistory(this.getPassword(), this.passwordLastSet);
+	    	currentUserPasswordHistory.setUser(this);
+	    	if(userPasswordHistory != null && 
+	    			userPasswordHistory.size() >= passwordCreationPolicy.getPasswordHistorySize()){
+	    		UserPasswordHistory oldestUserPasswordHistory = (UserPasswordHistory) Collections.min(userPasswordHistory);
+	    		userPasswordHistory.remove(oldestUserPasswordHistory);
+	    	}
+	    	userPasswordHistory.add(currentUserPasswordHistory);
+    	}
+    }
+    
+    /** Checks if given pwd is present in history. Sorts them by time and starts with the most recent.
+     *  returns false for history of size 0 (e.g participants might have that setting)
+     */
+    public boolean isPresentInUserPasswordHistory(String newSaltedPassword, PasswordCreationPolicy passwordCreationPolicy){
+    	if(isPasswordHistoryBeingMaintained(passwordCreationPolicy)){
+        	if(userPasswordHistory != null){
+        		List<UserPasswordHistory> sortedUphList = new ArrayList<UserPasswordHistory>(userPasswordHistory);
+        		Collections.sort(sortedUphList);
+        		Collections.reverse(sortedUphList);
+        		
+        		for(int i = 0;  i < passwordCreationPolicy.getPasswordHistorySize() && i < sortedUphList.size(); i++){
+        			UserPasswordHistory uph = sortedUphList.get(i);
+        			if(uph.getPassword().equals(newSaltedPassword)){
+                		return true;
+        			}
+        		}
+        	}
+    	}
+    	return false;
+    }
+    
+    /** Generally expected to return true for patients unless configured otherwise 
+     */
+    private boolean isPasswordHistoryBeingMaintained(PasswordCreationPolicy passwordCreationPolicy){
+    	return passwordCreationPolicy.getPasswordHistorySize() > 0 ? true: false;
+    }
+    
+    public UserPasswordHistory getMostRecentFromHistory(){
+    	return Collections.max(userPasswordHistory);
     }
 }
 

@@ -2416,6 +2416,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.ja
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserNotification.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserPasswordHistory.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserRole.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/AbstractMeddraDomainObject.java -text

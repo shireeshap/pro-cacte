@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USER_ROLES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_user_roles_id")})
-public class UserRole extends BasePersistable {
+public class UserRole extends BasePersistable implements Comparable<UserRole>{
 
     /**
      * The id.
@@ -89,4 +89,9 @@ public class UserRole extends BasePersistable {
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
+
+	@Override
+	public int compareTo(UserRole other) {
+		return this.role.compareTo(other.role);
+	}
 }

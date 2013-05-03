@@ -165,7 +165,7 @@ public class ClinicalStaffCommand {
             user.setToken(UUID.randomUUID().toString());
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
-            userRepository.saveWithoutCheck(clinicalStaff.getUser());
+            userRepository.saveWithoutCheck(clinicalStaff.getUser(), false);
             String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
             content += "<br>You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername();
             content += "<br>You can reset your password by clicking on this link ";

@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.security.passwordpolicy.validators;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.validation.ValidationErrors;
 
 /**
@@ -13,8 +14,9 @@ import gov.nih.nci.ctcae.core.validation.ValidationErrors;
  * To change this template use File | Settings | File Templates.
  */
 public class CombinationValidator implements PasswordPolicyValidator {
+	UserRepository userRepository;
 
-    public boolean validate(PasswordPolicy policy, User user, ValidationErrors validationErrors)
+	public boolean validate(PasswordPolicy policy, User user, ValidationErrors validationErrors)
                     throws ValidationException {
         CombinationPolicy combinationPolicy = policy.getPasswordCreationPolicy().getCombinationPolicy();
 
@@ -22,15 +24,23 @@ public class CombinationValidator implements PasswordPolicyValidator {
                         & validateUpperCaseAlphabet(combinationPolicy, user, validationErrors)
                         & validateNonAlphaNumeric(combinationPolicy, user, validationErrors)
                         & validateBaseTenDigit(combinationPolicy, user, validationErrors)
-                        & validateMaxSubstringLength(combinationPolicy, user, validationErrors))
+                        & validateMaxSubstringLength(combinationPolicy, user, validationErrors)
+                        & validateComplianceWithHistory(policy, user, validationErrors))
         	return true;
         return false;
     }
 
-    private boolean validateLowerCaseAlphabet(CombinationPolicy policy, User user, ValidationErrors validationErrors){
+    private boolean validateComplianceWithHistory(PasswordPolicy policy, User user, ValidationErrors validationErrors) {
+    	if(user.isPresentInUserPasswordHistory(userRepository.getEncodedPassword(user), policy.getPasswordCreationPolicy())){
+    		validationErrors.addValidationError("PCP_009", "The password should not be the same as the last " + policy.getPasswordCreationPolicy().getPasswordHistorySize() + " password(s).");
+    		return false;
+    	}
+    	return true;
+	}
+
+	private boolean validateLowerCaseAlphabet(CombinationPolicy policy, User user, ValidationErrors validationErrors){
         if (policy.isLowerCaseAlphabetRequired()
                         && !user.getPassword().matches(".*[\\p{javaLowerCase}].*")) {
-            //throw new ValidationException("The password should have at least one lower case letter");
         	validationErrors.addValidationError("PCP_004", "The password should have at least one lower case letter");
         	return false;
         }
@@ -40,7 +50,6 @@ public class CombinationValidator implements PasswordPolicyValidator {
     private boolean validateUpperCaseAlphabet(CombinationPolicy policy, User user, ValidationErrors validationErrors) {
         if (policy.isUpperCaseAlphabetRequired()
                         && !user.getPassword().matches(".*[\\p{javaUpperCase}].*")) {
-            //throw new ValidationException("The password should have at least one upper case letter");
         	validationErrors.addValidationError("PCP_005", "The password should have at least one upper case letter");
         	return false;
         }
@@ -49,7 +58,6 @@ public class CombinationValidator implements PasswordPolicyValidator {
 
     private boolean validateNonAlphaNumeric(CombinationPolicy policy, User user, ValidationErrors validationErrors){
         if (policy.isNonAlphaNumericRequired() && user.getPassword().matches("[\\p{Alnum}]+")) {
-            //throw new ValidationException("The password should have at least one special character");
         	validationErrors.addValidationError("PCP_006", "The password should have at least one special character");
         	return false;
         }
@@ -59,7 +67,6 @@ public class CombinationValidator implements PasswordPolicyValidator {
     private boolean validateBaseTenDigit(CombinationPolicy policy, User user, ValidationErrors validationErrors){
         if (policy.isBaseTenDigitRequired()
                         && !user.getPassword().matches(".*[\\p{Digit}].*")) {
-            //throw new ValidationException("The password should have at least one numeral digit{0-9}");
         	validationErrors.addValidationError("PCP_007", "The password should have at least one numeral digit{0-9}");
         	return false;
         }
@@ -72,7 +79,6 @@ public class CombinationValidator implements PasswordPolicyValidator {
         for (int i = 0; i < userName.length() - substringLength; i++) {
             try {
                 if (password.contains(userName.substring(i, i + substringLength))) {
-                    //throw new ValidationException("The password should not contain a substring of "+ substringLength + " letters from the username");
                 	validationErrors.addValidationError("PCP_008", "The password should not contain a substring of "+ substringLength + " letters from the username");
                 	return false;
                 }
@@ -82,5 +88,10 @@ public class CombinationValidator implements PasswordPolicyValidator {
         }
         return true;
     }
+
+    public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 
 }
