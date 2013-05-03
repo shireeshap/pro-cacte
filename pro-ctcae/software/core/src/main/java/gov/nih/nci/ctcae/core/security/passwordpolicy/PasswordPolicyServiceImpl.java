@@ -16,14 +16,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class PasswordPolicyServiceImpl implements PasswordPolicyService {
     PasswordCreationPolicyValidator passwordCreationPolicyValidator;
-
-    LoginPolicyValidator loginPolicyValidator;
+	LoginPolicyValidator loginPolicyValidator;
     GenericRepository genericRepository;
-
-    public PasswordPolicyServiceImpl() {
-        passwordCreationPolicyValidator = new PasswordCreationPolicyValidator();
-        loginPolicyValidator = new LoginPolicyValidator();
-    }
 
     public PasswordPolicy getPasswordPolicy(Role role) {
         if (role == null) {
@@ -52,4 +46,15 @@ public class PasswordPolicyServiceImpl implements PasswordPolicyService {
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+    
+	public void setLoginPolicyValidator(LoginPolicyValidator loginPolicyValidator) {
+		this.loginPolicyValidator = loginPolicyValidator;
+	}
+	
+    public void setPasswordCreationPolicyValidator(
+			PasswordCreationPolicyValidator passwordCreationPolicyValidator) {
+		this.passwordCreationPolicyValidator = passwordCreationPolicyValidator;
+	}
+
+
 }
