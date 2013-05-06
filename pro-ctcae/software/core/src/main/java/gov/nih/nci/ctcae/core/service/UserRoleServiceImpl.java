@@ -97,18 +97,22 @@ public class UserRoleServiceImpl implements UserRoleService {
 	}
 	
 	private void addUserRole(User user, Role role){
-		user.addUserRole(new UserRole(role));
-		userRepository.saveOrUpdate(user, user.getPassword());
+		if(user != null){
+			user.addUserRole(new UserRole(role));
+			userRepository.saveOrUpdate(user, user.getPassword());
+		}
 	}
 	
 	private void removePreviousStaffUserRole(StudyOrganizationClinicalStaff socs, Role role){
 		User user = getUserForStudyOrganizationClinicalStaff(socs);
-		List<UserRole> userRoles = user.getUserRoles();
-		for(UserRole ur : userRoles){
-			if(ur.getRole().equals(role)){
-				user.getUserRoles().remove(ur);
-				userRepository.saveOrUpdate(user, user.getPassword());
-				break;
+		if(user != null){
+			List<UserRole> userRoles = user.getUserRoles();
+			for(UserRole ur : userRoles){
+				if(ur.getRole().equals(role)){
+					user.getUserRoles().remove(ur);
+					userRepository.saveOrUpdate(user, user.getPassword());
+					break;
+				}
 			}
 		}
 	}
