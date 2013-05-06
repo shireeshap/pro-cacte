@@ -103,7 +103,9 @@ public class CombinationValidatorTest extends TestDataManager{
     	
     	String savedEncodedPwd = user.getPassword();
         assertEquals(savedEncodedPwd, newEncodedPwd1);
-        assertTrue(user.isPresentInUserPasswordHistory(savedEncodedPwd, passwordPolicy.getPasswordCreationPolicy()));      
+        assertTrue(user.isPresentInUserPasswordHistory(savedEncodedPwd, passwordPolicy.getPasswordCreationPolicy()));     
+        
+        resetOriginalSettings();
     }
 
 	public void testSavedUsersPasswordHistoryDoesntContainsRandomPassword() {
@@ -131,7 +133,9 @@ public class CombinationValidatorTest extends TestDataManager{
     	
         assertTrue(user.isPresentInUserPasswordHistory(newEncodedPwd3, passwordPolicy.getPasswordCreationPolicy()));
         assertTrue(user.isPresentInUserPasswordHistory(newEncodedPwd2, passwordPolicy.getPasswordCreationPolicy()));
-    	assertTrue(user.isPresentInUserPasswordHistory(newEncodedPwd1, passwordPolicy.getPasswordCreationPolicy()));      
+    	assertTrue(user.isPresentInUserPasswordHistory(newEncodedPwd1, passwordPolicy.getPasswordCreationPolicy()));  
+    	
+        resetOriginalSettings();
     }
 	
     public void testSaveUserWithOlderPwdWhichIsNotPresentInHistory() {
@@ -150,13 +154,16 @@ public class CombinationValidatorTest extends TestDataManager{
     	assertTrue(combinationValidator.validate(passwordPolicy, user, new ValidationErrors()));
     	userRepository.saveWithoutCheck(user, true);
     	
-    	//retrying password@10 as history size in just 2
+    	//retrying password@10 as history size is just 2
     	user.setPassword("password@10");
     	assertTrue(combinationValidator.validate(passwordPolicy, user, new ValidationErrors()));
     	userRepository.saveWithoutCheck(user, true);
     	
-    	userRepository.saveWithoutCheck(user, true);
+        resetOriginalSettings();
     }
     
-
+	private void resetOriginalSettings() {
+    	user.setPassword(TestDataManager.DEFAULT_PASSWORD);
+    	userRepository.saveWithoutCheck(user, true);
+	}
 }
