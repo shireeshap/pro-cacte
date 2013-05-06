@@ -297,7 +297,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 User temp = findById(user.getId());
                 String currentPassword = temp.getPassword();
                 if (!myPassword.equals(currentPassword)) {
-            		user.setUserPasswordWithSalting(passwordPolicy, encoded);                }
+            		user.setUserPasswordWithSalting(passwordPolicy, encoded);                
+            	}
             }
         }
         user.setPasswordLastSet(new Timestamp(new Date().getTime()));
