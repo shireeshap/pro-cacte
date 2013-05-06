@@ -425,7 +425,7 @@ public class User extends BaseVersionable implements UserDetails {
     
     /** Expects the new pwd to be set in the user object. Checks if new pwd is different from current password*/
     public void setUserPasswordWithSalting(PasswordPolicy passwordPolicy, String encodedPassword){
-    	if(this.getId() == null || password.equals(encodedPassword)){
+    	if(password == null || password.equals(encodedPassword)){
     		return;
     	}
     	setPassword(encodedPassword);
