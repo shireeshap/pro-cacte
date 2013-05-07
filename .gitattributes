@@ -3810,6 +3810,7 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/DisplayQuestionT
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/EmptyFormTabTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/FormRulesTabTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/ivrs/callout/IvrsCallOutSchedulerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
