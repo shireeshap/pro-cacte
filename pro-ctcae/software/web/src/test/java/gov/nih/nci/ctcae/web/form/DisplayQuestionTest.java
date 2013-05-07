@@ -32,7 +32,10 @@ public class DisplayQuestionTest extends AbstractWebTestCase{
 		super.onSetUpInTransaction();
 		study = StudyTestHelper.getDefaultStudy();
 		crf = study.getCrfs().get(0);
-		command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, null, null);
+		String scheduleId = crf.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0).getId().toString();
+		System.out.println("scheduleId: " + scheduleId);
+		System.out.println("genericRepository: " + genericRepository != null);
+		command = new SubmitFormCommand(scheduleId, genericRepository, studyParticipantCrfScheduleRepository, null, null);
 		displayQuestion = new DisplayQuestion(genericRepository, command);
 		question = (ProCtcQuestion) getProCtcQuestion();
 		studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
