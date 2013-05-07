@@ -78,6 +78,8 @@ public class FetchCrfController extends AbstractController {
                     + crf.getStatus().getDisplayName()
                     + "','"
                     + showVersion
+                    + "','"
+                    + crf.getTitle()
                     +"');\">"
                     + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
 

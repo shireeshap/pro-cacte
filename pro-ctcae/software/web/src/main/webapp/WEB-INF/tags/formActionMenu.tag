@@ -46,7 +46,7 @@ function showVersionForm(crfId) {
         method:'get'
     })
 }
-function showPopUpMenu(cid, status, showVersion) {
+function showPopUpMenu(cid, status, showVersion, formTitle) {
     var html = '<div id="search-engines"><ul>';
     if (status == 'Released') {
 	    <proctcae:urlAuthorize url="/pages/form/versionForm">
@@ -78,7 +78,7 @@ function showPopUpMenu(cid, status, showVersion) {
 	<proctcae:urlAuthorize url="/pages/form/copyForm">
 	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/copyForm"/>?crfId=' + cid + '\'">Copy form</a></li>';
 	</proctcae:urlAuthorize>
-	html += '<li id="nav"><a href="#" >Print form (' + cid + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=en&crfId=' + cid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=es&crfId=' + cid + '\'">Spanish</a></li></ul></li>';
+	html += '<li id="nav"><a href="#" >Print form (' + formTitle + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=en&crfId=' + cid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=es&crfId=' + cid + '\'">Spanish</a></li></ul></li>';
 	
     if (status == 'Draft') {
 	    <proctcae:urlAuthorize url="/pages/form/releaseForm">
