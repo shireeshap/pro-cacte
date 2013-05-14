@@ -312,17 +312,15 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         String existingPwdEncoded = user.getPassword();
         String username = user.getUsername();
 
-        if (existingPwdEncoded != null) {
-            if (!existingPwdEncoded.equals(newEncodedPassword)) {
-            	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
-        		user.setUserPasswordWithSalting(passwordPolicy, newEncodedPassword);
-        		
-        		user.setConfirmPassword(newEncodedPassword);
-                user.setPasswordLastSet(new Timestamp(new Date().getTime()));
-            }
-            if (!StringUtils.isEmpty(username)) {
-                user.setUsername(username.toLowerCase());
-            }
+        if (newEncodedPassword != null && !newEncodedPassword.equals(existingPwdEncoded)) {
+        	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+    		user.setUserPasswordWithSalting(passwordPolicy, newEncodedPassword);
+    		
+    		user.setConfirmPassword(newEncodedPassword);
+            user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+        }
+        if (!StringUtils.isEmpty(username)) {
+            user.setUsername(username.toLowerCase());
         }
         genericRepository.saveOrUpdate(user);
     }
