@@ -350,7 +350,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 errors.reject("participant.unique_assignedIdentifier", "participant.unique_assignedIdentifier");
             }
         }
-        
     }
 
     private User buildUserForPasswordValidation(ParticipantCommand command) {
@@ -359,12 +358,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         
         cloneUser.setUsername(origUser.getUsername());
         cloneUser.setUserPasswordHistory(origUser.getUserPasswordHistory());
-        cloneUser.setUserRoles(origUser.getUserRoles());
         cloneUser.setPassword(command.getParticipant().getPassword());
         cloneUser.addUserRole(new UserRole(Role.PARTICIPANT));
         
         return cloneUser;
-
 	}
 
 	public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -373,7 +370,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         query.filterByStudySiteAndLeadSiteOnly();
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
-
         Set<Organization> organizationsHavingStudySite = new HashSet<Organization>();
         for (StudyOrganization studySite : studySites) {
             Organization o = studySite.getOrganization();
@@ -381,9 +377,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 organizationsHavingStudySite.add(o);
             }
         }
-        /**
-         * Initializing studyOrganization and studyModes
-         */
+        
+        // Initializing studyOrganization and studyModes
         boolean showTime = false;
         boolean showWeb = false;
         boolean showBook = false;
