@@ -101,6 +101,7 @@ function initializeCalendar(index, month, year) {
                     var hasScheduled = false;
                     var hasInprogress = false;
                     var hasCompleted = false;
+                    var hasOther = false;
                     for (var a = 0; a < myschedule.length; a++) {
                         scheduleid += myschedule[a][3] + '_';
                         title = title + forms[index][myschedule[a][3]];
@@ -112,6 +113,7 @@ function initializeCalendar(index, month, year) {
                                 hasCompleted = false;
                                 hasInprogress = false;
                                 check = true;
+                                hasOther = true;
                             }
                             if (hasInprogress == false) {
                                 if (hasScheduled == false) {
@@ -126,6 +128,7 @@ function initializeCalendar(index, month, year) {
                                         hasScheduled = true;
                                         hasCompleted = false;
                                         hasInprogress = false;
+                                        hasOther = true;
                                     }
                                 }
                                 if (status == 'In-progress') {
@@ -140,12 +143,14 @@ function initializeCalendar(index, month, year) {
                                     hasScheduled = true;
                                     hasCompleted = false;
                                     hasInprogress = false;
+                                    hasOther = true;
                                 }                            	
                             }
                             
                         }
                         if (status == 'Past-due') {
                             hasPastDue = true;
+                            hasOther = true;
                         }
                         if (status != 'Completed') {
                             allCompleted = false;
@@ -160,10 +165,12 @@ function initializeCalendar(index, month, year) {
                             item.style.background = 'yellow';
                             item.style.color = "black";
                             onHold = true;
+                            hasOther = true;
                         }
                         if (status == 'N/A') {
                             item.style.background = 'lightgrey';
                             item.style.color = "black";
+                            hasOther = true;
                         }
 
                         if (a != myschedule.length - 1) {
@@ -212,6 +219,10 @@ function initializeCalendar(index, month, year) {
 	                    }
 	                    if (allCompleted || allInprogress) {
 	                        showDeleteOption = false;
+	                    }
+	                    
+	                    if ((allCompleted == false || allInprogress == false) && !hasOther){
+	                    	showDeleteOption = false;
 	                    }
                   
                     item.title = title;
