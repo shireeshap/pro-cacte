@@ -12,6 +12,10 @@
         <pattern>/setup/*</pattern>
     </decorator>
 
+	<decorator name="publicHeader" page="public.jsp">
+       <pattern>/public/login</pattern>
+   </decorator>
+
     <decorator name="standardNoHeader" page="standard-no-header.jsp">
        <pattern>/pages/rule/notification/createReportType</pattern>
    </decorator>
