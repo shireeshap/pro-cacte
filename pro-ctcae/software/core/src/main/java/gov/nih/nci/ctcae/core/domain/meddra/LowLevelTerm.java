@@ -22,7 +22,7 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "meddra_llt")
-public class LowLevelTerm extends AbstractMeddraDomainObject {
+public class LowLevelTerm extends AbstractMeddraDomainObject implements Comparable<LowLevelTerm> {
 
     private List<MeddraQuestion> meddraQuestions = new ArrayList<MeddraQuestion>();
     private Boolean participantAdded = false;
@@ -118,5 +118,10 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
 
 	public void setLowLevelTermVocab(LowLevelTermVocab lowLevelTermVocab) {
 		this.lowLevelTermVocab = lowLevelTermVocab;
+	}
+
+	@Override
+	public int compareTo(LowLevelTerm o) {
+		return this.getLowLevelTermVocab().getMeddraTermEnglish().toLowerCase().compareTo(o.getLowLevelTermVocab().getMeddraTermEnglish().toLowerCase());
 	}
 }
