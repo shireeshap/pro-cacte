@@ -2978,6 +2978,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators.xml -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/mobilelite.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/notabbedflow.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/public.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/standard-no-header.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/standard.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
@@ -3099,6 +3100,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/head.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/mobilehead.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/noheader.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/publicHeader.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaffTable.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/studySite.tag -text
