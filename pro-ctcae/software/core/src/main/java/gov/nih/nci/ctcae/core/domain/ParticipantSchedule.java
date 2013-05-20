@@ -209,7 +209,7 @@ public class ParticipantSchedule {
                             studyParticipantCrfSchedule.setDueDate(dueDateNew);
 
                             if (today.after(dueDateNew) && !today.equals(dueDateNew)) {
-                                studyParticipantCrfSchedule.setStatus(CrfStatus.NOTAPPLICABLE);
+                                studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                             }
                             
                             if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD)){
@@ -341,7 +341,7 @@ public class ParticipantSchedule {
                         String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
                         String calendarDate = DateUtils.format(oldCalendar.getTime());
                         String calendarNewDate = DateUtils.format(newCalendar.getTime());
-                        if(calendarDate.equals(scheduleDate) && studyParticipantCrfSchedule.getStatus().equals(CrfStatus.NOTAPPLICABLE)){
+                        if(calendarDate.equals(scheduleDate) && (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.NOTAPPLICABLE) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE))){
                         	 DateFormat dateFormat= new SimpleDateFormat("mm/dd/yyyy");
                         	 Date newscheduledDate= dateFormat.parse(calendarNewDate);
                         	 Date oldscheduledDate= dateFormat.parse(scheduleDate);
