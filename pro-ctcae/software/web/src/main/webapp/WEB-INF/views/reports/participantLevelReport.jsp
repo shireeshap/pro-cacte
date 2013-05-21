@@ -155,7 +155,8 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            study.matchStudy(unescape(sQuery), callMetaData);
+            var requiredPrivilege = "PRIVILEGE_PARTICIPANT_REPORTS";
+            study.matchStudy(unescape(sQuery), requiredPrivilege, callMetaData);
             hideIndicator("studyInput-indicator");
             return aResults;
         }
