@@ -15,6 +15,7 @@ import java.util.List;
 public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
     private OrganizationAjaxFacade organizationAjaxFacade;
+    private String SYSTEM_ADMIN ="system_admin";
 
 
     public void testMatchOrganizationsByGivingNciCode() {
@@ -45,9 +46,16 @@ public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegratio
         assertTrue( organizations.get(0).getDisplayName().contains("Duke"));
 
     }
-
-
-
+    
+    public void testMatchOrganizationByStudyIdAndUserRole(){
+    	login("cathy.davis@demo.com");
+    	List<StudyOrganization> studyOrganizations = organizationAjaxFacade.matchOrganizationByStudyIdAndUserRole("%", StudyTestHelper.getDefaultStudy().getId());
+    	assertEquals(1, studyOrganizations.size());
+    	
+    	login(SYSTEM_ADMIN);
+    	studyOrganizations = organizationAjaxFacade.matchOrganizationByStudyIdAndUserRole("%", StudyTestHelper.getDefaultStudy().getId());
+    	assertTrue(studyOrganizations.size() > 0);
+    }
 
     @Required
     public void setOrganizationAjaxFacade(OrganizationAjaxFacade organizationAjaxFacade) {
