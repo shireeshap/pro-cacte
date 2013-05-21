@@ -49,10 +49,10 @@
     <c:set var="linkStaff" value="javascript:goTab('2');"/>
 </c:if>
 <c:set var="readOnly" value="true"/>
-<proctcae:urlAuthorize url="/pages/participant/trueedit">
+<proctcae:urlAuthorize url="/pages/participant/trueedit" objectId="${command.participantInstanceSpecificPrivilege}">
     <c:set var="readOnly" value="false"/>
 </proctcae:urlAuthorize>
-<proctcae:urlAuthorize url="/pages/participant/create">
+<proctcae:urlAuthorize url="/pages/participant/create" objectId="${command.participantInstanceSpecificPrivilege}">
     <c:set var="readOnly" value="false"/>
 </proctcae:urlAuthorize>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" doNotShowSave="${command.odc || readOnly}" showFinish="false">
@@ -63,7 +63,7 @@
 
 </chrome:division>
 <chrome:division title="participant.label.demographic_information" linkontitle="${linkDetails}"
-                 linkurl="/pages/participant/create">
+                 linkurl="/pages/participant/create" objectId="${command.participantInstanceSpecificPrivilege}">
    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 	
     <table border="0" style="width:100%">
@@ -109,7 +109,7 @@
 </chrome:division>
 <c:if test="${command.mode eq 'N'}">
 <chrome:division title="participant.label.contact_information" linkontitle="${linkDetails}"
-                 linkurl="/pages/participant/create">
+                 linkurl="/pages/participant/create" objectId="${command.participantInstanceSpecificPrivilege}">
 
     <table border="0" style="width:100%">
         <tr>
@@ -130,7 +130,7 @@
 </chrome:division>
 </c:if>
 <chrome:division title="participant.label.logininfo" linkontitle="${linkDetails}"
-                 linkurl="/pages/participant/create">
+                 linkurl="/pages/participant/create" objectId="${command.participantInstanceSpecificPrivilege}">
     <table cellpadding="0" cellspacing="0">
         <tr>
             <td>
