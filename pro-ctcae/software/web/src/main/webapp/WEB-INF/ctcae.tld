@@ -32,7 +32,12 @@
             <rtexprvalue>true</rtexprvalue>
             <description>Url to protect ex :/pages/form/createForm</description>
         </attribute>
-
+        <attribute>
+            <name>objectId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>ObjectId to filter according to accessible objects</description>
+        </attribute>
     </tag>
     <tag>
         <name>form</name>
