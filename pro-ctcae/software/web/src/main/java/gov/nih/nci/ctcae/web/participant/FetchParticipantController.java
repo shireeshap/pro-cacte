@@ -7,18 +7,15 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
@@ -36,6 +33,8 @@ public class FetchParticipantController extends AbstractController {
     StudyRepository studyRepository;
     OrganizationRepository organizationRepository;
     protected Properties proCtcAEProperties;
+    private AuthorizationServiceImpl authorizationServiceImpl;
+    private String PRIVILEGE_EDIT_PARTICIPANT = "PRIVILEGE_EDIT_PARTICIPANT";
     
     List<Participant> completeParticipantsList = new ArrayList<Participant>();
     public static final int rowsPerPageInt = 25;
@@ -73,19 +72,12 @@ public class FetchParticipantController extends AbstractController {
         
         totalRecords = participantAjaxFacade.resultCount(searchStrings, Integer.valueOf(startIndex), resultsCount).intValue();
          /*Fetch the records only if totalRecords are determined to be greater than zero */
-         if(totalRecords > 0)
+        if(totalRecords > 0)
         	participantsForCurrentSearch = participantAjaxFacade.searchParticipants(searchStrings, Integer.valueOf(startIndex), resultsCount, sortField, direction);
-         else 
+        else 
         	participantsForCurrentSearch=null;
-    	
-        
-        
-//        if(resultsCount > completeParticipantsList.size()){
-//        	resultsCount = completeParticipantsList.size();
-//        }
-//        participantsForCurrentSearch = completeParticipantsList.subList(Integer.valueOf(startIndex), resultsCount);
-        //Long totalRecords = participantAjaxFacade.resultCount(searchStrings);
 
+     
         Participant participant;
         SearchParticipantWrapper searchParticipantWrapper = new SearchParticipantWrapper();
         
@@ -102,8 +94,9 @@ public class FetchParticipantController extends AbstractController {
 	        StudyQuery studyQuery  = new StudyQuery();
 	        studyQuery.filterStudiesByUserAndRole(user, Role.ODC);
 	        studiesOnWhichUserIsOdc = (List<Study>) studyRepository.find(studyQuery);
-	        Study study;
+	        Study study = null;
 	        boolean odc;
+	        boolean trueEdit = false;
 	        for (int index = 0; index < participantsForCurrentSearch.size(); index++) {
 	            participant = participantsForCurrentSearch.get(index);
 	
@@ -121,13 +114,18 @@ public class FetchParticipantController extends AbstractController {
 	                	odc = true;
 	                }
 	            }
-	
+	            
+	            List<Role> roles = authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_EDIT_PARTICIPANT);
+	            trueEdit = authorizationServiceImpl.hasRole(study, roles, user);
+	           
 	            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
 	                    + participant.getId() + "'"
 	                    + " onmouseover=\"javascript:showPopUpMenuParticipant('"
 	                    + participant.getId()
 	                    + "','"
 	                    + odc
+	                    + "','"
+	                    + trueEdit
 	                    + "');\">"
 	                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
 	
@@ -143,36 +141,34 @@ public class FetchParticipantController extends AbstractController {
         JSONObject jsonObject = JSONObject.fromObject(searchParticipantWrapper);
         Map<String, Object> modelMap = new HashMap<String, Object>();
         modelMap.put("shippedRecordSet", jsonObject);
+        
         return new ModelAndView("jsonView", modelMap);
     }
 
 
     @Required
-    public void setParticipantAjaxFacade
-            (ParticipantAjaxFacade
-                     participantAjaxFacade) {
+    public void setParticipantAjaxFacade(ParticipantAjaxFacade participantAjaxFacade) {
         this.participantAjaxFacade = participantAjaxFacade;
     }
 
     @Required
-    public void setStudyRepository
-            (StudyRepository
-                     studyRepository) {
+    public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 
     @Required
-    public void setOrganizationRepository
-            (OrganizationRepository
-                     organizationRepository) {
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
 
     @Required
-    public void setProCtcAEProperties
-            (Properties
-                     proCtcAEProperties) {
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
         this.proCtcAEProperties = proCtcAEProperties;
+    }
+    
+    @Required
+    public void setAuthorizationServiceImpl(AuthorizationServiceImpl authorizationServiceImpl) {
+        this.authorizationServiceImpl = authorizationServiceImpl;
     }
 
 }
