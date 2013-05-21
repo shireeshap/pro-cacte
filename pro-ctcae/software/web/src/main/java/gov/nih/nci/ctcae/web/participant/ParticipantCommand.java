@@ -10,6 +10,8 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -84,6 +86,7 @@ public class ParticipantCommand {
     StudyParticipantAssignment studyParticipantAssignment;
     private String[] repeatdropdown;
     private boolean onDefaultArm = false;
+    private String participantInstanceSpecificPrivilege;
 
     private LinkedList<StudyParticipantCrfSchedule> onHoldStudyParticipantCrfSchedules = new LinkedList<StudyParticipantCrfSchedule>();
 
@@ -118,6 +121,14 @@ public class ParticipantCommand {
 
     public void setSelectedOrganization(Organization selectedOrganization) {
         this.selectedOrganization = selectedOrganization;
+    }
+    
+    public String getParticipantInstanceSpecificPrivilege() {
+        return participantInstanceSpecificPrivilege;
+    }
+
+    public void setParticipantInstanceSpecificPrivilege() {
+        this.participantInstanceSpecificPrivilege = AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(participant.getId());
     }
 
     /**
