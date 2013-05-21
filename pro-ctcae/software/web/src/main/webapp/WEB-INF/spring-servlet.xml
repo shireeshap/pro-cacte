@@ -408,6 +408,7 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+        <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </bean>
 
     <bean name="/participant/userCalendar" id="userCalendarController" class="gov.nih.nci.ctcae.web.user.UserCalendarController">
@@ -432,6 +433,7 @@
      <bean name="/form/fetchCrf" id="fetchCrfController"
           class="gov.nih.nci.ctcae.web.form.FetchCrfController">
         <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
+        <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </bean>
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
@@ -592,6 +594,7 @@
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </bean>
     <bean name="/form/matchSymptoms" id="MatchSymptomsController"
           class="gov.nih.nci.ctcae.web.participant.MatchSymptomsController">
@@ -603,6 +606,7 @@
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
         <property name="properties" ref="proCtcAeProperties"/>
+        <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </bean>
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelGraphicalReportController"
