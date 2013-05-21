@@ -42,7 +42,7 @@ function isEqual(d1,d2){
 	return false;
 }
 
-function initializeCalendar(index, month, year) {
+function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
@@ -220,7 +220,6 @@ function initializeCalendar(index, month, year) {
 	                    if (allCompleted || allInprogress) {
 	                        showDeleteOption = false;
 	                    }
-	                    
 	                    if ((allCompleted == false || allInprogress == false) && !hasOther){
 	                    	showDeleteOption = false;
 	                    }
@@ -265,6 +264,7 @@ function initializeCalendar(index, month, year) {
 	
 	                    if (status == 'N/A') {
 	                        item.style.background = 'lightgrey';
+	                        showDeleteOption = false;
 	                    }
 	
 	                    if (status == 'Scheduled' || status == 'Past-due' || status == 'In-progress' || status == 'On-hold' || status == 'Completed') {
@@ -286,7 +286,7 @@ function initializeCalendar(index, month, year) {
                             '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                             '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption);
+                    showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege);
                     if (isEnableDrag) {
                         myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                     }
@@ -305,7 +305,7 @@ function initializeCalendar(index, month, year) {
                 //show dropdown menu for participants not put off-study 
                 if(!postOffTreatmentDate) {
                 	item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day,  month, year, index, null, true);
+                    showPopUpMenuSchedule(day,  month, year, index, null, true, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege);
 //                    Event.observe(div_id, "click", function() {
 //                        showAddWindow(getDate(this), getIndex(this));
 //                    })
