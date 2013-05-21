@@ -2,17 +2,23 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-
-//
 
 /**
  * @author Harsh Agarwal
@@ -33,11 +38,13 @@ public class DisplayStudySitesController extends AbstractController {
 
     private StudyOrganizationRepository studyOrganizationRepository;
     private ParticipantRepository participantRepository;
+    private AuthorizationServiceImpl authorizationServiceImpl;
 
     private Properties properties;
 
     public static final String IVRS_BLACKOUT_START_TIME  = "ivrs.blackout.start";
     public static final String IVRS_BLACKOUT_END_TIME  = "ivrs.blackout.end";
+    private String PRIVILEGE_CREATE_PARTICIPANT = "PRIVILEGE_CREATE_PARTICIPANT";
 
 
     /* (non-Javadoc)
@@ -118,12 +125,32 @@ public class DisplayStudySitesController extends AbstractController {
             modelAndView.addObject("command",command);
         }
         List<String> participantModes = new ArrayList();
-
+        
+        /**InstanceLevelSecurity for participant creation flow. 
+         * Logged-in user can create participants only on those studies on which they have the required privileged role.
+         */
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(AuthorizationServiceImpl.isInstanceLevelSecurityRequired(user)){
+        	studySites = filterStudyOrganizationByInstanceLevelSecurity(studySites, user);
+        }
         modelAndView.addObject("unselectedstudysites", studySites);
         return modelAndView;
     }
-
-
+    
+    public Collection<StudyOrganization> filterStudyOrganizationByInstanceLevelSecurity(Collection<StudyOrganization> studySites, User user){
+    	Set<StudyOrganization> filteredStudyOrganizations = new HashSet<StudyOrganization>();
+    	
+    	List<Role> roles = authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_CREATE_PARTICIPANT);
+    	for(StudyOrganization studyOrganization : studySites){
+    		for(StudyOrganizationClinicalStaff socs : studyOrganization.getStudyOrganizationClinicalStaffs()){
+    			if(authorizationServiceImpl.hasRole(socs.getStudyOrganization().getStudy(), roles, user)){
+    				filteredStudyOrganizations.add(socs.getStudyOrganization());
+    			}
+    		} 
+    	}
+    	return filteredStudyOrganizations;
+    }
+    
     public DisplayStudySitesController() {
         super();
         setSupportedMethods(new String[]{"GET"});
@@ -139,6 +166,11 @@ public class DisplayStudySitesController extends AbstractController {
     @Required
     public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
+    }
+    
+    @Required
+    public void setAuthorizationServiceImpl(AuthorizationServiceImpl authorizationServiceImpl) {
+        this.authorizationServiceImpl = authorizationServiceImpl;
     }
 
     public Properties getProperties() {
