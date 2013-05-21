@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class StudyCommand {
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
     private List<Integer> craIndexesToRemove = new ArrayList<Integer>();
     private boolean odc;
+    private String studyInstanceSpecificPrivilege;
 
     public boolean isOdc() {
         return odc;
@@ -65,12 +67,12 @@ public class StudyCommand {
         study.setFundingSponsor(new FundingSponsor());
         LeadStudySite leadStudySite = new LeadStudySite();
         study.setLeadStudySite(leadStudySite);
-
-
+        this.setStudyInstanceSpecificPrivilege();
     }
 
     public StudyCommand(Study study) {
         this.study = study;
+        this.setStudyInstanceSpecificPrivilege();
     }
 
     public List<Organization> getOrganizationsWithCCARole() {
@@ -96,6 +98,14 @@ public class StudyCommand {
      */
     public void setStudy(Study study) {
         this.study = study;
+    }
+    
+    public void setStudyInstanceSpecificPrivilege(){
+    	this.studyInstanceSpecificPrivilege = AuthorizationServiceImpl.getStudyInstanceSpecificPrivilege(study.getId());
+    }
+    
+    public String getStudyInstanceSpecificPrivilege(){
+    	return studyInstanceSpecificPrivilege;
     }
 
     public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
