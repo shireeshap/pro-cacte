@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
@@ -29,6 +31,7 @@ public abstract class WebTestCase extends AbstractTestCase {
     protected ProCtcQuestionRepository proCtcQuestionRepository;
     protected StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     protected UserRepository userRepository;
+    protected AuthorizationServiceImpl authorizationServiceImpl;
 
 
     @Override
@@ -42,13 +45,12 @@ public abstract class WebTestCase extends AbstractTestCase {
         response = new MockHttpServletResponse();
         controllerTools = new ControllerTools();
         studyRepository = registerMockFor(StudyRepository.class);
+        authorizationServiceImpl = registerMockFor(AuthorizationServiceImpl.class);
         privilegeAuthorizationCheck = registerMockFor(PrivilegeAuthorizationCheck.class);
         expect(privilegeAuthorizationCheck.authorize(isA(String.class))).andReturn(true).anyTimes();
         expect(privilegeAuthorizationCheck.authorize(isA(ConfigAttributeDefinition.class))).andReturn(true).anyTimes();
 
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         studyParticipantCrfScheduleRepository = registerMockFor(StudyParticipantCrfScheduleRepository.class);
-
-
     }
 }
