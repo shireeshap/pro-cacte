@@ -25,6 +25,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static String LAST_NAME = "lastName";
     private static String IDENTIFIER = "assignedIdentifier";
     private static final String STUDY_ID = "studyId";
+    private static final String STUDY_IDS = "studyIds";
     private static final String STUDY_SITE_ID = "studySiteId";
     private static final String ORGANIZATION_ID = "siteId";
     private static final String USERNAME = "username";
@@ -202,6 +203,19 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
             leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
             andWhere("study.id =:" + STUDY_ID);
             setParameter(STUDY_ID, studyId);
+        }
+    }
+    
+    /**
+     * Filter by studys.
+     *
+     * @param studyId the study id
+     */
+    public void filterByStudyIds(List<Integer> studies) {
+        if (studies != null && !studies.isEmpty()) {
+            leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
+            andWhere("study.id in (:" + STUDY_IDS + ")");
+            setParameterList(STUDY_IDS, studies);
         }
     }
 
