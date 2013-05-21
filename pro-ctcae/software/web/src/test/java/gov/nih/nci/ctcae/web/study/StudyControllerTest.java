@@ -4,10 +4,12 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.service.UserRoleService;
 import gov.nih.nci.ctcae.core.service.UserRoleServiceImpl;
@@ -20,9 +22,13 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.ConfigAttributeDefinition;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -67,7 +73,8 @@ public class StudyControllerTest extends WebTestCase {
         ArrayList<Organization> organizations = new ArrayList<Organization>();
         organizations.add(new Organization());
         expect(clinicalStaff.getOrganizationsWithCCARole()).andReturn(organizations);
-
+        request.setSession(session);
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     public void testGetRequest() throws Exception {
@@ -98,7 +105,7 @@ public class StudyControllerTest extends WebTestCase {
         expect(privilegeAuthorizationCheck.authorize(isA(String.class))).andReturn(true).anyTimes();
         expect(privilegeAuthorizationCheck.authorize(isA(ConfigAttributeDefinition.class))).andReturn(true).anyTimes();
         expect(uniqueIdentifierForStudyValidator.validateUniqueIdentifier("",null)).andReturn(true);
-        expect(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).andReturn(user);
+        expect(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).andReturn(user).anyTimes();
         replayMocks();
 
         ((StudyDetailsTab) (controller.getFlow().getTab(0))).setUniqueIdentifierForStudyValidator(uniqueIdentifierForStudyValidator);
@@ -125,6 +132,7 @@ public class StudyControllerTest extends WebTestCase {
 
         expect(privilegeAuthorizationCheck.authorize(isA(String.class))).andReturn(true).anyTimes();
         expect(privilegeAuthorizationCheck.authorize(isA(ConfigAttributeDefinition.class))).andReturn(true).anyTimes();
+        expect(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).andReturn(user).anyTimes();
 
         request.setMethod("POST");
         request.setAttribute(controller.getClass().getName() + ".PAGE." + controller.getCommandName(), 1);

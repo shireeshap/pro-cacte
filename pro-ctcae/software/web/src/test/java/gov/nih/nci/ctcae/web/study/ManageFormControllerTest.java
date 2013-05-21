@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.List;
 
@@ -37,13 +40,16 @@ public class ManageFormControllerTest extends WebTestCase {
     private CRF crf2;
     private List<CRF> crfs= new ArrayList<CRF>();
     private UsernamePasswordAuthenticationToken currentUser;
+    private User user;
+    Map<String, List<Role>> userSpecificPrivilegeRoleMap;
+    List<Role> roles;
 
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         crfAjaxFacade = registerMockFor(CrfAjaxFacade.class);
-                studyAjaxFacade = registerMockFor(StudyAjaxFacade.class);
+        studyAjaxFacade = registerMockFor(StudyAjaxFacade.class);
 
         controller = new ManageFormController();
         fetchCrfController = new FetchCrfController();
@@ -51,7 +57,18 @@ public class ManageFormControllerTest extends WebTestCase {
         controller.setCrfAjaxFacade(crfAjaxFacade);
         controller.setStudyAjaxFacade(studyAjaxFacade);
         fetchCrfController.setCrfAjaxFacade(crfAjaxFacade);
-        currentUser = new UsernamePasswordAuthenticationToken(new User(), "Password@2");
+        fetchCrfController.setAuthorizationServiceImpl(authorizationServiceImpl);
+        roles = new ArrayList<Role>();
+        user = new User();
+        userSpecificPrivilegeRoleMap = new HashMap<String, List<Role>>();
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_VERSION_FORM", roles);
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_VIEW_FORM", roles);
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_COPY_FORM", roles);
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_RELEASE_FORM", roles);
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_DELETE_FORM", roles);
+        userSpecificPrivilegeRoleMap.put("PRIVILEGE_EDIT_FORM", roles);
+        user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
+        currentUser = new UsernamePasswordAuthenticationToken(user, "Password@2");
         study = new Study();
         study.setId(1);
         study.setShortTitle("fake study");
@@ -86,8 +103,8 @@ public class ManageFormControllerTest extends WebTestCase {
         request.getSession().setAttribute("crfSearchString", "Alerts fake");
         expect(crfAjaxFacade.resultCount(isA(String[].class))).andReturn(2L);
         expect(crfAjaxFacade.searchCrfs(isA(String[].class), eq(0), eq(5), eq("title"), eq("asc"), eq(2L))).andReturn(crfs);
+        expect(authorizationServiceImpl.hasRole(study, new ArrayList<Role>(), user)).andReturn(true).anyTimes();
         
-
         replayMocks();
         ModelAndView modelAndView = fetchCrfController.handleRequest(request, response);
         Object src = modelAndView.getModel().get("shippedRecordSet");

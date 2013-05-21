@@ -18,6 +18,7 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
     private String type;
     private String text;
     private Study study;
+    private String PRIVILEGE_STUDY_REPORTS = "PRIVILEGE_STUDY_REPORTS";
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -34,7 +35,7 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
     public void testFindByMatchingText() {
 
 
-        Collection<? extends Study> studies = studyAjaxFacade.matchStudy("s");
+        Collection<? extends Study> studies = studyAjaxFacade.matchStudy("s", PRIVILEGE_STUDY_REPORTS);
         assertFalse(studies.isEmpty());
         int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
                 "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
