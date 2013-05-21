@@ -42,6 +42,8 @@ public class EditParticipantController extends ParticipantController {
         request.getSession().setAttribute(CreateParticipantController.class.getName() + ".FORM." + "command", null);
 
         String id = request.getParameter(PARTICIPANT_ID);
+        // put the participantId in session, to be used later in ParticipantDetailsTab
+        request.getSession().setAttribute("id", id);
         ParticipantCommand command = new ParticipantCommand();
         populateOrganizationsForUser(command);
         Participant participant = participantRepository.findById(Integer.valueOf(id));
@@ -55,6 +57,7 @@ public class EditParticipantController extends ParticipantController {
         command.setReadOnlyUserName(true);
         }
         command.setParticipant(participant);
+        command.setParticipantInstanceSpecificPrivilege();
         command.initialize();
 
         if (participant.getStudyParticipantAssignments().size() > 0) {
