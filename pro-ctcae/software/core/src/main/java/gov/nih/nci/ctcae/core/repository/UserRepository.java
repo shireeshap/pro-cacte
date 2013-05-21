@@ -8,12 +8,12 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.RolePrivilege;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
-import gov.nih.nci.ctcae.core.domain.UserPasswordHistory;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
@@ -28,14 +28,16 @@ import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyService;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -70,24 +72,46 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     private GenericRepository genericRepository;
     private boolean checkAccountLockout = true;
     PasswordPolicyService passwordPolicyService;
-
-    public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+	private AuthorizationServiceImpl authorizationServiceImpl;
+	
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
         DomainObjectPrivilegeGenerator privilegeGenerator = new DomainObjectPrivilegeGenerator();
         Set<Role> roles = new HashSet<Role>();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
-
+        Map<Role, ArrayList<Integer>> studyRoleMap = new HashMap<Role, ArrayList<Integer>>();
+        Map<String, List<Role>> userSpecificPrivilegeRoleMap;
+        
         User user = getUserByUserName(userName);
         addRolesToUser(user, roles);
 
         if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
-
-        ClinicalStaff clinicalStaff = generateInstanceGrantedAuthoritiesForNonAdminUsers(user, privilegeGenerator, roles, instanceGrantedAuthorities);
+        
+		/** Please always have buildPrivilegeRoleMap() method after generateInstanceGrantedAuthoritiesForNonAdminUsers() method and before 
+		 *  generateInstanceGrantedAuthoritiesForParticipants() method, as, the buildPrivilegeRoleMap() methods needs to have complete set 
+		 *  of user roles for building userSpecificPrivilegeRoleMap and generateInstanceGrantedAuthoritiesForParticipants() methods has a
+		 *  dependency to userSpecificPrivilegeRoleMap.
+		 */
+        ClinicalStaff clinicalStaff = generateInstanceGrantedAuthoritiesForNonAdminUsers(user, privilegeGenerator, roles, instanceGrantedAuthorities, studyRoleMap);
+        userSpecificPrivilegeRoleMap = buildPrivilegeRoleMap(roles);
+        user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
         Participant participant = generateInstanceGrantedAuthoritiesForParticipants(user, privilegeGenerator, instanceGrantedAuthorities);
-        generateGrantedAuthoritiesForRole(user, roles, grantedAuthorities);
+        generateGrantedAuthoritiesForRole(user, roles, grantedAuthorities, studyRoleMap);
         
         checkPasswordExpirationAndLock(user, roles);
         
@@ -104,6 +128,34 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return findByUserName(user.getUsername()).get(0);
     }
 
+    
+    /**Function: buildPrivilegeRoleMap() 
+     * @param roles
+     * @return
+     * Used to build a user specific privilegeRole map which is used in fetchCrfController, fetchParticipantController & authorizationServiceImpl to determine 
+     * what are the roles associated with a given privilegeName; 
+     * This map is used for providing instance level security (to determine access to CRF , Participant & Study objectInstances) 
+     */
+    private Map<String, List<Role>> buildPrivilegeRoleMap(Set<Role> roles){
+    	Map<String, List<Role>> userSpecificPrivilegeRoleMap = new HashMap<String, List<Role>>();
+    	
+    	RolePrivilegeQuery query = new RolePrivilegeQuery(true);
+    	query.leftJoinPrivilege();
+    	query.filterByRoles(roles);
+    	List<RolePrivilege> rolePrivilegeList = genericRepository.find(query);
+    	
+    	ArrayList<Role> roleList;
+    	for(RolePrivilege rp : rolePrivilegeList){
+    		roleList = (ArrayList<Role>) userSpecificPrivilegeRoleMap.get(rp.getPrivilege().getPrivilegeName());
+    		if(roleList == null){
+    			roleList = new ArrayList<Role>();
+    			userSpecificPrivilegeRoleMap.put(rp.getPrivilege().getPrivilegeName(), roleList);
+    		}
+    		roleList.add(rp.getRole());
+    	}
+    	return userSpecificPrivilegeRoleMap;
+    }
+    
     private void checkPasswordExpirationAndLock(User user, Set<Role> roles) {
     	PasswordPolicy passwordPolicy;
         if (!roles.isEmpty()) {
@@ -119,7 +171,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         checkAccountLock(user, passwordPolicy);		
 	}
 
-	private List<GrantedAuthority> generateGrantedAuthoritiesForRole(User user, Set<Role> roles, List<GrantedAuthority> grantedAuthorities) {
+	private List<GrantedAuthority> generateGrantedAuthoritiesForRole(User user, Set<Role> roles, List<GrantedAuthority> grantedAuthorities,
+				Map<Role, ArrayList<Integer>> studyRoleMap) {
     	if (roles.isEmpty()) {
     		return grantedAuthorities;
     	}
@@ -133,10 +186,14 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             rolePrivilegeQuery.filterForAdmin();
         }
         List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
+        List<String> privilegeList = new ArrayList<String>();
         for (Privilege privilege : privileges) {
-            GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
-            grantedAuthorities.add(grantedAuthority);
-        }
+        	privilegeList = authorizationServiceImpl.processPrivilege(user, privilege.getPrivilegeName(), studyRoleMap);
+	    	for(String privilegeName : privilegeList){
+	    		GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilegeName);
+	            grantedAuthorities.add(grantedAuthority);
+	    	}
+    	}
         return grantedAuthorities;
 	}
 
@@ -152,7 +209,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return participant;
 	}
 
-	private ClinicalStaff generateInstanceGrantedAuthoritiesForNonAdminUsers(User user, DomainObjectPrivilegeGenerator privilegeGenerator, Set<Role> roles, List<GrantedAuthority> instanceGrantedAuthorities) {
+	private ClinicalStaff generateInstanceGrantedAuthoritiesForNonAdminUsers(User user, DomainObjectPrivilegeGenerator privilegeGenerator,
+			Set<Role> roles, List<GrantedAuthority> instanceGrantedAuthorities,	Map<Role, ArrayList<Integer>> studyRoleMap) {
         ClinicalStaff clinicalStaff = null;
         //only need to load orgs and studies for non admin staff
         if (!roles.contains(Role.ADMIN)) {
@@ -197,8 +255,18 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 studyOrganizationClinicalStaffQuery.filterByActiveStatus();
                 List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
                 Set<String> privileges;
+                Role role;
+                ArrayList<Integer> accessibleStudies; 
                 for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
-                    roles.add(studyOrganizationClinicalStaff.getRole());
+                	role = studyOrganizationClinicalStaff.getRole();
+                    roles.add(role);
+                    if(studyRoleMap.get(role) != null){
+                    	accessibleStudies = studyRoleMap.get(role);
+                    } else {
+                    	accessibleStudies = new ArrayList<Integer>();
+                    	studyRoleMap.put(role, accessibleStudies);
+                    }
+                    accessibleStudies.add(studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getId());
                     privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
                     for (String privilege : privileges) {
                         instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
@@ -435,6 +503,11 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     @Required
     public void setPasswordPolicyService(PasswordPolicyService passwordPolicyService) {
         this.passwordPolicyService = passwordPolicyService;
+    }
+    
+    @Required
+    public void setAuthorizationServiceImpl(AuthorizationServiceImpl authorizationServiceImpl) {
+        this.authorizationServiceImpl = authorizationServiceImpl;
     }
 }
 
