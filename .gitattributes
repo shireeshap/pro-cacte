@@ -2529,6 +2529,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/passwordpo
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/passwordpolicy/validators/PasswordPolicyValidator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/passwordpolicy/validators/ValidationException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/security/user/Credential.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/AuthorizationService.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/AuthorizationServiceImpl.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/ParticipantScheduleService.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/UserRoleService.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/UserRoleServiceImpl.java -text
