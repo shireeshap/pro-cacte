@@ -7,7 +7,8 @@
       http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd 
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
     <tx:annotation-driven proxy-target-class="true"/>
 
@@ -204,6 +205,44 @@
     	<property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
       </bean>
       
+     <bean id="authorizationServiceImpl" class="gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl">
+       	<property name="genericRepository" ref="genericRepository"/>
+       	<property name="filteredAccessPrivilegeMap">
+       		<map>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE_RESEARCH_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_CREATE_PARTICIPANT" value="true"/>
+       		</map>
+       	</property>
+       	<property name="studySectionPrivilegesMap">
+       		<map>
+       			<entry key="PRIVILEGE_VIEW_STUDY" value="true"/>
+       			<entry key="PRIVILEGE_CREATE_STUDY" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_CLINICAL_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE_RESEARCH_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_ADD_STUDY_SITE_STAFF" value="true"/>
+       		</map>
+       	</property>
+       	<property name="participantSectionPrivilegesMap">
+       		<map>
+       			<entry key="PRIVILEGE_VIEW_PARTICIPANT" value="true"/>
+       			<entry key="PRIVILEGE_EDIT_PARTICIPANT" value="true"/>
+       			<entry key="PRIVILEGE_CREATE_PARTICIPANT" value="true"/>
+       			<entry key="PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF" value="true"/>
+       			<entry key="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF" value="true"/>
+       			<entry key="PRIVILEGE_ENTER_PARTICIPANT_RESPONSE" value="true"/>
+       			<entry key="PRIVILEGE_SEARCH_PARTICIPANT" value="true"/>
+       			<entry key="PRIVILEGE_MONITOR_FORM" value="true"/>
+       			<entry key="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE" value="true"/>
+       			<entry key="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR" value="true"/>
+       			<entry key="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES" value="true"/>
+       		</map>
+       	</property>
+     </bean>
+     
     <bean id="userRoleServiceImpl" class="gov.nih.nci.ctcae.core.service.UserRoleServiceImpl">
         <property name="userRepository" ref="userRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
@@ -302,6 +341,7 @@
         <property name="saltSource" ref="reflectionSaltSource"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </bean>
 
     <bean id="meddraLoaderRepository" class="gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository">
