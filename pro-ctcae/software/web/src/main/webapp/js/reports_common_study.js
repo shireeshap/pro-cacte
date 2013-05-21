@@ -27,7 +27,7 @@
            aResults = results;
        };
        var callMetaData = {callback:callbackProxy, async:false};
-       organization.matchOrganizationByStudyId(unescape(sQuery), $('study').value, callMetaData);
+       organization.matchOrganizationByStudyIdAndUserRole(unescape(sQuery), $('study').value, callMetaData);
        hideIndicator("studySiteInput-indicator");
        return aResults;
    }
