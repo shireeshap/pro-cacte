@@ -38,58 +38,41 @@ function showVersionForm(crfId) {
         parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 600, 150);
-//                    var response = transport.responseText;
-//                    new Insertion.After('details_row_' + crfId, response);
-//                    $('crfVersionShowImage_' + crfId).hide();
-//                    $('crfVersionHideImage_' + crfId).show();
         },
         method:'get'
     })
 }
-function showPopUpMenu(cid, status, showVersion, formTitle) {
+
+function showPopUpMenu(cid, status, showVersion, formTitle, hasVersionFormPrivilege, hasViewFormPrivilege, hasCopyFormPrivilege, hasReleaseFormPrivilege, hasDeleteFormPrivilege, hasEditFormPrivilege) {
     var html = '<div id="search-engines"><ul>';
     if (status == 'Released') {
-	    <proctcae:urlAuthorize url="/pages/form/versionForm">
-	        html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
-	    </proctcae:urlAuthorize>
-//	    <proctcae:urlAuthorize url="/pages/form/editForm">
-//	        var showruleslink = true;
-//	    <proctcae:urlAuthorize url="/pages/form/editSchedules">
-//	        showruleslink = false;
-//	        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit schedules/notifications</a></li>';
-//	    </proctcae:urlAuthorize>
-//	        if (showruleslink) {
-//	            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit notifications</a></li>';
-//	        }
-//	    </proctcae:urlAuthorize>
-	    <proctcae:urlAuthorize url="/pages/form/versionForm">
+	    if(hasViewFormPrivilege == true || hasViewFormPrivilege == 'true'){
+	        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/viewForm"/>?crfId=' + cid + '\'">View form</a></li>';
+	    }
+	    if(hasVersionFormPrivilege == true || hasVersionFormPrivilege == 'true'){
+	    	html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
 	        if (showVersion) {
 	            html += '<li><a href="#" onclick="javascript:showVersionForm(' + cid + ')">Show versions</a></li>';
 	        }
-	    </proctcae:urlAuthorize>
-	    <proctcae:urlAuthorize url="/pages/form/viewForm">
-	        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/viewForm"/>?crfId=' + cid + '\'">View form</a></li>';
-	    </proctcae:urlAuthorize>
-	    <proctcae:urlAuthorize url="/pages/form/versionForm">
 	        html += '<li><a href="#" onclick="javascript:hideForm(' + cid + ')">Hide form</a></li>';
-	    </proctcae:urlAuthorize>
+	    }
     }
     
-	<proctcae:urlAuthorize url="/pages/form/copyForm">
+    if(hasCopyFormPrivilege == true || hasCopyFormPrivilege == 'true'){
 	    html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/copyForm"/>?crfId=' + cid + '\'">Copy form</a></li>';
-	</proctcae:urlAuthorize>
+    }
 	html += '<li id="nav"><a href="#" >Print form (' + formTitle + ')</a><ul><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=en&crfId=' + cid + '\'">English</a></li><li><a href="#" onclick="location.href=\'<c:url value="/pages/form/printForm"/>?lang=es&crfId=' + cid + '\'">Spanish</a></li></ul></li>';
 	
     if (status == 'Draft') {
-	    <proctcae:urlAuthorize url="/pages/form/releaseForm">
+    	if(hasReleaseFormPrivilege == true || hasReleaseFormPrivilege == 'true'){
 	        html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
-	    </proctcae:urlAuthorize>
-	    <proctcae:urlAuthorize url="/pages/form/deleteForm">
+    	}
+    	if(hasDeleteFormPrivilege == true || hasDeleteFormPrivilege == 'true'){
 	        html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
-	    </proctcae:urlAuthorize>
-	    <proctcae:urlAuthorize url="/pages/form/editForm">
+    	}
+    	if(hasEditFormPrivilege == true || hasEditFormPrivilege == 'true'){
 	        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit form</a></li>';
-	    </proctcae:urlAuthorize>
+    	}
     }
 
     html += '</ul></div>';
