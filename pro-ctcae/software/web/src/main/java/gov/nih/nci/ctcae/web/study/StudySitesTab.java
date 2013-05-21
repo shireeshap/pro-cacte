@@ -4,14 +4,18 @@ import gov.nih.nci.ctcae.core.domain.LeadStudySite;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 //
 /**
  * The Class SitesTab.
@@ -75,8 +79,15 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
     }
 
     public String getRequiredPrivilege() {
-        return Privilege.PRIVILEGE_ADD_STUDY_SITE;
-
-
+    	String privilege = Privilege.PRIVILEGE_ADD_STUDY_SITE;
+    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	if(!user.isAdmin()){
+    		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    		String studyId = attr.getRequest().getParameter("studyId");
+        	if(!StringUtils.isEmpty(studyId) ){
+        		privilege = privilege + AuthorizationServiceImpl.getStudyInstanceSpecificPrivilege(Integer.parseInt(studyId));
+        	}
+    	}
+        return privilege;
     }
 }
