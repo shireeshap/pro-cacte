@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
 
@@ -107,6 +110,19 @@ public class ParticipantQueryTest extends TestCase {
         assertEquals("SELECT p from Participant p WHERE lower(p.emailAddress) LIKE :emailAddress order by p.id",
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", 1,participantQuery.getParameterMap().size());
+    }
+    
+    public void testFilterByStudyIds(){
+    	List<Integer> studyIds = new ArrayList<Integer>();
+    	studyIds.add(1);
+    	studyIds.add(2);
+    	
+    	ParticipantQuery query = new ParticipantQuery(false);
+    	query.filterByStudyIds(studyIds);
+    	
+    	assertEquals("SELECT p from Participant p left join p.studyParticipantAssignments as spa join spa.studySite " +
+    			"as ss join ss.study as study WHERE study.id in (:studyIds) order by p.id", query.getQueryString());
+    	assertTrue("contains studyIds parameter", query.getQueryParameterListMap().containsKey("studyIds"));
     }
 
 }
