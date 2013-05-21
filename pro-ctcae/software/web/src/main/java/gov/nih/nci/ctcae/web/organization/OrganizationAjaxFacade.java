@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
@@ -14,6 +15,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
 import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -40,7 +42,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class OrganizationAjaxFacade {
-private final String ALL_STUDY_SITES="Get all study sites"; 
+	private final String ALL_STUDY_SITES="Get all study sites"; 
+	private String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
     /**
      * The organization repository.
      */
@@ -48,6 +51,7 @@ private final String ALL_STUDY_SITES="Get all study sites";
     private StudyOrganizationRepository studyOrganizationRepository;
     private GenericRepository genericRepository;
     private UserRepository userRepository;
+    private AuthorizationServiceImpl authorizationServiceImpl;
     /**
      * The log.
      */
@@ -99,6 +103,10 @@ private final String ALL_STUDY_SITES="Get all study sites";
 
     public List<Organization> matchOrganizationForStudySitesWithSecurity(final String text) {
         List<Organization> organizations;
+        boolean hasRoleNotOnTheList = false;
+        boolean hasAllowedRole = false;
+        Set<Organization> siteToRemove = new HashSet<Organization>();
+        List<Role> roles = new ArrayList<Role>();
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user.isAdmin()) {
@@ -106,8 +114,11 @@ private final String ALL_STUDY_SITES="Get all study sites";
         } else {
             ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
             if (clinicalStaff != null) {
+            	roles = authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_CREATE_CLINICAL_STAFF);
                 Set<Organization> orgSet = new HashSet<Organization>();
                 for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+                	hasRoleNotOnTheList = false;
+                	hasAllowedRole = false;
                     Organization organization = organizationClinicalStaff.getOrganization();
                     if ("%".equals(text) || organization.getDisplayName().toLowerCase().indexOf(text.toLowerCase()) > 1) {
                         orgSet.add(organizationClinicalStaff.getOrganization());
@@ -122,7 +133,21 @@ private final String ALL_STUDY_SITES="Get all study sites";
                                 }
                             }
                         }
+                        
+                        if(!roles.contains(socs.getRole())){
+                        	hasRoleNotOnTheList = true;
+                        } else {
+                        	hasAllowedRole = true;
+                        }
                     }
+                    
+                    if(hasRoleNotOnTheList && !hasAllowedRole){
+                    	siteToRemove.add(organizationClinicalStaff.getOrganization());
+                    }
+                }
+                
+                for(Organization organization : siteToRemove){
+                	orgSet.remove(organization);
                 }
                 organizations = new ArrayList(orgSet);
                 return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
@@ -132,15 +157,56 @@ private final String ALL_STUDY_SITES="Get all study sites";
 
         }
     }
-
+    
     public List<StudyOrganization> matchOrganizationByStudyId(final String text, Integer studyId) {
-        List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId(text, studyId);
-        organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<StudyOrganization>() {
+        List<StudyOrganization> studyOrganizations = studyOrganizationRepository.findByStudyId(text, studyId);
+        studyOrganizations = RankBasedSorterUtils.sort(studyOrganizations, text, new Serializer<StudyOrganization>() {
             public String serialize(StudyOrganization object) {
                 return object.toString();
             }
         });
-        return ObjectTools.reduceAll(organizations, "id", "organization.name", "organization.nciInstituteCode");
+        return ObjectTools.reduceAll(studyOrganizations, "id", "organization.name", "organization.nciInstituteCode");
+
+    }
+    
+    /**Match organization by studyId and UserRole
+     * @param text
+     * @param studyId
+     * Applies instanceLevelSecurity for the studySite autoCompleter in studyReports section.
+     * If the logged in user has site level role on the selected study (selected from study drop down), then do not show all the studySites but 
+     * only the loggedin user's studySite.
+     * For other non site level roles (like admin, lead_pi, lead_cra..) show all the studySites associated with the selected study.
+     */
+    public List<StudyOrganization> matchOrganizationByStudyIdAndUserRole(final String text, Integer studyId) {
+    	List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
+    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	if(AuthorizationServiceImpl.isInstanceLevelSecurityRequired(user)){
+    		Study study = (Study) genericRepository.findById(Study.class, studyId);
+        	if(study != null){
+        		List<StudyOrganizationClinicalStaff> socsList = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
+            	for(StudyOrganizationClinicalStaff socs : socsList){
+            		User socsUser = socs.getOrganizationClinicalStaff().getClinicalStaff().getUser();
+            		if( socsUser!= null){
+            			if(socsUser.equals(user)){
+            				studyOrganizations.add(socs.getStudyOrganization());
+            				break;
+            			}
+            		}
+            	}
+        	}
+    	}
+    
+    	if(studyOrganizations.isEmpty()){
+    		studyOrganizations = studyOrganizationRepository.findByStudyId(text, studyId);
+    	}
+    	
+        studyOrganizations = RankBasedSorterUtils.sort(studyOrganizations, text, new Serializer<StudyOrganization>() {
+            public String serialize(StudyOrganization object) {
+                return object.toString();
+            }
+        });
+        return ObjectTools.reduceAll(studyOrganizations, "id", "organization.name", "organization.nciInstituteCode");
 
     }
 
@@ -168,5 +234,10 @@ private final String ALL_STUDY_SITES="Get all study sites";
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    @Required
+    public void setAuthorizationServiceImpl(AuthorizationServiceImpl authorizationServiceImpl) {
+        this.authorizationServiceImpl = authorizationServiceImpl;
     }
 }
