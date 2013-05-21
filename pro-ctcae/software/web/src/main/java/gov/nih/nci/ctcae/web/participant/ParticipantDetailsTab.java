@@ -22,6 +22,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantEmailAddressValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueParticipantUserNumberValidator;
@@ -45,7 +46,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 //
 
@@ -75,7 +79,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     }
 
     public String getRequiredPrivilege() {
-        return Privilege.PRIVILEGE_CREATE_PARTICIPANT;
+    	String privilege = Privilege.PRIVILEGE_CREATE_PARTICIPANT;;
+    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	if(!user.isAdmin()){
+    		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    		String participantId = attr.getRequest().getParameter("id");
+        	if(!StringUtils.isEmpty(participantId)){
+        		privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
+        	} else {
+        		participantId = (String) attr.getRequest().getSession().getAttribute("id");
+        		if(!StringUtils.isEmpty(participantId)){
+        			privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
+        		}
+        	}
+    	}
+        return privilege;
+    
 
 
     }
