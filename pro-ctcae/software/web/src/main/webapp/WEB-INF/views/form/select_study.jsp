@@ -26,7 +26,8 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            study.matchStudy(unescape(sQuery), callMetaData);
+            var requiredPrivilege = "PRIVILEGE_CREATE_FORM";
+            study.matchStudy(unescape(sQuery), requiredPrivilege, callMetaData);
             hideIndicator("crf.studyInput-indicator");
             return aResults;
         }
