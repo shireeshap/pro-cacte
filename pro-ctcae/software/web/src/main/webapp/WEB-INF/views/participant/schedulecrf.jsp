@@ -264,7 +264,7 @@ function validateAndSubmit(date, form) {
     form.submit();
 }
 
-function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, showDeleteOption) {
+function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege) {
     var html = '';
     var menuindex = date;
     var holdDate = date;
@@ -282,14 +282,17 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         /* commenting off-study check, as dropdown arrow is prevented from showing up in 
         the first place, for dates greater than off-study date */
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
-            if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
-                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-            } else if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
-            	html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
-            } else {
-                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
-            }
+        	if(hasShowCalendarActionsPrivilege){
+        		   if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
+                       html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                       html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                   } else if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
+                   	html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                   } else {
+                       html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                   }
+        	}
+         
         //}
         html += '</ul></div>';
     } else {
@@ -301,70 +304,75 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         the first place, for dates greater than off-study date */
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                if (${crfsSize>1}) {
-                    html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
-                }
-                if (showDeleteOption) {
-                    html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
-                    html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
-                }
-                html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
-                var split = sid.split('_');
-                for (var a = 0; a < split.length; a++) {
-                    var scheduleid = split[a];
-                    if (scheduleid != '') {
-                        var formName = forms[index][scheduleid];
-                        
-                    <proctcae:urlAuthorize url="/pages/participant/enterResponses">
-                        html += '<li><hr></li>';
-                    </proctcae:urlAuthorize>
-                        if (${command.selectedStudyParticipantAssignment.homeWebLanguage ne null && command.selectedStudyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
-                        <proctcae:urlAuthorize url="/pages/participant/enterResponses">
-                        
-                            html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){  
-                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
-                        }
-                        </proctcae:urlAuthorize>
-                        } else {
-                        <proctcae:urlAuthorize url="/pages/participant/enterResponses">
-                            html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
-                           	 html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
-                           }
-                        </proctcae:urlAuthorize>
-                        }
-
+                if(hasShowCalendarActionsPrivilege){
+                	if (${crfsSize>1}) {
+                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }
+                    if (showDeleteOption) {
+                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+                    }
+                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 }
+            	if(hasEnterResponsePrivilege){
+            	     var split = sid.split('_');
+                     for (var a = 0; a < split.length; a++) {
+                         var scheduleid = split[a];
+                         if (scheduleid != '') {
+                             var formName = forms[index][scheduleid];
+                             
+                             html += '<li><hr></li>';
+                             if (${command.selectedStudyParticipantAssignment.homeWebLanguage ne null && command.selectedStudyParticipantAssignment.homeWebLanguage eq 'SPANISH'}) {
+                             
+                                 html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
+                                 if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){  
+                                 	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
+                             	}
+                             } else {
+                                 html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
+                                 if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
+                                	 html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+                                }
+                             }
+
+                         }
+                     }
+            	}
+           
             } else {
                 //ensure the onHoldDate is greater than the current date before showing the options.
                 //if (newHoldYear >= currentYear && newHoldMonth >= currentMonth && newHoldDate > holdDate) {
                 if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
-                    if (${crfsSize>1}) {
-                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
-                    }
-                    if (showDeleteOption) {
-                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Delete form</a></li>';
-                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Move form to other date</a></li>';
-                    }
-                    var split = sid.split('_');
-                    for (var a = 0; a < split.length; a++) {
-                        var scheduleid = split[a];
-                        if (scheduleid != '') {
-                            var formName = forms[index][scheduleid];
-                            
-                            	html += '<li><hr></li>';
-	                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
-	                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
-	                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
-                            	}
+                   	if(hasShowCalendarActionsPrivilege){
+                    	if (${crfsSize>1}) {
+                            html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                         }
-                    }
+                        if (showDeleteOption) {
+                            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Delete form</a></li>';
+                            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Move form to other date</a></li>';
+                        }
+                        html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                   	}
+                   	if(hasEnterResponsePrivilege){
+                        var split = sid.split('_');
+                        for (var a = 0; a < split.length; a++) {
+                            var scheduleid = split[a];
+                            if (scheduleid != '') {
+                                var formName = forms[index][scheduleid];
+                                
+                                	html += '<li><hr></li>';
+    	                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
+    	                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
+    	                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+                                	}
+                            }
+                        }
+                   	}
                 }
-                html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                
             }
         //}
+            
         html += '</ul></div>';
     }
     jQuery('#scheduleActions' + menuindex).menu({
@@ -479,7 +487,7 @@ function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
                                         <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   studyParticipantAssignment="${command.selectedStudyParticipantAssignment}"
-                                                                  index="0"/>
+                                                                  index="0" hasShowCalendarActionsPrivilege="${hasShowCalendarActionsPrivilege}" hasEnterResponsePrivilege="${hasEnterResponsePrivilege}"/>
                                     </div>
                                 </td>
                             </tr>
@@ -493,8 +501,6 @@ function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
                     </div>
 
                 </chrome:division>
-
-
             </c:forEach>
 </jsp:attribute>
 </tags:tabForm>
