@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,7 +82,10 @@ public class User extends BaseVersionable implements UserDetails {
 
     @Transient
     private String newPassword;
-
+    
+    @Transient
+    private Map<String, List<Role>> userSpecificPrivilegeRoleMap;
+    
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -173,6 +177,14 @@ public class User extends BaseVersionable implements UserDetails {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+    
+    public void setUserSpecificPrivilegeRoleMap(Map<String, List<Role>> userSpecificPrivilegeRoleMap){
+    	this.userSpecificPrivilegeRoleMap = userSpecificPrivilegeRoleMap;
+    }
+    
+    public Map<String, List<Role>> getUserSpecificPrivilegeRoleMap(){
+    	return userSpecificPrivilegeRoleMap;
     }
 
     @Transient
@@ -325,7 +337,7 @@ public class User extends BaseVersionable implements UserDetails {
             if (grantedAuthority.contains(requiredGrouPrivilege)) {
                 return new ArrayList<Integer>();
             } else if (grantedAuthority.contains(requiredPrivilege)) {
-                accessableObjectIds.add(Integer.valueOf(grantedAuthority.substring(requiredPrivilege.length(), grantedAuthority.length())));
+                accessableObjectIds.add(Integer.valueOf(grantedAuthority.substring(grantedAuthority.lastIndexOf('.') + 1)));
             }
         }
         return accessableObjectIds;
