@@ -158,48 +158,6 @@
 </script>
 
 <script>
-    function getSites(sQuery) {
-        showIndicator("siteInput-indicator");
-        var callbackProxy = function(results) {
-            aResults = results;
-        };
-        var callMetaData = { callback:callbackProxy, async:false};
-        organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
-        hideIndicator("siteInput-indicator");
-        return aResults;
-    }
-
-    var managerAutoComp;
-    Event.observe(window, 'load', function() {
-        new YUIAutoCompleter('siteInput', getSites, handleSelect);
-        if ('${site.displayName}' != "") {
-            $('siteInput').value = "${site.displayName}";
-            $('siteInput').removeClassName('pending-search');
-        }
-    });
-
-    function handleSelect(stype, args) {
-        var ele = args[0];
-        var oData = args[2];
-        if (oData == null) {
-            ele.getInputEl().value = "(Begin typing here)";
-            ele.getInputEl().addClassName('pending-search');
-        } else {
-            ele.getInputEl().value = oData.displayName;
-            var id = ele.getInputEl().id;
-            ele.getInputEl().removeClassName('pending-search');
-            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-            $(hiddenInputId).value = oData.id;
-        }
-    }
-
-    function clearInput(inputId) {
-        $(inputId).clear();
-        $(inputId + 'Input').clear();
-        $(inputId + 'Input').focus();
-        $(inputId + 'Input').blur();
-    }
-
     function sortResults(sort, currentSort) {
         $('sort').value = sort;
         $('sortDir').value = currentSort;
