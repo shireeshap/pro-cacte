@@ -2,23 +2,22 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.security.PrivilegeAuthorizationService;
-import gov.nih.nci.ctcae.web.security.SecuredTab;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.context.SecurityContextHolder;
 
 //
