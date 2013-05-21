@@ -104,7 +104,7 @@
         <c:forEach items="${studySites}" var="studySite">
 
             <c:if test="${studySite.id eq command.selectedStudySite.id}">
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff">
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteResearchStaff" objectId="${command.studyInstanceSpecificPrivilege}">
                     <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
                     	<tags:instructions code="study.study_research_staff.top"/>
                         <chrome:division title="study.label.clinical.staff.lead.site_pi">
@@ -122,7 +122,7 @@
                     </chrome:box>
                 </proctcae:urlAuthorize>
 
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff">
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/assignStudySiteClinicalStaff" objectId="${command.studyInstanceSpecificPrivilege}">
                     <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
                         <tags:instructions code="study.study_clinical_staff.top"/>
                         <chrome:division title="study.label.clinical.staff.lead.treating_physican">

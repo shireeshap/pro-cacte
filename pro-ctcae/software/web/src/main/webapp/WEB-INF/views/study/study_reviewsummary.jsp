@@ -112,8 +112,8 @@
             </table>
         </div>
     </chrome:division>
-    <proctcae:urlAuthorize url="/study/editsites"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
-    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsites">
+    <proctcae:urlAuthorize url="/study/editsites" objectId="${command.studyInstanceSpecificPrivilege}"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
+    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsites" objectId="${command.studyInstanceSpecificPrivilege}">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
@@ -150,8 +150,8 @@
             <div class="value">${command.study.principalInvestigator.displayName} </div>
         </div>
     </chrome:division>
-    <proctcae:urlAuthorize url="/study/editsitestaff"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
-    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff">
+    <proctcae:urlAuthorize url="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
+    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}">
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
                 <table width="75%" class="tablecontent">
