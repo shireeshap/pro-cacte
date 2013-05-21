@@ -32,6 +32,7 @@ public class ReportSearchCriteriaController extends AbstractController {
     CrfAjaxFacade crfAjaxFacade;
     OrganizationAjaxFacade organizationAjaxFacade;
     StudyRepository studyRepository;
+    private String PRIVILEGE_STUDY_REPORTS = "PRIVILEGE_STUDY_REPORTS";
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         cleanSession(request);
@@ -45,7 +46,7 @@ public class ReportSearchCriteriaController extends AbstractController {
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
             study = studyRepository.findById(Integer.parseInt(request.getParameter("studyId")));
         } else {
-            List<Study> studies = studyAjaxFacade.matchStudy("%");
+            List<Study> studies = studyAjaxFacade.matchStudy("%", PRIVILEGE_STUDY_REPORTS);
             if (studies.size() == 1) {
                 study = studies.get(0);
             }
