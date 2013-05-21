@@ -1,22 +1,24 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.core.utils.ranking.RankBasedSorterUtils;
 import gov.nih.nci.ctcae.core.utils.ranking.Serializer;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
-import gov.nih.nci.ctcae.core.domain.Persistable;
-//
 
 /**
  * The Class StudyAjaxFacade.
@@ -30,30 +32,47 @@ public class StudyAjaxFacade {
      * The study repository.
      */
     private StudyRepository studyRepository;
+    private AuthorizationServiceImpl authorizationServiceImpl;
 
     /**
      * The participant repository.
      */
 
-    /**
-     * Match study.
-     *
-     * @param text the text
-     * @return the list< study>
+    /**Match study method.
+     * @param text
+     * @param privilege: Used for instanceLevelSecurity. The passed in privilegeName is first used to find all the possible roles which can own this privilege.
+     * This list of roles is then used to filter the studies (based on, whether the logged in user has one of these roles on the study.) 
      */
-    public List<Study> matchStudy(final String text) {
+    public List<Study> matchStudy(final String text, String privilege) {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
         List<Study> studies = new ArrayList<Study>(studyRepository.find(studyQuery));
+        
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<Study> studiesWithRequiredRole = null;
+        if(!StringUtils.isEmpty(privilege) && AuthorizationServiceImpl.isInstanceLevelSecurityRequired(user)){
+        	 studiesWithRequiredRole = new HashSet<Study>();
+
+             List<Role> roles = authorizationServiceImpl.findRolesForPrivilege(user, privilege);
+             for(Study study : studies){
+             	if(authorizationServiceImpl.hasRole(study, roles, user)){
+             		studiesWithRequiredRole.add(study);
+             	}
+             }
+             
+             studies = new ArrayList<Study>(studiesWithRequiredRole);
+        }
+       
+        
         studies = RankBasedSorterUtils.sort(studies, text, new Serializer<Study>() {
             public String serialize(Study object) {
                 return object.getDisplayName();
             }
         });
+
         return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
-
     }
-
+    
     public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords) {
     	List<Study> studies = null;
     	
@@ -125,17 +144,6 @@ public class StudyAjaxFacade {
         
         return studies;
     }
-  
-
-    /**
-     * Sets the study repository.
-     *
-     * @param studyRepository the new study repository
-     */
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
     public Long resultCount(String[] searchTexts) {
     	
@@ -161,5 +169,20 @@ public class StudyAjaxFacade {
     	
     		return (long) 0;
     }    	
+    
+    /**
+     * Sets the study repository.
+     *
+     * @param studyRepository the new study repository
+     */
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+    	this.studyRepository = studyRepository;
+    }
+    
+    @Required
+    public void setAuthorizationServiceImpl(AuthorizationServiceImpl authorizationServiceImpl) {
+    	this.authorizationServiceImpl = authorizationServiceImpl;
+    }
     
 }
