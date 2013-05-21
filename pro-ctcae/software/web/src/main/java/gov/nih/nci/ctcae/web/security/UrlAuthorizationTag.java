@@ -23,6 +23,7 @@ public class UrlAuthorizationTag extends TagSupport {
 
 
     private String url;
+    private String objectId;
 
     //~ Methods ========================================================================================================
 
@@ -44,8 +45,8 @@ public class UrlAuthorizationTag extends TagSupport {
 
         ApplicationContext applicationContext = getContext(pageContext);
         UrlAuthorizationCheck urlAuthorizationCheck = (UrlAuthorizationCheck) applicationContext.getBean("urlAuthorizationCheck");
-
-        boolean authorize = urlAuthorizationCheck.authorize(url);
+        
+        boolean authorize = urlAuthorizationCheck.authorize(url, objectId);
         if (authorize) {
             return Tag.EVAL_BODY_INCLUDE;
         } else {
@@ -76,6 +77,10 @@ public class UrlAuthorizationTag extends TagSupport {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+    
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }
 
