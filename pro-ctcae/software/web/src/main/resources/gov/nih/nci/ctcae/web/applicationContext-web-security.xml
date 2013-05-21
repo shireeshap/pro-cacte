@@ -130,6 +130,7 @@
 
     <beans:bean id="urlAuthorizationCheck" class="gov.nih.nci.ctcae.web.security.UrlAuthorizationCheck">
         <beans:property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
+        <beans:property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
     </beans:bean>
 
 </beans:beans>
