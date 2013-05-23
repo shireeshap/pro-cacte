@@ -496,33 +496,60 @@
     </script>
 </head>
 <body>
-<chrome:box autopad="true" message="false">
     <ctcae:form method="post" name="myForm" id="myForm"> 
-    
+        <c:if test="${command.isEq5dCrf}">
+            <div style="padding-left:835px;font-size:12px;color: #666666;">
+		        <spring:message code="current.page"/>: ${command.newPageIndex}
+		        <spring:message code="pages.left"/> ${command.totalPages}
+		    </div>
+		    <table cellspacing="0">
+		        <tr>
+		            <td width="80%">
+		                 
+		            </td>
+		            <td width="4%">
+		                <div style="font-size:12px;color: #666666;">
+		                 <spring:message code="progress"/>:
+		                </div>
+		            </td>
+		            <td valign="middle" width="20%">
+		                 <div class='progress-bar-outer'>
+		                    <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+		                </div>
+		            </td>
+		        </tr>
+		    </table> 
+		</c:if>
+        <chrome:box autopad="true" message="false">
 	    <c:choose>
 	        <c:when test="${command.isEq5dCrf}">
+	           
 	            <table width="100%"> 
 			        <tr>
-			            <td width="85%" valign="top">
-			                <p><br/>To help people say how good or bad a health state is, we have provided a slider on which the best state 
-			                you can imagine is marked 100 and the worst state you can imagine is marked 0.<br/><br/>
-			                We would like you to indicate on this scale how good or bad you own health is <b><u>today</u></b>, in your opinion. 
-			                Please do this by dragging the slider up to the line that best indicates how good or bad your health state is today.</p> 
-			            </td>
-			            <td align="center"><b>Best imaginable health state</b></td></tr>
+			            <td width="85%" valign="top"></td>
+			            <td align="center"><b>The best health you can imagine</b></td></tr>
 			        <tr>
-			            <td width="85%" align="center" valign="top">
+			            <td valign="top">
+			                    <ul style="list-style-type:disc;padding-left:70px;text-align:left">
+									<li style="font-size:16px;height:50px">We would like to know how good or bad your health is TODAY.</li>
+									<li style="font-size:16px;height:50px">This scale is numbered from 0 to 100.</li>
+									<li style="font-size:16px;height:50px">100 means the <u>best</u> health you can imagine. <br/> 0 means the <u>worst</u> health you can imagine.</li>
+									<li style="font-size:16px;height:50px">Slide the scale to indicate how your health is TODAY.</li>
+									<li style="font-size:16px;height:50px">The selected number will appear in the box below.</li>
+							    </ul>
+							  <p style="padding-left:70px;"><br/><br/>
 			                  <b>YOUR HEALTH TODAY = </b>
-			                   <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3"/>            
+			                   <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3" style="text-align:center"/>   
+			                   </p>         
 			            </td>    
 			            <td align="center">
-			              
 			              <div id="slider-vertical" style="height: 400px;">
-			                  
 			              </div>
 			             </td>
 			        </tr>
-			        <tr><td width="85%" ></td><td align="center"><b>Worst imaginable health state</b></td></tr>
+			        <tr>
+			             <td></td><td align="center"><b>The worst health you can imagine</b></td>
+			        </tr>
 			    </table>        
 			    
 		        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -538,7 +565,6 @@
 		                    max : 100,
 		                    value : ${command.schedule.healthAmount != null ? command.schedule.healthAmount : 0 },
 		                    slide : function (event, ui) {
-		                        //jQuery('input[type="text"]').val(ui.value);
 		                        //jQuery("#healthAmountDisplay").val(ui.value);
 		                        jQuery("#healthAmount").val(ui.value);
 		                    }
@@ -604,8 +630,9 @@
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
+        </chrome:box>
     </ctcae:form>
-</chrome:box>
+
 
 <table width="100%" cellspacing="10">
     <tr>
