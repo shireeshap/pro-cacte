@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
@@ -18,7 +16,6 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
@@ -31,7 +28,6 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepo
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +47,7 @@ import org.springframework.security.context.SecurityContextHolder;
  */
 public class SubmitFormCommand implements Serializable {
 
-    private StudyParticipantCrfSchedule schedule;
+	private StudyParticipantCrfSchedule schedule;
     private Map<Integer, List<DisplayQuestion>> displayQuestionsMap = new HashMap<Integer, List<DisplayQuestion>>();
     private int totalPages = 0;
     private int totalQuestionPages = 0;
@@ -80,10 +76,16 @@ public class SubmitFormCommand implements Serializable {
         schedule = genericRepository.save(schedule);
         generateDisplayQuestionsMap();
         totalQuestionPages = displayQuestionsMap.keySet().size();
-//        addQuestionPageIndex = totalQuestionPages + 1;
         addMoreQuestionPageIndex = totalQuestionPages + 1;
-        totalPages = totalQuestionPages + 1;
-        reviewPageIndex = totalQuestionPages + 2;
+        if(getIsEq5dCrf()){
+            totalPages = totalQuestionPages + 1;
+            reviewPageIndex = totalQuestionPages + 1 + 1;
+//            schedule.setHealthAmount(50);
+        } else {
+            totalPages = totalQuestionPages + 1;
+            reviewPageIndex = totalQuestionPages + 2;
+        }
+
     }
 
     private void generateDisplayQuestionsMap() {
@@ -116,6 +118,12 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
+    
+    public boolean getIsEq5dCrf(){
+    	return schedule.getStudyParticipantCrf().getCrf().isEq5d();
+    }
+    
+    
     private void addParticipantAddedQuestionToSymptomMap(StudyParticipantCrfScheduleAddedQuestion participantQuestion) {
         DisplayQuestion displayQuestion = addQuestionToSymptomMap(participantQuestion.getQuestion());
         displayQuestion.setSelectedValidValue(participantQuestion.getValidValue());

@@ -89,7 +89,10 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     @Column(name = "mark_delete", nullable = false)
     private boolean markDelete = false;
 
-    /**
+    @Column(name = "health_amount", nullable = true)
+    private Integer healthAmount;    
+
+	/**
      * The study participant crf.
      */
     @JoinColumn(name = "study_participant_crf_id", referencedColumnName = "id")
@@ -731,4 +734,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable implements Comp
     public void setIvrsSchedules(List<IvrsSchedule> ivrsSchedules) {
         this.ivrsSchedules = ivrsSchedules;
     }
+    
+    
+    public Integer getHealthAmount() {
+		return healthAmount;
+	}
+
+	public void setHealthAmount(Integer healthAmount) {
+		this.healthAmount = healthAmount;
+	}
 }

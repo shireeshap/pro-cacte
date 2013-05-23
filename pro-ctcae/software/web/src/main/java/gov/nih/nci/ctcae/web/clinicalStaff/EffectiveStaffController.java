@@ -34,6 +34,7 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
 
         Integer cId = Integer.parseInt(request.getParameter("cId"));
         ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(cId);
+        clinicalStaff.getUser().getUserRoles().size();
         return clinicalStaff;
     }
 

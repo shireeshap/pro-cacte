@@ -153,6 +153,11 @@ public class SubmitFormController extends SimpleFormController {
             mv.setView(new RedirectView("addMorequestion"));
             return mv;
         }
+
+        if (currentPageIndex == submitFormCommand.getAddMoreQuestionPageIndex()){ // && submitFormCommand.getIsEq5dCrf()) {
+        	return showForm(request, errors, getReviewView());
+        }
+        
         if (currentPageIndex >= submitFormCommand.getReviewPageIndex()) {
             return showForm(request, errors, getReviewView());
         }

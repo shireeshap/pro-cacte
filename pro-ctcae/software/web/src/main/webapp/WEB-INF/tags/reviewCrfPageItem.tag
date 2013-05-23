@@ -46,10 +46,9 @@
                     id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
               <c:choose>
-                  <c:when test="${crfPageItem.crfItemAllignment.displayName eq 'Horizontal'}">
+                  <c:when test="${crfPageItem.crfItemAllignment.displayName eq 'Horizontal' and !command.crf.eq5d}">
                       <c:set var="horizontalCrfItemsStyle" value=""/>
                       <c:set var="verticalCrfItemsStyle" value="display:none;"/>
-
                   </c:when>
                   <c:otherwise>
                       <c:set var="horizontalCrfItemsStyle" value="display:none;"/>
@@ -57,13 +56,13 @@
                   </c:otherwise>
               </c:choose>
 
-              <div id="horizontalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}">
+              <div id="horizontalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}"><br/>
                   <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
                              varStatus="status">
                       <input type="radio" disabled="true"> ${validValue.value}
                   </c:forEach>
               </div>
-              <div id="verticalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${verticalCrfItemsStyle}">
+              <div id="verticalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${verticalCrfItemsStyle}"><br/>
                   <ul>
                       <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="proCtcValidValue">
                           <li>${proCtcValidValue.value}</li>

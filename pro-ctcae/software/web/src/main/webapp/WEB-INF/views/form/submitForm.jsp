@@ -76,10 +76,22 @@
             -webkit-box-shadow: 0 1px 1px white inset;
             box-shadow: 0 1px 1px white inset;
             width: 98px;
-
         }
-
     </style>
+    <c:if test="${command.isEq5dCrf}">
+        <style type="text/css">
+                .norm .label {
+                    width: 460px;
+                }
+                
+                .over .label {
+                    width: 460px;
+                }
+                .selected .label {
+                    width: 460px;
+                }
+        </style>
+    </c:if>
     <script type="text/javascript">
         var alreadySubmitted = false;
         var totalQuestionsOnPage = ${fn:length(command.currentPageQuestions)};
@@ -91,9 +103,6 @@
             }
         }
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
-//           alert(questionIndexOnPage);
-//           alert(validValueIndexForQuestion);
-
             var x = document.getElementsByName('response' + questionIndexOnPage);
             x[validValueIndexForQuestion].checked = true;
             column.onmouseout = function() {
@@ -191,7 +200,14 @@
         <tr>
             <td width="80%">
                  <div class="val" style="float:left;font-size:18px;margin-left:10px">
-                    <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
+                    <c:choose>
+	                    <c:when test="${command.isEq5dCrf}">
+	                        <tags:message code="eq5d.instructions.1"/><b><u><tags:message code="eq5d.instructions.2"/></u></b><tags:message code="fp.message.3"/>
+	                    </c:when>
+	                    <c:otherwise>
+                            <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/> 
+	                    </c:otherwise>
+                    </c:choose>
                 </div>
             </td>
             <td width="4%">
@@ -249,31 +265,61 @@
                     </td>
                 </tr>
                 </table>
-                <table align="center">
-                    <tr>
-                    <c:forEach items="${displayQuestion.validValues}" var="validValue"
-                               varStatus="validvaluestatus">
-                        <c:if test="${lang eq 'en'}">
-                            <tags:validvalue validValueId="${validValue.id}"
-                                             title="${validValue.value}"
-                                             selectedId="${displayQuestion.selectedValidValue.id}"
-                                             displayOrder="${validValue.displayOrder}"
-                                             questionIndexOnPage="${varStatus.index}"
-                                             validValueIndexForQuestion="${validvaluestatus.index}"
-                                    />
-                        </c:if>
-                        <c:if test="${lang eq 'es'}">
-                            <tags:validvalue validValueId="${validValue.id}"
-                                             title="${validValue.valueSpanish}"
-                                             selectedId="${displayQuestion.selectedValidValue.id}"
-                                             displayOrder="${validValue.displayOrder}"
-                                             questionIndexOnPage="${varStatus.index}"
-                                             validValueIndexForQuestion="${validvaluestatus.index}"
-                                    />
-                        </c:if>
-                    </c:forEach>
-                </tr>
-            </table>
+                <c:choose>
+                    <c:when test="${command.isEq5dCrf}">
+		                 <table align="center">
+		                    <c:forEach items="${displayQuestion.validValues}" var="validValue"
+		                               varStatus="validvaluestatus">
+		                        <tr>
+		                        <c:if test="${lang eq 'en'}">
+		                            <tags:validvalue validValueId="${validValue.id}"
+		                                             title="${validValue.value}"
+		                                             selectedId="${displayQuestion.selectedValidValue.id}"
+		                                             displayOrder="${validValue.displayOrder}"
+		                                             questionIndexOnPage="${varStatus.index}"
+		                                             validValueIndexForQuestion="${validvaluestatus.index}"
+		                                    />
+		                        </c:if>
+		                        <c:if test="${lang eq 'es'}">
+		                            <tags:validvalue validValueId="${validValue.id}"
+		                                             title="${validValue.valueSpanish}"
+		                                             selectedId="${displayQuestion.selectedValidValue.id}"
+		                                             displayOrder="${validValue.displayOrder}"
+		                                             questionIndexOnPage="${varStatus.index}"
+		                                             validValueIndexForQuestion="${validvaluestatus.index}"
+		                                    />
+		                        </c:if>
+		                        </tr>
+		                    </c:forEach>
+		                  </table>
+                    </c:when>
+                    <c:otherwise>
+		                <table align="center">
+		                  <tr>
+		                    <c:forEach items="${displayQuestion.validValues}" var="validValue"
+		                               varStatus="validvaluestatus">
+		                        <c:if test="${lang eq 'en'}">
+		                            <tags:validvalue validValueId="${validValue.id}"
+		                                             title="${validValue.value}"
+		                                             selectedId="${displayQuestion.selectedValidValue.id}"
+		                                             displayOrder="${validValue.displayOrder}"
+		                                             questionIndexOnPage="${varStatus.index}"
+		                                             validValueIndexForQuestion="${validvaluestatus.index}" />
+		                        </c:if>
+		                        <c:if test="${lang eq 'es'}">
+		                            <tags:validvalue validValueId="${validValue.id}"
+		                                             title="${validValue.valueSpanish}"
+		                                             selectedId="${displayQuestion.selectedValidValue.id}"
+		                                             displayOrder="${validValue.displayOrder}"
+		                                             questionIndexOnPage="${varStatus.index}"
+		                                             validValueIndexForQuestion="${validvaluestatus.index}" />
+		                        </c:if>
+		                    </c:forEach>
+		                  </tr>
+		                </table>
+                    </c:otherwise>
+                </c:choose>
+
         </tags:formbuilderBox>
 
     </c:forEach>

@@ -167,6 +167,21 @@ public class CRF extends BaseVersionable implements Comparable<CRF>{
     @Column(name = "is_hidden", nullable = false)
     private Boolean hidden = false;
 
+    @Column(name = "is_eq5d", nullable = false)
+    private Boolean eq5d = false;
+    
+    public Boolean isEq5d() {
+        return eq5d;
+    }
+    
+    public Boolean getEq5d() {
+        return eq5d;
+    }
+    
+    public void setEq5d(Boolean eq5d) {
+        this.eq5d = eq5d;
+    }
+    
     public Boolean isHidden() {
         return hidden;
     }

@@ -1,18 +1,16 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.validation.BindException;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.RequestUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,21 +31,22 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
     	SubmitFormCommand sCommand = (SubmitFormCommand) command;
-    	String direction = sCommand.getDirection();
+    	String direction = RequestUtils.getStringParameter(request, "direction");
+//    	String direction = request.getParameter("direction");
+    	Integer healthAmount = RequestUtils.getIntParameter(request, "healthAmount");
+//    	Integer healthAmount = Integer.parseInt(request.getParameter("healthAmount").toString());
+    	
     	int pageNumber = sCommand.getNewPageIndex();
-        if ("continue".equals(direction)) {
-            String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
-            if (selectedSymptoms != null) {
-                sCommand = (SubmitFormCommand) command;
-                sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true);
-            }
-        } else {
-            if ("back".equals(direction)) {
-                 if (sCommand.getSortedSymptoms().size() == 0) {
-                    pageNumber--;
-                 }
-            }
+    	String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
+    	sCommand.getSchedule().setHealthAmount(healthAmount);
+
+        if ("continue".equals(direction) && selectedSymptoms != null) {
+            sCommand = (SubmitFormCommand) command;
+            sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true);
+        } else if(sCommand.getIsEq5dCrf()){
+        	sCommand.setSchedule(genericRepository.save(sCommand.getSchedule()));
         }
+        	
         //Setting the next or previous page number to be rendered in command object (will be used in SubmitFormController)
         sCommand.setCurrentPageIndex(String.valueOf(pageNumber));
         

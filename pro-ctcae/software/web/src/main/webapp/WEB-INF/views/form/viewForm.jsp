@@ -67,7 +67,7 @@
             <td>
                 <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
                     <div class="formpages">
-                        <div class="formpageheader">${crfPage.description}</div>
+                        <div class="formpageheader" style="font-size:12pt;"><b>${crfPage.description}</b></div>
                         <br/>
                         <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
                         <br>

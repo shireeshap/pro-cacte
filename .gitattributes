@@ -2315,6 +2315,9 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/001_insert_cts.gro
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/002_create_pwd_history.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/003_update_pwd_history_with_data.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/004_update_pwd_policy.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/005_add_column_eq5d.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/006_insert_eq5d.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/007_add_health_amount.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
@@ -3268,6 +3271,7 @@ pro-ctcae/software/web/src/main/webapp/css/hoverhelp.css -text
 pro-ctcae/software/web/src/main/webapp/css/ie.css -text
 pro-ctcae/software/web/src/main/webapp/css/ie7.css -text
 pro-ctcae/software/web/src/main/webapp/css/jQuery-theme/fg.menu.css -text
+pro-ctcae/software/web/src/main/webapp/css/jQuery-theme/jQuery-slider/style.css -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/webapp/css/jQuery-theme/jQuery.multiSelect/dropdown.blue.active.png -text
 pro-ctcae/software/web/src/main/webapp/css/jQuery-theme/jQuery.multiSelect/dropdown.blue.hover.png -text
 pro-ctcae/software/web/src/main/webapp/css/jQuery-theme/jQuery.multiSelect/dropdown.blue.png -text

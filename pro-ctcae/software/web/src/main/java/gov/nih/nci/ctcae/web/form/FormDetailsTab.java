@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
@@ -124,7 +125,13 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         super.postProcess(request, command, errors);
         command.updateCrfItems(proCtcQuestionRepository);
-
+        //TODO: Remove after eq5d UI has been finalized.
+        for(CRFPage crfPage : command.getCrf().getCrfPages()){
+        	if(crfPage.getProCtcTerm().getTermEnglish(SupportedLanguageEnum.ENGLISH).equals("Anxiety/Depression")){
+        		command.getCrf().setEq5d(true);
+        		break;
+        	}
+        }
 
     }
 

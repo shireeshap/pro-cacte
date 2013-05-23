@@ -1,0 +1,13 @@
+
+.ui-slider-vertical {
+    height: 100px;
+    width: 2.6em;
+}
+
+.ui-slider .ui-slider-handle{
+	width: 3.2em;
+}
+
+.ui-slider .ui-slider-handle{
+	background:url(../../../images/buttons/red-medium_btn.png) no-repeat; overflow: hidden; border: none; 
+}

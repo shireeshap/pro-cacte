@@ -1,4 +1,4 @@
-﻿<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
+<%@ page import="gov.nih.nci.ctcae.web.form.SubmitFormCommand" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -184,7 +184,7 @@
     var oAC;
     var greeting = "Begin typing here";
     <c:if test="${pageContext.response.locale == 'es'}">
-         greeting = "Comenzar a escribir aquí";
+         greeting = "Comenzar a escribir aqu�";
     </c:if>
 
     function initializeAutoCompleter() {
@@ -448,11 +448,11 @@
             div.className+=" norm";
         }
     }
-    function submitForm(direction) {
-        if(($F('participantSymptomInput'))!= greeting){
+    function submitForm(direction, eq5dFlow) {
+        if(eq5dFlow === 'false' && ($F('participantSymptomInput'))!= greeting){
             alertForAdd();
             return;
-        }
+        }    
         document.myForm.direction.value = direction;
         document.myForm.submit();
     }
@@ -497,68 +497,110 @@
 </head>
 <body>
 <chrome:box autopad="true" message="false">
-    <p style="font-size:18px">
-        <b><tags:message code="participant.form.typesymptom"/></b>
-    </p>
+    <ctcae:form method="post" name="myForm" id="myForm"> 
+    
+	    <c:choose>
+	        <c:when test="${command.isEq5dCrf}">
+	            <table width="100%"> 
+			        <tr>
+			            <td width="85%" valign="top">
+			                <p><br/>To help people say how good or bad a health state is, we have provided a slider on which the best state 
+			                you can imagine is marked 100 and the worst state you can imagine is marked 0.<br/><br/>
+			                We would like you to indicate on this scale how good or bad you own health is <b><u>today</u></b>, in your opinion. 
+			                Please do this by dragging the slider up to the line that best indicates how good or bad your health state is today.</p> 
+			            </td>
+			            <td align="center"><b>Best imaginable health state</b></td></tr>
+			        <tr>
+			            <td width="85%" align="center" valign="top">
+			                  <b>YOUR HEALTH TODAY = </b>
+			                   <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3"/>            
+			            </td>    
+			            <td align="center">
+			              
+			              <div id="slider-vertical" style="height: 400px;">
+			                  
+			              </div>
+			             </td>
+			        </tr>
+			        <tr><td width="85%" ></td><td align="center"><b>Worst imaginable health state</b></td></tr>
+			    </table>        
+			    
+		        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		        <tags:stylesheetLink name="jQuery-theme/jQuery-slider/style"/>
+		        <script>
+		            jQuery(function () {
+		                jQuery("#slider-vertical").slider({
+		                    orientation : "vertical",
+		                    range : "min",
+		                    min : 0,
+		                    max : 100,
+		                    value : ${command.schedule.healthAmount != null ? command.schedule.healthAmount : 0 },
+		                    slide : function (event, ui) {
+		                        //jQuery('input[type="text"]').val(ui.value);
+		                        //jQuery("#healthAmountDisplay").val(ui.value);
+		                        jQuery("#healthAmount").val(ui.value);
+		                    }
+		                });
+		                //jQuery("#healthAmount").val(jQuery("#slider-vertical").slider("value"));
+		            });
+		        </script>
+		        <script>
+		        $.noConflict();
+		        jQuery( "#slider" ).slider();
+		        </script>
+	        </c:when>
+	        <c:otherwise>
+	                <p style="font-size:18px">
+				        <b><tags:message code="participant.form.typesymptom"/></b>
+				    </p>
+				
+				    <div id="keyboardDiv"></div>
+				    <br/>
+				    <div class="yui-skin-sam">
+				        <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"
+				               var="lang"/>
+				        <table cellspacing="10px;" border="0">
+				            <tr>
+				                <td width="80%">
+				                    <div id="participantSymptomAutoComplete">
+				                        <input id="participantSymptomInput" type="text">
+				                        <div id="participantSymptomContainer"></div>
+				                    </div>
+				                </td>
+				                <td>
+				                    <spring:message code="add" var="add"/>
+				                    <a onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
+				                       class="btn green-med"><span><spring:message code="add"/></span></a>
+				                </td>
+				                <td>
+				                    <spring:message code="clear" var="clear"/>
+				                    <a onclick="javascript:clearInput()" class="btn red-med"><span><spring:message code="clear"/></span></a>
+				                </td>
+				            </tr>
+				        </table>
+				
+				    </div>
+				
+				    <div class="row" style="margin-left: 15px;font-size:20px">
+				        <input id='usevirtualkeyboard' type="checkbox"
+				               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">
+				         <img src="/proctcae/images/keyboard-icon.png"/>
+				        <spring:message code="virtualKeyboard"/>
+				    </div>
+	        </c:otherwise>
+	    </c:choose>
 
-    <div id="keyboardDiv"></div>
-    <br/>
-    <div class="yui-skin-sam">
-        <c:set value=" ${sessionScope['org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE']}"
-               var="lang"/>
-        <table cellspacing="10px;" border="0">
-            <tr>
-                <td width="80%">
-                    <div id="participantSymptomAutoComplete">
-                        <input id="participantSymptomInput" type="text">
 
-                        <div id="participantSymptomContainer"></div>
-                    </div>
-                </td>
-                <td>
-                    <spring:message code="add" var="add"/>
-                    <a onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
-                       class="btn green-med"><span><spring:message code="add"/></span></a>
-
-                    <!--  <spring:message code="add" var="add"/>
-                    <tags:button onclick="javascript:addNewSymptom($('participantSymptomInput').value)"
-                                 icon="add"
-                                 size="big" color="blue" value="${add}" markupWithTag="a"/>-->
-                </td>
-                <td>
-                    <spring:message code="clear" var="clear"/>
-                    <a onclick="javascript:clearInput()" class="btn red-med"><span><spring:message code="clear"/></span></a>
-
-                    <!--  <spring:message code="clear" var="clear"/>
-                    <tags:button onclick="javascript:clearInput()"
-                                 icon="x"
-                                 size="small" color="blue" value="${clear}" markupWithTag="a"/> -->
-                </td>
-            </tr>
-        </table>
-
-    </div>
-
-    <div class="row" style="margin-left: 15px;font-size:20px">
-        <input id='usevirtualkeyboard' type="checkbox"
-               onclick="showVirtualKeyBoard(this,'participantSymptomInput');">
-         <img src="/proctcae/images/keyboard-icon.png"/>
-        <spring:message code="virtualKeyboard"/>
-
-    </div>
-    <ctcae:form method="post" name="myForm">
-    	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+        <input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         <table id="mytable" width="100%" border="0">
             <tbody>
             <tr>
-                    <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
                 <td width="32%" colspan="1">
-                        <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
                 <td width="32%" colspan="1">
-                        <%--<td class="" style="vertical-align:top" width="1%"></td>--%>
                 <td width="32%" colspan="1">
             </tr>
-
             </tbody>
         </table>
         <input type="hidden" name="direction"/>
@@ -569,15 +611,14 @@
     <tr>
         <td align="right" width="50%">
             <spring:message code="back" var="back"/>
-            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back')"><span>${back}</span></a>
+            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back', '${command.isEq5dCrf}')"><span>${back}</span></a>
         </td>
         <td align="left" width="50%">
             <spring:message code="next" var="next"/>
-            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue')"><span>${next}</span></a>
+            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue', '${command.isEq5dCrf}')"><span>${next}</span></a>
         </td>
     </tr>
 </table>
-
 
 </body>
 </html>
