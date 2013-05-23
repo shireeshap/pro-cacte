@@ -2,12 +2,10 @@ package gov.nih.nci.ctcae.core.service;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.RolePrivilege;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.util.ArrayList;
@@ -19,7 +17,11 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Required;
 
-
+/**
+ * @author AmeyS
+ * Used for providing instanceLevel security to the application.
+ * It is used generate instanceSpecific privileges for user, based on their role on the studies
+ */
 public class AuthorizationServiceImpl implements AuthorizationService {
 	protected GenericRepository genericRepository;
 	protected Map<String, Boolean> filteredAccessPrivilegeMap;
