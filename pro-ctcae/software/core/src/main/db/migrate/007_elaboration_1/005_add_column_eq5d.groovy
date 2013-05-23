@@ -2,9 +2,9 @@
 class AddColumnEq5d extends edu.northwestern.bioinformatics.bering.Migration {
 
      void up() {
-        addColumn("crfs", 'is_eq5d', 'boolean', nullable: true);
-	    execute("update crfs set is_eq5d = false");
-	    execute("ALTER TABLE crfs MODIFY is_eq5d boolean NOT NULL");
+        addColumn("CRFS", 'is_eq5d', 'boolean', nullable: true);
+	    execute("update CRFS set is_eq5d = false where is_eq5d is null");
+	    execute("ALTER TABLE CRFS ALTER column is_eq5d SET NOT NULL;");
         
      }
     
