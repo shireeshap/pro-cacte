@@ -59,7 +59,8 @@ public class SubmitFormController extends SimpleFormController {
         boolean submit = save(sCommand);
         request.getSession().setAttribute(getFormSessionAttributeName(), sCommand);
         if (submit) {
-            return showConfirmationPage(sCommand);
+        	// On submission of a survey, redirecting the patient back to his inbox.
+            return new ModelAndView(new RedirectView("../participant/participantInbox"));
         } else {
         	request.getSession().setAttribute("id", sCommand.getSchedule().getId());
         	return new ModelAndView(new RedirectView("submit"));
