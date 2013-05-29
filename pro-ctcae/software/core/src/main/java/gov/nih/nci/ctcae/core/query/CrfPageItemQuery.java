@@ -14,6 +14,9 @@ public class CrfPageItemQuery extends AbstractQuery{
 		super(query);
 	}
 	
+	/**FilterByCrfIds method.
+	 * @param crfIds
+	 */
 	public void filterByCrfIds(List<Integer> crfIds){
 		andWhere(" cpi.crfPage.crf.id in (:"+ CRF_IDS +")");
 		setParameterList(CRF_IDS, crfIds);
