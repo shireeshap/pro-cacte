@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.query.CrfPageItemQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -124,9 +125,9 @@ public class CrfAjaxFacade {
                 releasedCrfs.add(crf);
             }
         }
-        return ObjectTools.reduceAll(releasedCrfs, "id", "title");
+       return ObjectTools.reduceAll(releasedCrfs, "id", "title");
     }
-
+    
     public List<CRF> getHiddenCrfs() throws Exception {
         CRFQuery crfQuery = new CRFQuery();
         crfQuery.filterByNullNextVersionId();
@@ -145,15 +146,22 @@ public class CrfAjaxFacade {
         return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
     }
 
-    public List<ProCtcTerm> getSymptomsForCrfUsingStudyId(Integer id) {
+    public List<ProCtcTerm> getAllSymptomsForStudy(Integer id) {
     	Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
     	try {
 			List<CRF> crfList = getReducedCrfs(id);
+			List<Integer> crfIds = new ArrayList<Integer>();
 			
-			for(CRF crf : crfList){  
-				terms.addAll(getSymptomsForCrf(crf.getId()));
+			for(CRF crf : crfList){
+				crfIds.add(crf.getId());
 			}
-			
+			CrfPageItemQuery query = new CrfPageItemQuery();
+			query.filterByCrfIds(crfIds);
+			List<CrfPageItem> crfPageItems = genericRepository.find(query);
+
+			for(CrfPageItem cpi : crfPageItems){
+				terms.add(cpi.getProCtcQuestion().getProCtcTerm());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

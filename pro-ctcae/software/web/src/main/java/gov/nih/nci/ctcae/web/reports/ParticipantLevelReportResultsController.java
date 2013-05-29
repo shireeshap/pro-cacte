@@ -30,6 +30,8 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -216,16 +218,20 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
         Integer studyId = Integer.parseInt(request.getParameter("studyId"));
         Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
-        Integer crfId = Integer.parseInt(request.getParameter("crfId"));
         Integer participantId = Integer.parseInt(request.getParameter("participantId"));
         String visitRange = request.getParameter("visitRange");
-        CRF crf = genericRepository.findById(CRF.class, crfId);
-        List<Integer> crfIds = new ArrayList();
-        crfIds.add(crfId);
-        if (crf.getParentCrf() != null) {
-            crfIds.add(crf.getParentCrf().getId());
+
+        if(!StringUtils.isEmpty(request.getParameter("crfId"))){
+        	Integer crfId = Integer.parseInt(request.getParameter("crfId"));
+        	CRF crf = genericRepository.findById(CRF.class, crfId);
+        	List<Integer> crfIds = new ArrayList();
+        	crfIds.add(crfId);
+        	if (crf.getParentCrf() != null) {
+        		crfIds.add(crf.getParentCrf().getId());
+        	}
+        	query.filterByCRFIds(crfIds);
+        	request.getSession().setAttribute("crf", crf);
         }
-        query.filterByCRFIds(crfIds);
         query.filterByStudy(studyId);
         query.filterByParticipant(participantId);
         query.filterByStudySite(studySiteId);
@@ -240,7 +246,6 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         modelAndView.addObject("participant", participant);
         request.getSession().setAttribute("participant", participant);
         request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
-        request.getSession().setAttribute("crf", crf);
         request.getSession().setAttribute("studySite", genericRepository.findById(StudySite.class, studySiteId));
 
         return query;
