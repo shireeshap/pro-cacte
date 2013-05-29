@@ -146,6 +146,9 @@ public class CrfAjaxFacade {
         return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
     }
 
+    /**Get symptoms from all the released forms for the study.
+     * @param id
+     */
     public List<ProCtcTerm> getAllSymptomsForStudy(Integer id) {
     	Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
     	try {
