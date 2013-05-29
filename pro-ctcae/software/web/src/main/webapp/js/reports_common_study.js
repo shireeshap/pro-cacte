@@ -70,13 +70,11 @@
     	   if(crfid != ""){
     		   crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
     	   } else {
-    		   crf.getSymptomsForCrfUsingStudyId(studyId, updateSymptomDropDown);
+    		   crf.getAllSymptomsForStudy(studyId, updateSymptomDropDown);
     	   }
            
        }
    }
-
-
 
    function updateSymptomDropDown(symptoms) {
        $('divSymptomsRow').show();
