@@ -122,17 +122,16 @@ function customVisit(showVisit) {
 function performValidations() {
     hasError = false;
     var arr = new Array();
-    arr[0] = 'formSelect';
-    arr[1] = 'symptomSelect';
-    arr[2] = 'startDate';
-    arr[3] = 'endDate';
+    arr[0] = 'symptomSelect';
+    arr[1] = 'startDate';
+    arr[2] = 'endDate';
     if (studySiteMandatory) {
-        arr[5] = 'studySite';
+        arr[3] = 'studySite';
     }
     if (displayParticipants) {
-        arr[6] = 'participant';
+        arr[4] = 'participant';
     }
-    arr[7]='study';
+    arr[5]='study';
 
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
