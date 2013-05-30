@@ -37,6 +37,7 @@ public class FetchClinicalStaffController extends AbstractController {
    private ClinicalStaffAjaxFacade clinicalStaffAjaxFacade;
     private StudyRepository studyRepository;
     private Properties proCtcAEProperties;
+    private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -55,7 +56,7 @@ public class FetchClinicalStaffController extends AbstractController {
         String dir = request.getParameter("dir");
         String[] searchStrings= null;
 
-        String searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
+        String searchString = (String) request.getSession().getAttribute(CLINICAL_STAFF_SEARCH_STRING);
         if(!StringUtils.isBlank(searchString)){
             searchString.trim();
             searchStrings = searchString.split("\\s+");

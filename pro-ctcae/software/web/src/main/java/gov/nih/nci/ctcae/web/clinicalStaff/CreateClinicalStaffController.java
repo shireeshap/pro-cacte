@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
@@ -47,6 +48,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private GenericRepository genericRepository;
     private UserRepository userRepository;
     private UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator;
+    private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -94,6 +96,12 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         if (clinicalStaffCommand.getUserAccount() && "false".equals(request.getParameter("isEdit"))) {
             clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(userRepository, request);
         }
+		String searchString = (String) request.getSession().getAttribute(CLINICAL_STAFF_SEARCH_STRING);
+		if(StringUtils.isEmpty(searchString)){
+			searchString = "%";
+		}
+		 modelAndView.addObject(CLINICAL_STAFF_SEARCH_STRING, searchString);
+		
         return modelAndView;
     }
 

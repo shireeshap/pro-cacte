@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
  *         Date: Oct 23, 2008
  */
 public class SearchClinicalStaffController extends AbstractController {
-
+	private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -24,7 +24,7 @@ public class SearchClinicalStaffController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/searchClinicalStaff");
         String searchString = request.getParameter("searchString");
         modelAndView.addObject("searchString",searchString);
-        request.getSession().setAttribute("ParticipantSearchString", searchString);
+        request.getSession().setAttribute(CLINICAL_STAFF_SEARCH_STRING, searchString);
         return modelAndView;
     }
 }

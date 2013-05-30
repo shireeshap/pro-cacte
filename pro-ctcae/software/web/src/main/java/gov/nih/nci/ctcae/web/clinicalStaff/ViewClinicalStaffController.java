@@ -16,6 +16,7 @@ public class ViewClinicalStaffController extends CtcAeSimpleFormController {
 
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
+    private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -37,7 +38,7 @@ public class ViewClinicalStaffController extends CtcAeSimpleFormController {
         if (clinicalStaffId != null) {
             clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
         }
-        request.setAttribute("searchString", (String) request.getSession().getAttribute("ParticipantSearchString"));
+        request.setAttribute("searchString", (String) request.getSession().getAttribute(CLINICAL_STAFF_SEARCH_STRING));
         return clinicalStaff;
     }
 
