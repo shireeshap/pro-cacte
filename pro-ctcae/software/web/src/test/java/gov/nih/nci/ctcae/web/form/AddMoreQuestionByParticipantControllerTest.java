@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.web.form;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -28,10 +30,12 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
     private static String CONTINUE = "continue";
+    private static String crfTitle = "Test CRF";
     private static String BACK = "back";
     private static StudyParticipantCrfSchedule studyParticipantCrfSchedule;
     private static StudyParticipantCrf studyParticipantCrf;
     private static BindException errors;
+    private CRF crf;
     
     @Override
     protected void setUp() throws Exception {
@@ -44,6 +48,11 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
         studyParticipantCrf = new StudyParticipantCrf();
+        crf = new CRF();
+        crf.setTitle(crfTitle);
+        crf.setStatus(CrfStatus.RELEASED);
+        crf.setCrfVersion("1.0");
+        studyParticipantCrf.setCrf(crf);
         studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
         errors = new BindException(new Object(), "SubmitFormCommandErrorObject");
     }
