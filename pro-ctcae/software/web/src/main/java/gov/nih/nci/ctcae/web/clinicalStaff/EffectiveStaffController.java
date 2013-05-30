@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class EffectiveStaffController extends CtcAeSimpleFormController {
 
     ClinicalStaffRepository clinicalStaffRepository;
+    private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
 
     protected EffectiveStaffController() {
         super();
@@ -52,7 +53,7 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
         }
 
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
-        String searchString = (String) request.getSession().getAttribute("ParticipantSearchString");
+        String searchString = (String) request.getSession().getAttribute(CLINICAL_STAFF_SEARCH_STRING);
         RedirectView redirectView ;
         if(searchString!= null && !searchString.equals("")){
              redirectView = new RedirectView("../searchClinicalStaff?searchString="+searchString);
