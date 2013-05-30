@@ -140,7 +140,7 @@
     <table>
         <tr>
             <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
-                             href="searchClinicalStaff"/></td>
+                             href="searchClinicalStaff?searchString=${clinicalStaffSearchString}"/></td>
             <td>
             <td><tags:button value="Create New Staff Profile" color="blue" markupWithTag="a"
                              href="createClinicalStaff"/></td>
