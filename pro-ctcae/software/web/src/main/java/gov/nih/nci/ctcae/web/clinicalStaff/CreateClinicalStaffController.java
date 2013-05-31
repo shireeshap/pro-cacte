@@ -76,6 +76,8 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         if (errors.hasErrors())
         map.put("error", true);
         map.put("cca", cca);
+        map.put("isAdmin", user.isAdmin());
+        map.put("isCCA", user.isCCA());
         return map;
 
 

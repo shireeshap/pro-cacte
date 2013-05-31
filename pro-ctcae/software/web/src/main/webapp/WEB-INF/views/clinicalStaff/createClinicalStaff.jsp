@@ -125,6 +125,7 @@
                 $('cca').disabled = false;
             }
         }
+
         function disableAdmin(obj) {
             if (obj.checked) {
                 $('admin').disabled = true;
@@ -446,32 +447,28 @@
 
     </chrome:division>
 
-    <c:set var="cca" value="false"/>
-    <c:set var="admin" value="false"/>
-    <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-        <c:set var="cca" value="true"/>
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
-        <c:set var="admin" value="true"/>
-    </proctcae:urlAuthorize>
 	<br/>
-    <c:if test="${cca eq 'true' or admin eq 'true'}">
+    <c:if test="${isAdmin eq 'true' or isCCA eq 'true'}">
         <chrome:division title="Additional Options">
-            <c:if test="${cca eq 'true'}">
                 <input type="checkbox" name="cca" value="true"
                        id="cca"
-                       <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
-                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
+                       <c:if test="${clinicalStaffCommand.cca}">checked</c:if>
+                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if>
+                       <c:if test="${isAdmin eq 'true'}">onclick="disableAdmin(this);"</c:if>/>
                 This user is a <u>Coordinating Center Administrator</u>
-            </c:if>
+                 <!--Please do not remove the below hidden input. Its a spring's workarround 
+                 for checkBox value not getting binded when false -->
+                 <input type="hidden" name="_cca" value="false" />
             <br/>
-            <c:if test="${admin eq 'true'}">
                 <input type="checkbox" name="admin" value="true"
                        id="admin"
-                       <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
-                       <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
+                       <c:if test="${clinicalStaffCommand.admin}">checked</c:if>
+                       <c:if test="${clinicalStaffCommand.cca or (isAdmin eq 'false' and isEdit eq 'true')}">disabled</c:if>
+                       onclick="disableCCA(this);"/>
                 This user is a <u>System Administrator</u>
-            </c:if>
+                 <!--Please do not remove the below hidden input. Its a spring's workarround 
+                 for checkBox value not getting binded when false -->
+                <input type="hidden" name="_admin" value="false" />
         </chrome:division>
     </c:if>
 
