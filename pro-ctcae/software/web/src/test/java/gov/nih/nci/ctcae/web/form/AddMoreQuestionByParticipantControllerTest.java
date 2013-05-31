@@ -93,7 +93,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         assertEquals("expect scheduleId to be 1", 1, request.getSession().getAttribute("id"));
         assertEquals("submit", ((RedirectView)modelAndView.getView()).getUrl());
         command = (SubmitFormCommand)request.getSession().getAttribute(SubmitFormController.class.getName()+".FORM."+"command");
-        assertEquals("expect currentPageIndex to be incremented to 3", 3, command.getNewPageIndex());
+        assertEquals("expect currentPageIndex to be incremented to 3", 4, command.getNewPageIndex());
   }
   
   public void testFormBackingObject() throws Exception{
