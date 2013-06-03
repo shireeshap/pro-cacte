@@ -39,16 +39,16 @@ class InsertEq5d extends edu.northwestern.bioinformatics.bering.Migration {
         execute("insert into ctc_terms_vocab (id, ctc_terms_id, term_english, term_spanish) values (5088, 5088, 'Pain/Discomfort', '')");
         execute("insert into ctc_terms_vocab (id, ctc_terms_id, term_english, term_spanish) values (5089, 5089, 'Anxiety/Depression', '')");
    
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (82, 5080, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (83, 5081, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (84, 5082, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (85, 5083, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (86, 5084, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (87, 5085, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (88, 5086, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (89, 5087, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (90, 5088, 3194, FALSE, 'both', 'Y')");
-        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (91, 5089, 3194, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (82, 5080, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (83, 5081, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (84, 5082, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (85, 5083, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (86, 5084, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (87, 5085, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (88, 5086, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (89, 5087, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (90, 5088, 2, FALSE, 'both', 'Y')");
+        execute("insert into pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) values (91, 5089, 2, FALSE, 'both', 'Y')");
              
         execute("insert into pro_ctc_terms_vocab (id, pro_ctc_terms_id, term_english, term_spanish) values (82, 82, 'Mobility', 'Movilidad')");
         execute("insert into pro_ctc_terms_vocab (id, pro_ctc_terms_id, term_english, term_spanish) values (83, 83, 'Self-Care', 'Autocuidado')");
