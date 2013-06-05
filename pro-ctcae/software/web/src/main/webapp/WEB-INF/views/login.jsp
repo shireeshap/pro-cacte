@@ -94,15 +94,16 @@
 		            <%--<c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message, 'Use of web not activated')}">--%>
 		                <%--<p class="errors">Use of web is not allowed.</p>--%>
 		            <%--</c:when>--%>
+		            <c:when test="${fn:contains(SPRING_SECURITY_LAST_EXCEPTION.message,'User account is currently locked')}">
+		                <p class="errors">
+		                    <p class="errors">"${fn:substring(SPRING_SECURITY_LAST_EXCEPTION.message,0,79)}"</p>
+		                </p>
+		            </c:when>
 		            <c:otherwise>
 		                <%--${SPRING_SECURITY_LAST_EXCEPTION.message}--%>
 		                <p class="errors">User is inactive.</p>
 		            </c:otherwise>
 		        </c:choose>
-		    </c:if>
-		    <c:if test="${error}">
-		    	<c:set var="lockoutDurationTime" value="${lockoutDuration}"/>
-		    	<p class="errors">User account is currently locked. Please try again after ${lockoutDurationTime}</p>
 		    </c:if>
 		    <c:if test="${showLogin}">
 	           <div class="content-box">     
