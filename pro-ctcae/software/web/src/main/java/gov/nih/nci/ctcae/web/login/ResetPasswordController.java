@@ -101,6 +101,8 @@ public class ResetPasswordController extends SimpleFormController {
         ResetPasswordCommand command = (ResetPasswordCommand) o;
         //User user = userRepository.findById(command.getUser().getId());
         User user = command.getUser();
+        user.setAccountNonLocked(true);
+        user.setNumberOfAttempts(0);
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
         userRepository.saveWithoutCheck(user, true);

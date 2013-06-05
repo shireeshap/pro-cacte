@@ -5,9 +5,11 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
+import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -25,10 +27,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.RequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractFormController;
-import org.springframework.web.util.WebUtils;
 
 /**
  * @author Harsh Agarwal
@@ -38,8 +38,10 @@ public class ForgotPasswordController extends AbstractFormController {
 
     UserRepository userRepository;
     private DelegatingMessageSource messageSource;
+    PasswordPolicyServiceImpl passwordPolicyService;
+    						  
 
-    public void setMessageSource(DelegatingMessageSource messageSource) {
+	public void setMessageSource(DelegatingMessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
 
@@ -63,6 +65,22 @@ public class ForgotPasswordController extends AbstractFormController {
             mv = new ModelAndView("forgotPassword");
             mv.addObject("Message", "user.forgotpassword.usernotfound");
             return mv;
+        }
+        
+        PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
+        long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
+        if(user.getAccountLockoutTime() != null){
+        	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
+        		mv = new ModelAndView("login");
+        		mv.addObject("error", "true");
+        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
+        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
+        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
+        		mv.addObject("lockoutDuration", displayLockoutTime);
+        		return mv;
+        	} else {
+        		user.setAccountLockoutTime(null);
+        	}
         }
 
         mv = new ModelAndView("passwordReset");
@@ -94,8 +112,6 @@ public class ForgotPasswordController extends AbstractFormController {
     public void resetPasswordAndSendEmail(ClinicalStaff clinicalStaff, HttpServletRequest request) {
         try {
             User user = clinicalStaff.getUser();
-            user.setAccountNonLocked(true);
-            user.setNumberOfAttempts(0);
             user.setToken(UUID.randomUUID().toString());
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
@@ -133,8 +149,6 @@ public class ForgotPasswordController extends AbstractFormController {
     	
     	try {
             User user = participant.getUser();
-            user.setAccountNonLocked(true);
-            user.setNumberOfAttempts(0);
             user.setToken(UUID.randomUUID().toString());
             user.setTokenTime(new Timestamp(new Date().getTime()));
             String token = user.getToken();
@@ -168,5 +182,9 @@ public class ForgotPasswordController extends AbstractFormController {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    @Required
+    public void setPasswordPolicyService(PasswordPolicyServiceImpl passwordPolicyService) {
+		this.passwordPolicyService = passwordPolicyService;
+	}
 
 }
