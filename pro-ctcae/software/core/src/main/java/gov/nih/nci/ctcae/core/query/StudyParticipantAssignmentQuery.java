@@ -33,6 +33,7 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
      * The PARTICIPAN t_ id.
      */
     private static String PARTICIPANT_ID = "participantId";
+    private static String USER_ID = "userId";
 
     /**
      * Instantiates a new study participant assignment query.
@@ -75,6 +76,11 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
     public void filterByParticipantId(final int participantId) {
         andWhere("o.participant.id = :" + PARTICIPANT_ID);
         setParameter(PARTICIPANT_ID, new Integer(participantId));
+    }
+    
+    public void filterByUserId(Integer userId) {
+        andWhere("o.participant.user.id = :" + USER_ID);
+        setParameter(USER_ID, userId);
     }
     
     public void filterBySpcrfSchedulesStatus(List<CrfStatus> spCrfScheduleStatusList, int orgId){
