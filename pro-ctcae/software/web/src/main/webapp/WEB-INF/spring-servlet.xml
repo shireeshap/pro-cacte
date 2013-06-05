@@ -660,6 +660,7 @@
     <bean name="/home" id="homeController"
           class="gov.nih.nci.ctcae.web.login.LoginController">
         <property name="userRepository" ref="userRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/home/notificationdetails" id="notificationdetails"
           class="gov.nih.nci.ctcae.web.clinicalStaff.NotificationDetailsController">
