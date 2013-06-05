@@ -2318,7 +2318,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/004_update_pwd_pol
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/005_add_column_eq5d.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/006_insert_eq5d.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/007_add_health_amount.groovy -text
-pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/007_alter_users_addColumn.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/008_alter_users_addColumn.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
