@@ -77,15 +77,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
-	 */
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
-	 */
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
-	 */
 	public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
         DomainObjectPrivilegeGenerator privilegeGenerator = new DomainObjectPrivilegeGenerator();
@@ -324,6 +315,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             user.setAccountNonLocked(true);
             if (numOfAttempts >= allowedAttempts) {
                 user.setAccountNonLocked(false);
+                user.setAccountLockoutTime(new Timestamp(new Date().getTime()));
             }
             user.setNumberOfAttempts(numOfAttempts + 1);
             DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
