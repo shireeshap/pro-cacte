@@ -38,7 +38,6 @@ public class ForgotPasswordController extends AbstractFormController {
 
     UserRepository userRepository;
     private DelegatingMessageSource messageSource;
-    PasswordPolicyServiceImpl passwordPolicyService;
     						  
 
 	public void setMessageSource(DelegatingMessageSource messageSource) {
@@ -67,22 +66,6 @@ public class ForgotPasswordController extends AbstractFormController {
             return mv;
         }
         
-        PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
-        long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
-        if(user.getAccountLockoutTime() != null){
-        	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
-        		mv = new ModelAndView("login");
-        		mv.addObject("error", "true");
-        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
-        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
-        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
-        		mv.addObject("lockoutDuration", displayLockoutTime);
-        		return mv;
-        	} else {
-        		user.setAccountLockoutTime(null);
-        	}
-        }
-
         mv = new ModelAndView("passwordReset");
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
@@ -182,9 +165,5 @@ public class ForgotPasswordController extends AbstractFormController {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    @Required
-    public void setPasswordPolicyService(PasswordPolicyServiceImpl passwordPolicyService) {
-		this.passwordPolicyService = passwordPolicyService;
-	}
 
 }
