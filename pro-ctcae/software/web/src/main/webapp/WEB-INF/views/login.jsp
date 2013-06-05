@@ -100,6 +100,10 @@
 		            </c:otherwise>
 		        </c:choose>
 		    </c:if>
+		    <c:if test="${error}">
+		    	<c:set var="lockoutDurationTime" value="${lockoutDuration}"/>
+		    	<p class="errors">User account is currently locked. Please try again after ${lockoutDurationTime}</p>
+		    </c:if>
 		    <c:if test="${showLogin}">
 	           <div class="content-box">     
                    <div class="box-container">
