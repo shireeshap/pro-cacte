@@ -54,6 +54,7 @@ import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -158,6 +159,18 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         long passwordAge = user.getPasswordAge();
         if (passwordAge > passwordPolicy.getLoginPolicy().getMaxPasswordAge()) {
             throw new MyException("Password expired");
+        }
+        
+        long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
+        if(user.getAccountLockoutTime() != null){
+        	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
+        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
+        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
+        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
+        		throw new MyException("User account is currently locked. Please try again after " + displayLockoutTime);
+        	} else {
+        		user.setAccountLockoutTime(null);
+        	}
         }
         checkAccountLock(user, passwordPolicy);		
 	}
