@@ -5,14 +5,19 @@ import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import java.util.Date;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
@@ -29,6 +34,12 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 public class LoginController extends AbstractController {
     UserRepository userRepository;
+    GenericRepository genericRepository;
+    private static String ENGLISH = "ENGLISH";
+    private static String SPANISH = "SPANISH";
+    private static String IS_LOGIN = "isLogin";
+    private static String TRUE = "true";
+
 	
 	public static final int MAX_RESULTS_DISPLAYED = 25;
 
@@ -39,14 +50,29 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        RequestContextUtils.getLocale(request);
-        String lang  = "en";
+        
+        String isLoginFlow = request.getParameter(IS_LOGIN);
+        String lang = null;
+        if(!StringUtils.isEmpty(isLoginFlow)){
+        	lang = getParticipantPrefferredLanguage(user.getId());
+            if(StringUtils.isEmpty(lang)){
+            	  lang = "en";
+            } else {
+            	if(ENGLISH.equals(lang)){
+            		lang = "en";
+            	} else if(SPANISH.equals(lang)) {
+            		lang = "es";
+            	}
+            }
+        } else {
+        	//Use Locale value of the requesting page to set the language.
+        	if(RequestContextUtils.getLocale(request)!= null){
+        		lang = RequestContextUtils.getLocale(request).toString();
+        	}
+        }
+        
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
-            	//Use Locale value of the requesting page to set the language.
-            	if(RequestContextUtils.getLocale(request)!= null){
-            		lang = RequestContextUtils.getLocale(request).toString();
-            	}
             	//use getParticipantsPreferredLanguage to set the display using the users preferred language
                 return new ModelAndView(new RedirectView("participant/participantInbox?lang="+lang));
             } else {
@@ -110,10 +136,24 @@ public class LoginController extends AbstractController {
         mv.addObject("odc", odc);
         return mv;
     }
+    
+    public String getParticipantPrefferredLanguage(Integer userId) {
+		StudyParticipantAssignmentQuery query = new StudyParticipantAssignmentQuery();
+		query.filterByUserId(userId);
+		StudyParticipantAssignment spa = (StudyParticipantAssignment) genericRepository.findSingle(query);
+		if(spa != null){
+			return spa.getHomeWebLanguage();
+		}
+		return null;
+	}
 
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    @Required
+	public void setGenericRepository(GenericRepository genericRepository){
+		this.genericRepository = genericRepository;
+	}
 }
