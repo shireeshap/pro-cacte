@@ -61,6 +61,7 @@
           class="gov.nih.nci.ctcae.web.login.ForgotPasswordController">
         <property name="userRepository" ref="userRepository"/>
         <property name="messageSource" ref="messageSource"/>
+         <property name="passwordPolicyService" ref="passwordPolicyService"/>
     </bean>
     
     <bean name="/forgotusername" id="forgotUsername"
