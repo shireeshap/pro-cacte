@@ -73,8 +73,11 @@ public class User extends BaseVersionable implements UserDetails {
 
     @Column(name = "number_of_attempts", nullable = false)
     private Integer numberOfAttempts = 0;
+    
+    @Column(name = "account_lockout_time")
+    private Timestamp accountLockoutTime;
 
-    @Transient
+	@Transient
     private GrantedAuthority[] grantedAuthorities;
 
     @Transient
@@ -138,7 +141,14 @@ public class User extends BaseVersionable implements UserDetails {
         this.enabled = enabled;
     }
 
+	public Timestamp getAccountLockoutTime() {
+		return accountLockoutTime;
+	}
 
+	public void setAccountLockoutTime(Timestamp accountLockoutTime) {
+		this.accountLockoutTime = accountLockoutTime;
+	}
+	
     public String getSalt() {
         return salt;
     }
