@@ -123,7 +123,7 @@
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
         <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
-                    default-target-url="/pages/home" login-processing-url="/pages/j_spring_security_check"/>
+                    default-target-url="/pages/home?isLogin=true" login-processing-url="/pages/j_spring_security_check"/>
         <remember-me user-service-ref="userRepository"/>
         <logout logout-success-url="/public/login" logout-url="/pages/j_spring_security_logout"/>
     </http>
