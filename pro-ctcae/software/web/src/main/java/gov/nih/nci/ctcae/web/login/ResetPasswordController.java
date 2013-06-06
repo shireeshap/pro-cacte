@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Locale;
 
@@ -106,6 +107,8 @@ public class ResetPasswordController extends SimpleFormController {
         user.setAccountLockoutTime(null);
         user.setPassword(command.getPassword());
         user.setConfirmPassword(command.getConfirmPassword());
+        //Set passwordLastSet timestamp on password change
+        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         userRepository.saveWithoutCheck(user, true);
         
         ModelAndView modelAndView = new ModelAndView("passwordReset");
