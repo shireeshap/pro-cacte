@@ -156,22 +156,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
         }
         
-        long passwordAge = user.getPasswordAge();
-        if (passwordAge > passwordPolicy.getLoginPolicy().getMaxPasswordAge()) {
-            throw new MyException("Password expired");
-        }
-        
-        long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
-        if(user.getAccountLockoutTime() != null){
-        	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
-        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
-        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
-        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
-        		throw new MyException("User account is currently locked. Please try again after " + displayLockoutTime);
-        	} else {
-        		user.setAccountLockoutTime(null);
-        	}
-        }
+        checkWhetherPasswordExpired(user, passwordPolicy);
+        checkWhetherAccountLockDurationApplicable(user, passwordPolicy);
         checkAccountLock(user, passwordPolicy);		
 	}
 
@@ -336,6 +322,29 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             user = genericRepository.save(user);
         }
     }
+    
+    private void checkWhetherAccountLockDurationApplicable(User user, PasswordPolicy passwordPolicy){
+    	long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
+        if(user.getAccountLockoutTime() != null){
+        	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
+        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
+        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
+        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
+        		throw new MyException("User account is currently locked. Please try again after " + displayLockoutTime);
+        	} else {
+        		user.setAccountLockoutTime(null);
+        	}
+        }
+    }
+    
+    private void checkWhetherPasswordExpired(User user, PasswordPolicy passwordPolicy){
+    	if(!user.hasRole(Role.PARTICIPANT)){
+    		long passwordAge = user.getPasswordAge();
+            if (passwordAge > passwordPolicy.getLoginPolicy().getMaxPasswordAge()) {
+                throw new MyException("Password expired");
+            }
+    	}
+    }
 
     public User findByUserToken(String token) {
         UserQuery userQuery = new UserQuery();
@@ -364,17 +373,19 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 throw new UsernameAlreadyExistsException(user.getUsername());
             }
     		user.setUserPasswordWithSalting(passwordPolicy, encoded);
+    		user.setPasswordLastSet(new Timestamp(new Date().getTime()));
     	} else {
             String myPassword = user.getPassword();
             if (myPassword != null) {
                 User temp = findById(user.getId());
                 String currentPassword = temp.getPassword();
                 if (!myPassword.equals(currentPassword)) {
-            		user.setUserPasswordWithSalting(passwordPolicy, encoded);                
+            		user.setUserPasswordWithSalting(passwordPolicy, encoded);    
+            		user.setPasswordLastSet(new Timestamp(new Date().getTime()));
             	}
             }
         }
-        user.setPasswordLastSet(new Timestamp(new Date().getTime()));
+       
         user = genericRepository.save(user);
         user.setConfirmPassword(user.getConfirmPassword());
         return user;
@@ -404,7 +415,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         	PasswordPolicy passwordPolicy = passwordPolicyService.getPasswordPolicy(user.getRoleForPasswordPolicy());
     		user.setUserPasswordWithSalting(passwordPolicy, getEncodedPassword(user));
     	}
-    	user.setPasswordLastSet(new Timestamp(new Date().getTime()));
         user = genericRepository.save(user);
         user.setConfirmPassword(user.getPassword());
         return user;
