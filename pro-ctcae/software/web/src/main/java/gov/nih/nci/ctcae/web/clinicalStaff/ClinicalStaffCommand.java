@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import com.opensymphony.module.sitemesh.taglib.decorator.UseHTMLPageTEI;
+
 //
 /**
  * The Class ClinicalStaffCommand.
@@ -112,28 +114,54 @@ public class ClinicalStaffCommand {
         }
         return false;
     }
+    
+    private void removeRole(User user, Role role) {
+    	boolean isRolePresent = false;
+    	UserRole userRoleToRemove = null;
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(role)) {
+                isRolePresent = true;
+                userRoleToRemove = userRole;
+            }
+        }
+        if(isRolePresent){
+        	user.getUserRoles().remove(userRoleToRemove);
+        }
+    }
 
     public void apply() {
         if (getUserAccount()) {
+        	
+        	//If CCA checkBox is checked on UI then add Role.CCA to user's userRoles if this role not already present
             if (getCca()) {
                 if (!userHasRole(getClinicalStaff().getUser(), Role.CCA)) {
                     UserRole userRole = new UserRole();
                     userRole.setRole(Role.CCA);
                     getClinicalStaff().getUser().addUserRole(userRole);
                 }
+            } // If CCA checkBox is unchecked but Role.CCA was present in userRoles then remove this role from user's userRoles
+            else {
+            	removeRole(getClinicalStaff().getUser(), Role.CCA);
             }
+            
+            //If ADMIN checkBox is checked on UI then add Role.ADMIN to user's userRoles if this role not already present
             if (getAdmin()) {
                 if (!userHasRole(getClinicalStaff().getUser(), Role.ADMIN)) {
                     UserRole userRole = new UserRole();
                     userRole.setRole(Role.ADMIN);
                     getClinicalStaff().getUser().addUserRole(userRole);
                 }
+            } // If ADMIN checkBox is unchecked but Role.ADMIN was present in userRoles then remove this role from user's userRoles
+            else {
+            	removeRole(getClinicalStaff().getUser(), Role.ADMIN);
             }
+            
         } else {
             getClinicalStaff().setUser(null);
         }
         indexesToRemove.clear();
     }
+    
 
     public Boolean getCca() {
         return cca;
