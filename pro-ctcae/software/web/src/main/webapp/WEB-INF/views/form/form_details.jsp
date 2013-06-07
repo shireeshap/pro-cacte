@@ -274,15 +274,13 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
     var crfPageNumbers = '';
     var formPages = $$('div.formpages');
     var i = 0;
+    var currentPageOrder = [];
     formPages.each(function (item) {
 
         var index = item.id.substr(11, item.id.length);
 
-        if (crfPageNumbers == '') {
-            crfPageNumbers = index;
-        } else {
-            crfPageNumbers = crfPageNumbers + ',' + index;
-        }
+        currentPageOrder.push(index);
+        
         if (i == 0) {
             $('crfPageUpLink_' + index).hide();
             $('crfPagDownLink_' + index).show();
@@ -297,6 +295,19 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
 
         i++;
     });
+    
+    var crfPages = [];
+    for(i=0; i<currentPageOrder.length; i++){
+    	crfPages[currentPageOrder[i]] = i;
+    }
+    
+    for(i=0; i<crfPages.length; i++){
+    	if(i==0){
+    		crfPageNumbers = crfPages[i];
+    	} else {
+    		crfPageNumbers = crfPageNumbers + ',' + crfPages[i];
+    	}
+    }
 
     $('crfPageNumbers').value = crfPageNumbers;
 }
@@ -314,7 +325,6 @@ function moveCrfPageUp(selectedCrfPageNumber) {
         if (item.id == 'form-pages_' + selectedCrfPageNumber) {
 
             previousCrfPage = formPages[i - 1];
-
         }
 
         i++;
@@ -329,6 +339,7 @@ function moveCrfPageUp(selectedCrfPageNumber) {
         updateConditions();
     }
 }
+
 function moveCrfPageDown(selectedCrfPageNumber) {
 
     var formPages = $$('div.formpages');
