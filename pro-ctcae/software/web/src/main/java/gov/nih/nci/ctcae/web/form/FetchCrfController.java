@@ -77,13 +77,12 @@ public class FetchCrfController extends AbstractController {
             dto.setTitle(crf.getTitle());
             dto.setVersion(crf.getCrfVersion());
             boolean showVersion = false;
-            Map<String, Boolean> crfInstancePrivilegeMap = new HashMap<String, Boolean>();
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             
             if (crf.getParentCrf() != null) {
                  showVersion = true;
             }
-            getPrivilegesForCurrentCrfInstance(user, user.getUserSpecificPrivilegeRoleMap(), crf.getStudy(), crfInstancePrivilegeMap);
+            Map<String, Boolean> crfInstancePrivilegeMap = getPrivilegesForCurrentCrfInstance(user, user.getUserSpecificPrivilegeRoleMap(), crf.getStudy());
             
             String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='crfActions"
                     + crf.getId() + "'"
@@ -125,7 +124,8 @@ public class FetchCrfController extends AbstractController {
 
     }
     
-    private void getPrivilegesForCurrentCrfInstance(User user, Map<String, List<Role>> rolePrivilegeMap, Study study, Map<String, Boolean> crfInstancePrivilegeMap){
+    private Map<String, Boolean> getPrivilegesForCurrentCrfInstance(User user, Map<String, List<Role>> rolePrivilegeMap, Study study){
+    	 Map<String, Boolean> crfInstancePrivilegeMap = new HashMap<String, Boolean>();
     	 List<Role> roles = new ArrayList<Role>();
     	 boolean hasVersionFormPrivilege = false;
          boolean hasViewFormPrivilege = false;
@@ -157,6 +157,8 @@ public class FetchCrfController extends AbstractController {
          roles = rolePrivilegeMap.get(PRIVILEGE_EDIT_FORM);
          hasEditFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
          crfInstancePrivilegeMap.put(PRIVILEGE_EDIT_FORM, hasEditFormPrivilege);
+         
+         return crfInstancePrivilegeMap;
     }
 
     public void setCrfAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
