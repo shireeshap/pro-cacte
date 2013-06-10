@@ -85,7 +85,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
         Map<Role, ArrayList<Integer>> studyRoleMap = new HashMap<Role, ArrayList<Integer>>();
-        Map<String, List<Role>> userSpecificPrivilegeRoleMap;
         
         User user = getUserByUserName(userName);
         addRolesToUser(user, roles);
@@ -94,14 +93,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
         
-		/** Please always have buildPrivilegeRoleMap() method after generateInstanceGrantedAuthoritiesForNonAdminUsers() method and before 
-		 *  generateInstanceGrantedAuthoritiesForParticipants() method, as, the buildPrivilegeRoleMap() methods needs to have complete set 
-		 *  of user roles for building userSpecificPrivilegeRoleMap and generateInstanceGrantedAuthoritiesForParticipants() methods has a
-		 *  dependency to userSpecificPrivilegeRoleMap.
-		 */
         ClinicalStaff clinicalStaff = generateInstanceGrantedAuthoritiesForNonAdminUsers(user, privilegeGenerator, roles, instanceGrantedAuthorities, studyRoleMap);
-        userSpecificPrivilegeRoleMap = buildPrivilegeRoleMap(roles);
-        user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
         Participant participant = generateInstanceGrantedAuthoritiesForParticipants(user, privilegeGenerator, instanceGrantedAuthorities);
         generateGrantedAuthoritiesForRole(user, roles, grantedAuthorities, studyRoleMap);
         
@@ -163,6 +155,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
 	private List<GrantedAuthority> generateGrantedAuthoritiesForRole(User user, Set<Role> roles, List<GrantedAuthority> grantedAuthorities,
 				Map<Role, ArrayList<Integer>> studyRoleMap) {
+		Map<String, List<Role>> userSpecificPrivilegeRoleMap;
     	if (roles.isEmpty()) {
     		return grantedAuthorities;
     	}
@@ -175,6 +168,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         } else {
             rolePrivilegeQuery.filterForAdmin();
         }
+        // creating a userSpecificRolePrivilegeMap for each logged-in user.
+        userSpecificPrivilegeRoleMap = buildPrivilegeRoleMap(roles);
+        user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
+        
         List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
         List<String> privilegeList = new ArrayList<String>();
         for (Privilege privilege : privileges) {
