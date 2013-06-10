@@ -92,8 +92,4 @@ public class ProCtcQuestionTest extends TestCase {
     	assertEquals(proCtcQuestion1.getSymptomGender(),null);
     	
     }
-
-
-
-
 }
