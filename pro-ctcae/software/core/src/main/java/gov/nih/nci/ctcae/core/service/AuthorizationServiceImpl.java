@@ -134,6 +134,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     	return isRolePresent;
 	}
 	
+	@Override
+	public boolean hasAccessToPrivilegeForStudy(User user, Study study, String privilegeName) {
+		 List<Role> roles = findRolesForPrivilege(user, privilegeName);
+	     return hasRole(study, roles, user);
+	}
+	
 	public static Study getStudy(Participant participant){
 		if(participant.getStudyParticipantAssignments().size() > 0){
 			return participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy();
@@ -189,5 +195,4 @@ public class AuthorizationServiceImpl implements AuthorizationService {
    public void setParticipantSectionPrivilegesMap(Map<String, Boolean> participantSectionPrivilegesMap) {
        this.participantSectionPrivilegesMap = participantSectionPrivilegesMap;
    }
-
 }
