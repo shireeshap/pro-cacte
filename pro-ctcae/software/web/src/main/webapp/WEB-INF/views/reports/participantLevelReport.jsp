@@ -219,7 +219,7 @@
         </div>
 
         <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label"><tags:requiredIndicator/><tags:message code='reports.label.form'/></div>
+            <div class="label"><tags:message code='reports.label.form'/></div>
             <div class="value IEdivValueHack" id="formDropDown"></div>
         </div>
 
