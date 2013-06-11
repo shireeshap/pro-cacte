@@ -2310,6 +2310,7 @@ software/core/src/main/db/migrate/005_elaboration_1/017_update_spcrf_arms.groovy
 software/core/src/main/db/migrate/005_elaboration_1/018_update_ctc_categories.groovy -text
 software/core/src/main/db/migrate/005_elaboration_1/019_update_scra_privilege.groovy -text
 software/core/src/main/db/migrate/005_elaboration_1/020_add_organizations.groovy -text
+software/core/src/main/db/migrate/005_elaboration_1/021_adding_organizations.groovy -text
 software/core/src/main/java/META-INF/MANIFEST.MF -text
 software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
