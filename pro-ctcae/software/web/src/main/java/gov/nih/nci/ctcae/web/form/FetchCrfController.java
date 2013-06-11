@@ -133,29 +133,23 @@ public class FetchCrfController extends AbstractController {
          boolean hasReleaseFormPrivilege = false;
          boolean hasDeleteFormPrivilege = false;
          boolean hasEditFormPrivilege = false;
-        
-         roles = rolePrivilegeMap.get(PRIVILEGE_VERSION_FORM);
-         hasVersionFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         
+         hasVersionFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VERSION_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_VERSION_FORM, hasVersionFormPrivilege);
          
-         roles = rolePrivilegeMap.get(PRIVILEGE_VIEW_FORM);
-         hasViewFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         hasViewFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VIEW_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_VIEW_FORM, hasViewFormPrivilege);
          
-         roles = rolePrivilegeMap.get(PRIVILEGE_COPY_FORM);
-         hasCopyFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         hasCopyFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_COPY_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_COPY_FORM, hasCopyFormPrivilege);
          
-         roles = rolePrivilegeMap.get(PRIVILEGE_RELEASE_FORM);
-         hasReleaseFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         hasReleaseFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_RELEASE_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_RELEASE_FORM, hasReleaseFormPrivilege);
          
-         roles = rolePrivilegeMap.get(PRIVILEGE_DELETE_FORM);
-         hasDeleteFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         hasDeleteFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_DELETE_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_DELETE_FORM, hasDeleteFormPrivilege);
          
-         roles = rolePrivilegeMap.get(PRIVILEGE_EDIT_FORM);
-         hasEditFormPrivilege = authorizationServiceImpl.hasRole(study, roles, user);
+         hasEditFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_EDIT_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_EDIT_FORM, hasEditFormPrivilege);
          
          return crfInstancePrivilegeMap;

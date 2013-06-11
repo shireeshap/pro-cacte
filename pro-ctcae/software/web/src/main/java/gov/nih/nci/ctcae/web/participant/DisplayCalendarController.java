@@ -59,10 +59,8 @@ public class DisplayCalendarController extends AbstractController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Study currentStudy = AuthorizationServiceImpl.getStudy(participantCommand.getParticipant());
 
-        List<Role> roles = authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR);
-        hasShowCalendarActionsPrivilege = authorizationServiceImpl.hasRole(currentStudy, roles, user);
-        roles = authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE);
-        hasEnterResponsePrivilege = authorizationServiceImpl.hasRole(currentStudy, roles, user);
+        hasShowCalendarActionsPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, currentStudy, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR); 
+        hasEnterResponsePrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, currentStudy, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE);
         
        	modelAndView.addObject("hasShowCalendarActionsPrivilege",hasShowCalendarActionsPrivilege);
         modelAndView.addObject("hasEnterResponsePrivilege", hasEnterResponsePrivilege);
