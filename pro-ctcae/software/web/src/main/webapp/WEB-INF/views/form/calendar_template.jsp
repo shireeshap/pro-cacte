@@ -155,6 +155,9 @@ function none() {
 Event.observe(window, "load", function () {
     var item = document.getElementsByName('selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit')[0];
     changeinput(item, 0, '${command.selectedFormArmSchedule.crfCalendars[0].repeatUntilValue}');
+    if(${command.selectedFormArmSchedule.crfCalendars[0].valid == true}){
+    	handleMandatoryFields("calendarBased");
+    }
 })
 
 function addCycle() {
@@ -561,7 +564,33 @@ function showSchedule(scheduleType) {
     $('calendarBasedDiv').hide();
     $('cycleBasedDiv').hide();
     $(scheduleType + 'Div').show();
+    handleMandatoryFields(scheduleType);
 }
+
+function handleMandatoryFields(scheduleType){
+	$$('input[id^="cycle_length_"]').each(function(ele){
+    	if(scheduleType == "calendarBased" && $(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.removeClassName("validate-NOTEMPTY");
+    	} else if(scheduleType == "cycleBased" && !$(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.addClassName("validate-NOTEMPTY");
+    	}
+    });
+    $$('input[id^="cycle_repeat_"]').each(function(ele){
+    	if(scheduleType == "calendarBased" && $(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.removeClassName("validate-NOTEMPTY");
+    	} else if(scheduleType == "cycleBased" && !$(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.addClassName("validate-NOTEMPTY");
+    	} 
+    });
+    $$('input[id^="cycle_due_"]').each(function(ele){
+    	if(scheduleType == "calendarBased" && $(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.removeClassName("validate-NOTEMPTY");
+    	} else if(scheduleType == "cycleBased" && !$(ele).hasClassName("validate-NOTEMPTY")){
+    		ele.addClassName("validate-NOTEMPTY");
+    	} 
+    });
+}
+
 function refreshPageLocal() {
     /*if ($('allArmsCheck').checked) {
      $('allArms').value = 'true';
