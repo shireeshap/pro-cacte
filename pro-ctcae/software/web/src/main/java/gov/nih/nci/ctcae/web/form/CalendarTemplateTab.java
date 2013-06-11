@@ -63,11 +63,11 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                     }
                 }
             }
-
+            
             CRF savedCrf = crfRepository.save(command.getCrf());
             command.setCrf(savedCrf);
             command.setSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
-            command.setNewSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
+            command.setNewSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));	
         } else {
             if (command.getNewSelectedFormArmSchedule() != null) {
                 command.setSelectedFormArmSchedule(command.getNewSelectedFormArmSchedule());
@@ -97,12 +97,14 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
     		 for(CRFCycleDefinition crfCycleDefinition : crfCycleDefinitions){
     			 int index=0;
     			 String dueDateValue = crfCycleDefinition.getDueDateValue();
-    			 if(dueDateValue.contains(".") ){
-    				 String field="cycle_due_"+index;
-    				 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
-    			 }else if (Integer.parseInt(dueDateValue) <= 0){
-    				 String field="cycle_due_"+index;
-    				 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
+    			 if(!StringUtils.isEmpty(dueDateValue)){
+    				 if(dueDateValue.contains(".") ){
+    					 String field="cycle_due_"+index;
+    					 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
+    				 }else if (Integer.parseInt(dueDateValue) <= 0){
+    					 String field="cycle_due_"+index;
+    					 errors.reject(field, "Value for form expiration should be a whole number greater than 0");
+    				 }
     			 }
     			 
     			 index++;
