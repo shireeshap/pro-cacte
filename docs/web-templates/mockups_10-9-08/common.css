@@ -1,0 +1,117 @@
+@charset "utf-8";
+body {
+	text-align: center;
+	padding:0px;
+	background-color: #99CCFF;
+	margin:0px;
+}
+#all {
+	position: relative;
+	width: 980px;
+	margin:0px auto;
+	text-align:left;
+	background-color: #FF3333;
+	display: block;
+}
+#content {
+	border-collapse:collapse;
+	width: 100%;
+}
+
+
+#header {
+	position: relative;
+	height: 150px;
+	width: 100%;
+	top: 0px;
+	background-color: #FFCCFF;
+}
+#browser {
+	width: 70%;
+	background-color: #FFFFFF;
+	padding-top: 40px;
+	vertical-align: top;
+}
+#selections {
+	width: 30%;
+	background-color: #CCFFFF;
+	vertical-align: top;
+}
+#selections li {
+	margin: 10px;
+	padding: 10px;
+	border: 2px solid #000000;
+}
+#footer {
+	position: relative;
+	width: 100%;
+	display: block;
+	clear: both;
+	background-color: #3399FF;
+}
+.item {
+	display: block;
+	margin: 10px;
+	padding: 10px;
+	border: 2px solid #000000;
+}
+#setslink {
+	display: block;
+	position: absolute;
+	height: 30px;
+	width: 80px;
+	left: 15px;
+	top: 190px;
+	background-color: #333399;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #33CCFF;
+	border-bottom-color: #33CCFF;
+	border-left-color: #33CCFF;
+}
+#itemslink {
+	display: block;
+	position: absolute;
+	height: 30px;
+	width: 80px;
+	left: 110px;
+	top: 190px;
+	background-color: #333399;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #33CCFF;
+	border-bottom-color: #33CCFF;
+	border-left-color: #33CCFF;
+}
+h1 {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+.pagination {
+	position: relative;
+	width: 100%;
+	display: block;
+	clear: both;
+	height: 40px;
+	background-color: #00FF99;
+	text-align: right;
+	vertical-align: middle;
+}
+h3 {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
