@@ -39,6 +39,8 @@ class InsertEq5d extends edu.northwestern.bioinformatics.bering.Migration {
         execute("insert into ctc_terms_vocab (id, ctc_terms_id, term_english, term_spanish) values (5088, 5088, 'Pain/Discomfort', '')");
         execute("insert into ctc_terms_vocab (id, ctc_terms_id, term_english, term_spanish) values (5089, 5089, 'Anxiety/Depression', '')");
    
+        execute("INSERT INTO pro_ctc (pro_ctc_version, release_date) SELECT pro_ctc_version, DATE '2010-07-07' FROM pro_ctc UNION VALUES ('4.0', DATE '2010-07-07') EXCEPT SELECT pro_ctc_version, DATE '2010-07-07' FROM pro_ctc;");
+        
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  82, 5080, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  83, 5081, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  84, 5082, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
