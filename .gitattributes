@@ -3071,6 +3071,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneStudyArm.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/participantStudyDetailsSection.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/participantcalendar1.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
@@ -3186,6 +3187,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/addSchedule.jsp
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinicalStaff.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/reloadParticipantDetailsSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/alertForAdd.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmMove.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/confirmSymptom.jsp -text
