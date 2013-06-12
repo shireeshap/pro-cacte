@@ -166,6 +166,7 @@ public class AddCrfScheduleController extends AbstractController {
                   }
             }
             studyParticipantAssignment.setOnHoldTreatmentDate(null);
+            participantScheduleService.saveStudyParticipantCrfAssignment(genericRepository, studyParticipantAssignment);
         }
 
         if ("add".equals(action)) {
