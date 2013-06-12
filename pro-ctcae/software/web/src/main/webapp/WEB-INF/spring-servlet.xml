@@ -469,6 +469,11 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="participantScheduleService" ref="participantScheduleService"/>
     </bean>
+    
+     <bean name="/participant/reloadSectionController" id="reloadSectionController"
+          class="gov.nih.nci.ctcae.web.participant.ReloadSectionController">
+    </bean>
+    
     <bean name="/participant/deleteFormSchedule" id="deleteFormSchedule"
           class="gov.nih.nci.ctcae.web.participant.DeleteFormScheduleController">
         <property name="genericRepository" ref="genericRepository"/>
