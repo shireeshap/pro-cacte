@@ -443,11 +443,12 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
-        var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
+    	jQuery('#ajaxLoadingImgDiv').show();
+    	var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
-	            document.forms[0].submit();// added to refresh the page after taking off hold..	        	 
+	            jQuery('#ajaxLoadingImgDiv').hide();
 	            if (transport.responseText == "getCalendar") {
-	                getCalendar(index, "dir=refresh");	
+	            	reloadStudyDetailsSection();
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
@@ -518,6 +519,18 @@ CP.participantOffStudy = function(id) {
     })
 }
 
+function reloadStudyDetailsSection(){
+	 var request = new Ajax.Request("<c:url value='/pages/participant/reloadSectionController'/>", {
+         onComplete:function(transport) {
+        	 jQuery("#studysitestablecontentmarker").empty();
+        	 jQuery("#studysitestablecontentmarker").append(transport.responseText);
+			 getCalendar(index, "dir=refresh");
+         },
+         parameters:<tags:ajaxstandardparams/>,
+         method:'get'
+     })
+}
+
 beginHoldOnSchedules = function(index, date, action, pid) {
     if (date == null || date == '') {
         alert('Please enter a date');
@@ -527,11 +540,12 @@ beginHoldOnSchedules = function(index, date, action, pid) {
     if (action == 'cancel') {
         getCalendar(index, "dir=refresh");
     } else {
+    	jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
             onComplete:function(transport) {
-            	 document.forms[0].submit();// added to refresh the page after putting on hold..	  
-	            if (transport.responseText == "getCalendar") {
-	                getCalendar(index, "dir=refresh");
+				 jQuery('#ajaxLoadingImgDiv').hide();
+            	 if (transport.responseText == "getCalendar") {
+	            	reloadStudyDetailsSection();
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
@@ -801,8 +815,14 @@ function doPostProcessing() {
        <div id="studies" style="display:none">
            <chrome:division title="participant.label.studies"/>
        </div>
+       
+        <div id='ajaxLoadingImgDiv'>
+		</div>
+		
         <div id="studysitestable">
-
+ 			
+ 			<div id = "studysitestablecontentmarker">
+ 			
             <c:if test="${not empty command.participant.id}">
 
                 <table cellpadding="0" width="100%" border="0">
@@ -819,20 +839,24 @@ function doPostProcessing() {
                             </td>
                         </c:if>
                     </tr>
-                    <c:forEach items="${command.participant.studyParticipantAssignments}"
-                               var="studyParticipantAssignment" varStatus="spastatus">
-                        <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
-						
-                        <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
-                                        studyParticipantAssignment="${studyParticipantAssignment}"
-                                        participant="${command.participant}" isCreateFlow="${isCreateFlow}"/>
-                    </c:forEach>
-
+                   
+                    
+	                    <c:forEach items="${command.participant.studyParticipantAssignments}"
+	                               var="studyParticipantAssignment" varStatus="spastatus">
+	                        <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
+							
+	                        <tags:studySite studysite="${studysite}" selected="true" isEdit="true"
+	                                        studyParticipantAssignment="${studyParticipantAssignment}"
+	                                        participant="${command.participant}" isCreateFlow="${isCreateFlow}"/>
+	                    </c:forEach>
+					
+					
+					
                 </table>
 
-
             </c:if>
-
+            
+			</div>	
         </div>
 </jsp:attribute>
 </tags:tabForm>
