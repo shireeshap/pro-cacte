@@ -9,21 +9,15 @@ import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
 import gov.nih.nci.ctcae.web.form.FetchCrfController;
 import gov.nih.nci.ctcae.web.form.ManageFormController;
 import org.apache.commons.lang.StringUtils;
-
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.web.servlet.ModelAndView;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.List;
-
 import static org.easymock.EasyMock.*;
 
-import static org.easymock.EasyMock.eq;
 
 /**
  * @author Vinay Kumar
@@ -43,6 +37,12 @@ public class ManageFormControllerTest extends WebTestCase {
     private User user;
     Map<String, List<Role>> userSpecificPrivilegeRoleMap;
     List<Role> roles;
+    private static String PRIVILEGE_VERSION_FORM = "PRIVILEGE_VERSION_FORM";
+    private static String PRIVILEGE_VIEW_FORM = "PRIVILEGE_VIEW_FORM";
+    private static String PRIVILEGE_COPY_FORM = "PRIVILEGE_COPY_FORM";
+    private static String PRIVILEGE_RELEASE_FORM = "PRIVILEGE_RELEASE_FORM";
+    private static String PRIVILEGE_DELETE_FORM = "PRIVILEGE_DELETE_FORM";
+    private static String PRIVILEGE_EDIT_FORM = "PRIVILEGE_EDIT_FORM";
 
 
     @Override
@@ -61,12 +61,12 @@ public class ManageFormControllerTest extends WebTestCase {
         roles = new ArrayList<Role>();
         user = new User();
         userSpecificPrivilegeRoleMap = new HashMap<String, List<Role>>();
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_VERSION_FORM", roles);
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_VIEW_FORM", roles);
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_COPY_FORM", roles);
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_RELEASE_FORM", roles);
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_DELETE_FORM", roles);
-        userSpecificPrivilegeRoleMap.put("PRIVILEGE_EDIT_FORM", roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_VERSION_FORM, roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_VIEW_FORM, roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_COPY_FORM, roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_RELEASE_FORM, roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_DELETE_FORM, roles);
+        userSpecificPrivilegeRoleMap.put(PRIVILEGE_EDIT_FORM, roles);
         user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
         currentUser = new UsernamePasswordAuthenticationToken(user, "Password@2");
         study = new Study();
@@ -104,6 +104,12 @@ public class ManageFormControllerTest extends WebTestCase {
         expect(crfAjaxFacade.resultCount(isA(String[].class))).andReturn(2L);
         expect(crfAjaxFacade.searchCrfs(isA(String[].class), eq(0), eq(5), eq("title"), eq("asc"), eq(2L))).andReturn(crfs);
         expect(authorizationServiceImpl.hasRole(study, new ArrayList<Role>(), user)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VERSION_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VIEW_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_COPY_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_RELEASE_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_DELETE_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_EDIT_FORM)).andReturn(true).anyTimes();
         
         replayMocks();
         ModelAndView modelAndView = fetchCrfController.handleRequest(request, response);
