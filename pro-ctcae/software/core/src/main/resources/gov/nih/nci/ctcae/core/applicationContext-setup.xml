@@ -7,7 +7,6 @@
 
 
     <bean id="setupStatus" class="gov.nih.nci.ctcae.core.SetupStatus">
-        <property name="userRepository" ref="userRepository"/>
     </bean>
 
 </beans>

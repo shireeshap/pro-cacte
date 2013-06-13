@@ -20,8 +20,7 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class SetupStatus implements InitializingBean {
     private Map<InitialSetupElement, SetupChecker> checkers;
-    private UserRepository userRepository;
-
+   
     private boolean[] prepared;
     protected static final Log logger = LogFactory.getLog(SetupStatus.class);
 
@@ -31,7 +30,7 @@ public class SetupStatus implements InitializingBean {
         checkers.put(InitialSetupElement.ADMINISTRATOR, new SetupChecker() {
                 public boolean isPrepared() {
                 	try{
-                		return userRepository.getByRole(Role.ADMIN).size() > 0;
+                		return false;
                 	} catch(Exception e){
                 		logger.warn("Error while loading users by role " +e.getMessage());
                 		logger.warn("Possible first time start up against blank schema");
@@ -41,6 +40,14 @@ public class SetupStatus implements InitializingBean {
             });
     }
 
+    public void assertAdminIsPresent(){
+    	checkers.put(InitialSetupElement.ADMINISTRATOR, new SetupChecker() {
+			public boolean isPrepared() {
+				return true;
+			}
+		});
+    }
+    
     public void recheck() {
         for (Map.Entry<InitialSetupElement, SetupChecker> entry : checkers.entrySet()) {
             prepared[entry.getKey().ordinal()] = entry.getValue().isPrepared();
@@ -74,11 +81,6 @@ public class SetupStatus implements InitializingBean {
 
     ////// CONFIGURATION
 
-
-    @Required
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     ////// INNER CLASSES
 
