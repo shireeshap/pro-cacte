@@ -68,7 +68,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         controller.setAuthorizationServiceImpl(authorizationServiceImpl);
     }
 
-    public void testController() throws Exception {
+    public void testController_getPreviousMonth() throws Exception {
         reset();
         request.setParameter("dir", "prev");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
@@ -77,12 +77,17 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         expect(authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR)).andReturn(roles).anyTimes();
         expect(authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(roles).anyTimes();
         expect(authorizationServiceImpl.hasRole(null, roles, user)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(true).anyTimes();
         participantCommand.lazyInitializeAssignment(null, false);
         calendar.add(-1);
         replayMocks();
         controller.handleRequest(request, response);
         verifyMocks();
+        
+    }
 
+    public void testController_getNextMonth() throws Exception {
         reset();
         request.setParameter("dir", "next");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
@@ -92,11 +97,15 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         expect(authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(roles).anyTimes();
         expect(authorizationServiceImpl.hasRole(null, roles, user)).andReturn(true).anyTimes();
         participantCommand.lazyInitializeAssignment(null, false);
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(true).anyTimes();
         calendar.add(1);
         replayMocks();
         controller.handleRequest(request, response);
         verifyMocks();
-
+    }
+    
+    public void testController_refresh() throws Exception {
         reset();
         request.setParameter("dir", "refresh");
         expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
@@ -106,10 +115,11 @@ public class DisplayCalendarControllerTest extends WebTestCase {
         expect(authorizationServiceImpl.findRolesForPrivilege(user, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(roles).anyTimes();
         expect(authorizationServiceImpl.hasRole(null, roles, user)).andReturn(true).anyTimes();
         participantCommand.lazyInitializeAssignment(null, false);
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, null, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE)).andReturn(true).anyTimes();
         calendar.add(0);
         replayMocks();
         controller.handleRequest(request, response);
         verifyMocks();
-
     }
 }
