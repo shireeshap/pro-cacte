@@ -42,24 +42,7 @@ public class SetupController extends CtcAeSimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest httpServletRequest) throws Exception {
-    	
-    	/**Matrix to determine whether setup is required.
-    	 * 1) Use Case: Existing schema
-    	 *   					|	isSetupNeeded()|	isAdminListEmpty
-    	 *   First time login	|	true			 |	false  --> SETUP_NEEDED=false
-    	 *   Consequent logins	| 	false			 |	false  --> SETUP_NEEDED=false
-    	 *   
-    	 * 2) Use Case: Blank schema
-    	 *   					|	isSetupNeeded()|	isAdminListEmpty
-    	 *   First time login	|	true			 |	true  --> SETUP_NEEDED=true
-    	 *   
-    	 *  	Now, if Setup is completed by user:
-    	 *   Consequent logins	| 	false			 |	false --> SETUP_NEEDED=false
-    	 *   	but if Setup was not completed by user:
-    	 *   Consequent logins	| 	true			 |	true --> SETUP_NEEDED=true
-    	 * 
-    	 */
-    	if (setupStatus.isSetupNeeded() && userRepository.getByRole(Role.ADMIN).isEmpty()) {
+    	if (userRepository.getByRole(Role.ADMIN).isEmpty()) {
     		httpServletRequest.setAttribute(SETUP_NEEDED, true);
     	} else {
     		httpServletRequest.setAttribute(SETUP_NEEDED, false);

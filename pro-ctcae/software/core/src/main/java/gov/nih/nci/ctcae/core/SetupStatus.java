@@ -1,15 +1,11 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.repository.UserRepository;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Examines the application (via the injected beans) and determines whether any initial setup steps are required.
@@ -74,16 +70,12 @@ public class SetupStatus implements InitializingBean {
     }
 
     ////// PROPERTY ACCESSORS
-
     public boolean isAdministratorMissing() {
         return !prepared[InitialSetupElement.ADMINISTRATOR.ordinal()];
     }
 
-    ////// CONFIGURATION
-
 
     ////// INNER CLASSES
-
     private interface SetupChecker {
         boolean isPrepared();
     }
