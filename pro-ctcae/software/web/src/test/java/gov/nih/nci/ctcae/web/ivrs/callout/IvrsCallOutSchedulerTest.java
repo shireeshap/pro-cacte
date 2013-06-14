@@ -65,7 +65,7 @@ public class IvrsCallOutSchedulerTest extends WebTestCase {
         //ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:gov/nih/nci/ctcae/web/src/main/webapp/WEB-INF/spring-jms.xml");
         //CallAction action = (CallAction)ctx.getBean("action");
         SetupStatus setupStatus = (SetupStatus) ctx.getBean("setupStatus");
-        assertFalse("Initial setup is not required. .", setupStatus.isSetupNeeded());
+        assertTrue("Initial setup is not required. .", setupStatus.isSetupNeeded());
 
         //StudyController studyController =   (StudyController)ctx.getBean("studyController");
 
