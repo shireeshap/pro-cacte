@@ -164,6 +164,9 @@ public class ParticipantSchedule {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            	if(studyParticipantCrf.getCrf().isHidden()){
+            		continue;
+            	}
                 boolean alreadyExists = false;
                 if (formIds == null || (formIds != null && formIds.contains(studyParticipantCrf.getCrf().getId().toString()))) {
                     StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
