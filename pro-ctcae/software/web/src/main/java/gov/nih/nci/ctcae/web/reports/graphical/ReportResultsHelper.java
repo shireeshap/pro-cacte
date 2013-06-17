@@ -51,8 +51,9 @@ public class ReportResultsHelper {
         	List<Integer> crfIds = new ArrayList<Integer>(); 
         	for(CRF crf : crfList){
         		crfIds.add(crf.getId());
-                if (crf.getParentCrf() != null) {
+                while (crf.getParentCrf() != null) {
                     crfIds.add(crf.getParentCrf().getId());
+                    crf = crf.getParentCrf();
                 }
         	}
         	query.filterByCRFIds(crfIds);
@@ -63,8 +64,9 @@ public class ReportResultsHelper {
             CRF crf = genericRepository.findById(CRF.class, crfId);
             List<Integer> crfIds = new ArrayList();
             crfIds.add(crf.getId());
-            if (crf.getParentCrf() != null) {
+            while (crf.getParentCrf() != null) {
                 crfIds.add(crf.getParentCrf().getId());
+                crf = crf.getParentCrf();
             }
             query.filterByCRFIds(crfIds);
         }

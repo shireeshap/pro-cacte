@@ -602,8 +602,9 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
         	List<Integer> crfIds = new ArrayList<Integer>(); 
         	for(CRF crf : crfList){
         		crfIds.add(crf.getId());
-                if (crf.getParentCrf() != null) {
+                while (crf.getParentCrf() != null) {
                     crfIds.add(crf.getParentCrf().getId());
+                    crf = crf.getParentCrf();
                 }
         	}
         	query.filterByCRFIds(crfIds);
@@ -614,8 +615,9 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
             CRF crf = genericRepository.findById(CRF.class, crfId);
             List<Integer> crfIds = new ArrayList();
             crfIds.add(crfId);
-            if (crf.getParentCrf() != null) {
+            while (crf.getParentCrf() != null) {
                 crfIds.add(crf.getParentCrf().getId());
+                crf = crf.getParentCrf();
             }
             query.filterByCRFIds(crfIds);
             request.getSession().setAttribute("crf", crf);
