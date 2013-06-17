@@ -226,11 +226,23 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         	CRF crf = genericRepository.findById(CRF.class, crfId);
         	List<Integer> crfIds = new ArrayList();
         	crfIds.add(crfId);
-        	if (crf.getParentCrf() != null) {
+        	while (crf.getParentCrf() != null) {
         		crfIds.add(crf.getParentCrf().getId());
+        		crf = crf.getParentCrf();
         	}
         	query.filterByCRFIds(crfIds);
         	request.getSession().setAttribute("crf", crf);
+        } else if(!StringUtils.isEmpty(request.getParameter("studyId"))){
+        	List<CRF> crfList = ReportResultsHelper.getReducedCrfs(studyId);
+        	List<Integer> crfIds = new ArrayList<Integer>(); 
+        	for(CRF crf : crfList){
+        		crfIds.add(crf.getId());
+                while (crf.getParentCrf() != null) {
+                    crfIds.add(crf.getParentCrf().getId());
+                    crf = crf.getParentCrf();
+                }
+        	}
+        	query.filterByCRFIds(crfIds);
         }
         query.filterByStudy(studyId);
         query.filterByParticipant(participantId);
