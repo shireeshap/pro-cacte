@@ -342,7 +342,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         //check for password policy if there is a change in password
-        if(!command.getParticipant().getPassword().equals(command.getParticipant().getUser().getPassword())){
+        if(command.getParticipant().getPassword() != null && !command.getParticipant().getPassword().equals(command.getParticipant().getUser().getPassword())){
         	User cloneUserWithNewPassword = buildUserForPasswordValidation(command);
             if (cloneUserWithNewPassword.getPassword() != null) {
                 try {
