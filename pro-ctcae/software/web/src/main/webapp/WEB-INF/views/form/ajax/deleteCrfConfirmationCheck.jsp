@@ -31,14 +31,13 @@
 
 
 <div class="flow-buttons">
-    <span class="next">
+     <span class="previous ibutton">
+      <tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>     
+  	</span>
+    <span class="next" style="position:relative; top:-30px;">
         <tags:button id="flow-update" color="red" icon="check" value="Delete"
                      onclick="deleteCrfPageConfirm('${selectedCrfPageNumber}','${proCtcTermId}')"/>
     </span>
-     <span class="previous ibutton">
-      <tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>     
-  </span>
-
     </chrome:division>
     </chrome:box>
 </body>
