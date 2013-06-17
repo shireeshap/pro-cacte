@@ -22,10 +22,11 @@
                     </p>
                 </div>
                 <div class="content flow-buttons autoclear">
-                <span class="prev">
+                <span class="prev" style="position:relative; top:5px;">
                 	<tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>
 				</span>
-				<span class="next">
+				
+				<span class="next" style="position:relative; top:5px; right:5px">
 					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Hide"/>
 				</span>
             </chrome:division>
