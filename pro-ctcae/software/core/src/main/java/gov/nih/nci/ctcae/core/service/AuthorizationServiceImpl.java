@@ -134,6 +134,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     	return isRolePresent;
 	}
 	
+	/**
+	 * Check if the user has access to the passed-in privilege (@param: privilegeName) 
+	 * for the given studyInstance (@param: study)
+	 */
 	@Override
 	public boolean hasAccessForStudyInstance(User user, Study study, String privilegeName) {
 		 List<Role> roles = findRolesForPrivilege(user, privilegeName);
