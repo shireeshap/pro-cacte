@@ -3080,6 +3080,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/readOnlyRule.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/recallPeriodFormatter.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/release.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reloadFormBuilderDiv.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/reloadFormScheduleCycleDefinition.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
@@ -3157,6 +3158,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSec
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneCtcCategorySection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reloadFormBuilderDiv.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reloadFormScheduleCycleDefinition.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/reloadHiddenInputsDefinition.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
