@@ -68,7 +68,7 @@ public class ConfirmationCheckController extends AbstractController {
             	command.setCrfPageNumbers(crfPageNumbers);
             	command.updateCrfItems(proCtcQuestionRepository);
         	}
-        	modelAndView.addObject("totalQuestions", command.getCrf().getCrfPagesSortedByPageNumber().size());
+        	
         	modelAndView.addObject("command", command);
         	
         } else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
