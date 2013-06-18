@@ -104,12 +104,12 @@ public class ManageFormControllerTest extends WebTestCase {
         expect(crfAjaxFacade.resultCount(isA(String[].class))).andReturn(2L);
         expect(crfAjaxFacade.searchCrfs(isA(String[].class), eq(0), eq(5), eq("title"), eq("asc"), eq(2L))).andReturn(crfs);
         expect(authorizationServiceImpl.hasRole(study, new ArrayList<Role>(), user)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VERSION_FORM)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VIEW_FORM)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_COPY_FORM)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_RELEASE_FORM)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_DELETE_FORM)).andReturn(true).anyTimes();
-        expect(authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_EDIT_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_VERSION_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_VIEW_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_COPY_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_RELEASE_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_DELETE_FORM)).andReturn(true).anyTimes();
+        expect(authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_EDIT_FORM)).andReturn(true).anyTimes();
         
         replayMocks();
         ModelAndView modelAndView = fetchCrfController.handleRequest(request, response);

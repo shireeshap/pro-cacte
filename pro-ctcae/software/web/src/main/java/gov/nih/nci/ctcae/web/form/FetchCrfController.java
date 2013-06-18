@@ -134,22 +134,22 @@ public class FetchCrfController extends AbstractController {
          boolean hasDeleteFormPrivilege = false;
          boolean hasEditFormPrivilege = false;
          
-         hasVersionFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VERSION_FORM);
+         hasVersionFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_VERSION_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_VERSION_FORM, hasVersionFormPrivilege);
          
-         hasViewFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_VIEW_FORM);
+         hasViewFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_VIEW_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_VIEW_FORM, hasViewFormPrivilege);
          
-         hasCopyFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_COPY_FORM);
+         hasCopyFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_COPY_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_COPY_FORM, hasCopyFormPrivilege);
          
-         hasReleaseFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_RELEASE_FORM);
+         hasReleaseFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_RELEASE_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_RELEASE_FORM, hasReleaseFormPrivilege);
          
-         hasDeleteFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_DELETE_FORM);
+         hasDeleteFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_DELETE_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_DELETE_FORM, hasDeleteFormPrivilege);
          
-         hasEditFormPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_EDIT_FORM);
+         hasEditFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_EDIT_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_EDIT_FORM, hasEditFormPrivilege);
          
          return crfInstancePrivilegeMap;

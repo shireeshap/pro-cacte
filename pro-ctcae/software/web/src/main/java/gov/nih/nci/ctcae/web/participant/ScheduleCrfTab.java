@@ -82,8 +82,8 @@ public class ScheduleCrfTab extends Tab<ParticipantCommand> {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Study currentStudy = AuthorizationServiceImpl.getStudy(command.getParticipant());
 
-        hasShowCalendarActionsPrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, currentStudy, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR); 
-        hasEnterResponsePrivilege = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, currentStudy, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE);
+        hasShowCalendarActionsPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, currentStudy, PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR); 
+        hasEnterResponsePrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, currentStudy, PRIVILEGE_ENTER_PARTICIPANT_RESPONSE);
         
         map.put("hasShowCalendarActionsPrivilege",hasShowCalendarActionsPrivilege);
         map.put("hasEnterResponsePrivilege", hasEnterResponsePrivilege);

@@ -115,7 +115,7 @@ public class FetchParticipantController extends AbstractController {
 	                }
 	            }
 	            
-	            trueEdit = authorizationServiceImpl.hasAccessToPrivilegeForStudy(user, study, PRIVILEGE_EDIT_PARTICIPANT);
+	            trueEdit = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_EDIT_PARTICIPANT);
 	           
 	            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='participantActions"
 	                    + participant.getId() + "'"
