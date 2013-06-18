@@ -472,6 +472,18 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     refreshPage();
 }
 
+function refreshQuestionDiv(questionId){
+	 var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+	        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfPostConfirm" + "&pageNumberToRemove="+questionId +
+	         "&crfPageNumbers="+$('crfPageNumbers').value, 
+	        onComplete:function(transport) {
+	           closeWindow();
+	           jQuery("#formBuildersDiv").empty();
+	           jQuery("#formBuildersDiv").append(transport.responseText);
+	        } ,
+	        method:'get'
+	    });
+}
 
 </script>
 <script type="text/javascript">
@@ -506,10 +518,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
     }
     function deleteCrfPageConfirm(selectedCrfPageNumber) {
-        closeWindow();
-        $('crfPageNumberToRemove').value = selectedCrfPageNumber;
-        refreshPage();
-
+       refreshQuestionDiv(selectedCrfPageNumber);
     }
 
 </script>
@@ -1054,17 +1063,20 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                                 <form:hidden path="crfPageNumberToRemove" id="crfPageNumberToRemove"/>
 
                                 <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
-                                           var="selectedCrfPage"
-                                           varStatus="status">
-                                    <tags:oneCrfPage crfPage="${selectedCrfPage}"
-                                                     crfPageNumber="${status.index}"
-                                                     advance="${command.crf.advance}">
-                                    </tags:oneCrfPage>
+                                
+                                <div id="formBuildersDiv">
+	                                <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
+	                                           var="selectedCrfPage"
+	                                           varStatus="status">
+	                                    <tags:oneCrfPage crfPage="${selectedCrfPage}"
+	                                                     crfPageNumber="${status.index}"
+	                                                     advance="${command.crf.advance}">
+	                                    </tags:oneCrfPage>
+	
+	                                </c:forEach>
 
-                                </c:forEach>
-
-                                <div id="hiddenCrfPageDiv"></div>
+                                	<div id="hiddenCrfPageDiv"></div>
+                                 </div>
                             </div>
                         </td>
                         <td id="formbuilderTable-R"></td>
