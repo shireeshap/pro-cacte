@@ -18,5 +18,5 @@ import gov.nih.nci.ctcae.core.domain.User;
 		Set<Integer> findAccessibleStudies(List<Role> rolesAllowedForPrivilege, Map<Role, ArrayList<Integer>> studyRoleMap);
 		public List<Integer> fetchParticipantOnStudy(List<Integer> studyIds);
 		public boolean hasRole(Study study, List<Role> roles, User user);
-		public boolean hasAccessToPrivilegeForStudy(User user, Study study, String privilegeName);
+		public boolean hasAccessForStudyInstance(User user, Study study, String privilegeName);
 	}

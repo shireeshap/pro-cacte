@@ -135,7 +135,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 	
 	@Override
-	public boolean hasAccessToPrivilegeForStudy(User user, Study study, String privilegeName) {
+	public boolean hasAccessForStudyInstance(User user, Study study, String privilegeName) {
 		 List<Role> roles = findRolesForPrivilege(user, privilegeName);
 	     return hasRole(study, roles, user);
 	}
