@@ -940,7 +940,7 @@ ul.tabs li {
 /* Each pane will contain one or more "boxes" */
 .box {
     background-color: #fff;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
     background-image: url(../images/blue/box_bg.jpg);
     background-repeat: repeat-x;
     position:relative;
