@@ -67,7 +67,7 @@ public class AddStudyComponentController extends AbstractController {
             studyCommand.addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
             studyCommand.addSocsToSelectedSite(studyOrganizationClinicalStaff);
 
-            int studyOrganizationClinicalStaffIndex = studyCommand.getAllSiteLevelStaffForStudy().size() - 1;
+            int studyOrganizationClinicalStaffIndex = studyCommand.getStudyOrganizationClinicalStaffs().size() - 1;
             int newlyAddedSocsIndex = studyCommand.getNewlyAddedSocsForSelectedSite().size() - 1;
             studyCommand.addToSocsIndexMap(studyOrganizationClinicalStaffIndex, newlyAddedSocsIndex);
             
@@ -88,7 +88,7 @@ public class AddStudyComponentController extends AbstractController {
             String studyOrganizationClinicalStaffIndex = request.getParameter("studyOrganizationClinicalStaffIndex");
             Integer index = Integer.parseInt(studyOrganizationClinicalStaffIndex);
             StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
-            studyCommand.getAllSiteLevelStaffForStudy().set(index, null);
+            studyCommand.getStudyOrganizationClinicalStaffs().set(index, null);
             int newlyAddedSocsIndex = studyCommand.getPositionFromSocsIndexMap(index);
             studyCommand.getNewlyAddedSocsForSelectedSite().set(newlyAddedSocsIndex, null);
             int i = 0;

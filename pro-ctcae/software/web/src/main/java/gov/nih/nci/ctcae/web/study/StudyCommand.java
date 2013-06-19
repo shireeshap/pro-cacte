@@ -196,7 +196,7 @@ public class StudyCommand {
     }
 
     @UniqueObjectInCollection(message = "Duplicate Clinical Staff")
-    public List<StudyOrganizationClinicalStaff> getAllSiteLevelStaffForStudy() {
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         if (studyOrganizationClinicalStaffs.isEmpty()) {
             studyOrganizationClinicalStaffs = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
         }
@@ -204,7 +204,7 @@ public class StudyCommand {
     }
 
     public void addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        getAllSiteLevelStaffForStudy().add(studyOrganizationClinicalStaff);
+        getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
     }
 
     public void setStudyOrganizationClinicalStaffs(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
