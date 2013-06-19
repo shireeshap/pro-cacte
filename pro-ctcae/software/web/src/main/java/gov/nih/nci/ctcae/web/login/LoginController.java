@@ -38,7 +38,6 @@ public class LoginController extends AbstractController {
     private static String ENGLISH = "ENGLISH";
     private static String SPANISH = "SPANISH";
     private static String IS_LOGIN = "isLogin";
-    private static String TRUE = "true";
 
 	
 	public static final int MAX_RESULTS_DISPLAYED = 25;
@@ -50,26 +49,7 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        
-        String isLoginFlow = request.getParameter(IS_LOGIN);
-        String lang = null;
-        if(!StringUtils.isEmpty(isLoginFlow)){
-        	lang = getParticipantPrefferredLanguage(user.getId());
-            if(StringUtils.isEmpty(lang)){
-            	  lang = "en";
-            } else {
-            	if(ENGLISH.equals(lang)){
-            		lang = "en";
-            	} else if(SPANISH.equals(lang)) {
-            		lang = "es";
-            	}
-            }
-        } else {
-        	//Use Locale value of the requesting page to set the language.
-        	if(RequestContextUtils.getLocale(request)!= null){
-        		lang = RequestContextUtils.getLocale(request).toString();
-        	}
-        }
+        String lang = getDisplayLanguage(request, user);
         
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
@@ -135,6 +115,30 @@ public class LoginController extends AbstractController {
         mv.addObject("nurseLevelRole", nurseLevelRole);
         mv.addObject("odc", odc);
         return mv;
+    }
+    
+    private String getDisplayLanguage(HttpServletRequest request, User user){
+    	 String lang = null;
+         String isLoginFlow = request.getParameter(IS_LOGIN);
+         if(!StringUtils.isEmpty(isLoginFlow)){
+         	lang = getParticipantPrefferredLanguage(user.getId());
+             if(StringUtils.isEmpty(lang)){
+             	  lang = "en";
+             } else {
+             	if(ENGLISH.equals(lang)){
+             		lang = "en";
+             	} else if(SPANISH.equals(lang)) {
+             		lang = "es";
+             	}
+             }
+         } else {
+         	//Use Locale value of the requesting page to set the language.
+         	if(RequestContextUtils.getLocale(request)!= null){
+         		lang = RequestContextUtils.getLocale(request).toString();
+         	}
+         }
+         
+         return lang;
     }
     
     public String getParticipantPrefferredLanguage(Integer userId) {
