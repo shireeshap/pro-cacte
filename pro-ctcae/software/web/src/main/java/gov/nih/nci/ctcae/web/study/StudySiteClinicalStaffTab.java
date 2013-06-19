@@ -52,11 +52,14 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
         List<StudyOrganization> studySites = (List<StudyOrganization>) studyOrganizationRepository.find(query);
         if (!studySites.isEmpty() && command.getSelectedStudySite() == null) {
-            command.setSelectedStudySite((StudySite) studySites.iterator().next());
             for (StudyOrganization studySite : studySites) {
                 if (studySite.getOrganization().equals(command.getDefaultOrganization())) {
                     command.setSelectedStudySite((StudySite) studySite);
+                    break;
                 }
+            }
+            if(command.getSelectedStudySite() == null){
+            	command.setSelectedStudySite((StudySite) studySites.iterator().next());
             }
         }
         referenceData.put("studySites", studySites);
@@ -72,26 +75,23 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
     	boolean saveStudyOrganization = false;
     	StudyOrganizationClinicalStaff socs = null;
-        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getStudyOrganizationClinicalStaffs()) {
-            if (studyOrganizationClinicalStaff != null) {
-            	if(command.getSelectedStudySite().getOrganization().getNciInstituteCode().equals(studyOrganizationClinicalStaff.getStudyOrganization().getOrganization().getNciInstituteCode())){
-            		saveStudyOrganization = true;
-            		socs = studyOrganizationClinicalStaff;
-                    studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-            	}
-            }
+    	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getNewlyAddedSocsForSelectedSite()) {
+    		if(studyOrganizationClinicalStaff != null){
+    			saveStudyOrganization = true;
+    			socs = studyOrganizationClinicalStaff;
+    			studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+    		}
         }
         if(saveStudyOrganization && socs != null){
         	studyOrganizationRepository.save(command.getStudy().getStudyOrganization(socs));
             command.setStudy(studyRepository.findById(command.getStudy().getId()));
             command.updateClinicalStaffs();
+            command.removeAllNewSocsForSelectedSite();
             request.setAttribute("flashMessage", "save.confirmation");
         }
     }
 
     public String getRequiredPrivilege() {
-        //return Privilege.PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF;
-    	//return Privilege.PRIVILEGE_CREATE_CLINICAL_STAFF;
     	return Privilege.PRIVILEGE_ADD_STUDY_SITE_STAFF;
     }
 

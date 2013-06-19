@@ -3,9 +3,10 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Class StudyCommand.
@@ -34,8 +35,12 @@ public class StudyCommand {
     private boolean isAdmin = false;
 
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
+    
+    private List<StudyOrganizationClinicalStaff> newSocsForSelectedSite = new ArrayList<StudyOrganizationClinicalStaff>();
+    
+    private Map<Integer, Integer> socsIndexMap = new HashMap<Integer, Integer>();
 
-    List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
+	List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
 
     private List<String> armIndicesToRemove = new ArrayList<String>();
     private boolean activeDefaultArm = false;
@@ -191,7 +196,7 @@ public class StudyCommand {
     }
 
     @UniqueObjectInCollection(message = "Duplicate Clinical Staff")
-    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
+    public List<StudyOrganizationClinicalStaff> getAllSiteLevelStaffForStudy() {
         if (studyOrganizationClinicalStaffs.isEmpty()) {
             studyOrganizationClinicalStaffs = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
         }
@@ -199,13 +204,36 @@ public class StudyCommand {
     }
 
     public void addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+        getAllSiteLevelStaffForStudy().add(studyOrganizationClinicalStaff);
     }
 
     public void setStudyOrganizationClinicalStaffs(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
         this.studyOrganizationClinicalStaffs = studyOrganizationClinicalStaffs;
     }
 
+    public List<StudyOrganizationClinicalStaff> getNewlyAddedSocsForSelectedSite() {
+		return newSocsForSelectedSite;
+	}
+    
+    public Map<Integer, Integer> getSocsIndexMap() {
+		return socsIndexMap;
+	}
+    
+    public void addToSocsIndexMap(Integer socsIndex, Integer newlyAddedSocsIndex) {
+		getSocsIndexMap().put(socsIndex, newlyAddedSocsIndex);
+	}
+    
+    public Integer getPositionFromSocsIndexMap(Integer socsIndex) {
+		return getSocsIndexMap().get(socsIndex);
+	}
+    
+    public void addSocsToSelectedSite(StudyOrganizationClinicalStaff socs) {
+    	getNewlyAddedSocsForSelectedSite().add(socs);
+	}
+    
+    public void removeAllNewSocsForSelectedSite() {
+    	getNewlyAddedSocsForSelectedSite().clear();
+	}
 
     public StudySite getSelectedStudySite() {
         return selectedStudySite;
