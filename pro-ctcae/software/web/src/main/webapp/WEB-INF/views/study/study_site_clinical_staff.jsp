@@ -16,9 +16,14 @@
     <tags:dwrJavascriptLink objects="clinicalStaff"/>
     <tags:stylesheetLink name="yui-autocomplete"/>
     <tags:javascriptLink name="yui-autocomplete"/>
+    <tags:javascriptLink name="common.js"/>
 
 
     <script type="text/javascript">
+    	Event.observe(window, 'load', function(){
+    		//showIndicator("selectedStudySite-indicator");
+    	});
+    
         function changeStatus(status, id, tabNumber) {
             var request = new Ajax.Request("<c:url value="/pages/study/changeStatus"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status + "&tabNumber=" +tabNumber,
@@ -64,6 +69,7 @@
         }
 
         function changeStudySite() {
+        	showIndicator("selectedStudySite-indicator");
             $('_target').name = null;
             $('changingStudySite').value = true;
             $('command').submit();
@@ -98,7 +104,7 @@
          	<input type="hidden" name="changingStudySite" id="changingStudySite" value="false"/>
             <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
                                               propertyName="selectedStudySite" required="false"
-                                              onchange="changeStudySite()" itemLabel="organization.displayName"/>
+                                              onchange="changeStudySite()" itemLabel="organization.displayName" showIndicator="true"/>
          </chrome:box>
          
         <c:forEach items="${studySites}" var="studySite">

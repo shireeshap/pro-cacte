@@ -225,6 +225,9 @@
 <c:when test="${categoryName == 'selectdomainobject'}">
     <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
                  cssClass="${cssClass}" itemValue="id" onchange="${onchange}" itemLabel="${itemLabel}"/>
+    <c:if test="${showIndicator}">
+        <tags:indicator id="${propertyName}-indicator"/>
+    </c:if>
 </c:when>
 
 
