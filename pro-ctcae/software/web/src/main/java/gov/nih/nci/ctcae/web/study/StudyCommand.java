@@ -195,7 +195,6 @@ public class StudyCommand {
 
     }
 
-    @UniqueObjectInCollection(message = "Duplicate Clinical Staff")
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         if (studyOrganizationClinicalStaffs.isEmpty()) {
             studyOrganizationClinicalStaffs = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
