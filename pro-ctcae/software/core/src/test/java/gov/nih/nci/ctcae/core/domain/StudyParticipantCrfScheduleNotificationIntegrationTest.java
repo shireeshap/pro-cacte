@@ -29,7 +29,6 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
         commitAndStartNewTransaction();
     }
     public void testCreateAndUpdateStudyParticipantCrfScheduleNotification() {
-        deleteExistingParticipant();
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
         Date date = new Date();
         StudyParticipantCrfScheduleNotification notif = new StudyParticipantCrfScheduleNotification();
@@ -75,7 +74,6 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
     }
 
     public void testRetrieveStudyParticipantCrfScheduleNotification() {
-        deleteExistingParticipant();
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
         Date date = new Date();
         StudyParticipantCrfScheduleNotification notif = new StudyParticipantCrfScheduleNotification();
@@ -116,6 +114,7 @@ public class StudyParticipantCrfScheduleNotificationIntegrationTest extends Test
         assertFalse(notif.isMailSent());
         assertNotNull(notif.getStudyParticipantCrfSchedule());
         assertNull(notif.getCompletionDate());
+        commitAndStartNewTransaction();
         deleteExistingParticipant();
     }
 
