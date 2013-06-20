@@ -16,7 +16,7 @@
                 max-height: 20em;
                 overflow-x: hidden;
                 overflow-y: auto;
-                width:335px;
+                width:400px;
             }
         </style>
     <!--<![endif]-->
@@ -36,7 +36,7 @@
     <tr height="0">
         <td height="0" style="vertical-align:top;border:0px;">
             <div class="yui-skin-sam" >
-                <div id="midSize-AutoComplete" style="position:relative;padding-bottom:0px">
+                <div id="midSize-AutoComplete" style="position:relative;padding-bottom:0px; width:400px;">
                     <c:if test="${required}"><tags:requiredIndicator/></c:if>
                     <input id="${inputName}" type="text" value="${value}" class="pending-search" />
                 </div>
