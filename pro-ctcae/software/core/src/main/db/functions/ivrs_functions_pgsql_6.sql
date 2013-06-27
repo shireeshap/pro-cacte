@@ -646,7 +646,7 @@ BEGIN
 		WHERE sp_crf_schedule_id=formid and id = v_crf_item_id;
 
 		IF found THEN
-			UPDATE sp_crf_schedules set status='INPROGRESS' where id=formid and status<>'INPROGRESS';
+			UPDATE sp_crf_schedules set status='INPROGRESS', version = version + 1 where id=formid and status<>'INPROGRESS';
 			--get the next valid un answered question for the form
 			v_next_question_id := ivrs_getnextquestion(userid,formid,questionid);
 
@@ -678,7 +678,7 @@ BEGIN
 --			         END IF;
 --			END IF;
 		IF found THEN
-			UPDATE sp_crf_schedules set status='INPROGRESS' where id=formid and status<>'INPROGRESS';
+			UPDATE sp_crf_schedules set status='INPROGRESS', version = version + 1 where id=formid and status<>'INPROGRESS';
 
 		END IF;
 		--get the next valid un answered question for the form
@@ -714,7 +714,7 @@ BEGIN
 		INSERT INTO sp_crf_schedule_notif(id, spc_schedule_id, status, creation_date)
 		VALUES (nextval('sp_crf_schedule_notif_id_seq'),formid,'SCHEDULED',now());
 
-		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS',form_completion_date=now() where id=formid and Status ='INPROGRESS';
+		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS',form_completion_date=now(), version = version + 1 where id=formid and Status ='INPROGRESS';
 
 		IF found then
 			return 1;
@@ -1212,7 +1212,7 @@ CREATE OR REPLACE FUNCTION IVRS_Save_FilePath(userid integer, formid integer,fil
 DECLARE
 BEGIN
     -- update sp_crf_schedules with the given filepath.
-	UPDATE sp_crf_schedules SET file_path=filepath WHERE id=formid AND Status ='INPROGRESS';
+	UPDATE sp_crf_schedules SET file_path=filepath, version = version + 1 WHERE id=formid AND Status ='INPROGRESS';
 	IF FOUND THEN
 		return 1;
 	ELSE
