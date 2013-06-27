@@ -642,7 +642,7 @@ BEGIN
 
 		--update the answer for given question id
 		UPDATE study_participant_crf_items SET pro_ctc_valid_value_id = v_proctc_value_id, response_date = now(),
-		response_mode = 'IVRS',updated_by= v_user_name
+		response_mode = 'IVRS',updated_by= v_user_name, version = version + 1
 		WHERE sp_crf_schedule_id=formid and id = v_crf_item_id;
 
 		IF found THEN
@@ -662,7 +662,7 @@ BEGIN
 		END IF;
 
 		UPDATE sp_crf_sch_added_questions SET pro_ctc_valid_value_id = v_proctc_value_id, response_date = now(),
-		response_mode = 'IVRS',updated_by= v_user_name
+		response_mode = 'IVRS',updated_by= v_user_name, version = version + 1
 		WHERE sp_crf_schedule_id=formid and question_id = questionid;
 
 			--PRKC-1646: remove core_sym_count and following else portion
@@ -1413,7 +1413,7 @@ $x$
 	JOIN participants p ON spa.participant_id=p.id
 	WHERE p.user_id = userid;
 
-	UPDATE study_participant_assignments SET live_access_timestamp = null WHERE id =v_ret;
+	UPDATE study_participant_assignments SET live_access_timestamp = null, version = version + 1 WHERE id =v_ret;
 
        return 0;
   EXCEPTION
@@ -1436,7 +1436,7 @@ $x$
 	SELECT spa.id INTO v_ret FROM study_participant_assignments spa
 	JOIN participants p ON spa.participant_id=p.id
 	WHERE p.user_id = userid;
-	UPDATE study_participant_assignments SET live_access_timestamp = now() WHERE id =v_ret;
+	UPDATE study_participant_assignments SET live_access_timestamp = now(), version = version + 1 WHERE id =v_ret;
 
        return 0;
   EXCEPTION
