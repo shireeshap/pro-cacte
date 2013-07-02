@@ -24,7 +24,7 @@ import java.util.*;
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
         @Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
-public class StudyParticipantCrfSchedule extends BaseVersionable implements Comparable<StudyParticipantCrfSchedule> {
+public class StudyParticipantCrfSchedule extends BasePersistable implements Comparable<StudyParticipantCrfSchedule> {
 
     /**
      * The id.
