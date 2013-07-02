@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
+    private static String queryString = "SELECT distinct spcs from StudyParticipantCrfSchedule spcs order by spcs.startDate";
     private static String queryString1 = "SELECT count(distinct spcs) from StudyParticipantCrfSchedule spcs";
     private static String CRF_IDS = "ids";
     private static String SITE_IDS = "ids";
