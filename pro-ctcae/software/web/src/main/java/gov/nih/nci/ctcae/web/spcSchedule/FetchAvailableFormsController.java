@@ -31,7 +31,7 @@ public class FetchAvailableFormsController extends AbstractController {
         Long totalRecords = spcsfacade.resultCount(CrfStatus.INPROGRESS, todaysDate);
         SearchScheduleWrapper searchScheduleWrapper = new SearchScheduleWrapper();
         searchScheduleWrapper.setTotalRecords(totalRecords);
-        searchScheduleWrapper.setRecordsReturned(25);
+        searchScheduleWrapper.setRecordsReturned(availableSchedules.size());
         searchScheduleWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchScheduleWrapper.setPageSize(25);
         searchScheduleWrapper.setDir("asc");

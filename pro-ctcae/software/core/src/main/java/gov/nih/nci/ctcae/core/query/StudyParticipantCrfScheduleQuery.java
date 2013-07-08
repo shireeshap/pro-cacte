@@ -2,8 +2,10 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
-
-import javax.net.ssl.SSLEngineResult;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.security.ApplicationSecurityManager;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,16 +26,23 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
     private static String MARK_DELETE = "markDelete";
     private static String HIDDEN = "hidden";
     private static String STATUSES = "statuses";
+    private static String OBJECT_IDS = "objectIds";
 
 
     public StudyParticipantCrfScheduleQuery() {
         super(queryString);
     }
 
-    public StudyParticipantCrfScheduleQuery(boolean count) {
+    public StudyParticipantCrfScheduleQuery(boolean secured) {
         super(queryString1);
+        if(secured){
+        	User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+        	List<Integer> objectIds = new ArrayList<Integer>();
+            objectIds = currentLoggedInUser.findAccessibleObjectIds(StudyOrganization.class);
+            filterByObjectIds(objectIds);
+        }
     }
-
+    
     public void filterByStudy(Integer id) {
         andWhere("spcs.studyParticipantCrf.crf.study.id =:studyId");
         setParameter("studyId", id);
@@ -126,6 +135,17 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
                 "left outer join cs.user as user");
     }
 
+    public void filterByObjectIds(List<Integer> objectIds) {
+        if (!objectIds.isEmpty()) {
+            andWhere(String.format("%s in (:%s )", getObjectIdQueryString(), OBJECT_IDS));
+            setParameterList(OBJECT_IDS, objectIds);
+        }
+    }
+    
+    protected String getObjectIdQueryString() {
+        return "spcs.studyParticipantCrf.studyParticipantAssignment.studySite.id";
+    }
+    
     public void setLeftJoinForSite() {
         leftJoin("spcs.studyParticipantCrf as spc " +
                 "left outer join spc.studyParticipantAssignment as spa " +

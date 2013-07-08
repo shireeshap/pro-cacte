@@ -33,7 +33,7 @@ public class FetchOverdueFormsController extends AbstractController {
         Long totalRecords = spcsFacade.resultCount(CrfStatus.PASTDUE, current);
         SearchScheduleWrapper searchOverdueScheduleWrapper = new SearchScheduleWrapper();
         searchOverdueScheduleWrapper.setTotalRecords(totalRecords);
-        searchOverdueScheduleWrapper.setRecordsReturned(25);
+        searchOverdueScheduleWrapper.setRecordsReturned(overdueSchedules.size());
         searchOverdueScheduleWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchOverdueScheduleWrapper.setPageSize(25);
         searchOverdueScheduleWrapper.setDir("asc");
