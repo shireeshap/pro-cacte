@@ -324,12 +324,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     	long lockoutDurationInMillis = passwordPolicy.getLoginPolicy().getLockOutDuration() * 1000;
         if(user.getAccountLockoutTime() != null){
         	if(user.getAccountLockoutTime().getTime() + lockoutDurationInMillis > new Date().getTime()){
-        		int minutes = (int) (lockoutDurationInMillis/(1000*60) % 60);
-        		int hours = (int) (lockoutDurationInMillis/(1000*60*60) % 60);
-        		String displayLockoutTime = hours+" hours and "+minutes+" minutes";
+        		int minutes = (int) ((lockoutDurationInMillis -(new Date().getTime() - user.getAccountLockoutTime().getTime()) )/(1000*60) % 60);
+        		int hours = (int) ((lockoutDurationInMillis -(new Date().getTime() - user.getAccountLockoutTime().getTime()) )/(1000*60*60) % 60);
+        		String displayLockoutTime = hours+" hours and "+minutes+" minutes ";
         		throw new MyException("User account is currently locked. Please try again after " + displayLockoutTime);
         	} else {
         		user.setAccountLockoutTime(null);
+        		user.setNumberOfAttempts(0);
         	}
         }
     }
