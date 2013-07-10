@@ -29,10 +29,11 @@ public class FetchOverdueFormsController extends AbstractController {
         String sort = request.getParameter("sort");
         String dir = request.getParameter("dir");
         Date current = new Date();
-        List<StudyParticipantCrfSchedule> overdueSchedules = spcsFacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.PASTDUE, current);
-        Long totalRecords = spcsFacade.resultCount(CrfStatus.PASTDUE, current);
+        Long totalRecordsWithoutSecurity = spcsFacade.resultCount(CrfStatus.PASTDUE, current, false);
+        Long filteredRecordsWithSecurity = spcsFacade.resultCount(CrfStatus.PASTDUE, current, true);
+        List<StudyParticipantCrfSchedule> overdueSchedules = spcsFacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.PASTDUE, current, totalRecordsWithoutSecurity, filteredRecordsWithSecurity);
         SearchScheduleWrapper searchOverdueScheduleWrapper = new SearchScheduleWrapper();
-        searchOverdueScheduleWrapper.setTotalRecords(totalRecords);
+        searchOverdueScheduleWrapper.setTotalRecords(filteredRecordsWithSecurity);
         searchOverdueScheduleWrapper.setRecordsReturned(overdueSchedules.size());
         searchOverdueScheduleWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchOverdueScheduleWrapper.setPageSize(25);
@@ -66,7 +67,7 @@ public class FetchOverdueFormsController extends AbstractController {
         JSONObject jsonObject = JSONObject.fromObject(searchOverdueScheduleWrapper);
         Map<String, Object> modelMap = new HashMap();
         modelMap.put("shippedRecordSet", jsonObject);
-        modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("totalRecords", totalRecordsWithoutSecurity);
         return new ModelAndView("jsonView", modelMap);
     }
 

@@ -30,10 +30,11 @@ public class FetchUpcomingFormsController extends AbstractController {
         String dir = request.getParameter("dir");
         Date current = DateUtils.getCurrentDate();
 
-        List<StudyParticipantCrfSchedule> upcomingSchedules = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.SCHEDULED, current);
-        Long totalRecords = spcsfacade.resultCount(CrfStatus.SCHEDULED, current);
+        Long totalRecordsWithoutSecurity = spcsfacade.resultCount(CrfStatus.SCHEDULED, current, false);
+        Long filteredRecordsWithSecurity = spcsfacade.resultCount(CrfStatus.SCHEDULED, current, true);
+        List<StudyParticipantCrfSchedule> upcomingSchedules = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.SCHEDULED, current, totalRecordsWithoutSecurity, filteredRecordsWithSecurity);
         SearchScheduleWrapper searchUpcomingScheduleWrapper = new SearchScheduleWrapper();
-        searchUpcomingScheduleWrapper.setTotalRecords(totalRecords);
+        searchUpcomingScheduleWrapper.setTotalRecords(filteredRecordsWithSecurity);
         searchUpcomingScheduleWrapper.setRecordsReturned(upcomingSchedules.size());
         searchUpcomingScheduleWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchUpcomingScheduleWrapper.setPageSize(25);
@@ -70,7 +71,7 @@ public class FetchUpcomingFormsController extends AbstractController {
         JSONObject jsonObject = JSONObject.fromObject(searchUpcomingScheduleWrapper);
         Map<String, Object> modelMap = new HashMap();
         modelMap.put("shippedRecordSet", jsonObject);
-        modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("totalRecords", totalRecordsWithoutSecurity);
         return new ModelAndView("jsonView", modelMap);
     }
 

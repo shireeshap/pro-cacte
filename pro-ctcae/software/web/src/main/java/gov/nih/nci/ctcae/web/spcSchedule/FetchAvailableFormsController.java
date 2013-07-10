@@ -26,11 +26,12 @@ public class FetchAvailableFormsController extends AbstractController {
         String dir = request.getParameter("dir");
         Date todaysDate = DateUtils.getCurrentDate();
 
-        List<StudyParticipantCrfSchedule> availableSchedules = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.INPROGRESS, todaysDate);
+        Long totalRecordsWithoutSecurity = spcsfacade.resultCount(CrfStatus.INPROGRESS, todaysDate, false);
+        Long filteredRecordsWithSecurity = spcsfacade.resultCount(CrfStatus.INPROGRESS, todaysDate, true);
+        List<StudyParticipantCrfSchedule> availableSchedules = spcsfacade.searchSchedules(Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, CrfStatus.INPROGRESS, todaysDate, totalRecordsWithoutSecurity, filteredRecordsWithSecurity);
 
-        Long totalRecords = spcsfacade.resultCount(CrfStatus.INPROGRESS, todaysDate);
         SearchScheduleWrapper searchScheduleWrapper = new SearchScheduleWrapper();
-        searchScheduleWrapper.setTotalRecords(totalRecords);
+        searchScheduleWrapper.setTotalRecords(filteredRecordsWithSecurity);
         searchScheduleWrapper.setRecordsReturned(availableSchedules.size());
         searchScheduleWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchScheduleWrapper.setPageSize(25);
@@ -68,7 +69,7 @@ public class FetchAvailableFormsController extends AbstractController {
         JSONObject jsonObject = JSONObject.fromObject(searchScheduleWrapper);
         Map<String, Object> modelMap = new HashMap();
         modelMap.put("shippedRecordSet", jsonObject);
-        modelAndView.addObject("totalRecords", totalRecords);
+        modelAndView.addObject("totalRecords", totalRecordsWithoutSecurity);
         return new ModelAndView("jsonView", modelMap);
     }
 
