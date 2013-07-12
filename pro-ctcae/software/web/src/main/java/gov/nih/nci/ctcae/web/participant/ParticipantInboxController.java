@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.web.form.FormSubmissionHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,11 +19,15 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 
 //
 /**
@@ -37,13 +42,13 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
      * The participant repository.
      */
     private UserRepository userRepository;
-
     private Properties properties;
 
     public static final String HELP_VIDEO_URL_EN  = "help.video.url.en";
     public static final String HELP_VIDEO_URL_ES  = "help.video.url.es";
     public static final String BASE_URL = "base.url";
     public static final String BASE_URL_SUFFIX = "public/showVideo";
+    public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
 
     /**
      * Instantiates a new participant inbox controller.
@@ -53,8 +58,30 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
         setCommandClass(gov.nih.nci.ctcae.core.domain.Participant.class);
         setBindOnNewForm(true);
         setSessionForm(true);
+        setFormView("participant/participantInbox");
     }
-
+    
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	super.handleRequestInternal(request, response);
+    	String action = (String) request.getParameter("action");
+    	if(!StringUtils.isEmpty(action) && GET_NEXT_AVAILABLE_SURVEY.equals(action)){
+    		Participant command = (Participant) getCommand(request);
+    		Integer id = FormSubmissionHelper.getNextAvailableSurvey(command.getSortedStudyParticipantCrfSchedules());
+    		if(id != null){
+    			request.getSession().setAttribute("id", id);
+				return new ModelAndView(new RedirectView("../form/submit"));
+    		}
+    	}
+    	ModelAndView modelAndView = new ModelAndView(getFormView());
+    	if(isSessionForm()){
+    		setSessionForm(false);
+    	}
+    	modelAndView.addObject("command", getCommand(request));
+    	return modelAndView; 
+    }
+    
+    
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */

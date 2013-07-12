@@ -12,18 +12,13 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
-
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -40,6 +35,8 @@ public class SubmitFormController extends SimpleFormController {
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
+    public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
+    private static String TRUE = "true";
 
     public SubmitFormController() {
         super();
@@ -60,7 +57,9 @@ public class SubmitFormController extends SimpleFormController {
         request.getSession().setAttribute(getFormSessionAttributeName(), sCommand);
         if (submit) {
         	// On submission of a survey, redirecting the patient back to his inbox.
-            return new ModelAndView(new RedirectView("../participant/participantInbox"));
+        	ModelAndView modelAndView = new ModelAndView(new RedirectView("../participant/participantInbox"));
+        	modelAndView.addObject("action", GET_NEXT_AVAILABLE_SURVEY);
+        	return modelAndView;
         } else {
         	request.getSession().setAttribute("id", sCommand.getSchedule().getId());
         	return new ModelAndView(new RedirectView("submit"));
@@ -143,12 +142,21 @@ public class SubmitFormController extends SimpleFormController {
 
         if (CrfStatus.COMPLETED.equals(submitFormCommand.getSchedule().getStatus())) {
             return showConfirmationPage(submitFormCommand);
-        }
+        } 
         
         ModelAndView mv;
         int currentPageIndex = 0;
-        //Fetch next or previous page number of the page to be rendered using commandObject.
-        currentPageIndex = submitFormCommand.getNewPageIndex();
+        String isBegin = request.getParameter("isBegin");
+        
+        //When a participant begins with a InProgress survey, show the first un-answered question of the survey. (Only for the first attempt when entering InProgress survey)
+        if(!StringUtils.isEmpty(isBegin) &&   TRUE.equals(isBegin) &&  CrfStatus.INPROGRESS.equals(submitFormCommand.getSchedule().getStatus())){
+        	submitFormCommand.firstUnAnsweredPageIndex();
+        	currentPageIndex = submitFormCommand.getNewPageIndex();
+        } else {
+        	//Fetch next or previous page number of the page to be rendered using commandObject.
+        	currentPageIndex = submitFormCommand.getNewPageIndex();
+        }
+        
         if (currentPageIndex == submitFormCommand.getAddMoreQuestionPageIndex()) {
             mv = showForm(request, errors, "");
             mv.setView(new RedirectView("addMorequestion"));

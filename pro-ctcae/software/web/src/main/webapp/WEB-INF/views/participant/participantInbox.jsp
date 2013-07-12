@@ -210,107 +210,107 @@
         <tags:message code="participant.onHoldMessage"/> ${spaStatus}.
     </c:when>
     <c:otherwise>
-<chrome:box title="${labelScheduledForms}">
-    <c:if test="${numberofCrfs eq 0}">
-        <div style="margin-left:50px;">
-            <c:if test="${futureNumberofCrfs eq 0}">
-                <tags:message code="participant.noSurveyAvailable"/>
-            </c:if>
-            <c:if test="${futureNumberofCrfs gt 0}">
-                <tags:message code="participant.noSurveyAvailable"/> <tags:message code="participant.nextSurveyAvailable"/>
-                <tags:formatDate value="${futureSurveyAvailableDate}"/>.
-            </c:if>
-        </div>
-    </c:if>
-    <c:if test="${numberofCrfs gt 0}">
-        <table id="inboxTable">
-            <tr>
-                <th>
-                    <tags:message code="participant.label.title"/>
-                </th>
-                <th>
-                    <tags:message code="participant.label.status"/>
-                </th>
-                    <%--  <th>
-                       <tags:message code="participant.label.scheduleDate"/>
-                   </th> --%>
-                <th>
-                    <tags:message code="participant.label.dueDate"/>
-                </th>
-                <th>
-
-                </th>
-            </tr>
-            <c:forEach items="${command.sortedStudyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-               <%-- <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                               var="studyParticipantCrfSchedule">--%>
-                        <c:set scope="page" var="remainingDays"
-                               value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
-                        <%--<c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">--%>
-                        <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
-                            <tr>
-                                <td>
-                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                        <%--<c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if> --%>
-                                </td>
-                                <td>
-                                    <tags:message code="crfStatus_${studyParticipantCrfSchedule.status.code}"/>
-                                </td>
-                                    <%--  <td>
-                                       <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
-                                   </td> --%>
-                                <td>
-
-
-                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time eq todaysdate.time)}">
-                                        <tags:message code="participant.today"/>
-                                    </c:if>
-                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time gt todaysdate.time)}">
-                                        <c:if test="${remainingDays eq 1}">
-                                            <tags:message code="participant.tomorrow"/>
-                                        </c:if>
-                                        <c:if test="${remainingDays gt 1}">
-                                            <tags:message code="participant.in"/> <fmt:formatNumber type="number"
-                                                                                                    maxFractionDigits="0"
-                                                                                                    value="${remainingDays}"/>
-                                            <tags:message code="participant.days"/>
-                                        </c:if>
-                                    </c:if>
-                                    <c:set var="expiredFlag" value="true"/>
-                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
-                                        <c:set var="expiredFlag" value="false"/>
-                                        <c:if test="${remainingDays eq -1}">
-                                            <tags:message code="participant.expired"/> <fmt:formatNumber type="number"
-                                                                                                         maxFractionDigits="0"
-                                                                                                         value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/>
-                                            <tags:message code="participant.days.ago"/>
-                                        </c:if>
-                                        <c:if test="${remainingDays lt -1}">
-                                            <tags:message code="participant.expired"/> <fmt:formatNumber type="number"
-                                                                                                         maxFractionDigits="0"
-                                                                                                         value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/>
-                                            <tags:message code="participant.days.ago"/>
-                                        </c:if>
-
-                                    </c:if>
-
-                                </td>
-                                <td>
-                                    <c:if test="${expiredFlag}">
-                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"
-                                           class="btn small-green"><span><tags:message code="label.start"/></span></a>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:if>
-                    <%--</c:forEach>
-                </c:forEach>--%>
-            </c:forEach>
-
-        </table>
-    </c:if>
-</chrome:box>
+		<chrome:box title="${labelScheduledForms}">
+		    <c:if test="${numberofCrfs eq 0}">
+		        <div style="margin-left:50px;">
+		            <c:if test="${futureNumberofCrfs eq 0}">
+		                <tags:message code="participant.noSurveyAvailable"/>
+		            </c:if>
+		            <c:if test="${futureNumberofCrfs gt 0}">
+		                <tags:message code="participant.noSurveyAvailable"/> <tags:message code="participant.nextSurveyAvailable"/>
+		                <tags:formatDate value="${futureSurveyAvailableDate}"/>.
+		            </c:if>
+		        </div>
+		    </c:if>
+		    <c:if test="${numberofCrfs gt 0}">
+		        <table id="inboxTable">
+		            <tr>
+		                <th>
+		                    <tags:message code="participant.label.title"/>
+		                </th>
+		                <th>
+		                    <tags:message code="participant.label.status"/>
+		                </th>
+		                    <%--  <th>
+		                       <tags:message code="participant.label.scheduleDate"/>
+		                   </th> --%>
+		                <th>
+		                    <tags:message code="participant.label.dueDate"/>
+		                </th>
+		                <th>
+		
+		                </th>
+		            </tr>
+		            <c:forEach items="${command.sortedStudyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
+		               <%-- <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+		                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+		                               var="studyParticipantCrfSchedule">--%>
+		                        <c:set scope="page" var="remainingDays"
+		                               value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
+		                        <%--<c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">--%>
+		                        <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
+		                            <tr>
+		                                <td>
+		                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+		                                        <%--<c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if> --%>
+		                                </td>
+		                                <td>
+		                                    <tags:message code="crfStatus_${studyParticipantCrfSchedule.status.code}"/>
+		                                </td>
+		                                    <%--  <td>
+		                                       <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+		                                   </td> --%>
+		                                <td>
+		
+		
+		                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time eq todaysdate.time)}">
+		                                        <tags:message code="participant.today"/>
+		                                    </c:if>
+		                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time gt todaysdate.time)}">
+		                                        <c:if test="${remainingDays eq 1}">
+		                                            <tags:message code="participant.tomorrow"/>
+		                                        </c:if>
+		                                        <c:if test="${remainingDays gt 1}">
+		                                            <tags:message code="participant.in"/> <fmt:formatNumber type="number"
+		                                                                                                    maxFractionDigits="0"
+		                                                                                                    value="${remainingDays}"/>
+		                                            <tags:message code="participant.days"/>
+		                                        </c:if>
+		                                    </c:if>
+		                                    <c:set var="expiredFlag" value="true"/>
+		                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
+		                                        <c:set var="expiredFlag" value="false"/>
+		                                        <c:if test="${remainingDays eq -1}">
+		                                            <tags:message code="participant.expired"/> <fmt:formatNumber type="number"
+		                                                                                                         maxFractionDigits="0"
+		                                                                                                         value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/>
+		                                            <tags:message code="participant.days.ago"/>
+		                                        </c:if>
+		                                        <c:if test="${remainingDays lt -1}">
+		                                            <tags:message code="participant.expired"/> <fmt:formatNumber type="number"
+		                                                                                                         maxFractionDigits="0"
+		                                                                                                         value="${(todaysdate.time - studyParticipantCrfSchedule.dueDate.time) / (1000 * 60 * 60 * 24)}"/>
+		                                            <tags:message code="participant.days.ago"/>
+		                                        </c:if>
+		
+		                                    </c:if>
+		
+		                                </td>
+		                                <td>
+		                                    <c:if test="${expiredFlag}">
+		                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}&isBegin=true"
+		                                           class="btn small-green"><span><tags:message code="label.start"/></span></a>
+		                                    </c:if>
+		                                </td>
+		                            </tr>
+		                        </c:if>
+		                    <%--</c:forEach>
+		                </c:forEach>--%>
+		            </c:forEach>
+		
+		        </table>
+		    </c:if>
+		</chrome:box>
 </c:otherwise>
 </c:choose>
 
