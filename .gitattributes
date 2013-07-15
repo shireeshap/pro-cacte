@@ -2806,6 +2806,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FetchCrfControll
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormSubmissionHelper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HiddenFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/HideFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
