@@ -35,10 +35,10 @@ public class ClinicalStaffAjaxFacade {
     private ClinicalStaffRepository clinicalStaffRepository;
     private OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
 
-    public List<OrganizationClinicalStaff> matchOrganizationClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId) {
+    public List<OrganizationClinicalStaff> matchOrganizationClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId, String role) {
 
         logger.info(String.format("in match matchOrganizationClinicalStaffByOrganizationId method. Search string :%s and studyOrganizationId=%s", text, studyOrganizationId));
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId, Role.getByCode(role));
         organizationClinicalStaffs = RankBasedSorterUtils.sort(organizationClinicalStaffs, text, new Serializer<OrganizationClinicalStaff>() {
             public String serialize(OrganizationClinicalStaff object) {
                 return object.getDisplayName();

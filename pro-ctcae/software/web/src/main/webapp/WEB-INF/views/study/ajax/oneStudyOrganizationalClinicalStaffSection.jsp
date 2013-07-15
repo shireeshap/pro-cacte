@@ -12,7 +12,7 @@
 	        aResults = results;
 	    };
 	    var callMetaData = { callback:callbackProxy, async:false};
-	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
+	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'LEAD_CRA', callMetaData);
 	    hideIndicator("leadCRAs[${index}].organizationClinicalStaffInput-indicator");
 	    return aResults;
 	}

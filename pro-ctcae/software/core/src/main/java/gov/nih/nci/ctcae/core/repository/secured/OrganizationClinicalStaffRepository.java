@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
@@ -55,14 +56,14 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
         return genericRepository.findSingle(query);
     }
 
-    public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
+    public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId, Role role) {
         Integer originalStudyOrganizationId= studyOrganizationId;
     	StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
         if (studyOrganization != null) {
             Integer organizationId = studyOrganization.getOrganization().getId();
 
             //OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId);   // commenting this statement and replacing it by below
-            OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId,originalStudyOrganizationId); //used for autocompleter not showing duplicate staff 
+            OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId, originalStudyOrganizationId, role); //used for autocompleter not showing duplicate staff 
             query.filterByFirstNameOrLastNameOrNciIdentifier(text);
             return genericRepository.find(query);
         }
