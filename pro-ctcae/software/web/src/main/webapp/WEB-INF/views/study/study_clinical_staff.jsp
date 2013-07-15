@@ -21,38 +21,38 @@
 
     <script type="text/javascript">
 
-        function getODCStaff(sQuery) {
-            showIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
-            var callbackProxy = function(results) {
-                aResults = results;
-            };
-            var callMetaData = { callback:callbackProxy, async:false};
-            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, callMetaData);
-            hideIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
-            return aResults;
-        }
+    function getODCStaff(sQuery) {
+        showIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = { callback:callbackProxy, async:false};
+        clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, 'NULL', callMetaData);
+        hideIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
+        return aResults;
+    }
 
-        function getLeadStaff1(sQuery) {
-            showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
-            var callbackProxy = function(results) {
-                aResults = results;
-            };
-            var callMetaData = { callback:callbackProxy, async:false};
-            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
-            hideIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
-            return aResults;
-        }
+    function getLeadStaff1(sQuery) {
+        showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
+        var callbackProxy = function(results) {
+            aResults = results;
+        };
+        var callMetaData = { callback:callbackProxy, async:false};
+        clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'NULL', callMetaData);
+        hideIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
+        return aResults;
+    }
 
-    	function getLeadStaff(sQuery) {
-    	    showIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
-    	    var callbackProxy = function(results) {
-    	        aResults = results;
-    	    };
-    	    var callMetaData = { callback:callbackProxy, async:false};
-    	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, callMetaData);
-    	    hideIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
-    	    return aResults;
-    	}
+	function getLeadStaff(sQuery) {
+	    showIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+	    var callbackProxy = function(results) {
+	        aResults = results;
+	    };
+	    var callMetaData = { callback:callbackProxy, async:false};
+	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'LEAD_CRA', callMetaData);
+	    hideIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+	    return aResults;
+	}
 
         var managerAutoComp;
         Event.observe(window, 'load', function() {
