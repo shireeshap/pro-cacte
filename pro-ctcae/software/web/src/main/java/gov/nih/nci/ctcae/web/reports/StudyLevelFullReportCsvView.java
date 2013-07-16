@@ -16,12 +16,19 @@ import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.AbstractView;
@@ -38,7 +45,8 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	private static String DEFAULT_POSITION = "";
 	private static String FORCE_SKIP = "Forced skip";
 	private static String MANUAL_SKIP =	"Not answered";	
-	CSVWriter writer = null;
+	CSVWriter proCsvWriter = null;
+	CSVWriter eq5DCsvWriter = null;
 	private static List reportInformation;
 	private static List legend;
 	private static List<String> row;
@@ -50,6 +58,13 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	private static String SEVERITY = "SEV";
 	private static String PRESENT =	"PRES";
 	private static String AMOUNT =	"AMT";
+	private static String OVERALL_STUDY_REPORT = "OverallStudyReport";
+	private static String EQ_5D = "EQ-5D";
+	File overallStudyReport;
+	File eq5DReport;
+	ZipOutputStream zipOutputStream ;
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -63,32 +78,51 @@ public class StudyLevelFullReportCsvView extends AbstractView {
         ArrayList<String> proCtcTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionProCtcTermHeaders");
         ArrayList<String> meddraTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionMeddraTermHeaders");  	
         Study study = (Study) request.getSession().getAttribute("study");
-        maxRowSize = (7+ proCtcTermHeaders.size() + meddraTermHeaders.size());
         
+        overallStudyReport = new File(OVERALL_STUDY_REPORT+".csv");
+    	eq5DReport = new File(EQ_5D+".csv");
+    	zipOutputStream = new ZipOutputStream(response.getOutputStream());
+
+    	maxRowSize = (7+ proCtcTermHeaders.size() + meddraTermHeaders.size());
 		emptyRow = new String[maxRowSize];
+		PrintWriter proWriter = new PrintWriter(overallStudyReport);
+		PrintWriter eq5DWriter = new PrintWriter(eq5DReport);
+		
 		
 		try{
-			response.setHeader("Content-Disposition", "attachment;filename=\"StudyLevelFullCSVReport.csv\"");
-			response.setContentType("text/csv");
-			writer = new CSVWriter(response.getWriter());
+			/*response.setHeader("Content-Disposition", "attachment;filename=\"StudyLevelFullCSVReport.csv\"");
+			response.setContentType("text/csv");*/
+			
+			response.setContentType("application/zip");
+			response.addHeader("Content-Disposition", "attachment; filename=\"ProCtcaeReports.zip\"");
+			response.addHeader("Content-Transfer-Encoding", "binary");
+			  
+			proCsvWriter = new CSVWriter(proWriter);
+			eq5DCsvWriter = new CSVWriter(eq5DWriter);
 			
 			reportInformation = new ArrayList<String>();
 			reportInformation.add(0, "Study");
 			reportInformation.add(1,study.getDisplayName());
-			writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+			proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+			reportInformation.clear();
+			reportInformation.add(0, "Type");
+			reportInformation.add(1,"This is a test EQ-5D report");
+			eq5DCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+
 			
 			reportInformation = new ArrayList<String>();
 			reportInformation.add(0, "Report run date");
 			reportInformation.add(1, DateUtils.format(new Date()));
-			writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+			proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+			eq5DCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
 
 			//Blank row
-			writer.writeNext(emptyRow);
+			proCsvWriter.writeNext(emptyRow);
 			//Legend
 			buildLegend();
 			
 			//Blank row
-			writer.writeNext(emptyRow);
+			proCsvWriter.writeNext(emptyRow);
 	        int numOfColumns = 0;
 	        //Create main table header
 	        createTableHeaders(proCtcTermHeaders, meddraTermHeaders);
@@ -202,7 +236,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		                    
 		                    for(int i = 0; i<rowSet.size(); i++){
 		                    	row = rowSet.get(i);
-		                    	writer.writeNext(row.toArray(new String[row.size()]));
+		                    	proCsvWriter.writeNext(row.toArray(new String[row.size()]));
 		                    }
 	              
 	                	}catch (Exception e) {
@@ -212,15 +246,45 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	        		
 	        	}
 	        }
+	        
+	        proCsvWriter.flush();
+	        proWriter.flush();
+	        byte[] fileContent = fetchBytesFromFile(overallStudyReport);
+	        addToZip(zipOutputStream, fileContent, OVERALL_STUDY_REPORT + ".csv");
+	        
+	        fileContent = null;
+	        eq5DWriter.flush();
+	        eq5DCsvWriter.flush();
+	        fileContent = fetchBytesFromFile(eq5DReport);
+	        addToZip(zipOutputStream, fileContent, EQ_5D + ".csv");
+	        zipOutputStream.flush();
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		finally{
-			writer.flush();
-			writer.close();
+			proCsvWriter.close();
+			proWriter.close();
+			eq5DCsvWriter.close();
+			eq5DWriter.close();
+			zipOutputStream.close();
 		}
 		
+	}
+	
+	public byte[] fetchBytesFromFile(File file) throws IOException{
+		InputStream inputStream = new FileInputStream(file);
+		byte[] fileContent = new byte[(int) file.length()];
+		inputStream.read(fileContent);
+		
+		return fileContent;
+	}
+	
+	public void addToZip(ZipOutputStream zipOutputStream, byte[] fileContent, String fileName) throws IOException{
+		ZipEntry zipEntry = new ZipEntry(fileName);
+		zipOutputStream.putNextEntry(zipEntry);
+		zipOutputStream.write(fileContent);
+		zipOutputStream.closeEntry();
 	}
 	
     private void buildLegend() {
@@ -239,7 +303,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, "-2000");
     	row.add(col++, "-99");
     	row.add(col++, "-55");
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
     	col = 0;
@@ -258,7 +322,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, "Not asked");
     	row.add(col++, FORCE_SKIP);
     	row.add(col++, MANUAL_SKIP);
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
     	col = 0;
@@ -276,7 +340,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, "Not asked");
     	row.add(col++, FORCE_SKIP);
     	row.add(col++, MANUAL_SKIP);
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
     	col = 0;
@@ -294,7 +358,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, "Not asked");
     	row.add(col++, FORCE_SKIP);
     	row.add(col++, MANUAL_SKIP);
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	row.clear();
     	col = 0;
@@ -312,7 +376,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, "Not asked");
     	row.add(col++, FORCE_SKIP);
     	row.add(col++, MANUAL_SKIP);
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
     	
     	
     	row.clear();
@@ -332,7 +396,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(col++, FORCE_SKIP);
     	row.add(col++, MANUAL_SKIP);
     	
-    	writer.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
 	}
     
 	private void createTableHeaders(ArrayList<String> proCtcTermHeaders, ArrayList<String> meddraTermHeaders) {
@@ -351,7 +415,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		for(int i = 0; i<meddraTermHeaders.size(); i++){
 			row.add(col++, meddraTermHeaders.get(i));
 		}
-		writer.writeNext((String[]) row.toArray(new String[row.size()]));
+		proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
 	}
 	
 	private List<String> createRow(List<List<String>> rowSet, int rownum){
