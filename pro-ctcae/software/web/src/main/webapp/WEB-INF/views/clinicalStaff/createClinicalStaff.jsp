@@ -268,6 +268,16 @@
             hideError();
         }
 
+        function effectiveStaff(cId, status) {
+            var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 500, 200);
+                    AE.registerCalendarPopups();
+                },
+                method:'get'
+            })
+        }
     </script>
     <!--[if IE]>
     <style>
@@ -438,6 +448,32 @@
                                     </ul>
                                 </form:errors>
                             </div>
+                             <c:if test="${isEdit}">
+						    	<table cellpadding="0" cellspacing="0">
+						    		<tr>
+						    			<td>
+						    				<div class="row">
+						    					<div class="label"> <spring:message code="clinicalStaff.label.active.since">: </spring:message></div>
+						    					<div class="value"><tags:formatDate value="${clinicalStaffCommand.clinicalStaff.effectiveDate}"/></div>
+						    				</div>
+						    			</td>
+						    			<td width="13%" align="center">
+						                    <c:choose>
+						                        <c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
+						                             <tags:button color="red" type="button" value="De-activate"
+						                                          onclick="effectiveStaff('${clinicalStaffCommand.clinicalStaff.id}','${clinicalStaffCommand.clinicalStaff.status.displayName}')"
+						                                          size="small"/>
+						                         </c:when>
+							                     <c:otherwise>
+							                             <tags:button color="blue" type="button" value="Activate"
+							                                          onclick="effectiveStaff('${clinicalStaffCommand.clinicalStaff.id}','${clinicalStaffCommand.clinicalStaff.status.displayName}')"
+							                                          size="small"/>
+							                      </c:otherwise>
+						                    </c:choose>
+							             </td>
+						    		</tr>
+						    	</table>
+						    </c:if>
                         </c:otherwise>
                     </c:choose>
                 </td>
