@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import java.util.Date;
 
@@ -29,12 +30,12 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
      * @param organizationId the organization id
      * @param originalStudyOrganizationId the original study organization id
      */
-    public OrganizationClinicalStaffQuery(final Integer organizationId, final Integer originalStudyOrganizationId) {
+    public OrganizationClinicalStaffQuery(final Integer organizationId, final Integer originalStudyOrganizationId, Role role) {
         super(QueryStrings.OCS_QUERY_BASIC);
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
         filterByActive();
-        filterDuplicateStaff(originalStudyOrganizationId);
+        filterDuplicateStaff(originalStudyOrganizationId, role);
     }
 
     
@@ -43,8 +44,8 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
      *
      * @param organizationId the organization id
      */
-    public void filterDuplicateStaff(final Integer organizationId){
-    	andWhere(" scs.id not in ( select socs.organizationClinicalStaff.id from StudyOrganizationClinicalStaff socs where socs.studyOrganization.id = "+organizationId+" and socs.roleStatus ='ACTIVE' ) ");
+    public void filterDuplicateStaff(final Integer organizationId, Role role){
+    	andWhere(" scs.id not in ( select socs.organizationClinicalStaff.id from StudyOrganizationClinicalStaff socs where socs.studyOrganization.id = "+organizationId+" and socs.roleStatus ='ACTIVE' and socs.role ='" + role+ "') ");
     }
 
     /**
