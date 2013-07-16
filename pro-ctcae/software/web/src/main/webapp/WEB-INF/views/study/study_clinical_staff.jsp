@@ -21,38 +21,38 @@
 
     <script type="text/javascript">
 
-    function getODCStaff(sQuery) {
-        showIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
-        var callbackProxy = function(results) {
-            aResults = results;
-        };
-        var callMetaData = { callback:callbackProxy, async:false};
-        clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, 'NULL', callMetaData);
-        hideIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
-        return aResults;
-    }
+        function getODCStaff(sQuery) {
+            showIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.dataCoordinatingCenter.id}, 'NULL', callMetaData);
+            hideIndicator("overallDataCoordinator.organizationClinicalStaffInput-indicator");
+            return aResults;
+        }
 
-    function getLeadStaff1(sQuery) {
-        showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
-        var callbackProxy = function(results) {
-            aResults = results;
-        };
-        var callMetaData = { callback:callbackProxy, async:false};
-        clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'NULL', callMetaData);
-        hideIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
-        return aResults;
-    }
+        function getLeadStaff1(sQuery) {
+            showIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
+            var callbackProxy = function(results) {
+                aResults = results;
+            };
+            var callMetaData = { callback:callbackProxy, async:false};
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'NULL', callMetaData);
+            hideIndicator("principalInvestigator.organizationClinicalStaffInput-indicator");
+            return aResults;
+        }
 
-	function getLeadStaff(sQuery) {
-	    showIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
-	    var callbackProxy = function(results) {
-	        aResults = results;
-	    };
-	    var callMetaData = { callback:callbackProxy, async:false};
-	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'LEAD_CRA', callMetaData);
-	    hideIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
-	    return aResults;
-	}
+    	function getLeadStaff(sQuery) {
+    	    showIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+    	    var callbackProxy = function(results) {
+    	        aResults = results;
+    	    };
+    	    var callMetaData = { callback:callbackProxy, async:false};
+    	    clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(unescape(sQuery), ${command.study.leadStudySite.id}, 'LEAD_CRA', callMetaData);
+    	    hideIndicator("leadCRAs[0].organizationClinicalStaffInput-indicator");
+    	    return aResults;
+    	}
 
         var managerAutoComp;
         Event.observe(window, 'load', function() {
@@ -115,6 +115,17 @@
             })
         }
         
+        function changeStatus(status, id, tabNumber) {
+            var request = new Ajax.Request("<c:url value="/pages/study/changeStatus"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status + "&tabNumber=" +tabNumber,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 580, 200);
+                },
+                method:'get'
+            })
+
+        }
+        
         function deleteLeadCra(index) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:function(transport) {
@@ -161,9 +172,10 @@
 	           <div class="row">
 	               <div class="label"><tags:message code='study.label.clinical.staff'/></div>
 	               <div class="value">
-	                   <tags:yuiAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
+	                   <tags:studyStaffAutocompleter inputName="overallDataCoordinator.organizationClinicalStaffInput"
 	                                          value="${command.overallDataCoordinator.displayName}" required="false"
-	                                          hiddenInputName="overallDataCoordinator.organizationClinicalStaff"/>
+	                                          hiddenInputName="overallDataCoordinator.organizationClinicalStaff"
+	                                          staff="${command.overallDataCoordinator}"/>
 	               </div>
 	           </div>
 	       </chrome:division>
@@ -174,10 +186,12 @@
 	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
 	            </div>
 		        <div style="margin-left:150px;">
-		            <table id="leadCraTable" class="tablecontent" width="60%" border="0">
+		            <table id="leadCraTable" class="tablecontent" width="80%" border="0">
 			            <tr id="ss-table-head" class="amendment-table-head">
-		                    <th width="95%" class="tableHeader">&nbsp;
+		                    <th width="50%" class="tableHeader">&nbsp;
 		                        <tags:message code='study.label.clinical.staff'/></th>
+		                    <th width="20%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+		                    <th width="25%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                </tr>
 		                <tbody>
@@ -210,16 +224,18 @@
 	                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
 	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
 	            </div>
-	            <form:input path="principalInvestigator.organizationClinicalStaff"
-	                        id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
-	                        title="Overall PI "
-	                        cssStyle="display:none;"/>
+	           
+           		<form:input path="principalInvestigator.organizationClinicalStaff"
+                       id="principalInvestigator.organizationClinicalStaff" cssClass="validate-NOTEMPTY"
+                       title="Overall PI "
+                       cssStyle="display:none;"/>
 	            <div class="row">
 	                <div class="label"><tags:message code='study.label.clinical.staff'/></div>
 	                <div class="value">
-	                    <tags:yuiAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
+	                    <tags:studyStaffAutocompleter inputName="principalInvestigator.organizationClinicalStaffInput"
 	                                           value="${command.principalInvestigator.displayName}" required="false"
-	                                           hiddenInputName="principalInvestigator.organizationClinicalStaff"/>
+	                                           hiddenInputName="principalInvestigator.organizationClinicalStaff"
+	                                           staff="${command.principalInvestigator}"/>
 	                </div>
 	            </div>
 	        </chrome:division>

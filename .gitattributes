@@ -3118,6 +3118,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/standard/publicHeader.tag -t
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaffTable.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/studySite.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/studyStaffAutocompleter.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/stylesheetLink.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabContent.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text

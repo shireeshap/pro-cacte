@@ -153,4 +153,12 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+    
+    public void deactivateStudyOrganizationalClinicalStaff(){
+    	setRoleStatus(RoleStatus.IN_ACTIVE);
+    }
+    
+    public void activateStudyOrganizationalClinicalStaff(){
+    	setRoleStatus(RoleStatus.ACTIVE);
+    }
 }

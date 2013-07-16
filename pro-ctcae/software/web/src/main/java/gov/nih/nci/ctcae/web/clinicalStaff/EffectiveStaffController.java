@@ -1,13 +1,13 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +35,7 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
 
         Integer cId = Integer.parseInt(request.getParameter("cId"));
         ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(cId);
+        lazyInitializeClinicalStaff(clinicalStaff);
         clinicalStaff.getUser().getUserRoles().size();
         return clinicalStaff;
     }
@@ -47,9 +48,10 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
         RoleStatus currentStatus = clinicalStaff.getStatus();
 
         if (currentStatus.equals(RoleStatus.ACTIVE)) {
-            clinicalStaff.setStatus(RoleStatus.IN_ACTIVE);
+            clinicalStaff.deactivateClinicalStaff();
+            
         } else {
-            clinicalStaff.setStatus(RoleStatus.ACTIVE);
+            clinicalStaff.activateClinicalStaff(null);
         }
 
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
@@ -62,6 +64,14 @@ public class EffectiveStaffController extends CtcAeSimpleFormController {
         }
 
         return new ModelAndView(redirectView);
+    }
+    
+    public void lazyInitializeClinicalStaff(ClinicalStaff clinicalStaff){
+    	for(OrganizationClinicalStaff ocs : clinicalStaff.getOrganizationClinicalStaffs()){
+    		for(StudyOrganizationClinicalStaff socs : ocs.getStudyOrganizationClinicalStaff()){
+    			socs.getId();
+    		}
+    	}
     }
 
     @Required

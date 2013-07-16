@@ -322,6 +322,7 @@
     <bean name="/study/changeStatus" id="changeStatusController"
           class="gov.nih.nci.ctcae.web.study.ChangeStatusController" parent="ctcaeSimpleFormController">
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 

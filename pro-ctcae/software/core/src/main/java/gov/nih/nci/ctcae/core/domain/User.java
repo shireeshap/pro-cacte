@@ -305,6 +305,14 @@ public class User extends BaseVersionable implements UserDetails {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+    
+    public void deactivateUser(){
+    	setEnabled(false);
+    }
+    
+    public void activateUser(){
+    	setEnabled(true);
+    }
 
     public void setGrantedAuthorities(GrantedAuthority[] grantedAuthorities) {
         this.grantedAuthorities = grantedAuthorities;

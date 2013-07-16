@@ -25,6 +25,27 @@
 	         </c:otherwise>
 	     </c:choose>	
     </td>
+    <c:choose>
+    	<c:when test="${readOnly}">
+   		    <td width="20%" align="center">
+	            <c:choose>
+	                <c:when test="${leadCRA.roleStatus.displayName eq 'Active'}">
+	                    <tags:button color="red" type="button" value="De-activate"
+	                                 onclick="changeStatus('${leadCRA.roleStatus.displayName}','${leadCRA.id}','${tab.targetNumber}')"
+	                                 size="small"/>
+	                </c:when>
+	                <c:otherwise>
+	                    <tags:button color="blue" type="button" value="Activate"
+	                                 onclick="changeStatus('${leadCRA.roleStatus.displayName}','${leadCRA.id}','${tab.targetNumber}')"
+	                                 size="small"/>
+	                </c:otherwise>
+	            </c:choose>
+			</td>
+		    <td width="25%" >${leadCRA.roleStatus.displayName} since <tags:formatDate
+		            value="${leadCRA.statusDate}"/>
+		    </td>
+    	</c:when>
+    </c:choose>
     <td>
 		     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deleteLeadCra('${index}');">
 		        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">

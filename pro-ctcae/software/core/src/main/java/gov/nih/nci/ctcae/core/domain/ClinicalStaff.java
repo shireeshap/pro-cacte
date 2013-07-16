@@ -289,4 +289,43 @@ public class ClinicalStaff extends Person {
         return new ArrayList(organizations);
     }
 
+
+    public void deactivateClinicalStaff(){
+    	setStatus(RoleStatus.IN_ACTIVE);
+    	deactivateUser(getUser());
+    	deactivateStudyOrganizationalClinicalStaff();
+    	removeUserRoles();
+    }
+    
+    public void removeUserRoles(){
+    	getUser().getUserRoles().clear();
+    }
+    
+    public void addUserRole(Role role){
+    	if(role != null){
+    		getUser().addUserRole(new UserRole(role));
+    	}
+    }
+    
+    public void activateClinicalStaff(Role role){
+    	setStatus(RoleStatus.ACTIVE);
+    	activateUser(getUser());
+    	addUserRole(role);
+    }
+    
+    public void deactivateStudyOrganizationalClinicalStaff(){
+    	for(OrganizationClinicalStaff ocs : organizationClinicalStaffs){
+    		for(StudyOrganizationClinicalStaff socs : ocs.getStudyOrganizationClinicalStaff()){
+    			socs.deactivateStudyOrganizationalClinicalStaff();
+    		}
+    	}
+    }
+    
+    public void deactivateUser(User user){
+    	user.deactivateUser();
+    }
+    
+    public void activateUser(User user){
+    	user.activateUser();
+    }
 }
