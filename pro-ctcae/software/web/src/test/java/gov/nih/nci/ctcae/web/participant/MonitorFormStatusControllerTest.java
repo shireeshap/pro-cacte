@@ -106,7 +106,7 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
             for (Participant p : pMap.keySet()) {
                 assertEquals(p, ParticipantTestHelper.getDefaultParticipant());
                 StudyParticipantCrfSchedule[] sArr = pMap.get(p);
-                assertEquals(30, sArr.length);
+                assertEquals(31, sArr.length);
             }
         }
         List<Date> dates = (List<Date>) mv.getModel().get("calendar");
