@@ -47,7 +47,7 @@ public class ConfirmationCheckController extends AbstractController {
         Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proTermId");
         String description = "";
         if (proCtcTermId != null){
-        ProCtcTerm proCtcTerm = proCtcTermRepository.findById(proCtcTermId);
+        	ProCtcTerm proCtcTerm = proCtcTermRepository.findById(proCtcTermId);
             description = proCtcTerm.getProCtcTermVocab().getTermEnglish();
         }
         Map<String, String> map = new HashMap<String, String>();
@@ -70,7 +70,6 @@ public class ConfirmationCheckController extends AbstractController {
         	}
         	
         	modelAndView.addObject("command", command);
-        	
         } else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteQuestionConfirmationCheck");
             map.put("questionId", request.getParameter("questionId"));
