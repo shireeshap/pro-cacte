@@ -271,37 +271,37 @@ public class ParticipantCommand {
         for (StudyParticipantCrf spcrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             spcList.add(spcrf);
         }
-            for (CRF crf : study.getCrfs()) {
-                if (crf.getStatus().equals(CrfStatus.RELEASED)) {
-                    if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
-                        boolean createSpCrf = true;
-                        StudyParticipantCrf studyParticipantCrf;
-                        if (spcList != null && spcList.size() > 0) {
-                            for (StudyParticipantCrf spc : spcList) {
-                                if (spc.getCrf().equals(crf) && spc.getArm().equals(studyParticipantAssignment.getArm())) {
-                                        studyParticipantCrf = spc;
-                                            studyParticipantCrf.setStartDate(getNewStartDate());
-                                        studyParticipantCrf.createSchedules(true);
-                                        createSpCrf = false;
-                                }
+        for (CRF crf : study.getCrfs()) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+                if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
+                    boolean createSpCrf = true;
+                    StudyParticipantCrf studyParticipantCrf;
+                    if (spcList != null && spcList.size() > 0) {
+                        for (StudyParticipantCrf spc : spcList) {
+                            if (spc.getCrf().equals(crf) && spc.getArm().equals(studyParticipantAssignment.getArm())) {
+                                    studyParticipantCrf = spc;
+                                        studyParticipantCrf.setStartDate(getNewStartDate());
+                                    studyParticipantCrf.createSchedules(true);
+                                    createSpCrf = false;
                             }
                         }
-                        if (createSpCrf) {
-                            studyParticipantCrf = new StudyParticipantCrf();
-                            if (studyStartDate != null) {
-                                studyParticipantCrf.setStartDate(studyStartDate);
-                            } else {
-                                studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
-                            }
-                            studyParticipantCrf.setCrf(crf);
-                            studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
-                            studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                            studyParticipantCrf.createSchedules(armChange);
-                            studyParticipantCrf.setScheduleInitialized(true);
+                    }
+                    if (createSpCrf) {
+                        studyParticipantCrf = new StudyParticipantCrf();
+                        if (studyStartDate != null) {
+                            studyParticipantCrf.setStartDate(studyStartDate);
+                        } else {
+                            studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
                         }
+                        studyParticipantCrf.setCrf(crf);
+                        studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
+                        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+                        studyParticipantCrf.createSchedules(armChange);
+                        studyParticipantCrf.setScheduleInitialized(true);
                     }
                 }
             }
+        }
     }
 
     public void setParticipantModesAndReminders(StudySite studySite, StudyParticipantAssignment studyParticipantAssignment, HttpServletRequest request) {
