@@ -2322,6 +2322,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/007_add_health_amo
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/008_alter_users_addColumn.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/009_add_version_to_spcrfs.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/ProCtcSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text

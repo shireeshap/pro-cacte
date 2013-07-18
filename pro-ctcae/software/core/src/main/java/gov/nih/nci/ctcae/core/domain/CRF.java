@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.ItemBank;
 import gov.nih.nci.ctcae.core.domain.rules.CRFNotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.NotificationRule;
 import gov.nih.nci.ctcae.core.domain.rules.SiteCRFNotificationRule;
@@ -218,6 +219,36 @@ public class CRF extends BaseVersionable implements Comparable<CRF>{
         return recallPeriod.trim();
     }
 
+    public Boolean isEq5d3L() {
+    	if(getCrfPagesSortedByPageNumber().isEmpty()){
+    		return false;
+    	}
+         for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+            	 ProCtcTerm proCtcTerm = crfPageItem.getProCtcQuestion().getProCtcTerm();
+            	 if( !proCtcTerm.getCtcTerm().getCategoryTermSets().get(0).getCategory().getName().equalsIgnoreCase(ItemBank.EQ5D3L.getCode())){
+            		 return false;
+            	 }
+             }
+         }
+         return true;
+    }
+    
+    public Boolean isEq5d5L() {
+    	if(getCrfPagesSortedByPageNumber().isEmpty()){
+    		return false;
+    	}
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+	           	 ProCtcTerm proCtcTerm = crfPageItem.getProCtcQuestion().getProCtcTerm();
+	           	 if( !proCtcTerm.getCtcTerm().getCategoryTermSets().get(0).getCategory().getName().equalsIgnoreCase(ItemBank.EQ5D5L.getCode())){
+	           		 return false;
+	           	 }
+            }
+        }
+        return true;
+    }
+    
     public boolean checkForParent(CRF crf) {
         if (crf.getParentCrf() != null) {
             CRF tempCrf = crf.getParentCrf();
@@ -552,6 +583,13 @@ public class CRF extends BaseVersionable implements Comparable<CRF>{
         } else {
             logger.error("can not remove crf page because crf page is null");
         }
+    }
+    
+    public void removeAllCrfPages(){
+    	for(CRFPage crfPage: crfPages){
+    		crfPage.getCrfPageItems().clear();
+    	}
+    	crfPages.clear();
     }
 
     /**

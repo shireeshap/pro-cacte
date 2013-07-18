@@ -300,18 +300,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
-
-    private void createBaseLineSchedule() throws ParseException {
-        if (crf.getCreateBaseline()) {
-            ParticipantSchedule participantSchedule = new ParticipantSchedule();
-            participantSchedule.addStudyParticipantCrf(this);
-            
-            Calendar c = ProCtcAECalendar.getCalendarForDate(this.getStartDate());
-            Date dueDate = participantSchedule.getDueDateForFormSchedule(c, this);
-            participantSchedule.createSchedule(c, dueDate, -1, -1, null, true, false);
-        }
-    }
-
     public void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
         if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED) && !studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS)) {
             Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
@@ -406,6 +394,26 @@ public class StudyParticipantCrf extends BaseVersionable {
         studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
         return studyParticipantCrfAddedQuestion;
     }
+    
+    /**
+     * Utility method used before creating/updating IVRS schedules by the ParticipantSchedule and StudyParticipantCrfSchedule.
+     * @return
+     */
+    public boolean isIvrsCompliant(){
+    	if(this.getCrf().isEq5d()){
+    		return false;
+    	}
+    	boolean isIvrsCompliant = false;
+        StudyParticipantAssignment studyParticipantAssignment = this.getStudyParticipantAssignment();
+        for (StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()) {
+            if (spm.getMode().equals(AppMode.IVRS)) {
+            	isIvrsCompliant = true;
+            	break;
+            }
+        }
+        return isIvrsCompliant;
+    }
+
 
     /**
      * The date from which off hold is effective

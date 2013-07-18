@@ -15,10 +15,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 
-//
-
 /**
- * User: Harsh
+ * @author Harsh, VinayG
  * Date: Jan 19, 2009
  * Time: 12:13:05 PM.
  */
@@ -97,7 +95,6 @@ public class ParticipantSchedule {
             }
         }
         return currentMonthSchedules;
-
     }
 
     public List<StudyParticipantCrfSchedule> getPreviousSchedules(StudyParticipantAssignment spa, StudyParticipantCrf spc) {
@@ -121,7 +118,6 @@ public class ParticipantSchedule {
             }
         }
         return schedules;
-
     }
 
 
@@ -234,7 +230,6 @@ public class ParticipantSchedule {
                             }
                             addIvrsSchedules(studyParticipantCrfSchedule, studyParticipantCrf);
                         }
-
                     }
                 }
             }
@@ -258,16 +253,10 @@ public class ParticipantSchedule {
     public void addIvrsSchedules(
             StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantCrf studyParticipantCrf) {
         //update ivrsSchedule for IVRS app Modes
-        boolean isIvrs = false;
-        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
         IvrsSchedule ivrsSchedule;
         int offSetDiff = 0;
-        for (StudyParticipantMode spm : studyParticipantAssignment.getStudyParticipantModes()) {
-            if (spm.getMode().equals(AppMode.IVRS)) {
-                isIvrs = true;
-            }
-        }
-        if (isIvrs) {
+        if (studyParticipantCrf.isIvrsCompliant()) {
+        	StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrf.getStudyParticipantAssignment();
             //for every sp_crf_schedule, create a new ivrsSchedule for every day from startDate to endDate
             Date startDate = studyParticipantCrfSchedule.getStartDate();
             offSetDiff = DateUtils.daysBetweenDates(studyParticipantCrfSchedule.getDueDate(), studyParticipantCrfSchedule.getStartDate());
@@ -305,9 +294,7 @@ public class ParticipantSchedule {
                         dueDateValue = "1";
                         dueDateUnit = "Days";
                     }
-
                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, dueDateUnit, Integer.parseInt(dueDateValue));
-
                 } else {
                     dueDate = proCtcAECalendar.getDueDateForCalendarDate(c, "Days", 2);
                 }
@@ -336,7 +323,6 @@ public class ParticipantSchedule {
 
             StudyParticipantCrfSchedule schToUpdate = null;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-                int alreadyExistsCount = 0;
                 boolean alreadyExists = false;
                 boolean alreadyPresentNewDate = false;
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
@@ -595,17 +581,6 @@ public class ParticipantSchedule {
 
         }
     }
-
-//    /**
-//     * Checks if is repeat.
-//     *
-//     * @return true, if is repeat
-//     */
-//    public boolean isRepeat() {
-//        return studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus().size() > 1;
-//    }
-
-    //
 
     public List<StudyParticipantCrf> getStudyParticipantCrfs() {
         return studyParticipantCrfs;
