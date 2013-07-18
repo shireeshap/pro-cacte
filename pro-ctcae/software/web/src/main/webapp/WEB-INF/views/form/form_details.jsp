@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
@@ -35,9 +35,48 @@
             positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
             showSpeed: 300
         });
+        //jQuery('#displaySympsMenu').menu({
+        //    content: jQuery('#displaySymptomsMenu').html(),
+        //    width:133,
+        //    positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
+        //    showSpeed: 300
+        //});
+        //set the itemBank DD.
+        var selectedItemBank = jQuery("#itemBank option:selected").val();
+        selectItemBank(selectedItemBank);
     })
 
-
+    function selectItemBank(selectedItemFromBank){
+        if(selectedItemFromBank === 'EQ5D-5L'){
+            jQuery("ul.tree > li").each( function (index, elem){
+                if(elem.id === 'EQ5D-5L'){
+                    $(elem).show();
+                } else {
+                    $(elem).hide();
+                }
+            });
+        }
+        if(selectedItemFromBank === 'EQ5D-3L'){
+            jQuery("ul.tree > li").each( function (index, elem){
+                if(elem.id === 'EQ5D-3L'){
+                    $(elem).show();
+                } else {
+                    $(elem).hide();
+                }
+            });
+        }
+        if(selectedItemFromBank === 'PRO-CTCAE'){
+            jQuery("ul.tree > li").each( function (index, elem){
+                if(elem.id === 'EQ5D-5L' || elem.id === 'EQ5D-3L'){
+                    $(elem).hide();
+                } else {
+                    $(elem).show();
+                }
+            });
+        }
+        updateEq5dSettings(selectedItemFromBank)
+    }
+    
     function hideQuestionsFromForm() {
         $$("div.makeDraggable").each(function (item) {
             var id = item.id;
@@ -45,9 +84,7 @@
                 var questionId = id.substr(9, id.length)
                 hideQuestionFromForm(questionId);
             }
-
         })
-
     }
 
     function hideQuestionFromForm(questionId) {
@@ -70,11 +107,9 @@
     function postProcessFormChanges() {
         reOrderQuestionNumber()
         addRemoveConditionalTriggeringDisplayToQuestion();
-
     }
 </script>
 <script type="text/javascript">
-
 
 function selectPage(pageIndex) {
 
@@ -191,7 +226,7 @@ function addCrfPageItemDiv(response, crfPageNumber) {
     updateCrfPageNumberAndShowHideUpDownLink();
 
 }
-function addProctcTerm(proCtcTermId) {
+function addProctcTerm(proCtcTermId, categoryName) {
     var crfPageNumber = ''
     var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
     for (var i = 0; i < obj.length; i++) {
@@ -201,25 +236,10 @@ function addProctcTerm(proCtcTermId) {
         crfPageNumber = item;
     })
 
-    addProCtcTermForCrfPage(proCtcTermId, crfPageNumber);
-}
-function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
-    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
-        onComplete:function(transport) {
-            var response = transport.responseText;
-            if (crfPageNumber == '') {
-                addCrfPageDiv(transport);
-            } else {
-                addCrfPageItemDiv(response, crfPageNumber)
-                hideQuestionsFromForm();
-                postProcessFormChanges();
-                updateConditions();
-            }
-        },
-        method:'get'
-    })
-    hideProCtcTermLinkFromForm(proCtcTermId);
+    addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName);
+    if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
+        updateEq5dSettings(categoryName);
+    }
 }
 
 function updateQuestionsId() {
@@ -278,9 +298,7 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
     formPages.each(function (item) {
 
         var index = item.id.substr(11, item.id.length);
-
         currentPageOrder.push(index);
-        
         if (i == 0) {
             $('crfPageUpLink_' + index).hide();
             $('crfPagDownLink_' + index).show();
@@ -290,9 +308,7 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
         } else {
             $('crfPageUpLink_' + index).show();
             $('crfPagDownLink_' + index).show();
-
         }
-
         i++;
     });
     
@@ -308,32 +324,23 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
     		crfPageNumbers = crfPageNumbers + ',' + crfPages[i];
     	}
     }
-
     $('crfPageNumbers').value = crfPageNumbers;
 }
 
 function moveCrfPageUp(selectedCrfPageNumber) {
 
     var formPages = $$('div.formpages');
-
     var sortableDivs = [];
     var i = 0;
     var previousCrfPage = '';
     formPages.each(function(item) {
-
-
         if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
             previousCrfPage = formPages[i - 1];
         }
-
         i++;
-
-
     });
     if (previousCrfPage != '') {
         Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
-
         updateCrfPageNumberAndShowHideUpDownLink();
         postProcessFormChanges()
         updateConditions();
@@ -348,21 +355,13 @@ function moveCrfPageDown(selectedCrfPageNumber) {
     var i = 0;
     var nextCrfPage = '';
     formPages.each(function(item) {
-
-
         if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
             nextCrfPage = formPages[i + 1];
-
         }
-
         i++;
-
-
     });
     if (nextCrfPage != '') {
         Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
-
         updateCrfPageNumberAndShowHideUpDownLink();
         postProcessFormChanges();
         updateConditions();
@@ -392,10 +391,8 @@ function showCrfItemProperties(selectedQuestionId) {
  	     		$(allConditions[i]).hide();
  	    	}
     }
-  
 
     $('questionProperties_' + selectedQuestionId).show();
-
     questionIdsOfConditionsToDisplay.each(function(item) {
     	if($$('.conditions_' + item).length != 0){
     		 var conditions = $$('.conditions_' + item);
@@ -403,7 +400,6 @@ function showCrfItemProperties(selectedQuestionId) {
     	     	$(conditions [i]).show();
     	     }
     	}
-       
     });
 
 
@@ -422,6 +418,7 @@ function showCrfItemProperties(selectedQuestionId) {
     new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
     }
 }
+
 
 function deleteCrfPage(selectedCrfPageNumber, proTermId) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
@@ -446,11 +443,10 @@ function deleteCrfPage(selectedCrfPageNumber, proTermId) {
 
             }
         },
-
         method:'get'
     });
-
 }
+
 function deleteQuestion(questionId, proCtcTermId) {
 
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
@@ -463,9 +459,8 @@ function deleteQuestion(questionId, proCtcTermId) {
         } ,
         method:'get'
     });
-
-
 }
+
 function deleteQuestionConfirm(questionId, proCtcTermId) {
     closeWindow();
     $('questionIdToRemove').value = questionId;
@@ -500,9 +495,7 @@ function refreshQuestionDiv(questionId){
 
         })
         return questionIds;
-
     }
-
 
     function getCrfPageNumbersForProCtcTerm(proCtcTermId) {
         var crfPageNumbers = [];
@@ -521,8 +514,14 @@ function refreshQuestionDiv(questionId){
        refreshQuestionDiv(selectedCrfPageNumber);
     }
 
-</script>
-<script type="text/javascript">
+    function addCrfPageItemDiv(response, crfPageNumber) {
+        var children = $('sortablePage_' + crfPageNumber).childElements();
+        new Insertion.After(children[children.length - 1].id, response);
+        updateQuestionsId();
+        updateCrfPageNumberAndShowHideUpDownLink();
+
+    }
+
     function addCrfPageDiv(transport) {
         var response = transport.responseText;
         new Insertion.Before("hiddenCrfPageDiv", response);
@@ -539,36 +538,130 @@ function refreshQuestionDiv(questionId){
 
         postProcessFormChanges();
         updateConditions();
-
-
     }
-</script>
-
-
-<script type="text/javascript">
+	
+	function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName) {
+	    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+	        parameters:<tags:ajaxstandardparams/>+"&isConfirmation=true&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm" + "&categoryName=" + categoryName,
+	        onComplete:function(transport) {
+	            var response = transport.responseText;
+	            
+                if(response.indexOf("isConfirm") != -1){
+                    showConfirmationWindow(transport);   
+                } else {
+                    if (crfPageNumber == '') {
+                        addCrfPageDiv(transport);
+                    } else {
+                        addCrfPageItemDiv(response, crfPageNumber)
+                        hideQuestionsFromForm();
+                        postProcessFormChanges();
+                        updateConditions();
+                    }
+                }
+	        },
+	        method:'get'
+	    })
+	    hideProCtcTermLinkFromForm(proCtcTermId);
+	}
+	
+	function deleteExistingAndAddItemsForQuestion(crfPageNumber,proCtcTermId, componentType, categoryName){
+	    closeWindow();
+	    var crfPageNumbers = jQuery("#crfPageNumbers").val();
+	    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+	        parameters:<tags:ajaxstandardparams/>+"&isConfirmation=false&proCtcTermId=" + proCtcTermId + "&componentType=proCtcTerm" + "&crfPageNumbers=" + crfPageNumbers + "&categoryName=" + categoryName,
+	        onComplete:function(transport) {
+	            var response = transport.responseText;
+	            crfPageNumber = 0;
+	            $$('div[id^=\"form-pages_\"]').each(function(crfPageItemToRemove) {
+	                crfPageItemToRemove.remove();
+	            });
+                if (crfPageNumber == '') {
+                    addCrfPageDiv(transport);
+                } else {
+                    addCrfPageItemDiv(response, crfPageNumber)
+                    hideQuestionsFromForm();
+                    postProcessFormChanges();
+                    updateConditions();
+                }
+	            if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
+	                updateEq5dSettings(categoryName);
+	            }
+	        },
+	        method:'get'
+	    })
+	}
 
     function addCtcCategory(ctcCategoryId, categoryName) {
+        var crfPageNumbers = jQuery("#crfPageNumbers").val();
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory",
+            parameters:<tags:ajaxstandardparams/>+"&isConfirmation=true&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory" + "&crfPageNumbers=" + crfPageNumbers,
             onComplete:function(transport) {
-
                 var response = transport.responseText;
-                addCrfPageDiv(transport);
-                $$('div.crfPageItemsToAdd').each(function(crfPageItemToAdd) {
-                    var crfPageNumber = crfPageItemToAdd.id.substr(22, crfPageItemToAdd.id.length);
-                    var crfPageItemHtml = $(crfPageItemToAdd.id).innerHTML;
-                    addCrfPageItemDiv(crfPageItemHtml, crfPageNumber);
-                    crfPageItemToAdd.remove();
+                if(response.indexOf("isConfirm") != -1){
+                    showConfirmationWindow(transport);   
+                } else {
+                   addResponseToQuestionsSection(transport, ctcCategoryId);
+                   if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
+                       updateEq5dSettings(categoryName);
+                   }
+                   postProcessFormChanges();
+                }
+            },
+            method:'get'
+        })
+    }
 
-                });
-
-                hideProCtcTermsForCtcCategory(ctcCategoryId);
+    function deleteExistingAndAddItemsForCategory(componentType, ctcCategoryId, categoryName, crfPageNumbers){
+        closeWindow();
+        var crfPageNumbers = jQuery("#crfPageNumbers").val();
+        var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+            parameters:<tags:ajaxstandardparams/>+"&isConfirmation=false&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory" + "&crfPageNumbers=" + crfPageNumbers,
+            onComplete:function(transport) {
+                addResponseToQuestionsSection(transport, ctcCategoryId);
+                if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
+                    updateEq5dSettings(categoryName);
+                }
                 postProcessFormChanges();
             },
             method:'get'
         })
+    }
+    
+    function addResponseToQuestionsSection(transport, ctcCategoryId){
+        $$('div[id^=\"form-pages_\"]').each(function(crfPageItemToRemove) {
+            crfPageItemToRemove.remove();
+        });
+        addCrfPageDiv(transport);
+        $$('div.crfPageItemsToAdd').each(function(crfPageItemToAdd) {
+             var crfPageNumber = crfPageItemToAdd.id.substr(22, crfPageItemToAdd.id.length);
+             var crfPageItemHtml = $(crfPageItemToAdd.id).innerHTML;
+             addCrfPageItemDiv(crfPageItemHtml, crfPageNumber);
+             crfPageItemToAdd.remove();
+        });
+        hideProCtcTermsForCtcCategory(ctcCategoryId);
+    }
+    
+    function updateEq5dSettings(categoryName){
+        //updateFormTitle(categoryName);
+        updateRecallPeriod(categoryName);
+    }
+    
+    function updateFormTitle(categoryName){
+        jQuery('#crf\\.title').val(categoryName);
+    }
+    
+    function updateRecallPeriod(categoryName){
+        if(categoryName === 'PRO-CTCAE'){
+            jQuery('#recallPeriod').attr('selectedIndex', '0');
+            jQuery('#recallPeriod').trigger('change');
+        } else {
+            jQuery('#recallPeriod').attr('selectedIndex', '3');
+            jQuery('#recallPeriod').trigger('change');
+            jQuery('#recallPeriodOtherSpecifyInput').val('Please select the statement that best describes your health today');
+        }
 
     }
+    
     function hideProCtcTermsForCtcCategory(ctcCategoryId) {
         $$('a.ctcCategory_' + ctcCategoryId).each(function (proCtcTerm) {
             proCtcTerm.hide();
@@ -632,8 +725,10 @@ function refreshQuestionDiv(questionId){
     function selectRecallPeriod(value) {
         if (value == 'other') {
             $('recallPeriodOtherSpecifyInput').show();
+            jQuery('#recallPeriodOtherSpecifyInput').attr("class", "validate-NOTEMPTY");
             $('recallPeriodOtherSpecifyInput').value = '';
         } else {
+            jQuery('#recallPeriodOtherSpecifyInput').removeClass("validate-NOTEMPTY");
             $('recallPeriodOtherSpecifyInput').hide();
             $('recallPeriodOtherSpecifyInput').value = value;
         }
@@ -885,7 +980,7 @@ function refreshQuestionDiv(questionId){
 					<tags:message code="recall.period"/>:
 				</td>
 				<td>
-					<select onchange="javascript:selectRecallPeriod(this.value)">
+					<select id="recallPeriod" onchange="javascript:selectRecallPeriod(this.value)">
 			        <c:forEach items="${recallPeriods}" var="recallPeriod">
 			            <c:choose>
 			                <c:when test="${(recallPeriod.desc eq command.crf.recallPeriod) or (recallPeriod.code eq 'other' and isOther eq 'true')}">
@@ -897,15 +992,31 @@ function refreshQuestionDiv(questionId){
 			            </c:choose>
 			        </c:forEach>
 			    	</select>
-			    	<input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${command.crf.recallPeriod}" size="36"
+			    	<input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${command.crf.recallPeriod}" size="60"
 			           	style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
 				</td>
+	        </tr>
+	        <tr><td  style="text-align:right;font-weight:bold;margin-left:10em;">Item bank:</td>
+	           <td>
+               <select id="itemBank" onchange="javascript:selectItemBank(this.value)">
+                   <c:forEach items="${itemBank}" var="item">
+                       <c:choose>
+                           <c:when test="${item eq command.selectedItemBank}">
+                               <option value="${item}" selected>${item}</option>
+                           </c:when>
+                           <c:otherwise>
+                               <option value="${item}">${item}</option>
+                           </c:otherwise>
+                       </c:choose>
+                   </c:forEach>
+               </select>	</td>        
 	        </tr>
 	    </table>
         
     </chrome:box>
     
 <chrome:box title="Questions">
+
     <div id="displayOptionsMenu" class="hidden">
         <ul>
             <li>
@@ -927,12 +1038,46 @@ function refreshQuestionDiv(questionId){
             <li>
                 <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE v4/MedDRA term first)')"
                    id="a_prepend"><span
-                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE v4 / MedDRA
-                    term
-                    first)</a>
+                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE v4 / MedDRA term first)</a>
             </li>
         </ul>
     </div>
+
+ <!-- <script type="text/javascript">
+    function displayEq5dSymptomsOnly(){
+        jQuery("ul.tree > li").each( function (index, elem){
+            if(elem.id === 'EQ5D-3L' || elem.id === 'EQ5D-5L'){
+                $(elem).show();
+            } else {
+                $(elem).hide();
+            }
+        });
+    }
+    
+    function displayProSymptomsOnly(){
+        jQuery("ul.tree > li").each( function (index, elem){
+            if(elem.id === 'EQ5D-3L' || elem.id === 'EQ5D-5L'){
+                $(elem).hide();
+            } else {
+                $(elem).show();
+            }
+        });
+    }
+    </script>
+    <div id="displaySymptomsMenu" class="hidden" style="width:133px;">
+        <ul>
+            <li>
+                <a href="#" onclick="displayProSymptomsOnly()" id="a_noctcterm">
+                   <span class="ui-icon ui-icon-check displaySymptomsCheck ProSymptomsOnly-check" style="visibility:hidden;"></span>PRO-CTCAE</a>
+            </li>
+            <li>
+                <a href="#" onclick="displayEq5dSymptomsOnly()" id="a_onlyctcterm">
+                <span class="ui-icon ui-icon-check displaySymptomsCheck Eq5dSymptomsOnly-check" style="visibility:hidden;"></span>EQ5D</a>
+            </li>
+        </ul>
+    </div>    -->        
+
+
     <table id="formbuilderTable" border="0">
         <tr>
             <td id="left">
@@ -952,12 +1097,18 @@ function refreshQuestionDiv(questionId){
 
                 <div id="questionBank" class="leftBox">
                     <tags:instructions code="form.label.question_bank.instructions"/>
-                    <div>
-                        <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                           id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display
-                            Preferences</a>
-                    </div>
-                    <br/><br/>
+                    <table>
+                        <tr>
+                            <td>
+                                <div>
+			                        <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+			                           id="displayPrefsMenu"><span class="ui-icon ui-icon-triangle-1-s"></span>Display 
+			                            Preferences</a>
+			                    </div>
+                            </td>
+                        </tr>
+                    </table>
+
                     <c:if test="${advance}">
                         <a id="newPageBtn" href="javascript:addCrfPage()"><img
                                 src="<tags:imageUrl name="blue/new_page_button.png" />"
@@ -966,7 +1117,7 @@ function refreshQuestionDiv(questionId){
                         <c:set var="add" value="${advance}"/>
                         <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
-                            <li>${ctcCategory.key.name}<a
+                            <li id="${ctcCategory.key.name}">${ctcCategory.key.name}<a
                                     href="javascript:addCtcCategory('${ctcCategory.key.id}', '${ctcCategory.key.name}')"
                                     id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
                                 <img src="/proctcae/images/blue/select_question_btn.png"
@@ -983,11 +1134,13 @@ function refreshQuestionDiv(questionId){
                                                       style="display:none">${proCtcTerm.ctcTerm.ctcTermVocab.termEnglish}</span>
                                             <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
-                                            <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                               id="proCtcTerm_${proCtcTerm.id}"
-                                               class="addallbtn ctcCategory_${ctcCategory.key.id}">
-                                                <img src="/proctcae/images/blue/select_question_btn.png"
-                                                     alt="Add" onclick=""/></a>
+                                            <c:if test="${!fn:startsWith(ctcCategory.key.name, 'EQ5D')}">
+	                                            <a href="javascript:addProctcTerm('${proCtcTerm.id}', '${ctcCategory.key.name}')"
+	                                               id="proCtcTerm_${proCtcTerm.id}"
+	                                               class="addallbtn ctcCategory_${ctcCategory.key.id}">
+	                                                <img src="/proctcae/images/blue/select_question_btn.png"
+	                                                     alt="Add" onclick=""/></a>
+                                            </c:if>
 
 
                                             <ul>
@@ -1070,7 +1223,8 @@ function refreshQuestionDiv(questionId){
 	                                           varStatus="status">
 	                                    <tags:oneCrfPage crfPage="${selectedCrfPage}"
 	                                                     crfPageNumber="${status.index}"
-	                                                     advance="${command.crf.advance}">
+	                                                     advance="${command.crf.advance}"
+	                                                     isEq5d="${command.crf.eq5d}">
 	                                    </tags:oneCrfPage>
 	
 	                                </c:forEach>

@@ -3153,6 +3153,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/allConditions.jsp
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirmationCheck.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfCycleConfirmationCheck.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteOnMixedItemBankConfirm.jsp -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/deleteQuestionConfirmationCheck.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/formRule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/ajax/formRuleCondition.jsp -text
