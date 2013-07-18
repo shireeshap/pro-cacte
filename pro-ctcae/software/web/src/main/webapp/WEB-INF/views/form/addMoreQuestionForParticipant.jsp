@@ -527,18 +527,19 @@
 	            <table width="100%"> 
 			        <tr>
 			            <td width="85%" valign="top"></td>
-			            <td align="center"><b>The best health you can imagine</b></td></tr>
+			            <td align="center"><b><spring:message code="eq5d.vas.instructions.1"/></b></td></tr>
 			        <tr>
 			            <td valign="top">
 			                    <ul style="list-style-type:disc;padding-left:70px;text-align:left">
-									<li style="font-size:16px;height:50px">We would like to know how good or bad your health is TODAY.</li>
-									<li style="font-size:16px;height:50px">This scale is numbered from 0 to 100.</li>
-									<li style="font-size:16px;height:50px">100 means the <u>best</u> health you can imagine. <br/> 0 means the <u>worst</u> health you can imagine.</li>
-									<li style="font-size:16px;height:50px">Slide the scale to indicate how your health is TODAY.</li>
-									<li style="font-size:16px;height:50px">The selected number will appear in the box below.</li>
+									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.2"/></li>
+									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.3"/></li>
+									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.4"/>&nbsp;<u><spring:message code="eq5d.vas.instructions.5"/></u>&nbsp;<spring:message code="eq5d.vas.instructions.6"/><br/> 
+									        <spring:message code="eq5d.vas.instructions.7"/>&nbsp;<u><spring:message code="eq5d.vas.instructions.8"/></u>&nbsp;<spring:message code="eq5d.vas.instructions.9"/></li>
+									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.10"/></li>
+									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.11"/></li>
 							    </ul>
 							  <p style="padding-left:70px;"><br/><br/>
-			                  <b>YOUR HEALTH TODAY = </b>
+			                  <b><spring:message code="eq5d.vas.instructions.12"/>&nbsp;</b>
 			                   <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3" style="text-align:center"/>   
 			                   </p>         
 			            </td>    
@@ -548,7 +549,7 @@
 			             </td>
 			        </tr>
 			        <tr>
-			             <td></td><td align="center"><b>The worst health you can imagine</b></td>
+			             <td></td><td align="center"><b><spring:message code="eq5d.vas.instructions.13"/></b></td>
 			        </tr>
 			    </table>        
 			    
@@ -574,7 +575,7 @@
 		        </script>
 		        <script>
 		        $.noConflict();
-		        jQuery( "#slider" ).slider();
+		        
 		        </script>
 	        </c:when>
 	        <c:otherwise>
