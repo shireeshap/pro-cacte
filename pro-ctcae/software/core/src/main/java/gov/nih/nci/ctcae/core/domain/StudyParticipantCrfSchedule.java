@@ -629,19 +629,6 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         return symptomMap;
     }
 
-    /**
-     * Will populate the CRF items
-
-     public void scheduleStudyParticipantCRFItems() {
-     for (CRFPage crfPage : getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
-     for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-     StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-     studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-     addStudyParticipantCrfItem(studyParticipantCrfItem);
-     }
-     }
-     }*/
-
 
     /**
      * Updates the ivrs schedules date basewd on the offset provided.
