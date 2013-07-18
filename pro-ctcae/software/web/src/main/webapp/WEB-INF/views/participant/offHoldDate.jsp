@@ -22,12 +22,11 @@
     </head>
     <body>
 
-        <chrome:box title="participant.label.remove_hold_date">
-            <chrome:division>
+        <chrome:box title="participant.label.remove_hold_date" omitBorders="true">
                 <div id="offTreatment">
                     <tags:errors path="*"/>
                 </div>
-                <div style="margin-left:12px">
+                <div style="margin-left:12px; margin-top:12px;">
                     Surveys for the participant have been put on hold
                     beginning
                     <b><tags:formatDate value="${onHoldTreatmentDate}"/></b>.    <br>
@@ -65,7 +64,6 @@
                 </div>
 
 
-            </chrome:division>
         </chrome:box>
     <%--</ctcae:form>--%>
     </body>

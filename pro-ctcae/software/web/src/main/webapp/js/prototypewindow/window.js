@@ -610,28 +610,30 @@ Window.prototype = {
         var blank = "../themes/default/blank.gif";
 
         win.innerHTML = closeDiv + minDiv + maxDiv + "\
-      <table id='" + id + "_row1' class=\"top table_window\">\
-        <tr>\
-          <td class='" + className + "_nw'></td>\
-          <td class='" + className + "_n'><div id='" + id + "_top' class='" + className + "_title title_window'>" + this.options.title + "</div></td>\
-          <td class='" + className + "_ne'></td>\
-        </tr>\
-      </table>\
-      <table id='" + id + "_row2' class=\"mid table_window\">\
-        <tr>\
-          <td class='" + className + "_w'></td>\
-            <td id='" + id + "_table_content' class='" + className + "_content' valign='top'>" + content + "</td>\
-          <td class='" + className + "_e'></td>\
-        </tr>\
-      </table>\
-        <table id='" + id + "_row3' class=\"bot table_window\">\
-        <tr>\
-          <td class='" + className + "_sw'></td>\
-            <td class='" + className + "_s'><div id='" + id + "_bottom' class='status_bar'><span style='float:left; width:1px; height:1px'></span></div></td>\
-            <td " + seAttributes + "></td>\
-        </tr>\
-      </table>\
-    ";
+        <div>\
+			<table id='" + id + "_row1' class=\"top table_window\">\
+			    <tr>\
+			          <td class='" + className + "_nw'></td>\
+			          <td class='" + className + "_n'><div id='" + id + "_top' class='" + className + "_title title_window'>" + this.options.title + "</div></td>\
+			          <td class='" + className + "_ne'></td>\
+			    </tr>\
+			</table>\
+			<table id='" + id + "_row2' class=\"mid table_window\">\
+			    <tr>\
+			      <td class='" + className + "_w'></td>\
+			        <td id='" + id + "_table_content' class='" + className + "_content' valign='top'>" + content + "</td>\
+			      <td class='" + className + "_e'></td>\
+			    </tr>\
+		    </table>\
+	        <table id='" + id + "_row3' class=\"bot table_window\">\
+		        <tr>\
+		          <td class='" + className + "_sw'></td>\
+		            <td class='" + className + "_s'><div id='" + id + "_bottom' class='status_bar'><span style='float:left; width:1px; height:1px'></span></div></td>\
+		            <td " + seAttributes + "></td>\
+		        </tr>\
+	        </table>\
+	   </div>\
+	    ";
         Element.hide(win);
         this.options.parent.insertBefore(win, this.options.parent.firstChild);
         Event.observe($(id + "_content"), "load", this.options.onload);

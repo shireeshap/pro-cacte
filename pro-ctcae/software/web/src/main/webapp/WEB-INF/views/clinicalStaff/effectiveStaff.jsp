@@ -36,12 +36,12 @@
                         <c:when test="${command.status.displayName eq 'Active'}">
                             <tags:button color="orange" type="submit" id="flow-update"
                                          cssClass="next" value="De-activate" icon="check"
-                                    />
+                                    overRideStyle="position:relative; top: 0px;"/>
                         </c:when>
                         <c:otherwise>
                             <tags:button color="orange" type="submit" id="flow-update"
                                          cssClass="next" value="Activate" icon="check"
-                                    />
+                                    overRideStyle="position:relative; top: 0px;"/>
                         </c:otherwise>
                     </c:choose>
                     <tags:button color="blue" type="button" id="flow-cancel"

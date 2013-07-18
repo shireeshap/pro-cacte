@@ -16,20 +16,37 @@
 <%@attribute name="enableDelete" required="false" %>
 <%@attribute name="deleteParams" required="false" %>
 <%@attribute name="collapsed" required="false" %>
-<div class="box ${cssClass}"
+<%@attribute name="omitBorders" required="false" %>
+
+
+<c:set var="includeBorders" value="true"/>
+<c:if test="${omitBorders}">
+	<c:set var="includeBorders" value="false"/>
+</c:if>
+<div class="<c:if test="${includeBorders}"> box </c:if> ${cssClass}"
         <tags:attribute name="id" value="${id}"/> <tags:attribute name="style" value="${style}"/>>
 
     <!-- header -->
     <div class="header">
+    <c:if test="${includeBorders}">
         <div class="background-L">
             <div class="background-R">
+    </c:if>
                 <h2>
                     <c:choose>
                         <c:when test="${message == false}">
                             ${title}
                         </c:when>
                         <c:otherwise>
-                            <table cellpadding="0" cellspacing="0" width="100%">
+                            <table cellpadding="0" cellspacing="0" 
+	                            <c:choose>
+	                            	<c:when test="${not includeBorders}">
+	                            		width="90%" style="position:relative; left:5px;"
+	                            	</c:when>
+	                            	<c:otherwise>
+	                            		width="100%"
+	                            	</c:otherwise>
+	                            </c:choose>>
                                 <tr>
                                     <c:if test="${collapsable}">
                                         <td align="left" width="5%">
@@ -57,39 +74,44 @@
                 <c:if test="${!empty title}">
                     <div class="hr"></div>
                 </c:if>
+      <c:if test="${includeBorders}">
             </div>
         </div>
+      </c:if>
     </div>
     <!-- end header -->
 
     <!-- inner border -->
-    <div class="border-T">
-        <div class="border-L">
-            <div class="border-R">
-                <div class="border-B">
-                    <div class="border-TL">
-                        <div class="border-TR">
-                            <div class="border-BL">
-                                <div class="border-BR">
-                                    <div class="interior">
-                                        <div id="contentOf-${id}">
-
-                                            <c:if test="${autopad}">
-                                            <div class="content"></c:if>
-                                                <jsp:doBody/>
-                                                <c:if test="${autopad}"></div>
-                                            </c:if>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <c:if test="${includeBorders}">
+	    <div class="border-T">
+	        <div class="border-L">
+	            <div class="border-R">
+	                <div class="border-B">
+	                    <div class="border-TL">
+	                        <div class="border-TR">
+	                            <div class="border-BL">
+	                                <div class="border-BR">
+	 </c:if>
+	                                    <div class="interior">
+	                                        <div id="contentOf-${id}">
+	
+	                                            <c:if test="${autopad}">
+	                                            <div class="content"></c:if>
+	                                                <jsp:doBody/>
+	                                                <c:if test="${autopad}"></div>
+	                                            </c:if>
+	                                        </div>
+	                                    </div>
+	<c:if test="${includeBorders}">
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
     </div>
+    </c:if>
     <!-- end inner border -->
 </div>
 <c:if test="${collapsed}">

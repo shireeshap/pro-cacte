@@ -12,15 +12,14 @@
 <body>
 
     
-    <chrome:box title="participant.label.on_hold_date">
-        <chrome:division>
+    <chrome:box title="participant.label.on_hold_date" omitBorders="true">
         
-            <div id="offTreatment" style="margin-left:12px">
+            <div id="offTreatment" style="margin-left:12px; margin-top:12px;">
                 <div style="text-align: left; margin-left: 0.5em;">
                     <div><spring:message code='participant.onHold'/></div>
                     <div><spring:message code='participant.onHold2'/></div>
                 </div>
-                 <div class="value" style="margin-left:12px" > <br/>
+                 <div class="value" style="margin-left:0.5em" > <br/>
                     <input id="effectiveStartDate" class="date validate-NOTEMPTY&&DATE"
                            name="effectiveStartDate"
                            title="On hold date"
@@ -59,7 +58,6 @@
             </div>
 
 
-        </chrome:division>
     </chrome:box>
 
 </body>

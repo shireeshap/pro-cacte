@@ -228,6 +228,9 @@ function closeAjaxLoadingImage() {
     Dialog.closeInfo()
 }
 function showConfirmationWindow(transport, width, height, top, left) {
+	/* 'height' parameter is not being used in our modified implementation.
+	 *	we have modified prototype's css class called "alphacube_content" to include "height:auto"
+	 */
     if (typeof(width) == 'undefined') {
         width = 600;
     }
@@ -243,7 +246,7 @@ function showConfirmationWindow(transport, width, height, top, left) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", destroyOnClose: true, height:height, width: width,top:top,left:left});
+                false, title: "", destroyOnClose: true, width: width,top:top,left:left});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.showCenter(true);

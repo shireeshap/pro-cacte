@@ -560,7 +560,7 @@ beginHoldOnSchedules = function(index, date, action, pid) {
 CP.participantOffHold = function(id, date, index) {
     var request = new Ajax.Request("<c:url value='/pages/participant/participantOffHold'/>", {
         onComplete:function(transport) {
-                showConfirmationWindow(transport, 650, 200);
+                showConfirmationWindow(transport, 600, 200);
         },
         parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" +0,
         method:'get'

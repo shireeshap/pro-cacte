@@ -14,18 +14,16 @@
 <ctcae:form method="post">
 	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
-    <chrome:box title="participant.label.off_study_date">
-        <chrome:division>
-
+    <chrome:box title="participant.label.off_study_date" omitBorders="true">
             <div id="offTreatment">
-                <div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
+                <div style="border:1px solid #f00; height:100px; padding:0px; margin-left: 12px; margin-bottom:10px;">
                     <img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!"
                          style="float:left; margin-right:30px; margin-left:55px;"/>
 
                     <div style="font-size:20px; margin-bottom:5px;"><spring:message code='participant.offStudy'/></div>
                     <div><spring:message code='participant.offStudy1'/></div>
                 </div>
-                <p>
+                <p style="margin-left: 12px;">
                     <spring:message code='participant.offStudy2'/> <strong>${command.participant.displayName}</strong>
                     <spring:message code='participant.offStudy3'/>
                     <tags:renderDate propertyName="offTreatmentDate"
@@ -34,7 +32,7 @@
 
             </div>
 
-            <div class="flow-buttons">
+            <div class="flow-buttons" style="margin-left:12px;">
                  <spring:message code="participant.button.assignDate" var="assignDate"/>
                 <tags:button type="submit" id="flow-update"
                              cssClass="next" value="${assignDate}" icon="check" color="orange" markupWithTag="a" onclick="CP_NS.validateAndSubmit($('offTreatmentDate').value,document.forms[0])"
@@ -45,9 +43,6 @@
                              cssClass="previous ibutton" value="${cancel}" icon="x" color="red"
                              onclick="closeWindow()"/>
             </div>
-
-
-        </chrome:division>
     </chrome:box>
 </ctcae:form>
 </body>
