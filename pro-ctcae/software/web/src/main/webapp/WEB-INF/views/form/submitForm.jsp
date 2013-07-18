@@ -174,24 +174,8 @@
 <body>
 <ctcae:form method="post" name="myForm">
 	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
+    <tags:hasErrorsMessageSuccinct hideErrorDetails="false"/>
 
-    <tags:hasErrorsMessage hideErrorDetails="false"/>
-
-   <%-- <div style="padding-left:796px;font-size:12px">
-        <spring:message code="current.page"/>: ${command.newPageIndex}
-        <spring:message code="pages.left"/> ${command.totalPages}
-    </div>
-
-    <div class="val" style="margin-bottom:10px; float:left;font-size:12px">
-        <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
-    </div>
-
-    <div class="currentPagediv">
-       <div> <spring:message code="progress"/>: </div>
-        <div class='progress-bar-outer'>
-            <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
-        </div>
-    </div>--%>
     <div style="padding-left:835px;font-size:12px;color: #666666;">
         <spring:message code="current.page"/>: ${command.newPageIndex}
         <spring:message code="pages.left"/> ${command.totalPages}

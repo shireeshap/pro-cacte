@@ -3052,6 +3052,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/formbuilderBoxControls.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/hasErrorsMessage.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/hasErrorsMessageSuccinct.tag -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/hoverHelp.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/hoverText.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/imageUrl.tag -text
