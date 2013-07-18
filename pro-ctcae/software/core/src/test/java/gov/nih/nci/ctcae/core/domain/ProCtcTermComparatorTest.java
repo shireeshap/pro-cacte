@@ -17,7 +17,7 @@ public class ProCtcTermComparatorTest extends TestCase{
 		assert(proCtcTermList.get(1).getProCtcTermVocab().getTermEnglish().equalsIgnoreCase("Dizziness"));
 		assert(proCtcTermList.get(2).getProCtcTermVocab().getTermEnglish().equalsIgnoreCase("Acne"));
 		
-		Collections.sort(proCtcTermList, new ProCtcTermComparator());
+		Collections.sort(proCtcTermList);
 		assert(proCtcTermList.get(0).getProCtcTermVocab().getTermEnglish().equalsIgnoreCase("Acne"));
 		assert(proCtcTermList.get(1).getProCtcTermVocab().getTermEnglish().equalsIgnoreCase("Constipation"));
 		assert(proCtcTermList.get(2).getProCtcTermVocab().getTermEnglish().equalsIgnoreCase("Dizziness"));

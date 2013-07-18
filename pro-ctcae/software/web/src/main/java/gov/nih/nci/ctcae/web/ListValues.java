@@ -276,7 +276,7 @@ public class ListValues {
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
             allSymptoms.add(proCtcTerm);
         }
-        Collections.sort(allSymptoms, new ProCtcTermComparator());
+        Collections.sort(allSymptoms);
         return allSymptoms;
     }
 
@@ -297,6 +297,14 @@ public class ListValues {
         col.add(lov6);
         return col;
     }
+
+	public static List<String> getItemBank() {
+		List<String> itemBank = new ArrayList<String>();
+		itemBank.add("PRO-CTCAE");
+		itemBank.add("EQ5D-5L");
+		itemBank.add("EQ5D-3L");
+		return itemBank;
+	}
 
 
 }
