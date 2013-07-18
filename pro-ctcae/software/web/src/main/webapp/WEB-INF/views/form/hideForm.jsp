@@ -9,13 +9,12 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-<div style="width:590px;">
+<div style="width:590px; height: 165px;">
     <ctcae:form method="post">
     	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
     
-        <chrome:box title="form.label.hide_form">
-            <chrome:division>
-                <div id="releaseForm">
+        <chrome:box title="form.label.hide_form" omitBorders="true">
+                <div id="releaseForm" style="margin-left=12px; margin-top:8px;">
                         You are about to hide <strong>${command.title}</strong>.  This will remove access to the form and form data on the system, and the form will be removed from all patient schedules.  If you wish to view this form and the data at a later time, you can choose to unhide the form.
                     <p>
                         Do you want to continue?
@@ -29,7 +28,6 @@
 				<span class="next" style="position:relative; top:5px; right:5px">
 					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Hide"/>
 				</span>
-            </chrome:division>
         </chrome:box>
     </ctcae:form>
 </div>
