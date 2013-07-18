@@ -60,7 +60,7 @@ $x$ LANGUAGE plpgsql;
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
 	where spcs.start_date <=current_date  AND spcs.due_date >= current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-	and p.user_id=userid and c.is_hidden='FALSE';
+	and p.user_id=userid and c.is_hidden='FALSE' and c.is_eq5d='FALSE';
    
 
        return v_ret_count;
@@ -95,7 +95,7 @@ BEGIN
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
 	where spcs.start_date <=current_date  AND spcs.due_date >= current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-	and p.user_id=userid and c.is_hidden='FALSE'
+	and p.user_id=userid and c.is_hidden='FALSE' and c.is_eq5d='FALSE'
 	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
 	IF NOT FOUND THEN
