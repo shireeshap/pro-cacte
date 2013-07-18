@@ -11,11 +11,10 @@
 
 <div style="width:590px;">
     <ctcae:form method="post">
-        <chrome:box title="form.label.version_form">
+        <chrome:box title="form.label.version_form" omitBorders="true">
         	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
         
-            <chrome:division>
-                <div id="versionForm">
+                <div id="versionForm" style="margin-left: 12px; margin-top: 12px;">
                 	<p>
                         By versioning a form you will lose access to the old version of this form and will not be able to edit or change administration schedule.
                 	</p>
@@ -34,7 +33,6 @@
 						overRideStyle=" position:relative; top:-10px;"/>
 					</span>
                 </div>
-            </chrome:division>
         </chrome:box>
     </ctcae:form>
 </div>
