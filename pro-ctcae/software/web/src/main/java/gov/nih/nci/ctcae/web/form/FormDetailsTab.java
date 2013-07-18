@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.ctcae.constants.ItemBank;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
@@ -96,15 +97,20 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
                         tempProTermList.remove(removeTerm);
                     }
                 }
-                Collections.sort(tempProTermList, new ProCtcTermComparator());
+                Collections.sort(tempProTermList);
                 result.put(ctcCate, tempProTermList);
+            }
+            if(ctcCate.getName().startsWith("EQ5D")){
+            	tempProTermList = ctcCategoryMap.get(ctcCate);
+            	Collections.sort(tempProTermList, new ProCtcTermComparator());
+            	result.put(ctcCate, ctcCategoryMap.get(ctcCate));
             }
         }
         for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
             CtcCategory ctcCategory = it.next();
             List<ProCtcTerm> proCtcTermList = ctcCategoryMap.get(ctcCategory);
-            if (!ctcCategory.getName().equals("Core symptoms")) {
-                Collections.sort(proCtcTermList, new ProCtcTermComparator());
+            if (!ctcCategory.getName().equals("Core symptoms") && !ctcCategory.getName().startsWith("EQ5D")) {
+                Collections.sort(proCtcTermList);
                 result.put(ctcCategory, proCtcTermList);
             }
         }
@@ -112,9 +118,10 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         map.put("responseRequired", ListValues.getResponseRequired());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("recallPeriods", ListValues.getRecallPeriods());
+        map.put("itemBank", ListValues.getItemBank());
         List<CrfPageItem> crfPageItems = command.getCrf().getAllCrfPageItems();
         map.put("selectedCrfPageItems", crfPageItems);
-
+        map.put("selectedItemBank", command.getSelectedItemBank());
         List<Integer> selectedProCtcTerms = command.getSelectedProCtcTerms();
         map.put("selectedProCtcTerms", selectedProCtcTerms);
         return map;
@@ -125,14 +132,6 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         super.postProcess(request, command, errors);
         command.updateCrfItems(proCtcQuestionRepository);
-        //TODO: Remove after eq5d UI has been finalized.
-        for(CRFPage crfPage : command.getCrf().getCrfPages()){
-        	if(crfPage.getProCtcTerm().getTermEnglish(SupportedLanguageEnum.ENGLISH).equals("Anxiety/Depression")){
-        		command.getCrf().setEq5d(true);
-        		break;
-        	}
-        }
-
     }
 
     @Override
@@ -144,8 +143,6 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         } else if (!uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
             errors.rejectValue("crf.title", "form.unique_title", "form.unique_title");
         }
-
-
     }
 
     /**
