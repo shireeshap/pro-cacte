@@ -3,8 +3,12 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.constants.ItemBank;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
@@ -119,6 +123,13 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
             command.setCrf(crf);
         }
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        for (CRFPage crfPage : command.getCrf().getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+           	 ProCtcTerm proCtcTerm = crfPageItem.getProCtcQuestion().getProCtcTerm();
+           	 proCtcTerm.getCtcTerm().getCategoryTermSets().size();
+            }
+        }
+        command.setSelectedItemBank(command.getCrf().isEq5d() ? command.getCrf().isEq5d5L() ? ItemBank.EQ5D5L.getCode() : ItemBank.EQ5D3L.getCode() : ItemBank.PROCTCAE.getCode());
         return command;
 
 

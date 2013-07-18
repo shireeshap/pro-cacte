@@ -278,7 +278,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public List<ProCtcTerm> getSortedSymptoms() {
-        Collections.sort(sortedSymptoms, new ProCtcTermComparator());
+        Collections.sort(sortedSymptoms);
         return sortedSymptoms;
     }
 

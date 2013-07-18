@@ -139,7 +139,7 @@ public class CrfAjaxFacade {
 
     public List<ProCtcTerm> getSymptomsForCrf(Integer id) {
         CRF crf = crfRepository.findById(id);
-        Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
+        Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>();
         for (CrfPageItem i : crf.getAllCrfPageItems()) {
             terms.add(i.getProCtcQuestion().getProCtcTerm());
         }
@@ -150,7 +150,7 @@ public class CrfAjaxFacade {
      * @param id
      */
     public List<ProCtcTerm> getAllSymptomsForStudy(Integer id) {
-    	Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>(new ProCtcTermComparator());
+    	Set<ProCtcTerm> terms = new TreeSet<ProCtcTerm>();
     	try {
 			List<CRF> crfList = getReducedCrfs(id);
 			List<Integer> crfIds = new ArrayList<Integer>();

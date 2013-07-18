@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ListValues;
@@ -60,7 +63,12 @@ public abstract class AbstractCrfController extends AbstractController {
         map.put("advance", command.getCrf().getAdvance());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
-
+        for (CRFPage crfPage : command.getCrf().getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+	           	ProCtcTerm proCtcTerm = crfPageItem.getProCtcQuestion().getProCtcTerm();
+	           	proCtcTerm.getCtcTerm().getCategoryTermSets().size();
+            }
+        }
 
         return map;
     }

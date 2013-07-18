@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.constants.ItemBank;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.rules.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
@@ -65,7 +66,17 @@ public class CreateFormCommand implements Serializable {
     private FormArmSchedule selectedFormArmSchedule;
     private FormArmSchedule newSelectedFormArmSchedule;
     private boolean allArms;
-    private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
+    private String selectedItemBank = ItemBank.PROCTCAE.getName();
+    
+    public String getSelectedItemBank() {
+		return selectedItemBank;
+	}
+
+	public void setSelectedItemBank(String selectedItemBank) {
+		this.selectedItemBank = selectedItemBank;
+	}
+
+	private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     private List<FormArmSchedule> copySelectedArmScheduleIds = new ArrayList<FormArmSchedule>();
 
