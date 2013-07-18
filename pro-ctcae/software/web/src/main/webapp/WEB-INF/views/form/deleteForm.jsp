@@ -13,13 +13,12 @@
     <ctcae:form method="post">
     	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
     
-        <chrome:box title="form.label.delete_form">
-            <chrome:division>
-                <div id="releaseForm">
-                    <p>
+        <chrome:box title="form.label.delete_form" omitBorders="true">
+                <div id="releaseForm" style="margin-left: 12px; margin-top:12px;">
+                    <p style="padding: 0.1em">
                         You are about to delete <strong>${command.title}</strong>.
                     </p>
-                    <p>
+                    <p style="padding: 0.1em">
                         You cannot reverse this step.
                         Do you want to continue?
                     </p>
@@ -31,7 +30,6 @@
 				<span class="next">
 					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Delete"/>
 				</span>
-            </chrome:division>
         </chrome:box>
     </ctcae:form>
 </div>
