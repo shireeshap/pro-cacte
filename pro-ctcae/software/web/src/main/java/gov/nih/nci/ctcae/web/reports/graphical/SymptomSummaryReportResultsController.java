@@ -110,7 +110,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             Arm arm = genericRepository.findById(Arm.class, armid);
             HashMap<String, ArrayList<Object[]>> symptomMap = getRecordsForAllSymptoms(request, arm);
             int numOfParticipantsOnArm = getParticipantCount(request, arm).intValue();
-            TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>> output = new TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>>(new ProCtcTermComparator());
+            TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>> output = new TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>>();
             for (String symptom : symptomMap.keySet()) {
                 ProCtcTermQuery query = new ProCtcTermQuery();
                 query.filterByTerm(symptom);

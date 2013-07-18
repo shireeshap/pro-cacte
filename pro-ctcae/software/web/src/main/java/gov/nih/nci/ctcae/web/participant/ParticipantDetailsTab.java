@@ -486,11 +486,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         }
                         if (!doNotCreate && uiMode.getMode().equals(AppMode.IVRS)) {
                             for (StudyParticipantCrf spCrf : command.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
-                                for (StudyParticipantCrfSchedule spcSchedule : spCrf.getStudyParticipantCrfSchedules()) {
-                                    if (spcSchedule.getIvrsSchedules() == null || spcSchedule.getIvrsSchedules().size() == 0) {
-                                        spCrf.createIvrsSchedules(spcSchedule);
+                            	if(!spCrf.getCrf().isEq5d()){
+                                    for (StudyParticipantCrfSchedule spcSchedule : spCrf.getStudyParticipantCrfSchedules()) {
+                                        if (spcSchedule.getIvrsSchedules() == null || spcSchedule.getIvrsSchedules().size() == 0) {
+                                            spCrf.createIvrsSchedules(spcSchedule);
+                                        }
                                     }
-                                }
+                            	}
                             }
                         }
                     }
@@ -499,8 +501,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 throw new RuntimeException(e);
             }
         }
-
-
     }
 
     public void setCrfRepository(CRFRepository crfRepository) {
