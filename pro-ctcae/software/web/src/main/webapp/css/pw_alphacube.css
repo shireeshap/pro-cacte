@@ -103,7 +103,7 @@
     height: auto;
     min-height: 160px;
     height:auto !important;        /* hack for IE as it does not support min-height */
-	height:30px;          
+	height:160px;          
 }
 
 /* For alert/confirm dialog */
