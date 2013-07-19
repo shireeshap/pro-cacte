@@ -17,21 +17,19 @@
 <script type="text/javascript">
 
     Event.observe(window, "load", function () {
-
-        <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
         var selectedItemBank = jQuery("#itemBank option:selected").val();
 
-        updateQuestionsId();
-        addRemoveConditionalTriggeringDisplayToQuestion();
-        if(selectedItemBank === 'PRO-CTCAE'){
+        <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
+	
+	        updateQuestionsId();
+	        addRemoveConditionalTriggeringDisplayToQuestion();
             updateCrfPageNumberAndShowHideUpDownLink();
-        }
-        reOrderQuestionNumber()
-
-        hideQuestionsFromForm();
-        <c:forEach items="${selectedProCtcTerms}" var="selectedProCtcTerms" varStatus="status">
-        hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
-        </c:forEach>
+	        reOrderQuestionNumber()
+	
+	        hideQuestionsFromForm();
+	        <c:forEach items="${selectedProCtcTerms}" var="selectedProCtcTerms" varStatus="status">
+	            hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
+	        </c:forEach>
         </c:if>
         jQuery('#displayPrefsMenu').menu({
             content: jQuery('#displayOptionsMenu').html(),
@@ -302,7 +300,7 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
 
         var index = item.id.substr(11, item.id.length);
         currentPageOrder.push(index);
-        if( $('crfPageUpLink_' + index).length > 0 && $('crfPagDownLink_' + index).length > 0){
+        if(jQuery('#crfPageUpLink_' + index).length > 0 && jQuery('#crfPagDownLink_' + index).length > 0){
             if (i == 0) {
                 $('crfPageUpLink_' + index).hide();
                 $('crfPagDownLink_' + index).show();
