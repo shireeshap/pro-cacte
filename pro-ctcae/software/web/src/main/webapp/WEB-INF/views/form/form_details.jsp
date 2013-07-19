@@ -19,9 +19,13 @@
     Event.observe(window, "load", function () {
 
         <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
+        var selectedItemBank = jQuery("#itemBank option:selected").val();
+
         updateQuestionsId();
         addRemoveConditionalTriggeringDisplayToQuestion();
-        updateCrfPageNumberAndShowHideUpDownLink();
+        if(selectedItemBank === 'PRO-CTCAE'){
+            updateCrfPageNumberAndShowHideUpDownLink();
+        }
         reOrderQuestionNumber()
 
         hideQuestionsFromForm();
@@ -42,7 +46,6 @@
         //    showSpeed: 300
         //});
         //set the itemBank DD.
-        var selectedItemBank = jQuery("#itemBank option:selected").val();
         selectItemBank(selectedItemBank);
     })
 
@@ -299,17 +302,19 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
 
         var index = item.id.substr(11, item.id.length);
         currentPageOrder.push(index);
-        if (i == 0) {
-            $('crfPageUpLink_' + index).hide();
-            $('crfPagDownLink_' + index).show();
-        } else if (i == formPages.length - 1) {
-            $('crfPagDownLink_' + index).hide();
-            $('crfPageUpLink_' + index).show();
-        } else {
-            $('crfPageUpLink_' + index).show();
-            $('crfPagDownLink_' + index).show();
+        if( $('crfPageUpLink_' + index).length > 0 && $('crfPagDownLink_' + index).length > 0){
+            if (i == 0) {
+                $('crfPageUpLink_' + index).hide();
+                $('crfPagDownLink_' + index).show();
+            } else if (i == formPages.length - 1) {
+                $('crfPagDownLink_' + index).hide();
+                $('crfPageUpLink_' + index).show();
+            } else {
+                $('crfPageUpLink_' + index).show();
+                $('crfPagDownLink_' + index).show();
+            }
+            i++;
         }
-        i++;
     });
     
     var crfPages = [];
