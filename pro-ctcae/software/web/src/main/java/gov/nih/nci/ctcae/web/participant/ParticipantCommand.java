@@ -726,10 +726,13 @@ public class ParticipantCommand {
         getParticipantSchedules();
     }
     
-    private void lazyInitializeParticipant(GenericRepository genericRepository){
+    public void lazyInitializeParticipant(GenericRepository genericRepository){
     	participant = genericRepository.findById(Participant.class, participant.getId());
     	//setting the transient "password" attribute in Participant as it is used by the edit participant flow.
         participant.setPassword(participant.getUser().getPassword());
+        participant.getUser().getId();
+        participant.getUser().getUserRoles().size();
+        participant.getUser().getUserPasswordHistory().size();
     }
 
 

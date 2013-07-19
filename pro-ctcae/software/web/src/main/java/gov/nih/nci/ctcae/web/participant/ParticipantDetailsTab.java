@@ -141,8 +141,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 	command.getParticipant().getUser().setUsername(null);
                 }
             }
-            String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId()).trim();
+            String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId());
             if (!StringUtils.isBlank(newPasswordBeforeEncoding)) {
+            	newPasswordBeforeEncoding = newPasswordBeforeEncoding.trim();
             	//Participant obj has the new pwd from UI and User object has the existing pwd. They are used to determine if there has been any change in pwd.
                 try {
                 	command.getParticipant().setPassword(newPasswordBeforeEncoding);

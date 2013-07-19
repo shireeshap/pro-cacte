@@ -113,6 +113,7 @@ public class AddCrfScheduleController extends AbstractController {
             	studyParticipantAssignment.setStatus(RoleStatus.ONHOLD);
             }
             participantScheduleService.saveStudyParticipantCrfAssignment(genericRepository, studyParticipantAssignment);
+            participantCommand.lazyInitializeParticipant(genericRepository);
         }
 
         if ("offhold".equals(action)) {
@@ -167,6 +168,7 @@ public class AddCrfScheduleController extends AbstractController {
             }
             studyParticipantAssignment.setOnHoldTreatmentDate(null);
             participantScheduleService.saveStudyParticipantCrfAssignment(genericRepository, studyParticipantAssignment);
+            participantCommand.lazyInitializeParticipant(genericRepository);
         }
 
         if ("add".equals(action)) {
