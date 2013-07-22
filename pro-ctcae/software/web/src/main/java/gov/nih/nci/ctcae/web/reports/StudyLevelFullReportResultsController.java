@@ -45,41 +45,41 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		ModelAndView modelAndView = new ModelAndView("reports/fullStudyReport");
 		
 		try{
-		// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
-		StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
-		List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
-
-		// Mapping a ProCtcQuestion to a column in Report.
-		TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
-		// Mapping a MeddraQuestion to a column in Report.
-		TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>();
-		// ProCtcQuestion List to be displayed in Report's table header (ordered according to proCtcQuestionMapping)
-		ArrayList<String> proCtcTermHeaders = new ArrayList<String>();
-		
-		// MeddraQuestion List to be displayed in Report's table header (ordered according to meddraQuestionMapping)
-		ArrayList<String> meddraTermHeaders = new ArrayList<String>();
-		// Save the start dates of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>();
-		// Save the survey_answering_mode of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>();
-		// Save the survey status of the submitted surveys listed in 'list'
-		TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>();
-	  
-		int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
-		generateMeddraQuestionMappingForTableHeader(list, meddraQuestionMapping, meddraTermHeaders, col);
-		
-		TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = 
-			getCareResults(crfDateMap, crfModeMap, crfStatusMap, list, meddraQuestionMapping, meddraTermHeaders, col);
-
-		modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
-		request.getSession().setAttribute("sessionResultsMap", overAllResults);
-		request.getSession().setAttribute("sessionCRFDatesMap", crfDateMap);
-		request.getSession().setAttribute("sessionCRFModeMap", crfModeMap);
-		request.getSession().setAttribute("sessionCRFStatusMap", crfStatusMap);
-		request.getSession().setAttribute("sessionProCtcQuestionMapping", proCtcQuestionMapping);
-		request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
-		request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
-		request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
+			// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
+			StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
+			List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
+	
+			// Mapping a ProCtcQuestion to a column in Report.
+			TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
+			// Mapping a MeddraQuestion to a column in Report.
+			TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>();
+			// ProCtcQuestion List to be displayed in Report's table header (ordered according to proCtcQuestionMapping)
+			ArrayList<String> proCtcTermHeaders = new ArrayList<String>();
+			
+			// MeddraQuestion List to be displayed in Report's table header (ordered according to meddraQuestionMapping)
+			ArrayList<String> meddraTermHeaders = new ArrayList<String>();
+			// Save the start dates of the submitted surveys listed in 'list'
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>();
+			// Save the survey_answering_mode of the submitted surveys listed in 'list'
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>();
+			// Save the survey status of the submitted surveys listed in 'list'
+			TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>();
+		  
+			int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
+			generateMeddraQuestionMappingForTableHeader(list, meddraQuestionMapping, meddraTermHeaders, col);
+			
+			TreeMap<Organization, TreeMap<CRF, TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> overAllResults = 
+				getCareResults(crfDateMap, crfModeMap, crfStatusMap, list, meddraQuestionMapping, meddraTermHeaders, col);
+	
+			modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+			request.getSession().setAttribute("sessionResultsMap", overAllResults);
+			request.getSession().setAttribute("sessionCRFDatesMap", crfDateMap);
+			request.getSession().setAttribute("sessionCRFModeMap", crfModeMap);
+			request.getSession().setAttribute("sessionCRFStatusMap", crfStatusMap);
+			request.getSession().setAttribute("sessionProCtcQuestionMapping", proCtcQuestionMapping);
+			request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
+			request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
+			request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
 		
 		}catch (Exception e) {
 			e.getStackTrace();
@@ -602,9 +602,13 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 		String crfIdParam = request.getParameter("crf");
 		String studySite = request.getParameter("studySite");
 		
+		
+		
 		if(!StringUtils.isBlank(studyParam) && StringUtils.isBlank(crfIdParam)){
         	Integer studyId = Integer.parseInt(studyParam);
-        	List<CRF> crfList = ReportResultsHelper.getReducedCrfs(studyId);
+        	query.filterByStudy(studyId);
+        	
+        	/*List<CRF> crfList = ReportResultsHelper.getReducedCrfs(studyId);
         	List<Integer> crfIds = new ArrayList<Integer>(); 
         	for(CRF crf : crfList){
         		crfIds.add(crf.getId());
@@ -613,7 +617,7 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
                     crf = crf.getParentCrf();
                 }
         	}
-        	query.filterByCRFIds(crfIds);
+        	query.filterByCRFIds(crfIds);*/
         }
 		
 		if(!StringUtils.isBlank(crfIdParam)){
@@ -634,13 +638,13 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 	        query.filterByStudySite(studySiteId);
 		}
 
-		List<CrfStatus> crfStatusList = new ArrayList<CrfStatus>();
+		/*List<CrfStatus> crfStatusList = new ArrayList<CrfStatus>();
 		crfStatusList.add(CrfStatus.COMPLETED);
 		crfStatusList.add(CrfStatus.INPROGRESS);
 		crfStatusList.add(CrfStatus.SCHEDULED);
 		crfStatusList.add(CrfStatus.PASTDUE);
 		crfStatusList.add(CrfStatus.ONHOLD);
-		query.filterByStatuses(crfStatusList);
+		query.filterByStatuses(crfStatusList);*/
 		
 		request.getSession().setAttribute("study",
 				genericRepository.findById(Study.class, Integer.parseInt(studyParam)));
