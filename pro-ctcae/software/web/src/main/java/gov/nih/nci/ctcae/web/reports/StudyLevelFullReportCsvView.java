@@ -241,6 +241,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	              
 	                	}catch (Exception e) {
 	                		e.printStackTrace();
+	                		logger.debug("Debugging on error1: " + e.getStackTrace());
 	                	}
 	                }
 	        		
@@ -261,6 +262,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.debug("Debugging on error2: " + e.getStackTrace());
 		}
 		finally{
 			proCsvWriter.close();
