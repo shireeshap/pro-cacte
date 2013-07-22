@@ -44,6 +44,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 
 		ModelAndView modelAndView = new ModelAndView("reports/fullStudyReport");
 		
+		try{
 		// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 		StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
 		List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
@@ -79,6 +80,11 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		request.getSession().setAttribute("sessionMeddraQuestionMapping", meddraQuestionMapping);
 		request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
 		request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
+		
+		}catch (Exception e) {
+			e.getStackTrace();
+			logger.debug("Debugging on error:" + e.getStackTrace());
+		}
 		return modelAndView;
 	}
 	
