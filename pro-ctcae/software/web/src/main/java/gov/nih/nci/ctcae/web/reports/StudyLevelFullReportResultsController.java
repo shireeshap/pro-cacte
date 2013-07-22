@@ -47,7 +47,9 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		try{
 			// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 			StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
+			logger.info("query start time :" + new Date());
 			List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
+			logger.info("query end time :" + new Date());
 	
 			// Mapping a ProCtcQuestion to a column in Report.
 			TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
@@ -83,7 +85,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		
 		}catch (Exception e) {
 			e.getStackTrace();
-			logger.debug("Debugging on error:" + e.getStackTrace());
+			logger.info("Debugging on error:" + e.getStackTrace());
 		}
 		return modelAndView;
 	}
