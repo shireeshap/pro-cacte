@@ -545,6 +545,10 @@
 			            </td>    
 			            <td align="center">
 			              <div id="slider-vertical" style="height: 400px;">
+			                 <img class="scale" src="/proctcae/images/scale-marks.png"/>
+			                 <div class="scaleNumbers">
+			                 100<br/>90<br/>80<br/>70<br/>60<br/>50<br/>40<br/>30<br/>20<br/>10<br/>0
+			                 </div>
 			              </div>
 			             </td>
 			        </tr>
@@ -568,14 +572,16 @@
 		                    slide : function (event, ui) {
 		                        //jQuery("#healthAmountDisplay").val(ui.value);
 		                        jQuery("#healthAmount").val(ui.value);
+		                        if(jQuery('#vas-value').length == 0){
+		                              jQuery('.ui-slider-handle').html('<span id="vas-value"></span>');
+		                        }
+		                        jQuery("#vas-value").html(ui.value);
 		                    }
 		                });
-		                //jQuery("#healthAmount").val(jQuery("#slider-vertical").slider("value"));
 		            });
 		        </script>
 		        <script>
 		        $.noConflict();
-		        
 		        </script>
 	        </c:when>
 	        <c:otherwise>

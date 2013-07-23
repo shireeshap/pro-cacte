@@ -3693,11 +3693,13 @@ pro-ctcae/software/web/src/main/webapp/images/rule/window-maximize.gif -text
 pro-ctcae/software/web/src/main/webapp/images/rule/window-minimize-over.gif -text
 pro-ctcae/software/web/src/main/webapp/images/rule/window-minimize.gif -text
 pro-ctcae/software/web/src/main/webapp/images/rule/window_titlebar.png -text
+pro-ctcae/software/web/src/main/webapp/images/scale-marks.png -text
 pro-ctcae/software/web/src/main/webapp/images/sidebar/background.gif -text
 pro-ctcae/software/web/src/main/webapp/images/sidebar/bar.gif -text
 pro-ctcae/software/web/src/main/webapp/images/sidebar/header.gif -text
 pro-ctcae/software/web/src/main/webapp/images/sidebar/slide-button-active.gif -text
 pro-ctcae/software/web/src/main/webapp/images/sidebar/slide-button.gif -text
+pro-ctcae/software/web/src/main/webapp/images/slider-handle.png -text
 pro-ctcae/software/web/src/main/webapp/images/small-green_btn.png -text
 pro-ctcae/software/web/src/main/webapp/images/t.gif -text
 pro-ctcae/software/web/src/main/webapp/images/table/clear.gif -text

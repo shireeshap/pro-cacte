@@ -1,13 +1,67 @@
 
 .ui-slider-vertical {
-    height: 100px;
     width: 2.6em;
+    background: #e0e0e0;
+	background: -moz-linear-gradient(left,  #e0e0e0 0%, #ffffff 50%, #e0e0e0 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#e0e0e0), color-stop(50%,#ffffff), color-stop(100%,#e0e0e0));
+	background: -webkit-linear-gradient(left,  #e0e0e0 0%,#ffffff 50%,#e0e0e0 100%);
+	background: -o-linear-gradient(left,  #e0e0e0 0%,#ffffff 50%,#e0e0e0 100%);
+	background: -ms-linear-gradient(left,  #e0e0e0 0%,#ffffff 50%,#e0e0e0 100%);
+	background: linear-gradient(to right,  #e0e0e0 0%,#ffffff 50%,#e0e0e0 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0e0e0', endColorstr='#e0e0e0',GradientType=1 );
+    position: relative;
+    
+}
+
+.ui-slider-handle > span {
+    display: inline-block;
+    float: right;
+    margin-right: 8px;
+    margin-top: 3px;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    width: 21px;
+    font-size: 11px;
+    color: white;
 }
 
 .ui-slider .ui-slider-handle{
-	width: 3.2em;
+    height: 28px;
+    width: 87px;
+    background:url(../../../images/slider-handle.png) no-repeat; overflow: hidden; border: none;
+    left: -14px;
+    margin-bottom: -17px;
+    border: none;
+    cursor: row-resize;
 }
 
-.ui-slider .ui-slider-handle{
-	background:url(../../../images/buttons/red-medium_btn.png) no-repeat; overflow: hidden; border: none; 
+
+.ui-slider-range{
+	background: #7ec9f9;
+	background: -moz-linear-gradient(left,  #7ec9f9 0%, #cdedfd 50%, #7fcaf9 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#7ec9f9), color-stop(50%,#cdedfd), color-stop(100%,#7fcaf9));
+	background: -webkit-linear-gradient(left,  #7ec9f9 0%,#cdedfd 50%,#7fcaf9 100%);
+	background: -o-linear-gradient(left,  #7ec9f9 0%,#cdedfd 50%,#7fcaf9 100%);
+	background: -ms-linear-gradient(left,  #7ec9f9 0%,#cdedfd 50%,#7fcaf9 100%);
+	background: linear-gradient(to right,  #7ec9f9 0%,#cdedfd 50%,#7fcaf9 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7ec9f9', endColorstr='#7fcaf9',GradientType=1 );
+    -moz-border-radius: 0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;   
+}
+
+.scale {
+    left: 3px;
+    position: absolute;
+    z-index: 2;
+}
+
+.scaleNumbers {
+    color: #CCCCCC;
+    font-size: 10px;
+    line-height: 39.7px;
+    position: absolute;
+    right: -25px;
+    text-align: center;
+    top: -18px;
 }
