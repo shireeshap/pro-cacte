@@ -49,6 +49,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
 			logger.info("query start time :" + new Date());
 			List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
+			list = list.subList(0, (list.size()/2));
 			logger.info("query end time :" + new Date());
 	
 			// Mapping a ProCtcQuestion to a column in Report.
