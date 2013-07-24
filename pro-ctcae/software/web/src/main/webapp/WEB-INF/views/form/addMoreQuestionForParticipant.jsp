@@ -520,23 +520,25 @@
 		        </tr>
 		    </table> 
 		</c:if>
-        <chrome:box autopad="true" message="false">
+        <chrome:box autopad="true" message="false" title="Visual Assessment Scale">
 	    <c:choose>
 	        <c:when test="${command.isEq5dCrf}">
 	           
 	            <table width="100%"> 
 			        <tr>
-			            <td width="85%" valign="top"></td>
-			            <td align="center"><b><spring:message code="eq5d.vas.instructions.1"/></b></td></tr>
+			            <td width="72%" valign="top"></td>
+			            <td align="center"><b><spring:message code="eq5d.vas.instructions.1"/></b></td>
+			            <td width="8%"></td>
+			        </tr>
 			        <tr>
 			            <td valign="top">
 			                    <ul style="list-style-type:disc;padding-left:70px;text-align:left">
-									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.2"/></li>
-									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.3"/></li>
-									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.4"/>&nbsp;<u><spring:message code="eq5d.vas.instructions.5"/></u>&nbsp;<spring:message code="eq5d.vas.instructions.6"/><br/> 
+									<li style="font-size:16px;height:20px"><spring:message code="eq5d.vas.instructions.2"/></li>
+									<li style="font-size:16px;height:20px"><spring:message code="eq5d.vas.instructions.3"/></li>
+									<li style="font-size:16px;height:40px"><spring:message code="eq5d.vas.instructions.4"/>&nbsp;<u><spring:message code="eq5d.vas.instructions.5"/></u>&nbsp;<spring:message code="eq5d.vas.instructions.6"/><br/> 
 									        <spring:message code="eq5d.vas.instructions.7"/>&nbsp;<u><spring:message code="eq5d.vas.instructions.8"/></u>&nbsp;<spring:message code="eq5d.vas.instructions.9"/></li>
-									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.10"/></li>
-									<li style="font-size:16px;height:50px"><spring:message code="eq5d.vas.instructions.11"/></li>
+									<li style="font-size:16px;height:20px"><spring:message code="eq5d.vas.instructions.10"/></li>
+									<li style="font-size:16px;height:20px"><spring:message code="eq5d.vas.instructions.11"/></li>
 							    </ul>
 							  <p style="padding-left:70px;"><br/><br/>
 			                  <b><spring:message code="eq5d.vas.instructions.12"/>&nbsp;</b>
@@ -547,7 +549,7 @@
 			              <div id="slider-vertical" style="height: 400px;">
 			                 <img class="scale" src="/proctcae/images/scale-marks.png"/>
 			                 <div class="scaleNumbers">
-			                 100<br/>90<br/>80<br/>70<br/>60<br/>50<br/>40<br/>30<br/>20<br/>10<br/>0
+			                     100<br/>90<br/>80<br/>70<br/>60<br/>50<br/>40<br/>30<br/>20<br/>10<br/>0
 			                 </div>
 			              </div>
 			             </td>
