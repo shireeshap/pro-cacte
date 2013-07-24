@@ -49,12 +49,11 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 			StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
 			Long start = new Date().getTime();
-	        List<SpcrfsWrapper> list1 = studyWideFormatReportData.getSchedulesOnly(2);
-	        list1 = studyWideFormatReportData.getResponsesOnly(2);
-	        list1 = studyWideFormatReportData.getAddedProQuestions(2);
-	        list1 = studyWideFormatReportData.getSchedulesOnly(2);
-	        list1 = studyWideFormatReportData.getAddedMeddraQuestions(2);
-	        list1 = studyWideFormatReportData.getParticipantsAndOrg(2);
+	        List<SpcrfsWrapper> listSchedules = studyWideFormatReportData.getSchedulesOnly(2);
+	        List<ResponsesRowMapper> listResoponses = studyWideFormatReportData.getResponsesOnly(2);
+	        List<AddedProCtcQuestionWrapper> listAddedProCtcQuestions = studyWideFormatReportData.getAddedProQuestions(2);
+	        List<AddedMeddraQuestionWrapper> listAddedMeddraQuestions = studyWideFormatReportData.getAddedMeddraQuestions(2);
+	        List<ParticipantAndOganizationWrapper> listParticipantsAndOrganizations = studyWideFormatReportData.getParticipantsAndOrg(2);
 	        Long end = new Date().getTime();
 	        System.out.println("EndTime: " + (end - start));
 			

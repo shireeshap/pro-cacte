@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.core.domain.AddedMeddraQuestionWrapper;
+import gov.nih.nci.ctcae.core.domain.AddedProCtcQuestionWrapper;
+import gov.nih.nci.ctcae.core.domain.ParticipantAndOganizationWrapper;
 import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
@@ -31,10 +34,10 @@ public class StudyWideFormatReportData{
     	return list;
     }
     
- public List<SpcrfsWrapper> getResponsesOnly(Integer studyId) {
+ public List<ResponsesRowMapper> getResponsesOnly(Integer studyId) {
     	
-    	String fetchResponsesOnly = "SELECT distinct spci.sp_crf_schedule_id as scheduleId, cpi.id, " +
-    			"pcq.id, pcq.question_type, pctv.term_english, pcvvv.value_english " +
+    	String fetchResponsesOnly = "SELECT distinct spci.sp_crf_schedule_id as scheduleId, cpi.id as crfPageItemId, " +
+    			"pcq.id as proQuestionId, pcq.question_type, pctv.term_english, pcvvv.value_english " +
     			"from study_participant_crf_items spci" +
     			" left join crf_page_items cpi on cpi.id = spci.crf_item_id " +
     			" left join pro_ctc_questions pcq on pcq.id = cpi.pro_ctc_question_id " +
@@ -47,13 +50,13 @@ public class StudyWideFormatReportData{
     			"  left join crfs crf on crf.id = spcrf.crf_id " +
     			"  where crf.study_id = 2)";
     	
-    	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchResponsesOnly, new StudyParticipantCrfScheduleRowMapper());
+    	List<ResponsesRowMapper> list = jdbcTemplate.query(fetchResponsesOnly, new ResponsesRowMapper());
     	return list;
     }
  
- public List<SpcrfsWrapper> getAddedProQuestions(Integer studyId) {
+ public List<AddedProCtcQuestionWrapper> getAddedProQuestions(Integer studyId) {
  	
- 	String fetchAddedProQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, pcq.id, pctv.term_english, " +
+ 	String fetchAddedProQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, pcq.id as proQuestionId, pctv.term_english, " +
  			" pcq.question_type, pcvvv.value_english " +
  			" from sp_crf_sch_added_questions spcaq " +
  			" left join pro_ctc_questions pcq on pcq.id = spcaq.question_id " +
@@ -66,13 +69,13 @@ public class StudyWideFormatReportData{
  			"  left join crfs crf on crf.id = spcrf.crf_id " +
  			"  where crf.study_id = 2)";
  	
- 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchAddedProQuestions, new StudyParticipantCrfScheduleRowMapper());
+ 	List<AddedProCtcQuestionWrapper> list = jdbcTemplate.query(fetchAddedProQuestions, new AddedProCtcQuestionRowMapper());
  	return list;
  }
  
- public List<SpcrfsWrapper> getAddedMeddraQuestions(Integer studyId) {
+ public List<AddedMeddraQuestionWrapper> getAddedMeddraQuestions(Integer studyId) {
 	 	
-	 	String fetchAddedMeddraQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, mq.id, " +
+	 	String fetchAddedMeddraQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, mq.id as meddraQuestionId, " +
 	 			" lltv.meddra_term_english, mq.question_type, mvvv.value_english " +
 	 			" from sp_crf_sch_added_questions spcaq " +
 	 			" left join meddra_questions mq on mq.id = spcaq.meddra_question_id " +
@@ -85,13 +88,13 @@ public class StudyWideFormatReportData{
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
 	 			" where crf.study_id = 2)";
 	 	
-	 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchAddedMeddraQuestions, new StudyParticipantCrfScheduleRowMapper());
+	 	List<AddedMeddraQuestionWrapper> list = jdbcTemplate.query(fetchAddedMeddraQuestions, new AddedMeddraQuestionRowMapper());
 	 	return list;
 	 }
     
- public List<SpcrfsWrapper> getParticipantsAndOrg(Integer studyId) {
+ public List<ParticipantAndOganizationWrapper> getParticipantsAndOrg(Integer studyId) {
 	 	
-	 	String fetchParticipantsAndOrg = "SELECT distinct p.first_name, p.last_name, o.name as organizationId " +
+	 	String fetchParticipantsAndOrg = "SELECT distinct p.mrn_identifier, p.first_name, p.last_name, o.name as organizationName " +
 	 			" from sp_crf_schedules spcrfs " +
 	 			" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
 	 			" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " +
@@ -103,7 +106,7 @@ public class StudyWideFormatReportData{
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
 	 			" where crf.study_id = 2)";
 	 	
-	 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchParticipantsAndOrg, new StudyParticipantCrfScheduleRowMapper());
+	 	List<ParticipantAndOganizationWrapper> list = jdbcTemplate.query(fetchParticipantsAndOrg, new ParticipantAndOrganizationRowMapper());
 	 	return list;
 	 }
  

@@ -31,7 +31,7 @@ public class StudyParticipantCrfScheduleRowMapper implements RowMapper {
 
 	@Override
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-		/*SpcrfsWrapper survey = new SpcrfsWrapper();
+		SpcrfsWrapper survey = new SpcrfsWrapper();
 		survey.setId(rs.getInt(ID));
 		survey.setStudyParticipantCrf(rs.getInt(STUDY_PARTICIPANT_CRF_ID));
 		survey.setStartDate(rs.getDate(START_DATE));
@@ -48,8 +48,8 @@ public class StudyParticipantCrfScheduleRowMapper implements RowMapper {
 		survey.setFilePath(rs.getString(FILE_PATH));
 		survey.setVerbatim(rs.getString(VERBATIM));
 		survey.setMarkDelete(rs.getBoolean(MARK_DELETE));
-		survey.setHealthAmount(rs.getInt(HEALTH_AMOUNT));*/
-		return null;
+		survey.setHealthAmount(rs.getInt(HEALTH_AMOUNT));
+		return survey;
 	}
 
 }
