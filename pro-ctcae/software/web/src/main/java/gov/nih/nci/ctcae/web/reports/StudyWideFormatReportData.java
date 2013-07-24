@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.StudyWideFormatWrapper;
+import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +14,7 @@ public class StudyWideFormatReportData{
 	
 	JdbcTemplate jdbcTemplate;
 
-    public List<StudyWideFormatWrapper> getSchedulesOnly(Integer studyId) {
+    public List<SpcrfsWrapper> getSchedulesOnly(Integer studyId) {
     	
     	String fetchSchedulesOnly = "SELECT " +
     			"distinct spcrfs.id, spcrfs.study_participant_crf_id, spcrfs.start_date, spcrfs.due_date, " +
@@ -27,11 +27,11 @@ public class StudyWideFormatReportData{
     			" left join studies study on study.id = crf.study_id " +
     			"where study.id = 2 ";
     	
-    	List<StudyWideFormatWrapper> list = jdbcTemplate.query(fetchSchedulesOnly, new StudyParticipantCrfScheduleRowMapper());
+    	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchSchedulesOnly, new StudyParticipantCrfScheduleRowMapper());
     	return list;
     }
     
- public List<StudyWideFormatWrapper> getResponsesOnly(Integer studyId) {
+ public List<SpcrfsWrapper> getResponsesOnly(Integer studyId) {
     	
     	String fetchResponsesOnly = "SELECT distinct spci.sp_crf_schedule_id as scheduleId, cpi.id, " +
     			"pcq.id, pcq.question_type, pctv.term_english, pcvvv.value_english " +
@@ -47,11 +47,11 @@ public class StudyWideFormatReportData{
     			"  left join crfs crf on crf.id = spcrf.crf_id " +
     			"  where crf.study_id = 2)";
     	
-    	List<StudyWideFormatWrapper> list = jdbcTemplate.query(fetchResponsesOnly, new StudyParticipantCrfScheduleRowMapper());
+    	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchResponsesOnly, new StudyParticipantCrfScheduleRowMapper());
     	return list;
     }
  
- public List<StudyWideFormatWrapper> getAddedProQuestions(Integer studyId) {
+ public List<SpcrfsWrapper> getAddedProQuestions(Integer studyId) {
  	
  	String fetchAddedProQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, pcq.id, pctv.term_english, " +
  			" pcq.question_type, pcvvv.value_english " +
@@ -66,11 +66,11 @@ public class StudyWideFormatReportData{
  			"  left join crfs crf on crf.id = spcrf.crf_id " +
  			"  where crf.study_id = 2)";
  	
- 	List<StudyWideFormatWrapper> list = jdbcTemplate.query(fetchAddedProQuestions, new StudyParticipantCrfScheduleRowMapper());
+ 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchAddedProQuestions, new StudyParticipantCrfScheduleRowMapper());
  	return list;
  }
  
- public List<StudyWideFormatWrapper> getAddedMeddraQuestions(Integer studyId) {
+ public List<SpcrfsWrapper> getAddedMeddraQuestions(Integer studyId) {
 	 	
 	 	String fetchAddedMeddraQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, mq.id, " +
 	 			" lltv.meddra_term_english, mq.question_type, mvvv.value_english " +
@@ -85,11 +85,11 @@ public class StudyWideFormatReportData{
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
 	 			" where crf.study_id = 2)";
 	 	
-	 	List<StudyWideFormatWrapper> list = jdbcTemplate.query(fetchAddedMeddraQuestions, new StudyParticipantCrfScheduleRowMapper());
+	 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchAddedMeddraQuestions, new StudyParticipantCrfScheduleRowMapper());
 	 	return list;
 	 }
     
- public List<StudyWideFormatWrapper> getParticipantsAndOrg(Integer studyId) {
+ public List<SpcrfsWrapper> getParticipantsAndOrg(Integer studyId) {
 	 	
 	 	String fetchParticipantsAndOrg = "SELECT distinct p.first_name, p.last_name, o.name as organizationId " +
 	 			" from sp_crf_schedules spcrfs " +
@@ -103,7 +103,7 @@ public class StudyWideFormatReportData{
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
 	 			" where crf.study_id = 2)";
 	 	
-	 	List<StudyWideFormatWrapper> list = jdbcTemplate.query(fetchParticipantsAndOrg, new StudyParticipantCrfScheduleRowMapper());
+	 	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchParticipantsAndOrg, new StudyParticipantCrfScheduleRowMapper());
 	 	return list;
 	 }
  

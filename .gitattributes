@@ -2404,6 +2404,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivileg
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/SpcrfsWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
@@ -2422,7 +2423,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistory.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyWideFormatWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserNotification.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserPasswordHistory.java -text svneol=unset#text/plain

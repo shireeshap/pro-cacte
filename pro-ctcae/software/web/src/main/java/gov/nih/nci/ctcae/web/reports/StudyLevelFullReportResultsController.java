@@ -30,6 +30,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 
 	GenericRepository genericRepository;
 	StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+	private StudyWideFormatReportData studyWideFormatReportData;
 	private static Integer MARK_MANUAL_SKIP = -55;
 	private static Integer MARK_FORCE_SKIP =-99;
 	private static Integer MARK_NOT_ADMINISTERED = -2000;
@@ -47,10 +48,19 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		try{
 			// List of all the answered surveys, by all the participants, for all the crf's associated with the selected Study at each of the studySite.
 			StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request);
-			logger.info("query start time :" + new Date());
-			List<StudyParticipantCrfSchedule> list = studyParticipantCrfScheduleRepository.find(query);
-			list = list.subList(0, (list.size()/2));
-			logger.info("query end time :" + new Date());
+			Long start = new Date().getTime();
+	        List<SpcrfsWrapper> list1 = studyWideFormatReportData.getSchedulesOnly(2);
+	        list1 = studyWideFormatReportData.getResponsesOnly(2);
+	        list1 = studyWideFormatReportData.getAddedProQuestions(2);
+	        list1 = studyWideFormatReportData.getSchedulesOnly(2);
+	        list1 = studyWideFormatReportData.getAddedMeddraQuestions(2);
+	        list1 = studyWideFormatReportData.getParticipantsAndOrg(2);
+	        Long end = new Date().getTime();
+	        System.out.println("EndTime: " + (end - start));
+			
+	        //logger.info("query start time :" + new Date());
+			List<StudyParticipantCrfSchedule> list = null; //studyParticipantCrfScheduleRepository.find(query);
+			//logger.info("query end time :" + new Date());
 	
 			// Mapping a ProCtcQuestion to a column in Report.
 			TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
@@ -681,4 +691,12 @@ private void generateMeddraQuestionMappingForTableHeader(List<StudyParticipantCr
 	public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
 		this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
 	}
+	
+	 public StudyWideFormatReportData getStudyWideFormatReportData() {
+	        return studyWideFormatReportData;
+	 }
+
+	 public void setStudyWideFormatReportData(StudyWideFormatReportData studyWideFormatReportData) {
+	        this.studyWideFormatReportData = studyWideFormatReportData;
+	 }
 }

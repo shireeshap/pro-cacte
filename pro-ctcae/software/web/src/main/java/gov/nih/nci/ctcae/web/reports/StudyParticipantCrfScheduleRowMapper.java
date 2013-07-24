@@ -1,7 +1,8 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.StudyWideFormatWrapper;
+import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,15 +27,28 @@ public class StudyParticipantCrfScheduleRowMapper implements RowMapper {
 	private static String FILE_PATH = "file_path";
 	private static String VERBATIM = "verbatim";
 	private static String MARK_DELETE = "mark_delete";
-
+	private static String HEALTH_AMOUNT = "health_amount";
 
 	@Override
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-		/*StudyWideFormatWrapper survery = new StudyWideFormatWrapper();
-		survery.setId(rs.getInt(ID));
-		survery.setStudyParticipantCrf(rs.getInt(STUDY_PARTICIPANT_CRF_ID));
-		survery.setStartDate(rs.getDate(START_DATE));
-		survery.setDueDate(rs.getDate(DUE_DATE));*/
+		/*SpcrfsWrapper survey = new SpcrfsWrapper();
+		survey.setId(rs.getInt(ID));
+		survey.setStudyParticipantCrf(rs.getInt(STUDY_PARTICIPANT_CRF_ID));
+		survey.setStartDate(rs.getDate(START_DATE));
+		survey.setDueDate(rs.getDate(DUE_DATE));
+		survey.setStatus(CrfStatus.getByCode(rs.getString(STATUS)));
+		survey.setHoliday(rs.getBoolean(IS_HOLIDAY));
+		survey.setCycleNumber(rs.getInt(CYCLE_DAY));
+		survey.setCycleDay(rs.getInt(CYCLE_DAY));
+		survey.setWeekInStudy(rs.getInt(WEEK_IN_STUDY));
+		survey.setMonthInStudy(rs.getInt(MONTH_IN_STUDY));
+		survey.setBaseline(rs.getBoolean(BASELINE));
+		survey.setFormSubmissionMode(AppMode.getByCode(rs.getString(FORM_SUBMISSION_MODE)));
+		survey.setCompletionDate(rs.getDate(FORM_COMPLETION_DATE));
+		survey.setFilePath(rs.getString(FILE_PATH));
+		survey.setVerbatim(rs.getString(VERBATIM));
+		survey.setMarkDelete(rs.getBoolean(MARK_DELETE));
+		survey.setHealthAmount(rs.getInt(HEALTH_AMOUNT));*/
 		return null;
 	}
 

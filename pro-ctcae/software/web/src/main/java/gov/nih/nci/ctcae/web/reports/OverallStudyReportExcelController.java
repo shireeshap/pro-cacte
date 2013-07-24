@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.StudyWideFormatWrapper;
+import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ public class OverallStudyReportExcelController extends AbstractController {
 //        int id = Integer.parseInt(request.getParameter("id"));
         Integer id = ServletRequestUtils.getIntParameter(request, "id", -1);
         Long start = new Date().getTime();
-        List<StudyWideFormatWrapper> list = studyWideFormatReportData.getSchedulesOnly(id);
+        List<SpcrfsWrapper> list = studyWideFormatReportData.getSchedulesOnly(id);
         list = studyWideFormatReportData.getResponsesOnly(id);
         list = studyWideFormatReportData.getAddedProQuestions(id);
         list = studyWideFormatReportData.getSchedulesOnly(id);

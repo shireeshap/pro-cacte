@@ -588,6 +588,7 @@
           class="gov.nih.nci.ctcae.web.reports.StudyLevelFullReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
 	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+	    <property name="studyWideFormatReportData" ref="studyWideFormatReportData"/>
     </bean>
     
      <bean name="/reports/studyLevelFullReportCsv" id="studyLevelFullReportCSVController"

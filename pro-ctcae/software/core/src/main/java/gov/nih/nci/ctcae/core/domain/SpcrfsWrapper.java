@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.util.Date;
 
-public class StudyWideFormatWrapper {
+public class SpcrfsWrapper {
 	private Integer id;
     private Date startDate;
     private Date dueDate;
@@ -22,7 +22,7 @@ public class StudyWideFormatWrapper {
     private Integer studyParticipantCrfItems;
     private Integer studyParticipantCrfScheduleAddedQuestions;
     private Integer userNotifications;
-    private Integer formSubmissionMode;
+    private AppMode formSubmissionMode;
     private Integer studyParticipantCrfScheduleNotification;
     private Integer ivrsSchedules; 
     private String language;
@@ -142,10 +142,10 @@ public class StudyWideFormatWrapper {
 	public void setUserNotifications(Integer userNotifications) {
 		this.userNotifications = userNotifications;
 	}
-	public Integer getFormSubmissionMode() {
+	public AppMode getFormSubmissionMode() {
 		return formSubmissionMode;
 	}
-	public void setFormSubmissionMode(Integer formSubmissionMode) {
+	public void setFormSubmissionMode(AppMode formSubmissionMode) {
 		this.formSubmissionMode = formSubmissionMode;
 	}
 	public Integer getStudyParticipantCrfScheduleNotification() {
