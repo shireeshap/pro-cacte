@@ -2422,6 +2422,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantReportingModeHistory.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyWideFormatWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserNotification.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserPasswordHistory.java -text svneol=unset#text/plain
@@ -2912,6 +2913,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFul
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportExcelController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyParticipantAssignmentComparator.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyParticipantCrfScheduleRowMapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyWideFormatReportData.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractChartGenerator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/ReportResultsHelper.java -text
