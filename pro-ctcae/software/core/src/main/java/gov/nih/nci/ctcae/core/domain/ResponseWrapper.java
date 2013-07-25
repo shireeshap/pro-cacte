@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class ResponseWrapper {
 	
@@ -10,6 +11,7 @@ public class ResponseWrapper {
 	public ProCtcQuestionType questionType;
 	public String termEnglish;
 	public String valueEnglish;
+	public List<Integer> questionsList;
 	
 	public Integer getScheduleId() {
 		return scheduleId;

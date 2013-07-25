@@ -2,13 +2,18 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ResponseWrapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.RowCallbackHandler;
 
-public class ResponsesRowMapper implements RowMapper {
+public class ResponsesCallBackHandler implements RowCallbackHandler {
 	
+	public Map<Integer, List<ResponseWrapper>> map;
 	public static String SCHEDULE_ID = "scheduleId";
 	public static String CRF_PAGE_ITEM_ID = "crfPageItemId";
 	public static String PRO_QUESTION_ID = "proQuestionId";
@@ -16,9 +21,18 @@ public class ResponsesRowMapper implements RowMapper {
 	public static String TERM_ENGLIGH = "term_english";
 	public static String VALUE_ENGLISH = "value_english";
 	
-
+	ResponsesCallBackHandler(Map<Integer, List<ResponseWrapper>> map){
+		this.map = map;
+	}
+	
 	@Override
-	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public void processRow(ResultSet rs) throws SQLException {
+		List<ResponseWrapper> records;
+		records = map.get(rs.getInt(SCHEDULE_ID));
+		if(records == null){
+			records = new ArrayList<ResponseWrapper>();
+			map.put(rs.getInt(SCHEDULE_ID), records);
+		}
 		ResponseWrapper wrapper = new ResponseWrapper();
 		wrapper.setScheduleId(rs.getInt(SCHEDULE_ID));
 		wrapper.setCrfPageItemId(rs.getInt(CRF_PAGE_ITEM_ID));
@@ -26,7 +40,7 @@ public class ResponsesRowMapper implements RowMapper {
 		wrapper.setQuestionType(ProCtcQuestionType.getByCode(rs.getString("question_type")));
 		wrapper.setTermEnglish(rs.getString(TERM_ENGLIGH));
 		wrapper.setValueEnglish(rs.getString(VALUE_ENGLISH));
-		return wrapper;
+		records.add(wrapper);
 	}
 
 }

@@ -59,7 +59,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			
 	        //logger.info("query start time :" + new Date());
 			List<StudyParticipantCrfSchedule> list = null; //studyParticipantCrfScheduleRepository.find(query);
-			//logger.info("query end time :" + new Date());
+			//logger.info("query end time :" + new Date());*/
 	
 			// Mapping a ProCtcQuestion to a column in Report.
 			TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>();
