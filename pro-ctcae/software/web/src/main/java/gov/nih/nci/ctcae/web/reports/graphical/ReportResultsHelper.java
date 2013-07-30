@@ -236,5 +236,20 @@ public class ReportResultsHelper {
         }
         return myProCtcValidValue;
     }
+    
+    // Overaload version of getValidValueResponseCode, for overall study report generation.
+    public static String getValidValueResponseCode(String value, String responseForFirstQuestion, boolean isFirstQuestion) {
+        String response;
+    	if (isFirstQuestion) {
+    		response = ResponseCode.MANUALSKIP.getDisplayName();
+        } else {
+        	if(responseForFirstQuestion != null && responseForFirstQuestion.equals("0")){
+        		response = ResponseCode.FORCEDSKIP.getDisplayName();
+        	} else {
+        		response = ResponseCode.MANUALSKIP.getDisplayName();
+        	}
+        }
+    	return response;
+    }
 
 }
