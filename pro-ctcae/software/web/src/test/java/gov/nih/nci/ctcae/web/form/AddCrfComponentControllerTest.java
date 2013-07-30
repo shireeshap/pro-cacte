@@ -52,6 +52,17 @@ public class AddCrfComponentControllerTest extends WebTestCase {
         proCtcTerm2.setTermEnglish("b", SupportedLanguageEnum.ENGLISH);
         proCtcTerm3.setTermEnglish("c", SupportedLanguageEnum.ENGLISH);
         
+        
+        CtcCategory ctcCategory = new CtcCategory();
+        ctcCategory.setName("PRO-CTCAE");
+        
+        CategoryTermSet categoryTermSet =  new CategoryTermSet();
+        categoryTermSet.setCategory(ctcCategory);
+        categoryTermSet.setCtcTerm(new CtcTerm());
+        
+        proCtcTerm.setCtcTerm(new CtcTerm());
+        proCtcTerm.getCtcTerm().addCategoryTermSet(categoryTermSet);
+
         command = new CreateFormCommand();
 
         firstQuestion = new ProCtcQuestion();
@@ -124,8 +135,8 @@ public class AddCrfComponentControllerTest extends WebTestCase {
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
-
-        assertEquals("must return view for new crf page", "form/ajax/oneCtcCategorySection", modelAndView.getViewName());
+        
+        assertEquals("must return view for new crf page", "form/ajax/reloadFormBuilderDiv", modelAndView.getViewName());
         assertNotNull("must return added Crf Pages", modelAndView.getModel().get("crfPages"));
         assertEquals("must not return crfPageItems", 0, ((List<CrfPageItem>) modelAndView.getModel().get("crfPageItems")).size());
 
