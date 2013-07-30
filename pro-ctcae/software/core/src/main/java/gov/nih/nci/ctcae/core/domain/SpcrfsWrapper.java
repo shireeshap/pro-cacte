@@ -26,8 +26,15 @@ public class SpcrfsWrapper {
     private Integer studyParticipantCrfScheduleNotification;
     private Integer ivrsSchedules; 
     private String language;
+    private String crfTitle;
     
-    public Integer getId() {
+    public String getCrfTitle() {
+		return crfTitle;
+	}
+	public void setCrfTitle(String crfTitle) {
+		this.crfTitle = crfTitle;
+	}
+	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {

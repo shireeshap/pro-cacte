@@ -7,7 +7,28 @@ public class AddedProCtcQuestionWrapper {
 	public ProCtcQuestionType questionType;
 	public String termEnglish;
 	public String valueEnglish;
+	public String responseCode;
+	public String questionPosition;
+	public String gender;
 	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getQuestionPosition() {
+		return questionPosition;
+	}
+	public void setQuestionPosition(String questionPosition) {
+		this.questionPosition = questionPosition;
+	}
+	public String getResponseCode() {
+		return responseCode;
+	}
+	public void setResponseCode(String responseCode) {
+		this.responseCode = responseCode;
+	}
 	public Integer getScheduleId() {
 		return scheduleId;
 	}

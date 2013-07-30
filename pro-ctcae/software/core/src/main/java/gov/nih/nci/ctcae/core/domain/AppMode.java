@@ -31,6 +31,7 @@ public enum AppMode implements CodedEnum<String> {
     public  static AppMode getByCode(String code){
         return getByClassAndCode(AppMode.class, code);
     }
+    
 
     public String getCode() {
         return getDisplayName();
@@ -49,4 +50,23 @@ public enum AppMode implements CodedEnum<String> {
     public String toString() {
         return displayText;
     }
+    
+    public static AppMode getAppMode(String mode){
+		AppMode appMode = null;
+		if(mode != null){
+			if(mode.equals(AppMode.CLINICWEB.getName())){
+				appMode = AppMode.CLINICWEB;
+			} else if(mode.equals(AppMode.CLINICBOOKLET.getName())){
+				appMode = AppMode.CLINICBOOKLET;
+			} else if(mode.equals(AppMode.HOMEBOOKLET.getName())){
+				appMode = AppMode.HOMEBOOKLET;
+			} else if(mode.equals(AppMode.HOMEWEB.getName())){
+				appMode = AppMode.HOMEWEB;
+			} else if(mode.equals(AppMode.IVRS.getName())){
+				appMode = AppMode.IVRS;
+			}			
+		}
+		return appMode;
+	}
+
 }

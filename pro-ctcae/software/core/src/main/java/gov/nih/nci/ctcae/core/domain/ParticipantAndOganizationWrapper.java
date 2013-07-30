@@ -3,22 +3,36 @@ package gov.nih.nci.ctcae.core.domain;
 public class ParticipantAndOganizationWrapper {
 	
 	public Integer scheduleId;
-	public String mrnIdentifier;
+	public String studyParticipantIdentifier;
 	public String firstName;
 	public String lastName;
 	public String organizationName;
+	public String participantId;
+	public String gender;
 	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getParticipantId() {
+		return participantId;
+	}
+	public void setParticipantId(String participantId) {
+		this.participantId = participantId;
+	}
 	public Integer getScheduleId() {
 		return scheduleId;
 	}
 	public void setScheduleId(Integer scheduleId) {
 		this.scheduleId = scheduleId;
 	}
-	public String getMrnIdentifier() {
-		return mrnIdentifier;
+	public String getStudyParticipantIdentifier() {
+		return studyParticipantIdentifier;
 	}
-	public void setMrnIdentifier(String mrnIdentifier) {
-		this.mrnIdentifier = mrnIdentifier;
+	public void setStudyParticipantIdentifier(String mrnIdentifier) {
+		this.studyParticipantIdentifier = mrnIdentifier;
 	}
 	public String getFirstName() {
 		return firstName;

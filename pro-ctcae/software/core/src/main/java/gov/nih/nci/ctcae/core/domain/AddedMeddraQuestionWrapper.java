@@ -7,7 +7,14 @@ public class AddedMeddraQuestionWrapper {
 	public ProCtcQuestionType questionType;
 	public String meddraTermEnglish;
 	public String valueEnglish;
+	public String displayOrder;
 	
+	public String getDisplayOrder() {
+		return displayOrder;
+	}
+	public void setDisplayOrder(String displayOrder) {
+		this.displayOrder = displayOrder;
+	}
 	public Integer getScheduleId() {
 		return scheduleId;
 	}
@@ -15,10 +22,10 @@ public class AddedMeddraQuestionWrapper {
 		this.scheduleId = scheduleId;
 	}
 
-	public Integer getProQuestionId() {
+	public Integer getMeddraQuestionId() {
 		return meddraQuestionId;
 	}
-	public void setProQuestionId(Integer proQuestionId) {
+	public void setMeddraQuestionId(Integer proQuestionId) {
 		this.meddraQuestionId = proQuestionId;
 	}
 	public ProCtcQuestionType getQuestionType() {

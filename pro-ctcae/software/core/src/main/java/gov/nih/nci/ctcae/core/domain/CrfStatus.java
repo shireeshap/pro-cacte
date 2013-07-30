@@ -43,8 +43,7 @@ public enum CrfStatus implements CodedEnum<String> {
     PASTDUE("Past-due"),
     ONHOLD("On-hold"),
     NOTAPPLICABLE("N/A");
-
-
+    
     /**
      * The display text.
      */
@@ -93,6 +92,38 @@ public enum CrfStatus implements CodedEnum<String> {
     @Override
     public String toString() {
         return displayText;
+    }
+    
+    public static CrfStatus getCrfStatus(String status){
+		CrfStatus crfStatus = null;
+		if(status != null){
+			if(status.equals(CrfStatus.DRAFT.getName())){
+				crfStatus = crfStatus.DRAFT;
+			} else if(status.equals(CrfStatus.RELEASED.getName())){
+				crfStatus = crfStatus.RELEASED;
+			} else if(status.equals(CrfStatus.SCHEDULED.getName())){
+				crfStatus = crfStatus.SCHEDULED;
+			} else if(status.equals(CrfStatus.INPROGRESS.getName())){
+				crfStatus = crfStatus.INPROGRESS;
+			} else if(status.equals(CrfStatus.COMPLETED.getName())){
+				crfStatus = crfStatus.COMPLETED;
+			} else if(status.equals(CrfStatus.CANCELLED.getName())){
+				crfStatus = crfStatus.CANCELLED;
+			} else if(status.equals(CrfStatus.OFFSTUDY.getName())){
+				crfStatus = crfStatus.OFFSTUDY;
+			} else if(status.equals(CrfStatus.PASTDUE.getName())){
+				crfStatus = crfStatus.PASTDUE;
+			} else if(status.equals(CrfStatus.ONHOLD.getName())){
+				crfStatus = crfStatus.ONHOLD;
+			} else if(status.equals(CrfStatus.NOTAPPLICABLE.getName())){
+				crfStatus = crfStatus.NOTAPPLICABLE;
+			}			
+		}
+		return crfStatus;
+	}
+	
+    public String getName() {
+        return this.name();
     }
 
 

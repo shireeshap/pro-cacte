@@ -41,7 +41,6 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
      */
     FREQUENCY("Frequency", new String[]{"Never", "Rarely", "Occasionally", "Frequently", "Almost Constantly"});
 
-
     /**
      * The display text.
      */
@@ -137,5 +136,26 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     public String getDesc() {
         return getDisplayName();
     }
-
+    
+    public static ProCtcQuestionType getProCtcQuestionType(String type){
+		ProCtcQuestionType questionType = null;
+		if(type != null){
+			if(type.equals(ProCtcQuestionType.PRESENT.getName())){
+				questionType = ProCtcQuestionType.PRESENT;
+			} else if(type.equals(ProCtcQuestionType.AMOUNT.getName())){
+				questionType = ProCtcQuestionType.AMOUNT;
+			} else if(type.equals(ProCtcQuestionType.SEVERITY.getName())){
+				questionType = ProCtcQuestionType.SEVERITY;
+			} else if(type.equals(ProCtcQuestionType.INTERFERENCE.getName())){
+				questionType = ProCtcQuestionType.INTERFERENCE;
+			} else if(type.equals(ProCtcQuestionType.FREQUENCY.getName())){
+				questionType = ProCtcQuestionType.FREQUENCY;
+			}
+		}
+		return questionType;
+	}
+    
+    public String getName() {
+        return this.name();
+    }
 }
