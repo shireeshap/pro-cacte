@@ -6,24 +6,26 @@ import gov.nih.nci.ctcae.core.domain.ParticipantAndOganizationWrapper;
 import gov.nih.nci.ctcae.core.domain.ResponseWrapper;
 import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
- * @author mehul
- * Date: Apr 15, 2011
+ * @author Amey Sane
+ * Date: July 30, 2013
+ * StudyWideFormatReportData class.
+ * Used to fetch data for Wide format Overall Study report
  */
 public class StudyWideFormatReportData{
-	private String STUDY_ID = "2";
 	
 	JdbcTemplate jdbcTemplate;
 
-    public List<SpcrfsWrapper> getSchedulesOnly(Integer studyId) {
-    	
+    public List<SpcrfsWrapper> getSchedulesOnly(Integer studyId, List<Integer> crfIds, Integer studySiteId) {
     	String fetchSchedulesOnly = "SELECT " +
     			"distinct spcrfs.id, spcrfs.study_participant_crf_id, spcrfs.start_date, spcrfs.due_date, " +
     			"spcrfs.status, spcrfs.is_holiday, spcrfs.cycle_number, spcrfs.cycle_day,spcrfs. week_in_study, " +
@@ -31,18 +33,22 @@ public class StudyWideFormatReportData{
     			"spcrfs.file_path, spcrfs.verbatim, spcrfs.mark_delete, spcrfs.health_amount, spcrfs.version, crf.title " +
     			"from sp_crf_schedules spcrfs " +
     			" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+    			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
     			" left join crfs crf on crf.id = spcrf.crf_id " +
-    			" left join studies study on study.id = crf.study_id " +
-    			"where study.id = 2 ";
+    			" where " +
+    			(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+    			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+    			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "");
     	
     	List<SpcrfsWrapper> list = jdbcTemplate.query(fetchSchedulesOnly, new StudyParticipantCrfScheduleRowMapper());
     	return list;
     }
     
- public List<ResponsesRowMapper> getResponsesOnly(Integer studyId) {
+ public Map<Integer, List<ResponseWrapper>> getResponsesOnly(Integer studyId, List<Integer> crfIds, Integer studySiteId) {
     	
     	String fetchResponsesOnly = "SELECT distinct spci.sp_crf_schedule_id as scheduleId, cpi.id as crfPageItemId, " +
-    			"pcq.id as proQuestionId, pcq.question_type, pctv.term_english, pcvvv.value_english " +
+    			"pcq.id as proQuestionId, pcq.display_order as questionPosition, pct.gender, spci.response_date as responseDate, pcq.question_type, pctv.term_english, pcvvv.value_english," +
+    			"pcvv.response_code as responseCode " +
     			"from study_participant_crf_items spci" +
     			" left join crf_page_items cpi on cpi.id = spci.crf_item_id " +
     			" left join pro_ctc_questions pcq on pcq.id = cpi.pro_ctc_question_id " +
@@ -52,20 +58,23 @@ public class StudyWideFormatReportData{
     			" left join pro_ctc_valid_values_vocab pcvvv on pcvvv.pro_ctc_valid_values_id = pcvv.id" +
     			" where spci.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
     			"  left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
-    			"  left join crfs crf on crf.id = spcrf.crf_id " +
-    			"  where crf.study_id = 2)";
+    			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+    			" left join crfs crf on crf.id = spcrf.crf_id " +
+    			" where " +
+    			(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+    			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+    			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+    			")";
     	
     	Map<Integer, List<ResponseWrapper>> map = new HashMap<Integer, List<ResponseWrapper>>();
-    	//List<ResponsesRowMapper> list = jdbcTemplate.query(fetchResponsesOnly, new ResponsesRowMapper());
     	jdbcTemplate.query(fetchResponsesOnly, new ResponsesCallBackHandler(map));
-    	//return list;
-    	return null;
+    	return map;
     }
  
- public List<AddedProCtcQuestionWrapper> getAddedProQuestions(Integer studyId) {
+ public Map<Integer, List<AddedProCtcQuestionWrapper>> getAddedProQuestions(Integer studyId, List<Integer> crfIds, Integer studySiteId) {
  	
- 	String fetchAddedProQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, pcq.id as proQuestionId, pctv.term_english, " +
- 			" pcq.question_type, pcvvv.value_english " +
+ 	String fetchAddedProQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, pcq.id as proQuestionId, pcq.display_order as questionPosition, " +
+ 			"pct.gender, pctv.term_english, pcq.question_type, pcvvv.value_english, pcvv.response_code as responseCode " +
  			" from sp_crf_sch_added_questions spcaq " +
  			" left join pro_ctc_questions pcq on pcq.id = spcaq.question_id " +
  			" left join pro_ctc_terms pct on pct.id = pcq.pro_ctc_term_id " +
@@ -74,20 +83,23 @@ public class StudyWideFormatReportData{
  			" left join pro_ctc_valid_values_vocab pcvvv on pcvvv.pro_ctc_valid_values_id = pcvv.id " +
  			" where spcaq.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
  			"  left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+ 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
  			"  left join crfs crf on crf.id = spcrf.crf_id " +
- 			"  where crf.study_id = 2)";
+ 			" where " +
+			(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 			 ") and spcaq.question_id IS NOT NULL ";
  	
  	Map<Integer, List<AddedProCtcQuestionWrapper>> map = new HashMap<Integer, List<AddedProCtcQuestionWrapper>>();
- 	//List<AddedProCtcQuestionWrapper> list = jdbcTemplate.query(fetchAddedProQuestions, new AddedProCtcQuestionRowMapper());
  	jdbcTemplate.query(fetchAddedProQuestions, new AddedProCtcQuestionCallBackHandler(map));
- 	//return list;
- 	return null;
+ 	return map;
  }
  
- public List<AddedMeddraQuestionWrapper> getAddedMeddraQuestions(Integer studyId) {
+ public Map<Integer, List<AddedMeddraQuestionWrapper>> getAddedMeddraQuestions(Integer studyId, List<Integer> crfIds, Integer studySiteId) {
 	 	
 	 	String fetchAddedMeddraQuestions = "SELECT distinct spcaq.sp_crf_schedule_id as scheduleId, mq.id as meddraQuestionId, " +
-	 			" lltv.meddra_term_english, mq.question_type, mvvv.value_english " +
+	 			" lltv.meddra_term_english, mq.question_type, mvvv.value_english, mvv.display_order as displayOrder " +
 	 			" from sp_crf_sch_added_questions spcaq " +
 	 			" left join meddra_questions mq on mq.id = spcaq.meddra_question_id " +
 	 			" left join meddra_llt llt on llt.id = mq.meddra_llt_id " +
@@ -96,39 +108,79 @@ public class StudyWideFormatReportData{
 	 			" left join meddra_valid_values_vocab mvvv on mvvv.meddra_valid_values_id = mvv.id " +
 	 			" where spcaq.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
 	 			" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+	 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
-	 			" where crf.study_id = 2)";
+	 			" where " +
+				(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+				(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+				(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+	 			") and spcaq.meddra_question_id IS NOT NULL ";
 	 	
 	 	
 	 	Map<Integer, List<AddedMeddraQuestionWrapper>> map = new HashMap<Integer, List<AddedMeddraQuestionWrapper>>();
-	 	//List<AddedMeddraQuestionWrapper> list = jdbcTemplate.query(fetchAddedMeddraQuestions, new AddedMeddraQuestionRowMapper());
 	 	jdbcTemplate.query(fetchAddedMeddraQuestions, new AddedMeddraQuestionCallBackHandler(map));
-	 	//return list;
-	 	return null;
+	 	return map;
 	 }
     
- public List<ParticipantAndOganizationWrapper> getParticipantsAndOrg(Integer studyId) {
+ public Map<Integer, List<ParticipantAndOganizationWrapper>> getParticipantsAndOrg(Integer studyId, List<Integer> crfIds, Integer studySiteId) {
 	 	
-	 	String fetchParticipantsAndOrg = "SELECT distinct spcrfs.id as scheduleId, p.mrn_identifier, p.first_name, p.last_name, o.name as organizationName " +
+	 	String fetchParticipantsAndOrg = "SELECT distinct spcrfs.id as scheduleId, p.id as participantId, spa.study_participant_identifier, " +
+	 			" p.first_name, p.last_name, p.gender, o.name as organizationName " +
 	 			" from sp_crf_schedules spcrfs " +
 	 			" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
 	 			" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " +
 	 			" left join participants p on p.id = spa.participant_id " +
-	 			" left join study_organizations so on so.study_id = 2 " +
+	 			" left join study_organizations so on so.id = spa.study_site_id " +
 	 			" left join organizations o on o.id = so.organization_id " +
 	 			" where spcrfs.id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
 	 			" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+	 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 	 			" left join crfs crf on crf.id = spcrf.crf_id " +
-	 			" where crf.study_id = 2)";
+			 	" where " +
+				(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+				(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+				(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+				")";
+	 			
 	 	
 	 	Map<Integer, List<ParticipantAndOganizationWrapper>> map = new HashMap<Integer, List<ParticipantAndOganizationWrapper>>();
-	 	//List<ParticipantAndOganizationWrapper> list = jdbcTemplate.query(fetchParticipantsAndOrg, new ParticipantAndOrganizationRowMapper());
 	 	jdbcTemplate.query(fetchParticipantsAndOrg, new ParticipantAndOrganizationCallBackHandler(map));
-	 	//return list;
-	 	return null;
+	 	return map;
 	 }
  
-    
+ public Map<Integer, Date> getFirstResponseDate(Integer studyId, List<Integer> crfIds, Integer studySiteId){
+	 String fetchFirstResponseDate = " Select spci.sp_crf_schedule_id as scheduleId, min(spci.response_date) as firstResponseDate from study_participant_crf_items spci " +
+	 		" where spci.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
+	 		" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+	 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+	 		" left join crfs crf on crf.id = spcrf.crf_id " +
+	 		" where " +
+			(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+	 		" ) " +
+	 		" group by spci.sp_crf_schedule_id ";
+	 Map<Integer, Date> map = new HashMap<Integer, Date>();
+	 jdbcTemplate.query(fetchFirstResponseDate, new FirstResponseDateCallBackHandler(map));
+	 return map; 
+ }
+ 
+ public Map<Integer, String> getResponseModes(Integer studyId, List<Integer> crfIds, Integer studySiteId){
+	 String fetchFirstResponseDate = " Select spci.sp_crf_schedule_id as scheduleId, spci.response_mode as responseMode from study_participant_crf_items spci " +
+	 		" where spci.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
+	 		" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
+	 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+	 		" left join crfs crf on crf.id = spcrf.crf_id " +
+	 		" where " +
+			(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+	 		" ) ";
+	 Map<Integer, String> map = new HashMap<Integer, String>();
+	 jdbcTemplate.query(fetchFirstResponseDate, new ResponseModesCallBackHandler(map));
+	 return map; 
+ }
+ 
     @Required
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
     	this.jdbcTemplate = jdbcTemplate;

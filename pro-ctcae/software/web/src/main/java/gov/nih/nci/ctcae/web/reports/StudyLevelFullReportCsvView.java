@@ -2,20 +2,10 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
-import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.ValidValue;
-import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,9 +19,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.servlet.view.AbstractView;
+
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
@@ -69,14 +62,15 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response)	throws Exception {
-		TreeMap<Organization, TreeMap<CRF,TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>> results = (TreeMap<Organization, TreeMap<CRF,TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>>>) request.getSession().getAttribute("sessionResultsMap");
-    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>> crfDateMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
-    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>> crfModeMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<String>>>) request.getSession().getAttribute("sessionCRFModeMap");
-    	TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>> crfStatusMap = (TreeMap<CRF, LinkedHashMap<Participant, ArrayList<CrfStatus>>>) request.getSession().getAttribute("sessionCRFStatusMap");
-    	TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = (TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionProCtcQuestionMapping");
-        TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = (TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionMeddraQuestionMapping");
+		TreeMap<String, TreeMap<String,TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>> results = (TreeMap<String, TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>>) request.getSession().getAttribute("sessionResultsMap");
+    	TreeMap<String, LinkedHashMap<String, ArrayList<Date>>> crfDateMap = (TreeMap<String, LinkedHashMap<String, ArrayList<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
+    	TreeMap<String, LinkedHashMap<String, ArrayList<String>>> crfModeMap = (TreeMap<String, LinkedHashMap<String, ArrayList<String>>>) request.getSession().getAttribute("sessionCRFModeMap");
+    	TreeMap<String, LinkedHashMap<String, ArrayList<CrfStatus>>> crfStatusMap = (TreeMap<String, LinkedHashMap<String, ArrayList<CrfStatus>>>) request.getSession().getAttribute("sessionCRFStatusMap");
+    	TreeMap<String, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = (TreeMap<String, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionProCtcQuestionMapping");
+        TreeMap<String, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = (TreeMap<String, TreeMap<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionMeddraQuestionMapping");
         ArrayList<String> proCtcTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionProCtcTermHeaders");
-        ArrayList<String> meddraTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionMeddraTermHeaders");  	
+        ArrayList<String> meddraTermHeaders = (ArrayList<String>) request.getSession().getAttribute("sessionMeddraTermHeaders");
+        Map<String, String> participantInfoMap = (Map<String, String>) request.getSession().getAttribute("participantInfoMap");
         Study study = (Study) request.getSession().getAttribute("study");
         
         overallStudyReport = new File(OVERALL_STUDY_REPORT+".csv");
@@ -90,9 +84,6 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		
 		
 		try{
-			/*response.setHeader("Content-Disposition", "attachment;filename=\"StudyLevelFullCSVReport.csv\"");
-			response.setContentType("text/csv");*/
-			
 			response.setContentType("application/zip");
 			response.addHeader("Content-Disposition", "attachment; filename=\"ProCtcaeReports.zip\"");
 			response.addHeader("Content-Transfer-Encoding", "binary");
@@ -127,35 +118,35 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	        //Create main table header
 	        createTableHeaders(proCtcTermHeaders, meddraTermHeaders);
 	        
-	        for(Organization organization : results.keySet()){
-	        	TreeMap<CRF,TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>>> crfMap = results.get(organization);
-	        	for(CRF crf: crfMap.keySet()){ 
-	        		TreeMap<Participant, TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>>> participantMap = crfMap.get(crf);
-	                for (Participant participant : participantMap.keySet()) {
+	        for(String organization : results.keySet()){
+	        	TreeMap<String,TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>> crfMap = results.get(organization);
+	        	for(String crf: crfMap.keySet()){ 
+	        		TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>> participantMap = crfMap.get(crf);
+	                for (String participant : participantMap.keySet()) {
 	                	try{
-		                    TreeMap<String, LinkedHashMap<Question, ArrayList<ValidValue>>> symptomMap = participantMap.get(participant);
+		                    TreeMap<String, LinkedHashMap<String, ArrayList<String>>> symptomMap = participantMap.get(participant);
 		                    int questionCellNum = 0;
 		
-		                    LinkedHashMap<Participant, ArrayList<Date>> datesMap = crfDateMap.get(crf); 
-		                    LinkedHashMap<Participant, ArrayList<String>> modesMap = crfModeMap.get(crf);
-		                    LinkedHashMap<Participant, ArrayList<CrfStatus>> statusMap = crfStatusMap.get(crf);
+		                    LinkedHashMap<String, ArrayList<Date>> datesMap = crfDateMap.get(crf); 
+		                    LinkedHashMap<String, ArrayList<String>> modesMap = crfModeMap.get(crf);
+		                    LinkedHashMap<String, ArrayList<CrfStatus>> statusMap = crfStatusMap.get(crf);
 		                    ArrayList<Date> dates = null;
 		                    ArrayList<String> appModes = null;
 		                    ArrayList<CrfStatus> statusList = null;
 		                    
-		                    for (Participant participantD : datesMap.keySet()) {
+		                    for (String participantD : datesMap.keySet()) {
 		                        if (participant.equals(participantD)) {
 		                            dates = datesMap.get(participant);
 		                            break;
 		                        }
 		                    }
-		                    for(Participant participantM : modesMap.keySet()){
+		                    for(String participantM : modesMap.keySet()){
 		                    	if(participant.equals(participantM)){
 		                    		appModes = modesMap.get(participant);
 		                    		break;
 		                    	}
 		                    }
-		                    for(Participant participantS : statusMap.keySet()){
+		                    for(String participantS : statusMap.keySet()){
 		                    	if(participant.equals(participantS)){
 		                    		statusList = statusMap.get(participant);
 		                    		break;
@@ -168,7 +159,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		                    	int index = 0;
 		                        for (Date date : dates) {
 		                            row = createRow(rowSet, rownum++);
-		                            createCurrentRowPrefix(row, participant.getStudyParticipantIdentifier(), study.getShortTitle(), organization.getDisplayName(), crf.getTitle());
+		                            createCurrentRowPrefix(row, participantInfoMap.get(participant), study.getShortTitle(), organization, crf);
 		                            if(date != null){
 		                            	row.add(4, DateUtils.format(date));
 		                            } else {
@@ -187,43 +178,29 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		
 		                    int cellNum = 7;
 		                    int posNotFound = maxRowSize + 1;
-		                    for (String proCtcTerm : symptomMap.keySet()) {
-		                        LinkedHashMap<Question, ArrayList<ValidValue>> questionMap = symptomMap.get(proCtcTerm);
-		                        for (Question proCtcQuestion : questionMap.keySet()) {
-		                            ArrayList<ValidValue> valuesList = questionMap.get(proCtcQuestion);
-		                            ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-		                            MeddraValidValue meddraValidValue = new MeddraValidValue();
+		                    for (String termEnglish : symptomMap.keySet()) {
+		                        LinkedHashMap<String, ArrayList<String>> questionMap = symptomMap.get(termEnglish);
+		                        for (String proCtcQuestionType : questionMap.keySet()) {
+		                            ArrayList<String> valuesList = questionMap.get(proCtcQuestionType);
 		                            int index = 0;
-		                            for (ValidValue validValue : valuesList) {
-		
-		                                row = getRow(rowSet, (rownum - (valuesList.size() - index)));
+		                            for (String validValue : valuesList) {
+		                            	try{
+		                            		row = getRow(rowSet, (rownum - (valuesList.size() - index)));
+		                            	}catch (Exception e) {
+		                            		e.getStackTrace();
+		                            	}
 		                                
 		                                String pos;
 		                                int tempPos;
-		                                if (validValue instanceof ProCtcValidValue) {
-		                                    proCtcValidValue = (ProCtcValidValue) validValue;
-		                                     pos = getCellNumberForProCtcValidValue(proCtcQuestionMapping, (ProCtcQuestion) proCtcQuestion);
-		                                     tempPos = Integer.valueOf(pos) + 7;
-		                                     if(!pos.equals(DEFAULT_POSITION)){
-		                                    	 cellNum = tempPos;
-		                                    	 row.set(cellNum, proCtcValidValue.getResponseCode().toString());
-		                                     } else {
-		                                    	 logger.debug("No column found for "+ proCtcQuestion);
-		                                    	 continue;
-		                                     }
-		                                }
-		                                if (validValue instanceof MeddraValidValue) {
-		                                    meddraValidValue = (MeddraValidValue) validValue;
-		                                    pos = getCellNumberForMeddraValidValue(meddraQuestionMapping, (MeddraQuestion) proCtcQuestion);
-		                                    tempPos = Integer.valueOf(pos) + 7;
-		                                     if(!pos.equals(DEFAULT_POSITION)){
-		                                    	 cellNum = tempPos;
-		                                    	 row.set(cellNum, meddraValidValue.getDisplayOrder().toString());
-		                                     } else {
-		                                    	 logger.debug("No column found for "+ proCtcQuestion);
-		                                    	 continue;
-		                                     }
-		                                }
+		                                pos = getCellNumberValidValue(proCtcQuestionMapping, meddraQuestionMapping, termEnglish, ProCtcQuestionType.getByCode(proCtcQuestionType));
+	                                     tempPos = Integer.valueOf(pos) + 7;
+	                                     if(!pos.equals(DEFAULT_POSITION)){
+	                                    	 cellNum = tempPos;
+	                                    	 row.set(cellNum, validValue);
+	                                     } else {
+	                                    	 logger.debug("No column found for Term: "+ termEnglish + " and question type: " +proCtcQuestionType);
+	                                    	 continue;
+	                                     }
 		                                index++;
 		                            }
 		                            cellNum++;
@@ -446,21 +423,19 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	row.add(3, formName);
     }
     
-    private String getCellNumberForProCtcValidValue(TreeMap<ProCtcTerm, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping, ProCtcQuestion proCtcQuestion){
-    	TreeMap<ProCtcQuestionType, String> typeMap = proCtcQuestionMapping.get(proCtcQuestion.getProCtcTerm());
-    	if(typeMap != null){
-    		if(typeMap.get(proCtcQuestion.getProCtcQuestionType()) != null){
-    			return typeMap.get(proCtcQuestion.getProCtcQuestionType());
+    private String getCellNumberValidValue(TreeMap<String, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping, 
+    		TreeMap<String, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, String termEnglish, ProCtcQuestionType questionType){
+    	
+    	TreeMap<ProCtcQuestionType, String> proTypeMap = proCtcQuestionMapping.get(termEnglish);
+    	if(proTypeMap != null){
+    		if(proTypeMap.get(questionType) != null){
+    			return proTypeMap.get(questionType);
     		}
     	}
-    	return DEFAULT_POSITION;
-    }
-    
-    private String getCellNumberForMeddraValidValue(TreeMap<LowLevelTerm, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping, MeddraQuestion meddraQuestion){
-    	TreeMap<ProCtcQuestionType, String> typeMap = meddraQuestionMapping.get(meddraQuestion.getLowLevelTerm());
-    	if(typeMap != null){
-    		if(typeMap.get(meddraQuestion.getProCtcQuestionType()) != null){
-    			return typeMap.get(meddraQuestion.getProCtcQuestionType());
+    	TreeMap<ProCtcQuestionType, String> meddraTypeMap = meddraQuestionMapping.get(termEnglish);
+    	if(meddraTypeMap != null){
+    		if(meddraTypeMap.get(questionType) != null){
+    			return meddraTypeMap.get(questionType);
     		}
     	}
     	return DEFAULT_POSITION;

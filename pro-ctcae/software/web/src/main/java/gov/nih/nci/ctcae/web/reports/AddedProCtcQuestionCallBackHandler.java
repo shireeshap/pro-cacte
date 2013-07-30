@@ -11,14 +11,22 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowCallbackHandler;
 
+/**
+ * @author AmeyS
+ * AddedProCtcQuestionCallBackHandler class. 
+ * Used in overall study report generation.
+ */
 public class AddedProCtcQuestionCallBackHandler implements RowCallbackHandler {
 	
 	public Map<Integer, List<AddedProCtcQuestionWrapper>> map;
 	public static String SCHEDULE_ID = "scheduleId";
 	public static String PRO_QUESTION_ID = "proQuestionId";
 	public static String TERM_ENGLIGH = "term_english";
-	public static String QUESTION_ID = "question_type";
+	public static String QUESTION_TYPE = "question_type";
 	public static String VALUE_ENGLISH = "value_english";
+	public static String RESPONSE_CODE = "responseCode";
+	public static String QUESTION_POSISITION = "questionPosition";
+	public static String GENDER = "gender";
 	
 	AddedProCtcQuestionCallBackHandler(Map<Integer, List<AddedProCtcQuestionWrapper>> map){
 		this.map = map;
@@ -35,7 +43,10 @@ public class AddedProCtcQuestionCallBackHandler implements RowCallbackHandler {
 		AddedProCtcQuestionWrapper wrapper = new AddedProCtcQuestionWrapper();
 		wrapper.setScheduleId(rs.getInt(SCHEDULE_ID));
 		wrapper.setProQuestionId(rs.getInt(PRO_QUESTION_ID));
-		wrapper.setQuestionType(ProCtcQuestionType.getByCode(rs.getString("question_type")));
+		wrapper.setQuestionPosition(rs.getString(QUESTION_POSISITION));
+		wrapper.setGender(rs.getString(GENDER));
+		wrapper.setResponseCode(rs.getString(RESPONSE_CODE));
+		wrapper.setQuestionType(ProCtcQuestionType.getProCtcQuestionType(rs.getString(QUESTION_TYPE)));
 		wrapper.setTermEnglish(rs.getString(TERM_ENGLIGH));
 		wrapper.setValueEnglish(rs.getString(VALUE_ENGLISH));
 		records.add(wrapper);
