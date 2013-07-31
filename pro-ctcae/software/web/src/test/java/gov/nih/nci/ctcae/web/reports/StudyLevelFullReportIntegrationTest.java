@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,7 +28,7 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
     CRF crf;
     Participant participant;
     StudyParticipantCrfSchedule studyParticipantCrfSchedule;
-    StudyWideFormatReportData studyWideFormatReportData;
+    StudyWideFormatReportDao studyWideFormatReportData;
     Study study;
     String symptom;
     List<ProCtcValidValue> proCtcValidValues;
@@ -43,7 +44,7 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
         request.setMethod("GET");
         request.setParameter("study", study.getId().toString());
         controller.setGenericRepository(genericRepository);
-        studyWideFormatReportData = new StudyWideFormatReportData();
+        studyWideFormatReportData = new StudyWideFormatReportDao();
         studyWideFormatReportData.setJdbcTemplate((JdbcTemplate) applicationContext.getBean("jdbcTemplate"));
         controller.setStudyWideFormatReportData(studyWideFormatReportData);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
