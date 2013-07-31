@@ -727,7 +727,7 @@
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
     </bean>
    
-    <bean name="studyWideFormatReportData" class="gov.nih.nci.ctcae.web.reports.StudyWideFormatReportData">
+    <bean name="studyWideFormatReportData" class="gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
    
