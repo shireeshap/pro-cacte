@@ -719,10 +719,7 @@
     <bean name="productionDataCorrectorBean" class="gov.nih.nci.ctcae.web.ProductionDataCorrector">
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
     </bean>
-    <bean name="/reports/overallStudyExcel" id="overallStudyExcel"
-          class="gov.nih.nci.ctcae.web.reports.OverallStudyReportExcelController">
-        <property name="overallStudyData" ref="overallStudyDataBean"/>
-    </bean>
+
     <bean name="overallStudyDataBean" class="gov.nih.nci.ctcae.web.reports.OverallStudyData">
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
     </bean>
