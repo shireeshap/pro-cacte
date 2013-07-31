@@ -1,17 +1,18 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.AddedMeddraQuestionWrapper;
-import gov.nih.nci.ctcae.core.domain.AddedProCtcQuestionWrapper;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.ParticipantAndOganizationWrapper;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ResponseWrapper;
-import gov.nih.nci.ctcae.core.domain.SpcrfsWrapper;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao;
+import gov.nih.nci.ctcae.core.jdbc.support.AddedMeddraQuestionWrapper;
+import gov.nih.nci.ctcae.core.jdbc.support.AddedProCtcQuestionWrapper;
+import gov.nih.nci.ctcae.core.jdbc.support.ParticipantAndOganizationWrapper;
+import gov.nih.nci.ctcae.core.jdbc.support.ResponseWrapper;
+import gov.nih.nci.ctcae.core.jdbc.support.SpcrfsWrapper;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
@@ -38,7 +39,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 
 	GenericRepository genericRepository;
 	StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
-	private StudyWideFormatReportData studyWideFormatReportData;
+	private StudyWideFormatReportDao studyWideFormatReportData;
 	private static Integer MARK_MANUAL_SKIP = -55;
 	private static Integer MARK_FORCE_SKIP =-99;
 	private static Integer MARK_NOT_ADMINISTERED = -2000;
@@ -549,11 +550,11 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
 	}
 	
-	 public StudyWideFormatReportData getStudyWideFormatReportData() {
+	 public StudyWideFormatReportDao getStudyWideFormatReportData() {
 	        return studyWideFormatReportData;
 	 }
 
-	 public void setStudyWideFormatReportData(StudyWideFormatReportData studyWideFormatReportData) {
+	 public void setStudyWideFormatReportData(StudyWideFormatReportDao studyWideFormatReportData) {
 	        this.studyWideFormatReportData = studyWideFormatReportData;
 	 }
 }
