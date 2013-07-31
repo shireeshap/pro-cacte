@@ -2446,6 +2446,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/pas
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordPolicy.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/StudyWideFormatReportDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
