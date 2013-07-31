@@ -2338,8 +2338,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/ProCtcDao.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AddedMeddraQuestionWrapper.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AddedProCtcQuestionWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AppMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Arm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
@@ -2382,7 +2380,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Notification
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/OrganizationClinicalStaff.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Participant.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantAndOganizationWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantSchedule.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Persistable.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Person.java -text
@@ -2402,13 +2399,11 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/QueryStrings
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Question.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ResponseCode.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ResponseWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Role.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/SpcrfsWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
