@@ -3319,6 +3319,8 @@ pro-ctcae/software/web/src/main/webapp/css/table_menu.css -text
 pro-ctcae/software/web/src/main/webapp/css/tree.css -text
 pro-ctcae/software/web/src/main/webapp/css/yui-autocomplete.css -text
 pro-ctcae/software/web/src/main/webapp/decorated-error.jsp -text
+pro-ctcae/software/web/src/main/webapp/images/EQ-5D-5L_US_English.doc -text
+pro-ctcae/software/web/src/main/webapp/images/EQ-5D_5L_US_Spanish.doc -text
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.mp4 -text svneol=unset#unset
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.theora.ogv -text
 pro-ctcae/software/web/src/main/webapp/images/Pro-CTCAE_mfull.webm -text
