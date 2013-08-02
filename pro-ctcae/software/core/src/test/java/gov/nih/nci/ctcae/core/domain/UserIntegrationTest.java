@@ -250,7 +250,20 @@ public class UserIntegrationTest extends TestDataManager {
             assertTrue(true);
         }
     }
-
+    
+    public void testDeactivateUser(){
+    	assertTrue(defaultUser.isEnabled());
+    	defaultUser.deactivateUser();
+    	assertFalse(defaultUser.isEnabled());
+    }
+    
+    public void testActivateUser(){
+    	defaultUser.deactivateUser();
+    	assertFalse(defaultUser.isEnabled());
+    	defaultUser.activateUser();
+    	assertTrue(defaultUser.isEnabled());
+    }
+    
     @Required
     public void setDaoAuthenticationProvider(DaoAuthenticationProvider daoAuthenticationProvider) {
         this.daoAuthenticationProvider = daoAuthenticationProvider;

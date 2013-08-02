@@ -72,6 +72,21 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
         }
 
     }
+    
+    public void testDeactivateClinicalStaff(){
+    	saveClinicalStaff();
+    	assertEquals(RoleStatus.ACTIVE, clinicalStaff.getStatus());
+    	clinicalStaff.deactivateClinicalStaff();
+    	assertEquals(RoleStatus.IN_ACTIVE, clinicalStaff.getStatus());
+    }
+    
+    public void testActivateClinicalStaff(){
+    	saveClinicalStaff();
+    	clinicalStaff.deactivateClinicalStaff();
+    	assertEquals(RoleStatus.IN_ACTIVE, clinicalStaff.getStatus());
+    	clinicalStaff.activateClinicalStaff(null);
+    	assertEquals(RoleStatus.ACTIVE, clinicalStaff.getStatus());
+    }
 
 
 
