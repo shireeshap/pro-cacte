@@ -657,12 +657,15 @@ function refreshQuestionDiv(questionId){
         if(categoryName === 'PRO-CTCAE'){
             jQuery('#recallPeriod').attr('selectedIndex', '0');
             jQuery('#recallPeriod').trigger('change');
+            jQuery('#recallPeriod').removeAttr('disabled');
+            jQuery('#recallPeriodOtherSpecifyInput').removeAttr('disabled');
         } else {
             jQuery('#recallPeriod').attr('selectedIndex', '3');
             jQuery('#recallPeriod').trigger('change');
             jQuery('#recallPeriodOtherSpecifyInput').val('Please select the statement that best describes your health today');
+            jQuery('#recallPeriod').attr('disabled', 'disabled');
+            jQuery('#recallPeriodOtherSpecifyInput').attr('disabled', 'disabled');
         }
-
     }
     
     function hideProCtcTermsForCtcCategory(ctcCategoryId) {
