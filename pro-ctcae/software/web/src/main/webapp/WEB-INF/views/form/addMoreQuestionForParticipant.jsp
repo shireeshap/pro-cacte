@@ -520,7 +520,7 @@
 		        </tr>
 		    </table> 
 		</c:if>
-        <chrome:box autopad="true" message="false" title="Visual Assessment Scale">
+        <chrome:box autopad="true" message="false" title="${command.isEq5dCrf ? 'Visual Assessment Scale' : '' }">
 	    <c:choose>
 	        <c:when test="${command.isEq5dCrf}">
 	           
