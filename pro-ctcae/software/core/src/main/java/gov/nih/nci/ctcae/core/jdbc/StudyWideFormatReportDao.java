@@ -15,6 +15,7 @@ import gov.nih.nci.ctcae.core.jdbc.support.StudyParticipantCrfScheduleRowMapper;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -172,7 +173,7 @@ public class StudyWideFormatReportDao{
 	 return map; 
  }
  
- public Map<Integer, String> getResponseModes(Integer studyId, List<Integer> crfIds, Integer studySiteId){
+ public Map<Integer, HashSet<String>> getResponseModes(Integer studyId, List<Integer> crfIds, Integer studySiteId){
 	 String fetchFirstResponseDate = " Select spci.sp_crf_schedule_id as scheduleId, spci.response_mode as responseMode from study_participant_crf_items spci " +
 	 		" where spci.sp_crf_schedule_id in (SELECT distinct spcrfs.id from sp_crf_schedules spcrfs " +
 	 		" left join study_participant_crfs spcrf on spcrf.id = spcrfs.study_participant_crf_id " +
@@ -183,7 +184,7 @@ public class StudyWideFormatReportDao{
 			(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 			(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 	 		" ) ";
-	 Map<Integer, String> map = new HashMap<Integer, String>();
+	 Map<Integer, HashSet<String>> map = new HashMap<Integer, HashSet<String>>();
 	 jdbcTemplate.query(fetchFirstResponseDate, new ResponseModesCallBackHandler(map));
 	 return map; 
  }
