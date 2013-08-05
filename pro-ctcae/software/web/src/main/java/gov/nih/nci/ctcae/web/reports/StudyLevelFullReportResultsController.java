@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao;
 import gov.nih.nci.ctcae.core.jdbc.support.AddedMeddraQuestionWrapper;
 import gov.nih.nci.ctcae.core.jdbc.support.AddedProCtcQuestionWrapper;
@@ -22,6 +23,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +58,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 	Map<Integer, List<AddedMeddraQuestionWrapper>> listAddedMeddraQuestions;
 	Map<Integer,List<ParticipantAndOganizationWrapper>> listParticipantsAndOrganizations;
 	Map<Integer, Date> listFirstResponseDates;
-	Map<Integer, String> listResponseModes;
+	Map<Integer, HashSet<String>> listResponseModes;
 	
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -65,28 +68,25 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			parseRequestParametersAndFetchData(request);
 			Map<String, String> participantInfoMap = new HashMap<String, String>();
 			// Mapping a ProCtcQuestion to a column in Report.
-			TreeMap<String, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<String, TreeMap<ProCtcQuestionType, String>>();
+			Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping = new TreeMap<String, Map<ProCtcQuestionType, String>>();
 			// Mapping a MeddraQuestion to a column in Report.
-			TreeMap<String, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<String, TreeMap<ProCtcQuestionType, String>>();
+			Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping = new TreeMap<String, Map<ProCtcQuestionType, String>>();
 			// ProCtcQuestion List to be displayed in Report's table header (ordered according to proCtcQuestionMapping)
-			ArrayList<String> proCtcTermHeaders = new ArrayList<String>();
+			List<String> proCtcTermHeaders = new ArrayList<String>();
 			// MeddraQuestion List to be displayed in Report's table header (ordered according to meddraQuestionMapping)
-			ArrayList<String> meddraTermHeaders = new ArrayList<String>();
+			List<String> meddraTermHeaders = new ArrayList<String>();
 			// Save the start dates of the submitted surveys listed in 'list'
-			TreeMap<String, LinkedHashMap<String, ArrayList<Date>>> crfDateMap = new TreeMap<String, LinkedHashMap<String, ArrayList<Date>>>();
+			Map<String, LinkedHashMap<String, List<Date>>> crfDateMap = new TreeMap<String, LinkedHashMap<String, List<Date>>>();
 			// Save the survey_answering_mode of the submitted surveys listed in 'list'
-			TreeMap<String, LinkedHashMap<String, ArrayList<String>>> crfModeMap = new TreeMap<String, LinkedHashMap<String, ArrayList<String>>>();
+			Map<String, LinkedHashMap<String, List<String>>> crfModeMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			// Save the survey status of the submitted surveys listed in 'list'
-			TreeMap<String, LinkedHashMap<String, ArrayList<CrfStatus>>> crfStatusMap = new TreeMap<String, LinkedHashMap<String, ArrayList<CrfStatus>>>();
+			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap = new TreeMap<String, LinkedHashMap<String, List<CrfStatus>>>();
 		  
 			int col = generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
 			
-			TreeMap<String, TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>> overAllResults =
+			Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> overAllResults =
 				getCareResults(listSchedules, listParticipantsAndOrganizations, crfDateMap, crfModeMap, crfStatusMap, listResoponses, 
 						listAddedProCtcQuestions, listAddedMeddraQuestions, participantInfoMap, listFirstResponseDates, listResponseModes, meddraQuestionMapping, meddraTermHeaders, col);
-				
-				
-				//getCareResults(crfDateMap, crfModeMap, crfStatusMap, list, meddraQuestionMapping, meddraTermHeaders, col, listSchedules, listParticipantsAndOrganizations);
 	
 			modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 			request.getSession().setAttribute("sessionResultsMap", overAllResults);
@@ -106,13 +106,13 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		return modelAndView;
 	}
 	
-	private int generateQuestionMappingForTableHeader(TreeMap<String, TreeMap<ProCtcQuestionType, String>> proCtcQuestionMapping,
-			 		ArrayList<String> proCtcTermHeaders) {
+	private int generateQuestionMappingForTableHeader(Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping,
+			List<String> proCtcTermHeaders) {
 		
 		int col = 0;
 		String prefix = "";
 		String proCtcTermEnglishTermText;
-		TreeMap<ProCtcQuestionType, String> typeMap;
+		Map<ProCtcQuestionType, String> typeMap;
 		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
 		List<ProCtcTerm> proCtcTerms = genericRepository.find(proCtcTermQuery);
 		for (ProCtcTerm proCtcTerm : proCtcTerms) {
@@ -154,19 +154,19 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		return col;
 	}
 
-	private TreeMap<String, TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>> getCareResults(
+	private Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> getCareResults(
 			List<SpcrfsWrapper> schedules, Map<Integer, List<ParticipantAndOganizationWrapper>> participants,
-			TreeMap<String, LinkedHashMap<String, ArrayList<Date>>> crfDateMap, TreeMap<String, LinkedHashMap<String, ArrayList<String>>> crfModeMap,
-			TreeMap<String, LinkedHashMap<String, ArrayList<CrfStatus>>> crfStatusMap, Map<Integer, List<ResponseWrapper>> responses,
+			Map<String, LinkedHashMap<String, List<Date>>> crfDateMap, Map<String, LinkedHashMap<String, List<String>>> crfModeMap,
+			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap, Map<Integer, List<ResponseWrapper>> responses,
 			Map<Integer, List<AddedProCtcQuestionWrapper>> addedProCtcQuestions, Map<Integer, List<AddedMeddraQuestionWrapper>> addedMeddraQuestions,
-			Map<String, String> participantInfoMap, Map<Integer, Date> firstResponseDates, Map<Integer, String> responseModes, TreeMap<String, TreeMap<ProCtcQuestionType, String>> meddraQuestionMapping,
-			ArrayList<String> meddraTermHeaders, int col) throws ParseException {
+			Map<String, String> participantInfoMap, Map<Integer, Date> firstResponseDates, Map<Integer, HashSet<String>> responseModes, Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping,
+			List<String> meddraTermHeaders, int col) throws ParseException {
 
-		TreeMap<String, TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>> organizationMap = 
-			new TreeMap<String, TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>>(); 
-		TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>> crfMap;
-		TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>> participantMap;
-		TreeMap<String, LinkedHashMap<String, ArrayList<String>>> symptomMap;
+		Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> organizationMap = 
+			new TreeMap<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>(); 
+		Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap;
+		Map<String, Map<String, LinkedHashMap<String, List<String>>>> participantMap;
+		Map<String, LinkedHashMap<String, List<String>>> symptomMap;
 		
 		ArrayList<Date> dates;
 		ArrayList<String> appModes;
@@ -179,7 +179,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if(organizationMap.get(organization) != null){
 				crfMap = organizationMap.get(organization);
 			} else {
-				crfMap = new TreeMap<String, TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>>();
+				crfMap = new TreeMap<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>();
 				organizationMap.put(organization, crfMap);
 			}
 			
@@ -187,7 +187,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if(crfMap.get(crf) != null){
 				participantMap = crfMap.get(crf);
 			} else {
-				participantMap = new TreeMap<String, TreeMap<String, LinkedHashMap<String, ArrayList<String>>>>();;
+				participantMap = new TreeMap<String, Map<String, LinkedHashMap<String, List<String>>>>();;
 				crfMap.put(crf, participantMap);
 			}
 			
@@ -198,51 +198,51 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			if(participantMap.get(participant) != null){
 				symptomMap = participantMap.get(participant);
 			} else {
-				symptomMap = new TreeMap<String, LinkedHashMap<String, ArrayList<String>>>();
+				symptomMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 				participantMap.put(participant, symptomMap);
 			}
 			
-			LinkedHashMap<String, ArrayList<Date>> datesMap;
-			LinkedHashMap<String,ArrayList<String>> modeMap;
-			LinkedHashMap<String,ArrayList<CrfStatus>> statusMap;
+			LinkedHashMap<String, List<Date>> datesMap;
+			LinkedHashMap<String,List<String>> modeMap;
+			LinkedHashMap<String,List<CrfStatus>> statusMap;
 			
 			if(crfDateMap.get(crf) != null){
 				datesMap = crfDateMap.get(crf);
 			} else {
-				datesMap = new LinkedHashMap<String, ArrayList<Date>>();
+				datesMap = new LinkedHashMap<String, List<Date>>();
 				crfDateMap.put(crf, datesMap);
 			}
 			
 			if (crfModeMap.containsKey(crf)) {
 				modeMap = crfModeMap.get(crf);
 			} else {
-				modeMap = new LinkedHashMap<String, ArrayList<String>>();
+				modeMap = new LinkedHashMap<String, List<String>>();
 				crfModeMap.put(crf, modeMap);
 			}
 			
 			if(crfStatusMap.containsKey(crf)){
 				statusMap = crfStatusMap.get(crf);
 			} else {
-				statusMap = new LinkedHashMap<String, ArrayList<CrfStatus>>();
+				statusMap = new LinkedHashMap<String, List<CrfStatus>>();
 				crfStatusMap.put(crf, statusMap);
 			}
 			
 			if (datesMap.containsKey(participant)) {
-				dates = datesMap.get(participant);
+				dates = (ArrayList<Date>) datesMap.get(participant);
 			} else {
 				dates = new ArrayList<Date>();
 				datesMap.put(participant, dates);
 			}
 
 			if (modeMap.containsKey(participant)) {
-				appModes = modeMap.get(participant);
+				appModes = (ArrayList<String>) modeMap.get(participant);
 			} else {
 				appModes = new ArrayList<String>();
 				modeMap.put(participant, appModes);
 			}
 			
 			if(statusMap.containsKey(participant)){
-				statusList = statusMap.get(participant);
+				statusList = (ArrayList<CrfStatus>) statusMap.get(participant);
 			} else {
 				statusList = new ArrayList<CrfStatus>();
 				statusMap.put(participant, statusList);
@@ -251,7 +251,13 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			statusList.add(studyParticipantCrfSchedule.getStatus());
 			String mode = null;
 			if(responseModes.get(studyParticipantCrfSchedule.getId()) != null){
-				mode = responseModes.get(studyParticipantCrfSchedule.getId());
+				HashSet<String> responseModeSet = (HashSet<String>) responseModes.get(studyParticipantCrfSchedule.getId());
+				Iterator<String> itr = responseModeSet.iterator();
+				mode = (itr.hasNext()? itr.next() : null);
+				while(itr.hasNext()){
+					mode += ", " + itr.next();
+				}
+
 			}
 			appModes.add(mode);
 			dates.add(firstResponseDates.get(studyParticipantCrfSchedule.getId()));
@@ -328,7 +334,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 						boolean isMeddraQuestion = false;
 						
 						String prefix = "";
-						TreeMap<ProCtcQuestionType, String> typeMap;
+						Map<ProCtcQuestionType, String> typeMap;
 						String llt = studyParticipantCrfItem.getTermEnglish();
 						if (meddraQuestionMapping.containsKey(llt)) {
 							typeMap = meddraQuestionMapping.get(llt);
@@ -385,21 +391,21 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 	}
 	
 	
-	private void buildMap(String questionType, String symptom, String value, TreeMap<String, LinkedHashMap<String, ArrayList<String>>> symptomMap,
+	private void buildMap(String questionType, String symptom, String value, Map<String, LinkedHashMap<String, List<String>>> symptomMap,
 			String responseForFirstQuestion, Integer dateIndex, boolean participantAddedQuestion, CrfStatus crfStatus, String participantGender, String questionGender,
 			boolean isMeddraQuestion, boolean isFirstQuestion) {
 		
-		LinkedHashMap<String, ArrayList<String>> careResults;
+		LinkedHashMap<String, List<String>> careResults;
 		ArrayList<String> validValue;
 		if (symptomMap.get(symptom) != null) {
 			careResults = symptomMap.get(symptom);
 		} else {
-			careResults = new LinkedHashMap<String, ArrayList<String>>();
+			careResults = new LinkedHashMap<String, List<String>>();
 			symptomMap.put(symptom, careResults);
 		}
 
 		if (careResults.get(questionType) != null) {
-			validValue = careResults.get(questionType);
+			validValue = (ArrayList<String>) careResults.get(questionType);
 		} else {
 			validValue = new ArrayList<String>();
 			for (int j = 0; j <= dateIndex; j++) {
@@ -522,11 +528,14 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 				crf = crf.getParentCrf();
 			}
 			request.getSession().setAttribute("crf", crf);
+			request.getSession().setAttribute("crfTitle", crf.getTitle());
 		}
 		
 		
 		if (!StringUtils.isBlank(studySiteParam)) {
 			studySiteId = Integer.parseInt(studySiteParam);
+			StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studySiteId);
+			request.getSession().setAttribute("organizationName", studyOrganization.getOrganization().getName());
 		}
 		
 		listSchedules = studyWideFormatReportData.getSchedulesOnly(studyId, crfIds, studySiteId);
