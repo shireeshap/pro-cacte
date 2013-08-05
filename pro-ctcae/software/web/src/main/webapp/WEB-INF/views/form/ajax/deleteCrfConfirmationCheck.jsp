@@ -9,24 +9,35 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<body>
-
-	<chrome:box title="">
-	<chrome:division>
-		<p>
-		    <strong>Do you really want to delete all ${crfPageDescription} questions?</strong><br/>
-	    </p>
-		
-		
-		<p>
-	        <strong id="conditionsWarningForCrfPage_${selectedCrfPageNumber}" style="display:none">
-	            <tags:message code="form.label.delete_conditional_triggering_question_instruction"/>
-	        </strong>
-	    </p>
+<style>
+	.message_style{
+		margin-left:12px;
+	}
 	
+	.p_style{
+		padding: 0.1em;
+	}
+	.flow_button_style{
+		position:relative;
+		bottom: -20px;
+	}
+</style>
+
+<body>
+	<chrome:box title="form.button.delete.symptom" omitBorders="true">
+		<div id="message" class="message_style">
+			<p class="p_style">
+			    <strong>Do you really want to delete all ${crfPageDescription} questions?</strong><br/>
+		    </p>
+			<p>
+		        <strong id="conditionsWarningForCrfPage_${selectedCrfPageNumber}" style="display:none">
+		            <tags:message code="form.label.delete_conditional_triggering_question_instruction"/>
+		        </strong>
+		    </p>
+		</div>
 		<br />
 		
-		<div class="flow-buttons">
+		<div class="flow-buttons flow_button_style">
 		     <span class="previous ibutton">
 		      <tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>     
 		  	</span>
@@ -35,6 +46,5 @@
 		                     onclick="deleteCrfPageConfirm('${selectedCrfPageNumber}','${proCtcTermId}')"/>
 		    </span>
 		</div>
-    </chrome:division>
     </chrome:box>
 </body>
