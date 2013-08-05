@@ -302,7 +302,7 @@ public class ListValues {
 		List<String> itemBank = new ArrayList<String>();
 		itemBank.add("PRO-CTCAE");
 		itemBank.add("EQ5D-5L");
-		itemBank.add("EQ5D-3L");
+		//itemBank.add("EQ5D-3L");
 		return itemBank;
 	}
 
