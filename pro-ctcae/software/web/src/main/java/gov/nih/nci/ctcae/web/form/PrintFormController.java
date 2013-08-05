@@ -19,6 +19,8 @@ public class PrintFormController extends AbstractController {
     private CRFRepository crfRepository;
     private static String US_ENGLISH = "en";
 	private static String US_SPANISH = "es";
+	private static String EQ_5D_SPANISH_DOCUMENT = "/proctcae/images/EQ-5D_5L_US_Spanish.doc";
+	private static String EQ_5D_ENGLISH_DOCUMENT = "/proctcae/images/EQ-5D-5L_US_English.doc";
 	
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
     	Integer id = Integer.parseInt(request.getParameter("crfId"));
@@ -31,9 +33,9 @@ public class PrintFormController extends AbstractController {
             }
             if(crf.isEq5d5L()){
             	if(US_SPANISH.equals(language)){
-            		return new ModelAndView(new RedirectView("/proctcae/images/EQ-5D_5L_US_Spanish.doc"));
+            		return new ModelAndView(new RedirectView(EQ_5D_SPANISH_DOCUMENT));
             	} else {
-            		return new ModelAndView(new RedirectView("/proctcae/images/EQ-5D-5L_US_English.doc"));
+            		return new ModelAndView(new RedirectView(EQ_5D_ENGLISH_DOCUMENT));
             	}
             }
         }
