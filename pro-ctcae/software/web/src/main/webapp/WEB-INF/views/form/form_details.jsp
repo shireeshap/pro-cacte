@@ -973,6 +973,22 @@ function refreshQuestionDiv(questionId){
 	                </ul>
 	            </td>
 	        </tr>
+            <tr><td  style="text-align:right;font-weight:bold;margin-left:10em;">Item bank:</td>
+               <td>
+               <select id="itemBank" onchange="javascript:selectItemBank(this.value)">
+                   <c:forEach items="${itemBank}" var="item">
+                       <c:choose>
+                           <c:when test="${item eq command.selectedItemBank}">
+                               <option value="${item}" selected>${item}</option>
+                           </c:when>
+                           <c:otherwise>
+                               <option value="${item}">${item}</option>
+                           </c:otherwise>
+                       </c:choose>
+                   </c:forEach>
+               </select>    
+               </td>        
+            </tr>
 	        <tr>
 				<c:set var="isOther" value="true"/>
 				<c:set var="style" value="margin:3px;"/>
@@ -1001,21 +1017,6 @@ function refreshQuestionDiv(questionId){
 			    	<input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${command.crf.recallPeriod}" size="60"
 			           	style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
 				</td>
-	        </tr>
-	        <tr><td  style="text-align:right;font-weight:bold;margin-left:10em;">Item bank:</td>
-	           <td>
-               <select id="itemBank" onchange="javascript:selectItemBank(this.value)">
-                   <c:forEach items="${itemBank}" var="item">
-                       <c:choose>
-                           <c:when test="${item eq command.selectedItemBank}">
-                               <option value="${item}" selected>${item}</option>
-                           </c:when>
-                           <c:otherwise>
-                               <option value="${item}">${item}</option>
-                           </c:otherwise>
-                       </c:choose>
-                   </c:forEach>
-               </select>	</td>        
 	        </tr>
 	    </table>
         
