@@ -298,11 +298,13 @@ public class ClinicalStaff extends Person {
     }
     
     public void removeUserRoles(){
-    	getUser().getUserRoles().clear();
+    	if(getUser() != null){
+    		getUser().getUserRoles().clear();
+    	}
     }
     
     public void addUserRole(Role role){
-    	if(role != null){
+    	if(role != null && getUser() != null){
     		getUser().addUserRole(new UserRole(role));
     	}
     }
@@ -322,14 +324,14 @@ public class ClinicalStaff extends Person {
     }
     
     public void deactivateUser(){
-    	if(user != null){
-    		user.deactivateUser();
+    	if(getUser() != null){
+    		getUser().deactivateUser();
     	}
     }
     
     public void activateUser(){
-    	if(user != null){
-    		user.activateUser();
+    	if(getUser() != null){
+    		getUser().activateUser();
     	}
     }
 }
