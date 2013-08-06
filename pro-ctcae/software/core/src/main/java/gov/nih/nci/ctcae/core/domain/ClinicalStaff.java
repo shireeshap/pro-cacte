@@ -292,7 +292,7 @@ public class ClinicalStaff extends Person {
 
     public void deactivateClinicalStaff(){
     	setStatus(RoleStatus.IN_ACTIVE);
-    	deactivateUser(getUser());
+    	deactivateUser();
     	deactivateStudyOrganizationalClinicalStaff();
     	removeUserRoles();
     }
@@ -309,7 +309,7 @@ public class ClinicalStaff extends Person {
     
     public void activateClinicalStaff(Role role){
     	setStatus(RoleStatus.ACTIVE);
-    	activateUser(getUser());
+    	activateUser();
     	addUserRole(role);
     }
     
@@ -321,13 +321,13 @@ public class ClinicalStaff extends Person {
     	}
     }
     
-    public void deactivateUser(User user){
+    public void deactivateUser(){
     	if(user != null){
     		user.deactivateUser();
     	}
     }
     
-    public void activateUser(User user){
+    public void activateUser(){
     	if(user != null){
     		user.activateUser();
     	}
