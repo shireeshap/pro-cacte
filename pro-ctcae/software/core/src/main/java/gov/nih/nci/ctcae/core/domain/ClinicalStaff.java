@@ -322,10 +322,14 @@ public class ClinicalStaff extends Person {
     }
     
     public void deactivateUser(User user){
-    	user.deactivateUser();
+    	if(user != null){
+    		user.deactivateUser();
+    	}
     }
     
     public void activateUser(User user){
-    	user.activateUser();
+    	if(user != null){
+    		user.activateUser();
+    	}
     }
 }
