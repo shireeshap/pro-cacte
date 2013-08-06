@@ -23,7 +23,7 @@
             <c:if test="${not empty crfPageItem.instructions}">
                 <chrome:summary label="Instructions">
           <jsp:attribute name="content">
-           ${crfPageItem.instructions}
+           ${crfPageItem.instructions} 
           </jsp:attribute>
 
                 </chrome:summary>
@@ -46,7 +46,7 @@
                     id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
               <c:choose>
-                  <c:when test="${crfPageItem.crfItemAllignment.displayName eq 'Horizontal' and !command.crf.eq5d}">
+                  <c:when test="${crfPageItem.crfItemAllignment.displayName eq 'Horizontal' and !crfPageItem.crfPage.crf.eq5d}">
                       <c:set var="horizontalCrfItemsStyle" value=""/>
                       <c:set var="verticalCrfItemsStyle" value="display:none;"/>
                   </c:when>

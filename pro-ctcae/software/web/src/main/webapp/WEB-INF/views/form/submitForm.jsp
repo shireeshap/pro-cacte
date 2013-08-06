@@ -170,6 +170,12 @@
         }
 
     </script>
+    <style>
+        div.errors {
+            margin: 15px;
+            padding: 0.5em 0em 0.2em 1em;
+        }
+    </style>
 </head>
 <body>
 <ctcae:form method="post" name="myForm">

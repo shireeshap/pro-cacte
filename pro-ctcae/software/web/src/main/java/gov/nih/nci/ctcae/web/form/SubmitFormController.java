@@ -222,7 +222,7 @@ public class SubmitFormController extends SimpleFormController {
                                     continue;
                                 }
                             }
-                            errors.reject("crf.MANDATORY_VALUE_MISSING", new Object[] {index + 1} , "Please provide a response for question" + (index + 1));
+                            errors.reject("crf.MANDATORY_VALUE_MISSING", "Please provide a response to the below question.");
                         }
                     }
                 } catch (Exception

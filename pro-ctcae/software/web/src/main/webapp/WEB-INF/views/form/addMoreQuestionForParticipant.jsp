@@ -494,32 +494,38 @@
 		}
 	}
     </script>
+    <style>
+        div.errors {
+		    margin: 15px;
+		    padding: 0.5em 0em 0.2em 1em;
+		}
+    </style>
 </head>
 <body>
     <ctcae:form method="post" name="myForm" id="myForm"> 
-        <c:if test="${command.isEq5dCrf}">
-            <div style="padding-left:835px;font-size:12px;color: #666666;">
-		        <spring:message code="current.page"/>: ${command.newPageIndex}
-		        <spring:message code="pages.left"/> ${command.totalPages}
-		    </div>
+    
 		    <table cellspacing="0">
 		        <tr>
 		            <td width="80%">
-		                 
+		                 <tags:hasErrorsMessageSuccinct hideErrorDetails="false"/>
 		            </td>
 		            <td width="4%">
-		                <div style="font-size:12px;color: #666666;">
+		                <div style="padding-top:13px;font-size:12px;color: #666666;">
 		                 <spring:message code="progress"/>:
 		                </div>
 		            </td>
 		            <td valign="middle" width="20%">
+                        <div style="padding-left:38px;padding-bottom:2px;font-size:12px;color: #666666;">
+			                <spring:message code="current.page"/>: ${command.newPageIndex}
+			                <spring:message code="pages.left"/> ${command.totalPages}
+			            </div>
 		                 <div class='progress-bar-outer'>
 		                    <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
 		                </div>
 		            </td>
 		        </tr>
 		    </table> 
-		</c:if>
+		
         <chrome:box autopad="true" message="false" title="${command.isEq5dCrf ? 'Visual Assessment Scale' : '' }">
 	    <c:choose>
 	        <c:when test="${command.isEq5dCrf}">
@@ -541,8 +547,8 @@
 									<li style="font-size:16px;height:20px"><spring:message code="eq5d.vas.instructions.11"/></li>
 							    </ul>
 							  <p style="padding-left:70px;"><br/><br/>
-			                  <b><spring:message code="eq5d.vas.instructions.12"/>&nbsp;</b>
-			                   <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3" style="text-align:center"/>   
+			                     <b><spring:message code="eq5d.vas.instructions.12"/>&nbsp;</b>
+			                     <input type="text" name="healthAmount" id="healthAmount" title="Health Amount" value="${command.schedule.healthAmount}" size="3" style="text-align:center" /><!-- class="validate-NOTEMPTY" -->  
 			                   </p>         
 			            </td>    
 			            <td align="center">
