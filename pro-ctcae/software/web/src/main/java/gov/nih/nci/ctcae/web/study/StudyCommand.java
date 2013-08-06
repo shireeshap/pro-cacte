@@ -28,9 +28,9 @@ public class StudyCommand {
 
     private List<StudyOrganizationClinicalStaff> leadCRAs = new ArrayList<StudyOrganizationClinicalStaff>();
 
-    private StudyOrganizationClinicalStaff overallDataCoordinator;
+    private List<StudyOrganizationClinicalStaff> overallDataCoordinators = new ArrayList<StudyOrganizationClinicalStaff>();
 
-    private StudyOrganizationClinicalStaff principalInvestigator;
+    private List<StudyOrganizationClinicalStaff> principalInvestigators = new ArrayList<StudyOrganizationClinicalStaff>();
 
     private boolean isAdmin = false;
 
@@ -49,7 +49,10 @@ public class StudyCommand {
     private List<Arm> nonDefaultArms = new ArrayList<Arm>();
 
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
-    private List<Integer> craIndexesToRemove = new ArrayList<Integer>();
+    private List<Integer> lcraIndexesToRemove = new ArrayList<Integer>();
+    private List<Integer> odcIndexesToRemove = new ArrayList<Integer>();
+    private List<Integer> piIndexesToRemove = new ArrayList<Integer>();
+    
     private boolean odc;
     private String studyInstanceSpecificPrivilege;
 
@@ -113,30 +116,40 @@ public class StudyCommand {
     	return studyInstanceSpecificPrivilege;
     }
 
-    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
-        if (overallDataCoordinator == null) {
-            overallDataCoordinator = study.getOverallDataCoordinator();
-        }
 
-        return overallDataCoordinator;
+    public List<StudyOrganizationClinicalStaff> getOverallDataCoordinators() {
+    	if(overallDataCoordinators == null || overallDataCoordinators.size() == 0){
+    		overallDataCoordinators = study.getOverallDataCoordinators();
+    		if(overallDataCoordinators == null || overallDataCoordinators.size() == 0){
+    			StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
+            	socs.setRole(Role.ODC);
+            	overallDataCoordinators.add(socs);
+    		}
+    	}
+    	
+    	return overallDataCoordinators;
+    }
+    
+    public void setOverallDataCoordinators(List<StudyOrganizationClinicalStaff> overallDataCoordinators) {
+        this.overallDataCoordinators = overallDataCoordinators;
+
     }
 
-    public void setOverallDataCoordinator(StudyOrganizationClinicalStaff overallDataCoordinator) {
-        this.overallDataCoordinator = overallDataCoordinator;
-
+    public List<StudyOrganizationClinicalStaff> getPrincipalInvestigators() {
+    	if(principalInvestigators == null || principalInvestigators.size() == 0){
+    		principalInvestigators = study.getPrincipalInvestigators();
+    		if(principalInvestigators == null || principalInvestigators.size() == 0){
+    			StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
+            	socs.setRole(Role.PI);
+            	principalInvestigators.add(socs);
+    		}
+    	}
+    	
+    	return principalInvestigators;
     }
-
-    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
-
-        if (principalInvestigator == null) {
-            principalInvestigator = study.getPrincipalInvestigator();
-
-        }
-        return principalInvestigator;
-    }
-
-    public void setPrincipalInvestigator(StudyOrganizationClinicalStaff principalInvestigator) {
-        this.principalInvestigator = principalInvestigator;
+    
+    public void setPrincipalInvestigators(List<StudyOrganizationClinicalStaff> principalInvestigators) {
+        this.principalInvestigators = principalInvestigators;
 
     }
 
@@ -189,8 +202,8 @@ public class StudyCommand {
     public void updateClinicalStaffs() {
 
         setLeadCRAs(study.getLeadCRAs());
-        setPrincipalInvestigator(study.getPrincipalInvestigator());
-        setOverallDataCoordinator(study.getOverallDataCoordinator());
+        setPrincipalInvestigators(study.getPrincipalInvestigators());
+        setOverallDataCoordinators(study.getOverallDataCoordinators());
         setStudyOrganizationClinicalStaffs(study.getStudySiteLevelStudyOrganizationClinicalStaffs());
 
     }
@@ -274,14 +287,30 @@ public class StudyCommand {
         this.appModes = appModes;
     }
 
-	public void setCraIndexesToRemove(List<Integer> craIndexesToRemove) {
-		this.craIndexesToRemove = craIndexesToRemove;
+	public void setLCRAIndexesToRemove(List<Integer> lcraIndexesToRemove) {
+		this.lcraIndexesToRemove = lcraIndexesToRemove;
 	}
 
-	public List<Integer> getCraIndexesToRemove() {
-		return craIndexesToRemove;
+	public List<Integer> getLCRAIndexesToRemove() {
+		return lcraIndexesToRemove;
 	}
 
+	public void setPiIndexesToRemove(List<Integer> piIndexesToRemove) {
+		this.piIndexesToRemove = piIndexesToRemove;
+	}
+
+	public List<Integer> getPiIndexesToRemove() {
+		return piIndexesToRemove;
+	}
+	
+	public void setOdcIndexesToRemove(List<Integer> odcIndexesToRemove) {
+		this.odcIndexesToRemove = odcIndexesToRemove;
+	}
+
+	public List<Integer> getOdcIndexesToRemove() {
+		return odcIndexesToRemove;
+	}
+	
 	public List<String> getArmIndicesToRemove() {
 		return armIndicesToRemove;
 	}

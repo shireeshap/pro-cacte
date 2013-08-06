@@ -468,6 +468,17 @@ public class Study extends BasePersistable {
         }
         return overallDataCoordinator;
     }
+    public List<StudyOrganizationClinicalStaff> getOverallDataCoordinators() {
+    	List<StudyOrganizationClinicalStaff> overallDataCoordinators = getStudyOrganizationClinicalStaffByRole(Role.ODC);
+
+        if (overallDataCoordinators == null) {
+        	overallDataCoordinators = new ArrayList<StudyOrganizationClinicalStaff>();
+        	overallDataCoordinators.add(new StudyOrganizationClinicalStaff());
+        	overallDataCoordinators.get(0).setRole(Role.ODC);
+        }
+        	
+        return overallDataCoordinators;
+    }
 
     public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
     	List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = getStudyOrganizationClinicalStaffByRole(Role.PI);
@@ -480,6 +491,17 @@ public class Study extends BasePersistable {
         	principalInvestigator = studyOrganizationClinicalStaffList.get(0);
         }
         return principalInvestigator;
+    }
+    public List<StudyOrganizationClinicalStaff> getPrincipalInvestigators() {
+    	List<StudyOrganizationClinicalStaff> principalInvestigators = getStudyOrganizationClinicalStaffByRole(Role.PI);
+
+        if (principalInvestigators == null) {
+        	principalInvestigators = new ArrayList<StudyOrganizationClinicalStaff>();
+        	principalInvestigators.add(new StudyOrganizationClinicalStaff());
+        	principalInvestigators.get(0).setRole(Role.PI);
+        }
+        	
+        return principalInvestigators;
     }
 
     public List<StudyOrganizationClinicalStaff> getLeadCRAs() {

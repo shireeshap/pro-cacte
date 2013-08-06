@@ -167,10 +167,11 @@ public class NotificationsEvaluationService {
                 }
             }
             if (notificationRuleRole.getRole().equals(Role.PI)) {
-                StudyOrganizationClinicalStaff investigator = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator();
-                if (investigator != null && investigator.getOrganizationClinicalStaff() != null) {
-                    //cs = investigator.getOrganizationClinicalStaff().getClinicalStaff();
-                	cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
+            	List<StudyOrganizationClinicalStaff> investigators = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigators();
+                if (investigators != null && investigators.size() > 0) {
+                	for(StudyOrganizationClinicalStaff investigator : investigators){
+                		cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
+                	}
                 }
             }
             

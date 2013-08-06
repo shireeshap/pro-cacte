@@ -65,11 +65,12 @@ public class ChangeStatusController extends CtcAeSimpleFormController {
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.IN_ACTIVE);
         }
         if (RoleStatus.IN_ACTIVE.getDisplayName().equals(status)) {
-            studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
-            
+        	// First activate the clinical staff.
             Integer id = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getId();
             clinicalStaff = clinicalStaffRepository.findById(id);
             clinicalStaff.activateClinicalStaff(studyOrganizationClinicalStaff.getRole());
+            // Now Activate the site level status.
+            studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
         }
         
         String tabNumber= ServletRequestUtils.getStringParameter(request, "tabNumber");

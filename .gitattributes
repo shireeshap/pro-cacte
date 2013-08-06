@@ -3081,7 +3081,9 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPage.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPageItem.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneCrfPageItemProperties.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneOdcClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/onePIClinicalStaff.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/oneStudyArm.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
@@ -3261,6 +3263,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/setup/setup.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneODCStaffSection.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/onePIStaffSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyArmSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyOrganizationalClinicalStaffSection.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text

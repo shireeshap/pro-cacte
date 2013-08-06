@@ -10,6 +10,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
+<style>
+	.message_style{
+		height:65px; 
+		width: 520px; 
+		padding:9px; 
+		margin-bottom:10px;
+	}
+</style>
+
 <table>
     <tr>
         <td>
@@ -17,24 +26,22 @@
            	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
            	<input type="hidden" id="tabNumber" name="tabNumber" value="${param['tabNumber']}" />
             
-            <div id="releaseForm">
-                <div style="border:1px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
-                    Please provide the date on which new status will be made effective.
-                    <tags:renderDate propertyName="statusDate"
-                                     displayName="form.label.effective_start_date" required="true"/>
-                </div>
-                <br>
-                <input type="hidden" name="status" value="${param['status']}"/>
+            <div id="message" class="message_style">
+                Please provide the date on which new status will be made effective.
+                <tags:renderDate propertyName="statusDate"
+                                 displayName="form.label.effective_start_date" required="true"/>
+            </div>
+            <br>
+            <input type="hidden" name="status" value="${param['status']}"/>
 
-                <div class="flow-buttons">
-                    <tags:button color="orange" type="submit" id="flow-update"
-                                 cssClass="next" value="Submit" icon="check"
-                                 overRideStyle=" position:relative; top:0px;"
-                            />
-                    <tags:button color="blue" type="button" id="flow-cancel"
-                                 cssClass="previous ibutton" value="Cancel" icon="x"
-                                 onclick="closeWindow()"/>
-                </div>
+            <div class="flow-buttons">
+                <tags:button color="orange" type="submit" id="flow-update"
+                             cssClass="next" value="Submit" icon="check"
+                             overRideStyle=" position:relative; top:0px;"
+                        />
+                <tags:button color="blue" type="button" id="flow-cancel"
+                             cssClass="previous ibutton" value="Cancel" icon="x"
+                             onclick="closeWindow()"/>
             </div>
             </ctcae:form>
         </td>

@@ -32,43 +32,57 @@ public class UserRoleServiceImpl implements UserRoleService {
 		//studyId = null indicates first Save on studyDetailsTab in new study creation flow for which the below userRoleUpdation logic can be skipped.
 		if(study.getId() != null){
 			Study fetchedStudy = studyRepository.findById(study.getId());
-			StudyOrganizationClinicalStaff odc = fetchedStudy.getOverallDataCoordinator();
-			StudyOrganizationClinicalStaff pI = fetchedStudy.getPrincipalInvestigator();
+			List<StudyOrganizationClinicalStaff> previousOdcList = fetchedStudy.getOverallDataCoordinators();
+			List<StudyOrganizationClinicalStaff> previousPiList = fetchedStudy.getPrincipalInvestigators();
 			List<StudyOrganizationClinicalStaff> previousLeadCraList = fetchedStudy.getLeadCRAs();
 			
-			
-			if(odc.getOrganizationClinicalStaff() != null && study.getOverallDataCoordinator().getOrganizationClinicalStaff() != null){
-				//Add userRoles for updated ODC
-				if (!odc.getOrganizationClinicalStaff().getClinicalStaff()
-						.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff())) {
-					
-					removePreviousStaffUserRole(odc, odc.getRole());
-					user = getUserForStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
-					addUserRole(user, study.getOverallDataCoordinator().getRole());
+			if(previousOdcList.size() != 0 && study.getOverallDataCoordinators().size() != 0){
+				//Delete the userRole for the ODC's removed from the study
+				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getOverallDataCoordinators());
+				for(StudyOrganizationClinicalStaff socs : previousOdcList){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						removePreviousStaffUserRole(socs, socs.getRole());
+					}
 				}
-			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for ODC, as no additional check is required 
-			else if(odc.getOrganizationClinicalStaff() == null && study.getOverallDataCoordinator().getOrganizationClinicalStaff() != null){
-				user = getUserForStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
-				addUserRole(user, study.getOverallDataCoordinator().getRole());
+				//Add userRole for newly added ODC's onto the Study
+				clinicalStaffList = getClinicalStaffList(previousOdcList);
+				for(StudyOrganizationClinicalStaff socs : study.getOverallDataCoordinators()){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						 user = getUserForStudyOrganizationClinicalStaff(socs);
+						 addUserRole(user, socs.getRole());
+					}
+				}
+			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the ODC's, as no additional check is required 
+			else if(previousOdcList.size() == 0 && study.getOverallDataCoordinators().size() != 0){
+				for(StudyOrganizationClinicalStaff socs : study.getOverallDataCoordinators()){
+					 user = getUserForStudyOrganizationClinicalStaff(socs);
+					 addUserRole(user, socs.getRole());
+				}
 			}
 			
-			
-			if(pI.getOrganizationClinicalStaff() != null && study.getPrincipalInvestigator().getOrganizationClinicalStaff() != null){
-				//Add userRoles for updated PI
-				if (!pI.getOrganizationClinicalStaff().getClinicalStaff()
-						.equals(study.getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff())) {
-					
-					removePreviousStaffUserRole(pI, pI.getRole());
-					user = getUserForStudyOrganizationClinicalStaff(study.getPrincipalInvestigator());
-					addUserRole(user, study.getPrincipalInvestigator().getRole());
+			if(previousPiList.size() != 0 && study.getPrincipalInvestigators().size() != 0){
+				//Delete the userRole for the PI's removed from the study
+				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getPrincipalInvestigators());
+				for(StudyOrganizationClinicalStaff socs : previousPiList){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						removePreviousStaffUserRole(socs, socs.getRole());
+					}
 				}
-			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for PI, as no additional check is required 
-			else if(pI.getOrganizationClinicalStaff() == null && study.getPrincipalInvestigator().getOrganizationClinicalStaff() != null){
-				user = getUserForStudyOrganizationClinicalStaff(study.getPrincipalInvestigator());
-				addUserRole(user, study.getPrincipalInvestigator().getRole());
+				//Add userRole for newly added PI's onto the Study
+				clinicalStaffList = getClinicalStaffList(previousPiList);
+				for(StudyOrganizationClinicalStaff socs : study.getPrincipalInvestigators()){
+					if(!clinicalStaffList.contains(socs.getOrganizationClinicalStaff().getClinicalStaff())){
+						 user = getUserForStudyOrganizationClinicalStaff(socs);
+						 addUserRole(user, socs.getRole());
+					}
+				}
+			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the PI's, as no additional check is required 
+			else if(previousPiList.size() == 0 && study.getPrincipalInvestigators().size() != 0){
+				for(StudyOrganizationClinicalStaff socs : study.getPrincipalInvestigators()){
+					 user = getUserForStudyOrganizationClinicalStaff(socs);
+					 addUserRole(user, socs.getRole());
+				}
 			}
-
-			
 			
 			if(previousLeadCraList.size() != 0 && study.getLeadCRAs().size() != 0){
 				//Delete the userRole for the LCRA's removed from the study
