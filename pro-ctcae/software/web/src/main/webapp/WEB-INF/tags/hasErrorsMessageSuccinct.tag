@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
 <form:errors path="*">
-    <div class="errors">
+    <div class="participant-interface-errors">
         <c:if test="${not empty messages}">
             <c:if test="${not hideErrorDetails}">
                 <ul class="errors">
