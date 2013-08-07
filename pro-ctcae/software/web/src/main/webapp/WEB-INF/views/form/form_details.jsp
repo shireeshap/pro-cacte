@@ -934,10 +934,7 @@ function refreshQuestionDiv(questionId){
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <div style="float:right; margin-right:10px; position:relative; top:30px; bottom:10px">
-    <tags:button type="submit" icon="Save & Continue" color="green"
-                   id="flow-next" value="Save & Continue"/></div>
-    <br />  <br /> <br />  
+
     <chrome:box>
 	    <table>
 	        <tr>
@@ -1050,41 +1047,6 @@ function refreshQuestionDiv(questionId){
         </ul>
     </div>
 
- <!-- <script type="text/javascript">
-    function displayEq5dSymptomsOnly(){
-        jQuery("ul.tree > li").each( function (index, elem){
-            if(elem.id === 'EQ5D-3L' || elem.id === 'EQ5D-5L'){
-                $(elem).show();
-            } else {
-                $(elem).hide();
-            }
-        });
-    }
-    
-    function displayProSymptomsOnly(){
-        jQuery("ul.tree > li").each( function (index, elem){
-            if(elem.id === 'EQ5D-3L' || elem.id === 'EQ5D-5L'){
-                $(elem).hide();
-            } else {
-                $(elem).show();
-            }
-        });
-    }
-    </script>
-    <div id="displaySymptomsMenu" class="hidden" style="width:133px;">
-        <ul>
-            <li>
-                <a href="#" onclick="displayProSymptomsOnly()" id="a_noctcterm">
-                   <span class="ui-icon ui-icon-check displaySymptomsCheck ProSymptomsOnly-check" style="visibility:hidden;"></span>PRO-CTCAE</a>
-            </li>
-            <li>
-                <a href="#" onclick="displayEq5dSymptomsOnly()" id="a_onlyctcterm">
-                <span class="ui-icon ui-icon-check displaySymptomsCheck Eq5dSymptomsOnly-check" style="visibility:hidden;"></span>EQ5D</a>
-            </li>
-        </ul>
-    </div>    -->        
-
-
     <table id="formbuilderTable" border="0">
         <tr>
             <td id="left">
@@ -1190,7 +1152,7 @@ function refreshQuestionDiv(questionId){
 
             </td>
             <td id="right">
-                <table style="border-collapse:collapse; width:100%;">
+                <table style="border-collapse:collapse; width:100%;height:100%">
                     <tr style="height:5px;" height="5">
                         <td id="formbuilderTable-TL"></td>
                         <td id="formbuilderTable-T">
@@ -1198,7 +1160,7 @@ function refreshQuestionDiv(questionId){
                         </td>
                         <td id="formbuilderTable-TR"></td>
                     </tr>
-                    <tr style="height:750px;">
+                    <tr style="">
                         <td id="formbuilderTable-L"></td>
                         <td id="formbuilderTable-M">
                             <div style="position:relative; top:-20px; left:-20px;">
@@ -1252,6 +1214,14 @@ function refreshQuestionDiv(questionId){
         </tr>
     </table>
 </chrome:box>
+<script>
+jQuery(document).ready(
+    function(){
+        jQuery(".tree li").addClass("closed");
+        jQuery("")
+    }        
+);
+</script>
 </jsp:attribute>
 </tags:tabForm>
 </body>
