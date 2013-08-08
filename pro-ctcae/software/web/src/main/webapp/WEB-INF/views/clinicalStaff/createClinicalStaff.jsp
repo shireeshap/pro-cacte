@@ -317,8 +317,9 @@
 <c:set var="isEdit"
        value="${param['clinicalStaffId'] ne null}"/>
 <input name="isEdit" value="${isEdit}" type="hidden"/>
-<chrome:box title="">
 <tags:hasErrorsMessage hideErrorDetails="false"/>
+
+<chrome:box title="">
 <input type="hidden" id="showForm" name="showForm" value=""/>
 
 <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
