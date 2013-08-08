@@ -319,6 +319,7 @@ public class ClinicalStaff extends Person {
     	for(OrganizationClinicalStaff ocs : organizationClinicalStaffs){
     		for(StudyOrganizationClinicalStaff socs : ocs.getStudyOrganizationClinicalStaff()){
     			socs.deactivateStudyOrganizationalClinicalStaff();
+    			socs.setStatusDate(getEffectiveDate());
     		}
     	}
     }
