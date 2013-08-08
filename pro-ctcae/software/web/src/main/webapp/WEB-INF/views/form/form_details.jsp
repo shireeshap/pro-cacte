@@ -917,7 +917,7 @@ function refreshQuestionDiv(questionId){
 <!--[if lte IE 8]>
 <style>
     #main {
-        top: 95px;
+        top: 115px;
     }
 
     #questionBank, .questionProperties, #formSettings, .leftBox {
