@@ -41,7 +41,7 @@
 	                </c:otherwise>
 	            </c:choose>
 			</td>
-		    <td width="25%" >${pi.roleStatus.displayName} since <tags:formatDate value="${pi.statusDate}"/>
+		    <td width="25%" ><b>${pi.roleStatus.displayName}</b> since <tags:formatDate value="${pi.statusDate}"/>
 		    </td>
     	</c:when>
     </c:choose>

@@ -41,7 +41,7 @@
 	                </c:otherwise>
 	            </c:choose>
 			</td>
-		    <td width="25%" >${leadCRA.roleStatus.displayName} since <tags:formatDate value="${leadCRA.statusDate}"/>
+		    <td width="25%" ><b>${leadCRA.roleStatus.displayName}</b> since <tags:formatDate value="${leadCRA.statusDate}"/>
 		    </td>
     	</c:when>
     </c:choose>

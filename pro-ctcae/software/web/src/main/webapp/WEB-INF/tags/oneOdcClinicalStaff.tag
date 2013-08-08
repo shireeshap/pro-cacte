@@ -41,7 +41,7 @@
 	                </c:otherwise>
 	            </c:choose>
 			</td>
-		    <td width="25%" >${odc.roleStatus.displayName} since <tags:formatDate value="${odc.statusDate}"/>
+		    <td width="25%" ><b>${odc.roleStatus.displayName}</b> since <tags:formatDate value="${odc.statusDate}"/>
 		    </td>
     	</c:when>
     </c:choose>
