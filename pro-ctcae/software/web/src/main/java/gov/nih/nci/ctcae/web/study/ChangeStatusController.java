@@ -65,10 +65,13 @@ public class ChangeStatusController extends CtcAeSimpleFormController {
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.IN_ACTIVE);
         }
         if (RoleStatus.IN_ACTIVE.getDisplayName().equals(status)) {
-        	// First activate the clinical staff.
+        	// First activate the clinical staff if not already active.
             Integer id = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getId();
             clinicalStaff = clinicalStaffRepository.findById(id);
-            clinicalStaff.activateClinicalStaff(studyOrganizationClinicalStaff.getRole());
+            if(RoleStatus.IN_ACTIVE.equals(clinicalStaff.getStatus())){
+            	clinicalStaff.setEffectiveDate(studyOrganizationClinicalStaff.getStatusDate());
+            	clinicalStaff.activateClinicalStaff(studyOrganizationClinicalStaff.getRole());
+            }
             // Now Activate the site level status.
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
         }
