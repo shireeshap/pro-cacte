@@ -454,7 +454,16 @@
 						    		<tr>
 						    			<td>
 						    				<div class="row">
-						    					<div class="label"> <spring:message code="clinicalStaff.label.active.since">: </spring:message></div>
+						    					<div class="label">
+						    					<c:choose>
+								    					<c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
+								    						<spring:message code="clinicalStaff.label.active.since">: </spring:message>
+								    					</c:when>
+								    					<c:otherwise>
+								    						<spring:message code="clinicalStaff.label.inActive.since">: </spring:message>
+								    					</c:otherwise>
+							    				</c:choose>
+							    				</div>
 						    					<div class="value"><tags:formatDate value="${clinicalStaffCommand.clinicalStaff.effectiveDate}"/></div>
 						    				</div>
 						    			</td>
