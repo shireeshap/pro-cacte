@@ -187,35 +187,37 @@
          greeting = "Comenzar a escribir aquí";
     </c:if>
 
-    function initializeAutoCompleter() {
-        var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
-        oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
-        oDS.responseSchema = {
-            recordDelim: ";",
-            fieldDelim: "\t"
-        };
-        oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
-
-        oAC.maxResultsDisplayed = 100;
-        $('participantSymptomInput').className+=" pending-search";
-        $('participantSymptomInput').value = greeting;
-
-        Event.observe($('participantSymptomInput'), 'click', function() {
-            if ($('participantSymptomInput').value == greeting) {
-                $('participantSymptomInput').value = '';
-            }
-            //$('participantSymptomInput').removeClassName('pending-search');
-            removeCssClass($('participantSymptomInput'), 'pending-search');
-        })
-        Event.observe($('participantSymptomInput'), 'blur', function() {
-            if ($('participantSymptomInput').value == '')
-            {
-                $('participantSymptomInput').value = greeting;
-                $('participantSymptomInput').className+=" pending-search";
-            }
-        })
-    }
-
+    <c:if test="${!command.isEq5dCrf}">
+	    function initializeAutoCompleter() {
+	        var oDS = new YAHOO.util.XHRDataSource("matchSymptoms");
+	        oDS.responseType = YAHOO.util.XHRDataSource.TYPE_TEXT;
+	        oDS.responseSchema = {
+	            recordDelim: ";",
+	            fieldDelim: "\t"
+	        };
+	        oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
+	
+	        oAC.maxResultsDisplayed = 100;
+	        $('participantSymptomInput').className+=" pending-search";
+	        $('participantSymptomInput').value = greeting;
+	
+	        Event.observe($('participantSymptomInput'), 'click', function() {
+	            if ($('participantSymptomInput').value == greeting) {
+	                $('participantSymptomInput').value = '';
+	            }
+	            //$('participantSymptomInput').removeClassName('pending-search');
+	            removeCssClass($('participantSymptomInput'), 'pending-search');
+	        })
+	        Event.observe($('participantSymptomInput'), 'blur', function() {
+	            if ($('participantSymptomInput').value == '')
+	            {
+	                $('participantSymptomInput').value = greeting;
+	                $('participantSymptomInput').className+=" pending-search";
+	            }
+	        })
+	    }
+    </c:if>
+    
     var nextColumnIndex = 0;
     var tdCount = 0;
     function addNewSymptom(selectedChoice) {
@@ -433,7 +435,10 @@
     }
 
     Event.observe(window, "load", function() {
-        initializeAutoCompleter()
+        <c:if test="${!command.isEq5dCrf}">
+            initializeAutoCompleter();
+        </c:if>
+        
     })
 
     function changeClass(obj, index) {
@@ -584,6 +589,13 @@
 		        </script>
 		        <script>
 		        $.noConflict();
+		        <c:if test="${command.schedule.healthAmount != null}">
+			        jQuery(document).ready(
+		                function(){
+	                        jQuery('.ui-slider-handle').html('<span id="vas-value">' + ${command.schedule.healthAmount} + '</span>');  
+		                }
+			        );
+		        </c:if>
 		        </script>
 	        </c:when>
 	        <c:otherwise>
