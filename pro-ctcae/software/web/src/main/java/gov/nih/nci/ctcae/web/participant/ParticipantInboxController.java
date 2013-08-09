@@ -49,6 +49,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     public static final String BASE_URL = "base.url";
     public static final String BASE_URL_SUFFIX = "public/showVideo";
     public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
+    private static String IS_BEGIN = "isBegin";
 
     /**
      * Instantiates a new participant inbox controller.
@@ -70,7 +71,9 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     		Integer id = FormSubmissionHelper.getNextAvailableSurvey(command.getSortedStudyParticipantCrfSchedules());
     		if(id != null){
     			request.getSession().setAttribute("id", id);
-				return new ModelAndView(new RedirectView("../form/submit"));
+    			ModelAndView modelAndView = new ModelAndView(new RedirectView("../form/submit"));
+    			modelAndView.addObject(IS_BEGIN, "true");
+				return modelAndView;
     		}
     	}
     	ModelAndView modelAndView = new ModelAndView(getFormView());

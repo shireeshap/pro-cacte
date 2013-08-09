@@ -37,6 +37,7 @@ public class SubmitFormController extends SimpleFormController {
     private MeddraRepository meddraRepository;
     public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
     private static String TRUE = "true";
+    private static String IS_BEGIN = "isBegin";
 
     public SubmitFormController() {
         super();
@@ -146,8 +147,8 @@ public class SubmitFormController extends SimpleFormController {
         
         ModelAndView mv;
         int currentPageIndex = 0;
-        String isBegin = request.getParameter("isBegin");
-        
+        String isBegin = request.getParameter(IS_BEGIN);
+
         //When a participant begins with a InProgress survey, show the first un-answered question of the survey. (Only for the first attempt when entering InProgress survey)
         if(!StringUtils.isEmpty(isBegin) &&   TRUE.equals(isBegin) &&  CrfStatus.INPROGRESS.equals(submitFormCommand.getSchedule().getStatus())){
         	submitFormCommand.firstUnAnsweredPageIndex();
