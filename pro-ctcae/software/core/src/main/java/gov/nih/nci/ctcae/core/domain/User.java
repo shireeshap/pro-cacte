@@ -430,13 +430,11 @@ public class User extends BaseVersionable implements UserDetails {
     public boolean isODCOnStudy(Study study) {
         if (study != null) {
         	List<StudyOrganizationClinicalStaff> odcList = study.getOverallDataCoordinators();
-        	if(odcList != null && odcList.size() > 0){
-        		for(StudyOrganizationClinicalStaff odc : odcList){
-        			if(this.equals(odc.getOrganizationClinicalStaff().getClinicalStaff().getUser())){
-        				return true;
-        			}
-        		}
-        	}
+    		for(StudyOrganizationClinicalStaff odc : odcList){
+    			if(this.equals(odc.getOrganizationClinicalStaff().getClinicalStaff().getUser())){
+    				return true;
+    			}
+    		}
         }
         return false;
     }
