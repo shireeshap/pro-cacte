@@ -84,10 +84,19 @@
                             <div class="label"><spring:message code="participant.label.username"/>:</div>
                             <div class="value">${command.user.username} </div>
                         </div>
-                        <div class="row">
-                            <div class="label"><spring:message code="participant.label.password"/>:</div>
-                            <div class="value">******</div>
-                        </div>
+                       	<div class="row">
+	    					<div class="label">
+		    					<c:choose>
+				    					<c:when test="${command.status.displayName eq 'Active'}">
+				    						<spring:message code="clinicalStaff.label.active.since">: </spring:message>
+				    					</c:when>
+				    					<c:otherwise>
+				    						<spring:message code="clinicalStaff.label.inActive.since">: </spring:message>
+				    					</c:otherwise>
+			    				</c:choose>
+		    				</div>
+	    					<div class="value"><tags:formatDate value="${command.effectiveDate}"/></div>
+					    </div>
                     </td>
                 </tr>
             </table>

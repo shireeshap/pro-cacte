@@ -464,22 +464,24 @@
 								    					</c:otherwise>
 							    				</c:choose>
 							    				</div>
-						    					<div class="value"><tags:formatDate value="${clinicalStaffCommand.clinicalStaff.effectiveDate}"/></div>
+						    					<div class="value">&nbsp;<tags:formatDate value="${clinicalStaffCommand.clinicalStaff.effectiveDate}"/></div>
 						    				</div>
 						    			</td>
-						    			<td width="13%" align="center">
-						                    <c:choose>
-						                        <c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
-						                             <tags:button color="red" type="button" value="De-activate"
-						                                          onclick="effectiveStaff('${clinicalStaffCommand.clinicalStaff.id}','${clinicalStaffCommand.clinicalStaff.status.displayName}')"
-						                                          size="small"/>
-						                         </c:when>
-							                     <c:otherwise>
-							                             <tags:button color="blue" type="button" value="Activate"
+						    			<td>
+							    			<div style="align:center; margin-left:10px;">
+							                    <c:choose>
+							                        <c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
+							                             <tags:button color="red" type="button" value="De-activate"
 							                                          onclick="effectiveStaff('${clinicalStaffCommand.clinicalStaff.id}','${clinicalStaffCommand.clinicalStaff.status.displayName}')"
 							                                          size="small"/>
-							                      </c:otherwise>
-						                    </c:choose>
+							                         </c:when>
+								                     <c:otherwise>
+								                             <tags:button color="blue" type="button" value="Activate"
+								                                          onclick="effectiveStaff('${clinicalStaffCommand.clinicalStaff.id}','${clinicalStaffCommand.clinicalStaff.status.displayName}')"
+								                                          size="small"/>
+								                      </c:otherwise>
+							                    </c:choose>
+							    			</div>
 							             </td>
 						    		</tr>
 						    	</table>
@@ -494,31 +496,34 @@
     </chrome:division>
 
 	<br/>
-    <c:if test="${isAdmin eq 'true' or isCCA eq 'true'}">
-        <chrome:division title="Additional Options">
-                <input type="checkbox" name="cca" value="true"
-                       id="cca"
-                       <c:if test="${clinicalStaffCommand.cca}">checked</c:if>
-                       <c:if test="${clinicalStaffCommand.admin}">disabled</c:if>
-                       <c:if test="${isAdmin eq 'true'}">onclick="disableAdmin(this);"</c:if>/>
-                This user is a <u>Coordinating Center Administrator</u>
-                 <!--Please do not remove the below hidden input. Its a spring's workarround 
-                 for checkBox value not getting binded when false -->
-                 <input type="hidden" name="_cca" value="false" />
-            <br/>
-                <input type="checkbox" name="admin" value="true"
-                       id="admin"
-                       <c:if test="${clinicalStaffCommand.admin}">checked</c:if>
-                       <c:if test="${clinicalStaffCommand.cca or (isAdmin eq 'false' and isEdit eq 'true')}">disabled</c:if>
-                       onclick="disableCCA(this);"/>
-                This user is a <u>System Administrator</u>
-                 <!--Please do not remove the below hidden input. Its a spring's workarround 
-                 for checkBox value not getting binded when false -->
-                <input type="hidden" name="_admin" value="false" />
-        </chrome:division>
-    </c:if>
-
-
+	
+	    <c:if test="${isAdmin eq 'true' or isCCA eq 'true'}">
+	        <chrome:division title="Additional Options">
+	        	<div class="row">
+		            <input type="checkbox" name="cca" value="true"
+		                   id="cca"
+		                   <c:if test="${clinicalStaffCommand.cca}">checked</c:if>
+		                   <c:if test="${clinicalStaffCommand.admin}">disabled</c:if>
+		                   <c:if test="${isAdmin eq 'true'}">onclick="disableAdmin(this);"</c:if>/>
+		           	 This user is a <u>Coordinating Center Administrator</u>
+		             <!--Please do not remove the below hidden input. Its a spring's workarround 
+		             for checkBox value not getting binded when false -->
+		             <input type="hidden" name="_cca" value="false" />
+		        </div>
+		        <div class="row">
+	                <input type="checkbox" name="admin" value="true"
+	                       id="admin"
+	                       <c:if test="${clinicalStaffCommand.admin}">checked</c:if>
+	                       <c:if test="${clinicalStaffCommand.cca or (isAdmin eq 'false' and isEdit eq 'true')}">disabled</c:if>
+	                       onclick="disableCCA(this);"/>
+	                This user is a <u>System Administrator</u>
+	                 <!--Please do not remove the below hidden input. Its a spring's workarround 
+	                 for checkBox value not getting binded when false -->
+	                <input type="hidden" name="_admin" value="false" />
+                </div>
+	        </chrome:division>
+	    </c:if>
+	
     <br/>
 </div>
 <chrome:division title="clinicalStaff.division.sites">
