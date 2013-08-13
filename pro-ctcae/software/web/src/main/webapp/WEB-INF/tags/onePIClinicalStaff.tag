@@ -11,7 +11,7 @@
 <p id="splitter"/>
 
 <tr id="row-${index}" style="height:30px;">
-	<td width="50%">
+	<td width="65%">
 		<c:choose>
 	         <c:when test="${readOnly}">
 	             	${pi.displayName} &nbsp;&nbsp;
@@ -27,7 +27,7 @@
     </td>
     <c:choose>
     	<c:when test="${readOnly}">
-   		    <td width="20%" align="center">
+   		    <td width="15%" align="center">
 	            <c:choose>
 	                <c:when test="${pi.roleStatus.displayName eq 'Active'}">
 	                    <tags:button color="red" type="button" value="De-activate"
@@ -41,13 +41,17 @@
 	                </c:otherwise>
 	            </c:choose>
 			</td>
-		    <td width="25%" ><b>${pi.roleStatus.displayName}</b> since <tags:formatDate value="${pi.statusDate}"/>
+		    <td width="25%" ><b>${pi.roleStatus.displayName}</b> since <br/><tags:formatDate value="${pi.statusDate}"/>
 		    </td>
     	</c:when>
     </c:choose>
-    <td width="5%">
-		     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deletePI('${index}');">
-		        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">
-		    </a>
-	</td>
+     <c:choose>
+    	<c:when test="${not readOnly}">
+		    <td width="5%">
+				     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deletePI('${index}');">
+				        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">
+				    </a>
+			</td>
+		</c:when>
+	</c:choose>
 </tr>

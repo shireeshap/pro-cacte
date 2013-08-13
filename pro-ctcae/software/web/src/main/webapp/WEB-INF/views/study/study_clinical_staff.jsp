@@ -222,13 +222,12 @@
 	           </div>
 	           
 	           <div style="margin-left:150px;">
-		           <table id="odcTable" class="tablecontent" width="90%" border="0">
+		           <table id="odcTable" class="tablecontent" width="95%" border="0">
 			            <tr id="ss-table-head" class="amendment-table-head">
-		                    <th width="50%" class="tableHeader">&nbsp;
+		                    <th width="65%" class="tableHeader">&nbsp;
 		                        <tags:message code='study.label.clinical.staff'/></th>
-		                    <th width="20%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+		                    <th width="15%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                    <th width="25%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                </tr>
 		                <tbody>
 		                	<c:if test="${fn:length(command.study.overallDataCoordinators) == 0}">
@@ -261,13 +260,12 @@
 	                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
 	            </div>
 		        <div style="margin-left:150px;">
-		            <table id="leadCraTable" class="tablecontent" width="90%" border="0">
+		            <table id="leadCraTable" class="tablecontent" width="95%" border="0">
 			            <tr id="ss-table-head" class="amendment-table-head">
-		                    <th width="50%" class="tableHeader">&nbsp;
+		                    <th width="65%" class="tableHeader">&nbsp;
 		                        <tags:message code='study.label.clinical.staff'/></th>
-		                    <th width="20%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+		                    <th width="15%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                    <th width="25%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                </tr>
 		                <tbody>
 		                	<c:if test="${fn:length(command.study.leadCRAs) == 0}">
@@ -302,13 +300,12 @@
 	           
 	           
 	           	<div style="margin-left:150px;">
-		           <table id="pITable" class="tablecontent" width="90%" border="0">
+		           <table id="pITable" class="tablecontent" width="95%" border="0">
 			            <tr id="ss-table-head" class="amendment-table-head">
-		                    <th width="50%" class="tableHeader">&nbsp;
+		                    <th width="65%" class="tableHeader">&nbsp;
 		                        <tags:message code='study.label.clinical.staff'/></th>
-		                    <th width="20%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+		                    <th width="15%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                    <th width="25%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-		                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 		                </tr>
 		                <tbody>
 		                	<c:if test="${fn:length(command.study.principalInvestigators) == 0}">
