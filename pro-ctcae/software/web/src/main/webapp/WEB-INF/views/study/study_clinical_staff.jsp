@@ -247,7 +247,7 @@
 		                </tbody>
 		           </table>
 	            </div>
-	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px;">
+	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
 		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addODC()"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
@@ -285,7 +285,7 @@
 		                </tbody>
 		            </table>
 	            </div>
-	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px;">
+	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
 		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addLeadCra()"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
@@ -325,7 +325,7 @@
 		                </tbody>
 		           </table>
 	            </div>
-	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px;">
+	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
 		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addPI()"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
