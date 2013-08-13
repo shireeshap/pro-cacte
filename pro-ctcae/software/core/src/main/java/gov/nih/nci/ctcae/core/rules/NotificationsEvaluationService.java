@@ -168,7 +168,7 @@ public class NotificationsEvaluationService {
             }
             if (notificationRuleRole.getRole().equals(Role.PI)) {
             	List<StudyOrganizationClinicalStaff> investigators = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigators();
-                if (investigators != null && investigators.size() > 0) {
+                if (!investigators.isEmpty()) {
                 	for(StudyOrganizationClinicalStaff investigator : investigators){
                 		cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
                 	}
@@ -178,7 +178,7 @@ public class NotificationsEvaluationService {
             List<ClinicalStaff> craList = new ArrayList<ClinicalStaff>();
             if (notificationRuleRole.getRole().equals(Role.LEAD_CRA)) {
                 List<StudyOrganizationClinicalStaff> staff = studyParticipantAssignment.getStudySite().getStudy().getLeadCRAs();
-                if (staff != null && staff.size() > 0) {
+                if (!staff.isEmpty()) {
                 	for(StudyOrganizationClinicalStaff socs : staff){
                     	if(socs.getOrganizationClinicalStaff() != null){
                     		craList.add(socs.getOrganizationClinicalStaff().getClinicalStaff());

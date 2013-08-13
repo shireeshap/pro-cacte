@@ -36,7 +36,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 			List<StudyOrganizationClinicalStaff> previousPiList = fetchedStudy.getPrincipalInvestigators();
 			List<StudyOrganizationClinicalStaff> previousLeadCraList = fetchedStudy.getLeadCRAs();
 			
-			if(previousOdcList.size() != 0 && study.getOverallDataCoordinators().size() != 0){
+			if(!previousOdcList.isEmpty() && !study.getOverallDataCoordinators().isEmpty()){
 				//Delete the userRole for the ODC's removed from the study
 				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getOverallDataCoordinators());
 				for(StudyOrganizationClinicalStaff socs : previousOdcList){
@@ -53,14 +53,14 @@ public class UserRoleServiceImpl implements UserRoleService {
 					}
 				}
 			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the ODC's, as no additional check is required 
-			else if(previousOdcList.size() == 0 && study.getOverallDataCoordinators().size() != 0){
+			else if(previousOdcList.isEmpty() && !study.getOverallDataCoordinators().isEmpty()){
 				for(StudyOrganizationClinicalStaff socs : study.getOverallDataCoordinators()){
 					 user = getUserForStudyOrganizationClinicalStaff(socs);
 					 addUserRole(user, socs.getRole());
 				}
 			}
 			
-			if(previousPiList.size() != 0 && study.getPrincipalInvestigators().size() != 0){
+			if(!previousPiList.isEmpty() && !study.getPrincipalInvestigators().isEmpty()){
 				//Delete the userRole for the PI's removed from the study
 				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getPrincipalInvestigators());
 				for(StudyOrganizationClinicalStaff socs : previousPiList){
@@ -77,14 +77,14 @@ public class UserRoleServiceImpl implements UserRoleService {
 					}
 				}
 			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the PI's, as no additional check is required 
-			else if(previousPiList.size() == 0 && study.getPrincipalInvestigators().size() != 0){
+			else if(previousPiList.isEmpty() && !study.getPrincipalInvestigators().isEmpty()){
 				for(StudyOrganizationClinicalStaff socs : study.getPrincipalInvestigators()){
 					 user = getUserForStudyOrganizationClinicalStaff(socs);
 					 addUserRole(user, socs.getRole());
 				}
 			}
 			
-			if(previousLeadCraList.size() != 0 && study.getLeadCRAs().size() != 0){
+			if(!previousLeadCraList.isEmpty() && !study.getLeadCRAs().isEmpty()){
 				//Delete the userRole for the LCRA's removed from the study
 				List<ClinicalStaff> clinicalStaffList = getClinicalStaffList(study.getLeadCRAs());
 				for(StudyOrganizationClinicalStaff socs : previousLeadCraList){
@@ -101,7 +101,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 					}
 				}
 			}//For the first save on OverallStudyStaffTab in study creation flow, simply add the userRole for all the LCRA's, as no additional check is required 
-			else if(previousLeadCraList.size() == 0 && study.getLeadCRAs().size() != 0){
+			else if(previousLeadCraList.isEmpty() && !study.getLeadCRAs().isEmpty()){
 				for(StudyOrganizationClinicalStaff socs : study.getLeadCRAs()){
 					 user = getUserForStudyOrganizationClinicalStaff(socs);
 					 addUserRole(user, socs.getRole());

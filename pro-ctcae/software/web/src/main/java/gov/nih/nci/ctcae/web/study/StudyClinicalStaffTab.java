@@ -92,21 +92,21 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
             for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getOverallDataCoordinators()){
             	command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         	}
-            if(command.getStudy().getOverallDataCoordinators().size() == 0){
+            if(command.getStudy().getOverallDataCoordinators().isEmpty()){
             	errors.reject("error", "Please enter at least one Overall Data Coordinator.");
             }
             
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getLeadCRAs()){
         		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         	}
-        	if(command.getStudy().getLeadCRAs().size() == 0){
+        	if(command.getStudy().getLeadCRAs().isEmpty()){
         		errors.reject("error", "Please enter at least one Lead CRA.");
         	}
         	
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getPrincipalInvestigators()){
         		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         	}
-        	if(command.getStudy().getPrincipalInvestigators().size() == 0){
+        	if(command.getStudy().getPrincipalInvestigators().isEmpty()){
         		errors.reject("error", "Please enter at least one Overall PI.");
         	}
         } catch (CtcAeSystemException ex) {

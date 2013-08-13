@@ -1,8 +1,17 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.DataCoordinatingCenter;
+import gov.nih.nci.ctcae.core.domain.FundingSponsor;
+import gov.nih.nci.ctcae.core.domain.LeadStudySite;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudySponsor;
 import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,53 +25,28 @@ import java.util.Map;
  */
 public class StudyCommand {
 
-    /**
-     * The study.
-     */
     private Study study;
-
     private String[] appModes;
-
-    
     private StudySite selectedStudySite;
-
     private List<StudyOrganizationClinicalStaff> leadCRAs = new ArrayList<StudyOrganizationClinicalStaff>();
-
     private List<StudyOrganizationClinicalStaff> overallDataCoordinators = new ArrayList<StudyOrganizationClinicalStaff>();
-
     private List<StudyOrganizationClinicalStaff> principalInvestigators = new ArrayList<StudyOrganizationClinicalStaff>();
-
     private boolean isAdmin = false;
-
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
-    
     private List<StudyOrganizationClinicalStaff> newSocsForSelectedSite = new ArrayList<StudyOrganizationClinicalStaff>();
-    
     private Map<Integer, Integer> socsIndexMap = new HashMap<Integer, Integer>();
-
 	List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
-
     private List<String> armIndicesToRemove = new ArrayList<String>();
     private boolean activeDefaultArm = false;
     private Organization defaultOrganization;
-
     private List<Arm> nonDefaultArms = new ArrayList<Arm>();
-
     private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
     private List<Integer> lcraIndexesToRemove = new ArrayList<Integer>();
     private List<Integer> odcIndexesToRemove = new ArrayList<Integer>();
     private List<Integer> piIndexesToRemove = new ArrayList<Integer>();
-    
     private boolean odc;
     private String studyInstanceSpecificPrivilege;
 
-    public boolean isOdc() {
-        return odc;
-    }
-
-    public void setOdc(boolean odc) {
-        this.odc = odc;
-    }
 
     /**
      * Instantiates a new study command.
@@ -85,11 +69,19 @@ public class StudyCommand {
 
     public List<Organization> getOrganizationsWithCCARole() {
           return organizationsWithCCARole;
-      }
+    }
+    
+    public boolean isOdc() {
+    	return odc;
+    }
+    
+    public void setOdc(boolean odc) {
+    	this.odc = odc;
+    }
 
-      public void setOrganizationsWithCCARole(List<Organization> organizationsWithCCARole) {
-          this.organizationsWithCCARole = organizationsWithCCARole;
-      }
+	public void setOrganizationsWithCCARole(List<Organization> organizationsWithCCARole) {
+	      this.organizationsWithCCARole = organizationsWithCCARole;
+	}
 
     public boolean isAdmin() {
         return isAdmin;
@@ -99,11 +91,6 @@ public class StudyCommand {
         isAdmin = admin;
     }
 
-    /**
-     * Sets the study.
-     *
-     * @param study the new study
-     */
     public void setStudy(Study study) {
         this.study = study;
     }
@@ -116,48 +103,42 @@ public class StudyCommand {
     	return studyInstanceSpecificPrivilege;
     }
 
-
     public List<StudyOrganizationClinicalStaff> getOverallDataCoordinators() {
-    	if(overallDataCoordinators == null || overallDataCoordinators.size() == 0){
+    	if(overallDataCoordinators.isEmpty()){
     		overallDataCoordinators = study.getOverallDataCoordinators();
-    		if(overallDataCoordinators == null || overallDataCoordinators.size() == 0){
+    		if(overallDataCoordinators.isEmpty()){
     			StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
             	socs.setRole(Role.ODC);
             	overallDataCoordinators.add(socs);
     		}
     	}
-    	
     	return overallDataCoordinators;
     }
     
     public void setOverallDataCoordinators(List<StudyOrganizationClinicalStaff> overallDataCoordinators) {
         this.overallDataCoordinators = overallDataCoordinators;
-
     }
 
     public List<StudyOrganizationClinicalStaff> getPrincipalInvestigators() {
-    	if(principalInvestigators == null || principalInvestigators.size() == 0){
+    	if(principalInvestigators.isEmpty()){
     		principalInvestigators = study.getPrincipalInvestigators();
-    		if(principalInvestigators == null || principalInvestigators.size() == 0){
+    		if(principalInvestigators.isEmpty()){
     			StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
             	socs.setRole(Role.PI);
             	principalInvestigators.add(socs);
     		}
     	}
-    	
     	return principalInvestigators;
     }
     
     public void setPrincipalInvestigators(List<StudyOrganizationClinicalStaff> principalInvestigators) {
         this.principalInvestigators = principalInvestigators;
-
     }
 
     public List<StudyOrganizationClinicalStaff> getLeadCRAs() {
-
-        if (leadCRAs == null || leadCRAs.size() == 0) {
+        if (leadCRAs.isEmpty()) {
             leadCRAs = study.getLeadCRAs();
-            if (leadCRAs == null || leadCRAs.size() == 0) {
+            if (leadCRAs.isEmpty()) {
             	StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
             	socs.setRole(Role.LEAD_CRA);
             	leadCRAs.add(socs);
@@ -169,43 +150,17 @@ public class StudyCommand {
 
     public void setLeadCRAs(List<StudyOrganizationClinicalStaff> leadCRAs) {
         this.leadCRAs = leadCRAs;
-
     }
 
-
-    /**
-     * Gets the study.
-     *
-     * @return the study
-     */
     public Study getStudy() {
         return study;
     }
 
-//    /**
-//     * Removes the study sites.
-//     */
-//    public void removeStudySites() {
-//        Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-//        List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
-//        for (String index : indexes) {
-//            StudySite studySite = study.getStudySites().get(Integer.parseInt(index));
-//            studySitesToRemove.add(studySite);
-//        }
-//
-//        for (StudySite studySite : studySitesToRemove) {
-//            study.removeStudySite(studySite);
-//        }
-//    }
-
-
     public void updateClinicalStaffs() {
-
         setLeadCRAs(study.getLeadCRAs());
         setPrincipalInvestigators(study.getPrincipalInvestigators());
         setOverallDataCoordinators(study.getOverallDataCoordinators());
         setStudyOrganizationClinicalStaffs(study.getStudySiteLevelStudyOrganizationClinicalStaffs());
-
     }
 
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
@@ -327,5 +282,3 @@ public class StudyCommand {
 		this.nonDefaultArms = nonDefaultArms;
 	}
 }
-
-
