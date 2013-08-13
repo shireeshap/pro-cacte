@@ -9,6 +9,16 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+
+<style>
+	.message_style{
+		border:0px solid #ccc; 
+		height:65px; 
+		padding:9px; 
+		margin-bottom:10px; 
+		width: 475px;
+	}
+</style>
 <table>
     <tr>
         <td>
@@ -16,18 +26,15 @@
            	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
 
             <div id="releaseForm">
-                <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
+                <div class="message_style">
                     <c:choose>
                         <c:when test="${command.status.displayName eq 'Active'}">
-                            Please provide the date on which this Clinical staff will be effectively deactivated.
+                            This Clinical staff will be deactivated effective today.
                         </c:when>
                         <c:otherwise>
-                            Please provide the date on which this Clinical staff will be effectively activated.
+                            This Clinical staff will be activated effective today.
                         </c:otherwise>
                     </c:choose>
-                    <tags:renderDate propertyName="effectiveDate"
-                                     displayName="clinicalStaff.label.effective_date" required="true"/>
-
                 </div>
                 <br>
 

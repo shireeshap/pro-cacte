@@ -292,6 +292,7 @@ public class ClinicalStaff extends Person {
 
     public void deactivateClinicalStaff(){
     	setStatus(RoleStatus.IN_ACTIVE);
+    	setEffectiveDate(new Date());
     	deactivateUser();
     	deactivateStudyOrganizationalClinicalStaff();
     	removeUserRoles();
@@ -311,6 +312,7 @@ public class ClinicalStaff extends Person {
     
     public void activateClinicalStaff(Role role){
     	setStatus(RoleStatus.ACTIVE);
+    	setEffectiveDate(new Date());
     	activateUser();
     	addUserRole(role);
     }

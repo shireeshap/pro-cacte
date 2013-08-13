@@ -27,9 +27,7 @@
            	<input type="hidden" id="tabNumber" name="tabNumber" value="${param['tabNumber']}" />
             
             <div id="message" class="message_style">
-                Please provide the date on which new status will be made effective.
-                <tags:renderDate propertyName="statusDate"
-                                 displayName="form.label.effective_start_date" required="true"/>
+                New status will be made effective starting today.
             </div>
             <br>
             <input type="hidden" name="status" value="${param['status']}"/>

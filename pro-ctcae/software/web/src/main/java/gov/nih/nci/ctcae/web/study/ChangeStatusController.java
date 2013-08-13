@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
+import java.util.Date;
+
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
@@ -60,20 +62,22 @@ public class ChangeStatusController extends CtcAeSimpleFormController {
 
         StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = (StudyOrganizationClinicalStaff) command;
         ClinicalStaff clinicalStaff = null;
+        Date today = new Date();
         String status = ServletRequestUtils.getStringParameter(request, "status");
         if (RoleStatus.ACTIVE.getDisplayName().equals(status)) {
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.IN_ACTIVE);
+            studyOrganizationClinicalStaff.setStatusDate(today);
         }
         if (RoleStatus.IN_ACTIVE.getDisplayName().equals(status)) {
         	// First activate the clinical staff if not already active.
             Integer id = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getId();
             clinicalStaff = clinicalStaffRepository.findById(id);
             if(RoleStatus.IN_ACTIVE.equals(clinicalStaff.getStatus())){
-            	clinicalStaff.setEffectiveDate(studyOrganizationClinicalStaff.getStatusDate());
             	clinicalStaff.activateClinicalStaff(studyOrganizationClinicalStaff.getRole());
             }
             // Now Activate the site level status.
             studyOrganizationClinicalStaff.setRoleStatus(RoleStatus.ACTIVE);
+            studyOrganizationClinicalStaff.setStatusDate(today);
         }
         
         String tabNumber= ServletRequestUtils.getStringParameter(request, "tabNumber");
