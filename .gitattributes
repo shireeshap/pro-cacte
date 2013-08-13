@@ -2451,6 +2451,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedM
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedMeddraQuestionWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedProCtcQuestionCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedProCtcQuestionWrapper.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateCallBackHandler.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/FirstResponseDateCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOganizationWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOrganizationCallBackHandler.java -text
@@ -2902,6 +2904,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompl
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/EnrollmentReportLine.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/EnrollmentReportResultsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/Eq5dOverallStudyReportHelper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/GetParticipantCrfItemsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/OverallStudyData.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportDetailsController.java -text
@@ -2916,6 +2919,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLe
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportPdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelWorstSymptomReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantReportExcelController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ProOverallStudyReportHelper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportSearchCriteriaController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelFullReportCSVController.java -text

@@ -89,4 +89,11 @@
     <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
     </bean>
     
+    <bean id="proReportHelper" class="gov.nih.nci.ctcae.web.reports.ProOverallStudyReportHelper" scope="prototype">
+    	<property name="genericRepository" ref="genericRepository"/>
+    </bean>
+    <bean id="eq5dReportHelper" class="gov.nih.nci.ctcae.web.reports.Eq5dOverallStudyReportHelper" scope="prototype">
+    	<property name="genericRepository" ref="genericRepository"/>
+    </bean>
+    
 </beans>

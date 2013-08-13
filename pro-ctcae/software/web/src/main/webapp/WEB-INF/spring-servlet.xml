@@ -589,6 +589,8 @@
         <property name="genericRepository" ref="genericRepository"/>
 	    <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
 	    <property name="studyWideFormatReportData" ref="studyWideFormatReportData"/>
+	    <property name="proReportHelper" ref="proReportHelper"/>
+	    <property name="eq5dReportHelper" ref="eq5dReportHelper"/>
     </bean>
     
      <bean name="/reports/studyLevelFullReportCsv" id="studyLevelFullReportCSVController"

@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.Study;
@@ -13,6 +12,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,225 +34,79 @@ import au.com.bytecode.opencsv.CSVWriter;
  */
 public class StudyLevelFullReportCsvView extends AbstractView {
 
-	private static String NOT_AVAILABLE = "Not Available";
-	private static String DEFAULT_POSITION = "";
-	private static String FORCE_SKIP = "Forced skip";
-	private static String MANUAL_SKIP =	"Not answered";	
+	Map<String, Map<String,Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> results;
+	Map<String, LinkedHashMap<String, List<Date>>> crfDateMap;
+	Map<String, LinkedHashMap<String, List<String>>> crfModeMap;
+	Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap;
+	Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping;
+	Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping;
+	List<String> proCtcTermHeaders;
+	List<String> meddraTermHeaders ;
+	Map<String, String> participantInfoMap;
+	
+	Map<String, Map<String,Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> eq5dResults;
+	Map<String, LinkedHashMap<String, List<Date>>> eq5dCrfDateMap;
+	Map<String, LinkedHashMap<String, List<String>>> eq5dCrfModeMap;
+	Map<String, LinkedHashMap<String, List<CrfStatus>>> eq5dCrfStatusMap;
+	Map<String, Map<ProCtcQuestionType, String>> eq5dQuestionMapping;
+	Map<String, Map<ProCtcQuestionType, String>> eq5dMeddraQuestionMapping;
+	List<String> eq5dTermHeaders;
+	List<String> eq5dMeddraHeaders;
+	Map<String, String> eq5dParticipantInfoMap;
+	
 	CSVWriter proCsvWriter = null;
-	CSVWriter eq5DCsvWriter = null;
-	private static List reportInformation;
-	private static List legend;
-	private static List<String> row;
-	private static List<List<String>> rowSet; 
+	PrintWriter proWriter;
+	CSVWriter eq5dCsvWriter = null;
+	PrintWriter eq5dWriter;
 	String[] emptyRow;
 	private static int maxRowSize;
-	private static String FREQUENCY = "FRQ";
-	private static String INTERFERENCE = "INT";
-	private static String SEVERITY = "SEV";
-	private static String PRESENT =	"PRES";
-	private static String AMOUNT =	"AMT";
-	private static String OVERALL_STUDY_REPORT = "OverallStudyReport";
-	private static String EQ_5D = "EQ-5D";
 	File overallStudyReport;
 	File eq5DReport;
 	ZipOutputStream zipOutputStream ;
+    boolean hasEq5dData = false;
+    
+    private static String NOT_AVAILABLE = "Not Available";
+    private static String DEFAULT_POSITION = "";
+    private static String FORCE_SKIP = "Forced skip";
+    private static String MANUAL_SKIP =	"Not answered";	
+    private static String FREQUENCY = "FRQ";
+    private static String INTERFERENCE = "INT";
+    private static String SEVERITY = "SEV";
+    private static String PRESENT =	"PRES";
+    private static String AMOUNT =	"AMT";
+    private static String OVERALL_STUDY_REPORT = "OverallStudyReport";
+    private static String EQ_5D = "EQ-5D";
 	
-	
-	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response)	throws Exception {
-		Map<String, Map<String,Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> results = (Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>) request.getSession().getAttribute("sessionResultsMap");
-		Map<String, LinkedHashMap<String, List<Date>>> crfDateMap = (Map<String, LinkedHashMap<String, List<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
-		Map<String, LinkedHashMap<String, List<String>>> crfModeMap = (Map<String, LinkedHashMap<String, List<String>>>) request.getSession().getAttribute("sessionCRFModeMap");
-		Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap = (Map<String, LinkedHashMap<String, List<CrfStatus>>>) request.getSession().getAttribute("sessionCRFStatusMap");
-		Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionProCtcQuestionMapping");
-		Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionMeddraQuestionMapping");
-		List<String> proCtcTermHeaders = (List<String>) request.getSession().getAttribute("sessionProCtcTermHeaders");
-		List<String> meddraTermHeaders = (List<String>) request.getSession().getAttribute("sessionMeddraTermHeaders");
-        Map<String, String> participantInfoMap = (Map<String, String>) request.getSession().getAttribute("participantInfoMap");
-        Study study = (Study) request.getSession().getAttribute("study");
-        
-        overallStudyReport = new File(OVERALL_STUDY_REPORT+".csv");
-    	eq5DReport = new File(EQ_5D+".csv");
-    	zipOutputStream = new ZipOutputStream(response.getOutputStream());
+    	parseRequestAndRetrieveReportData(request);
+        Study study = (Study) request.getSession().getAttribute("study");        
 
+        zipOutputStream = new ZipOutputStream(response.getOutputStream());
     	maxRowSize = (7+ proCtcTermHeaders.size() + meddraTermHeaders.size());
 		emptyRow = new String[maxRowSize];
-		PrintWriter proWriter = new PrintWriter(overallStudyReport);
-		PrintWriter eq5DWriter = new PrintWriter(eq5DReport);
-		
 		
 		try{
 			response.setContentType("application/zip");
 			response.addHeader("Content-Disposition", "attachment; filename=\"ProCtcaeReports.zip\"");
 			response.addHeader("Content-Transfer-Encoding", "binary");
-			  
-			proCsvWriter = new CSVWriter(proWriter);
-			eq5DCsvWriter = new CSVWriter(eq5DWriter);
 			
-			reportInformation = new ArrayList<String>();
-			reportInformation.add(0, "Study");
-			reportInformation.add(1,study.getDisplayName());
-			proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-			reportInformation.clear();
-			reportInformation.add(0, "Type");
-			reportInformation.add(1,"This is a test EQ-5D report");
-			eq5DCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-
-			
-			reportInformation = new ArrayList<String>();
-			reportInformation.add(0, "Report run date");
-			reportInformation.add(1, DateUtils.format(new Date()));
-			proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-			eq5DCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-			
-			String studySiteParam = (String) request.getSession().getAttribute("organizationName");
-			if(!StringUtils.isEmpty(studySiteParam)){
-				reportInformation = new ArrayList<String>();
-				reportInformation.add(0, "Study Site");
-				reportInformation.add(1, studySiteParam);
-				proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-			}
-			
-			String crfIdParam = (String) request.getSession().getAttribute("crfTitle");
-			if(!StringUtils.isEmpty(crfIdParam)){
-				reportInformation = new ArrayList<String>();
-				reportInformation.add(0, "Form");
-				reportInformation.add(1, crfIdParam);
-				proCsvWriter.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
-			}
-
-			//Blank row
-			proCsvWriter.writeNext(emptyRow);
-			//Legend
-			buildLegend();
-			
-			//Blank row
-			proCsvWriter.writeNext(emptyRow);
-	        int numOfColumns = 0;
-	        //Create main table header
-	        createTableHeaders(proCtcTermHeaders, meddraTermHeaders);
-	        
-	        for(String organization : results.keySet()){
-	        	Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap = results.get(organization);
-	        	for(String crf: crfMap.keySet()){ 
-	        		Map<String, Map<String, LinkedHashMap<String, List<String>>>> participantMap = crfMap.get(crf);
-	                for (String participant : participantMap.keySet()) {
-	                	try{
-	                		Map<String, LinkedHashMap<String, List<String>>> symptomMap = (Map<String, LinkedHashMap<String, List<String>>>) participantMap.get(participant);
-		                    int questionCellNum = 0;
-		
-		                    LinkedHashMap<String,List<Date>> datesMap = crfDateMap.get(crf); 
-		                    LinkedHashMap<String,List<String>> modesMap = crfModeMap.get(crf);
-		                    LinkedHashMap<String, List<CrfStatus>> statusMap = crfStatusMap.get(crf);
-		                    List<Date> dates = null;
-		                    List<String> appModes = null;
-		                    List<CrfStatus> statusList = null;
-		                    
-		                    for (String participantD : datesMap.keySet()) {
-		                        if (participant.equals(participantD)) {
-		                            dates = datesMap.get(participant);
-		                            break;
-		                        }
-		                    }
-		                    for(String participantM : modesMap.keySet()){
-		                    	if(participant.equals(participantM)){
-		                    		appModes = modesMap.get(participant);
-		                    		break;
-		                    	}
-		                    }
-		                    for(String participantS : statusMap.keySet()){
-		                    	if(participant.equals(participantS)){
-		                    		statusList = statusMap.get(participant);
-		                    		break;
-		                    	}
-		                    }
-		                    AppMode appModeForSurvery;
-		                    rowSet = new ArrayList<List<String>>();
-		                    int rownum = 0;
-		                    if (dates != null && appModes!= null) {
-		                    	int index = 0;
-		                        for (Date date : dates) {
-		                            row = createRow(rowSet, rownum++);
-		                            createCurrentRowPrefix(row, participantInfoMap.get(participant), study.getShortTitle(), organization, crf);
-		                            if(date != null){
-		                            	row.add(4, DateUtils.format(date));
-		                            } else {
-		                            	row.add(4, NOT_AVAILABLE);
-		                            }
-		                            if(appModes.get(index) != null){
-		                            	row.add(5, appModes.get(index));
-		                            } else {
-		                            	row.add(5, NOT_AVAILABLE);
-		                            }
-		                            row.add(6, statusList.get(index).getDisplayName());
-		                            markDefaultNotAdministered(row, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
-		                            index++;
-		                        }
-		                    }
-		
-		                    int cellNum = 7;
-		                    int posNotFound = maxRowSize + 1;
-		                    for (String termEnglish : symptomMap.keySet()) {
-		                        LinkedHashMap<String, List<String>> questionMap = symptomMap.get(termEnglish);
-		                        for (String proCtcQuestionType : questionMap.keySet()) {
-		                        	List<String> valuesList = questionMap.get(proCtcQuestionType);
-		                            int index = 0;
-		                            for (String validValue : valuesList) {
-		                            	try{
-		                            		row = getRow(rowSet, (rownum - (valuesList.size() - index)));
-		                            	}catch (Exception e) {
-		                            		e.getStackTrace();
-		                            	}
-		                                
-		                                String pos;
-		                                int tempPos;
-		                                pos = getCellNumberValidValue(proCtcQuestionMapping, meddraQuestionMapping, termEnglish, ProCtcQuestionType.getByCode(proCtcQuestionType));
-	                                     tempPos = Integer.valueOf(pos) + 7;
-	                                     if(!pos.equals(DEFAULT_POSITION)){
-	                                    	 cellNum = tempPos;
-	                                    	 row.set(cellNum, validValue);
-	                                     } else {
-	                                    	 logger.debug("No column found for Term: "+ termEnglish + " and question type: " +proCtcQuestionType);
-	                                    	 continue;
-	                                     }
-		                                index++;
-		                            }
-		                            cellNum++;
-		                            if (cellNum > numOfColumns) {
-		                                numOfColumns = cellNum;
-		                            }
-		                        }
-		
-		                    }
-		                    
-		                    for(int i = 0; i<rowSet.size(); i++){
-		                    	row = rowSet.get(i);
-		                    	proCsvWriter.writeNext(row.toArray(new String[row.size()]));
-		                    }
-	              
-	                	}catch (Exception e) {
-	                		e.printStackTrace();
-	                		logger.debug("Debugging on error1: " + e.getStackTrace());
-	                	}
-	                }
-	        		
-	        	}
-	        }
-	        
-	        proCsvWriter.flush();
+			generateProCtcaeReport(request, study);
+			proCsvWriter.flush();
 	        proWriter.flush();
 	        byte[] fileContent = fetchBytesFromFile(overallStudyReport);
 	        addToZip(zipOutputStream, fileContent, OVERALL_STUDY_REPORT + ".csv");
 	        
-	        fileContent = null;
-	        eq5DWriter.flush();
-	        eq5DCsvWriter.flush();
-	        fileContent = fetchBytesFromFile(eq5DReport);
-	        addToZip(zipOutputStream, fileContent, EQ_5D + ".csv");
+			if(hasEq5dData) {
+				generateEq5dReport(request, study);
+		        eq5dWriter.flush();
+		        eq5dCsvWriter.flush();
+		        fileContent = fetchBytesFromFile(eq5DReport);
+		        addToZip(zipOutputStream, fileContent, EQ_5D + ".csv");
+			}
+	        
 	        zipOutputStream.flush();
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.debug("Debugging on error2: " + e.getStackTrace());
@@ -260,11 +114,246 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		finally{
 			proCsvWriter.close();
 			proWriter.close();
-			eq5DCsvWriter.close();
-			eq5DWriter.close();
+			overallStudyReport.delete();
+			if(hasEq5dData){
+				eq5dCsvWriter.close();
+				eq5dWriter.close();
+				eq5DReport.delete();
+			}
 			zipOutputStream.close();
 		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public void parseRequestAndRetrieveReportData(HttpServletRequest request){
+		results = (Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>) request.getSession().getAttribute("sessionResultsMap");
+		crfDateMap = (Map<String, LinkedHashMap<String, List<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
+		crfModeMap = (Map<String, LinkedHashMap<String, List<String>>>) request.getSession().getAttribute("sessionCRFModeMap");
+		crfStatusMap = (Map<String, LinkedHashMap<String, List<CrfStatus>>>) request.getSession().getAttribute("sessionCRFStatusMap");
+		proCtcQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionProCtcQuestionMapping");
+		meddraQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionMeddraQuestionMapping");
+		proCtcTermHeaders = (List<String>) request.getSession().getAttribute("sessionProCtcTermHeaders");
+		meddraTermHeaders = (List<String>) request.getSession().getAttribute("sessionMeddraTermHeaders");
+        participantInfoMap = (Map<String, String>) request.getSession().getAttribute("participantInfoMap");
+        
+        eq5dResults = (Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>) request.getSession().getAttribute("sessionEq5dResultsMap");
+    	eq5dCrfDateMap = (Map<String, LinkedHashMap<String, List<Date>>>) request.getSession().getAttribute("sessionEq5dCRFDatesMap");
+    	eq5dCrfModeMap = (Map<String, LinkedHashMap<String, List<String>>>) request.getSession().getAttribute("sessionEq5dCRFModeMap");
+    	eq5dCrfStatusMap = (Map<String, LinkedHashMap<String, List<CrfStatus>>>) request.getSession().getAttribute("sessionEq5dCRFStatusMap");
+    	eq5dQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionEq5dProCtcQuestionMapping");
+    	eq5dTermHeaders = (List<String>) request.getSession().getAttribute("sessionEq5dProCtcTermHeaders");
+    	eq5dMeddraHeaders = new ArrayList<String>();
+    	eq5dMeddraQuestionMapping = new HashMap<String, Map<ProCtcQuestionType,String>>();
+        eq5dParticipantInfoMap = (Map<String, String>) request.getSession().getAttribute("eq5dparticipantInfoMap");
+        if(!eq5dResults.isEmpty()) {
+        	hasEq5dData = true;
+        }
+	}
+	
+	public void generateEq5dReport(HttpServletRequest request, Study study) throws IOException{
+		eq5DReport = new File(EQ_5D+".csv");
+		eq5dWriter = new PrintWriter(eq5DReport);
 		
+		eq5dCsvWriter = new CSVWriter(eq5dWriter);
+		createReportHeader(study, request, eq5dCsvWriter);
+		
+		//Blank row
+		eq5dCsvWriter.writeNext(emptyRow);
+		//Legend
+		buildEq5dReportLegend();
+		
+		//Blank row
+		eq5dCsvWriter.writeNext(emptyRow);
+		
+		//Create main table header
+        createTableHeaders(eq5dTermHeaders, eq5dMeddraHeaders, eq5dCsvWriter);
+        
+        for(String organization : eq5dResults.keySet()){
+        	Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap = eq5dResults.get(organization);
+        	for(String crf: crfMap.keySet()){ 
+        		Map<String, Map<String, LinkedHashMap<String, List<String>>>> participantMap = crfMap.get(crf);
+                for (String participant : participantMap.keySet()) {
+                	List<String> eq5dRow = new ArrayList<String>();
+                	List<List<String>> eq5dRowSet = new ArrayList<List<String>>();
+                	try{
+                		Map<String, LinkedHashMap<String, List<String>>> symptomMap = (Map<String, LinkedHashMap<String, List<String>>>) participantMap.get(participant);
+	                    List<Date> dates = null;
+	                    List<String> appModes = null;
+	                    List<CrfStatus> statusList = null;
+	                    
+	                    dates = getAllAdministeredDatesForCurrentSymptom(eq5dCrfDateMap.get(crf), participant);
+	                    appModes = getAllAppModesForCurrentSymptom(eq5dCrfModeMap.get(crf), participant);
+	                    statusList = getAllCrfStatusForCurrentSymptom(eq5dCrfStatusMap.get(crf), participant);
+	                    
+	                	int rownum = createCurrentRowPrefix(eq5dRowSet, dates, appModes, statusList, eq5dParticipantInfoMap.get(participant), participant, study.getShortTitle(), organization, 
+	                    		crf, eq5dTermHeaders, eq5dMeddraHeaders);
+	                    
+	                	writeResponsesToCSV(symptomMap, eq5dRowSet, rownum, eq5dQuestionMapping, eq5dMeddraQuestionMapping);
+	                	
+	                    for(int i = 0; i<eq5dRowSet.size(); i++){
+	                    	eq5dRow = eq5dRowSet.get(i);
+	                    	eq5dCsvWriter.writeNext(eq5dRow.toArray(new String[eq5dRow.size()]));
+	                    }
+              
+                	}catch (Exception e) {
+                		e.printStackTrace();
+                		logger.debug("Error in writing EQ-5D responses: " + e.getStackTrace());
+                	}
+                }
+        	}
+        }
+	}
+	
+	
+	public void generateProCtcaeReport(HttpServletRequest request, Study study) throws IOException{
+		overallStudyReport = new File(OVERALL_STUDY_REPORT+".csv");
+		proWriter = new PrintWriter(overallStudyReport);
+		
+		proCsvWriter = new CSVWriter(proWriter);
+		createReportHeader(study, request, proCsvWriter);
+		
+
+		//Blank row
+		proCsvWriter.writeNext(emptyRow);
+		//Legend
+		buildProReportLegend();
+		
+		//Blank row
+		proCsvWriter.writeNext(emptyRow);
+        //Create main table header
+        createTableHeaders(proCtcTermHeaders, meddraTermHeaders, proCsvWriter);
+        
+        for(String organization : results.keySet()){
+        	Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap = results.get(organization);
+        	for(String crf: crfMap.keySet()){ 
+        		Map<String, Map<String, LinkedHashMap<String, List<String>>>> participantMap = crfMap.get(crf);
+                for (String participant : participantMap.keySet()) {
+                	List<String> proRow = new ArrayList<String>();
+                	List<List<String>> proRowSet = new ArrayList<List<String>>();
+                	try{
+                		Map<String, LinkedHashMap<String, List<String>>> symptomMap = (Map<String, LinkedHashMap<String, List<String>>>) participantMap.get(participant);
+	                    List<Date> dates = null;
+	                    List<String> appModes = null;
+	                    List<CrfStatus> statusList = null;
+	                    
+	                    dates = getAllAdministeredDatesForCurrentSymptom(crfDateMap.get(crf), participant);
+	                    appModes = getAllAppModesForCurrentSymptom(crfModeMap.get(crf), participant);
+	                    statusList = getAllCrfStatusForCurrentSymptom(crfStatusMap.get(crf), participant);
+	                    
+	                	int rownum = createCurrentRowPrefix(proRowSet, dates, appModes, statusList, participantInfoMap.get(participant), participant, study.getShortTitle(), organization, 
+	                    		crf, proCtcTermHeaders, meddraTermHeaders);
+	                    
+	                	writeResponsesToCSV(symptomMap, proRowSet, rownum, proCtcQuestionMapping, meddraQuestionMapping);
+	                	
+	                    for(int i = 0; i<proRowSet.size(); i++){
+	                    	proRow = proRowSet.get(i);
+	                    	proCsvWriter.writeNext(proRow.toArray(new String[proRow.size()]));
+	                    }
+              
+                	}catch (Exception e) {
+                		e.printStackTrace();
+                		logger.debug("Error in writing ProCtcae responses: " + e.getStackTrace());
+                	}
+                }
+        	}
+        }
+	}
+	
+	
+	private void writeResponsesToCSV(Map<String, LinkedHashMap<String, List<String>>> symptomMap, List<List<String>> rowSet, Integer rownum, Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping,
+			Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping){
+		
+		int cellNum = 7;
+		List<String> proRow = new ArrayList<String>();
+        for (String termEnglish : symptomMap.keySet()) {
+            LinkedHashMap<String, List<String>> questionMap = symptomMap.get(termEnglish);
+            for (String proCtcQuestionType : questionMap.keySet()) {
+            	List<String> valuesList = questionMap.get(proCtcQuestionType);
+                int index = 0;
+                for (String validValue : valuesList) {
+                	try{
+                		proRow = getRow(rowSet, index);
+                	}catch (Exception e) {
+                		e.getStackTrace();
+                	}
+                    
+                    String pos;
+                    int tempPos;
+                    pos = getCellNumberValidValue(proCtcQuestionMapping, meddraQuestionMapping, termEnglish, ProCtcQuestionType.getByCode(proCtcQuestionType));
+                     tempPos = Integer.valueOf(pos) + 7;
+                     if(!pos.equals(DEFAULT_POSITION)){
+                    	 cellNum = tempPos;
+                    	 proRow.set(cellNum, validValue);
+                     } else {
+                    	 logger.debug("No column found for Term: "+ termEnglish + " and question type: " +proCtcQuestionType);
+                    	 continue;
+                     }
+                    index++;
+                }
+                cellNum++;
+            }
+        }
+	}
+	
+	private Integer createCurrentRowPrefix(List<List<String>> rowSet, List<Date> dates, List<String> appModes, List<CrfStatus> statusList, String participantIdentifier, 
+			String participant, String studyShortTitle, String organization, String crf, List<String> proCtcTermHeaders, List<String> meddraTermHeaders){
+       	int rownum = 0;
+       	if (dates != null && appModes!= null) {
+       		int index = 0;
+       		for (Date date : dates) {
+       			List<String> row = createRow(rowSet, rownum++);
+       			createCurrentRowSubPrefix(row, participantIdentifier, studyShortTitle , organization, crf);
+       			if(date != null){
+       				row.add(4, DateUtils.format(date));
+       			} else {
+       				row.add(4, NOT_AVAILABLE);
+       			}
+       			if(appModes.get(index) != null){
+       				row.add(5, appModes.get(index));
+       			} else {
+       				row.add(5, NOT_AVAILABLE);
+       			}
+       			row.add(6, statusList.get(index).getDisplayName());
+       			markDefaultNotAdministered(row, 7, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
+       			index++;
+       		}
+       	}
+       	return rownum;
+     }
+	
+	List<Date> getAllAdministeredDatesForCurrentSymptom(LinkedHashMap<String,List<Date>> datesMap, String participant){
+	  	 List<Date> dates = null;
+	  	 for (String participantD : datesMap.keySet()) {
+	              if (participant.equals(participantD)) {
+	                  dates = datesMap.get(participant);
+	                  break;
+	              }
+	          }
+	  	 return dates;
+	}
+	
+	List<String> getAllAppModesForCurrentSymptom(LinkedHashMap<String,List<String>> modesMap, String participant){
+		 List<String> appModes = null;
+		 for(String participantM : modesMap.keySet()){
+         	if(participant.equals(participantM)){
+         		appModes = modesMap.get(participant);
+         		break;
+         	}
+         }
+		 return appModes;
+	}
+	
+	List<CrfStatus> getAllCrfStatusForCurrentSymptom(LinkedHashMap<String, List<CrfStatus>> statusMap, String participant){
+		List<CrfStatus> statusList = null;
+		
+		for(String participantS : statusMap.keySet()){
+        	if(participant.equals(participantS)){
+        		statusList = statusMap.get(participant);
+        		break;
+        	}
+        }
+		return statusList;
 	}
 	
 	public byte[] fetchBytesFromFile(File file) throws IOException{
@@ -275,6 +364,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		return fileContent;
 	}
 	
+	
 	public void addToZip(ZipOutputStream zipOutputStream, byte[] fileContent, String fileName) throws IOException{
 		ZipEntry zipEntry = new ZipEntry(fileName);
 		zipOutputStream.putNextEntry(zipEntry);
@@ -282,135 +372,192 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		zipOutputStream.closeEntry();
 	}
 	
-    private void buildLegend() {
+	private void buildEq5dReportLegend(){
+		int col = 0;
+		List<String> eq5dRow = new ArrayList<String>();
+    	eq5dRow = new ArrayList<String>();
+    	eq5dRow.add(col++, "Legend:");
+    	for (int i = 0; i <= 4; i++) {
+    		eq5dRow.add((col + i), String.valueOf(i + 1));
+    	}
+    	eq5dRow.add(6, "-55");
+        eq5dCsvWriter.writeNext((String[]) eq5dRow.toArray(new String[eq5dRow.size()]));
+        
+        col = 0;
+        eq5dRow.clear();
+        eq5dRow.add(col++, "");
+        eq5dRow.add(col++, "None");
+        eq5dRow.add(col++, "Slight");
+        eq5dRow.add(col++, "Moderate");
+        eq5dRow.add(col++, "Severe");
+        eq5dRow.add(col++, "Extreme");
+        eq5dRow.add(col++, "Not answered");
+        eq5dCsvWriter.writeNext((String[]) eq5dRow.toArray(new String[eq5dRow.size()]));
+	}
+	
+    private void buildProReportLegend() {
     	int col = 0;
-    	row = new ArrayList<String>();
-    	row.add(col++, "Legend:");
-    	row.add(col++, "");
+    	List<String> proRow = new ArrayList<String>();
+    	proRow.add(col++, "Legend:");
+    	proRow.add(col++, "");
     	
     	for (int i = 0; i <= 4; i++) {
-    		row.add((col + i), String.valueOf(i));
+    		proRow.add((col + i), String.valueOf(i));
     	}
     	col = 7;
-    	row.add(col++, "-77");
-    	row.add(col++, "-88");
-    	row.add(col++, "-66");
-    	row.add(col++, "-2000");
-    	row.add(col++, "-99");
-    	row.add(col++, "-55");
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proRow.add(col++, "-77");
+    	proRow.add(col++, "-88");
+    	proRow.add(col++, "-66");
+    	proRow.add(col++, "-2000");
+    	proRow.add(col++, "-99");
+    	proRow.add(col++, "-55");
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     	
-    	row.clear();
+    	proRow.clear();
     	col = 0;
-    	row.add(col++, "");
-    	row.add(col++, ProCtcQuestionType.FREQUENCY.getDisplayName()+" ("+FREQUENCY+")");
+    	proRow.add(col++, "");
+    	proRow.add(col++, ProCtcQuestionType.FREQUENCY.getDisplayName()+" ("+FREQUENCY+")");
     	
     	int j = 0;
         for (String value : ProCtcQuestionType.FREQUENCY.getValidValues()) {
-        	row.add((col + j), value);
+        	proRow.add((col + j), value);
             j++;
         }
         col = 7;
-    	row.add(col++, "Prefer not to answer");
-    	row.add(col++, "Not applicable");
-    	row.add(col++, "Not sexually active");
-    	row.add(col++, "Not asked");
-    	row.add(col++, FORCE_SKIP);
-    	row.add(col++, MANUAL_SKIP);
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proRow.add(col++, "Prefer not to answer");
+    	proRow.add(col++, "Not applicable");
+    	proRow.add(col++, "Not sexually active");
+    	proRow.add(col++, "Not asked");
+    	proRow.add(col++, FORCE_SKIP);
+    	proRow.add(col++, MANUAL_SKIP);
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     	
-    	row.clear();
+    	proRow.clear();
     	col = 0;
-    	row.add(col++, "");
-    	row.add(col++, ProCtcQuestionType.SEVERITY.getDisplayName()+" ("+SEVERITY+")");
+    	proRow.add(col++, "");
+    	proRow.add(col++, ProCtcQuestionType.SEVERITY.getDisplayName()+" ("+SEVERITY+")");
     	int k = 0;
         for (String value : ProCtcQuestionType.SEVERITY.getValidValues()) {
-        	row.add((col + k), value);
+        	proRow.add((col + k), value);
             k++;
         }
         col = 7;
-    	row.add(col++, "Prefer not to answer");
-    	row.add(col++, "Not applicable");
-    	row.add(col++, "Not sexually active");
-    	row.add(col++, "Not asked");
-    	row.add(col++, FORCE_SKIP);
-    	row.add(col++, MANUAL_SKIP);
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proRow.add(col++, "Prefer not to answer");
+    	proRow.add(col++, "Not applicable");
+    	proRow.add(col++, "Not sexually active");
+    	proRow.add(col++, "Not asked");
+    	proRow.add(col++, FORCE_SKIP);
+    	proRow.add(col++, MANUAL_SKIP);
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     	
-    	row.clear();
+    	proRow.clear();
     	col = 0;
-    	row.add(col++, "");
-    	row.add(col++, ProCtcQuestionType.INTERFERENCE.getDisplayName()+" ("+INTERFERENCE+")");
+    	proRow.add(col++, "");
+    	proRow.add(col++, ProCtcQuestionType.INTERFERENCE.getDisplayName()+" ("+INTERFERENCE+")");
     	int l = 0;
         for (String value : ProCtcQuestionType.INTERFERENCE.getValidValues()) {
-        	row.add((col + l), value);
+        	proRow.add((col + l), value);
             l++;
         }
         col = 7;
-    	row.add(col++, "Prefer not to answer");
-    	row.add(col++, "Not applicable");
-    	row.add(col++, "Not sexually active");
-    	row.add(col++, "Not asked");
-    	row.add(col++, FORCE_SKIP);
-    	row.add(col++, MANUAL_SKIP);
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proRow.add(col++, "Prefer not to answer");
+    	proRow.add(col++, "Not applicable");
+    	proRow.add(col++, "Not sexually active");
+    	proRow.add(col++, "Not asked");
+    	proRow.add(col++, FORCE_SKIP);
+    	proRow.add(col++, MANUAL_SKIP);
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     	
-    	row.clear();
+    	proRow.clear();
     	col = 0;
-    	row.add(col++, "");
-    	row.add(col++, ProCtcQuestionType.PRESENT.getDisplayName()+" ("+PRESENT+")");
-    	row.add(col++, "No");
-    	row.add(col++, "Yes");
+    	proRow.add(col++, "");
+    	proRow.add(col++, ProCtcQuestionType.PRESENT.getDisplayName()+" ("+PRESENT+")");
+    	proRow.add(col++, "No");
+    	proRow.add(col++, "Yes");
     	for (int n = 0; n <= 2; n++) {
-    		row.add((col + n), "");
+    		proRow.add((col + n), "");
         }
     	col = 7;
-    	row.add(col++, "Prefer not to answer");
-    	row.add(col++, "Not applicable");
-    	row.add(col++, "Not sexually active");
-    	row.add(col++, "Not asked");
-    	row.add(col++, FORCE_SKIP);
-    	row.add(col++, MANUAL_SKIP);
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proRow.add(col++, "Prefer not to answer");
+    	proRow.add(col++, "Not applicable");
+    	proRow.add(col++, "Not sexually active");
+    	proRow.add(col++, "Not asked");
+    	proRow.add(col++, FORCE_SKIP);
+    	proRow.add(col++, MANUAL_SKIP);
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     	
     	
-    	row.clear();
+    	proRow.clear();
     	col = 0;
-    	row.add(col++, "");
-    	row.add(col++, ProCtcQuestionType.AMOUNT.getDisplayName()+" ("+AMOUNT+")");
+    	proRow.add(col++, "");
+    	proRow.add(col++, ProCtcQuestionType.AMOUNT.getDisplayName()+" ("+AMOUNT+")");
     	int p = 0;
         for (String value : ProCtcQuestionType.AMOUNT.getValidValues()) {
-        	row.add((col + p), value);
+        	proRow.add((col + p), value);
             p++;
         }
         col = 7;
-    	row.add(col++, "Prefer not to answer");
-    	row.add(col++, "Not applicable");
-    	row.add(col++, "Not sexually active");
-    	row.add(col++, "Not asked");
-    	row.add(col++, FORCE_SKIP);
-    	row.add(col++, MANUAL_SKIP);
+    	proRow.add(col++, "Prefer not to answer");
+    	proRow.add(col++, "Not applicable");
+    	proRow.add(col++, "Not sexually active");
+    	proRow.add(col++, "Not asked");
+    	proRow.add(col++, FORCE_SKIP);
+    	proRow.add(col++, MANUAL_SKIP);
     	
-    	proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+    	proCsvWriter.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
 	}
     
-	private void createTableHeaders(List<String> proCtcTermHeaders, List<String> meddraTermHeaders) {
-		row.clear();
-    	row.add(0, "Participant ID");
-    	row.add(1, "Study");
-    	row.add(2, "Study Site");
-    	row.add(3, "Survey name");
-    	row.add(4, "First response date");
-    	row.add(5, "Mode");
-    	row.add(6, "Status");
+    private void createReportHeader(Study study, HttpServletRequest request, CSVWriter writer){
+    	List<String> reportInformation = new ArrayList<String>();
+		reportInformation.add(0, "Study");
+		reportInformation.add(1,study.getDisplayName());
+		writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+		
+		reportInformation = new ArrayList<String>();
+		reportInformation.add(0, "Report run date");
+		reportInformation.add(1, DateUtils.format(new Date()));
+		writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+		
+		String studySiteParam = (String) request.getSession().getAttribute("organizationName");
+		if(!StringUtils.isEmpty(studySiteParam)){
+			reportInformation = new ArrayList<String>();
+			reportInformation.add(0, "Study Site");
+			reportInformation.add(1, studySiteParam);
+			writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+		}
+		
+		String crfIdParam = (String) request.getSession().getAttribute("crfTitle");
+		if(!StringUtils.isEmpty(crfIdParam)){
+			reportInformation = new ArrayList<String>();
+			reportInformation.add(0, "Form");
+			reportInformation.add(1, crfIdParam);
+			writer.writeNext((String[]) reportInformation.toArray(new String[reportInformation.size()]));
+		}
+    }
+    
+    
+    
+    private void createTableHeaders(List<String> proCtcTermHeaders, List<String> meddraTermHeaders, CSVWriter writer) {
+    	List<String> proRow = new ArrayList<String>();
+    	proRow.add(0, "Participant ID");
+    	proRow.add(1, "Study");
+    	proRow.add(2, "Study Site");
+    	proRow.add(3, "Survey name");
+    	proRow.add(4, "First response date");
+    	proRow.add(5, "Mode");
+    	proRow.add(6, "Status");
 		int col = 7;
-		for(int i = 0; i<proCtcTermHeaders.size(); i++){
-			row.add(col++, proCtcTermHeaders.get(i));
+		if(!proCtcTermHeaders.isEmpty()){
+			for(int i = 0; i<proCtcTermHeaders.size(); i++){
+				proRow.add(col++, proCtcTermHeaders.get(i));
+			}
 		}
-		for(int i = 0; i<meddraTermHeaders.size(); i++){
-			row.add(col++, meddraTermHeaders.get(i));
+		if(!meddraTermHeaders.isEmpty()){
+			for(int i = 0; i<meddraTermHeaders.size(); i++){
+				proRow.add(col++, meddraTermHeaders.get(i));
+			}
 		}
-		proCsvWriter.writeNext((String[]) row.toArray(new String[row.size()]));
+		writer.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
 	}
 	
 	private List<String> createRow(List<List<String>> rowSet, int rownum){
@@ -419,10 +566,8 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		return newRow;
 	}
 	
-	private void markDefaultNotAdministered(List<String> row, int length){
-    	String col;
-    	
-    	for (int i = 7; i<length + 7; i++){
+	private void markDefaultNotAdministered(List<String> row, int col, int length){
+    	for (int i = col; i<length + 7; i++){
     		row.add(i, String.valueOf(-2000));
     	}
     }
@@ -431,8 +576,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		return rowSet.get(rowNum);
 	}
 	
-    @SuppressWarnings("deprecation")
-	private void createCurrentRowPrefix(List<String> row, String participant, String study, String studySite, String formName){
+	private void createCurrentRowSubPrefix(List<String> row, String participant, String study, String studySite, String formName){
     	row.add(0, participant);
     	row.add(1, study);
     	row.add(2, studySite);
