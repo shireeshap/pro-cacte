@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core.domain;
+﻿package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
@@ -74,7 +74,7 @@ public class ProCtcTermTest extends TestCase {
     	String termEnglishText1 = "Aching muscles";
     	String termEnglishText2 = "Decreased appetite";
     	String termSpanishText1 = "Dolor muscular";
-    	String termSpanishText2 = "Disminuci�n del apetito";
+    	String termSpanishText2 = "Disminución del apetito";
     	
     	ProCtcTerm proCtcTerm1 = new ProCtcTerm();
     	ProCtcTermVocab proCtcTermVocab1 = new ProCtcTermVocab();
