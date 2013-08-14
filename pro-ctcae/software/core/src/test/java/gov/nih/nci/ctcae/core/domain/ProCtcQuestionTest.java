@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core.domain;
+Ôªøpackage gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
@@ -57,8 +57,8 @@ public class ProCtcQuestionTest extends TestCase {
     	ProCtcQuestion proCtcQuestion1 = new ProCtcQuestion();
     	String questionEnglishText1 = "How OFTEN did you have NAUSEA";
     	String questionEnglishText2 = "Did you have any RASH";
-    	String questionSpanishText1 = "Con quÈ FRECUENCIA tuvo N¡USEAS";
-    	String questionSpanishText2 = "Tuvo alg˙n SARPULLIDO";
+    	String questionSpanishText1 = "Con qu√© FRECUENCIA tuvo N√ÅUSEAS";
+    	String questionSpanishText2 = "Tuvo alg√∫n SARPULLIDO";
     	
     	proCtcQuestion1.setQuestionText(questionEnglishText1);
     	ProCtcQuestionVocab proCtcQuestionVocab1 = proCtcQuestion1.getProCtcQuestionVocab();
