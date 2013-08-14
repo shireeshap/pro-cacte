@@ -63,7 +63,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = super.referenceData(command);
 
-        ProCtcTermQuery query = new ProCtcTermQuery();
+        ProCtcTermQuery query = new ProCtcTermQuery("allTerms");
         query.filterByCtcTermHavingQuestionsOnly();
         query.filterByCurrency();
         Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(query);
