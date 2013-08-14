@@ -5,11 +5,9 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
-import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -83,11 +81,15 @@ public class ForgotPasswordController extends AbstractFormController {
         }
 
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        if(clinicalStaff !=null && clinicalStaff.getEmailAddress() != null){
-              resetPasswordAndSendEmail(clinicalStaff, request);
-              mv.addObject("Message", "user.forgotpassword.clinicalstaff");
-        }else{
-              mv.addObject("Message", "user.forgotpassword.participant");
+        if(clinicalStaff !=null){
+        	if(clinicalStaff.getEmailAddress() != null){
+        		resetPasswordAndSendEmail(clinicalStaff, request);
+        		mv.addObject("Message", "user.forgotpassword.clinicalstaff");
+        	}else{
+        		mv.addObject("Message", "user.forgotpassword.participant");
+        	}
+        } else {
+        	mv.addObject("Message", "user.forgotusername.inactiveUser");
         }
         return mv;
     }

@@ -2,27 +2,29 @@ package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.JavaMailSender;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.context.support.DelegatingMessageSource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractFormController;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DelegatingMessageSource;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractFormController;
 
 /**
  * @author mehul gulati
@@ -54,14 +56,14 @@ public class ForgotUsernameController extends AbstractFormController {
         String email = request.getParameter("email");
         ModelAndView mv;
         if(email.length()>0){
-            ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+            ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(QueryStrings.STAFF_QUERY_BASIC, true);
             clinicalStaffQuery.filterByEmail(email);
             List<ClinicalStaff> clinicalStaffs = genericRepository.find(clinicalStaffQuery);
-            if (clinicalStaffs == null || clinicalStaffs.size() == 0){
+            if (clinicalStaffs.isEmpty()){
                 ParticipantQuery participantQuery = new ParticipantQuery(false);
                 participantQuery.filterByEmail(email);
                 List<Participant> participants = genericRepository.find(participantQuery);
-                if(participants == null || participants.size() ==0){
+                if(participants.isEmpty()){
                     mv = new ModelAndView("forgotUsername");
                     String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
                     mv.addObject("Message", "user.forgotusername.usernotfound");
