@@ -1,17 +1,12 @@
 package gov.nih.nci.ctcae.core.security.passwordpolicy.validators;
 
-import java.util.Date;
-
-import com.sun.jmx.snmp.Timestamp;
-
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.LoginPolicy;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.security.user.Credential;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
+
+import java.util.Date;
 
 
 public class LoginPolicyValidatorTest extends TestDataManager{
