@@ -1,4 +1,4 @@
-﻿package gov.nih.nci.ctcae.core.domain;
+package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import junit.framework.TestCase;
