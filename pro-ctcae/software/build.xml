@@ -17,13 +17,22 @@
     </target>
 
     <!-- ==================================================================
-              target : publish-all
+              target : publish-all. Invoked by the build/build.xml for AHP builds.
           ====================================================================== -->
     <target name="publish-all" depends="buildlist, clean-all, clean-repo"
             description="compile, jar and publish all projects in the right order, publishes them into local repository">
         <subant target="publish-local" buildpathref="build-path"/>
-    	<subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
     </target>
+	
+    <!-- ==================================================================
+              target : loadPlpgsqlFunctions. Provided for local builds. Requires prsence of datasource.properties
+          ====================================================================== -->
+    <target name="loadPlpgsqlFunctions" depends="find-datasource"
+            description="loads the stored fucntions into the database.">
+        <subant target="loadPlpgsqlFunctions" buildpath="core/ivy-build.xml"/>
+    </target>
+	
+	
 	
     <!-- ==================================================================
               target : new-coverage-report. 
