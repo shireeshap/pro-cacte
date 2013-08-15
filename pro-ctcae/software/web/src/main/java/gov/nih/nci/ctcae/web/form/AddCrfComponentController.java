@@ -105,7 +105,7 @@ public class AddCrfComponentController extends AbstractCrfController {
             Integer ctcCategoryId = ServletRequestUtils.getIntParameter(request, "ctcCategoryId");
             String categoryName = request.getParameter("categoryName");
 
-            ProCtcTermQuery query = new ProCtcTermQuery();
+            ProCtcTermQuery query = new ProCtcTermQuery(false, true, true);
             query.filterByCtcTermHavingQuestionsOnly();
             query.filterByCtcCategoryId(ctcCategoryId);
             query.filterByCurrency();
