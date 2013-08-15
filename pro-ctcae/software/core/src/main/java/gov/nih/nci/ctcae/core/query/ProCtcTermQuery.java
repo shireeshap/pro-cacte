@@ -31,19 +31,19 @@ public class ProCtcTermQuery extends AbstractQuery {
     	setParameter(CTC_NAME, "CTC v4.0");
     }
     
-    /**
+    /**Returns both pro and eq5d if pro and eq5d boolean are both set to true or both set to false.
      * @param allVersion - gets all versions if true and version 4.0 if false 
      * @param proOnly - gets only proTerms if true
      * @param eq5dOnly - gets only eq5dTerms if true
      */
-    public ProCtcTermQuery(boolean allVersion, boolean proOnly, boolean eq5dOnly) {
+    public ProCtcTermQuery(boolean allVersion, boolean pro, boolean eq5d) {
         super(queryString);
         leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
 
-        if(proOnly){
+        if(pro && !eq5d){
         	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
-        } // Eq5D only
-         else if(eq5dOnly){
+        } else if(!pro && eq5d){
+        	// Eq5D only
         	 andWhere(" categoryTerm.category.name in ('EQ5D-5L') ");
         }
         	// All Version or only V4.0
