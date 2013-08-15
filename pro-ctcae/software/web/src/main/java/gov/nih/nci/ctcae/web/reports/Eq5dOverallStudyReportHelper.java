@@ -59,7 +59,7 @@ public class Eq5dOverallStudyReportHelper {
 		String prefix = "";
 		String proCtcTermEnglishTermText;
 		Map<ProCtcQuestionType, String> typeMap;
-		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery(true, true);
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery(true, false, true);
 		List<ProCtcTerm> proCtcTerms = genericRepository.find(proCtcTermQuery);
 		for (ProCtcTerm proCtcTerm : proCtcTerms) {
 			if (proCtcQuestionMapping.containsKey(proCtcTerm.getTermEnglish(SupportedLanguageEnum.ENGLISH))) {

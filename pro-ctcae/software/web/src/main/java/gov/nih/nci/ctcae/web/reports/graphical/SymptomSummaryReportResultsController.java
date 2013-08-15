@@ -116,7 +116,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
                 query.filterByTerm(symptom);
                 ProCtcTerm proCtcTerm = genericRepository.findSingle(query);
                 if (proCtcTerm == null) {
-                    query = new ProCtcTermQuery(true);
+                    query = new ProCtcTermQuery(true, true, false);
                     query.filterByTerm(symptom);
                     proCtcTerm = genericRepository.findSingle(query);
                 }
