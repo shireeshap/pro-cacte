@@ -19,43 +19,38 @@ public class ProCtcTermQuery extends AbstractQuery {
     private static String CURRENCY = "currency";
     private static String CTC_CATEGORY_NAMES = "ctcCategoryIds";
 
+    
     /*
-     *  Fetch ProCtc terms only (only version v4.0)
+     * Default no-arg constructor: gets ptoCtcTerms only (no eq5dTerms), of version 4.0
      */
     public ProCtcTermQuery() {
-        super(queryString);
-        leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
-        andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
-        andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
-        setParameter(CTC_NAME, "CTC v4.0");
-    }
-
-    /*
-     *  Fetch ProCtc terms only (all versions)
-     */
-    public ProCtcTermQuery(boolean allVersion) {
-        super(queryString);
-    }
-    
-    /*
-     *  Fetch Eq5d terms only
-     */
-    public ProCtcTermQuery(boolean ctcVersionFour, boolean eq5dTermsOnly) {
     	super(queryString);
-        leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
-        andWhere(" categoryTerm.category.name in ('EQ5D-5L') ");
-        andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
-        setParameter(CTC_NAME, "CTC v4.0");
+    	leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
+    	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
+    	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
+    	setParameter(CTC_NAME, "CTC v4.0");
     }
     
-    /*
-     *  Fetch all ProCtc & Eq5d terms 
+    /**
+     * @param allVersion - gets all versions if true and version 4.0 if false 
+     * @param proOnly - gets only proTerms if true
+     * @param eq5dOnly - gets only eq5dTerms if true
      */
-    public ProCtcTermQuery(String allTerms) {
+    public ProCtcTermQuery(boolean allVersion, boolean proOnly, boolean eq5dOnly) {
         super(queryString);
         leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
-        andWhere("categoryTerm.category.ctc.name = :" + CTC_NAME);
-        setParameter(CTC_NAME, "CTC v4.0");
+
+        if(proOnly){
+        	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
+        } // Eq5D only
+         else if(eq5dOnly){
+        	 andWhere(" categoryTerm.category.name in ('EQ5D-5L') ");
+        }
+        	// All Version or only V4.0
+        if(!allVersion){
+        	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
+        	setParameter(CTC_NAME, "CTC v4.0");
+        }
     }
     
     /**
