@@ -503,37 +503,38 @@
 <body>
     <ctcae:form method="post" name="myForm" id="myForm"> 
     
-		    <table cellspacing="0">
-		        <tr>
-		            <td width="80%">
-		                 <tags:hasErrorsMessageSuccinct hideErrorDetails="false"/>
-		            </td>
-		            <td width="4%">
-		                <div style="padding-top:13px;font-size:12px;color: #666666;">
-		                 <spring:message code="progress"/>:
-		                </div>
-		            </td>
-		            <td valign="middle" width="20%">
-                        <div style="padding-left:38px;padding-bottom:2px;font-size:12px;color: #666666;">
-			                <spring:message code="current.page"/>: ${command.newPageIndex}
-			                <spring:message code="pages.left"/> ${command.totalPages}
-			            </div>
-		                 <div class='progress-bar-outer'>
-		                    <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
-		                </div>
-		            </td>
-		        </tr>
-		    </table> 
+	    <table cellspacing="0">
+	        <tr>
+	            <td width="80%">
+	                 <tags:hasErrorsMessageSuccinct hideErrorDetails="false"/>
+	            </td>
+	            <td width="4%">
+	                <div style="padding-top:13px;font-size:12px;color: #666666;">
+	                 <spring:message code="progress"/>:
+	                </div>
+	            </td>
+	            <td valign="middle" width="20%">
+                       <div style="padding-left:38px;padding-bottom:2px;font-size:12px;color: #666666;">
+		                <spring:message code="current.page"/>: ${command.newPageIndex}
+		                <spring:message code="pages.left"/> ${command.totalPages}
+		            </div>
+	                 <div class='progress-bar-outer'>
+	                    <div class='progress-bar-inner' style="width: ${(command.newPageIndex/command.totalPages)*150}px;"></div>
+	                </div>
+	            </td>
+	        </tr>
+	    </table> 
 		
-        <chrome:box autopad="true" message="false" title="${command.isEq5dCrf ? 'Visual Assessment Scale' : '' }">
+		<spring:message var="vasTitle" code="eq5d.vas.title" />
+        <chrome:box autopad="true" message="false" title="${command.isEq5dCrf ? vasTitle : '' }">
 	    <c:choose>
 	        <c:when test="${command.isEq5dCrf}">
 	           
 	            <table width="100%"> 
 			        <tr>
-			            <td width="72%" valign="top"></td>
-			            <td align="center"><b><spring:message code="eq5d.vas.instructions.1"/></b></td>
-			            <td width="8%"></td>
+			            <td width="76%" valign="top"></td>
+			            <td align="center" style="padding-bottom:10px;"><b><spring:message code="eq5d.vas.instructions.1"/></b></td>
+			            <td width="4%"></td>
 			        </tr>
 			        <tr>
 			            <td valign="top">
@@ -560,7 +561,7 @@
 			             </td>
 			        </tr>
 			        <tr>
-			             <td></td><td align="center"><b><spring:message code="eq5d.vas.instructions.13"/></b></td>
+			             <td></td><td align="center" style="padding-top:10px"><b><spring:message  code="eq5d.vas.instructions.13"/></b></td>
 			        </tr>
 			    </table>        
 			    
