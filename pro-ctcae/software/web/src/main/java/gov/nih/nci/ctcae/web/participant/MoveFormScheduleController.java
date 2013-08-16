@@ -44,7 +44,7 @@ public class MoveFormScheduleController extends AbstractController {
         
         StudyParticipantAssignment spa = participantCommand.getSelectedStudyParticipantAssignment();
         if(spa.getStudyStartDate() != null){
-        	if(spa.getStudyStartDate().after(DateUtils.addDaysToDate(c.getTime(), -1))){
+        	if(spa.getStudyStartDate().after(c.getTime())){
         		return new ModelAndView("participant/denyMove");
         	}
         }

@@ -57,6 +57,11 @@ function addRemoveSchedule(index, date, action, pid) {
     }
 }
 
+function closeAndRefresh(){
+	closeWindow();
+	getCalendar(index, "dir=refresh");
+}
+
 function beginHoldOnSchedules(index, date, action, pid) {
 
     if (date == null || date == '') {
@@ -109,11 +114,7 @@ function addRemoveValidationSchedule(index, date, action, pid) {
                 //jQuery('#ajaxLoadingImgDiv').hide();
                 if (transport.responseText == "getCalendar") {
                     addRemoveSchedule(index, date, action, pid);
-                } else if (transport.responseText == "denyMoveToDate"){
-            		alert("Cannot move the schedule prior to start date");
-            		closeWindow();
-            		getCalendar(index, "dir=refresh");
-            	}else {
+                } else {
                     showConfirmationWindow(transport, 650, 210);
                 }
             },
@@ -131,21 +132,14 @@ function showMoveWindow(olddate, newdate, index, sids, pid) {
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
         parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids + "&id=" + pid,
         onComplete:function(transport) {
-            //jQuery('#ajaxLoadingImgDiv').hide();
-        	if (transport.responseText == "denyMoveToDate"){
-        		alert("Cannot move the schedule prior to start date");
-        		closeWindow();
-        		getCalendar(index, "dir=refresh");
-        	}else{
         		showConfirmationWindow(transport, 650, 210);
                 AE.registerCalendarPopups();
-        	}
-            
         },
         method:'get'
     })
 
 }
+
 function showDeleteWindow(date, index, sids, pid) {
     //$('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
