@@ -5,6 +5,13 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author AmeyS
+ * ResponseWrapper class.
+ * This wrapper class is used as a value object for holding response of individual questions
+ * in a survey.
+ * Used along ResponsesCallBackHandler.
+ */
 public class ResponseWrapper {
 	
 	public Integer scheduleId;

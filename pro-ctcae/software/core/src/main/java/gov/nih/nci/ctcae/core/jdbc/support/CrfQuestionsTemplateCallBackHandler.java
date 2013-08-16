@@ -13,7 +13,8 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 /**
  * @author AmeyS
  * CrfQuestionsTemplateCallBackHandler class. 
- * Used in overall study report generation.
+ * Maintains a template for each CRF on a given study.
+ * Template is created in terms of storing, the proTerms & questionTypes for each question appearing in a CRF.
  */
 public class CrfQuestionsTemplateCallBackHandler implements RowCallbackHandler {
 	

@@ -1,5 +1,12 @@
 package gov.nih.nci.ctcae.core.jdbc.support;
 
+/**
+ * @author AmeyS
+ * ParticipantAndOganizationWrapper class.
+ * Used as a value object for holding brief participant info and organizationName corresponding to
+ * each scheduled survey fetched from db.
+ * Used along with ParticipantAndOrganizationCallBackHandler.
+ */
 public class ParticipantAndOganizationWrapper {
 	
 	public Integer scheduleId;

@@ -29,7 +29,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author Amey Sane
  * Date: July 30, 2013
  * StudyWideFormatReportData class.
- * Used to fetch data for Wide format Overall Study report
+ * Used in wide format Overall Study reports, to fetch data for generating pro report and EQ5D report.
+ * This dao uses jdbcTemplate (as opposed to conventional hibernateTemplate). JdbcTemplate is used for performance enhancement
+ * as, the records fetched by executing queries are string value objects (rather than domain object graphs fetched by hibernateTemplate)
+ * RowMappers and CallBackHandlers are used to process the fetched data along with the wrapper class objects which act as our 
+ * custom value objects.
  */
 public class StudyWideFormatReportDao{
 	

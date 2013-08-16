@@ -2,6 +2,12 @@ package gov.nih.nci.ctcae.core.jdbc.support;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 
+/**
+ * @author AmeyS
+ * This wrapper class is used as a value object for holding response for added proCtcQuestions
+ * in a survey.
+ * Used along AddedProCtcQuestionCallBackHandler.
+ */
 public class AddedProCtcQuestionWrapper {
 	
 	public Integer scheduleId;

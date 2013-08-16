@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 
 /**
  * @author AmeyS
- * FirstResponseDateCallBackHandler class. 
- * Used in overall study report generation.
+ * FirstResponseDateCallBackHandler class.
+ * Keeps track of what is the first date of response for a given survey.
  */
 public class FirstResponseDateCallBackHandler implements RowCallbackHandler {
 	

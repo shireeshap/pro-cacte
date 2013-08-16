@@ -11,7 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 /**
  * @author AmeyS
  * StudyParticipantCrfScheduleRowMapper class. 
- * Used in overall study report generation.
+ * Used in overall study report generation, to process and manage Pro & EQ5D schedule records 
+ * fetched from db.
  */
 public class StudyParticipantCrfScheduleRowMapper implements RowMapper {
 	

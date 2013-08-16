@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
  * @author AmeyS
  * AddedProCtcQuestionCallBackHandler class. 
  * Used in overall study report generation.
+ * It maintains a list of responses received for each added proCtcQuetion for a given survey.
  */
 public class AddedProCtcQuestionCallBackHandler implements RowCallbackHandler {
 	

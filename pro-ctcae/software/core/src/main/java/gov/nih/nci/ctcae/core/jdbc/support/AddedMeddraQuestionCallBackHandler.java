@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
  * @author AmeyS
  * AddedMeddraQuestionCallBackHandler class. 
  * Used in overall study report generation.
+ * It maintains a list of responses received for each added meddraQuestion for a given survey.
  */
 public class AddedMeddraQuestionCallBackHandler implements RowCallbackHandler {
 	

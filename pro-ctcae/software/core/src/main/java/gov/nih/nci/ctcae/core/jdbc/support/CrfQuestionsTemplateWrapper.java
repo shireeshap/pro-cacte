@@ -2,6 +2,11 @@ package gov.nih.nci.ctcae.core.jdbc.support;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 
+/**
+ * @author AmeyS
+ * Used as a value object for holding proTerm & questionType for every question on given CRF.
+ * Used along with CrfQuestionsTemplateCallBackHandler.
+ */
 public class CrfQuestionsTemplateWrapper {
 	
 	public String crfTitle;

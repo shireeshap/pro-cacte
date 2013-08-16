@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
  * @author AmeyS
  * ResponsesCallBackHandler class. 
  * Used in overall study report generation.
+ * For each scheduled survey, it maintains a list of responses received for each question in that survey.
  */
 public class ResponsesCallBackHandler implements RowCallbackHandler {
 	

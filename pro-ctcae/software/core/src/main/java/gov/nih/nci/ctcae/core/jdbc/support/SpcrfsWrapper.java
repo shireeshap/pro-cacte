@@ -5,6 +5,13 @@ import gov.nih.nci.ctcae.core.domain.CrfStatus;
 
 import java.util.Date;
 
+/**
+ * @author AmeyS
+ * SpcrfsWrapper class
+ * This wrapper class is used as a value object for holding survey info (pro & eq5d) scheduled 
+ * on participant's calendar
+ * Used along with StudyParticipantCrfScheduleRowMapper
+ */
 public class SpcrfsWrapper {
 	private Integer id;
     private Date startDate;

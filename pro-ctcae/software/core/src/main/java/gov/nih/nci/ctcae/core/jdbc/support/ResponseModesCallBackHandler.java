@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 /**
  * @author AmeyS
  * ResponseModesCallBackHandler class. 
- * Used in overall study report generation.
+ * Used in overall study report generation, to manage the response modes for a surveys which are 
+ * fetched from db.
+ * For each scheduled survey, it creates a list of all distinct modes used for responding to that survey. 
  */
 public class ResponseModesCallBackHandler implements RowCallbackHandler {
 	
