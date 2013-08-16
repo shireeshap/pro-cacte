@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+
+<chrome:box omitBorders="true">
+
 <table width="100%">
     <tr>
         <td style="padding-left:20px">
@@ -54,3 +58,5 @@
     </c:if>
 
 </table>
+
+</chrome:box>
