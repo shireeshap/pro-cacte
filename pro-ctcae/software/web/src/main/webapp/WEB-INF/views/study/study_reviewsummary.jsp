@@ -135,20 +135,24 @@
     </chrome:division>
     <proctcae:urlAuthorize url="/study/editoverallstaff"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editoverallstaff">
-        <div class="row">
-            <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
-            <div class="value">${command.study.overallDataCoordinator.displayName} </div>
-        </div>
+        <c:forEach items="${command.study.overallDataCoordinators}" var="odc">
+            <div class="row">
+                <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
+                <div class="value">${odc.displayName} </div>
+            </div>
+        </c:forEach>
         <c:forEach items="${command.study.leadCRAs}" var="leadCra">
 	        <div class="row">
 	            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
 	            <div class="value">${leadCra.displayName} </div>
 	        </div>
         </c:forEach>
-        <div class="row">
-            <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
-            <div class="value">${command.study.principalInvestigator.displayName} </div>
-        </div>
+        <c:forEach items="${command.study.principalInvestigators}" var="pi">
+            <div class="row">
+                <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
+                <div class="value">${pi.displayName} </div>
+            </div>
+        </c:forEach>
     </chrome:division>
     <proctcae:urlAuthorize url="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}">
