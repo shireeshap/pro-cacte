@@ -38,6 +38,12 @@
         a:hover {
             text-decoration: underline;
         }
+        
+      	.alignRight{
+      		font-weight: normal;
+  	 		margin-left: 23.1em;
+    		text-align: left;
+      	}
 
     </style>
     <script type="text/javascript">
@@ -135,24 +141,54 @@
     </chrome:division>
     <proctcae:urlAuthorize url="/study/editoverallstaff"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editoverallstaff">
-        <c:forEach items="${command.study.overallDataCoordinators}" var="odc">
-            <div class="row">
-                <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
-                <div class="value">${odc.displayName} </div>
-            </div>
-        </c:forEach>
-        <c:forEach items="${command.study.leadCRAs}" var="leadCra">
-	        <div class="row">
-	            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
-	            <div class="value">${leadCra.displayName} </div>
-	        </div>
-        </c:forEach>
-        <c:forEach items="${command.study.principalInvestigators}" var="pi">
-            <div class="row">
-                <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
-                <div class="value">${pi.displayName} </div>
-            </div>
-        </c:forEach>
+   		<c:forEach items="${command.study.overallDataCoordinators}" var="odc" varStatus="odcs">
+   			<c:choose>
+    			<c:when test="${odcs.index == 0}">
+					 <div class="row">
+						<div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
+                		<div class="value">${odc.displayName} </div>
+					 </div>   			
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+                		<div class="alignRight">${odc.displayName} </div>
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
+   		
+   		<c:forEach items="${command.study.leadCRAs}" var="leadCra" varStatus="leadCras">
+   			<c:choose>
+    			<c:when test="${leadCras.index == 0}">
+					 <div class="row">
+				    	<div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
+			            <div class="value">${leadCra.displayName} </div>
+		       		 </div>			
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+                		 <div class="alignRight">${leadCra.displayName} </div>
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
+   		
+   		
+   		<c:forEach items="${command.study.principalInvestigators}" var="pi" varStatus="pis">
+   			<c:choose>
+    			<c:when test="${pis.index == 0}">
+					<div class="row">
+				        <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
+		                <div class="value">${pi.displayName} </div>
+		            </div>	
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+    					<div class="alignRight">${pi.displayName} </div>	
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
     </chrome:division>
     <proctcae:urlAuthorize url="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}">
