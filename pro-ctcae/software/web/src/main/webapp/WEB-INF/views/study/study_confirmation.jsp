@@ -21,7 +21,12 @@
             width: 12em;
             padding: 1px;
         }
-
+        
+        .alignRight{
+      		font-weight: normal;
+  	 		margin-left: 11.1em;
+    		text-align: left;
+      	}
     </style>
 
 </head>
@@ -63,18 +68,15 @@
             <div class="value">${command.study.leadStudySite.organization.displayName} </div>
         </div>
     </chrome:division>
+    
     <chrome:division title="study.section.study_sites">
-
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
                     <th width="95%" class="tableHeader"><spring:message code='study.label.sites' text=''/></th>
                     <th width="5%" class="tableHeader">&nbsp;</th>
-
                 </tr>
-
                 <tr>
-
                     <td style="border-right:none;">
                         <c:forEach items="${command.study.studySites}" var="studySite">
                             <c:if test="${studySite ne command.study.leadStudySite}">
@@ -118,30 +120,61 @@
                         </tr>
                     </c:if>
                 </c:forEach>
-
-                    <%--<td style="border-left:none;">--%>
-                    <%--</td>--%>
-
             </table>
         </div>
     </chrome:division>
-        <chrome:division title="study.tab.clinical_staff">
-        <div class="row">
-            <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
-            <div class="value">${command.study.overallDataCoordinator.displayName} </div>
-        </div>
-        <c:forEach items="${command.study.leadCRAs}" var="leadCra">
-	        <div class="row">
-	            <div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
-	            <div class="value">${leadCra.displayName} </div>
-	        </div>
-        </c:forEach>
-        <div class="row">
-            <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
-            <div class="value">${command.study.principalInvestigator.displayName} </div>
-        </div>
+    
+	<chrome:division title="study.tab.clinical_staff">
+        <c:forEach items="${command.study.overallDataCoordinators}" var="odc" varStatus="odcs">
+   			<c:choose>
+    			<c:when test="${odcs.index == 0}">
+					 <div class="row">
+						<div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
+                		<div class="value">${odc.displayName} </div>
+					 </div>   			
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+                		<div class="alignRight">${odc.displayName} </div>
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
+   		
+      	<c:forEach items="${command.study.leadCRAs}" var="leadCra" varStatus="leadCras">
+   			<c:choose>
+    			<c:when test="${leadCras.index == 0}">
+					 <div class="row">
+				    	<div class="label"><tags:message code="study.label.clinical.staff.lead.cra"/></div>
+			            <div class="value">${leadCra.displayName} </div>
+		       		 </div>			
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+                		 <div class="alignRight">${leadCra.displayName} </div>
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
+   		
+        <c:forEach items="${command.study.principalInvestigators}" var="pi" varStatus="pis">
+   			<c:choose>
+    			<c:when test="${pis.index == 0}">
+					<div class="row">
+				        <div class="label"><tags:message code="study.label.clinical.staff.pi"/></div>
+		                <div class="value">${pi.displayName} </div>
+		            </div>	
+    			</c:when>
+    			<c:otherwise>
+    				<div class="row">
+    					<div class="alignRight">${pi.displayName} </div>	
+					 </div>   
+    			</c:otherwise>
+   			</c:choose>
+   		</c:forEach>
     </chrome:division>
-        <chrome:division title="study.tab.study_site_clinical_staff">   
+    
+	<chrome:division title="study.tab.study_site_clinical_staff">   
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
                 <table width="75%" class="tablecontent">
@@ -223,8 +256,7 @@
     </chrome:division>
 </chrome:box>
 <div style="float:right; padding-right:5px">
-                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
-            </div>
+                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/></div>
 
 </body>
 </html>
