@@ -36,6 +36,7 @@
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="userRepository" ref="userRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository" />
+        <property name="proctcaeEventPublisher" ref="proctcaeEventPublisher"/>
     </bean>
 
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"

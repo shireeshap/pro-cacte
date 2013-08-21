@@ -12,6 +12,7 @@ import gov.nih.nci.ctcae.core.validation.annotation.FirstAndLastNameValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private UserRepository userRepository;
     private UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator;
     private static String CLINICAL_STAFF_SEARCH_STRING = "clinicalStaffSearchString";
+    private ClinicalStaffNotificationPublisher proctcaeEventPublisher;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -96,7 +98,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         if (clinicalStaffCommand.getUserAccount() && "false".equals(request.getParameter("isEdit"))) {
-            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(userRepository, request);
+        	ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
+        	String link = StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword");
+        	proctcaeEventPublisher.publishClinicalStaffNotification(link, clinicalStaff);
         }
 		String searchString = (String) request.getSession().getAttribute(CLINICAL_STAFF_SEARCH_STRING);
 		if(StringUtils.isEmpty(searchString)){
@@ -220,6 +224,11 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setUniqueStaffEmailAddressValidator(UniqueStaffEmailAddressValidator uniqueStaffEmailAddressValidator) {
         this.uniqueStaffEmailAddressValidator = uniqueStaffEmailAddressValidator;
+    }
+    
+    @Required
+    public void setProctcaeEventPublisher(ClinicalStaffNotificationPublisher proctcaeEventPublisher){
+    	this.proctcaeEventPublisher = proctcaeEventPublisher;
     }
 
     public void setFirstAndLastNameValidator(FirstAndLastNameValidator firstAndLastNameValidator) {

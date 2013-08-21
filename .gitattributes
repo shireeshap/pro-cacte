@@ -2788,6 +2788,10 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchC
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaffController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/ClinicalStaffNotificationHandler.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/ClinicalStaffNotificationPublisher.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotification.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotificationOnSetup.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CachingFilter.java -text

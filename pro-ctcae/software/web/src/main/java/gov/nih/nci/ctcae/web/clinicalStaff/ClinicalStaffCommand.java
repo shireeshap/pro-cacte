@@ -187,51 +187,6 @@ public class ClinicalStaffCommand {
         return indexesToRemove;
     }
 
-    public void sendEmailWithUsernamePasswordDetails(UserRepository userRepository, HttpServletRequest request) {
-        try {
-            User user = clinicalStaff.getUser();
-            user.setToken(UUID.randomUUID().toString());
-            user.setTokenTime(new Timestamp(new Date().getTime()));
-            String token = user.getToken();
-            userRepository.saveWithoutCheck(clinicalStaff.getUser(), false);
-            String content = "Dear " + clinicalStaff.getFirstName() + " " + clinicalStaff.getLastName() + ", ";
-            content += "<br>You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername();
-            content += "<br>You can reset your password by clicking on this link ";
-            content += "<br>" + StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword") + "?token=" + token;
-            JavaMailSender javaMailSender = new JavaMailSender();
-            MimeMessage message = javaMailSender.createMimeMessage();
-            message.setSubject("PRO-CTCAE Registration");
-            message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(clinicalStaff.getEmailAddress());
-            helper.setText(content, javaMailSender.isHtml());
-            javaMailSender.send(message);
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void sendEmailWithUsernamePasswordDetails() {
-        try {
-            if (getEmail()) {
-                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername() + "<br> Password: " + clearCasePassword;
-                JavaMailSender javaMailSender = new JavaMailSender();
-                MimeMessage message = javaMailSender.createMimeMessage();
-                message.setSubject("PRO-CTCAE Registration");
-                message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
-                MimeMessageHelper helper = new MimeMessageHelper(message, true);
-                helper.setTo(clinicalStaff.getEmailAddress());
-                helper.setText(content, javaMailSender.isHtml());
-                javaMailSender.send(message);
-
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public String getUsername() {
         return username;
     }

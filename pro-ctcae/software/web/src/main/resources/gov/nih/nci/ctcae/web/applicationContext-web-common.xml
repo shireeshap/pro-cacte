@@ -96,4 +96,10 @@
     	<property name="genericRepository" ref="genericRepository"/>
     </bean>
     
+    <bean id="proctcaeEventPublisher" class="gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher" />
+    
+    <bean id="proctcaeEventHandler" class="gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationHandler">
+    	 <property name="userRepository" ref="userRepository"/>
+    </bean>
+    
 </beans>

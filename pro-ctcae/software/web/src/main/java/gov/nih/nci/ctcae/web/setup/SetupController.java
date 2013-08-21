@@ -12,6 +12,8 @@ import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand;
+import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
+
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
@@ -28,6 +30,7 @@ public class SetupController extends CtcAeSimpleFormController {
     private UserRepository userRepository;
     private SetupStatus setupStatus;
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+    private ClinicalStaffNotificationPublisher proctcaeEventPublisher;
     
     /*Used on the jsp to determine of the setup has already run. */
     public static final String SETUP_NEEDED = "setupNeeded";
@@ -63,7 +66,7 @@ public class SetupController extends CtcAeSimpleFormController {
         User user = saveAndLoadUserAsAdmin(setupCommand);
         setupCommand.getClinicalStaff().setUser(user);
         clinicalStaffRepository.save(setupCommand.getClinicalStaff());
-        setupCommand.sendEmailWithUsernamePasswordDetails();
+        proctcaeEventPublisher.publishClinicalStaffNotificationOnSetup(user.getUsername(), setupCommand.getClearCasePassword(), setupCommand.getClinicalStaff().getEmailAddress());
         updateSetupStatus();
     }
     
@@ -127,5 +130,10 @@ public class SetupController extends CtcAeSimpleFormController {
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    @Required
+    public void setProctcaeEventPublisher(ClinicalStaffNotificationPublisher proctcaeEventPublisher){
+    	this.proctcaeEventPublisher = proctcaeEventPublisher;
     }
 }
