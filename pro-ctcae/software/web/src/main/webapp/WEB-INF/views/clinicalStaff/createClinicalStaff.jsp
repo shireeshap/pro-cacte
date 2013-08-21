@@ -201,8 +201,9 @@
 
             var userName = $('username').value;
             var staffId = "${param['clinicalStaffId']}";
-            if (staffId == "") {
-                var userId = "${clinicalStaffCommand.clinicalStaff.user.id}";
+            var userId;
+            if (staffId != "") {
+                userId = "${clinicalStaffCommand.clinicalStaff.user.id}";
             }
             if (userName != "") {
                 if (userName.length < 6) {
@@ -421,33 +422,16 @@
                         </c:when>
                         <c:otherwise>
                             <div class="row">
-                                <c:if test="${error eq null}">
-                                    <div class="label"><spring:message code="participant.label.username"/>:
-                                    </div>
-                                    <div class="value">
+	                            <div class="label"><spring:message code="participant.label.username"/>:
+	                            </div>
+	                            <div class="value">
+	
+	                                &nbsp;${clinicalStaffCommand.username}</div>
+	
+	                            <input type="hidden" id="clinicalStaff.user.username"
+	                                   name="clinicalStaff.user.username"
+	                                   value="${clinicalStaffCommand.username}">
 
-                                        &nbsp;${clinicalStaffCommand.username}</div>
-
-                                    <input type="hidden" id="clinicalStaff.user.username"
-                                           name="clinicalStaff.user.username"
-                                           value="${clinicalStaffCommand.username}">
-                                </c:if>
-
-                                <form:errors path="*">
-                                    <tags:renderText propertyName="username"
-                                                     displayName="participant.label.username"
-                                                     required="true" onblur="checkUniqueUserName();"/>
-                                    <ul id="userNameError" style="display:none; padding-left:12em "
-                                        class="errors">
-                                        <li><spring:message code='clinicalStaff.unique_userName'
-                                                            text='clinicalStaff.unique_userName'/></li>
-                                    </ul>
-                                    <ul id="userNameLengthError" style="display:none; padding-left:12em "
-                                        class="errors">
-                                        <li><spring:message code='clinicalStaff.username_length'
-                                                            text='clinicalStaff.username_length'/></li>
-                                    </ul>
-                                </form:errors>
                             </div>
                              <c:if test="${isEdit}">
 						    	<table cellpadding="0" cellspacing="0">
@@ -455,14 +439,14 @@
 						    			<td>
 						    				<div class="row">
 						    					<div class="label">
-						    					<c:choose>
-								    					<c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
-								    						<spring:message code="clinicalStaff.label.active.since">: </spring:message>
-								    					</c:when>
-								    					<c:otherwise>
-								    						<spring:message code="clinicalStaff.label.inActive.since">: </spring:message>
-								    					</c:otherwise>
-							    				</c:choose>
+							    					<c:choose>
+									    					<c:when test="${clinicalStaffCommand.clinicalStaff.status.displayName eq 'Active'}">
+									    						<spring:message code="clinicalStaff.label.active.since">: </spring:message>
+									    					</c:when>
+									    					<c:otherwise>
+									    						<spring:message code="clinicalStaff.label.inActive.since">: </spring:message>
+									    					</c:otherwise>
+								    				</c:choose>
 							    				</div>
 						    					<div class="value">&nbsp;<tags:formatDate value="${clinicalStaffCommand.clinicalStaff.effectiveDate}"/></div>
 						    				</div>
