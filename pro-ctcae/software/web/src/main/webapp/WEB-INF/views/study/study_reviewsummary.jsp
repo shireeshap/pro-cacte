@@ -101,6 +101,7 @@
         </chrome:division>
     <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editdetails">
         <div align="left" style="margin-left: 100px">
+            <br />
             <table width="75%" class="tablecontent">
                 <tr id="sa-table-head" class="amendment-table-head">
                     <th width="30%" class="tableHeader"><spring:message code='study.label.arm.name' text=''/></th>
@@ -121,6 +122,7 @@
     <proctcae:urlAuthorize url="/study/editsites" objectId="${command.studyInstanceSpecificPrivilege}"><c:set var="tabnumber" value="${tabnumber+1}"/></proctcae:urlAuthorize>
     <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsites" objectId="${command.studyInstanceSpecificPrivilege}">
         <div align="left" style="margin-left: 100px">
+            <br />
             <table width="75%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
                     <th width="95%" class="tableHeader"><spring:message code='study.label.sites' text=''/></th>
@@ -194,6 +196,7 @@
     <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsitestaff" objectId="${command.studyInstanceSpecificPrivilege}">
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
+            <br />
                 <table width="75%" class="tablecontent">
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="95%" class="tableHeader" colspan="2">${studySite.displayName}</th>
