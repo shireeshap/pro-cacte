@@ -1634,6 +1634,7 @@ img.indicator {
 */
 table.tablecontent {
     border-collapse: collapse;
+    border-radius: 2px 2px 2px 2px;
 }
 
 .tablecontent td, .tablecontent th {
@@ -2089,3 +2090,4 @@ formbuilderboxTable td .selected .label{
     z-index:2;
     overflow: auto;
 }
+

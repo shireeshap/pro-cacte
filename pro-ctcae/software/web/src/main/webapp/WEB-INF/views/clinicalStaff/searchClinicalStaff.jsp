@@ -217,7 +217,7 @@
                 <td  width="75%" align="center">
                     <input type="text" id="searchString" name="searchString" style="width: 360px;"
                            maxlength="50" size="50" onblur="isSpclChar('searchString');"
-                           value="${searchString}"/>
+                           value="${searchString}" class="form-control"/>
                     <tags:button color="blue" icon="search" type="button" value='Search'
                                  onclick="submitForm();"/>
                     <tags:indicator id="indicator"/>

@@ -230,7 +230,7 @@
 		    		<tr>
 		    			<td width="75%" align="center">
 				            <input type="text" id="searchString" name="searchString" style="width: 360px;"
-				                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}"/>
+				                   maxlength="50" size="50" onblur="isSpclChar('searchString');" value="${searchString}" class="form-control"/>
 				            <ul id="searchString.error" style="display:none;left-padding:8em;" class="errors">
 				                    <li><spring:message code='special.character.message' text='special.character.message'/></li>
 				            </ul>
