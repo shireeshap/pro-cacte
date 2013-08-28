@@ -206,7 +206,7 @@
                 <tr>
                     <td  width="75%" align="center">
                         <input type="text" id="searchText" name="searchText" size="50" maxlength="50" style="width: 360px;"
-                               onblur="isSpclChar('searchText');" value="${searchText}">
+                               onblur="isSpclChar('searchText');" value="${searchText}" class="form-control">
                         <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
                             <li><spring:message code='special.character.message' text='special.character.message'/></li>
                         </ul>
