@@ -1,12 +1,14 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.DataCoordinatingCenter;
 import gov.nih.nci.ctcae.core.domain.FundingSponsor;
 import gov.nih.nci.ctcae.core.domain.LeadStudySite;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.StudySponsor;
@@ -280,5 +282,17 @@ public class StudyCommand {
 
 	public void setNonDefaultArms(List<Arm> nonDefaultArms) {
 		this.nonDefaultArms = nonDefaultArms;
+	}
+
+	//Note: this needs a live hibernate session to run successfully
+	public void initailizeStudy() {
+        for(StudyOrganization so : getStudy().getStudyOrganizations()){
+        	for(StudyOrganizationClinicalStaff socs : so.getStudyOrganizationClinicalStaffs()){
+        		ClinicalStaff cs = socs.getOrganizationClinicalStaff().getClinicalStaff();
+        		cs.getOrganizationClinicalStaffs().size();
+        	}
+        }	
+        getStudy().getArms().size();
+
 	}
 }

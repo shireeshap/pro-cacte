@@ -2,7 +2,11 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -39,6 +43,8 @@ public class EditStudyController extends StudyController {
             	studyCommand.getNonDefaultArms().add(arm);
             }
         }
+        
+        studyCommand.initailizeStudy();
         return studyCommand;
     }
 
@@ -54,6 +60,12 @@ public class EditStudyController extends StudyController {
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         return super.processFinish(request, response, command, errors);
+    }
+    
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception{
+    	super.postProcessPage(request, oCommand, errors, page);
+    	((StudyCommand) oCommand).initailizeStudy();
     }
 
     @Override

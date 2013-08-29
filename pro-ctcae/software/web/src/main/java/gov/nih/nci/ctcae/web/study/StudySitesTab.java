@@ -1,16 +1,30 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.LeadStudySite;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
@@ -25,8 +39,19 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class StudySitesTab extends SecuredTab<StudyCommand> {
     private GenericRepository genericRepository;
+	private StudyOrganizationRepository studyOrganizationRepository;
 
-    public void setGenericRepository(GenericRepository genericRepository) {
+
+	public StudyOrganizationRepository getStudyOrganizationRepository() {
+		return studyOrganizationRepository;
+	}
+
+	public void setStudyOrganizationRepository(
+			StudyOrganizationRepository studyOrganizationRepository) {
+		this.studyOrganizationRepository = studyOrganizationRepository;
+	}
+
+	public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
 
@@ -67,18 +92,63 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
                 }
             }
         }
-
     }
-
+    
     /* (non-Javadoc)
     * @see gov.nih.nci.cabig.ctms.web.tabs.Tab#postProcess(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors)
     */
     @Override
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
         super.postProcess(request, command, errors);
+        
+        //add all clinicians from the newly added site to the study site, if they are already on some other study site for this study.
+        for(StudySite studySite : command.getStudy().getStudySites()){
+        	if(!studySite.isPersisted()){
+            	List<Role> roleList = Arrays.asList(Role.SITE_CRA, Role.SITE_PI);
+
+            	List<StudyOrganizationClinicalStaff> socsAlreadyOnStudyList = getAllSocsAssignedToStudyWithGivenRole(command.getStudy(), roleList);
+            	Set<StudyOrganizationClinicalStaff> socsSet = new HashSet<StudyOrganizationClinicalStaff>();
+
+        		//build socsList of all socs on study with SCRA/SPI role
+        		for(StudyOrganizationClinicalStaff socsOnStudy : socsAlreadyOnStudyList){
+
+        			ClinicalStaff clinicalStaff = socsOnStudy.getOrganizationClinicalStaff().getClinicalStaff();
+        			for(OrganizationClinicalStaff ocsToAttach : clinicalStaff.getOrganizationClinicalStaffs()){
+        			    if(ocsToAttach.getOrganization().equals(studySite.getOrganization())){
+        			    	StudyOrganizationClinicalStaff newSocs = buildNewSocs(socsOnStudy, studySite, ocsToAttach);
+        			    	socsSet.add(newSocs);
+        			    }
+        			}
+        		}
+                studySite.getStudyOrganizationClinicalStaffs().addAll(socsSet);
+	    		studyOrganizationRepository.save(studySite);
+
+        	}
+        }
     }
 
-    public String getRequiredPrivilege() {
+    private StudyOrganizationClinicalStaff buildNewSocs(StudyOrganizationClinicalStaff socs, StudySite ss, OrganizationClinicalStaff ocs) {
+		StudyOrganizationClinicalStaff newSocs = new StudyOrganizationClinicalStaff();
+		newSocs.setStudyOrganization(ss);
+        newSocs.setRole(socs.getRole());
+        newSocs.setNotify(socs.getNotify());
+        newSocs.setOrganizationClinicalStaff(ocs);
+        return newSocs;
+	}
+
+	private List<StudyOrganizationClinicalStaff> getAllSocsAssignedToStudyWithGivenRole(Study study, List<Role> roleList) {
+    	List<StudyOrganizationClinicalStaff> socsList  = new ArrayList<StudyOrganizationClinicalStaff>();
+    	for(StudyOrganizationClinicalStaff socs : study.getAllStudyOrganizationClinicalStaffs()){
+    		if(roleList.contains(socs.getRole())){
+    			if(socs.getRoleStatus().equals(RoleStatus.ACTIVE)){
+        			socsList.add(socs);
+    			}
+    		}
+    	}
+    	return socsList;
+	}
+
+	public String getRequiredPrivilege() {
     	String privilege = Privilege.PRIVILEGE_ADD_STUDY_SITE;
     	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	if(!user.isAdmin()){
