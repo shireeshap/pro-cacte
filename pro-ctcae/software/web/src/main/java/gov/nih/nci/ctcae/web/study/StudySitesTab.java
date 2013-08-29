@@ -120,9 +120,10 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
         			    }
         			}
         		}
-                studySite.getStudyOrganizationClinicalStaffs().addAll(socsSet);
-	    		studyOrganizationRepository.save(studySite);
-
+        		if(!socsSet.isEmpty()){
+                    studySite.getStudyOrganizationClinicalStaffs().addAll(socsSet);
+    	    		studyOrganizationRepository.save(studySite);
+        		}
         	}
         }
     }
