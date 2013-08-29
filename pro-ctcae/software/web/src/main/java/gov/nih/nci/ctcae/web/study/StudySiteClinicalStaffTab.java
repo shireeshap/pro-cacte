@@ -1,18 +1,28 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.validation.Errors;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 
 /**
  * @author Vinay Kumar
@@ -38,7 +48,6 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
             ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
             command.setDefaultOrganization(clinicalStaff.getOrganizationClinicalStaffs().get(0).getOrganization());
         }
-
     }
 
 
@@ -74,16 +83,19 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     //saves the studyOrg and is excluded in the shouldSave() so that the whole study doesnt have to be saved.
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
     	boolean saveStudyOrganization = false;
-    	StudyOrganizationClinicalStaff socs = null;
     	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getNewlyAddedSocsForSelectedSite()) {
     		if(studyOrganizationClinicalStaff != null){
     			saveStudyOrganization = true;
-    			socs = studyOrganizationClinicalStaff;
-    			studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+
+    			if(studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA) || 
+    					studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI)){
+    				addStaffToAllValidStudyOrganizations(studyOrganizationClinicalStaff, command.getStudy());
+    			} else {
+    				addStaffOnlyToGivenStudyOrganization(studyOrganizationClinicalStaff, command.getStudy());
+    			}
     		}
         }
-        if(saveStudyOrganization && socs != null){
-        	studyOrganizationRepository.save(command.getStudy().getStudyOrganization(socs));
+        if(saveStudyOrganization){
             command.setStudy(studyRepository.findById(command.getStudy().getId()));
             command.updateClinicalStaffs();
             command.removeAllNewSocsForSelectedSite();
@@ -91,7 +103,75 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
         }
     }
 
-    public String getRequiredPrivilege() {
+    /*
+     * Add staff only to the study organization affiliated with the studyOrganizationClinicalStaff
+     */
+    private void addStaffOnlyToGivenStudyOrganization(
+			StudyOrganizationClinicalStaff studyOrganizationClinicalStaff, Study study) {
+    	studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+		studyOrganizationRepository.save(study.getStudyOrganization(studyOrganizationClinicalStaff));		
+	}
+
+
+	/*
+     * For a given organizationClinicalStaff, add him as a study site staff to all
+     * his sites that are study orgs on the given study.
+     */
+    private void addStaffToAllValidStudyOrganizations(
+			StudyOrganizationClinicalStaff studyOrganizationClinicalStaff, Study study) {
+    	ClinicalStaff clinicalStaff = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff();
+    	for(OrganizationClinicalStaff ocs : clinicalStaff.getOrganizationClinicalStaffs()){
+    		StudyOrganization matchingStudyOrg = isCliniciansOrgAValidStudySite(ocs, study, studyOrganizationClinicalStaff.getRole());
+    		if(matchingStudyOrg != null){
+                StudyOrganizationClinicalStaff newSocs = new StudyOrganizationClinicalStaff();
+                newSocs.setRole(studyOrganizationClinicalStaff.getRole());
+                newSocs.setStudyOrganization(matchingStudyOrg);
+                newSocs.setOrganizationClinicalStaff(ocs);
+                if(!matchingStudyOrg.getStudyOrganizationClinicalStaffs().contains(newSocs)){
+                    matchingStudyOrg.getStudyOrganizationClinicalStaffs().add(newSocs);
+                }
+	    		studyOrganizationRepository.save(matchingStudyOrg);
+    		}
+    	}		
+	}
+
+
+	/*
+     * If given ocs's site is a study site or lead study site on the study, 
+     * and if the clinicalStaff isnt already assigned to that study site then return that study site.
+     */
+    private StudyOrganization isCliniciansOrgAValidStudySite(OrganizationClinicalStaff ocs,
+			Study study, Role role) {
+    	boolean alreadyExists = false;
+    	for(StudySite ss : study.getStudySites()){
+    		if(ss.getOrganization().equals(ocs.getOrganization())){
+    			for(StudyOrganizationClinicalStaff socsAlreadyOnStudy : ss.getStudyOrganizationClinicalStaffByRole(role)){
+    				if(socsAlreadyOnStudy.getOrganizationClinicalStaff().getClinicalStaff().equals(ocs.getClinicalStaff())){
+    					alreadyExists = true;
+    					break;
+    				}
+    			}
+    			if(!alreadyExists){
+        			return ss;
+    			}
+    		}
+    	}
+    	if(study.getLeadStudySite().getOrganization().equals(ocs.getOrganization())){
+    		for(StudyOrganizationClinicalStaff socsAlreadyOnStudy : study.getLeadStudySite().getStudyOrganizationClinicalStaffByRole(role)){
+				if(socsAlreadyOnStudy.getOrganizationClinicalStaff().getClinicalStaff().equals(ocs.getClinicalStaff())){
+					alreadyExists = true;
+					break;
+				}
+			}
+    		if(!alreadyExists){
+    			return study.getLeadStudySite();
+    		}
+		}
+    	return null;
+	}
+
+
+	public String getRequiredPrivilege() {
     	return Privilege.PRIVILEGE_ADD_STUDY_SITE_STAFF;
     }
 
