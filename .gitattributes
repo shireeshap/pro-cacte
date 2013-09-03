@@ -2482,6 +2482,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/PasswordPolic
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ProctcaeGradeMappingVersionQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/RolePrivilegeQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/SecuredQuery.java -text
