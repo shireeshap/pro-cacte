@@ -2713,6 +2713,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQ
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionReportQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ProCtcTermQueryTest.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/ProctcaeGradeMappingVersionQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/RolePrivilegeQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantCrfScheduleNotificationQueryTest.java -text
