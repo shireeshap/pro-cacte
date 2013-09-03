@@ -91,6 +91,7 @@
 		<value>gov.nih.nci.ctcae.core.domain.StudyParticipantCRFScheduleSymptomRecord</value>
         <value>gov.nih.nci.ctcae.core.domain.CategoryTermSet</value>
         <value>gov.nih.nci.ctcae.core.domain.UserPasswordHistory</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion</value>
     </util:list>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
