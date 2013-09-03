@@ -2321,6 +2321,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/006_insert_eq5d.gr
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/007_add_health_amount.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/008_alter_users_addColumn.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/009_add_version_to_spcrfs.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/010_create_grade_mapping_version.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
