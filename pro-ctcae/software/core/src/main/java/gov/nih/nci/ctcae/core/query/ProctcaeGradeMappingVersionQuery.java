@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.query;
 
 
 public class ProctcaeGradeMappingVersionQuery extends AbstractQuery{
-	private static String queryString = "select gmv from GradeMappingVersion gmv ";
+	private static String queryString = "select gmv from ProctcaeGradeMappingVersion gmv ";
 	private static final String VERSION = "version";
 	private static String DEFAULT_VERSION = "v1.0";
 
