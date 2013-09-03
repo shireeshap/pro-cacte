@@ -9,13 +9,13 @@ public class ProctcaeGradeMappingVersionQueryTest extends TestCase{
 	
 	public void testQueryConstructor(){
 		ProctcaeGradeMappingVersionQuery query = new ProctcaeGradeMappingVersionQuery();
-		assertEquals(query.getQueryString(), "select gmv from GradeMappingVersion gmv");
+		assertEquals(query.getQueryString(), "select gmv from ProctcaeGradeMappingVersion gmv");
 	}
 	
 	public void testFilterByVersion(){
 		ProctcaeGradeMappingVersionQuery query = new ProctcaeGradeMappingVersionQuery();
 		query.filterByVersion(VERSION_NUMBER);
-		assertEquals(query.getQueryString(), "select gmv from GradeMappingVersion gmv WHERE gmv.version := version");
+		assertEquals(query.getQueryString(), "select gmv from ProctcaeGradeMappingVersion gmv WHERE gmv.version := version");
 		assertEquals(query.getParameterMap().get(VERSION), VERSION_NUMBER);
 	}
 }
