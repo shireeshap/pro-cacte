@@ -72,7 +72,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         tx.begin();
         
         logger.debug("Nightly trigger bean job starts....");
-        Query query = session.createQuery(new String("Select study from Study study where study.id=15"));
+        Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         
         Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
