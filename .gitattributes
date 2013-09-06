@@ -2606,9 +2606,11 @@ pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_EN_prelim_updated_08
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_ES_prelim_updated_08.04.2011.csv -text
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE-GradeMapping_v1.1_08.29.13.csv -text
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_formatted.csv -text
+pro-ctcae/software/core/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_formatted_with_IDs.csv -text
 pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.csv -text
 pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls -text
 pro-ctcae/software/core/src/main/resources/Spanish_Pro-CTCAE_items_08.10.2011.csv -text
+pro-ctcae/software/core/src/main/resources/Spanish_Pro-CTCAE_items_08.10.2011_with_IDs.csv -text
 pro-ctcae/software/core/src/main/resources/Update_ProCtcTerms_V4.csv -text
 pro-ctcae/software/core/src/main/resources/ctcae_display_rules.csv -text
 pro-ctcae/software/core/src/main/resources/ehcache.xml -text
