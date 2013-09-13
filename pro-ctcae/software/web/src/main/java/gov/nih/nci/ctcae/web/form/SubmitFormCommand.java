@@ -8,7 +8,6 @@ import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcTermComparator;
 import gov.nih.nci.ctcae.core.domain.Question;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
@@ -177,9 +176,9 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public List<DisplayQuestion> getCurrentPageQuestions() {
-        return displayQuestionsMap.get(getNewPageIndex());
+        return displayQuestionsMap.get(getCurrentPageIndex());
     }
-
+    
     public List<DisplayQuestion> getSubmittedPageQuestions() {
         return displayQuestionsMap.get(currentPageIndex);
     }
@@ -202,6 +201,10 @@ public class SubmitFormCommand implements Serializable {
         } else {
             this.currentPageIndex = Integer.parseInt(currentPageIndex);
         }
+    }
+    
+    private Integer getCurrentPageIndex(){
+    	return currentPageIndex;
     }
 
     public int getTotalPages() {
