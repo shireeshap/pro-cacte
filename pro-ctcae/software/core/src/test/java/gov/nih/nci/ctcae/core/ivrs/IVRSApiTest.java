@@ -95,12 +95,14 @@ public class IVRSApiTest extends TestDataManager{
         assertEquals(0,userId1.intValue());
         Date currentDate = new Date();
         int formsCount = 0;
+        Integer currentScheduleId = null;
         StudyParticipantCrfSchedule currentSchedule=null;
         List<StudyParticipantCrfSchedule> studyParticipantSchedules = participant.getStudyParticipantAssignments().get(0).
                                                                        getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
         for (StudyParticipantCrfSchedule sched:studyParticipantSchedules){
             if(sched.getStatus().equals(CrfStatus.SCHEDULED) && sched.getStartDate().getTime()<=currentDate.getTime()){
                 currentSchedule  = sched;
+                currentScheduleId = sched.getId();
                     formsCount++;
             }
         }
@@ -225,7 +227,7 @@ public class IVRSApiTest extends TestDataManager{
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
        assertEquals(result.intValue(),1);
        commitAndStartNewTransaction();
-       StudyParticipantCrfSchedule finalSchedule = studyParticipantCrfScheduleRepository.findById(currentSchedule.getId());
+       StudyParticipantCrfSchedule finalSchedule = studyParticipantCrfScheduleRepository.findById(currentScheduleId);
        assertEquals(CrfStatus.COMPLETED,finalSchedule.getStatus());
        assertEquals(AppMode.IVRS,finalSchedule.getFormSubmissionMode());
        assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification());
