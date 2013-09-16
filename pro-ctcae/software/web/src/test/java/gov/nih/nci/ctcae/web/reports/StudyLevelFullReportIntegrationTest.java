@@ -1,19 +1,27 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author AmeyS
@@ -32,6 +40,8 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
     Study study;
     String symptom;
     List<ProCtcValidValue> proCtcValidValues;
+    ProOverallStudyReportHelper proOverallStudyReportHelper;
+    Eq5dOverallStudyReportHelper eq5dOverallStudyReportHelper;
     
 
     @Override
@@ -46,6 +56,13 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         studyWideFormatReportData = new StudyWideFormatReportDao();
         studyWideFormatReportData.setJdbcTemplate((JdbcTemplate) applicationContext.getBean("jdbcTemplate"));
+        proOverallStudyReportHelper = new ProOverallStudyReportHelper();
+        proOverallStudyReportHelper.setGenericRepository(genericRepository);
+        controller.setProReportHelper(proOverallStudyReportHelper);
+        eq5dOverallStudyReportHelper = new Eq5dOverallStudyReportHelper();
+        eq5dOverallStudyReportHelper.setGenericRepository(genericRepository);
+        controller.setEq5dReportHelper(eq5dOverallStudyReportHelper);
+        eq5dOverallStudyReportHelper.setGenericRepository(genericRepository);
         controller.setStudyWideFormatReportData(studyWideFormatReportData);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
     }
