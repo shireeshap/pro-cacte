@@ -18,13 +18,13 @@ public class ClinicalStaffNotificationPublisher implements ApplicationEventPubli
 
 	// send notifications to newly added clinical staff into the system.
 	public void publishClinicalStaffNotification(String link, ClinicalStaff clinicalStaff){
-		NewStaffAccountNotification event = new NewStaffAccountNotification(this, link, clinicalStaff);
+		NewStaffAccountNotificationEvent event = new NewStaffAccountNotificationEvent(this, link, clinicalStaff);
 		applicationEventPublisher.publishEvent(event);
 	}
 	
 	// send notification to first Admin user created on Initial setup. 
 	public void publishClinicalStaffNotificationOnSetup(String userName, String clearCasePassword, String emailAddress){
-		NewStaffAccountNotificationOnSetup event = new NewStaffAccountNotificationOnSetup(this, userName, clearCasePassword, emailAddress);
+		NewStaffAccountNotificationOnSetupEvent event = new NewStaffAccountNotificationOnSetupEvent(this, userName, clearCasePassword, emailAddress);
 		applicationEventPublisher.publishEvent(event);
 	}
 	

@@ -40,9 +40,9 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 	
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		if(event instanceof NewStaffAccountNotification){
+		if(event instanceof NewStaffAccountNotificationEvent){
 			try {
-				NewStaffAccountNotification newStaffAccountNotification = (NewStaffAccountNotification) event;
+				NewStaffAccountNotificationEvent newStaffAccountNotification = (NewStaffAccountNotificationEvent) event;
 				ClinicalStaff clinicalStaff = newStaffAccountNotification.getClinicalStaff();
 				String link = newStaffAccountNotification.getLink();
 				User user = clinicalStaff.getUser();
@@ -63,9 +63,9 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 			} catch (MessagingException e) {
 				logger.error("Error in sending account creation email for newly clinical staff. " + e.getMessage(), e);
 			}
-		} else if(event instanceof NewStaffAccountNotificationOnSetup){
+		} else if(event instanceof NewStaffAccountNotificationOnSetupEvent){
 			try {
-					NewStaffAccountNotificationOnSetup newStaffAccountNotificationOnSetup = (NewStaffAccountNotificationOnSetup) event;
+					NewStaffAccountNotificationOnSetupEvent newStaffAccountNotificationOnSetup = (NewStaffAccountNotificationOnSetupEvent) event;
 			        
 					String content = getEmailMessage(newStaffAccountNotificationOnSetup.getUserName(), newStaffAccountNotificationOnSetup.getClearCasePassword());
 			        content += getEmailFooter();

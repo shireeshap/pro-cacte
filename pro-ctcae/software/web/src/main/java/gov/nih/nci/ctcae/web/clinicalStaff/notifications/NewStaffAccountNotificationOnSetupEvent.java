@@ -8,14 +8,14 @@ import org.springframework.context.ApplicationEvent;
  * Custom ApplicationEvent class, used to send account notification e-mail to first Admin created on
  * system's initial setup.
  */
-public class NewStaffAccountNotificationOnSetup extends ApplicationEvent{
+public class NewStaffAccountNotificationOnSetupEvent extends ApplicationEvent{
 
 	private String userName;
 	private String clearCasePassword;
 	private String emailAddress;
 	
 
-	public NewStaffAccountNotificationOnSetup(Object source, String userName, String clearCasePassword, String emailAddress) {
+	public NewStaffAccountNotificationOnSetupEvent(Object source, String userName, String clearCasePassword, String emailAddress) {
 		super(source);
 		setUserName(userName);
 		setClearCasePassword(clearCasePassword);

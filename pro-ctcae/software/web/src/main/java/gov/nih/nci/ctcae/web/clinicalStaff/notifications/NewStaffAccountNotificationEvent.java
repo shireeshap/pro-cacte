@@ -9,13 +9,13 @@ import org.springframework.context.ApplicationEvent;
  * NewStaffAccountNotification class.
  * Custom ApplicationEvent class, used to send account notification e-mails to all newly added clinical staff.
  */
-public class NewStaffAccountNotification extends ApplicationEvent{
+public class NewStaffAccountNotificationEvent extends ApplicationEvent{
 
 	String link;
 	private ClinicalStaff clinicalStaff;
 	
 
-	public NewStaffAccountNotification(Object source, String link, ClinicalStaff clinicalStaff) {
+	public NewStaffAccountNotificationEvent(Object source, String link, ClinicalStaff clinicalStaff) {
 		super(source);
 		setLink(link);
 		setClinicalStaff(clinicalStaff);
