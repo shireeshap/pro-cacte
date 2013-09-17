@@ -227,15 +227,15 @@ public class IVRSApiTest extends TestDataManager{
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
        assertEquals(result.intValue(),1);
        commitAndStartNewTransaction();
-       StudyParticipantCrfSchedule finalSchedule = studyParticipantCrfScheduleRepository.findById(currentScheduleId);
-       assertEquals(CrfStatus.COMPLETED,finalSchedule.getStatus());
-       assertEquals(AppMode.IVRS,finalSchedule.getFormSubmissionMode());
-       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification());
-       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getId());
-       assertNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCompletionDate());
-       assertNotNull(finalSchedule.getStudyParticipantCrfScheduleNotification().getCreationDate());
-       assertEquals(CrfStatus.SCHEDULED,finalSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
-       assertEquals(false,finalSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
+       currentSchedule = studyParticipantCrfScheduleRepository.findById(currentScheduleId);
+       assertEquals(CrfStatus.COMPLETED,currentSchedule.getStatus());
+       assertEquals(AppMode.IVRS,currentSchedule.getFormSubmissionMode());
+       assertNotNull(currentSchedule.getStudyParticipantCrfScheduleNotification());
+       assertNotNull(currentSchedule.getStudyParticipantCrfScheduleNotification().getId());
+       assertNull(currentSchedule.getStudyParticipantCrfScheduleNotification().getCompletionDate());
+       assertNotNull(currentSchedule.getStudyParticipantCrfScheduleNotification().getCreationDate());
+       assertEquals(CrfStatus.SCHEDULED,currentSchedule.getStudyParticipantCrfScheduleNotification().getStatus());
+       assertEquals(false,currentSchedule.getStudyParticipantCrfScheduleNotification().isMailSent());
 
         isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(0,isUserNew.intValue());
