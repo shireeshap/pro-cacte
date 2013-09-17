@@ -148,7 +148,6 @@ public class IVRSApiTest extends TestDataManager{
 
         isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(0,isUserNew.intValue());
-
         assertEquals(fistQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,fourthQuestionId,questionCategory));
         assertEquals(0,helper.ivrsGetQuestionAnswer(participant.getUser().getId(),schedFormId,fistQuestionId,questionCategory).intValue());
 
@@ -195,38 +194,12 @@ public class IVRSApiTest extends TestDataManager{
        assertEquals(nextQuestionId.intValue(),0);
 
        assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousQuestion(participant.getUser().getId(),schedFormId,0,questionCategory));
-       // get the first un consumed core symptom
-       //Integer firstCoreScreeningID = helper.ivrsGetCoreSymptomID(participant.getUser().getId(),schedFormId);
-       //assertEquals(5,firstCoreScreeningID.intValue());
-       // on the first core screening question it should go to previous regular question (if there are no added questions)
-       //assertEquals(sixthQuestionIdCategory,helper.ivrsGetPreviousCoreSymptomID(participant.getUser().getId(),schedFormId,5));
-
-//       assertEquals(13,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,5,2,0).intValue());
-//       assertEquals(15,helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,13,1,0).intValue());
-//        // added question from core screening question
-//       String firstAddedQuesCategory=helper.ivrsGetFirstQuestion(participant.getUser().getId(),schedFormId);
-//       splitText=firstAddedQuesCategory.split("_");
-//       Integer addedQuestionId=Integer.parseInt(splitText[0]);
-//       questionCategory =Integer.parseInt(splitText[1]);
-//       assertEquals(addedQuestionId,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getId());
-//       String firstAddedQuesText = helper.ivrsGetQuestionText(participant.getUser().getId(),schedFormId,addedQuestionId);
-//       assertEquals(firstAddedQuesText,currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getQuestionText(SupportedLanguageEnum.ENGLISH));
-//       String firstAddedQuesType = helper.ivrsGetQuestionType(participant.getUser().getId(),schedFormId,addedQuestionId);
-//       assertEquals(firstAddedQuesType.toLowerCase(),currentSchedule.getStudyParticipantCrfScheduleAddedQuestions().get(0).getProCtcQuestion().getProCtcQuestionType().name().toLowerCase()+"_1");
-//       String nextAddedQuestion =helper.ivrsGetAnswerQuestion(participant.getUser().getId(),schedFormId,addedQuestionId,0,questionCategory);
-//       Integer nextAddedQuestionId=0;
-//       if(!nextAddedQuestion.equals("0")){
-//            splitText=fourthQuestionIdCategory.split("_");
-//            nextAddedQuestionId= Integer.parseInt(splitText[0]);
-//            questionCategory = Integer.parseInt(splitText[1]);
-//       }
-//       assertEquals(0,nextAddedQuestionId.intValue());
-      //helper.ivrsAnswerCoreSymptom(participant.getUser().getId(),schedFormId,4,0,0);
 
         //committed the total session
        Integer result = helper.ivrsCommitSession(participant.getUser().getId(),schedFormId,participant.getPinNumber());
-       assertEquals(result.intValue(),1);
+       commitTransaction(currentSchedule);
        commitAndStartNewTransaction();
+       assertEquals(result.intValue(),1);
        currentSchedule = studyParticipantCrfScheduleRepository.findById(currentScheduleId);
        assertEquals(CrfStatus.COMPLETED,currentSchedule.getStatus());
        assertEquals(AppMode.IVRS,currentSchedule.getFormSubmissionMode());
@@ -239,7 +212,11 @@ public class IVRSApiTest extends TestDataManager{
 
         isUserNew = helper.ivrsIsUserNew(participant.getUser().getId());
         assertEquals(0,isUserNew.intValue());
-
+    }
+    
+    private void commitTransaction(StudyParticipantCrfSchedule studyParticipantCrfSchedule){
+    	jdbcTemplate.execute("commit");
+        genericRepository.save(studyParticipantCrfSchedule);
     }
 
 
