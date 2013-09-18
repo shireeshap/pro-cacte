@@ -27,8 +27,13 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
         intializeTerm(proCtcTerm);
 
         return proCtcTerm;
-
-
+    }
+    
+    public ProCtcTerm findBySystemId(Integer proCtcTermSystemId){
+    	ProCtcTermQuery pQuery = new ProCtcTermQuery(false, true, true);
+    	pQuery.findByProCtcSystemId(proCtcTermSystemId);
+    	
+    	return genericRepository.findSingle(pQuery);
     }
 
     public ProCtcTerm save(ProCtcTerm proCtcTerm) {

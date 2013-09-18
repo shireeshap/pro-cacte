@@ -24,33 +24,23 @@ public class ProCtcRepository implements Repository<ProCtc, ProCtcQuery> {
 
     public ProCtc findById(Integer id) {
         return genericRepository.findById(ProCtc.class, id);
-
-
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public ProCtc save(ProCtc proCtc) {
-//        System.out.println(proCtc);
         return genericRepository.save(proCtc);
-
-
     }
 
     public void delete(ProCtc proCtc) {
         throw new CtcAeSystemException("method not supported");
-
     }
 
     public Collection<ProCtc> find(ProCtcQuery query) {
         return genericRepository.find(query);
-
-
     }
 
     public ProCtc findSingle(ProCtcQuery query) {
         return genericRepository.findSingle(query);
-
-
     }
 
     @Required
