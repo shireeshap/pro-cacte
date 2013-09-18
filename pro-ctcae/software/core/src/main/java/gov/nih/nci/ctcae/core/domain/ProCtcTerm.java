@@ -1,9 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.constants.ProctcTermTypeBasedCategoryEnum;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,8 +26,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-//
-
 /**
  * The Class ProCtcTerm.
  *
@@ -38,21 +39,11 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm> {
 
-    /**
-     * The id.
-     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /**
-     * The term.
-    
-    @Column(name = "term", nullable = false)
-    private String term;
-     */
-    
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proCtcTerm")
     @JoinColumn(name="pro_ctc_terms_id")
     private ProCtcTermVocab proCtcTermVocab;
@@ -64,7 +55,10 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
     @Column(name = "core", nullable = true)
     private Boolean core;
 
-
+	@OneToMany(mappedBy = "proCtcTerm")
+	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	private List<ProctcaeGradeMapping> proCtcGradeMappings = new ArrayList<ProctcaeGradeMapping>();
+    
     /**
      * The pro ctc questions.
      */
@@ -89,12 +83,39 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
 
     @Column(name = "currency", nullable = true)
     private String currency;
+    
+    @Column(name="pro_ctc_sys_id", nullable = false)
+    private Integer proCtcSystemId; 
 
     /**
      * Instantiates a new pro ctc term.
      */
     public ProCtcTerm() {
         super();
+    }
+    
+    public List<ProctcaeGradeMapping> getProCtcGradeMappings() {
+        return proCtcGradeMappings;
+    }
+    
+    /**
+     * Adds the pro ctc question.
+     *
+     * @param proCtcQuestion the pro ctc question
+     */
+    public void addProCtcGradeMapping(ProctcaeGradeMapping proCtcGradeMapping) {
+        if (proCtcGradeMapping != null) {
+        	proCtcGradeMapping.setProCtcTerm(this);
+            proCtcGradeMappings.add(proCtcGradeMapping);
+        }
+    }
+    
+    public void addAllProCtcGradeMappings(List<ProctcaeGradeMapping> proCtcGradeMappingList) {
+        if (proCtcGradeMappingList != null && !proCtcGradeMappingList.isEmpty()) {
+        	for(ProctcaeGradeMapping pcgMapping : proCtcGradeMappingList){
+        		addProCtcGradeMapping(pcgMapping);
+        	}
+        }
     }
     
     /*
@@ -120,6 +141,7 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
     public void setTermEnglish(String term, SupportedLanguageEnum supportedLanguageEnum) {
     	if (getProCtcTermVocab() == null) {
     		setProCtcTermVocab(new ProCtcTermVocab());
+    		getProCtcTermVocab().setProCtcTerm(this);
     	}
     	if(supportedLanguageEnum.equals(SupportedLanguageEnum.SPANISH)){
     		getProCtcTermVocab().setTermSpanish(term);
@@ -128,18 +150,56 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
     	}
     }
     
+    @Transient
+    public ProctcTermTypeBasedCategoryEnum getTypeBasedCategory(){
+    	
+    	if(getProCtcQuestions().size() == 1){
+    		ProCtcQuestion pQs = getProCtcQuestions().get(0);
+    		if(pQs.getQuestionType().equals(ProCtcQuestionType.PRESENT)){
+    			return ProctcTermTypeBasedCategoryEnum.CATEGORY_PA;
+    		} else if(pQs.getQuestionType().equals(ProCtcQuestionType.AMOUNT)){
+    			return ProctcTermTypeBasedCategoryEnum.CATEGORY_AMT;
+    		}
+    	}
 
-    /* (non-Javadoc)
-    * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-    */
+    	boolean isFreq = false;
+    	boolean isSev = false;
+    	boolean isInt = false;
+    	for(ProCtcQuestion pQs : getProCtcQuestions()){
+    		if(pQs.getQuestionType().equals(ProCtcQuestionType.FREQUENCY)){
+    			isFreq = true;
+    		} else if(pQs.getQuestionType().equals(ProCtcQuestionType.SEVERITY)){
+    			isSev = true;
+    		}else if(pQs.getQuestionType().equals(ProCtcQuestionType.INTERFERENCE)){
+    			isInt = true;
+    		}
+    	}
+    	
+    	if(isFreq && isSev && isInt){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_FSI;
+    	}
+    	if(isFreq && isSev){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_FS;
+    	}
+    	if(isSev && isInt){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_SI;
+    	}
+    	if(isFreq && isInt){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_FI;
+    	}
+    	if(isFreq){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_F;
+    	}
+    	if(isSev){
+    		return ProctcTermTypeBasedCategoryEnum.CATEGORY_S;
+    	}
+    	return null;
+    }
+    
 
     public Integer getId() {
         return id;
     }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
-     */
 
     public void setId(Integer id) {
         this.id = id;
@@ -194,10 +254,6 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
         this.gender = gender;
     }
 
-    /* (non-Javadoc)
-    * @see java.lang.Object#toString()
-    */
-
     @Override
     public String toString() {
         return getProCtcTermVocab().getTermEnglish();
@@ -221,10 +277,6 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
         this.ctcTerm = ctcTerm;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProCtcTerm)) return false;
@@ -238,10 +290,6 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-
     public int hashCode() {
         int result;
         result = (getProCtcTermVocab() != null ? getProCtcTermVocab().getTermEnglish().hashCode() : 0);
@@ -249,6 +297,18 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
         return result;
+    }
+    
+    
+    @Transient
+    public Map<ProctcaeGradeMapping, String> getProctcaeGradeMappingMap(){
+    	Map<ProctcaeGradeMapping, String> pgmMap = new HashMap<ProctcaeGradeMapping, String>();
+    	
+    	for(ProctcaeGradeMapping pgm : proCtcGradeMappings){
+    		pgmMap.put(pgm, pgm.getProCtcGrade());
+    	}
+    	
+    	return pgmMap;
     }
 
     public Boolean isCore() {
@@ -276,6 +336,14 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public Integer getProCtcSystemId() {
+		return proCtcSystemId;
+	}
+
+	public void setProCtcSystemId(Integer proCtcSystemId) {
+		this.proCtcSystemId = proCtcSystemId;
+	}
 
 	@Override
 	public int compareTo(ProCtcTerm o) {
