@@ -7,8 +7,6 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -18,8 +16,6 @@ import java.util.Iterator;
  */
 public class CrfItemIntegrationTest extends TestDataManager {
 
-
-    private ProCtcQuestionRepository proCtcQuestionRepository;
     private CRF crf;
     private CRFPage crfPage;
     private ProCtcQuestion proCtcQuestion;
@@ -173,11 +169,5 @@ public class CrfItemIntegrationTest extends TestDataManager {
         } catch (CtcAeSystemException e) {
         }
     }
-
-
-    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
-        this.proCtcQuestionRepository = proCtcQuestionRepository;
-    }
-
 
 }

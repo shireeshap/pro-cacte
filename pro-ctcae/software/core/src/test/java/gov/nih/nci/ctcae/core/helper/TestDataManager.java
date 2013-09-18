@@ -2,23 +2,28 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
+import gov.nih.nci.ctcae.core.csv.loader.UpdateProCtcTermsImporterV4;
 import gov.nih.nci.ctcae.core.dao.LowLevelTermDao;
 import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.CombinationPolicy;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordCreationPolicy;
 import gov.nih.nci.ctcae.core.domain.security.passwordpolicy.PasswordPolicy;
+import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.IvrsCallHistoryRepository;
 import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
@@ -76,7 +81,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
     public static PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     public static ProCtcValidValueRepository proCtcValidValueRepository;
-    public static StudyParticipantCrfRepository studyParticipantCrfRepository;
+    public static ProCtcQuestionRepository proCtcQuestionRepository;
+	public static StudyParticipantCrfRepository studyParticipantCrfRepository;
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
     public static UserNameAndPasswordValidator userNameAndPasswordValidator;
@@ -267,9 +273,17 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
         System.out.println("  Loading ProctcTerms...");
         long start = System.currentTimeMillis();
-        ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
+        UpdateProCtcTermsImporterV4 csvImporter = new UpdateProCtcTermsImporterV4();
+        
         csvImporter.setCtcTermRepository(ctcTermRepository);
-        ProCtc proctc = csvImporter.loadProCtcTerms(true);
+        csvImporter.setProCtcQuestionRepository(proCtcQuestionRepository);
+        csvImporter.setProCtcRepository(proCtcRepository);
+        
+        ProCtcQuery query = new ProCtcQuery();
+        query.filterByProCtcVersion("4.0");
+        ProCtc proctc = proCtcRepository.findSingle(query);
+        
+        csvImporter.updateProCtcTerms(proctc);
         proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
@@ -279,7 +293,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
     }
 
-    protected void deleteProCtcTermsInTestData() {
+	protected void deleteProCtcTermsInTestData() {
 		deleteTestData();
 		deleteProCtcTerms();
 	}
@@ -305,6 +319,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		System.out.println("  Deleting ProCtcTerms...");
 		long start = System.currentTimeMillis();
 
+		jdbcTemplate.execute("delete from proctcae_grade_mapping_versions");
 		jdbcTemplate.execute("delete from question_display_rules");
 		jdbcTemplate.execute("delete from pro_ctc_valid_values_vocab");
 		jdbcTemplate.execute("delete from pro_ctc_valid_values");
@@ -317,6 +332,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		long end = System.currentTimeMillis();
 		System.out.println("  ProCtcTerms deleted (" + (end - start) / 1000
 				+ " seconds)");
+	}
+	
+	protected void deleteProctcaeGradeMappings(){
+		jdbcTemplate.execute("delete from proctcae_grade_mapping");
+		commitAndStartNewTransaction();
 	}
 
 
@@ -334,6 +354,21 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     	ProCtcTermQuery pQuery = new ProCtcTermQuery();
     	pQuery.filterByTerm("Aching muscles");
     	return proCtcTermRepository.findSingle(pQuery);
+    }
+    
+    
+    protected final ProctcaeGradeMappingVersion getDefaultProctcaeGradeMappingVersion(){
+		ProctcaeGradeMappingVersionQuery pgmvQuery = new ProctcaeGradeMappingVersionQuery();
+		pgmvQuery.filterByDefaultVersion();
+		ProctcaeGradeMappingVersion defaultProctcaeGradeMappingVersion = genericRepository.findSingle(pgmvQuery);
+		
+		if(defaultProctcaeGradeMappingVersion == null){
+			defaultProctcaeGradeMappingVersion = new ProctcaeGradeMappingVersion();
+			defaultProctcaeGradeMappingVersion.setVersion("v1.0");
+			defaultProctcaeGradeMappingVersion.setName("Mapping document");
+			defaultProctcaeGradeMappingVersion = genericRepository.save(defaultProctcaeGradeMappingVersion); 
+		}
+		return defaultProctcaeGradeMappingVersion;
     }
     
     protected final CRFPage getDefaultCrfPage(){
@@ -516,6 +551,13 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		TestDataManager.combinationValidator = combinationValidator;
 	}
 
+    @Required
+    public void setProCtcQuestionRepository(
+			ProCtcQuestionRepository proCtcQuestionRepository) {
+		TestDataManager.proCtcQuestionRepository = proCtcQuestionRepository;
+	}
+
+
     private void deleteUsingJdbcTemplate() {
         jdbcTemplate.execute("delete from user_notifications");
         jdbcTemplate.execute("delete from notifications");
@@ -551,6 +593,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from audit_event_values");
         jdbcTemplate.execute("delete from audit_events");
+        jdbcTemplate.execute("delete from proctcae_grade_mapping_versions");
     }
 
 }
