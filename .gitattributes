@@ -2605,6 +2605,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validatable.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
+pro-ctcae/software/core/src/main/resources/EQ5D-v1.csv -text
 pro-ctcae/software/core/src/main/resources/META-INF/log4j.properties -text
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv -text
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_ES_prelim_updated_08.04.2011.csv -text
