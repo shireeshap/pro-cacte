@@ -11,7 +11,12 @@ public class ProctcaeGradeMappingVersionQuery extends AbstractQuery{
 	}
 	
 	public void filterByVersion(String version){
-		andWhere( "gmv.version := " + VERSION);
+		andWhere( "gmv.version = :" + VERSION);
+		setParameter(VERSION, version);
+	}
+	
+	public void filterByDefaultVersion(){
+		andWhere( "lower(gmv.version) = :" + VERSION);
 		setParameter(VERSION, DEFAULT_VERSION);
 	}
 }

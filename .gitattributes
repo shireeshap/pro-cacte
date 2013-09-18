@@ -2339,6 +2339,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLineE
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/LoaderHelper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProTermsMultiLangImporterV4.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ProctcaeGradeMappingsLoader.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4.java -text
@@ -2404,6 +2405,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermVo
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueVocab.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcTermTypeBasedCategory.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMapping.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMappingVersion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/QueryStrings.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Question.java -text
@@ -2639,6 +2641,7 @@ pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/audit/AuditInfoPopulatorInterceptorTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/ProCtcTermsImporterV4Test.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/ProTermsMultiLangImporterV4Test.java -text
+pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/ProctcaeGradeMappingsLoaderTest.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraLoaderTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoaderTest.java -text
 pro-ctcae/software/core/src/test/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4Test.java -text
@@ -2780,6 +2783,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/FixDueDateController.
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadMultiLangTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProctcaeGradeMappingsController.java -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/PasswordPolicyConfigurationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ProductionDataCorrector.java -text

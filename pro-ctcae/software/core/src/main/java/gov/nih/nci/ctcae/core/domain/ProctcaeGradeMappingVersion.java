@@ -17,7 +17,7 @@ import org.hibernate.annotations.Parameter;
  */
 @Entity
 @Table(name = "proctcae_grade_mapping_versions")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_grade_mapping_versions_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_proctcae_grade_mapping_versions_id")})
 public class ProctcaeGradeMappingVersion extends BasePersistable {
     @Id
     @GeneratedValue(generator = "id-generator")
