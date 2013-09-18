@@ -92,6 +92,7 @@
         <value>gov.nih.nci.ctcae.core.domain.CategoryTermSet</value>
         <value>gov.nih.nci.ctcae.core.domain.UserPasswordHistory</value>
         <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping</value>
     </util:list>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
@@ -348,14 +349,6 @@
     <bean id="meddraLoaderRepository" class="gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
-    
-    <bean id="loaderHelper" class="gov.nih.nci.ctcae.core.csv.loader.LoaderHelper">
-        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
-        <property name="ctcTermRepository" ref="ctcTermRepository"/>
-        <property name="proCtcRepository" ref="proCtcRepository"/>
-        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
-    </bean>
-    
     
     <!-- IVRS introduced repos -->
     <bean id="ivrsScheduleRepository"
