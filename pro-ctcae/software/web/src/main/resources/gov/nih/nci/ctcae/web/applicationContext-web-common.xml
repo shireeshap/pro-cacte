@@ -102,4 +102,15 @@
     	 <property name="userRepository" ref="userRepository"/>
     </bean>
     
+    <bean id="updateProCtcTermsImporterV4" class="gov.nih.nci.ctcae.core.csv.loader.UpdateProCtcTermsImporterV4">
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcRepository" ref="proCtcRepository"/>
+        <property name="loaderHelper" ref="loaderHelper"/>
+    </bean>
+    
+    <bean id="loaderHelper" class="gov.nih.nci.ctcae.core.csv.loader.LoaderHelper">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
+    </bean>
 </beans>
