@@ -6,7 +6,8 @@ package gov.nih.nci.ctcae.core.csv.loader;
  */
 public class CsvLine {
 
-    String proctcTerm;
+	Integer proctcTermSystemId;
+	String proctcTerm;
     String ctcTerm;
     String displayOrder;
     String questionType;
@@ -15,6 +16,14 @@ public class CsvLine {
     Boolean coreItem;
     String gender;
 
+    public Integer getProctcTermSystemId() {
+		return proctcTermSystemId;
+	}
+
+	public void setProctcTermSystemId(Integer proctcTermSystemId) {
+		this.proctcTermSystemId = proctcTermSystemId;
+	}
+	
     public String getGender() {
         return gender;
     }
