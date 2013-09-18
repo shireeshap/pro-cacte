@@ -2780,6 +2780,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormContro
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/DeleteProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/FixDueDateController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadEq5dTermsController.java -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadMultiLangTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProctcaeGradeMappingsController.java -text svneol=unset#text/plain
