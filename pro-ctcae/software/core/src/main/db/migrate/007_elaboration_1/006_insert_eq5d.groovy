@@ -41,7 +41,7 @@ class InsertEq5d extends edu.northwestern.bioinformatics.bering.Migration {
    
         //Silver Bullet: This is how you check if exists and insert into the table! 
         execute("INSERT INTO pro_ctc (pro_ctc_version, release_date) SELECT pro_ctc_version, DATE '2010-07-07' FROM pro_ctc UNION VALUES ('4.0', DATE '2010-07-07') EXCEPT SELECT pro_ctc_version, DATE '2010-07-07' FROM pro_ctc;");
-        
+        /*
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  82, 5080, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  83, 5081, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
         execute("INSERT INTO pro_ctc_terms (id, ctc_term_id, pro_ctc_id, core, gender, currency) SELECT  84, 5082, id, FALSE, 'both', 'Y' FROM pro_ctc WHERE pro_ctc.pro_ctc_version='4.0'");
@@ -180,7 +180,7 @@ class InsertEq5d extends edu.northwestern.bioinformatics.bering.Migration {
         execute("insert into pro_ctc_valid_values_vocab (id, pro_ctc_valid_values_id, value_english, value_spanish) values (628, 628, 'I am moderately anxious or depressed', 'Estoy moderadamente ansioso/a o deprimido/a')");     
         execute("insert into pro_ctc_valid_values_vocab (id, pro_ctc_valid_values_id, value_english, value_spanish) values (629, 629, 'I am severely anxious or depressed', 'Estoy muy ansioso/a o deprimido/a')");     
         execute("insert into pro_ctc_valid_values_vocab (id, pro_ctc_valid_values_id, value_english, value_spanish) values (630, 630, 'I am extremely anxious or depressed', 'Estoy extremadamente ansioso/a o deprimido/a')");     
-        
+        */
         
 	}
 	
