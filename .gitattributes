@@ -2404,7 +2404,6 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermCo
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermVocab.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueVocab.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcTermTypeBasedCategory.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMapping.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMappingVersion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/QueryStrings.java -text
