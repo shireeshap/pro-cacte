@@ -863,10 +863,8 @@
         <property name="proCtcRepository" ref="proCtcRepository"/>
     </bean>
     <bean name="/updateProCtcTerms" id="updateProCtcTerms" class="gov.nih.nci.ctcae.web.UpdateProCtcTermController">
-        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
-        <property name="ctcTermRepository" ref="ctcTermRepository"/>
         <property name="proCtcRepository" ref="proCtcRepository"/>
-        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="updateProCtcTermsImporterV4" ref="updateProCtcTermsImporterV4"/>
     </bean>
 
     <bean name="/loadMultiLangTerms" id="loadMultiLangTerms" class="gov.nih.nci.ctcae.web.LoadMultiLangTermsController">
@@ -893,9 +891,24 @@
     </bean>
 
     <bean name="updateMeddraSpanishLoader" class="gov.nih.nci.ctcae.core.csv.loader.UpdateMeddraSpanishLoader">
-
     </bean>
-
+    
+    <bean name="/loadEq5dTerms" id="loadEq5dTerms" class="gov.nih.nci.ctcae.web.LoadEq5dTermsController">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcRepository" ref="proCtcRepository"/>
+    </bean>
+    
+    
+    <bean name="/loadProctcaeGradeMappings" id="loadProctcaeGradeMappings"
+          class="gov.nih.nci.ctcae.web.LoadProctcaeGradeMappingsController">
+        <property name="proctcaeGradeMappingsLoader" ref="proctcaeGradeMappingsLoader"/>
+    </bean>
+    
+    <bean name="proctcaeGradeMappingsLoader" class="gov.nih.nci.ctcae.core.csv.loader.ProctcaeGradeMappingsLoader">
+        <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
 
     <bean name="/deleteProCtcTerm" id="deleteProCtcTerm" class="gov.nih.nci.ctcae.web.DeleteProCtcTermController">
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
