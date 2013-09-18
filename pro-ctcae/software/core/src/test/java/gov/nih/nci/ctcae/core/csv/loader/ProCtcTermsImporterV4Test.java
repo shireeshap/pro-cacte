@@ -17,7 +17,6 @@ import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 public class ProCtcTermsImporterV4Test extends TestDataManager{
 	
 	public static ProCtc proCtc;
-	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
 	public void testLoadProCtcTerms() throws IOException{
         
@@ -48,7 +47,4 @@ public class ProCtcTermsImporterV4Test extends TestDataManager{
 	}
 	
 	
-	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
-		ProCtcTermsImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
-	}
 }

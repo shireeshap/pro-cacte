@@ -17,7 +17,6 @@ import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 	
 	public static ProCtc proCtc;
-	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
 	public void testUpdateProCtcTermsImporterV4whenQuestionsNotPresent() throws IOException{
         
@@ -26,7 +25,7 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 		proCtc = getProCtc();
         updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
         updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
-        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
+//        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
         updateProCtcTerms.setProCtcRepository(proCtcRepository);
         
         ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
@@ -53,7 +52,7 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 		proCtc = getProCtc();
         updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
         updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
-        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
+//        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
         updateProCtcTerms.setProCtcRepository(proCtcRepository);
         updateProCtcTerms.updateProCtcTerms(proCtc);
         
@@ -93,10 +92,10 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 		return proCtc;
 	}
 	
-	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
-		UpdateProCtcTermsImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
-	}
-	
+//	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
+//		UpdateProCtcTermsImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
+//	}
+//	
 	public ProCtcQuestionRepository getProCtcQuestionRepository(GenericRepository genericRepository){
 		ProCtcQuestionRepository proCtcQuestionRepository = new ProCtcQuestionRepository();
 		proCtcQuestionRepository.setGenericRepository(genericRepository);

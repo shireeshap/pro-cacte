@@ -14,7 +14,6 @@ import java.util.List;
 public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	
 	public static ProCtc proCtc;
-	public static ProCtcQuestionRepository proCtcQuestionRepository;
 	
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
@@ -46,10 +45,10 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	}
 	
 	
-	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
-		ProTermsMultiLangImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
-	}
-	
+//	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
+//		ProTermsMultiLangImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
+//	}
+//	
 	
 	@Override
 	protected void onTearDownInTransaction() throws Exception {

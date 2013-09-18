@@ -11,8 +11,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTermVocab;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 
 import java.util.ArrayList;
@@ -20,13 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 public class LoaderHelper {
-	ProCtcTermRepository proCtcTermRepository;
-	CtcTermRepository ctcTermRepository;
-	ProCtcRepository proCtcRepository;
-	ProCtcQuestionRepository proCtcQuestionRepository;
+	private ProCtcTermRepository proCtcTermRepository;
+	private CtcTermRepository ctcTermRepository;
+	
+	public static Log log = LogFactory.getLog(LoaderHelper.class);
 	
    public ProCtc createProCtcTermsAndProCtcQuestionsFromHashMap(HashMap<String, List<CsvLine>> hm1, ProCtc proCtc) {
         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
@@ -42,6 +42,7 @@ public class LoaderHelper {
             	proCtc.addProCtcTerm(proCtcTerm);
                 for (CsvLine hmValue : list) {
                 	ProCtcQuestion proCtcQuestion = createProCtcQuestion(proCtcTerm, hmValue.getQuestionText(), hmValue.getDisplayOrder(), hmValue.getQuestionType());
+                	proCtcTerm.setProCtcSystemId(hmValue.getProctcTermSystemId());
                     proCtcTerm.addProCtcQuestion(proCtcQuestion);
                     proCtcTerm.setCore(hmValue.isCoreItem());
                     if (hmValue.getGender() != null) {
@@ -52,10 +53,11 @@ public class LoaderHelper {
                         firstQuestions.put(hmValue.getProctcTerm(), proCtcQuestion);
                     }
                     createQuestionDisplayRule(firstQuestions, proCtcQuestion, hmValue.getDisplayOrder(), hmValue.getProctcTerm());
+                    proCtcTermRepository.save(proCtcTerm);
                 }
             }
             else{
-            	System.out.println("Could not find CtcTerm for: "+ proCtcTermEnglishText);
+            	log.error("Could not find CtcTerm for: "+ proCtcTermEnglishText);
             }
         }
         return proCtc;
@@ -63,14 +65,13 @@ public class LoaderHelper {
    
    public void addToProCtcTermHashMap(HashMap<String, List<CsvLine>> hm, CsvLine csvLine){
    	if (hm.containsKey(csvLine.getProctcTerm())) {
-           List list = hm.get(csvLine.getProctcTerm());
+   		List<CsvLine> list = hm.get(csvLine.getProctcTerm());
            list.add(csvLine);
        } else {
-           ArrayList list = new ArrayList();
+           List<CsvLine> list = new ArrayList<CsvLine>();
            list.add(csvLine);
            hm.put(csvLine.getProctcTerm(), list);
        }
-       //System.out.println(csvLine);
    }
    
    private CtcTerm findCtcTermFromRepository(CtcTermRepository ctcTermRepository, String ctcTermEnglishText, String proCtcTermEnglishText){
@@ -79,11 +80,11 @@ public class LoaderHelper {
        List<CtcTerm> ctcTerms = ctcTermRepository.find(ctcQuery);
        CtcTerm CtcTerm = null;
        if (ctcTerms.size() == 0) {
-           System.out.println("Could n ot find ctc term for " + proCtcTermEnglishText + ". Skipping " + proCtcTermEnglishText);
+           log.error("Could not find ctc term for " + proCtcTermEnglishText + ". Skipping " + proCtcTermEnglishText);
            return null;
        } else {
            if (ctcTerms.size() > 1) {
-               System.out.println("Multiple ctc terms found for " + proCtcTermEnglishText + ". Skipping " + proCtcTermEnglishText);
+        	   log.error("Multiple ctc terms found for " + proCtcTermEnglishText + ". Skipping " + proCtcTermEnglishText);
                return null;
            } else {
                CtcTerm = ctcTerms.get(0);
@@ -156,17 +157,8 @@ public class LoaderHelper {
    }
    
    @Required
-   public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
-       this.proCtcQuestionRepository = proCtcQuestionRepository;
-   }
-
-   @Required
    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
        this.ctcTermRepository = ctcTermRepository;
    }
 
-   @Required
-   public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-       this.proCtcRepository = proCtcRepository;
-   }
 }

@@ -1,29 +1,20 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcTermVocab;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -38,6 +29,7 @@ import com.csvreader.CsvReader;
 
 public class ProCtcTermsImporterV4 {
     private CtcTermRepository ctcTermRepository;
+    private static final String PRO_CTC_SYS_ID = "PRO-CTCAE System Id";
     private static final String QUESTION_TEXT = "PRO-CTCAE Wording";
     private static final String PRO_CTC_TERM = "PRO-CTCAE Term";
     private static final String CORE_ITEM = "Core Item";
@@ -46,6 +38,9 @@ public class ProCtcTermsImporterV4 {
     private static final String CTC_TERM = "CTCAE v4 Term";
     private static final String CATEGORY = "CTCAE v4 System Organ Class (SOC)";
     private static LoaderHelper loaderHelper;
+    
+    protected static final Log logger = LogFactory.getLog(ProCtcTermsImporterV4.class);
+
 
     public ProCtc loadProCtcTerms(boolean fromTestCase) throws IOException {
     	loaderHelper = new LoaderHelper();
@@ -96,6 +91,13 @@ public class ProCtcTermsImporterV4 {
     
     private CsvLine fetchRecordAndReturnCsvLine(CsvReader reader, String proCtcTerm, int displayOrderI) throws IOException{
     	CsvLine csvLine = new CsvLine();
+//    	Integer sysId = null;
+//    	try{
+//        	sysId = Integer.parseInt(reader.get(PRO_CTC_SYS_ID));
+//    	} catch (NumberFormatException nfe){
+//    		logger.error("Skipping Record. Number expected but found : " + sysId);
+//    		return null;
+//    	}
     	String question = reader.get(QUESTION_TEXT).trim();
 	     String core = reader.get(CORE_ITEM).trim();
 	     String attribute = reader.get(QUESTION_TYPE).trim();
