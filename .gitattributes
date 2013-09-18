@@ -2326,6 +2326,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/011_create_study_p
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/012_add_column_pro_ctc_sys_id.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/013_create_pro_ctc_grade_mapping.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/014_insert_missing_ctc_terms.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/015_reset_seqs.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/SupportedLanguageEnum.java -text
