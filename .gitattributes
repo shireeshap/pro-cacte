@@ -3263,6 +3263,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordExpired.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/password_policy_configure.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcaeGradeMappingsLoaded.jsp -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/fullStudyReport.jsp -text
