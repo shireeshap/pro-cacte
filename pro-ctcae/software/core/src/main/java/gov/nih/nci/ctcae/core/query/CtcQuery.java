@@ -14,6 +14,7 @@ public class CtcQuery extends AbstractQuery {
      */
     private static String queryString = "select i from CtcTerm i order by i.id";
     private static String CTC_NAME = "ctcName";
+    private static String CATEGORY_NAME = "categoryName";
 
     /**
      * The NAME.
@@ -41,7 +42,7 @@ public class CtcQuery extends AbstractQuery {
      */
     public void filterByName(final String name) {
         String searchString = name.toLowerCase();
-        andWhere("lower(i.ctcTermVocab.termEnglish) = :" + NAME + ")");
+        andWhere("lower(i.ctcTermVocab.termEnglish) = :" + NAME);
         setParameter(NAME, searchString);
 
     }
@@ -51,5 +52,10 @@ public class CtcQuery extends AbstractQuery {
         andWhere("lower(i.ctepCode) = :" + NAME + ")");
         setParameter(NAME, searchString);
 
+    }
+    
+    public void filterByCtcCategoryName(String categoryName) {
+    	andWhere("cts.category.name = :" + CATEGORY_NAME);
+        setParameter(CATEGORY_NAME, categoryName);
     }
 }

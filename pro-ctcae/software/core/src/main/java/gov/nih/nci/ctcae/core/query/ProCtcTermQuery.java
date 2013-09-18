@@ -17,7 +17,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     private static String CTC_TERM_ID = "ctcTermId";
     private static String PROCTC_TERM = "symptom";
     private static String CURRENCY = "currency";
-    private static String CTC_CATEGORY_NAMES = "ctcCategoryIds";
+    private static String PRO_CTC_SYSTEM_ID = "proCtcSystemId";
 
     
     /*
@@ -26,7 +26,7 @@ public class ProCtcTermQuery extends AbstractQuery {
     public ProCtcTermQuery() {
     	super(queryString);
     	leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
-    	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
+    	filterOutEq5dTerms();
     	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
     	setParameter(CTC_NAME, "CTC v4.0");
     }
@@ -41,16 +41,29 @@ public class ProCtcTermQuery extends AbstractQuery {
         leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
 
         if(pro && !eq5d){
-        	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
+        	filterOutEq5dTerms();
         } else if(!pro && eq5d){
         	// Eq5D only
-        	 andWhere(" categoryTerm.category.name in ('EQ5D-5L') ");
+        	filterByEq5d5LTerms();
         }
         	// All Version or only V4.0
         if(!allVersion){
         	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
         	setParameter(CTC_NAME, "CTC v4.0");
         }
+    }
+    
+    public void filterOutEq5dTerms() {
+    	andWhere(" categoryTerm.category.name not in ('EQ5D-5L', 'EQ5D-3L') ");
+    }
+    
+    public void filterByEq5d5LTerms() {
+   	 andWhere(" categoryTerm.category.name in ('EQ5D-5L') ");
+    }
+    
+    public void findByProCtcSystemId(final int proCtcSysId) {
+        andWhere("o.proCtcSystemId = :" + PRO_CTC_SYSTEM_ID);
+        setParameter(PRO_CTC_SYSTEM_ID, proCtcSysId);
     }
     
     /**

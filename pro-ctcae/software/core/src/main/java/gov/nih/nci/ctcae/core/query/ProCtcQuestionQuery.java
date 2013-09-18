@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 
-//
 /**
  * The Class ProCtcQuestionQuery.
  *
@@ -18,6 +17,7 @@ public class ProCtcQuestionQuery extends AbstractQuery {
 
     private static String QUESTION_TYPE = "proCtcQuestionType";
     private static String PROCTC_TERM = "proCtcTerm";
+    private static String PROCTC_SYS_ID ="proCtcSystemId";
 
     /**
      * Instantiates a new pro ctc question query.
@@ -36,6 +36,12 @@ public class ProCtcQuestionQuery extends AbstractQuery {
         String searchString = term.toLowerCase();
         andWhere("lower(o.proCtcTerm.proCtcTermVocab.termEnglish) = :" + PROCTC_TERM);
         setParameter(PROCTC_TERM, searchString);
+
+    }
+    
+    public void filterByTermSystemId(final Integer sysId) {
+        andWhere("o.proCtcTerm.proCtcSystemId = :" + PROCTC_SYS_ID);
+        setParameter(PROCTC_SYS_ID, sysId);
 
     }
 }

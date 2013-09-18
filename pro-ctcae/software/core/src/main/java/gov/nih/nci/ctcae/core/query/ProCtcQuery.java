@@ -14,16 +14,13 @@ public class ProCtcQuery extends AbstractQuery {
      */
     private static String queryString = "SELECT o from ProCtc o order by o.id";
 
-    /**
-     * The PR o_ ct c_ version.
-     */
     private static String PRO_CTC_VERSION = "proCtcVersion";
+
 
     /**
      * Instantiates a new pro ctc query.
      */
     public ProCtcQuery() {
-
         super(queryString);
     }
 
@@ -36,4 +33,5 @@ public class ProCtcQuery extends AbstractQuery {
         andWhere("o.proCtcVersion = :" + PRO_CTC_VERSION);
         setParameter(PRO_CTC_VERSION, proCtcVersion);
     }
+
 }
