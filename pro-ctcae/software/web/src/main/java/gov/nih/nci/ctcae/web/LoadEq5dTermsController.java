@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionVocab;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
@@ -90,7 +89,6 @@ public class LoadEq5dTermsController extends AbstractController {
 	         			buildProCtcTerm(proCtcTerm, csvLineList);
 	             		addValidValuesToProCtcTerm(proCtcTerm, csvLineList);
 	
-//	         			existingCtcTerm.getProCtcTerms().add(proCtcTerm);
 	             		saveUpdatedProCtcTerm(proCtcTerm);
 	         		} else {
 	         			log.error("Skippping. No ProCtcTerm or CtcTerm found for: " + proCtcTermSystemId);
@@ -112,7 +110,7 @@ public class LoadEq5dTermsController extends AbstractController {
 	}
 
 	/**
-     * Built MAp looks like the following:
+     * Built Map looks like the following:
      * key -> Value
      * 10083 -> CsvLineObject (EQ5D-3L,'MOBILITY', 'MOVILIDAD','I have no problems in walking about', 'No tengo problemas para caminar sobre');
      * 10083 -> CsvLineObject (EQ5D-3L,'MOBILITY', 'MOVILIDAD','I have some problems in walking about', 'Tengo algunos problemas para caminar sobre');
@@ -205,16 +203,6 @@ public class LoadEq5dTermsController extends AbstractController {
 		proCtcQuestion.setQuestionText(termEng.toUpperCase(), SupportedLanguageEnum.ENGLISH);
 		proCtcQuestion.setQuestionText(termSpanish.toUpperCase(), SupportedLanguageEnum.SPANISH);
 		
-		
-//		ProCtcQuestionVocab proCtcQuestionVocab;
-//		if(proCtcQuestion.getProCtcQuestionVocab() == null){
-//			proCtcQuestionVocab = new ProCtcQuestionVocab(proCtcQuestion);
-//			proCtcQuestion.setProCtcQuestionVocab(proCtcQuestionVocab);
-//		} else {
-//			proCtcQuestionVocab = proCtcQuestion.getProCtcQuestionVocab();
-//		}
-//		proCtcQuestionVocab.setQuestionTextEnglish(termEng.toUpperCase());
-//		proCtcQuestionVocab.setQuestionTextSpanish(termSpanish.toUpperCase());
 	}
 
 
