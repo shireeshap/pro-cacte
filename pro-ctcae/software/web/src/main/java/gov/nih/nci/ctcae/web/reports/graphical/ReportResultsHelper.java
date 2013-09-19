@@ -56,7 +56,12 @@ public class ReportResultsHelper {
                     crf = crf.getParentCrf();
                 }
         	}
-        	query.filterByCRFIds(crfIds);
+        	
+        	if(!crfIds.isEmpty()){
+        		query.filterByCRFIds(crfIds);
+        	} else {
+        		query.filterByStudyId(studyId);
+        	}
         }
         
 		if(!StringUtils.isBlank(crfIdParam)){

@@ -133,12 +133,26 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             oArr[1] = output;
             results.put(armTitle, oArr);
         }
+        
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarytable");
         modelAndView.addObject("results", results);
         List<ProCtcQuestionType> proCtcQuestionTypes = ProCtcQuestionType.getAllDisplayTypes();
         proCtcQuestionTypes.remove(proCtcQuestionTypes.size() - 1);
         modelAndView.addObject("questionTypes", proCtcQuestionTypes);
+        modelAndView.addObject("isReportEmpty", isReportEmpty(results));
         return modelAndView;
+    }
+    
+    private boolean isReportEmpty(TreeMap<String, Object[]> results){
+    	boolean foundNonEmptyArm = false;
+    	for(String arm : results.keySet()){
+    		Object[] oArr = results.get(arm);
+    		TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>> output = (TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>>) oArr[1];
+    		if(!output.isEmpty()){
+    			foundNonEmptyArm = true;
+    		}
+    	}
+    	return !foundNonEmptyArm;
     }
 
     private HashMap<String, ArrayList<Object[]>> getRecordsForAllSymptoms(HttpServletRequest request, Arm arm) throws ParseException {
