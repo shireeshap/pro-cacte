@@ -34,6 +34,14 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
         andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.crf.id in (:crfs)");
         setParameterList("crfs", crfIds);
     }
+    
+    public void filterByStudyId(Integer id){
+   	 if (id != null) {
+            andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.study.id=:studyId");
+            setParameter("studyId", id);
+        }
+   }
+
 
     public void filterByStudySite(Integer id) {
         andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
