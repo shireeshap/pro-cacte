@@ -3285,6 +3285,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.js
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/fullStudyReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelCtcaeGradesReport.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelCtcaeGradesReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelWorstSymptomReport.jsp -text
