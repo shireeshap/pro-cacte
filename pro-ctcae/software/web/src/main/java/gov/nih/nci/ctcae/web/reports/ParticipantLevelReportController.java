@@ -23,14 +23,20 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class ParticipantLevelReportController extends AbstractController {
 
     StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+    private static String WORST_SYMPTOM = "worstSymptom";
+    private static String REPORT_TYPE = "rt";
+    private static String SCHEDULE_ID = "sid";
+    private static String CTCAE_GRADES = "ctcaeGrades";
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
+    	
         ModelAndView modelAndView = new ModelAndView("reports/participantLevelReport");
-        String scheduleId = request.getParameter("sid");
-        String reportType = request.getParameter("rt");
-        if(reportType!=null && reportType.equals("worstSymptom")){
+        String scheduleId = request.getParameter(SCHEDULE_ID);
+        String reportType = request.getParameter(REPORT_TYPE);
+        if(reportType!=null && reportType.equals(WORST_SYMPTOM)){
             modelAndView = new ModelAndView("reports/participantLevelWorstSymptomReport");
+        } else if(reportType!=null && reportType.equals(CTCAE_GRADES)){
+        	modelAndView = new ModelAndView("reports/participantLevelCtcaeGradesReport");
         }
 
         if (!StringUtils.isBlank(scheduleId)) {

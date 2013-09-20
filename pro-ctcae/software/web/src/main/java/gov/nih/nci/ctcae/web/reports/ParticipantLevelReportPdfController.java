@@ -13,12 +13,19 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * Time: 1:13:34 PM
  */
 public class ParticipantLevelReportPdfController extends AbstractController {
+	 private static String CTCAE_GRADES = "ctcaeGrades";
+	 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView mv;
         String reportType = request.getParameter("rt");
         if (reportType != null && "worstSymptom".equals(reportType)) {
             ParticipantLevelWorstSymptomReportPdfView worstSymptomReportPdfView = new ParticipantLevelWorstSymptomReportPdfView();
             mv = new ModelAndView(worstSymptomReportPdfView);
+            
+        } else if(reportType != null && CTCAE_GRADES.equals(reportType)){
+        	ParticipantLevelCtcaeGradesReportPdfView participantLevelCtcaeGradesReportPdfView = new ParticipantLevelCtcaeGradesReportPdfView();
+        	mv = new ModelAndView(participantLevelCtcaeGradesReportPdfView);
+        	
         } else {
             ParticipantLevelReportPdfView participantLevelReportPdfView = new ParticipantLevelReportPdfView();
             mv = new ModelAndView(participantLevelReportPdfView);
