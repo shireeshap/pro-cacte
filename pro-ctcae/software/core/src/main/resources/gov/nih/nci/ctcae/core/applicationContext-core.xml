@@ -93,6 +93,7 @@
         <value>gov.nih.nci.ctcae.core.domain.UserPasswordHistory</value>
         <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion</value>
         <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfGrades</value>
     </util:list>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
