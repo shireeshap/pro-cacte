@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
@@ -31,6 +32,7 @@ public abstract class WebTestCase extends AbstractTestCase {
     protected ProCtcQuestionRepository proCtcQuestionRepository;
     protected StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     protected UserRepository userRepository;
+    protected StudyOrganizationRepository studyOrganizationRepository;
     protected AuthorizationServiceImpl authorizationServiceImpl;
 
 
@@ -52,5 +54,6 @@ public abstract class WebTestCase extends AbstractTestCase {
 
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         studyParticipantCrfScheduleRepository = registerMockFor(StudyParticipantCrfScheduleRepository.class);
+        studyOrganizationRepository = registerMockFor(StudyOrganizationRepository.class);
     }
 }
