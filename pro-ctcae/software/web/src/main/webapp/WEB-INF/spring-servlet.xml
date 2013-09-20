@@ -570,6 +570,12 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
+    
+     <bean name="/reports/participantCtcaeGradesCareResults" id="participantCtcaeGradesCareResults"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelCtcaeGradesReportResultsController">
+        <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
 
     <!--<bean name="/participant/responseReport" id="participantResponseReportController"-->
     <!--class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">-->
@@ -753,6 +759,16 @@
         <property name="targetObject" ref="spCrfItemCreatorBean"/>
         <property name="targetMethod" value="createSpCrfItemsForAvailableSchedules"/>
     </bean>
+    
+    <bean name="spCrfGradeCreatorBean" class="gov.nih.nci.ctcae.web.batch.StudyParticipantCrfGradesCreator">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="spCrfGradeCreatorJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="spCrfGradeCreatorBean"/>
+        <property name="targetMethod" value="createGradesForCompletedSchedules"/>
+    </bean>
 
     <bean id="nightlyTrigger" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
     	<property name="jobDetail" ref="pastDueSchedulesReminderEmailJob" />
@@ -760,6 +776,13 @@
     
     <bean id="nightlyTriggerForObjectCreation" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
  		<property name="jobDetail" ref="spCrfItemCreatorJob" />
+    </bean>
+    
+    <bean id="nightlyTriggerForGradesCreation" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+ 		<property name="jobDetail" ref="spCrfGradeCreatorJob" />
+ 		<property name="startDelay" value="1"/>
+        <!-- repeat every 60 min -->
+        <property name="repeatInterval" value="3600000"/>
     </bean>
     
 
@@ -840,6 +863,7 @@
                 <ref bean="nightlyTriggerForObjectCreation"/>
                 <ref bean="formSubmissionNotificationTrigger"/>
                 <ref bean="ivrsTrigger"/>
+                <ref bean="nightlyTriggerForGradesCreation"/>
                 <ref bean="nightlyTriggerForScheduleStatusUpdate"/>
             </list>
         </property>
