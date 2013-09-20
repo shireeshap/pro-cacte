@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-import gov.nih.nci.ctcae.core.csv.loader.ProCtcTermsImporterV4;
+import gov.nih.nci.ctcae.core.csv.loader.LoaderHelper;
 import gov.nih.nci.ctcae.core.csv.loader.UpdateProCtcTermsImporterV4;
 import gov.nih.nci.ctcae.core.dao.LowLevelTermDao;
 import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
@@ -193,7 +193,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         login(SYSTEM_ADMIN);
 
         deleteUsingJdbcTemplate();
-
+        //deleteProCtcTerms();
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
         System.out.println("  Data deleted (" + (end - start) / 1000 + " seconds)");
@@ -274,7 +274,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         System.out.println("  Loading ProctcTerms...");
         long start = System.currentTimeMillis();
         UpdateProCtcTermsImporterV4 csvImporter = new UpdateProCtcTermsImporterV4();
+        LoaderHelper loaderHelper = new LoaderHelper();
+        loaderHelper.setCtcTermRepository(ctcTermRepository);
+        loaderHelper.setProCtcTermRepository(proCtcTermRepository);
         
+        csvImporter.setLoaderHelper(loaderHelper);
         csvImporter.setCtcTermRepository(ctcTermRepository);
         csvImporter.setProCtcQuestionRepository(proCtcQuestionRepository);
         csvImporter.setProCtcRepository(proCtcRepository);
