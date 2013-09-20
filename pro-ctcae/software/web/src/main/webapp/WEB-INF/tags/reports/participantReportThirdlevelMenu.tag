@@ -22,6 +22,13 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
+                <li id="thirdlevelnav-x" class="tab ${selected=='ctcaeGrades'?'selected':''}">
+            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                    <div>
+                        <a href="participantReport?rt=ctcaeGrades">ACCRU AE Form</a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
         </ul>
     </div>
 </div>
