@@ -2405,6 +2405,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermVo
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueVocab.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMapping.java -text svneol=unset#text/plain
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMappingCreator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProctcaeGradeMappingVersion.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/QueryStrings.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Question.java -text
@@ -2424,6 +2425,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyPartici
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantClinicalStaff.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrf.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfAddedQuestion.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfGrades.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItem.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text

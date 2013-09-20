@@ -1,15 +1,40 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
-
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.constants.ProctcTermTypeBasedCategoryEnum;
+import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import javax.persistence.*;
-import java.util.*;
 
 
 /**
@@ -18,7 +43,6 @@ import java.util.*;
  * @author
  * @since Oct 7, 2008
  */
-
 @Entity
 @Table(name = "SP_CRF_SCHEDULES")
 
@@ -105,6 +129,13 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
+    
+    /**
+     * The study participant crf grades.
+     */
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantCrfGrades> studyParticipantCrfGrades = new ArrayList<StudyParticipantCrfGrades>();
 
     /**
      * The study participant crf schedule added questions.
@@ -201,6 +232,17 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         Collections.sort(studyParticipantCrfItems, new DisplayOrderComparator());
         return studyParticipantCrfItems;
     }
+    
+    /**Gets study_participant_crf_grades for the schedule or creates them if not present.
+     * @return the study participant crf grades
+     */
+    public List<StudyParticipantCrfGrades> getStudyParticipantCrfGrades(){
+    	if(!studyParticipantCrfGrades.isEmpty()){
+    		
+    		return studyParticipantCrfGrades;
+    	}
+    	return new ArrayList<StudyParticipantCrfGrades>();
+    }
 
     /**
      * Adds the study participant crf item.
@@ -212,6 +254,13 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         if (studyParticipantCrfItem != null) {
             studyParticipantCrfItem.setStudyParticipantCrfSchedule(this);
             studyParticipantCrfItems.add(studyParticipantCrfItem);
+        }
+    }
+    
+    public void addStudyParticipantCrfGrade(StudyParticipantCrfGrades studyParticipantCrfGrade) {
+        if (studyParticipantCrfGrade != null) {
+        	studyParticipantCrfGrade.setStudyParticipantCrfSchedule(this);
+        	studyParticipantCrfGrades.add(studyParticipantCrfGrade);
         }
     }
 
@@ -730,4 +779,260 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	public void setHealthAmount(Integer healthAmount) {
 		this.healthAmount = healthAmount;
 	}
+	
+	
+	/**generateStudyParticipantCrfGrades method.
+	 * @param proctcaeGradeMappingVersion
+	 * Generates ctcae grades for all proCtc and lowLevel terms in a survey (*only for non Eq5D surveys)
+	 * This method should only be called upon a completed schedule.
+	 */
+	public void generateStudyParticipantCrfGrades(ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+		if(this.getStudyParticipantCrfGrades().isEmpty() && !getStudyParticipantCrf().getCrf().isEq5d()){
+			Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
+			Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
+			
+			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
+				StudyParticipantCrfGrades studyParticipantCrfGrade = createStudyParticipantCrfGrade(spcCrfItem, proctcaeGradeMappingVersion);
+				if(studyParticipantCrfGrade != null){
+					addToResponseMap(proResponseMap, spcCrfItem);
+				}
+			}
+			for (StudyParticipantCrfScheduleAddedQuestion spcsaq : getStudyParticipantCrfScheduleAddedQuestions()) {
+				StudyParticipantCrfGrades studyParticipantCrfGrade = createStudyParticipantCrfGrade(spcsaq, proctcaeGradeMappingVersion);
+				if(studyParticipantCrfGrade != null){
+					addToResponseMap(proResponseMap, meddraResponseMap, spcsaq);
+				}
+			}
+			
+			generateFinalGradeFromResponses(proResponseMap, meddraResponseMap, proctcaeGradeMappingVersion);
+		}
+	}
+	
+    private void generateFinalGradeFromResponses(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap,
+    		ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    	StudyParticipantCrfGrades studyParticipantCrfGrade;
+    	try {
+	    	for(ProCtcTerm symptom : proResponseMap.keySet()){
+	    		studyParticipantCrfGrade = getStudyParticipantCrfGrade(symptom);
+	    		if(studyParticipantCrfGrade != null){
+	    			Map<ProCtcQuestionType, String> questionTypeMap = proResponseMap.get(symptom);
+	    			ProctcaeGradeMapping gradeKey = generateGradeKey(questionTypeMap, symptom, proctcaeGradeMappingVersion);
+	    			String evaluatedGrade = symptom.getProctcaeGradeMappingMap().get(gradeKey);
+	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
+	    				studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
+	    			}
+	    			studyParticipantCrfGrade.setGrade(evaluatedGrade);
+	    		}
+	    	}
+	    	
+	    	/**CtcaeGrade for all lowlevel terms should always be defaulted to "Present, Clinician Assess"
+	    	 * (In future, if we have grade mapping available for lowLevel terms, 
+	    	 *  we can then run the logic for evaluating it's grade, which will be similar to the ProCtcTerms above)
+	    	 *  Note: LowLevelTerms includes a mix of some ctcae terms and also the participant added free text (added when reporting additional symptom).
+	    	 */
+	    	for(LowLevelTerm symptom : meddraResponseMap.keySet()){
+	    		studyParticipantCrfGrade = getStudyParticipantCrfGrade(symptom);
+	    		if(studyParticipantCrfGrade != null){
+	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
+						studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
+					}
+	    			studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+	    		}
+	    	}
+    	
+    	}catch (Exception e) {
+			logger.error("Error in generating ctcae grade in schedule id:" + getId() + " ,error message is: " + e.getMessage());
+		}
+    }
+    
+    /**generateGradeKey method
+     * @param questionTypeMap
+     * @param proCtcTerm
+     * @param proctcaeGradeMappingVersion
+     * Creates an instance of proctcaeGradeMapping with appropriate values set for each of ProCtcQuestionType responses.
+     * This instance of proctcaeGradeMapping is used for querying the proctcaeGradeMappingMap to get corresponding ctcae grade.
+     */
+    public ProctcaeGradeMapping generateGradeKey(Map<ProCtcQuestionType, String> questionTypeMap, ProCtcTerm proCtcTerm, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    	ProctcTermTypeBasedCategoryEnum category = proCtcTerm.getTypeBasedCategory();
+    	ProctcaeGradeMapping key = null;
+    	
+    	if(ProctcTermTypeBasedCategoryEnum.CATEGORY_FSI.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryFSI(questionTypeMap.get(ProCtcQuestionType.FREQUENCY), questionTypeMap.get(ProCtcQuestionType.SEVERITY), 
+    				questionTypeMap.get(ProCtcQuestionType.INTERFERENCE), proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_FS.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryFS(questionTypeMap.get(ProCtcQuestionType.FREQUENCY), questionTypeMap.get(ProCtcQuestionType.SEVERITY),
+    				proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_SI.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategorySI(questionTypeMap.get(ProCtcQuestionType.SEVERITY), questionTypeMap.get(ProCtcQuestionType.INTERFERENCE),
+    				proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_FI.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryFI(questionTypeMap.get(ProCtcQuestionType.FREQUENCY), questionTypeMap.get(ProCtcQuestionType.INTERFERENCE), 
+    				proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_F.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryF(questionTypeMap.get(ProCtcQuestionType.FREQUENCY), proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_S.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryS(questionTypeMap.get(ProCtcQuestionType.SEVERITY), proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else if(ProctcTermTypeBasedCategoryEnum.CATEGORY_PA.equals(category)){
+    		key = ProctcaeGradeMappingCreator.createCategoryPA(questionTypeMap.get(ProCtcQuestionType.PRESENT), proctcaeGradeMappingVersion, proCtcTerm);
+    		
+    	} else {
+    		key = ProctcaeGradeMappingCreator.createCategoryAMT(questionTypeMap.get(ProCtcQuestionType.AMOUNT), proctcaeGradeMappingVersion, proCtcTerm);
+    	}
+    	
+    	return key;
+    }
+	
+    private void addToResponseMap(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, StudyParticipantCrfItem studyParticipantCrfItem){
+    	Map<ProCtcQuestionType, String> responseMap;
+    	ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getProCtcTerm();
+    	ProCtcQuestionType questionType = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType();
+    	ProCtcValidValue proCtcValidValue = studyParticipantCrfItem.getProCtcValidValue();
+    	if(proResponseMap.get(proCtcTerm) != null){
+    		responseMap = proResponseMap.get(proCtcTerm);
+    	} else {
+    		responseMap = new HashMap<ProCtcQuestionType, String>();
+    		proResponseMap.put(proCtcTerm, responseMap);
+    	}
+    	if(proCtcValidValue != null){
+    		String responseCode = null;
+    		if(proCtcValidValue.getResponseCode() != null){
+    			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
+    			responseCode = (responseCodeIntVal > 4 ? "0" : responseCodeIntVal.toString());
+    		}
+    		responseMap.put(questionType, responseCode);
+    	} else {
+    		responseMap.put(questionType, null);
+    	}
+    }
+    
+    private void addToResponseMap(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap, StudyParticipantCrfScheduleAddedQuestion spcsAddedQuestion){
+    	Map<ProCtcQuestionType, String> responseMap;
+    	
+    	if(spcsAddedQuestion.getProCtcQuestion() != null){
+    		ProCtcQuestionType questionType = spcsAddedQuestion.getProCtcQuestion().getProCtcQuestionType();
+    		ProCtcValidValue proCtcValidValue = spcsAddedQuestion.getProCtcValidValue();
+    		ProCtcTerm proCtcTerm = spcsAddedQuestion.getProCtcQuestion().getProCtcTerm();
+        	if(proResponseMap.get(proCtcTerm) != null){
+        		responseMap = proResponseMap.get(proCtcTerm);
+        	} else {
+        		responseMap = new HashMap<ProCtcQuestionType, String>();
+        		proResponseMap.put(proCtcTerm, responseMap);
+        	}
+    		if(proCtcValidValue != null){
+        		String responseCode = null;
+        		if(proCtcValidValue.getResponseCode() != null){
+        			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
+        			responseCode = (responseCodeIntVal > 4 ? "0" : responseCodeIntVal.toString());
+        		}
+        		responseMap.put(questionType, responseCode);
+        	} else {
+        		responseMap.put(questionType, null);
+        	}
+    	} else {
+    		ProCtcQuestionType questionType = spcsAddedQuestion.getMeddraQuestion().getProCtcQuestionType();
+    		MeddraValidValue meddraValidValue = spcsAddedQuestion.getMeddraValidValue();
+    		LowLevelTerm lowLevelTerm = spcsAddedQuestion.getMeddraQuestion().getLowLevelTerm();
+    		if(meddraResponseMap.get(lowLevelTerm) != null){
+        		responseMap = meddraResponseMap.get(lowLevelTerm);
+        	} else {
+        		responseMap = new HashMap<ProCtcQuestionType, String>();
+        		meddraResponseMap.put(lowLevelTerm, responseMap);
+        	}
+    		if(meddraValidValue != null){
+    			String displayOrder = null;
+        		if(meddraValidValue.getDisplayOrder() != null){
+        			Integer displayOrderIntVal = meddraValidValue.getDisplayOrder();
+        			displayOrder = (displayOrderIntVal > 4 ? "0" : displayOrderIntVal.toString());
+        		}
+    			responseMap.put(questionType, displayOrder);
+    		} else {
+    			responseMap.put(questionType, null);
+    		}
+    	}
+    }
+	
+	/**Creates a studyParticipantCrfGrade instance for a proCtcTerm in a survey, 
+	 * if at least one of the questions for that term is answered to by the participant.
+     */
+    private StudyParticipantCrfGrades createStudyParticipantCrfGrade(StudyParticipantCrfItem studyParticipantCrfItem, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    	if(studyParticipantCrfItem.getProCtcValidValue() != null){
+    		ProCtcTerm proCtcTerm = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getProCtcTerm();
+    		StudyParticipantCrfGrades studyParticipantCrfGrade = getStudyParticipantCrfGrade(proCtcTerm);
+    		if(studyParticipantCrfGrade == null){
+    			studyParticipantCrfGrade = new StudyParticipantCrfGrades();
+    			studyParticipantCrfGrade.setGradeMappingVersion(proctcaeGradeMappingVersion);
+    			studyParticipantCrfGrade.setProCtcTerm(studyParticipantCrfItem.getCrfPageItem().getCrfPage().getProCtcTerm());
+    			studyParticipantCrfGrade.setLowLevelTerm(null);
+    			if(studyParticipantCrfItem.getReponseDate() != null && studyParticipantCrfGrade.getGradeEvaluationDate() == null){
+    				studyParticipantCrfGrade.setGradeEvaluationDate(studyParticipantCrfItem.getReponseDate());
+    			}
+    			addStudyParticipantCrfGrade(studyParticipantCrfGrade);
+    		}
+    		return studyParticipantCrfGrade;
+    		
+    	} else {
+    		return null;
+    	}
+    }
+    
+    /**Overloaded createStudyParticipantCrfGrade method
+     * Creates a studyParticipantCrfGrade instance for a lowlevelTerm in a survey, 
+     * if at least one of the questions for that term is answered to by the participant.
+     */
+    private StudyParticipantCrfGrades createStudyParticipantCrfGrade(StudyParticipantCrfScheduleAddedQuestion spcsAddedQuestion, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    	StudyParticipantCrfGrades studyParticipantCrfGrade;
+    	if((spcsAddedQuestion.getProCtcValidValue() != null && spcsAddedQuestion.getMeddraValidValue() == null) || 
+    			(spcsAddedQuestion.getMeddraValidValue() != null && spcsAddedQuestion.getProCtcValidValue() == null)){
+    		
+    		if(spcsAddedQuestion.getProCtcQuestion() != null){
+    			studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcsAddedQuestion.getProCtcQuestion().getProCtcTerm());
+    		} else {
+    			studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcsAddedQuestion.getMeddraQuestion().getLowLevelTerm());
+    		}
+    		if(studyParticipantCrfGrade == null){
+    			studyParticipantCrfGrade = new StudyParticipantCrfGrades();
+    			studyParticipantCrfGrade.setGradeMappingVersion(proctcaeGradeMappingVersion);
+    			if(spcsAddedQuestion.getProCtcQuestion() != null){
+    				studyParticipantCrfGrade.setProCtcTerm(spcsAddedQuestion.getProCtcQuestion().getProCtcTerm());
+    				studyParticipantCrfGrade.setLowLevelTerm(null);
+    			} else {
+    				studyParticipantCrfGrade.setLowLevelTerm(spcsAddedQuestion.getMeddraQuestion().getLowLevelTerm());
+    				studyParticipantCrfGrade.setProCtcTerm(null);
+    			}
+    			addStudyParticipantCrfGrade(studyParticipantCrfGrade);
+    		}
+    		return studyParticipantCrfGrade;
+    		
+    	} else {
+    		return null;
+    	}
+    }
+    
+    public StudyParticipantCrfGrades getStudyParticipantCrfGrade(ProCtcTerm proCtcTerm){
+    	if(proCtcTerm != null){
+    		for(StudyParticipantCrfGrades studyParticipantCrfGrade : getStudyParticipantCrfGrades()){
+    			if((studyParticipantCrfGrade.getProCtcTerm() != null) && (studyParticipantCrfGrade.getProCtcTerm().equals(proCtcTerm))){
+    				return studyParticipantCrfGrade;
+    			}
+    		}
+    	}
+    	return null;
+    }
+    
+    public StudyParticipantCrfGrades getStudyParticipantCrfGrade(LowLevelTerm lowLevelTerm){
+    	if(lowLevelTerm != null){
+    		for(StudyParticipantCrfGrades studyParticipantCrfGrade : getStudyParticipantCrfGrades()){
+    			if((studyParticipantCrfGrade.getLowLevelTerm() != null) && (studyParticipantCrfGrade.getLowLevelTerm().equals(lowLevelTerm))){
+    				return studyParticipantCrfGrade;
+    			}
+    		}
+    	}
+    	return null;
+    }
 }
