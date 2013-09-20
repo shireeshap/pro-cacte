@@ -125,6 +125,8 @@ public class StudyControllerTest extends WebTestCase {
         replayMocks();
 
         ((StudyDetailsTab) (controller.getFlow().getTab(0))).setUserRepository(userRepository);
+        ((StudySitesTab) (controller.getFlow().getTab(1))).setStudyOrganizationRepository(studyOrganizationRepository);
+
         controller.handleRequest(request, response);
         verifyMocks();
         resetMocks();
