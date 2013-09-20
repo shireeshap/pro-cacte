@@ -3,13 +3,12 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import junit.framework.TestCase;
+import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -21,6 +20,7 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
 
     public void testConstructor() {
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+        assertEquals(0, studyParticipantCrfSchedule.getStudyParticipantCrfItems().size());
         assertEquals(0, studyParticipantCrfSchedule.getStudyParticipantCrfItems().size());
         assertNull(studyParticipantCrfSchedule.getId());
         assertNull(studyParticipantCrfSchedule.getDueDate());
@@ -116,8 +116,8 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	assertEquals(fetchedAddedQuestion.hashCode(), studyParticipantCrSchedulefAddedQuestion_spcrfs.hashCode());
     }
    
-    public void testGetParticipantAddedSymptoms(){
-
+    public void testGetParticipantAddedSymptoms() throws Exception{
+    	
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
@@ -137,6 +137,21 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	
     }
     
+    public void testGenerateStudyParticipantCrfGrades(){
+    	ProctcaeGradeMappingVersionQuery query = new ProctcaeGradeMappingVersionQuery();
+    	ProctcaeGradeMappingVersion proctcaeGradeMappingVersion = genericRepository.findSingle(query);
+    	
+    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
+    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
+    	
+    	Random random = new Random();
+    	for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
+    		 List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) spCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
+    		 spCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
+    	}
+    	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
+    	assertFalse(studyParticipantCrfSchedule.getStudyParticipantCrfGrades().isEmpty());
+    }
     
     public Question getProCtcQuestion(){
     	CtcTerm ctcTerm = new CtcTerm();
@@ -151,6 +166,7 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
         proCtcTerm.addProCtcQuestion(proCtaddedQuestion);
         return proCtaddedQuestion;
     }
+    
     
     public List<StudyParticipantCrfScheduleAddedQuestion> fetchAddedQuestionFromRepository(){
     	return hibernateTemplate.find("select spcrfs_addedQs from StudyParticipantCrfScheduleAddedQuestion spcrfs_addedQs");
