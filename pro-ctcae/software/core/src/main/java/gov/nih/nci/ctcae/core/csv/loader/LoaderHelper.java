@@ -35,10 +35,11 @@ public class LoaderHelper {
         for (String hmKey : hm.keySet()) {
             List<CsvLine> list = hm.get(hmKey);
             String ctcTermEnglishText = list.get(0).getCtcTerm();
+            Integer proCtcTermSystemId = list.get(0).getProctcTermSystemId();
             String proCtcTermEnglishText = hmKey;
             CtcTerm ctcTerm = findCtcTermFromRepository(ctcTermRepository, ctcTermEnglishText, proCtcTermEnglishText);
             if (ctcTerm != null) {
-            	ProCtcTerm proCtcTerm = createProCtcTerm(proCtc, ctcTerm, proCtcTermEnglishText);
+            	ProCtcTerm proCtcTerm = createProCtcTerm(proCtc, ctcTerm, proCtcTermEnglishText, proCtcTermSystemId);
             	proCtc.addProCtcTerm(proCtcTerm);
                 for (CsvLine hmValue : list) {
                 	ProCtcQuestion proCtcQuestion = createProCtcQuestion(proCtcTerm, hmValue.getQuestionText(), hmValue.getDisplayOrder(), hmValue.getQuestionType());
@@ -122,13 +123,14 @@ public class LoaderHelper {
        return proCtcQuestion;
    }
    
-   private ProCtcTerm createProCtcTerm(ProCtc proCtc, CtcTerm CtcTerm, String proCtcTermEnglishText){
+   private ProCtcTerm createProCtcTerm(ProCtc proCtc, CtcTerm CtcTerm, String proCtcTermEnglishText, Integer proCtcTermSystemId){
   	 ProCtcTerm proCtcTerm = new ProCtcTerm();
        ProCtcTermVocab proCtcTermVocab = new ProCtcTermVocab(proCtcTerm);
        proCtcTerm.setProCtcTermVocab(proCtcTermVocab);
        proCtcTerm.getProCtcTermVocab().setTermEnglish(proCtcTermEnglishText);
        proCtcTerm.setCtcTerm(CtcTerm);
        proCtcTerm.setProCtc(proCtc);
+       proCtcTerm.setProCtcSystemId(proCtcTermSystemId);
        return proCtcTerm;
   }
    

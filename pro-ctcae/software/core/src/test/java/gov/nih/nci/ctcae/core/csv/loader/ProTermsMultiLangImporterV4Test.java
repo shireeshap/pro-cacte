@@ -24,6 +24,8 @@ public class ProTermsMultiLangImporterV4Test extends TestDataManager{
 	public void testUpdateMultiLangProTerms() throws IOException{
         ProCtcTermsImporterV4 proCtcTermImporter = new ProCtcTermsImporterV4();
 		proCtcTermImporter.setCtcTermRepository(ctcTermRepository);
+		proCtcTermImporter.setProCtcRepository(proCtcRepository);
+		proCtcTermImporter.setProCtcTermRepository(proCtcTermRepository);
 		ProCtc proctc = proCtcTermImporter.loadProCtcTerms(true);
 		proCtcRepository.save(proctc);
 		
