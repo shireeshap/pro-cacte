@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping;
 import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 
 /**Test class for the loader helper.
  * 
@@ -13,17 +14,18 @@ import gov.nih.nci.ctcae.core.helper.TestDataManager;
  */
 public class ProctcaeGradeMappingsLoaderTest extends TestDataManager {
 
+    private ProctcaeGradeMappingVersion pgmv;
+
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
+		pgmv = getDefaultProctcaeGradeMappingVersion();
 	}
 	
 	@Override
 	protected void onTearDownInTransaction() throws Exception {
 		super.onTearDownInTransaction();
-		deleteProctcaeGradeMappings();
 	}
-	
 	
 	public void testLoadProctcaeGradeMappings(){
 		
@@ -36,13 +38,18 @@ public class ProctcaeGradeMappingsLoaderTest extends TestDataManager {
 		} catch (Exception e) {
 			fail();
 		}
-		commitAndStartNewTransaction();
-		
 		ProCtcTerm pTerm = getDefaultProCtcTerm();
-		ProctcaeGradeMappingVersion pgmv = getDefaultProctcaeGradeMappingVersion();
 		ProctcaeGradeMapping pgMapping = new ProctcaeGradeMapping(0, 0, 0, null, pgmv, pTerm);
 		
 		Map<ProctcaeGradeMapping, String> pgmMap = pTerm.getProctcaeGradeMappingMap();
 		assertEquals(ProctcaeGradeMapping.ZERO, pgmMap.get(pgMapping));
+	}
+	
+
+	private ProctcaeGradeMappingVersion getPgmVersion() {
+		ProctcaeGradeMappingVersionQuery pgmvQuery = new ProctcaeGradeMappingVersionQuery();
+		pgmvQuery.filterByDefaultVersion();
+		ProctcaeGradeMappingVersion defaultProctcaeGradeMappingVersion = genericRepository.findSingle(pgmvQuery);
+		return defaultProctcaeGradeMappingVersion;
 	}
 }
