@@ -340,7 +340,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 	
 	protected void deleteProctcaeGradeMappings(){
 		jdbcTemplate.execute("delete from proctcae_grade_mapping");
-		commitAndStartNewTransaction();
 	}
 
 
