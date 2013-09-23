@@ -2619,6 +2619,7 @@ pro-ctcae/software/core/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_fo
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE_items_updated_05.17.2011_formatted_with_IDs.csv -text
 pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.csv -text
 pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4.xls -text
+pro-ctcae/software/core/src/main/resources/ProCtcTerms_V4_formatted_with_IDs.csv -text
 pro-ctcae/software/core/src/main/resources/Spanish_Pro-CTCAE_items_08.10.2011.csv -text
 pro-ctcae/software/core/src/main/resources/Spanish_Pro-CTCAE_items_08.10.2011_with_IDs.csv -text
 pro-ctcae/software/core/src/main/resources/Update_ProCtcTerms_V4.csv -text
