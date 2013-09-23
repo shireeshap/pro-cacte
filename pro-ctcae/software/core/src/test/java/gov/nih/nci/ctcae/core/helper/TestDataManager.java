@@ -286,7 +286,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ProCtcQuery query = new ProCtcQuery();
         query.filterByProCtcVersion("4.0");
         ProCtc proctc = proCtcRepository.findSingle(query);
-        
+        //if proCtc is null...create  one and pass into csvImporter
         csvImporter.updateProCtcTerms(proctc);
         proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
@@ -331,7 +331,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		jdbcTemplate.execute("delete from pro_ctc_questions");
 		jdbcTemplate.execute("delete from pro_ctc_terms_vocab");
 		jdbcTemplate.execute("delete from pro_ctc_terms");
-		jdbcTemplate.execute("delete from pro_ctc");
+		//jdbcTemplate.execute("delete from pro_ctc");
 		commitAndStartNewTransaction();
 		long end = System.currentTimeMillis();
 		System.out.println("  ProCtcTerms deleted (" + (end - start) / 1000
