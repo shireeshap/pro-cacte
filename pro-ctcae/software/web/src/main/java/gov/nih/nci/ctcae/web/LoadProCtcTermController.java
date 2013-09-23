@@ -39,6 +39,8 @@ public class LoadProCtcTermController extends AbstractController {
                 System.out.println("Loading ProCtcTerms");
                 ProCtcTermsImporterV4 csvImporter = new ProCtcTermsImporterV4();
                 csvImporter.setCtcTermRepository(ctcTermRepository);
+                csvImporter.setProCtcRepository(proCtcRepository);
+                csvImporter.setProCtcTermRepository(proCtcTermRepository);
                 ProCtc proctc = csvImporter.loadProCtcTerms(false);
                 proCtcRepository.save(proctc);
                 System.out.println("ProCtcTerms Loaded");
