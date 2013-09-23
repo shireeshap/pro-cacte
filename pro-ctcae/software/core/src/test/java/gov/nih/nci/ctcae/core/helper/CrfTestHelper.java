@@ -132,7 +132,7 @@ public class CrfTestHelper {
 //        }
          setProCtcTermCurrencyForAllTerms();
          List<ProCtcTerm> proCtcTerms1 = new ArrayList<ProCtcTerm>();
-         proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Anxiety or worry"));
+         proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Anxiety"));
          proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Shortness of breath"));
          proCtcTerms1.add(proCtcTermRepository.findProCtcTermBySymptom("Unusual darkening of the skin"));
          for(int i=0;i<proCtcTerms1.size();i++){
