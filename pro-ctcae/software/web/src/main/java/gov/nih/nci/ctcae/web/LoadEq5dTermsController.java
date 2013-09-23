@@ -100,7 +100,7 @@ public class LoadEq5dTermsController extends AbstractController {
         }
         
         reader.close();
-        return new ModelAndView("proCtcTermsLoaded");
+        return new ModelAndView("eq5dTermsLoaded");
     }
 
     private String removeQuotations(String termEng) {
