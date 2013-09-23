@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.constants.ProctcTermTypeBasedCategoryEnum;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +24,6 @@ public class ProCtcTermIntegrationTest extends TestDataManager {
     	pgmv = getDefaultProctcaeGradeMappingVersion();
     }
      
-
     
     public void testDeleteNotSupported() {
         try {
