@@ -69,7 +69,7 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
     	questions = new HashMap<Question, ArrayList<ValidValue>>();
     	List values = new ArrayList<ValidValue>();
     	values.add(new ProCtcValidValue());
-    	ProCtcTerm proCtcTerm = crf.getAllCrfPageItems().get(11).getProCtcQuestion().getProCtcTerm();
+    	ProCtcTerm proCtcTerm = crf.getAllCrfPageItems().get(0).getProCtcQuestion().getProCtcTerm();
     	for(ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()){
     		questions.put(proCtcQuestion, (ArrayList<ValidValue>) values);
     	}
