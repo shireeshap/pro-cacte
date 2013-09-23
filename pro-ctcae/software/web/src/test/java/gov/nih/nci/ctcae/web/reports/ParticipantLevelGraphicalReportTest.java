@@ -29,8 +29,8 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
 	
 	
 	@Override
-	protected void onSetUp() throws Exception {
-		super.onSetUp();
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
 		controller = new ParticipantLevelGraphicalReportController();
 		controller.setGenericRepository(genericRepository);
         controller.setProCtcTermRepository(proCtcTermRepository);
