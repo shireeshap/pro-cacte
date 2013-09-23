@@ -96,7 +96,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static LowLevelTermDao lowLevelTermDao; 
     public static MeddraVersionDao meddraVersionDao;
     public static HibernateTemplate hibernateTemplate;
-    
+
 	public static CombinationPolicy combinationPolicy = new CombinationPolicy();
 	public static PasswordCreationPolicy passwordCreationPolicy = new PasswordCreationPolicy();
 	public static PasswordPolicy passwordPolicy = new PasswordPolicy();

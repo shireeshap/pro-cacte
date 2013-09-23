@@ -17,16 +17,29 @@ import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 	
 	public static ProCtc proCtc;
+	public static UpdateProCtcTermsImporterV4 updateProCtcTermsImporterV4;
+	public static LoaderHelper loaderHelper;
+	
+	@Override
+	protected void onSetUpBeforeTransaction() throws Exception {
+		super.onSetUpBeforeTransaction();
+		
+		updateProCtcTermsImporterV4 = new UpdateProCtcTermsImporterV4();
+		loaderHelper = new LoaderHelper();
+		
+        loaderHelper.setCtcTermRepository(ctcTermRepository);
+        loaderHelper.setProCtcTermRepository(proCtcTermRepository);
+        
+        updateProCtcTermsImporterV4.setLoaderHelper(loaderHelper);
+        updateProCtcTermsImporterV4.setCtcTermRepository(ctcTermRepository);
+        updateProCtcTermsImporterV4.setProCtcQuestionRepository(proCtcQuestionRepository);
+        updateProCtcTermsImporterV4.setProCtcRepository(proCtcRepository);
+	}
 	
 	public void testUpdateProCtcTermsImporterV4whenQuestionsNotPresent() throws IOException{
         
-		UpdateProCtcTermsImporterV4 updateProCtcTerms = new UpdateProCtcTermsImporterV4();
 		deleteProCtcTermsInTestData();
 		proCtc = getProCtc();
-        updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
-        updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
-//        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
-        updateProCtcTerms.setProCtcRepository(proCtcRepository);
         
         ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
         List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
@@ -35,26 +48,20 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
         assertTrue(proCtcQuestions.isEmpty());
         assertTrue(proCtcTerms.isEmpty());
         
-        updateProCtcTerms.updateProCtcTerms(proCtc);
+        updateProCtcTermsImporterV4.updateProCtcTerms(proCtc);
         proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
         proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(proCtcTermQuery);
         assertFalse(proCtcQuestions.isEmpty());
         assertFalse(proCtcTerms.isEmpty());
         System.out.println("Total number of questions after are :" + proCtcQuestions.size());
         System.out.println("Total number of ProCtcTerms after are :" + proCtcTerms.size());
-        
 	}
 	
 	public void testUpdateProCtcTermsImporterV4whenQuestionsArePresent() throws IOException{
         
 		deleteProCtcTermsInTestData();
-		UpdateProCtcTermsImporterV4 updateProCtcTerms = new UpdateProCtcTermsImporterV4();
 		proCtc = getProCtc();
-        updateProCtcTerms.setProCtcQuestionRepository(proCtcQuestionRepository);
-        updateProCtcTerms.setCtcTermRepository(ctcTermRepository);
-//        updateProCtcTerms.setProCtcTermRepository(proCtcTermRepository);
-        updateProCtcTerms.setProCtcRepository(proCtcRepository);
-        updateProCtcTerms.updateProCtcTerms(proCtc);
+		updateProCtcTermsImporterV4.updateProCtcTerms(proCtc);
         
         ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
         List<ProCtcQuestion> proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
@@ -65,7 +72,7 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
         System.out.println("Total number of questions before are :" + proCtcQuestions.size());
         System.out.println("Total number of ProCtcTerms before are :" + proCtcTerms.size());
         
-        updateProCtcTerms.updateProCtcTerms(proCtc);
+        updateProCtcTermsImporterV4.updateProCtcTerms(proCtc);
         proCtcQuestions.clear();
         proCtcTerms.clear();
         proCtcQuestions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(proCtcQuestionQuery);
@@ -73,8 +80,8 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
         System.out.println("Total number of questions (whenQuestionsArePresent) after are :" + proCtcQuestions.size());
         System.out.println("Total number of ProCtcTerms (whenQuestionsArePresent) after are :" + proCtcTerms.size());
         
-        assertEquals(121, proCtcQuestions.size());
-        assertEquals(78, proCtcTerms.size());
+        assertEquals(124, proCtcQuestions.size());
+        assertEquals(80, proCtcTerms.size());
 	}
 	
 	private ProCtc getProCtc(){
@@ -92,10 +99,6 @@ public class UpdateProCtcTermsImporterV4Test extends TestDataManager{
 		return proCtc;
 	}
 	
-//	public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository){
-//		UpdateProCtcTermsImporterV4Test.proCtcQuestionRepository = proCtcQuestionRepository;
-//	}
-//	
 	public ProCtcQuestionRepository getProCtcQuestionRepository(GenericRepository genericRepository){
 		ProCtcQuestionRepository proCtcQuestionRepository = new ProCtcQuestionRepository();
 		proCtcQuestionRepository.setGenericRepository(genericRepository);
