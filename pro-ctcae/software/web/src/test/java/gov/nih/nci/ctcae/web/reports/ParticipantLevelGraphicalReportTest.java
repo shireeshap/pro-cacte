@@ -47,6 +47,13 @@ public class ParticipantLevelGraphicalReportTest extends AbstractWebTestCase {
         request.getSession().setAttribute("baselineDate", "");
 	}
 	
+    public void testQuery() {
+        SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
+        query.filterByCrf(StudyTestHelper.getDefaultStudy().getCrfs().get(0).getId());
+        List<Persistable> l = genericRepository.find(query);
+        assertTrue(l.size() > 0);
+    }
+    
     public void testHandleRequestInternal() throws Exception {
         int size = crf.getAllCrfPageItems().size();
         if(size > 0){
@@ -63,17 +70,12 @@ public class ParticipantLevelGraphicalReportTest extends AbstractWebTestCase {
         	fail("Insufficient data in DB while running this test");
         }
     }
-
-    public void testQuery() {
-        SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
-        query.filterByCrf(StudyTestHelper.getDefaultStudy().getCrfs().get(0).getId());
-        List<Persistable> l = genericRepository.find(query);
-        assertTrue(l.size() > 0);
-    }
+    
+    
     private void buildResult(){
     	results = new TreeMap<String[], HashMap<Question,ArrayList<ValidValue>>>(new MyArraySorter());
     	questions = new HashMap<Question, ArrayList<ValidValue>>();
-    	List values = new ArrayList<ValidValue>();
+    	List<ValidValue> values = new ArrayList<ValidValue>();
     	values.add(new ProCtcValidValue());
     	ProCtcTerm proCtcTerm = crf.getAllCrfPageItems().get(0).getProCtcQuestion().getProCtcTerm();
     	for(ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()){
@@ -86,12 +88,16 @@ public class ParticipantLevelGraphicalReportTest extends AbstractWebTestCase {
     	results.put(terms, questions);
     }
     
-    private class MyArraySorter implements Comparator {
-        public int compare(Object o1, Object o2) {
-            if (o1 != null & o2 != null) {
-                String[] o1Arr = (String[]) o1;
-                String[] o2Arr = (String[]) o2;
-                return o1Arr[1].compareTo(o2Arr[1]);
+    private class MyArraySorter implements Comparator<String[]> {
+        public int compare(String[] o1, String[] o2) {
+            if (o1 != null && o2 != null) {
+                return o1[1].compareTo(o2[1]);
+            }
+            if(o1 == null){
+            	return 1;
+            }
+            if(o2 == null){
+            	return -1;
             }
             return 0;
         }
