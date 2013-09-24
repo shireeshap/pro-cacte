@@ -863,8 +863,8 @@
                 <ref bean="nightlyTriggerForObjectCreation"/>
                 <ref bean="formSubmissionNotificationTrigger"/>
                 <ref bean="ivrsTrigger"/>
-                <ref bean="nightlyTriggerForGradesCreation"/>
                 <ref bean="nightlyTriggerForScheduleStatusUpdate"/>
+                <ref bean="nightlyTriggerForGradesCreation"/>
             </list>
         </property>
     </bean>
