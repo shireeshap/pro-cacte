@@ -34,6 +34,7 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
         
         List result = genericRepository.find(query);
         modelAndView.addObject("results", result);
+        modelAndView.addObject("isReportEmpty", result.isEmpty());
         return modelAndView;
     }
 
@@ -63,12 +64,17 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     		List<CRF> crfList = ReportResultsHelper.getReducedCrfs(Integer.parseInt(studyParam));
     		List<Integer> crfIds = new ArrayList<Integer>();
     		for(CRF crf : crfList){
+    			crfIds.add(crf.getId());
     			while(crf.getParentCrf() != null){
     				crfIds.add(crf.getId());
     				crf = crf.getParentCrf();
     			}
     		}
-    		query.filterByCrfs(crfIds);
+    		if(!crfIds.isEmpty()){
+    			query.filterByCrfs(crfIds);
+        	} else {
+        		query.filterByStudyId(Integer.parseInt(studyParam));
+        	}
     	}
        
         if (!StringUtils.isBlank(studySiteId)) {
