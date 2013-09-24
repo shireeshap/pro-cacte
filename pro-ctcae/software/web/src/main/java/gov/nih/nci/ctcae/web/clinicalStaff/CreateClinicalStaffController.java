@@ -180,6 +180,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private void removeDeletedOrganizationalClinicalStaff(ClinicalStaffCommand command, BindException e) {
         ClinicalStaff clinicalStaff = command.getClinicalStaff();
         List<OrganizationClinicalStaff> ocsToRemove = new ArrayList<OrganizationClinicalStaff>();
+        List<OrganizationClinicalStaff> ocsNonAllowedToBeRemove = new ArrayList<OrganizationClinicalStaff>();
         for (Integer index : command.getIndexesToRemove()) {
             ocsToRemove.add(clinicalStaff.getOrganizationClinicalStaffs().get(index));
         }
@@ -187,12 +188,15 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             OrganizationClinicalStaff temp = genericRepository.findById(OrganizationClinicalStaff.class, organizationClinicalStaff.getId());
             if (temp != null) {
                 if (temp.getStudyOrganizationClinicalStaff().size() > 0) {
-                    e.reject("NON_EMPTY_SITE", "Cannot delete site " + organizationClinicalStaff.getOrganization().getDisplayName() + ". Clinical staff is assigned to some study on this site.");
-                    command.getIndexesToRemove().clear();
-                    return;
+                	ocsNonAllowedToBeRemove.add(temp);
+                } else {
+                	clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
                 }
             }
-            clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
+        }
+        
+        for(OrganizationClinicalStaff ocs : ocsNonAllowedToBeRemove){
+        	 e.reject("NON_EMPTY_SITE", "Cannot delete site " + ocs.getOrganization().getDisplayName() + ". Clinical staff is assigned to some study on this site.");
         }
         command.getIndexesToRemove().clear();
     }
