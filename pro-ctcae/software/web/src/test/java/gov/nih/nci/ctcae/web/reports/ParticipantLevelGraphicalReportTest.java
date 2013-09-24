@@ -1,13 +1,17 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
+import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -20,17 +24,20 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Harsh Agarwal
  * @since Mar 18, 2009
  */
-public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportIntegrationTest {
+public class ParticipantLevelGraphicalReportTest extends AbstractWebTestCase {
 
 	private ParticipantLevelGraphicalReportController controller;
 	private static Integer symptomId;
 	TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results;
 	HashMap<Question, ArrayList<ValidValue>> questions;
-	
+    Study study ;
+    static CRF crf ;
 	
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
+        study = StudyTestHelper.getDefaultStudy();
+        crf = study.getCrfs().get(0);
 		controller = new ParticipantLevelGraphicalReportController();
 		controller.setGenericRepository(genericRepository);
         controller.setProCtcTermRepository(proCtcTermRepository);
@@ -46,7 +53,6 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
         	symptomId = crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getProCtcTerm().getId();
         	request.setParameter("symptomId", "P_"+symptomId.toString());
 
-        	ParticipantLevelChartGenerator participantLevelChartGenerator = new ParticipantLevelChartGenerator();//.createMock(ParticipantLevelChartGenerator.class);
         	ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         	
         	assertEquals("reports/participantreportcharts", modelAndView.getViewName());
