@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping;
 import gov.nih.nci.ctcae.core.domain.Study;
 
 import java.awt.Font;
@@ -166,7 +167,13 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
-	        cell = new Cell(new Paragraph(" Grade " + entry.getGrade(), FontFactory.getFont("Arial", 10, Font.PLAIN)));
+	        String grade;
+	        if(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS.equals(entry.getGrade())){
+	        	grade = entry.getGrade();
+	        } else {
+	        	grade = " Grade " + entry.getGrade();
+	        }
+	        cell = new Cell(new Paragraph(grade, FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
