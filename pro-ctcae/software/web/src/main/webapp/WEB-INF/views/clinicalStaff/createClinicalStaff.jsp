@@ -240,29 +240,33 @@
         }
 
         //validation check for staff email address
-        //function checkUniqueEmailAddress() {
-        //    var staffId = "${param['clinicalStaffId']}";
-        //    var email = $('clinicalStaff.emailAddress').value;
-        //    if (email != "") {
-        //        uniqueStaffEmailAddress.validateStaffEmail(email, staffId, {callback:
-        //            function(returnValue) {
-	    //                if (!returnValue) {
-	    //                    $('clinicalStaff.emailAddress.error').show();
-	    //                    isEmailError = true;
-	    //                }
-	    //                else {
-	    //                	$('clinicalStaff.emailAddress.error').hide();
-	    //                    isEmailError = false;
-	    //                }
-        //        	}
-	    //	});
-        //         return;
-        //     }
-        //     else {
-        //        $('clinicalStaff.emailAddress.error').hide();
-        //   }
-        //  hideError();
-        // }
+        function checkUniqueEmailAddress() {
+            var staffId = "${param['clinicalStaffId']}";
+            var email = $('clinicalStaff.emailAddress').value;
+            if (email != "") {
+                uniqueStaffEmailAddress.validateStaffEmail(email, staffId, {callback:
+                    function(returnValue) {
+	                    if (returnValue) {
+	                       $('clinicalStaff.emailAddress').removeClassName('validate-NOTEMPTY&&EMAIL');
+	                       $('clinicalStaff.emailAddress').addClassName('validate-NOTEMPTY&&EMAIL&&NONDUPLICATE');
+	                        isEmailError = true;
+	                    }
+	                    else {
+	                    	 $('clinicalStaff.emailAddress').removeClassName('validate-NOTEMPTY&&EMAIL&&NONDUPLICATE');
+	                    	 if(!$('clinicalStaff.emailAddress').hasClassName('validate-NOTEMPTY&&EMAIL')){
+	                    	 	$('clinicalStaff.emailAddress').addClassName('validate-NOTEMPTY&&EMAIL');
+	                    	 }
+	                       	 isEmailError = false;
+	                    }
+                	}
+	    	});
+                 return;
+             }
+             else {
+                $('clinicalStaff.emailAddress.error').hide();
+           }
+          hideError();
+         }
         
         function emailReturnValue(returnValue) {
             showOrHideErrorField(returnValue, '#emailError');

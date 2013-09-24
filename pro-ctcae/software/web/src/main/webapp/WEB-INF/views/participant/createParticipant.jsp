@@ -131,10 +131,15 @@ CP.checkParticipantEmail = function() {
     if (emailAddress != "") {
         uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback: function(returnValue) {
                                                                                       if (returnValue) {
-                                                                                          jQuery('#userEmailError').show();
-                                                                                          CP.isEmailError = true;
+                                                                                           $('participant.emailAddress').removeClassName( "validate-EMAIL" );
+                                                                                           $('participant.emailAddress').addClassName( "validate-EMAIL&&NONDUPLICATE" );
+                                                                                           CP.isEmailError = true;
                                                                                       }
                                                                                       else {
+                                                                                    	  $('participant.emailAddress').removeClassName( "validate-EMAIL&&NONDUPLICATE" )
+                                                                                    	  if(!$('participant.emailAddress').hasClassName('validate-EMAIL')){
+                                                                                    		  $('participant.emailAddress').addClassName( "validate-EMAIL" )
+                                                                                    	  }
                                                                                           CP.isEmailError = false;
                                                                                       }
                                                                                   }

@@ -1,5 +1,3 @@
-//Note:- caAERS has tweaked the validation.js
-
 // ========================================================
 //
 // NOTICE: You may use this code for any purpose, commercial or
@@ -75,6 +73,7 @@ var ValidationManager = {
     ERROR_MSG_MINLENGTH:"too short ",
     ERROR_MSG_MAXLENGTH:"too long ",
     ERROR_MSG_PHONE:"Invalid ",
+    ERROR_MSG_DUPLICATE: "Duplicate ",
 
     validateForm: function(submit) {
         formVar = submit ? Event.element(submit) : this
@@ -149,6 +148,10 @@ var ValidationManager = {
             } else if (validationType.toUpperCase().indexOf('MAXLENGTH') == 0) {
                 element.maxlength = parseInt(validationType.substr(9))
                 element.maxlengthError = ValidationManager.ERROR_MSG_MAXLENGTH
+
+            } else if(validationType.toUpperCase() == 'NONDUPLICATE'){
+            	element.duplicate = true
+            	element.duplicateError = ValidationManager.ERROR_MSG_DUPLICATE
 
             } else {
                 element.pattern = validationType

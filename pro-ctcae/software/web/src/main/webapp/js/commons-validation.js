@@ -19,6 +19,14 @@ function validateFields(formFields) {
                 continue;
 
             }
+            
+            // duplicate element
+            if(element.duplicate){
+            	ValidationManager.showError(element, element.duplicateError);
+                validForm = false;
+                element.duplicate = false;
+                continue;
+            }
 
             // maximum length
             if (element.maxlength && isValidLength(element.value, 0, element.maxlength) == false) {
