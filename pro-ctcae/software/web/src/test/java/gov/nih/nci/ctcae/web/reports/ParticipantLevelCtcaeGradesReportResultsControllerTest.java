@@ -1,9 +1,5 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import java.util.List;
-
-import org.springframework.web.servlet.ModelAndView;
-
 import gov.nih.nci.ctcae.core.domain.AppMode;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.Participant;
@@ -14,9 +10,12 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+
+import java.util.List;
+
+import org.springframework.web.servlet.ModelAndView;
 
 public class ParticipantLevelCtcaeGradesReportResultsControllerTest extends AbstractWebTestCase{
 	private Study defaultStudy;
@@ -43,22 +42,27 @@ public class ParticipantLevelCtcaeGradesReportResultsControllerTest extends Abst
 	public void testHandleRequestInternal(){
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-			setUpData();
+			StudyParticipantCrfSchedule spcrfSchedule = setUpData();
 			modelAndView = controller.handleRequest(request, response);
 			assertEquals("reports/participantLevelCtcaeGradesReportResults", modelAndView.getViewName());
 			assertFalse(((List<AeReportEntryWrapper>)request.getSession().getAttribute(AE_WITH_GRADES_LIST)).isEmpty());
-			
+			deleteData(spcrfSchedule);
 		} catch (Exception e) {
 			System.out.println("Failure in testHandleRequestInternal() " +e.getStackTrace());
 		}
 		
 	}
 	
-	private void setUpData() throws Exception{
+	private void deleteData(StudyParticipantCrfSchedule spcrfSchedule) {
+		spcrfSchedule.getStudyParticipantCrfGrades().clear();
+		studyParticipantCrfScheduleRepository.save(spcrfSchedule);
+		
+	}
+
+	private StudyParticipantCrfSchedule setUpData() throws Exception{
 		ParticipantTestHelper.completeParticipantSchedule(defaultParticipant, defaultStudy.getStudySites().get(0), false, AppMode.HOMEWEB);
 		
-		ProctcaeGradeMappingVersionQuery versionQuery = new ProctcaeGradeMappingVersionQuery();
-		ProctcaeGradeMappingVersion proctcaeGradeMappingVersion = genericRepository.findSingle(versionQuery);
+		ProctcaeGradeMappingVersion proctcaeGradeMappingVersion = getDefaultProctcaeGradeMappingVersion();
 		
 		StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
         Integer studyId = Integer.parseInt(request.getParameter("studyId"));
@@ -67,21 +71,33 @@ public class ParticipantLevelCtcaeGradesReportResultsControllerTest extends Abst
         query.filterByParticipant(participantId);
         query.filterByStatus(CrfStatus.COMPLETED);
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
-        for(StudyParticipantCrfSchedule studyParticipantCrfSchedule : list){
-        	/*  responseCode values in ProCtcValidValue table are updated through loaders.
-        	 *  Mocking up the same behavior below for this testCase. 
-        	 */
-        	for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
-        		ProCtcValidValue proCtcValidValue = spCrfItem.getProCtcValidValue();
-        		if(proCtcValidValue != null){
-        			proCtcValidValue.setResponseCode(proCtcValidValue.getDisplayOrder());
-        		}
-        	}
-        	/*
-        	 *  generate grades for each studyParticipantCrfSchedule. 
-        	 */
-        	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
-        }
+        
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = list.get(0);
+        for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
+    		ProCtcValidValue proCtcValidValue = spCrfItem.getProCtcValidValue();
+    		if(proCtcValidValue != null){
+    			proCtcValidValue.setResponseCode(proCtcValidValue.getDisplayOrder());
+    		}
+    	}
+    	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
+    	studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
+    	return studyParticipantCrfSchedule;
+        	
+//        for(StudyParticipantCrfSchedule studyParticipantCrfSchedule : list){
+//        	/*  responseCode values in ProCtcValidValue table are updated through loaders.
+//        	 *  Mocking up the same behavior below for this testCase. 
+//        	 */
+//        	for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
+//        		ProCtcValidValue proCtcValidValue = spCrfItem.getProCtcValidValue();
+//        		if(proCtcValidValue != null){
+//        			proCtcValidValue.setResponseCode(proCtcValidValue.getDisplayOrder());
+//        		}
+//        	}
+//        	/*
+//        	 *  generate grades for each studyParticipantCrfSchedule. 
+//        	 */
+//        	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
+//        }
 	}
 	
 	 public Participant getDefaultParticipant(){
