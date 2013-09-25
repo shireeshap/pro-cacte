@@ -145,17 +145,19 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 	            	filteredParticipantGardeMap.put(symptom, filteredGrades);
 	
 	            	for(ParticipantGradeWrapper grade : consolidatedParticipantGardeMap.get(symptom)){
-	            		if((DateUtils.compareDate(sDate, grade.getStartDate()) >= 0)){
-	            			if(grade.getEndDate() == null || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), sDate) > 0))){
-	            				filteredGrades.add(grade);
-	            			}
-	            		} else if((DateUtils.compareDate(eDate, grade.getStartDate()) >= 0)){
-	            			if((grade.getEndDate() == null) || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), eDate) > 0))){
-	            				filteredGrades.add(grade);
-	            			}
-	            		} else if((DateUtils.compareDate(grade.getStartDate(), sDate) > 0)){
-	            			if((grade.getEndDate() == null) || (grade.getEndDate() != null && (DateUtils.compareDate(eDate, grade.getEndDate()) > 0))){
-	            				filteredGrades.add(grade);
+	            		if(grade.getGrade() != null && !GRADE_ZERO.equals(grade.getGrade())){
+	            			if((DateUtils.compareDate(sDate, grade.getStartDate()) >= 0)){
+	            				if(grade.getEndDate() == null || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), sDate) > 0))){
+	            					filteredGrades.add(grade);
+	            				}
+	            			} else if((DateUtils.compareDate(eDate, grade.getStartDate()) >= 0)){
+	            				if((grade.getEndDate() == null) || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), eDate) > 0))){
+	            					filteredGrades.add(grade);
+	            				}
+	            			} else if((DateUtils.compareDate(grade.getStartDate(), sDate) > 0)){
+	            				if((grade.getEndDate() == null) || (grade.getEndDate() != null && (DateUtils.compareDate(eDate, grade.getEndDate()) > 0))){
+	            					filteredGrades.add(grade);
+	            				}
 	            			}
 	            		}
 	            	}
@@ -164,7 +166,16 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 				logger.error("Error in filtering participant grades within the selected start and end date " + e.getStackTrace());
 			}
     	} else {
-    		return consolidatedParticipantGardeMap;
+    		   for(AeWrapper symptom : consolidatedParticipantGardeMap.keySet()){
+	            	List<ParticipantGradeWrapper> filteredGrades = new ArrayList<ParticipantGradeWrapper>();
+	            	filteredParticipantGardeMap.put(symptom, filteredGrades);
+	
+	            	for(ParticipantGradeWrapper grade : consolidatedParticipantGardeMap.get(symptom)){
+	            		if(grade.getGrade() != null && !GRADE_ZERO.equals(grade.getGrade())){
+	            			filteredGrades.add(grade);
+	            		}
+	            	}
+	            }
     	}
     	return filteredParticipantGardeMap;
     }
@@ -180,7 +191,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 
     		intermidiateDateMap = new LinkedHashMap<Date, String>();
     		intermidiateParticipantGradeMap.put(symptom, intermidiateDateMap);
-    		String currentGrade = "0";
+    		String currentGrade = "-1";
     		
     		for(Date date : dateMap.keySet()){
     			String evaluatedGrade = dateMap.get(date);
@@ -221,7 +232,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	
     	for(StudyParticipantCrfSchedule schedule : schedules){
     		for(StudyParticipantCrfGrades studyParticipantCrfGrade : schedule.getStudyParticipantCrfGrades()){
-    			if(!GRADE_ZERO.equals(studyParticipantCrfGrade.getGrade())){
+    			if(studyParticipantCrfGrade.getGrade() != null){
     				AeWrapper symptom = new AeWrapper();
     				if(studyParticipantCrfGrade.getProCtcTerm() != null){
     					symptom.setId("P_"+studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getId());
