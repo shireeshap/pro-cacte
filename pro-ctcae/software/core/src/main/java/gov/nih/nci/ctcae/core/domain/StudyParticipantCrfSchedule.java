@@ -998,6 +998,9 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     		if(studyParticipantCrfGrade == null){
     			studyParticipantCrfGrade = new StudyParticipantCrfGrades();
     			studyParticipantCrfGrade.setGradeMappingVersion(proctcaeGradeMappingVersion);
+    			if(spcsAddedQuestion.getReponseDate() != null && studyParticipantCrfGrade.getGradeEvaluationDate() == null){
+    				studyParticipantCrfGrade.setGradeEvaluationDate(spcsAddedQuestion.getReponseDate());
+    			}
     			if(spcsAddedQuestion.getProCtcQuestion() != null){
     				studyParticipantCrfGrade.setProCtcTerm(spcsAddedQuestion.getProCtcQuestion().getProCtcTerm());
     				studyParticipantCrfGrade.setLowLevelTerm(null);
