@@ -48,7 +48,8 @@ public class AeWrapper implements Serializable{
 		if(id != null ? !id.equals(that.id) : that.id != null) return false;
 		if(ctcaeTerm != null ? !ctcaeTerm.equals(that.ctcaeTerm) : that.ctcaeTerm != null) return false;
 		if(meddraCode != null ? !meddraCode.equals(that.meddraCode) : that.meddraCode != null) return false;
-		if(proCtcTerm != null ? !proCtcTerm.equals(that.proCtcTerm) : that.proCtcTerm != null) return false;
+		// On ACCRU report two ProctcTerms mapping to one ctcaeTerm should be shown as a single unique combined entry
+		//if(proCtcTerm != null ? !proCtcTerm.equals(that.proCtcTerm) : that.proCtcTerm != null) return false;
 		
 		return true;
 	}
@@ -58,7 +59,8 @@ public class AeWrapper implements Serializable{
 		 int result = (id != null ? id.hashCode() : 0);
 	        result = 31 * result + (ctcaeTerm != null ? ctcaeTerm.hashCode() : 0);
 	        result = 31 * result + (meddraCode != null ? meddraCode.hashCode() : 0);
-	        result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
+	        // On ACCRU report two ProctcTerms mapping to one ctcaeTerm should be shown as a single unique combined entry
+	        //result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
 	        return result;
 	}
 }
