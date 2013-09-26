@@ -903,7 +903,8 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     		String responseCode = null;
     		if(proCtcValidValue.getResponseCode() != null){
     			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
-    			responseCode = (responseCodeIntVal > 4 ? "0" : responseCodeIntVal.toString());
+    			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
+    			responseCode = ((responseCodeIntVal > 4 | responseCodeIntVal < 0)  ? "0" : responseCodeIntVal.toString());
     		}
     		responseMap.put(questionType, responseCode);
     	} else {
@@ -928,7 +929,8 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         		String responseCode = null;
         		if(proCtcValidValue.getResponseCode() != null){
         			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
-        			responseCode = (responseCodeIntVal > 4 ? "0" : responseCodeIntVal.toString());
+        			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
+        			responseCode = ((responseCodeIntVal > 4 | responseCodeIntVal < 0) ? "0" : responseCodeIntVal.toString());
         		}
         		responseMap.put(questionType, responseCode);
         	} else {
