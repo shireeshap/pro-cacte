@@ -821,7 +821,11 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
 	    				studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
 	    			}
-	    			studyParticipantCrfGrade.setGrade(evaluatedGrade);
+	    			if(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS.equals(evaluatedGrade)){
+	    				studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS + "_" + questionTypeMap.get(ProCtcQuestionType.PRESENT));
+	    			} else {
+	    				studyParticipantCrfGrade.setGrade(evaluatedGrade);
+	    			}
 	    		}
 	    	}
 	    	
@@ -833,10 +837,11 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    	for(LowLevelTerm symptom : meddraResponseMap.keySet()){
 	    		studyParticipantCrfGrade = getStudyParticipantCrfGrade(symptom);
 	    		if(studyParticipantCrfGrade != null){
+	    			Map<ProCtcQuestionType, String> questionTypeMap = meddraResponseMap.get(symptom);
 	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
 						studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
 					}
-	    			studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+	    			studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS + "_" + questionTypeMap.get(ProCtcQuestionType.PRESENT));
 	    		}
 	    	}
     	

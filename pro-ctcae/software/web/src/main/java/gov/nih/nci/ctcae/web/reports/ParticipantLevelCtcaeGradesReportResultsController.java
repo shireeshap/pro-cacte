@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfGrades;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
@@ -93,7 +94,11 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			aeReportEntryWrapper.setMeddraCode(symptom.getMeddraCode());
     			aeReportEntryWrapper.setStartDate(participantGradeWrapper.getStartDate());
     			aeReportEntryWrapper.setEndDate(participantGradeWrapper.getEndDate());
-    			aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
+    			if(!symptom.isLowLevelTerm && !participantGradeWrapper.getGrade().contains(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS) ){
+    				aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
+    			} else {
+    				aeReportEntryWrapper.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+    			}
     			adverseEventListForDisplay.add(aeReportEntryWrapper);
     		}
     	}
@@ -236,11 +241,13 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     				AeWrapper symptom = new AeWrapper();
     				if(studyParticipantCrfGrade.getProCtcTerm() != null){
     					symptom.setId("P_"+studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getId());
+    					symptom.setIsLowLevelTerm(false);
     					symptom.setCtcaeTerm(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getTerm());
     					symptom.setProCtcTerm(studyParticipantCrfGrade.getProCtcTerm().getTerm());
     					symptom.setMeddraCode(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getCtepCode());
     				} else {
     					symptom.setId("P_" + studyParticipantCrfGrade.getLowLevelTerm().getId());
+    					symptom.setIsLowLevelTerm(true);
     					if(!studyParticipantCrfGrade.getLowLevelTerm().isParticipantAdded()){
     						symptom.setCtcaeTerm(studyParticipantCrfGrade.getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH));
     					}

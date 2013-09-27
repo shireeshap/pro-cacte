@@ -12,6 +12,7 @@ public class AeWrapper implements Serializable{
 	String ctcaeTerm;
 	String meddraCode;
 	String proCtcTerm;
+	boolean isLowLevelTerm = false;
 	
 	public String getId() {
 		return id;
@@ -37,6 +38,13 @@ public class AeWrapper implements Serializable{
 	}
 	public void setProCtcTerm(String proCtcTerm) {
 		this.proCtcTerm = proCtcTerm;
+	}
+	
+	public boolean isLowLevelTerm() {
+		return isLowLevelTerm;
+	}
+	public void setIsLowLevelTerm(boolean isLowLevelTerm) {
+		this.isLowLevelTerm = isLowLevelTerm;
 	}
 
 	@Override
