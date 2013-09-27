@@ -132,7 +132,8 @@ CP.checkParticipantEmail = function() {
         uniqueParticipantEmailAddress.validateEmail(emailAddress, participantId, {callback: function(returnValue) {
                                                                                       if (returnValue) {
                                                                                            $('participant.emailAddress').removeClassName( "validate-EMAIL" );
-                                                                                           $('participant.emailAddress').addClassName( "validate-EMAIL&&NONDUPLICATE" );
+                                                                                           $('participant.emailAddress').removeClassName( "validate-EMAIL&&NOTEMPTY" );
+                                                                                           $('participant.emailAddress').addClassName("validate-EMAIL&&NONDUPLICATE");
                                                                                            CP.isEmailError = true;
                                                                                       }
                                                                                       else {
