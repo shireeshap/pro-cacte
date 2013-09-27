@@ -325,6 +325,7 @@ public class ParticipantSchedule {
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
                 boolean alreadyExists = false;
                 boolean alreadyPresentNewDate = false;
+                StudyParticipantAssignment spa = studyParticipantCrf.getStudyParticipantAssignment();
                 if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                         String scheduleDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
@@ -370,6 +371,13 @@ public class ParticipantSchedule {
                             if (schToUpdate.getStatus().equals(CrfStatus.PASTDUE)) {
                                 schToUpdate.setStatus(CrfStatus.SCHEDULED);
                             }
+                            
+                            //if a survey is moved during on-hold period to a date later or equal to on-hold date, then set its status to 'ONHOLD'
+        		            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) >= 0)){
+        		            	schToUpdate.setStatus(CrfStatus.ONHOLD);
+        		            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) < 0)){
+        		            	schToUpdate.setStatus(CrfStatus.SCHEDULED);
+        		            }
                         }
 
                         updatedForms.add(studyParticipantCrf.getCrf().getTitle());
