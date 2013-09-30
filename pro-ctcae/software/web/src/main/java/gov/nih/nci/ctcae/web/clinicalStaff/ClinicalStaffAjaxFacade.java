@@ -18,8 +18,6 @@ import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
-//
-
 /**
  * The Class ClinicalStaffAjaxFacade.
  *
@@ -29,9 +27,6 @@ import gov.nih.nci.ctcae.core.domain.QueryStrings;
 public class ClinicalStaffAjaxFacade {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    /**
-     * The clinical staff repository.
-     */
     private ClinicalStaffRepository clinicalStaffRepository;
     private OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
 
@@ -45,7 +40,6 @@ public class ClinicalStaffAjaxFacade {
             }
         });
         return ObjectTools.reduceAll(organizationClinicalStaffs, "id", "displayName");
-
     }
 
     public List<StudyOrganizationClinicalStaff> matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(final String text, Integer studyOrganizationId, final String roles) {
@@ -64,7 +58,6 @@ public class ClinicalStaffAjaxFacade {
             }
         });
         return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "displayName", "role");
-
     }
 
     /**
@@ -172,7 +165,6 @@ public class ClinicalStaffAjaxFacade {
             }
         }
         return clinicalStaffRepository.findWithCount(clinicalStaffQuery);
-
     }
     
     private boolean isLeadStaff(){
@@ -186,11 +178,6 @@ public class ClinicalStaffAjaxFacade {
     }
 
 
-    /**
-     * Sets the clinical staff repository.
-     *
-     * @param clinicalStaffRepository the new clinical staff repository
-     */
     @Required
     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;
