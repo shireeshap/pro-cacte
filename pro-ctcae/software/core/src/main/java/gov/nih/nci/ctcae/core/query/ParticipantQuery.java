@@ -181,12 +181,17 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         andWhere(String.format("(lower(p.firstName) LIKE :%s " +
                 "or lower(p.lastName) LIKE :%s " +
                 "or lower(p.assignedIdentifier) LIKE :%s " +
+                "or lower(p.emailAddress) LIKE :%s " +
+                "or p.userNumber LIKE :%s " +
                 "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s " +
                 "or lower(study.shortTitle) LIKE :%s " +
-                "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, STUDY_PARTICIPANT_IDENTIFIER+key, SHORT_TITLE+key, NAME+key));
+                "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, EMAIL+key, USERNUMBER+key, 
+                STUDY_PARTICIPANT_IDENTIFIER+key, SHORT_TITLE+key, NAME+key));
         setParameter(IDENTIFIER+key, searchString);
         setParameter(FIRST_NAME+key, searchString);
         setParameter(LAST_NAME+key, searchString);
+        setParameter(EMAIL+key, searchString);
+        setParameter(USERNUMBER+key, searchString);
         setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, searchString);
         setParameter(SHORT_TITLE+key, searchString);
         setParameter(NAME+key, searchString);
