@@ -163,12 +163,12 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	                }
 	            
 		            //if a survey is moved during on-hold period to a date later or equal to on-hold date, then set its status to 'ONHOLD'
-		            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) <= 0)){
+		            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(), spa.getOnHoldTreatmentDate()) >= 0)){
 		            	schToUpdate.setStatus(CrfStatus.ONHOLD);
-		            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(schToUpdate.getStartDate(),spa.getOnHoldTreatmentDate()) > 0)){
+		            }else {
 		            	schToUpdate.setStatus(CrfStatus.SCHEDULED);
 		            }
-	            } 
+	            }
 	            
 	            updatedForms.add(studyParticipantCrf.getCrf().getTitle());
 	            return schToUpdate;
@@ -252,7 +252,8 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	                    studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
 	                }
 	                
-	                if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD)){
+	                if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD) &&
+	                		spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), spa.getOnHoldTreatmentDate()) >= 0)){
 	                	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
 	                }
 	                

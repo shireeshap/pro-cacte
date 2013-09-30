@@ -211,7 +211,8 @@ public class ParticipantSchedule {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                             }
                             
-                            if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD)){
+                            if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD) && 
+                            		spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), spa.getOnHoldTreatmentDate()) >= 0)){
                             	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
                             }
                             if (cycleNumber != -1) {
