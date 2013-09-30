@@ -340,6 +340,10 @@
             td2.onclick = function() {
                 var v = idVar;
                 changeTdClass(v);
+                var elmt = jQuery('#td_' + idVar + '_b').closest('tr'); 
+                elmt.fadeOut(300, function(){
+                    elmt.remove();    
+                });
             }
 
         var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
