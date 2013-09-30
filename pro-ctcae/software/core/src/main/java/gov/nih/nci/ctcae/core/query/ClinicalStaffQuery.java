@@ -152,13 +152,15 @@ public class ClinicalStaffQuery extends AbstractQuery {
         String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
         andWhere(String.format("(lower(cs.firstName) LIKE :%s " +
                 "or lower(cs.lastName) LIKE :%s " +
+                "or lower(cs.emailAddress) LIKE :%s " +
                 "or lower(cs.nciIdentifier) LIKE :%s " +
                 "or lower(org.name) LIKE :%s " +
                 "or lower(org.nciInstituteCode) LIKE :%s " +
                 "or lower(std.shortTitle) LIKE :%s " +
-                "or lower(std.assignedIdentifier) LIKE :%s )", FIRST_NAME + key, LAST_NAME + key, NCI_IDENTIFIER + key, NAME + key, NCI_INSTITUTIONAL_CODE + key, SHORT_TITLE + key, STUDY_ASSIGNED_IDENTIFIER + key));
+                "or lower(std.assignedIdentifier) LIKE :%s )", FIRST_NAME + key, LAST_NAME + key, EMAIL + key, NCI_IDENTIFIER + key, NAME + key, NCI_INSTITUTIONAL_CODE + key, SHORT_TITLE + key, STUDY_ASSIGNED_IDENTIFIER + key));
         setParameter(FIRST_NAME + key, searchString);
         setParameter(LAST_NAME + key, searchString);
+        setParameter(EMAIL + key, searchString);
         setParameter(NCI_IDENTIFIER + key, searchString);
         setParameter(NAME + key, searchString);
         setParameter(NCI_INSTITUTIONAL_CODE + key, searchString);
