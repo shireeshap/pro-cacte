@@ -52,7 +52,7 @@
                 <tr>
                     <td><a href="/proctcae" title="Home"><img
                             src='<tags:imageUrl name="blue/PRO-CTCAE-logo.png"/>'/></a></td>
-                    <td width="50%" style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;Welcome
+                    <td width="50%" style="color:white;vertical-align:top;"><proctcae:urlAuthorize url="/pages/home">&nbsp;&nbsp;&nbsp;<tags:message code="label.welcome" />
                         <b><authz:authentication property="name"></authz:authentication></b></proctcae:urlAuthorize>&nbsp;&nbsp;&nbsp;
                     </td>
                     <td align="right" width="252px">
@@ -152,11 +152,11 @@
                     </c:choose>
                     <spring:message var="helpLink" code="${helpLinkCode}" text=""/>
                     <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
-                       target="_blank">Help</a>
+                       target="_blank"><tags:message code="label.help" /></a>
                 </proctcae:urlAuthorize>
 
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
-                    <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
+                    <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>"><tags:message code="label.logout" /></a>
                 </proctcae:urlAuthorize>
             </div>
 
