@@ -257,8 +257,4 @@ public class ReportResultsHelper {
     	return response;
     }
     
-    public static String getAccruResponseCode(Integer responseCodeIntVal){
-    	return ((responseCodeIntVal > 4 | responseCodeIntVal < 0) ? "0" : responseCodeIntVal.toString());
-    }
-
 }
