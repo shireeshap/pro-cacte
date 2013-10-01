@@ -11,7 +11,7 @@ public class AeWrapper implements Serializable{
 	private String id;
 	private String ctcaeTerm;
 	private String meddraCode;
-	boolean lowLevelTerm = false;
+	private boolean lowLevelTerm = false;
 	
 	public String getId() {
 		return id;
