@@ -96,11 +96,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			aeReportEntryWrapper.setMeddraCode(symptom.getMeddraCode());
     			aeReportEntryWrapper.setStartDate(participantGradeWrapper.getStartDate());
     			aeReportEntryWrapper.setEndDate(participantGradeWrapper.getEndDate());
-    			if(!symptom.isLowLevelTerm() && !participantGradeWrapper.getGrade().contains(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS) ){
-    				aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
-    			} else {
-    				aeReportEntryWrapper.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
-    			}
+    			aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
     			adverseEventListForDisplay.add(aeReportEntryWrapper);
     		}
     	}
@@ -269,13 +265,11 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     				String proCtcTerm;
     				if(studyParticipantCrfGrade.getProCtcTerm() != null){
     					symptom.setId("P_"+studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getId());
-    					symptom.setLowLevelTerm(false);
     					symptom.setCtcaeTerm(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getTerm());
     					proCtcTerm = studyParticipantCrfGrade.getProCtcTerm().getTerm();
     					symptom.setMeddraCode(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getCtepCode());
     				} else {
     					symptom.setId("P_" + studyParticipantCrfGrade.getLowLevelTerm().getId());
-    					symptom.setLowLevelTerm(true);
     					if(!studyParticipantCrfGrade.getLowLevelTerm().isParticipantAdded()){
     						symptom.setCtcaeTerm(studyParticipantCrfGrade.getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH));
     					}

@@ -11,7 +11,6 @@ public class AeWrapper implements Serializable{
 	private String id;
 	private String ctcaeTerm;
 	private String meddraCode;
-	private boolean lowLevelTerm = false;
 	
 	public String getId() {
 		return id;
@@ -32,13 +31,6 @@ public class AeWrapper implements Serializable{
 		this.meddraCode = meddraCode;
 	}
 	
-	public boolean isLowLevelTerm() {
-		return lowLevelTerm;
-	}
-	public void setLowLevelTerm(boolean isLowLevelTerm) {
-		this.lowLevelTerm = isLowLevelTerm;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if(this == o) return true;
