@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
 
         // Load studyParticipantCrfGrades from db
-        Map<AeWrapper, Map<Date, String>> participantGardeMap = loadStudyParticipantCrfGrades(list);
+        Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap = loadStudyParticipantCrfGrades(list);
         // Generate a consolidated list of AE's, with each AE entry reflecting its evaluated ctcae grade along with its starting & ending date 
         Map<AeWrapper, List<ParticipantGradeWrapper>> consolidatedParticipantGardeMap = getConsolidatedParticipantGradeMap(participantGardeMap);
         // Filter the consolidated list and generate a new list consiting of AE's reported within the selected start and end date period
@@ -90,11 +92,11 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			AeReportEntryWrapper aeReportEntryWrapper = new AeReportEntryWrapper();
     			aeReportEntryWrapper.setId(symptom.getId());
     			aeReportEntryWrapper.setCtcaeTerm(symptom.getCtcaeTerm());
-    			aeReportEntryWrapper.setProCtcTerm(symptom.getProCtcTerm());
+    			aeReportEntryWrapper.setProCtcTerm(participantGradeWrapper.getProCtcTerms());
     			aeReportEntryWrapper.setMeddraCode(symptom.getMeddraCode());
     			aeReportEntryWrapper.setStartDate(participantGradeWrapper.getStartDate());
     			aeReportEntryWrapper.setEndDate(participantGradeWrapper.getEndDate());
-    			if(!symptom.isLowLevelTerm && !participantGradeWrapper.getGrade().contains(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS) ){
+    			if(!symptom.isLowLevelTerm() && !participantGradeWrapper.getGrade().contains(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS) ){
     				aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
     			} else {
     				aeReportEntryWrapper.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
@@ -107,7 +109,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	return adverseEventListForDisplay;
     }
     
-    private Map<String, String> getReportDateRange(Map<AeWrapper, Map<Date, String>> participantGardeMap){
+    private Map<String, String> getReportDateRange(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap){
     	Date minDate = null;
     	Date maxDate = null;
     	Map<String, String> dateRangeMap = new HashMap<String, String>();
@@ -185,24 +187,38 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	return filteredParticipantGardeMap;
     }
     
-    private Map<AeWrapper, List<ParticipantGradeWrapper>> getConsolidatedParticipantGradeMap(Map<AeWrapper, Map<Date, String>> participantGardeMap){
-    	Map<AeWrapper, Map<Date, String>> intermidiateParticipantGradeMap = new HashMap<AeWrapper, Map<Date,String>>();
-    	Map<Date, String> intermidiateDateMap;
-    	Map<Date, String> dateMap;
+    private Map<AeWrapper, List<ParticipantGradeWrapper>> getConsolidatedParticipantGradeMap(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap){
+    	Map<AeWrapper, Map<Date, GradeValueWrapper>> intermidiateParticipantGradeMap = new HashMap<AeWrapper, Map<Date, GradeValueWrapper>>();
+    	Map<Date, GradeValueWrapper> intermidiateDateMap;
+    	Map<Date, GradeValueWrapper> dateMap;
+    	Map<Date, List<GradeValueWrapper>> pDateMap;
     	Map<AeWrapper, List<ParticipantGradeWrapper>> consolidatedParticipantGradeMap = new HashMap<AeWrapper, List<ParticipantGradeWrapper>>();
     	
     	for(AeWrapper symptom : participantGardeMap.keySet()){
-    		dateMap = participantGardeMap.get(symptom);
+    		pDateMap = participantGardeMap.get(symptom);
 
-    		intermidiateDateMap = new LinkedHashMap<Date, String>();
+    		intermidiateDateMap = new LinkedHashMap<Date, GradeValueWrapper>();
     		intermidiateParticipantGradeMap.put(symptom, intermidiateDateMap);
     		String currentGrade = "-1";
-    		
-    		for(Date date : dateMap.keySet()){
-    			String evaluatedGrade = dateMap.get(date);
-    			if(!currentGrade.equals(evaluatedGrade)){
-    				intermidiateDateMap.put(date, evaluatedGrade);
-        			currentGrade = evaluatedGrade;
+    		GradeValueWrapper gradeValueWrapper = null;
+    		for(Date date : pDateMap.keySet()){
+    			for(GradeValueWrapper gradeValueItem : pDateMap.get(date)){
+    				String evaluatedGrade = gradeValueItem.getGrade();
+    				if(!currentGrade.equals(evaluatedGrade)){
+    					gradeValueWrapper = new GradeValueWrapper();
+    					gradeValueWrapper.setGrade(evaluatedGrade);
+    					gradeValueWrapper.setProCtcTerms(gradeValueItem.getProCtcTerms());
+    					intermidiateDateMap.put(date, gradeValueWrapper);
+    					currentGrade = evaluatedGrade;
+    				} else {
+    					if(gradeValueWrapper != null){
+    						HashSet<String> proCtcTerms = new HashSet<String>();
+    						proCtcTerms = gradeValueWrapper.getProCtcTerms();
+    						proCtcTerms.addAll(gradeValueItem.getProCtcTerms());
+    						gradeValueWrapper.setProCtcTerms(proCtcTerms);
+    					}
+    				}
+    				
     			}
     		}
     	}
@@ -212,13 +228,14 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     		List<ParticipantGradeWrapper> consolidatedGradeList = new ArrayList<ParticipantGradeWrapper>();
     		consolidatedParticipantGradeMap.put(symptom, consolidatedGradeList);
     		
-    		List<Map.Entry<Date, String>> intermidiateGradeList = new ArrayList<Map.Entry<Date,String>>();
+    		List<Map.Entry<Date, GradeValueWrapper>> intermidiateGradeList = new ArrayList<Map.Entry<Date, GradeValueWrapper>>();
     		intermidiateGradeList.addAll(dateMap.entrySet());
     		for(int i = 0; i< intermidiateGradeList.size(); i++){
     			Date date = intermidiateGradeList.get(i).getKey();
     			ParticipantGradeWrapper grade = new ParticipantGradeWrapper();
     			grade.setStartDate(date);
-    			grade.setGrade(intermidiateParticipantGradeMap.get(symptom).get(date));
+    			grade.setGrade(intermidiateParticipantGradeMap.get(symptom).get(date).getGrade());
+    			grade.setProCtcTerms(getProTermSetAsString(intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms()));
     			if((i+1) < intermidiateGradeList.size()){
     				grade.setEndDate(intermidiateGradeList.get(i+1).getKey());
     			} else {
@@ -231,40 +248,61 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	return consolidatedParticipantGradeMap;
     }
     
-    private Map<AeWrapper, Map<Date, String>> loadStudyParticipantCrfGrades(List<StudyParticipantCrfSchedule> schedules){
-    	Map<AeWrapper, Map<Date, String>> participantGradeMap = new HashMap<AeWrapper, Map<Date,String>>();
-    	TreeMap<Date, String> gradeMap;
+    private String getProTermSetAsString(HashSet<String> proCtcTerms){
+    	String proTermString ="";
+    	Iterator<String> itr = proCtcTerms.iterator();
+    	while(itr.hasNext()){
+    		proTermString += itr.next() + ";";
+    	}
+    	
+    	return proTermString.substring(0, proTermString.length() - 1);
+    }
+    
+    private Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> loadStudyParticipantCrfGrades(List<StudyParticipantCrfSchedule> schedules){
+    	Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGradeMap = new HashMap<AeWrapper, Map<Date, List<GradeValueWrapper>>>();
+    	TreeMap<Date, List<GradeValueWrapper>> gradeMap;
     	
     	for(StudyParticipantCrfSchedule schedule : schedules){
     		for(StudyParticipantCrfGrades studyParticipantCrfGrade : schedule.getStudyParticipantCrfGrades()){
     			if(studyParticipantCrfGrade.getGrade() != null){
     				AeWrapper symptom = new AeWrapper();
+    				String proCtcTerm;
     				if(studyParticipantCrfGrade.getProCtcTerm() != null){
     					symptom.setId("P_"+studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getId());
-    					symptom.setIsLowLevelTerm(false);
+    					symptom.setLowLevelTerm(false);
     					symptom.setCtcaeTerm(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getTerm());
-    					symptom.setProCtcTerm(studyParticipantCrfGrade.getProCtcTerm().getTerm());
+    					proCtcTerm = studyParticipantCrfGrade.getProCtcTerm().getTerm();
     					symptom.setMeddraCode(studyParticipantCrfGrade.getProCtcTerm().getCtcTerm().getCtepCode());
     				} else {
     					symptom.setId("P_" + studyParticipantCrfGrade.getLowLevelTerm().getId());
-    					symptom.setIsLowLevelTerm(true);
+    					symptom.setLowLevelTerm(true);
     					if(!studyParticipantCrfGrade.getLowLevelTerm().isParticipantAdded()){
     						symptom.setCtcaeTerm(studyParticipantCrfGrade.getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH));
     					}
-    					symptom.setProCtcTerm(studyParticipantCrfGrade.getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH));
+    					proCtcTerm = studyParticipantCrfGrade.getLowLevelTerm().getMeddraTerm(SupportedLanguageEnum.ENGLISH);
     					symptom.setMeddraCode(studyParticipantCrfGrade.getLowLevelTerm().getMeddraCode());
     				}
     				
     				if(participantGradeMap.get(symptom) != null){
-    					gradeMap = (TreeMap<Date, String>) participantGradeMap.get(symptom);
+    					gradeMap = (TreeMap<Date, List<GradeValueWrapper>>) participantGradeMap.get(symptom);
     				} else {
-    					gradeMap = new TreeMap<Date, String>(new MyDisplaySorter());
+    					gradeMap = new TreeMap<Date, List<GradeValueWrapper>>(new MyDisplaySorter());
     					participantGradeMap.put(symptom, gradeMap);
     				}
     				
+    				List<GradeValueWrapper> gradeValueList;
     				if(gradeMap.get(studyParticipantCrfGrade.getGradeEvaluationDate()) == null){
-    					gradeMap.put(studyParticipantCrfGrade.getGradeEvaluationDate(), studyParticipantCrfGrade.getGrade());
+    					gradeValueList = new ArrayList<GradeValueWrapper>();
+    					gradeMap.put(studyParticipantCrfGrade.getGradeEvaluationDate(), gradeValueList);
+    				} else {
+    					gradeValueList = gradeMap.get(studyParticipantCrfGrade.getGradeEvaluationDate());
     				}
+					GradeValueWrapper gradeValueWrapper = new GradeValueWrapper();
+					gradeValueWrapper.setGrade(studyParticipantCrfGrade.getGrade());
+					HashSet<String> proCtcTerms = new HashSet<String>();
+					proCtcTerms.add(proCtcTerm);
+					gradeValueWrapper.setProCtcTerms(proCtcTerms);
+					gradeValueList.add(gradeValueWrapper);
     			}
     			
     		}

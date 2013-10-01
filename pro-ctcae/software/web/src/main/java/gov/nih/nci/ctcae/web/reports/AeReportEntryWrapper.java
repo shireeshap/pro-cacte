@@ -9,13 +9,13 @@ import java.util.Date;
  * Serves as a wrapper object holding data for each of the AE entry displayed in the adverse events table in pdf report.
  */
 public class AeReportEntryWrapper implements Serializable{
-	String id;
-	String ctcaeTerm;
-	String meddraCode;
-	String proCtcTerm;
-	Date startDate;
-	Date endDate;
-	String grade;
+	private String id;
+	private String ctcaeTerm;
+	private String meddraCode;
+	private String proCtcTerm;
+	private Date startDate;
+	private Date endDate;
+	private String grade;
 	
 	public String getId() {
 		return id;

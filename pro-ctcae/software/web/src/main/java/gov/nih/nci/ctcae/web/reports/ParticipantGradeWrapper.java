@@ -7,9 +7,10 @@ import java.util.Date;
  * This class is used as valueObject in the process for generating ACCRU AE report
  */
 public class ParticipantGradeWrapper {
-	Date startDate;
-	Date endDate;
-	String grade;
+	private Date startDate;
+	private Date endDate;
+	private String grade;
+	private String proCtcTerms;
 
 	public Date getStartDate() {
 		return startDate;
@@ -28,5 +29,11 @@ public class ParticipantGradeWrapper {
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	public String getProCtcTerms() {
+		return proCtcTerms;
+	}
+	public void setProCtcTerms(String proCtcTerms) {
+		this.proCtcTerms = proCtcTerms;
 	}
 }

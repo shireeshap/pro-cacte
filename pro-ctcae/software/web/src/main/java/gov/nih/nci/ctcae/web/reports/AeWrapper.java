@@ -8,11 +8,10 @@ import java.io.Serializable;
  * This class is used as valueObject in the process for generating ACCRU AE report
  */
 public class AeWrapper implements Serializable{
-	String id;
-	String ctcaeTerm;
-	String meddraCode;
-	String proCtcTerm;
-	boolean isLowLevelTerm = false;
+	private String id;
+	private String ctcaeTerm;
+	private String meddraCode;
+	boolean lowLevelTerm = false;
 	
 	public String getId() {
 		return id;
@@ -33,18 +32,11 @@ public class AeWrapper implements Serializable{
 		this.meddraCode = meddraCode;
 	}
 	
-	public String getProCtcTerm() {
-		return proCtcTerm;
-	}
-	public void setProCtcTerm(String proCtcTerm) {
-		this.proCtcTerm = proCtcTerm;
-	}
-	
 	public boolean isLowLevelTerm() {
-		return isLowLevelTerm;
+		return lowLevelTerm;
 	}
-	public void setIsLowLevelTerm(boolean isLowLevelTerm) {
-		this.isLowLevelTerm = isLowLevelTerm;
+	public void setLowLevelTerm(boolean isLowLevelTerm) {
+		this.lowLevelTerm = isLowLevelTerm;
 	}
 
 	@Override
