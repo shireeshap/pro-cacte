@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.ProctcTermTypeBasedCategoryEnum;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -910,7 +909,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     		if(proCtcValidValue.getResponseCode() != null){
     			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
     			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
-    			responseCode = ReportResultsHelper.getAccruResponseCode(responseCodeIntVal);
+    			responseCode = getAccruResponseCode(responseCodeIntVal);
     		}
     		responseMap.put(questionType, responseCode);
     	} else {
@@ -936,7 +935,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         		if(proCtcValidValue.getResponseCode() != null){
         			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
         			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
-        			responseCode = ReportResultsHelper.getAccruResponseCode(responseCodeIntVal);
+        			responseCode = getAccruResponseCode(responseCodeIntVal);
         		}
         		responseMap.put(questionType, responseCode);
         	} else {
@@ -956,7 +955,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     			String displayOrder = null;
         		if(meddraValidValue.getDisplayOrder() != null){
         			Integer displayOrderIntVal = meddraValidValue.getDisplayOrder();
-        			displayOrder = ReportResultsHelper.getAccruResponseCode(displayOrderIntVal);
+        			displayOrder = getAccruResponseCode(displayOrderIntVal);
         		}
     			responseMap.put(questionType, displayOrder);
     		} else {
@@ -1045,5 +1044,9 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     		}
     	}
     	return null;
+    }
+    
+    public static String getAccruResponseCode(Integer responseCodeIntVal){
+    	return ((responseCodeIntVal > 4 | responseCodeIntVal < 0) ? "0" : responseCodeIntVal.toString());
     }
 }
