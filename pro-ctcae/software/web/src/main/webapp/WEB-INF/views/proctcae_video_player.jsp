@@ -19,7 +19,7 @@
         <c:choose>
            <c:when test="${param.lang eq 'es'}">
                 <div id="a" style="display:none">
-                    <video id="videoEsA" controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg"  autoplay="true" width="640" height="480" >
+                    <video id="videoEsA" controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposterspanish.png"  autoplay="true" width="640" height="480" >
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.mp4" type="video/mp4" />
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.theora.ogv" type="video/ogg" />
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.webm" type="video/webm" />
@@ -76,7 +76,7 @@
 		        </div>
 		
 		        <p>
-		            <strong><tags:message code="download.video"/>:</strong> <a href="../images/Pro-CTCAE_mfull.mp4">MP4 format</a> | <a href="../images/Pro-CTCAE_mfull.theora.ogv">Ogg format</a> | <a href="../images/Pro-CTCAE_mfull.webm">WebM format</a>
+		            <strong><tags:message code="download.video"/>${pageContext.request.serverName}:</strong> <a href="../images/Pro-CTCAE_mfull.mp4">MP4 format</a> | <a href="../images/Pro-CTCAE_mfull.theora.ogv">Ogg format</a> | <a href="../images/Pro-CTCAE_mfull.webm">WebM format</a>
 		        </p>                 
            </c:otherwise>
        </c:choose>
