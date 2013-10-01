@@ -76,7 +76,7 @@
 		        </div>
 		
 		        <p>
-		            <strong><tags:message code="download.video"/>${pageContext.request.serverName}:</strong> <a href="../images/Pro-CTCAE_mfull.mp4">MP4 format</a> | <a href="../images/Pro-CTCAE_mfull.theora.ogv">Ogg format</a> | <a href="../images/Pro-CTCAE_mfull.webm">WebM format</a>
+		            <strong><tags:message code="download.video"/>:</strong> <a href="../images/Pro-CTCAE_mfull.mp4">MP4 format</a> | <a href="../images/Pro-CTCAE_mfull.theora.ogv">Ogg format</a> | <a href="../images/Pro-CTCAE_mfull.webm">WebM format</a>
 		        </p>                 
            </c:otherwise>
        </c:choose>
