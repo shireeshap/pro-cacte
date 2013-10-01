@@ -7,7 +7,7 @@
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
             <proctcae:urlAuthorize url="/pages/reports/report">
-                <li id="thirdlevelnav-x" class="tab ${selected=='overallStudy'?'selected':''}">
+                <li id="thirdlevelnav-x" class="tab ${selected=='overallStudyWideFormat'?'selected':''}">
                     <div>
                         <a href="report?rt=overallStudyWideFormat"><tags:message code="reports.tab.studyLevel"/></a>
                     </div>
