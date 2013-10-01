@@ -821,11 +821,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
 	    				studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
 	    			}
-	    			if(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS.equals(evaluatedGrade)){
-	    				studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS + "_" + questionTypeMap.get(ProCtcQuestionType.PRESENT));
-	    			} else {
-	    				studyParticipantCrfGrade.setGrade(evaluatedGrade);
-	    			}
+	    			studyParticipantCrfGrade.setGrade(evaluatedGrade);
 	    		}
 	    	}
 	    	
@@ -841,7 +837,17 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
 						studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
 					}
-	    			studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS + "_" + questionTypeMap.get(ProCtcQuestionType.PRESENT));
+	    			
+	    			if(questionTypeMap.size() > 1){
+	    				logger.error("Error in generating ctcae grade: LowLevelTerm contains a questionType other than Present/Absent");
+	    			}
+	    			
+	    			Integer displayOrder = Integer.parseInt(questionTypeMap.get(ProCtcQuestionType.PRESENT));
+	    			if(displayOrder == 1){
+	    				studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+	    			} else {
+	    				studyParticipantCrfGrade.setGrade(String.valueOf(0));
+	    			}
 	    		}
 	    	}
     	
