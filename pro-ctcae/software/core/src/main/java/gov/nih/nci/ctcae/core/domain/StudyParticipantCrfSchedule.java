@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.constants.ProctcTermTypeBasedCategoryEnum;
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -909,7 +910,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     		if(proCtcValidValue.getResponseCode() != null){
     			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
     			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
-    			responseCode = ((responseCodeIntVal > 4 | responseCodeIntVal < 0)  ? "0" : responseCodeIntVal.toString());
+    			responseCode = ReportResultsHelper.getAccruResponseCode(responseCodeIntVal);
     		}
     		responseMap.put(questionType, responseCode);
     	} else {
@@ -935,7 +936,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
         		if(proCtcValidValue.getResponseCode() != null){
         			Integer responseCodeIntVal = proCtcValidValue.getResponseCode();
         			// Responses like NotApplicable, Prefer not to answer, Not sexually active should be mapped to responseCode of Zero
-        			responseCode = ((responseCodeIntVal > 4 | responseCodeIntVal < 0) ? "0" : responseCodeIntVal.toString());
+        			responseCode = ReportResultsHelper.getAccruResponseCode(responseCodeIntVal);
         		}
         		responseMap.put(questionType, responseCode);
         	} else {
@@ -955,7 +956,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     			String displayOrder = null;
         		if(meddraValidValue.getDisplayOrder() != null){
         			Integer displayOrderIntVal = meddraValidValue.getDisplayOrder();
-        			displayOrder = (displayOrderIntVal > 4 ? "0" : displayOrderIntVal.toString());
+        			displayOrder = ReportResultsHelper.getAccruResponseCode(displayOrderIntVal);
         		}
     			responseMap.put(questionType, displayOrder);
     		} else {
