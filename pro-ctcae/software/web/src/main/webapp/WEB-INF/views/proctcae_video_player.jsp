@@ -18,8 +18,9 @@
 	
         <c:choose>
            <c:when test="${param.lang eq 'es'}">
+                <c:set var="poster" value="proctcaeposterspanish.png" />
                 <div id="a" style="display:none">
-                    <video id="videoEsA" controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposterspanish.png"  autoplay="true" width="640" height="480" >
+                    <video id="videoEsA" controls poster="https://${pageContext.request.serverName}/proctcae/images/${poster}"  autoplay="true" width="640" height="480" >
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.mp4" type="video/mp4" />
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.theora.ogv" type="video/ogg" />
                         <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull_spanish.webm" type="video/webm" />
@@ -28,8 +29,8 @@
                                 <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
                                 <param name="allowFullScreen" value="true" />
                                 <param name="wmode" value="transparent" />
-                                <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull_spanish.mp4','autoPlay':true}]}" />
-                                <img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+                                <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2F${poster}',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull_spanish.mp4','autoPlay':true}]}" />
+                                <img alt="PROCTCAE Help" src="../images/${poster}" width="640" height="480" title="No video playback capabilities, please download the video below">
                         </object>
                     </video>
                </div>
@@ -39,8 +40,8 @@
                             <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
                             <param name="allowFullScreen" value="true" />
                             <param name="wmode" value="transparent" />
-                            <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull_spanish.mp4','autoPlay':true}]}" />
-                            <img alt="PROCTCAE Help" src="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+                            <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2F${poster}',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull_spanish.mp4','autoPlay':true}]}" />
+                            <img alt="PROCTCAE Help" src="https://${pageContext.request.serverName}/proctcae/images/${poster}" width="640" height="480" title="No video playback capabilities, please download the video below">
                     </object> 
                 </div>
         
@@ -49,8 +50,9 @@
                 </p>                   
            </c:when>
            <c:otherwise>
+                <c:set var="poster" value="proctcaeposter.jpg" />
 		        <div id="a" style="display:none">
-		            <video id="videoEnA" controls poster="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg"  autoplay="true" width="640" height="480" >
+		            <video id="videoEnA" controls poster="https://${pageContext.request.serverName}/proctcae/images/${poster}"  autoplay="true" width="640" height="480" >
 		                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.mp4" type="video/mp4" />
 		                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.theora.ogv" type="video/ogg" />
 		                <source src="https://${pageContext.request.serverName}/proctcae/images/Pro-CTCAE_mfull.webm" type="video/webm" />
@@ -59,8 +61,8 @@
 		                        <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
 		                        <param name="allowFullScreen" value="true" />
 		                        <param name="wmode" value="transparent" />
-		                        <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
-		                        <img alt="PROCTCAE Help" src="../images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+		                        <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2F${poster}',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
+		                        <img alt="PROCTCAE Help" src="../images/${poster}" width="640" height="480" title="No video playback capabilities, please download the video below">
 		                </object>
 		            </video>
 		       </div>
@@ -70,8 +72,8 @@
 		                    <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
 		                    <param name="allowFullScreen" value="true" />
 		                    <param name="wmode" value="transparent" />
-		                    <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2Fproctcaeposter.jpg',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
-		                    <img alt="PROCTCAE Help" src="https://${pageContext.request.serverName}/proctcae/images/proctcaeposter.jpg" width="640" height="480" title="No video playback capabilities, please download the video below">
+		                    <param name="flashVars" value="config={'playlist':['https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2F${poster}',{'url':'https%3A%2F%2F${pageContext.request.serverName}%2Fproctcae%2Fimages%2FPro-CTCAE_mfull.mp4','autoPlay':true}]}" />
+		                    <img alt="PROCTCAE Help" src="https://${pageContext.request.serverName}/proctcae/images/${poster}" width="640" height="480" title="No video playback capabilities, please download the video below">
 		            </object> 
 		        </div>
 		
