@@ -1,10 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.csv.loader.ProctcaeGradeMappingsLoader;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -43,8 +42,6 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
         assertNull(studyParticipantCrfSchedule.getStartDate());
         assertEquals(CrfStatus.SCHEDULED, studyParticipantCrfSchedule.getStatus());
         assertNull(studyParticipantCrfSchedule.getStudyParticipantCrf());
-
-
     }
 
     public void testGetterAndSetter() {
@@ -66,10 +63,7 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
         assertNotNull(studyParticipantCrfSchedule.getStudyParticipantCrf());
 
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(new StudyParticipantCrfItem());
-
         assertEquals(1, studyParticipantCrfSchedule.getStudyParticipantCrfItems().size());
-
-
     }
 
     public void testEqualsHashCode() {
@@ -112,13 +106,10 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
         assertEquals("must not consider crf item", studyParticipantCrfSchedule.hashCode(), studyParticipantCrfSchedule2.hashCode());
         assertEquals("must not consider crf item", studyParticipantCrfSchedule, studyParticipantCrfSchedule2);
-
-
     }
     
     public void testAddParticipantAddedQuestions(){
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
-    	
     	StudyParticipantCrfAddedQuestion spcrf_addedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestionFromRepository().get(11), studyParticipantCrf.getCrf().getCrfPages().size());
     	genericRepository.save(spcrf_addedQuestion);
     	
@@ -133,13 +124,13 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     }
    
     public void testGetParticipantAddedSymptoms() throws Exception{
-    	
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestion(), studyParticipantCrf.getCrf().getCrfPages().size());
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
     	studyParticipantCrfSchedule.addParticipantAddedQuestions();
+    	
     	Set symptoms = studyParticipantCrfSchedule.getParticipantAddedSymptoms();
-    	assertTrue(symptoms.contains("Fatigue"));
+    	assertTrue(symptoms.contains("Fatigue, tiredness, or lack of energy"));
     }
     
     public void testGetDisplayRules(){
@@ -150,10 +141,9 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	for(CrfPageItem cpi: crfPageItems){
     		assert(displayRules.containsKey(cpi.getId()));
     	}
-    	
     }
     
-    public void testGenerateStudyParticipantCrfGrades(){
+    public void testGenerateStudyParticipantCrfGradesForNonEmpty(){
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
     	
@@ -166,7 +156,7 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	assertFalse(studyParticipantCrfSchedule.getStudyParticipantCrfGrades().isEmpty());
     }
     
-    public void testGenerateStudyParticipantCrfGrades_ResponseValues(){
+    public void testGenerateStudyParticipantCrfGradesForTestResponseValues(){
     	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
    
@@ -233,17 +223,10 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     }
     
     public Question getProCtcQuestion(){
-    	CtcTerm ctcTerm = new CtcTerm();
-        ctcTerm.setTerm("ctc", SupportedLanguageEnum.ENGLISH);
-        ProCtcTerm proCtcTerm = new ProCtcTerm();
-        proCtcTerm.setTermEnglish("Fatigue", SupportedLanguageEnum.ENGLISH);
-        proCtcTerm.setCtcTerm(ctcTerm);
-        ProCtcQuestion proCtaddedQuestion = new ProCtcQuestion();
-        proCtaddedQuestion.setQuestionText("first question", SupportedLanguageEnum.ENGLISH);
-        proCtaddedQuestion.setDisplayOrder(1);
-        //proCtaddedQuestion.setId(1);
-        proCtcTerm.addProCtcQuestion(proCtaddedQuestion);
-        return proCtaddedQuestion;
+        ProCtcQuestionQuery query = new ProCtcQuestionQuery();
+        query.filterByTerm("Fatigue, tiredness, or lack of energy");
+        ProCtcQuestion proCtcQuestion = genericRepository.findSingle(query);
+        return proCtcQuestion;
     }
     
     
@@ -266,11 +249,11 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	ctcaeGradeMap.put(3, "1");
     	ctcaeGradeMap.put(4, "1");
     	ctcaeGradeMap.put(5, "1");
-    	ctcaeGradeMap.put(6, "Present, Clinician Assess_1");
+    	ctcaeGradeMap.put(6, "Present, Clinician Assess");
     	ctcaeGradeMap.put(7, "1");
     	ctcaeGradeMap.put(8, "1");
     	ctcaeGradeMap.put(9, "1");
-    	ctcaeGradeMap.put(10, "1");
+    	ctcaeGradeMap.put(10,"1");
     	return ctcaeGradeMap;
     }
     
