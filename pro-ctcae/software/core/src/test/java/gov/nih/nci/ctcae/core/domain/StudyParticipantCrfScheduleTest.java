@@ -30,7 +30,6 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	proctcaeGradeMappingsLoader.setGenericRepository(genericRepository);
     	proctcaeGradeMappingsLoader.setProCtcTermRepository(proCtcTermRepository);
     	proctcaeGradeMappingsLoader.loadProctcaeGradeMappings();
-    	ctcaeGradeMap = populateDummyCtcaeGradeMap();
     }
     
     public void testConstructor() {
@@ -156,64 +155,6 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     	assertFalse(studyParticipantCrfSchedule.getStudyParticipantCrfGrades().isEmpty());
     }
     
-    public void testGenerateStudyParticipantCrfGradesForTestResponseValues(){
-    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
-    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
-   
-    	for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
-    		 List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) spCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-    		 if(spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getId() != 6){
-    			 validValues.get(1).setResponseCode(validValues.get(1).getDisplayOrder());
-    			 spCrfItem.setProCtcValidValue(validValues.get(1));
-    		 } else {
-    			 validValues.get(1).setResponseCode(1);
-    			 spCrfItem.setProCtcValidValue(validValues.get(1));
-    		 }
-    	}
-    	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
-    	for(int i=0; i<studyParticipantCrfSchedule.getStudyParticipantCrfGrades().size(); i++){
-    		Integer proCtcTermId = studyParticipantCrfSchedule.getStudyParticipantCrfGrades().get(i).getProCtcTerm().getId();
-    		String evaluatedGrade = studyParticipantCrfSchedule.getStudyParticipantCrfGrades().get(i).getGrade();
-    		assertEquals(ctcaeGradeMap.get(proCtcTermId), evaluatedGrade);
-    	}
-    	
-    }
-    
-    public void testGenerateStudyParticipantCrfGradesForAchingJoints(){
-    	StudyParticipantCrf studyParticipantCrf = getDefaultStudyParticipantCrf();
-    	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);
-    	
-    	for(StudyParticipantCrfItem spCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()){
-    		List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) spCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-    		if(spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getId() == 1 && spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().equals(ProCtcQuestionType.FREQUENCY)){
-    			validValues.get(1).setResponseCode(validValues.get(1).getDisplayOrder());
-    			spCrfItem.setProCtcValidValue(validValues.get(1));
-    		} 
-    		if(spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getId() == 1 && spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().equals(ProCtcQuestionType.SEVERITY)){
-    			validValues.get(4).setResponseCode(validValues.get(4).getDisplayOrder());
-   			 	spCrfItem.setProCtcValidValue(validValues.get(4));
-    		}
-    		if(spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getId() == 1 && spCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().equals(ProCtcQuestionType.INTERFERENCE)){
-    			validValues.get(2).setResponseCode(validValues.get(2).getDisplayOrder());
-   			 	spCrfItem.setProCtcValidValue(validValues.get(2));
-    		}
-    	}
-    	
-    	studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
-    	StudyParticipantCrfGrades studyParticipantCrfGrade = null;
-    	Integer proCtcTermId;
-    	String evaluatedGrade;
-    	for(int i=0; i<studyParticipantCrfSchedule.getStudyParticipantCrfGrades().size(); i++){
-    		proCtcTermId = studyParticipantCrfSchedule.getStudyParticipantCrfGrades().get(i).getProCtcTerm().getId();
-    		if(proCtcTermId == 1){
-    			studyParticipantCrfGrade = studyParticipantCrfSchedule.getStudyParticipantCrfGrades().get(i);
-    			break;
-    		}
-    	}
-    	evaluatedGrade = studyParticipantCrfGrade.getGrade();
-    	assertEquals("3", evaluatedGrade);
-    }
-    
     @Override
     protected void onTearDownInTransaction() throws Exception {
     	super.onTearDownInTransaction();
@@ -240,21 +181,6 @@ public class StudyParticipantCrfScheduleTest extends TestDataManager {
     
     public List<ProCtcQuestion> getProCtcQuestionFromRepository(){
     	return hibernateTemplate.find("from ProCtcQuestion");
-    }
-    
-    public HashMap<Integer, String> populateDummyCtcaeGradeMap(){
-    	HashMap<Integer, String> ctcaeGradeMap = new HashMap<Integer, String>();
-    	ctcaeGradeMap.put(1, "1");
-    	ctcaeGradeMap.put(2, "1");
-    	ctcaeGradeMap.put(3, "1");
-    	ctcaeGradeMap.put(4, "1");
-    	ctcaeGradeMap.put(5, "1");
-    	ctcaeGradeMap.put(6, "Present, Clinician Assess");
-    	ctcaeGradeMap.put(7, "1");
-    	ctcaeGradeMap.put(8, "1");
-    	ctcaeGradeMap.put(9, "1");
-    	ctcaeGradeMap.put(10,"1");
-    	return ctcaeGradeMap;
     }
     
     public StudyParticipantCrf getDefaultStudyParticipantCrf(){
