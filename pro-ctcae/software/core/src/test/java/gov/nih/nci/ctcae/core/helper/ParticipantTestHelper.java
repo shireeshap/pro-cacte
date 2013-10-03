@@ -202,6 +202,27 @@ public class ParticipantTestHelper {
             }
         }
     }
+    
+    public static void createSchedulesForAllAccruCrfs(Participant participant, StudySite studySite) throws ParseException {
+        if (studySite.getStudy().getCrfs().size() > 0) {
+        	for(CRF crf : studySite.getStudy().getCrfs()){
+        		if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+        			StudyParticipantCrf spc = new StudyParticipantCrf();
+        			spc.setCrf(crf);
+        			spc.setArm(participant.getStudyParticipantAssignments().get(0).getArm());
+        			spc.setStartDate(new Date());
+        			participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
+        			
+        			spc.createSchedules(false);
+        			//initialize the crfItems under every spcScheduleas crateSchedules does not crate crfItems
+        			for(StudyParticipantCrfSchedule spcSchedule: spc.getStudyParticipantCrfSchedules()){
+        				spcSchedule.getStudyParticipantCrfItems();
+        			}
+        		}
+        		
+        	}
+        }
+    }
 
 
     private static void addUserToParticipant(Participant participant) {
@@ -213,6 +234,10 @@ public class ParticipantTestHelper {
 
     public static Participant getDefaultParticipant() {
         return findParticpantByUserName("John.Locke");
+    }
+    
+    public static Participant getAccruParticipant() {
+        return findParticpantByUserName("ACCRU.participant");
     }
 
     public static Participant findParticpantByUserName(String username) {
