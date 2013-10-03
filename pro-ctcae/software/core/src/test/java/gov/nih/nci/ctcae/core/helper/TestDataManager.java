@@ -560,9 +560,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		TestDataManager.proCtcQuestionRepository = proCtcQuestionRepository;
 	}
 
-
     private void deleteUsingJdbcTemplate() {
+    	jdbcTemplate.execute("delete from proctcae_grade_mapping");
     	jdbcTemplate.execute("delete from study_participant_crf_grades");
+    	jdbcTemplate.execute("delete from proctcae_grade_mapping_versions");
         jdbcTemplate.execute("delete from user_notifications");
         jdbcTemplate.execute("delete from notifications");
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
