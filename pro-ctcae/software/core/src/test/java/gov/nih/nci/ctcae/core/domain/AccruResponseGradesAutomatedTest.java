@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AccruResponseGradesAtutomatedTest extends TestDataManager{
+public class AccruResponseGradesAutomatedTest extends TestDataManager{
 	Participant participant;
 	ProctcaeGradeMappingVersion proctcaeGradeMappingVersion;
 	List<Integer> accruCrfIds = new ArrayList<Integer>();
