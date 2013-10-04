@@ -99,7 +99,8 @@ public class LoaderHelper {
        int j = 0;
        while (st1.hasMoreTokens()) {
            ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-           proCtcValidValue.setValue(st1.nextToken(), SupportedLanguageEnum.ENGLISH);
+           String responseText = st1.nextToken().trim();
+           proCtcValidValue.setValue(responseText, SupportedLanguageEnum.ENGLISH);
            if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
                if (proCtcValidValue.getValue(SupportedLanguageEnum.ENGLISH).equals("Yes")) {
                    proCtcValidValue.setDisplayOrder(1);
