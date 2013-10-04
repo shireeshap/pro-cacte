@@ -181,17 +181,17 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaff clinicalStaff = command.getClinicalStaff();
         List<OrganizationClinicalStaff> ocsToRemove = new ArrayList<OrganizationClinicalStaff>();
         List<OrganizationClinicalStaff> ocsNonAllowedToBeRemove = new ArrayList<OrganizationClinicalStaff>();
+        
         for (Integer index : command.getIndexesToRemove()) {
             ocsToRemove.add(clinicalStaff.getOrganizationClinicalStaffs().get(index));
         }
+        
         for (OrganizationClinicalStaff organizationClinicalStaff : ocsToRemove) {
             OrganizationClinicalStaff temp = genericRepository.findById(OrganizationClinicalStaff.class, organizationClinicalStaff.getId());
-            if (temp != null) {
-                if (temp.getStudyOrganizationClinicalStaff().size() > 0) {
+            if (temp != null && temp.getStudyOrganizationClinicalStaff().size() > 0) {
                 	ocsNonAllowedToBeRemove.add(temp);
-                } else {
-                	clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
-                }
+            } else {
+            	clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
             }
         }
         
