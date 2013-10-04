@@ -1,0 +1,22 @@
+package gov.nih.nci.ctcae.core.query;
+
+
+public class ProctcaeGradeMappingVersionQuery extends AbstractQuery{
+	private static String queryString = "select gmv from ProctcaeGradeMappingVersion gmv ";
+	private static final String VERSION = "version";
+	private static String DEFAULT_VERSION = "v1.0";
+
+	public ProctcaeGradeMappingVersionQuery() {
+		super(queryString);
+	}
+	
+	public void filterByVersion(String version){
+		andWhere( "gmv.version = :" + VERSION);
+		setParameter(VERSION, version);
+	}
+	
+	public void filterByDefaultVersion(){
+		andWhere( "lower(gmv.version) = :" + VERSION);
+		setParameter(VERSION, DEFAULT_VERSION);
+	}
+}
