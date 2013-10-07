@@ -46,6 +46,7 @@ public class ProctcaeGradeMappingsLoader  {
         reader.readHeaders();
         
         ProctcaeGradeMappingVersion pgmv = getLatestProctcaeGradeMappingVersion();
+        ProCtcTerm existingProctcaeTerm = null;
         while (reader.readRecord()) {
         	try{
                 String proctcaeTermSystemId = reader.get(PRO_CTC_SYS_ID).trim();
@@ -56,7 +57,18 @@ public class ProctcaeGradeMappingsLoader  {
                 String presentAbsent = reader.get(PRES_ABS).trim();
                 String grade = reader.get(pCTCAE).trim();
                 
-                ProCtcTerm existingProctcaeTerm = getExistingProCtcTerm(proctcaeTermSystemId);
+        		Integer systemId;
+        		try{
+        			systemId = Integer.valueOf(proctcaeTermSystemId);
+        		} catch (NumberFormatException nfe){
+        			log.error("Number expected: found-" + proctcaeTermSystemId);
+        			continue;
+        		}
+                
+                if(existingProctcaeTerm == null || existingProctcaeTerm.getProCtcSystemId() == null ||
+                		!existingProctcaeTerm.getProCtcSystemId().equals(systemId)){
+                    existingProctcaeTerm = getExistingProCtcTerm(systemId);
+                }
                 ProctcaeGradeMapping pgMapping = buildGradeMapping(frequency, severity, interference, amount, presentAbsent, grade, existingProctcaeTerm, pgmv);
                 
                 if(existingProctcaeTerm != null && pgMapping != null) {
@@ -123,15 +135,7 @@ public class ProctcaeGradeMappingsLoader  {
 	}
 
 
-	private ProCtcTerm getExistingProCtcTerm(String proctcaeTermSystemId) {
-		int systemId;
-		try{
-			systemId = Integer.parseInt(proctcaeTermSystemId);
-		} catch (NumberFormatException nfe){
-			log.error("Number expected: found-" + proctcaeTermSystemId);
-			return null;
-		}
-		
+	private ProCtcTerm getExistingProCtcTerm(Integer systemId) {
 		ProCtcTermQuery pQuery = new ProCtcTermQuery();
 		pQuery.findByProCtcSystemId(systemId);
 		ProCtcTerm pTerm = proCtcTermRepository.findSingle(pQuery);
