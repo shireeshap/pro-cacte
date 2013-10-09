@@ -591,14 +591,32 @@ function handleMandatoryFields(scheduleType){
     });
 }
 
+ 
 function refreshPageLocal() {
-    /*if ($('allArmsCheck').checked) {
-     $('allArms').value = 'true';
-     } else {
-     $('allArms').value = 'false';
-     }*/
+	/* on selecting different Arm from the dropdown menu on Form Administration Schedule,
+	   remove NON-EMPTY validations for all cycleDefinition parameters
+	*/
+    removeCycleDefinitionValidation();
     refreshPage();
 }
+
+function removeCycleDefinitionValidation(){
+ 	var cycleLengthInputs = jQuery("[id^='cycle_length_']");
+	var cycleRepeatInputs = jQuery("[id^='cycle_repeat_']");
+	var cycleDueInputs = jQuery("[id^='cycle_due_']");
+	
+	for(var i = 0; i<cycleLengthInputs.length; i++ ){
+		jQuery("#" + cycleLengthInputs[i].id).removeClass("validate-NOTEMPTY");
+	}
+	for(var j = 0; j<cycleLengthInputs.length; j++ ){
+		jQuery("#" + cycleRepeatInputs[j].id).removeClass("validate-NOTEMPTY");
+	}
+	
+	for(var k = 0; k<cycleLengthInputs.length; k++ ){
+		jQuery("#" + cycleDueInputs[k].id).removeClass("validate-NOTEMPTY");
+	} 
+}
+
 function unique(arrayName) {
     var newArray = new Array();
     label:for (var i = 0; i < arrayName.length; i++) {
