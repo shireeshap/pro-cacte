@@ -29,8 +29,10 @@
 	            aResults = results;
 	        };
 	        var callMetaData = { callback:callbackProxy, async:false};
+	        var ALL_STUDY_SITES='Get all study sites';
+
 	        if(${cca}){
-	            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+	            organization.matchOrganizationForStudySites(unescape(sQuery),ALL_STUDY_SITES, callMetaData);
 	        }else{
 	            organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
 	        }
