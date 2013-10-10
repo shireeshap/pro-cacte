@@ -184,8 +184,9 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     }
     
     private Map<AeWrapper, List<ParticipantGradeWrapper>> getConsolidatedParticipantGradeMap(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap){
-    	Map<AeWrapper, Map<Date, GradeValueWrapper>> intermidiateParticipantGradeMap = new HashMap<AeWrapper, Map<Date, GradeValueWrapper>>();
-    	Map<Date, GradeValueWrapper> intermidiateDateMap;
+    	Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> intermidiateParticipantGradeMap = new HashMap<AeWrapper, Map<Date, List<GradeValueWrapper>>>();
+    	Map<Date, List<GradeValueWrapper>> intermidiateDateMap;
+    	List<GradeValueWrapper> intermidiateGradesList;
     	Map<Date, GradeValueWrapper> dateMap;
     	Map<Date, List<GradeValueWrapper>> pDateMap;
     	Map<AeWrapper, List<ParticipantGradeWrapper>> consolidatedParticipantGradeMap = new HashMap<AeWrapper, List<ParticipantGradeWrapper>>();
@@ -193,18 +194,21 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	for(AeWrapper symptom : participantGardeMap.keySet()){
     		pDateMap = participantGardeMap.get(symptom);
 
-    		intermidiateDateMap = new LinkedHashMap<Date, GradeValueWrapper>();
+    		intermidiateDateMap = new LinkedHashMap<Date, List<GradeValueWrapper>>();
     		intermidiateParticipantGradeMap.put(symptom, intermidiateDateMap);
     		String currentGrade = "-1";
     		GradeValueWrapper gradeValueWrapper = null;
     		for(Date date : pDateMap.keySet()){
+    			intermidiateGradesList = new ArrayList<GradeValueWrapper>();
+    			intermidiateDateMap.put(date, intermidiateGradesList);
+    			
     			for(GradeValueWrapper gradeValueItem : pDateMap.get(date)){
     				String evaluatedGrade = gradeValueItem.getGrade();
     				if(!currentGrade.equals(evaluatedGrade)){
     					gradeValueWrapper = new GradeValueWrapper();
     					gradeValueWrapper.setGrade(evaluatedGrade);
     					gradeValueWrapper.setProCtcTerms(gradeValueItem.getProCtcTerms());
-    					intermidiateDateMap.put(date, gradeValueWrapper);
+    					intermidiateGradesList.add(gradeValueWrapper);
     					currentGrade = evaluatedGrade;
     				} else {
     					if(gradeValueWrapper != null){
@@ -219,21 +223,24 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     		}
     	}
     	
-    	for(AeWrapper symptom : intermidiateParticipantGradeMap.keySet()){
-    		dateMap = intermidiateParticipantGradeMap.get(symptom);
+    	//Process the intermidiateParticipantGradeMap to have just one grade per date per ctcaeTerm (max grade from among grades available on same date for a ctcaeTerm)
+    	Map<AeWrapper, Map<Date, GradeValueWrapper>> processedGradeMap = getProcessedGradeMap(intermidiateParticipantGradeMap);
+    	
+    	for(AeWrapper symptom : processedGradeMap.keySet()){
+    		dateMap = processedGradeMap.get(symptom);
     		List<ParticipantGradeWrapper> consolidatedGradeList = new ArrayList<ParticipantGradeWrapper>();
     		consolidatedParticipantGradeMap.put(symptom, consolidatedGradeList);
     		
-    		List<Map.Entry<Date, GradeValueWrapper>> intermidiateGradeList = new ArrayList<Map.Entry<Date, GradeValueWrapper>>();
-    		intermidiateGradeList.addAll(dateMap.entrySet());
-    		for(int i = 0; i< intermidiateGradeList.size(); i++){
-    			Date date = intermidiateGradeList.get(i).getKey();
+    		List<Map.Entry<Date, GradeValueWrapper>> processedGradeList = new ArrayList<Map.Entry<Date, GradeValueWrapper>>();
+    		processedGradeList.addAll(dateMap.entrySet());
+    		for(int i = 0; i< processedGradeList.size(); i++){
+    			Date date = processedGradeList.get(i).getKey();
     			ParticipantGradeWrapper grade = new ParticipantGradeWrapper();
     			grade.setStartDate(date);
-    			grade.setGrade(intermidiateParticipantGradeMap.get(symptom).get(date).getGrade());
-    			grade.setProCtcTerms(getProTermSetAsString(intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms()));
-    			if((i+1) < intermidiateGradeList.size()){
-    				grade.setEndDate(intermidiateGradeList.get(i+1).getKey());
+    			grade.setGrade(processedGradeMap.get(symptom).get(date).getGrade());
+    			grade.setProCtcTerms(getProTermSetAsString(processedGradeMap.get(symptom).get(date).getProCtcTerms()));
+    			if((i+1) < processedGradeList.size()){
+    				grade.setEndDate(processedGradeList.get(i+1).getKey());
     			} else {
     				grade.setEndDate(null);
     			}
@@ -242,6 +249,37 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	}
     	
     	return consolidatedParticipantGradeMap;
+    }
+    
+    /*For symptoms mapping to same ctcae term, if both these symptom are present in a survey and 
+	 * have been answered on the same date, then the one with max grade should be retained.
+	*/
+    private Map<AeWrapper, Map<Date, GradeValueWrapper>> getProcessedGradeMap(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> intermidiateParticipantGradeMap){
+    	Map<Date, List<GradeValueWrapper>> intermidiateDateMap;
+    	Map<AeWrapper, Map<Date, GradeValueWrapper>> processedGradeMap = new HashMap<AeWrapper, Map<Date,GradeValueWrapper>>();
+    	Map<Date, GradeValueWrapper> processedDateMap;
+    	GradeValueWrapper maxGradeValueWrapper = null;
+    	Integer maxGarde;
+    	
+    	
+    	
+    	for(AeWrapper aeWrapper : intermidiateParticipantGradeMap.keySet()){
+    		intermidiateDateMap = intermidiateParticipantGradeMap.get(aeWrapper);
+    		processedDateMap = new HashMap<Date, GradeValueWrapper>();
+    		processedGradeMap.put(aeWrapper, processedDateMap);
+    		
+    		maxGarde = -1;
+    		for(Date date : intermidiateDateMap.keySet()){
+    			for(GradeValueWrapper gradeValueWrapper : intermidiateDateMap.get(date)){
+    				if(Integer.parseInt(gradeValueWrapper.getGrade()) > maxGarde){
+    					maxGarde = Integer.parseInt(gradeValueWrapper.getGrade());
+    					maxGradeValueWrapper = gradeValueWrapper;
+    				}
+    			}
+    			processedDateMap.put(date, maxGradeValueWrapper);
+    		}
+    	}
+    	return processedGradeMap;
     }
     
     private String getProTermSetAsString(HashSet<String> proCtcTerms){
