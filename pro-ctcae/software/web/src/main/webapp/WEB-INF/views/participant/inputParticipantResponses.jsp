@@ -16,9 +16,9 @@
 <html>
 <head>
     <script type="text/javascript">
-        function saveAndBack(type, id) {
+        function saveAndBack(type, id, prevTab) {
             if (type == 'back') {
-                window.location = "../participant/edit?id=" + id + "&tab=3";
+                window.location = "../participant/edit?id=" + id + "&tab=" + prevTab;
             } else {
                 document.forms[0].submitType.value = type;
                 document.forms[0].submit();
@@ -338,7 +338,7 @@
             <tr>
                 <td align="left">
                     <tags:button type="submit" color="blue" id="flow-prev"
-                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id}, ${prevTab});"
                                  value="Back" icon="Back"/>
                 </td>
                 <td align="left">
@@ -359,7 +359,7 @@
             <tr>
                 <td align="left">
                     <tags:button type="submit" color="blue" id="flow-prev"
-                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id});"
+                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id}, ${prevTab});"
                                  value="Back" icon="Back"/>
                 </td>
             </tr>

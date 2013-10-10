@@ -62,6 +62,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         Date dueDate = spcSchedule.getDueDate();
         Map<String, Object> map = super.referenceData(request, command, errors);
         String language = request.getParameter("lang");
+        String prevTab = request.getParameter("prevTab");
         if (language == null || language == "") {
             language = "en";
         }
@@ -78,6 +79,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         map.put("participantName", participantName);
         map.put("startDate", startDate);
         map.put("dueDate", dueDate);
+        map.put("prevTab", prevTab);
         return map;
     }
 

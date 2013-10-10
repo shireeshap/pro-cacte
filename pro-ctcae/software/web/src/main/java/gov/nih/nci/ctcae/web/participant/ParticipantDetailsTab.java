@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,8 +51,6 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-//
 
 /**
  * @author Harsh Agarwal
@@ -77,12 +76,23 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public ParticipantDetailsTab() {
         super("participant.tab.participant_details", "participant.tab.participant_details", "participant/createParticipant");
     }
+    
+    public ParticipantDetailsTab(String viewName) {
+        super("participant.tab.participant_details", "participant.tab.participant_details", "participant/"+ viewName);
+    }
 
     public String getRequiredPrivilege() {
-    	String privilege = Privilege.PRIVILEGE_CREATE_PARTICIPANT;;
+    	String privilege = Privilege.PRIVILEGE_CREATE_PARTICIPANT;
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession(false);
+
+    	if(getViewName().indexOf("createParticipant") != -1 || Boolean.TRUE.equals(session.getAttribute("isCreateFlow"))) {
+    		return privilege;
+    	}
+    	
+		//only do this evaluation for the edit flow.
     	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	if(!user.isAdmin()){
-    		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
     		String participantId = attr.getRequest().getParameter("id");
         	if(!StringUtils.isEmpty(participantId)){
         		privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
@@ -94,9 +104,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         	}
     	}
         return privilege;
-    
-
-
     }
 
     @Override
@@ -446,6 +453,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             try {
                 if (!command.getParticipant().isPersisted()) {
                     command.assignCrfsToParticipant(false);
+                    //adding this attr to session for use in getRequiredPrivileges above.
+                    //This is because the create flow takes you into the enterResponses flow and hitting back on that screen
+                    //brings you into the edit flow. At this point the prt.id privelege is not loaded into the uses security context and
+                    //user is denied access to the very patient he created. Hence this is a band aid fix to add the crate priv to the session.
+                    //Ideal fix would be for the "save and back" button on enter responses screen to go back into the create flow instead of the edit flow.
+                    request.getSession(false).setAttribute("isCreateFlow", true);
                 } else {
                     Date newStartDate = command.getNewStartDate();
                     int offSetDiff = 0;

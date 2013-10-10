@@ -320,12 +320,12 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                              
                                  html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
                                  if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){  
-                                 	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
+                                 	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + "&prevTab=" + ${tab.targetNumber} + '&lang=es\'">Enter responses (' + formName + ')</a></li>';
                              	}
                              } else {
                                  html += '<li id="nav"><a href="#" >Print form (' + formName + ')</a><ul><li><a href="#" onclick="location.href=\'printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
                                  if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
-                                	 html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
+                                	 html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + "&prevTab=" + ${tab.targetNumber} + '&lang=en\'">Enter responses (' + formName + ')</a></li>';
                                 }
                              }
 
@@ -357,7 +357,7 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                                 	html += '<li><hr></li>';
     	                            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + scheduleid + '\'">Print form (' + formName + ')</a></li>';
     	                            if(isSelectedAfterCurrentDate(currentYear, currentMonth, date)){
-    	                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + '\'">Enter responses (' + formName + ')</a></li>';
+    	                            	html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + scheduleid + "&prevTab=" + ${tab.targetNumber} + '\'">Enter responses (' + formName + ')</a></li>';
                                 	}
                             }
                         }
