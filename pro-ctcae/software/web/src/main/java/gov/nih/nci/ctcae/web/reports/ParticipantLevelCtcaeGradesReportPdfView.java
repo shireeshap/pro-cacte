@@ -506,7 +506,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        para1 = new Paragraph("ACADEMIC and COMMINITY CANCER", FontFactory.getFont("Arial", 11, Font.BOLD));
+        para1 = new Paragraph("ACADEMIC and COMMUNITY CANCER", FontFactory.getFont("Arial", 11, Font.BOLD));
 		headerCell = new Cell(para1);
         headerCell.setColspan(3);
         headerCell.setRowspan(2);
