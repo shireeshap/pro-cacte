@@ -629,7 +629,12 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-        para1 = new Paragraph((participant.getAssignedIdentifier() != null ? participant.getAssignedIdentifier() : NO_PARTICIPANT_IDENTIFIER) + "\n", FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+        
+        String studyParticipantIdentifier = null;
+        if(participant.getStudyParticipantAssignments().size() > 0){
+        	studyParticipantIdentifier = participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier();
+        }
+        para1 = new Paragraph((studyParticipantIdentifier != null ? studyParticipantIdentifier : NO_PARTICIPANT_IDENTIFIER) + "\n", FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
         headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
