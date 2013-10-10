@@ -33,6 +33,7 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
+
         
         Query gradeMappingVersionQuery = session.createQuery(new String("SELECT pgmv FROM ProctcaeGradeMappingVersion pgmv " +
 		" where pgmv.version = 'v1.0'"));
@@ -42,16 +43,14 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
         List<StudyParticipantCrfSchedule> spCrfSchedules = (List<StudyParticipantCrfSchedule>)session.createQuery(
         		" SELECT spCrfSchedule FROM StudyParticipantCrfSchedule as spCrfSchedule " +
         		" left join spCrfSchedule.studyParticipantCrf as spcrf " +
-        		" left join spcrf.studyParticipantAssignment as spa where spa.status = 'ACTIVE' ").list();
-        
+        		" left join spcrf.studyParticipantAssignment as spa " +
+        		" where spa.status = 'ACTIVE' and spCrfSchedule.status = 'COMPLETED' ").list();
         try{
 	        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : spCrfSchedules) {
-	        	if(CrfStatus.COMPLETED.equals(studyParticipantCrfSchedule.getStatus())){
 	        		studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
-	        	}
 	        }
         }catch (Exception e) {
-			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades");
+			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades" + e.getMessage());
 		}finally{
 			tx.commit();
 		}
