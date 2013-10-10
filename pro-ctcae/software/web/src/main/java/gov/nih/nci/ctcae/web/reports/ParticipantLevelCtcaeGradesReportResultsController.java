@@ -271,9 +271,15 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     		maxGarde = -1;
     		for(Date date : intermidiateDateMap.keySet()){
     			for(GradeValueWrapper gradeValueWrapper : intermidiateDateMap.get(date)){
-    				if(Integer.parseInt(gradeValueWrapper.getGrade()) > maxGarde){
-    					maxGarde = Integer.parseInt(gradeValueWrapper.getGrade());
+    				if(gradeValueWrapper.getGrade().indexOf(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS) == -1 &&
+    						intermidiateDateMap.get(date).size() > 1 ){
+    					if(Integer.parseInt(gradeValueWrapper.getGrade()) > maxGarde){
+    						maxGarde = Integer.parseInt(gradeValueWrapper.getGrade());
+    						maxGradeValueWrapper = gradeValueWrapper;
+    					}
+    				} else {
     					maxGradeValueWrapper = gradeValueWrapper;
+    					break;
     				}
     			}
     			processedDateMap.put(date, maxGradeValueWrapper);
