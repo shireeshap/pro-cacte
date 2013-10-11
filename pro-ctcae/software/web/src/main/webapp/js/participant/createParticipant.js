@@ -165,11 +165,21 @@ CP_NS.showEmail = function (id, val) {
     }
 };
 
-CP_NS.addEmailRemoveIVRSClassName = function () {
+CP_NS.addEmailRemoveIVRSClassName = function (id) {
     var participantId = "${param['id']}";
     if (participantId.isEmpty()) {
         participantId = "${patientId}";
     }
+    $('participant.userNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.phoneNumber').removeClassName("validate-NOTEMPTY&&US_PHONE_NO");
+    $('participant.pinNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('participant.confirmPinNumber_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
+    $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
+    $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
+    $('declinePhNum').disabled = false;
 };
 
 CP_NS.showOrHideEmail = function (value1, value2, id) {
@@ -251,7 +261,7 @@ CP_NS.showOrHideEmail = function (value1, value2, id) {
         jQuery('#call_' + id).attr('checked', false);
         jQuery('#participantUserNumber_' + id).val('');
         jQuery('#participantPinNumberConfirm_' + id).val('');
-        CP_NS.addEmailRemoveIVRSClassName();
+        CP_NS.addEmailRemoveIVRSClassName(id);
         jQuery('#ivrs_' + id).hide();
         jQuery('#ivrs_reminder_' + id).hide();
         jQuery('#reminder_' + id).hide();
