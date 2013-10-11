@@ -52,8 +52,10 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
         //Study
         document.add(new Paragraph("Study: " + study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]"));
 
-        //CRF
-        document.add(new Paragraph("Form: " + crf.getTitle()));
+        //CRF can be null when no form is selected i.e. report is formless. In that case don't show the title
+        if(crf != null) {
+        	document.add(new Paragraph("Form: " + crf.getTitle()));
+        }
 
         //Study Site
         document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
