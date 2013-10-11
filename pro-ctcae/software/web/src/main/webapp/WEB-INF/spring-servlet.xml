@@ -777,7 +777,7 @@
  		<property name="jobDetail" ref="spCrfGradeCreatorJob" />
  		<property name="startDelay" value="1"/>
         <!-- repeat every 60 min -->
-        <property name="repeatInterval" value="3600000"/>
+        <property name="repeatInterval" value="900000"/>
     </bean>
     
 
