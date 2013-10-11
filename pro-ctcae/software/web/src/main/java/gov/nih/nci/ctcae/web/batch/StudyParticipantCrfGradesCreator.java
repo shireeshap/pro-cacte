@@ -24,7 +24,7 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     protected static final Log logger = LogFactory.getLog(StudyParticipantCrfGradesCreator.class);
     private ProctcaeGradeMappingVersion proctcaeGradeMappingVersion;
 
-    @Transactional
+	@Transactional
     public void createGradesForCompletedSchedules() {
 
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
@@ -33,27 +33,36 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
         Session session = getHibernateTemplate().getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         tx.begin();
-
         
         Query gradeMappingVersionQuery = session.createQuery(new String("SELECT pgmv FROM ProctcaeGradeMappingVersion pgmv " +
 		" where pgmv.version = 'v1.0'"));
         proctcaeGradeMappingVersion = (ProctcaeGradeMappingVersion) gradeMappingVersionQuery.list().get(0);
         
         logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job starts....");
-        List<StudyParticipantCrfSchedule> spCrfSchedules = (List<StudyParticipantCrfSchedule>)session.createQuery(
-        		" SELECT spCrfSchedule FROM StudyParticipantCrfSchedule as spCrfSchedule " +
-        		" left join spCrfSchedule.studyParticipantCrf as spcrf " +
-        		" left join spcrf.studyParticipantAssignment as spa " +
-        		" where spa.status = 'ACTIVE' and spCrfSchedule.status = 'COMPLETED' ").list();
-        try{
-	        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : spCrfSchedules) {
-	        		studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
-	        }
-        }catch (Exception e) {
-			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades" + e.getMessage());
-		}finally{
-			tx.commit();
-		}
+        
+        Query proctcaeGradeMappingQuery = session.createQuery(new String("SELECT count(*) FROM ProctcaeGradeMapping"));
+        Long proctcaeGradeMappingCount = (Long) proctcaeGradeMappingQuery.list().get(0);
+        
+        if(proctcaeGradeMappingCount > 0){
+        	
+            List<StudyParticipantCrfSchedule> spCrfSchedules = (List<StudyParticipantCrfSchedule>)session.createQuery(
+            		" SELECT spCrfSchedule FROM StudyParticipantCrfSchedule as spCrfSchedule " +
+            		" left join spCrfSchedule.studyParticipantCrf as spcrf " +
+            		" where spcrf.studyParticipantAssignment.status = 'ACTIVE' and spCrfSchedule.status = 'COMPLETED' ").list();
+            
+            try{
+    	        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : spCrfSchedules) {
+    	        	if(CrfStatus.COMPLETED.equals(studyParticipantCrfSchedule.getStatus())){
+    	        		studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
+    	        	}
+    	        }
+            }catch (Exception e) {
+    			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades");
+    		}finally{
+    			tx.commit();
+    		}
+        }
+
         logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job ends....");
     }
 
