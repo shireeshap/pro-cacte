@@ -30,11 +30,26 @@
                 setTimeout("participantCareResults();", 2000);
             </c:if>
         }
-
+        
+        function dateRangeCheck(){
+        	 var stDate = $('startDate').value;
+             var endDate = $('endDate').value;
+             if(endDate < stDate){
+            	 return true;
+             }
+             return false;
+        }
+        
         function participantCareResults(format, symptomId, selectedTypes) {
             if (!performValidations()) {
                 return;
             }
+            
+            if(dateRangeCheck()){
+            	alert('Please choose an End date greater or equal to the selected Start date');
+            	return;
+            }
+            
             if (typeof(format) == 'undefined') {
                 format = 'tabular';
             }
@@ -52,20 +67,6 @@
                             + "&endDate=" + endDate,
                     onComplete:function(transport) {
                         showResultsTable(transport);
-                        hideIndicator();
-                    },
-                    method:'get'
-                })
-            }
-            if (format == 'graphical') {
-                if (typeof(selectedTypes) == 'undefined') {
-                    selectedTypes = '';
-                }
-                showIndicator();
-                var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResultsGraph"/>", {
-                    parameters:<tags:ajaxstandardparams/>+"&symptomId=" + symptomId + "&selectedTypes=" + selectedTypes ,
-                    onComplete:function(transport) {
-                        showConfirmationWindow(transport, 800, 500);
                         hideIndicator();
                     },
                     method:'get'
@@ -235,7 +236,7 @@
             </div>
             <div class="rightpanel" align="left">
                 <tags:renderDate noForm="true" displayName="Reporting Period End" propertyName="endDate"
-                                 doNotShowFormat="true"/>
+                                 doNotShowFormat="true" />
             </div>
         </div>
 
