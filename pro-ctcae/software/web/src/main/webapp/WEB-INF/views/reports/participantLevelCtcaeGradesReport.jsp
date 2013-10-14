@@ -151,10 +151,12 @@
 
                 if (hiddenInputId == 'study') {
                     $('search').show();
-                    $('dateMenuDiv').show();
-                    $('dateRange').show();
                     displayParticipants = true;
                     fnDisplayParticipants();
+                    $('dateMenuDiv').show();
+                    $('dateRange').show();
+                    jQuery('#visitOptions option:selected').removeAttr('selected');
+                    jQuery('#visitOptions').find('option[value="dateRange"]').attr("selected", true);
                 }
             }
         }
@@ -215,10 +217,6 @@
                 <select id="visitOptions" name="visitOptions" onChange="customVisit(this)">
                 	<option value="dateRange">Date range</option>
                     <option value="all">All</option>
-                   <!--  <option value="currentPrev">Current & Previous</option>
-                    <option value="lastFour">Last four</option>
-                    <option value="currentLast">Current & First</option>
-                    <option value="custom">Custom</option> -->
                 </select>
             </div>
 
