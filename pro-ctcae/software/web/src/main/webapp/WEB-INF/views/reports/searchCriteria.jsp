@@ -138,11 +138,14 @@
 	            
 				if(hiddenInputId == 'study'){
 					if (displayForm) {
-		                displayForms();
-		                displaySites();
 		                var reportUrl = "${url}";
 		                if(reportUrl.substr(24) == 'symptomOverTime'){
+		                	displayForms();
 		                	displaySymptoms('', $('study').value);
+			                displaySites();
+		                } else {
+		                	displayForms();
+			                displaySites();
 		                }
 		                if (displayFilterBy) {
 		                    $('filterByDiv').show();
@@ -199,27 +202,6 @@
         </c:choose>
         <c:if test="${not onlyStudy}">
             <c:choose>
-                <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
-                    <div class="row" style="display:none;margin-left:11px;">
-                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
-                        <div class="value">
-                            <select id="proCtcTermsSelect" title="symptom">
-                                <option value="">Please select</option>
-                                <c:forEach items="${proctcterms}" var="proctcterm">
-                                    <option value="${proctcterm.id}">${proctcterm.term}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="row" id="divSymptomsRow" style="display:none; display:none; margin-left:11px;">
-                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
-                        <div class="value" id="proCtcTerms"></div>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-            <c:choose>
                 <c:when test="${crfs ne null}">
 	                <div class="row" style="margin-left:11px;">
 	                    <div class="label"><tags:requiredIndicator/><tags:message
@@ -240,6 +222,27 @@
                         <div class="label"><tags:message code="reports.label.form"/></div>
                         <div class="value" id="formTitle"></div>
                         <input type="hidden" name="form" id="form" value="" title="Form"/>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
+                    <div class="row" style="display:none;margin-left:11px;">
+                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value">
+                            <select id="proCtcTermsSelect" title="symptom">
+                                <option value="">Please select</option>
+                                <c:forEach items="${proctcterms}" var="proctcterm">
+                                    <option value="${proctcterm.id}">${proctcterm.term}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="row" id="divSymptomsRow" style="display:none; display:none; margin-left:11px;">
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value" id="proCtcTerms"></div>
                     </div>
                 </c:otherwise>
             </c:choose>
