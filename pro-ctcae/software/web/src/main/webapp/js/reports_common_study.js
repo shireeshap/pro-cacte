@@ -325,7 +325,8 @@
            parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&att=' + att + '&period=' + period,
            onComplete:function(transport) {
                var response = transport.responseText;
-               new Insertion.After('items_row_' + Id, response);
+               jQuery('#items_row_' + Id).append(response);
+               //new Insertion.After('items_row_' + Id, response);
                $('pShowImage_' + Id).hide();
                $('pHideImage_' + Id).show();
            },
