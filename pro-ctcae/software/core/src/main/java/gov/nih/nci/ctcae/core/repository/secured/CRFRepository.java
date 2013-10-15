@@ -218,6 +218,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         copiedCRF.setTitle(crf.getTitle());
         copiedCRF.setCrfVersion(newVersion);
         copiedCRF.setParentCrf(crf);
+        copiedCRF.setEq5d(crf.getEq5d());
         copiedCRF = save(copiedCRF);
         crf.setChildCrf(copiedCRF);
         crf = save(crf);
