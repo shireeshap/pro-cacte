@@ -61,11 +61,12 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         Date startDate = spcSchedule.getStartDate();
         Date dueDate = spcSchedule.getDueDate();
         Map<String, Object> map = super.referenceData(request, command, errors);
-        String language = request.getParameter("lang");
         String prevTab = request.getParameter("prevTab");
-        if (language == null || language == "") {
-            language = "en";
-        }
+       
+        String language = "en";
+        if ("SPANISH".equals(spcSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getHomeWebLanguage())) {
+            language = "es";
+        } 
         spcSchedule.setLanguage(language);
         if (spcSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
             map.put("isSadEditable", "false");
