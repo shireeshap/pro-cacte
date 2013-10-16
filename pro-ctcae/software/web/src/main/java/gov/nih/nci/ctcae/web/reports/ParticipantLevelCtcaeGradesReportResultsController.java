@@ -163,10 +163,10 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 	
 	            	for(ParticipantGradeWrapper grade : consolidatedParticipantGardeMap.get(symptom)){
 	            		if(grade.getGrade() != null && !GRADE_ZERO.equals(grade.getGrade())){
-	            			/*grade start date before reportingPeriodStartDate and grade end date after reportingPeriodStartDate
+	            			/*grade start date before reportingPeriodStartDate and grade end date on/after reportingPeriodStartDate
 	            			 *or grade end date not yet resolved */
 	            			if((DateUtils.compareDate(sDate, grade.getStartDate()) >= 0)){
-	            				if(grade.getEndDate() == null || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), sDate) > 0))){
+	            				if(grade.getEndDate() == null || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), sDate) >= 0))){
 	            					filteredGrades.add(grade);
 	            				}
 	            			} 
