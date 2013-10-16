@@ -218,34 +218,34 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         table.addCell(cell);
         
         cell = new Cell(new Paragraph("Adverse Event Term", FontFactory.getFont("Arial", 10, Font.BOLD)));
-        Paragraph info = new Paragraph("(CTCAE v 4.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        Paragraph info = new Paragraph("(CTCAE v4.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.add(info);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("MedDRA adverse event code", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        cell = new Cell(new Paragraph("MedDRA Adverse Event Code", FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        info = new Paragraph("(v.12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        info = new Paragraph("(v12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.add(info);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("Start date", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        cell = new Cell(new Paragraph("Start Date", FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        info = new Paragraph("(dd MMM yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        info = new Paragraph("(dd-MMM-yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.add(info);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("End date", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        cell = new Cell(new Paragraph("End Date", FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        info = new Paragraph("(dd MMM yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        info = new Paragraph("(dd-MMM-yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.add(info);
         table.addCell(cell);
         
@@ -369,11 +369,11 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 		questionInstruction = new Paragraph(" (check one)", FontFactory.getFont("Arial", 9, Font.ITALIC));
 		question.add(questionInstruction);
 		document.add(question);
-		responseOptions = new Paragraph(" O Yes    O Nox (end form)    O Unsure (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions = new Paragraph(" O Yes    O No (end form)    O Unsure (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN));
 		responseOptions.setIndentationLeft(20f);
 		document.add(responseOptions);
 		
-		question = new Paragraph(" \n3. If Yes, Did the patient's self-reported AE grades influence the CTCAE grading?", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		question = new Paragraph(" \n3. If Yes, did the patient's self-reported AE grades influence the CTCAE grading?", FontFactory.getFont("Arial", 9, Font.PLAIN));
 		questionInstruction = new Paragraph(" (check one)", FontFactory.getFont("Arial", 9, Font.ITALIC));
 		question.add(questionInstruction);
 		document.add(question);
@@ -393,8 +393,8 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         reportingCycle.add(new Paragraph(" All Cycles", FontFactory.getFont("Arial", 10, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
         */
         Paragraph instructionalParagraph = new Paragraph("\nINSTRUCTIONS: ", FontFactory.getFont("Arial", 10, Font.PLAIN));
-        instructionalParagraph.add(new Phrase("\n\nReview and update each cycle. Use this form to assist into reporting into RAVE. Note that RAVE will also " +
-        		"include fields for: Study drug action taken (including dose modifications and Serious Adverse Events. A new log line should " +
+        instructionalParagraph.add(new Phrase("\n\nReview and update each cycle. Use this form to assist reporting into RAVE. Note that RAVE will also " +
+        		"include fields for: Study drug action taken (including dose modifications) and Serious Adverse Events. A new log line should " +
         		"be added each time a new instance of an Adverse Event occurs or if the grade changes. For further details please refer to the Forms Instructions."
         		 , FontFactory.getFont("Arial", 9, Font.PLAIN)));
         
