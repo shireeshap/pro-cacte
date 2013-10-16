@@ -57,21 +57,31 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
         ModelAndView modelAndView = new ModelAndView("reports/participantLevelCtcaeGradesReportResults");
         StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request, modelAndView);
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
+        String startDate = request.getParameter(START_DATE);
+    	String endDate = request.getParameter(END_DATE);
+    	Date stDate = null;
+    	Date eDate = null;
+    	
+    	if(!StringUtils.isEmpty(startDate)){
+    		stDate = DateUtils.parseDate(startDate);
+    	}
+    	if(!StringUtils.isEmpty(endDate)){
+    		eDate = DateUtils.parseDate(endDate);
+    	}
 
+    	
         // Load studyParticipantCrfGrades from db
         Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap = loadStudyParticipantCrfGrades(list);
         // Generate a consolidated list of AE's, with each AE entry reflecting its evaluated ctcae grade along with its starting & ending date 
-        Map<AeWrapper, List<ParticipantGradeWrapper>> consolidatedParticipantGardeMap = getConsolidatedParticipantGradeMap(participantGardeMap);
+        Map<AeWrapper, List<ParticipantGradeWrapper>> consolidatedParticipantGardeMap = getConsolidatedParticipantGradeMap(participantGardeMap, stDate, eDate);
         // Filter the consolidated list and generate a new list consiting of AE's reported within the selected start and end date period
         Map<AeWrapper, List<ParticipantGradeWrapper>> filteredParticipantGardeMap = getFilteredGrades(request, consolidatedParticipantGardeMap);
         // Generate final list of AE to be reported in pdf report, sorted according to AE's start date (primary sort criteria) and ctcae term (secondary sort criteria) 
-        List<AeReportEntryWrapper> result = getSortedAeEntriesForDisplay(filteredParticipantGardeMap);
+        List<AeReportEntryWrapper> result = getSortedAeEntriesForDisplay(filteredParticipantGardeMap, stDate, eDate);
         
         Map<String, String> dateRangeMap = new HashMap<String, String>();
         String visitRange = request.getParameter("visitRange");
         if ("dateRange".equals(visitRange)) {
-        	String startDate = request.getParameter(START_DATE);
-        	String endDate = request.getParameter(END_DATE);
         	dateRangeMap.put(START_DATE, startDate);
         	dateRangeMap.put(END_DATE, endDate);
         } else {
@@ -84,7 +94,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
         return modelAndView;
     }
     
-    List<AeReportEntryWrapper> getSortedAeEntriesForDisplay(Map<AeWrapper, List<ParticipantGradeWrapper>> filteredParticipantGardeMap){
+    List<AeReportEntryWrapper> getSortedAeEntriesForDisplay(Map<AeWrapper, List<ParticipantGradeWrapper>> filteredParticipantGardeMap, Date stDate, Date eDate){
     	List<AeReportEntryWrapper> adverseEventListForDisplay = new ArrayList<AeReportEntryWrapper>();
     	
     	for(AeWrapper symptom : filteredParticipantGardeMap.keySet()){
@@ -95,7 +105,11 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			aeReportEntryWrapper.setProCtcTerm(participantGradeWrapper.getProCtcTerms());
     			aeReportEntryWrapper.setMeddraCode(symptom.getMeddraCode());
     			aeReportEntryWrapper.setStartDate(participantGradeWrapper.getStartDate());
-    			aeReportEntryWrapper.setEndDate(participantGradeWrapper.getEndDate());
+				if(participantGradeWrapper.getEndDate() != null && isWithinReportingDateRange(stDate, participantGradeWrapper.getEndDate(), eDate)){
+					aeReportEntryWrapper.setEndDate(participantGradeWrapper.getEndDate());
+				} else {
+					aeReportEntryWrapper.setEndDate(null);
+				}
     			aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
     			adverseEventListForDisplay.add(aeReportEntryWrapper);
     		}
@@ -149,11 +163,16 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 	
 	            	for(ParticipantGradeWrapper grade : consolidatedParticipantGardeMap.get(symptom)){
 	            		if(grade.getGrade() != null && !GRADE_ZERO.equals(grade.getGrade())){
+	            			/*grade start date before reportingPeriodStartDate and grade end date after reportingPeriodStartDate
+	            			 *or grade end date not yet resolved */
 	            			if((DateUtils.compareDate(sDate, grade.getStartDate()) >= 0)){
 	            				if(grade.getEndDate() == null || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), sDate) > 0))){
 	            					filteredGrades.add(grade);
 	            				}
-	            			} else if((DateUtils.compareDate(eDate, grade.getStartDate()) >= 0)){
+	            			} 
+	            			/*grade start date between selected reportingPeriod range and grade end date not yet resolved 
+	            			 * or before/after/on reportingPeriodEndDate */
+	            			else if((DateUtils.compareDate(eDate, grade.getStartDate()) >= 0)){
 	            				if((grade.getEndDate() == null) || (grade.getEndDate() != null && (DateUtils.compareDate(grade.getEndDate(), eDate) >= 0))
 	            						|| (grade.getEndDate() != null && (DateUtils.compareDate(eDate, grade.getEndDate()) >= 0))){
 	            					filteredGrades.add(grade);
@@ -180,7 +199,9 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	return filteredParticipantGardeMap;
     }
     
-    private Map<AeWrapper, List<ParticipantGradeWrapper>> getConsolidatedParticipantGradeMap(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap){
+    private Map<AeWrapper, List<ParticipantGradeWrapper>> getConsolidatedParticipantGradeMap(Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap, 
+    		Date stDate, Date eDate){
+    	
     	Map<AeWrapper, Map<Date, GradeValueWrapper>> intermidiateParticipantGradeMap = new HashMap<AeWrapper, Map<Date, GradeValueWrapper>>();
     	Map<Date, GradeValueWrapper> intermidiateDateMap;
     	Map<Date, GradeValueWrapper> dateMap;
@@ -203,13 +224,15 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 				if(!currentGrade.equals(evaluatedGrade)){
 					gradeValueWrapper = new GradeValueWrapper();
 					gradeValueWrapper.setGrade(evaluatedGrade);
-					gradeValueWrapper.setProCtcTerms(pDateMap.get(date).getProCtcTerms());
+					if(isWithinReportingDateRange(stDate, date, eDate) || isBeforeReportingDateRange(stDate, date, eDate)){
+						gradeValueWrapper.setProCtcTerms(pDateMap.get(date).getProCtcTerms());
+					}
 					intermidiateDateMap.put(date, gradeValueWrapper);
 					currentGrade = evaluatedGrade;
 				} else {
-					if(gradeValueWrapper != null){
-						HashSet<String> proCtcTerms = new HashSet<String>();
-						proCtcTerms = gradeValueWrapper.getProCtcTerms();
+					if(gradeValueWrapper != null && (isWithinReportingDateRange(stDate, date, eDate)  || isBeforeReportingDateRange(stDate, date, eDate))){
+						HashSet<String> proCtcTerms;
+						proCtcTerms = (gradeValueWrapper.getProCtcTerms() != null ? gradeValueWrapper.getProCtcTerms() : new HashSet<String>());
 						proCtcTerms.addAll(pDateMap.get(date).getProCtcTerms());
 						gradeValueWrapper.setProCtcTerms(proCtcTerms);
 					}
@@ -229,7 +252,9 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			ParticipantGradeWrapper grade = new ParticipantGradeWrapper();
     			grade.setStartDate(date);
     			grade.setGrade(intermidiateParticipantGradeMap.get(symptom).get(date).getGrade());
-    			grade.setProCtcTerms(getProTermSetAsString(intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms()));
+    			if(!intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms().isEmpty()){
+    				grade.setProCtcTerms(getProTermSetAsString(intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms()));
+    			}
     			if((i+1) < intermidiateGradeList.size()){
     				grade.setEndDate(intermidiateGradeList.get(i+1).getKey());
     			} else {
@@ -240,6 +265,23 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	}
     	
     	return consolidatedParticipantGradeMap;
+    }
+    
+    private boolean isWithinReportingDateRange(Date startDate, Date currentDate, Date endDate){
+    	if((startDate == null && endDate == null) ||
+    			((startDate != null && DateUtils.compareDate(currentDate, startDate) >= 0) &&
+				(endDate != null && DateUtils.compareDate(currentDate, endDate) <= 0))){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean isBeforeReportingDateRange(Date startDate, Date currentDate, Date endDate){
+    	if((startDate == null && endDate == null) ||
+    			((endDate != null && DateUtils.compareDate(currentDate, startDate) <= 0))){
+    		return true;
+    	}
+    	return false;
     }
     
     /*For symptoms mapping to same ctcae term, if both these symptom are present in a survey and 
