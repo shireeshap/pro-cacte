@@ -154,6 +154,8 @@
 		            $('search').show();
 				}
             }
+            
+             $('studyInput-msg').style.display='none';
         }
 
        function clearInput(inputId) {
@@ -162,6 +164,22 @@
             $(inputId + 'Input').focus();
             $(inputId + 'Input').blur();
         }
+                 
+       function handleGenerateReport() {
+	   	   if($('studyInput').value == '' || $('studyInput').value == '(Begin typing here)'){
+	   	   	   $('studyInput-msg').style.display='block';
+	   	   	   return;
+	   	   } 
+	   	   
+	   	   document.getElementById('studyInput-msg').style.display='none';
+	   	   
+	   	   $('studyInput-msg').style='display:none';
+	       showResultsInPopUpFlag = false;
+	       if ($('symptom') != null) {
+	           $('symptom').value = '';
+	       }
+	       reportResults();
+	   }
               
     </script>
 </head>
@@ -193,6 +211,7 @@
 						<div class="value">
 							<input id="study" class="validate-NOTEMPTY" type="hidden" value=""  title="Study" style="display: none;" name="study"/>                         
 			         	   	<tags:yuiAutocompleter inputName="studyInput" value="" required="false" hiddenInputName="study"/>
+			         	   	<ul id="studyInput-msg" class="errors" style="display:none"><li> Missing  Study </li></ul>
 						</div>
 					</div> 
                 </div>
@@ -303,9 +322,10 @@
                 </div>
             </div>
         </c:if>
-        <div id="search" class="row">
-            <div style="margin-left:9em">
-                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="big"
+       <br>
+       <div id="search" class="row" align="left">
+            <div style="margin-left:11.5em">
+                <tags:button color="blue" value="Generate Report" onclick="handleGenerateReport();" size="big"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
                 
