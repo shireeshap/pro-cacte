@@ -277,7 +277,25 @@ function showPopUpMenuAlert(day) {
     });
 }
 
-function showPo(scheduleid, pid, phone, email, status) {
+function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
+    var currentTime= new Date();
+    var month= currentTime.getMonth() + 1;
+    var day= currentTime.getDate();
+    var year= currentTime.getFullYear();
+    
+    if(selectedYear > year)
+        return false;
+    
+    if(selectedYear == year && selectedMonth > month)
+        return false;
+    
+    if(selectedYear == year && selectedMonth == month && selectedDay > day)
+        return false;
+    
+    return true;
+}
+
+function showPo(selectedDay, selectedMonth, selectedYear, scheduleid, pid, phone, email, status) {
 
     var phone = phone;
     var email = email;
@@ -290,7 +308,9 @@ function showPo(scheduleid, pid, phone, email, status) {
     var html = '<div id="search-engines"><ul>';
     if (status != 'ONHOLD') {
         html += '<li id="nav"><a href="#" >Print form </a><ul><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=en&id=' + scheduleid + '\'">English</a></li><li><a href="#" onclick="location.href=\'participant/printSchedule?lang=es&id=' + scheduleid + '\'">Spanish</a></li></ul></li>';
-        html += '<li><a href="#" onclick="location.href=\'participant/enterResponses?id=' + scheduleid + '&lang=es\'">Enter responses</a></li>';
+        if(isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay)){
+            html += '<li><a href="#" onclick="location.href=\'participant/enterResponses?id=' + scheduleid + '\'">Enter responses</a></li>';
+        }
     }
     html += '<li><a href="#" onclick="location.href=\'participant/edit?id=' + pid + '&tab=3\'">Manage schedule</a></li>';
     html += '<li id="nav1"><a href="#" >Contact info </a> <ul><li><a href="#" ><u>Phone</u><br>' + phone + ' </a><br><br></li><li><a href="#" ><u>Email</u><br> ' + email + ' </a></li></ul></li>';
