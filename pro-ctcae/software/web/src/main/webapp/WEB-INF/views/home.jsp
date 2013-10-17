@@ -14,6 +14,8 @@
 <%--<tags:javascriptLink name="yui"/>--%>
 <tags:stylesheetLink
         name="table_menu"/><tags:includeScriptaculous/><tags:includePrototypeWindow/><tags:formBuilder/><tags:formActionMenu/>
+<tags:javascriptLink name="common_help"/>
+        
 <style type="text/css">
 
     .quicklink {
