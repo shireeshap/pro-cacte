@@ -128,8 +128,7 @@ public class NotificationsEvaluationService {
                 List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList = studyParticipantAssignment.getResearchNurses();
             	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
 	                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-	                    if (studyParticipantClinicalStaff.isNotify()) {
-	                      //  cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+	                    if (studyParticipantClinicalStaff.isNotify() && isSocsActiveAndNotifiable(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff())){
 	                    	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
 	                    }
 	                }
@@ -139,8 +138,7 @@ public class NotificationsEvaluationService {
             	List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffList = studyParticipantAssignment.getTreatingPhysicians();
             	for(StudyParticipantClinicalStaff studyParticipantClinicalStaff:studyParticipantClinicalStaffList){
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                        if (studyParticipantClinicalStaff.isNotify()) {
-                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        if (studyParticipantClinicalStaff.isNotify() && isSocsActiveAndNotifiable(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff())) {
                             cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
@@ -149,8 +147,7 @@ public class NotificationsEvaluationService {
             if (notificationRuleRole.getRole().equals(Role.SITE_CRA)) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                        if (studyParticipantClinicalStaff.isNotify()) {
-                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        if (studyParticipantClinicalStaff.isNotify() && isSocsActiveAndNotifiable(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff())) {
                         	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
@@ -159,8 +156,7 @@ public class NotificationsEvaluationService {
             if (notificationRuleRole.getRole().equals(Role.SITE_PI)) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                        if (studyParticipantClinicalStaff.isNotify()) {
-                            //cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                        if (studyParticipantClinicalStaff.isNotify() && isSocsActiveAndNotifiable(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff())) {
                         	cs.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff());
                         }
                     }
@@ -170,7 +166,9 @@ public class NotificationsEvaluationService {
             	List<StudyOrganizationClinicalStaff> investigators = studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigators();
                 if (!investigators.isEmpty()) {
                 	for(StudyOrganizationClinicalStaff investigator : investigators){
-                		cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
+                		if(isSocsActiveAndNotifiable(investigator)){
+                			cs.add(investigator.getOrganizationClinicalStaff().getClinicalStaff());
+                		}
                 	}
                 }
             }
@@ -180,7 +178,7 @@ public class NotificationsEvaluationService {
                 List<StudyOrganizationClinicalStaff> staff = studyParticipantAssignment.getStudySite().getStudy().getLeadCRAs();
                 if (!staff.isEmpty()) {
                 	for(StudyOrganizationClinicalStaff socs : staff){
-                    	if(socs.getOrganizationClinicalStaff() != null){
+                    	if(socs.getOrganizationClinicalStaff() != null && isSocsActiveAndNotifiable(socs)){
                     		craList.add(socs.getOrganizationClinicalStaff().getClinicalStaff());
                     	}
                 	}
@@ -203,7 +201,7 @@ public class NotificationsEvaluationService {
         
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
             if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
-                if (studyParticipantClinicalStaff.isNotify()) {
+                if (studyParticipantClinicalStaff.isNotify() && isSocsActiveAndNotifiable(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff())) {
                     ClinicalStaff cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
                     if (cs != null && cs.getUser() != null) {
 	                    addEmail(cs.getEmailAddress(), emails);
@@ -214,6 +212,10 @@ public class NotificationsEvaluationService {
         }
         logger.info(emails);
 
+    }
+    
+    private static boolean isSocsActiveAndNotifiable(StudyOrganizationClinicalStaff socs){
+    	return (RoleStatus.ACTIVE.equals(socs.getRoleStatus()) && socs.isNotify());
     }
 
     private static void addUserNotifications(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, HashSet<User> users) {
