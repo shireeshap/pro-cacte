@@ -761,6 +761,14 @@ function refreshQuestionDiv(questionId){
         }
         return false;
     }
+    
+    ValidationManager.submitPostProcess = function(formElement, continurSubmission){
+    	if(isSpclCharForTitle('crf.title')){
+    	    return false;
+    	} 
+    	
+    	return continurSubmission;
+    }
 
 </script>
 <style type="text/css">
