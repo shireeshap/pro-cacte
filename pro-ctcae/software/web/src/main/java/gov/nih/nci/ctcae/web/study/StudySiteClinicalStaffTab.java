@@ -114,11 +114,13 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     private List<StudyOrganizationClinicalStaff> getSocsWithToggledNotifyOption(StudyCommand command, Study study){
     	List<StudyOrganizationClinicalStaff> socsWithToggledNotifyOption = new ArrayList<StudyOrganizationClinicalStaff>();
     	StudySite studySite = command.getSelectedStudySite();
-    	for(StudyOrganizationClinicalStaff socs : command.getStudyOrganizationClinicalStaffs()){
-    		if(studySite.getId().equals(socs.getStudyOrganization().getId())){
-    			for(StudyOrganizationClinicalStaff studySocs : study.getAllStudyOrganizationClinicalStaffs()){
-    				if(studySocs.equals(socs)){
-    					socsWithToggledNotifyOption.add(socs);
+    	if(studySite != null){
+    		for(StudyOrganizationClinicalStaff socs : command.getStudyOrganizationClinicalStaffs()){
+    			if(studySite.getId().equals(socs.getStudyOrganization().getId())){
+    				for(StudyOrganizationClinicalStaff studySocs : study.getAllStudyOrganizationClinicalStaffs()){
+    					if(studySocs.equals(socs)){
+    						socsWithToggledNotifyOption.add(socs);
+    					}
     				}
     			}
     		}
