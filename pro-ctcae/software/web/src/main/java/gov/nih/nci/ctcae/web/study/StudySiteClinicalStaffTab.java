@@ -10,12 +10,14 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,7 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserRepository userRepository;
+    private GenericRepository genericRepository;
 
     public StudySiteClinicalStaffTab() {
         super("study.tab.study_site_clinical_staff", "study.tab.study_site_clinical_staff", "study/study_site_clinical_staff");
@@ -101,6 +104,27 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
             command.removeAllNewSocsForSelectedSite();
             request.setAttribute("flashMessage", "save.confirmation");
         }
+        
+        List<StudyOrganizationClinicalStaff> socsWithToggledNotifyOption = getSocsWithToggledNotifyOption(command, command.getStudy());
+        for(StudyOrganizationClinicalStaff socs : socsWithToggledNotifyOption){
+        	genericRepository.save(socs);
+        }
+    }
+    
+    private List<StudyOrganizationClinicalStaff> getSocsWithToggledNotifyOption(StudyCommand command, Study study){
+    	List<StudyOrganizationClinicalStaff> socsWithToggledNotifyOption = new ArrayList<StudyOrganizationClinicalStaff>();
+    	StudySite studySite = command.getSelectedStudySite();
+    	for(StudyOrganizationClinicalStaff socs : command.getStudyOrganizationClinicalStaffs()){
+    		if(studySite.getId().equals(socs.getStudyOrganization().getId())){
+    			for(StudyOrganizationClinicalStaff studySocs : study.getAllStudyOrganizationClinicalStaffs()){
+    				if(studySocs.equals(socs)){
+    					socsWithToggledNotifyOption.add(socs);
+    				}
+    			}
+    		}
+    	}
+    	
+    	return socsWithToggledNotifyOption;
     }
 
     /*
@@ -125,6 +149,7 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     		if(matchingStudyOrg != null){
                 StudyOrganizationClinicalStaff newSocs = new StudyOrganizationClinicalStaff();
                 newSocs.setRole(studyOrganizationClinicalStaff.getRole());
+                newSocs.setNotify(studyOrganizationClinicalStaff.getNotify());
                 newSocs.setStudyOrganization(matchingStudyOrg);
                 newSocs.setOrganizationClinicalStaff(ocs);
                 if(!matchingStudyOrg.getStudyOrganizationClinicalStaffs().contains(newSocs)){
@@ -185,5 +210,9 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    public void setGenericRepository(GenericRepository genericRepository){
+    	this.genericRepository = genericRepository;
     }
 }
