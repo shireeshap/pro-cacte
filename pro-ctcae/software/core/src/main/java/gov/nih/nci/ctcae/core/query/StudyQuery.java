@@ -21,9 +21,12 @@ public class StudyQuery extends SecuredQuery<Study> {
     private static final String PARTICIPANT_ID = "participantId";
     private static final String ROLE = "role";
     private static String ORGANIZATION_ID = "organizationId";
-    private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
+    private static final String DCC_SITE = "dataCordinatingCenter";
+    private static final String FSP_SITE = "fundingSponsorer";
+    private static final String SSP_SITE = "studySponsorer";
     private static final String USERNAME = "username";
+    
 
     /**
      * TODO: Horrible overloading. Fix ASAP.
@@ -115,10 +118,13 @@ public class StudyQuery extends SecuredQuery<Study> {
         if (siteId != null) {
             leftJoin("study.studyOrganizations as sso");
             andWhere("sso.organization.id = :" + ORGANIZATION_ID);
-            andWhere(String.format("(sso.class = :%s or sso.class = :%s )" , STUDY_SITE, LEAD_SITE));
+            andWhere(String.format("(sso.class = :%s or sso.class = :%s or sso.class = :%s or sso.class = :%s )" ,
+            		DCC_SITE, LEAD_SITE, FSP_SITE, SSP_SITE));
             setParameter(ORGANIZATION_ID, siteId);
-            setParameter(STUDY_SITE, "SST");
+            setParameter(DCC_SITE, "DCC");
             setParameter(LEAD_SITE, "LSS");
+            setParameter(FSP_SITE, "FSP");
+            setParameter(SSP_SITE, "SSP");
         }
     }
 
