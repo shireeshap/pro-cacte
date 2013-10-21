@@ -55,9 +55,9 @@ public class CrfAjaxFacade {
         	crfQuery.setSortBy("o." + sortField);
         }
         crfQuery.setSortDirection(direction);
-        crfQuery.filterByHidden(false);
-        crfQuery.filterByNullNextVersionId();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        buidFilteredQuery(crfQuery, user);
+
         if (searchStrings != null) {
             int index = 0;
             for (String searchString : searchStrings) {
@@ -88,16 +88,22 @@ public class CrfAjaxFacade {
         }
         return crfs;
     }
+    
+    private CRFQuery buidFilteredQuery(CRFQuery crfQuery, User user){
+    	crfQuery.filterByHidden(false);
+        crfQuery.filterByNullNextVersionId();
+        if (!user.isAdmin()) {
+            crfQuery.filterByUsername(user.getUsername());
+        }
+        
+        return crfQuery;
+    }
 
     public Long resultCount(String[] searchTexts) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName = user.getUsername();
         CRFQuery crfQuery = new CRFQuery(QueryStrings.CRF_QUERY_COUNT);
-        crfQuery.filterByHidden(false);
-        crfQuery.filterByNullNextVersionId();
-        if (!user.isAdmin()) {
-            crfQuery.filterByUsername(userName);
-        }
+        buidFilteredQuery(crfQuery, user);
+        
         if (searchTexts != null) {
             int index = 0;
             for (String searchText : searchTexts) {
