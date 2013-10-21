@@ -72,6 +72,8 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                 List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
                 if (organizationsWithCCARole == null || organizationsWithCCARole.size() == 0) {
                     throw new CtcAeSystemException("Logged in user is not a CCA on any organization.");
+                } else {
+                	studyCommand.setCCA(true);
                 }
                 if (organizationsWithCCARole.size() == 1) {
                     studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
