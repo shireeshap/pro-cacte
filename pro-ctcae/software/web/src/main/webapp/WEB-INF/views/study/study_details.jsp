@@ -237,7 +237,7 @@
          </ul>
        
        <c:choose>
-           <c:when test="${command.admin eq true}">
+           <c:when test="${command.admin eq true or command.CCA eq true}">
                <div class="row">
                    <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_sponsor'/></div>
                    <div class="value">

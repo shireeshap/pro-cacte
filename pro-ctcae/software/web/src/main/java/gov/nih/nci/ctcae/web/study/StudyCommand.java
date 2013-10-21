@@ -34,6 +34,7 @@ public class StudyCommand {
     private List<StudyOrganizationClinicalStaff> overallDataCoordinators = new ArrayList<StudyOrganizationClinicalStaff>();
     private List<StudyOrganizationClinicalStaff> principalInvestigators = new ArrayList<StudyOrganizationClinicalStaff>();
     private boolean isAdmin = false;
+    private boolean CCA = false;
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
     private List<StudyOrganizationClinicalStaff> newSocsForSelectedSite = new ArrayList<StudyOrganizationClinicalStaff>();
     private Map<Integer, Integer> socsIndexMap = new HashMap<Integer, Integer>();
@@ -90,6 +91,14 @@ public class StudyCommand {
     }
 
     public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+    
+    public boolean isCCA() {
+        return isAdmin;
+    }
+
+    public void setCCA(boolean admin) {
         isAdmin = admin;
     }
 
