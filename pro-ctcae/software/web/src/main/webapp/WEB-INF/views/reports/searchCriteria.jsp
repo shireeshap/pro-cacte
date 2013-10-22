@@ -223,8 +223,7 @@
             <c:choose>
                 <c:when test="${crfs ne null}">
 	                <div class="row" style="margin-left:11px;">
-	                    <div class="label"><tags:requiredIndicator/><tags:message
-	                            code="reports.label.form"/></div>
+	                    <div class="label"><tags:message code="reports.label.form"/></div>
 	                    <div class="value">
 	                        <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
 	                            <option value="">Please select</option>
