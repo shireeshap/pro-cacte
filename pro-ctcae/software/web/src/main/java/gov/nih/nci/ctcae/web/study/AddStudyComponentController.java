@@ -86,11 +86,11 @@ public class AddStudyComponentController extends AbstractController {
 
         if (StringUtils.equals(componentType, STUDY_ORGANIZATION_CLINICAL_STAFF)) {
             String studyOrganizationClinicalStaffIndex = request.getParameter("studyOrganizationClinicalStaffIndex");
-            Integer index = Integer.parseInt(studyOrganizationClinicalStaffIndex);
+            int index = Integer.parseInt(studyOrganizationClinicalStaffIndex);
             StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
-            studyCommand.getStudyOrganizationClinicalStaffs().set(index, null);
+            studyCommand.getStudyOrganizationClinicalStaffs().remove(index); //set(index, null);
             int newlyAddedSocsIndex = studyCommand.getPositionFromSocsIndexMap(index);
-            studyCommand.getNewlyAddedSocsForSelectedSite().set(newlyAddedSocsIndex, null);
+            studyCommand.getNewlyAddedSocsForSelectedSite().remove(newlyAddedSocsIndex); //set(newlyAddedSocsIndex, null);
             int i = 0;
         }
     }
