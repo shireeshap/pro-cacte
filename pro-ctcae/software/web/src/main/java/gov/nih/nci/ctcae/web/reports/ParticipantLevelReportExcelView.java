@@ -61,12 +61,16 @@ public class ParticipantLevelReportExcelView extends AbstractExcelView {
         cell.setCellValue(new HSSFRichTextString(study.getDisplayName()));
 
         //CRF
-        row = hssfSheet.createRow(rownum++);
-        cell = row.createCell((short) 0);
-        cell.setCellValue(new HSSFRichTextString("Form"));
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 1);
-        cell.setCellValue(new HSSFRichTextString(crf.getTitle()));
+        
+        //CRF can be null when no form is selected i.e. report is formless. In that case don't show the title
+        if(crf != null) {
+        	 row = hssfSheet.createRow(rownum++);
+             cell = row.createCell((short) 0);
+             cell.setCellValue(new HSSFRichTextString("Form"));
+             cell.setCellStyle(style);
+             cell = row.createCell((short) 1);
+             cell.setCellValue(new HSSFRichTextString(crf.getTitle()));
+        }
 
         //Study Site
         row = hssfSheet.createRow(rownum++);
