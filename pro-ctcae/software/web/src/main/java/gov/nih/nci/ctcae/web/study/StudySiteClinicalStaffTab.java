@@ -116,10 +116,12 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     	StudySite studySite = command.getSelectedStudySite();
     	if(studySite != null){
     		for(StudyOrganizationClinicalStaff socs : command.getStudyOrganizationClinicalStaffs()){
-    			if(studySite.getId().equals(socs.getStudyOrganization().getId())){
-    				for(StudyOrganizationClinicalStaff studySocs : study.getAllStudyOrganizationClinicalStaffs()){
-    					if(studySocs.equals(socs)){
-    						socsWithToggledNotifyOption.add(socs);
+    			if(socs != null){
+    				if(studySite.getId().equals(socs.getStudyOrganization().getId())){
+    					for(StudyOrganizationClinicalStaff studySocs : study.getAllStudyOrganizationClinicalStaffs()){
+    						if(studySocs.equals(socs) && !studySocs.getNotify().equals(socs.getNotify())){
+    							socsWithToggledNotifyOption.add(socs);
+    						}
     					}
     				}
     			}
