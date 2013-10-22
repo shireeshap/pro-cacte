@@ -166,14 +166,17 @@
         }
                  
        function handleGenerateReport() {
-	   	   if($('studyInput').value == '' || $('studyInput').value == '(Begin typing here)'){
-	   	   	   $('studyInput-msg').style.display='block';
-	   	   	   return;
-	   	   } 
-	   	   
-	   	   document.getElementById('studyInput-msg').style.display='none';
-	   	   
-	   	   $('studyInput-msg').style='display:none';
+    	   if(jQuery("#studyInput").length > 0){
+		   	   if($('studyInput').value == '' || $('studyInput').value == '(Begin typing here)'){
+		   	   	   $('studyInput-msg').style.display='block';
+		   	   	   return;
+		   	   } 
+		   	   
+		   	   document.getElementById('studyInput-msg').style.display='none';
+		   	   
+		   	   $('studyInput-msg').style='display:none';
+    	   }
+    	   
 	       showResultsInPopUpFlag = false;
 	       if ($('symptom') != null) {
 	           $('symptom').value = '';
