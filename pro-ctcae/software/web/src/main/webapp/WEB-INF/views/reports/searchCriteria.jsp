@@ -225,7 +225,7 @@
         <c:if test="${not onlyStudy}">
             <c:choose>
                 <c:when test="${crfs ne null}">
-	                <div class="row" style="margin-left:11px;">
+                 	<div class="row" style="margin-left:11px;">
 	                    <div class="label"><tags:message code="reports.label.form"/></div>
 	                    <div class="value">
 	                        <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
@@ -236,7 +236,7 @@
 	                        </select>
 	                    </div>
 	
-	                </div>
+	                </div>	
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none;margin-left:11px;">
@@ -248,8 +248,8 @@
             </c:choose>
             <c:choose>
                 <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
-                    <div class="row" style="display:none;margin-left:11px;">
-                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
+                    <div class="row" style="margin-left:11px;">
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
                         <div class="value">
                             <select id="proCtcTermsSelect" title="symptom">
                                 <option value="">Please select</option>
@@ -265,6 +265,11 @@
                         <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
                         <div class="value" id="proCtcTerms"></div>
                     </div>
+                    <c:if test="${study ne null}">
+                        <script type="text/javascript">
+                        	displaySymptoms('', $('study').value);
+                        </script>
+                    </c:if>
                 </c:otherwise>
             </c:choose>
             <c:choose>
