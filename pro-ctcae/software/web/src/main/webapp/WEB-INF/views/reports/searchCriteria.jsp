@@ -225,18 +225,28 @@
         <c:if test="${not onlyStudy}">
             <c:choose>
                 <c:when test="${crfs ne null}">
-                 	<div class="row" style="margin-left:11px;">
-	                    <div class="label"><tags:message code="reports.label.form"/></div>
-	                    <div class="value">
-	                        <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
-	                            <option value="">Please select</option>
-	                            <c:forEach items="${crfs}" var="crf">
-	                                <option value="${crf.id}">${crf.title}</option>
-	                            </c:forEach>
-	                        </select>
-	                    </div>
-	
-	                </div>	
+                 	<c:choose>
+	                	<c:when test="${fn:length(crfs) eq 1}">
+			                <div class="row">
+			                    <div class="label"><tags:message code="reports.label.form"/></div>
+			                    <div class="value">${crfs[0].title}</div>
+			                    <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
+			                </div>
+	                	</c:when>
+	                	<c:otherwise>
+		                	<div class="row">
+			                    <div class="label"><tags:message code="reports.label.form"/></div>
+			                    <div class="value">
+		                        <select onchange="javascript:displaySymptoms(this.value, $('study').value)" name="form" id="form">
+		                            <option value="">Please select</option>
+		                            <c:forEach items="${crfs}" var="crf">
+		                                <option value="${crf.id}">${crf.title}</option>
+		                            </c:forEach>
+		                        </select>
+		                    	</div>
+	                		</div>
+	                	</c:otherwise>
+                	</c:choose>
                 </c:when>
                 <c:otherwise>
                     <div class="row" id="divFormRow" style="display:none;margin-left:11px;">
