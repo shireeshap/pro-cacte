@@ -10,6 +10,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantCrfScheduleRepo
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,8 @@ import org.springframework.web.servlet.view.RedirectView;
 public class EnterParticipantResponsesController extends CtcAeSimpleFormController {
 
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+    	Map<Integer, Boolean> unAnsweredProItemMap;
+    	Map<Integer, Boolean> unAnsweredMeddraMap;
 
     public EnterParticipantResponsesController() {
         super();
@@ -48,6 +51,26 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         if (!StringUtils.isBlank(id)) {
             studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
         }
+        
+        unAnsweredProItemMap = new HashMap<Integer, Boolean>();
+        unAnsweredMeddraMap = new HashMap<Integer, Boolean>();
+        // Record id's of all answered proCtcae questions in unAnsweredProItemMap
+        List<StudyParticipantCrfItem> spcItems = studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+        for(StudyParticipantCrfItem item : spcItems){
+        	if(item.getProCtcValidValue() == null){
+        		unAnsweredProItemMap.put(item.getId(), true);
+        	}
+        }
+        
+        // Record id's of all answered added questions in unAnsweredMeddraMap/unAnsweredProItemMap accordingly
+        List<StudyParticipantCrfScheduleAddedQuestion> spcsAdded = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions();
+        for(StudyParticipantCrfScheduleAddedQuestion addedItem : spcsAdded){
+        	if(addedItem.getProCtcQuestion() != null && addedItem.getProCtcValidValue() == null){
+        		unAnsweredProItemMap.put(addedItem.getId(), true);
+        	} else if(addedItem.getMeddraQuestion() != null && addedItem.getMeddraValidValue() == null)
+        		unAnsweredMeddraMap.put(addedItem.getId(), true);
+        }
+        
         return studyParticipantCrfSchedule;
     }
 
@@ -98,7 +121,40 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             language = "en";
         }
         if ("save".equals(submitType) || "saveandback".equals(submitType)) {
+        	// mark the schedule as In-Progress
             studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
+            
+            // capture responseDate, responseMode, updatedBy information for newly answered pro questions
+            List<StudyParticipantCrfItem> spcItems = studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+            if (spcItems != null) { 
+                for (StudyParticipantCrfItem spcCrfItem : spcItems) {
+                    if (unAnsweredProItemMap.get(spcCrfItem.getId()) != null && spcCrfItem.getProCtcValidValue() != null) {
+                    	updateSpcrfItem(spcCrfItem, studyParticipantCrfSchedule, user);
+                    	unAnsweredProItemMap.remove(spcCrfItem.getId());
+                    }
+                }
+            }
+            
+            List<StudyParticipantCrfScheduleAddedQuestion> spcsAdded = studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions();
+            if (spcsAdded != null) {
+                for (StudyParticipantCrfScheduleAddedQuestion spcsaq : spcsAdded) {
+                    // capture responseDate, responseMode, updatedBy information for newly answered added pro questions
+                	if(spcsaq.getProCtcQuestion() != null){
+                		if (unAnsweredProItemMap.get(spcsaq.getId()) != null && spcsaq.getProCtcValidValue() != null) {
+                			updateSpcsaq(spcsaq, studyParticipantCrfSchedule, user);
+                			unAnsweredProItemMap.remove(spcsaq.getId());
+                		}
+                	} 
+                    // capture responseDate, responseMode, updatedBy information for newly answered added meddra questions
+                	 else if(spcsaq.getMeddraQuestion() != null){
+                		if (unAnsweredMeddraMap.get(spcsaq.getId()) != null && spcsaq.getMeddraValidValue() != null) {
+                			updateSpcsaq(spcsaq, studyParticipantCrfSchedule, user);
+                			unAnsweredMeddraMap.remove(spcsaq.getId());
+                		}
+                	}
+                }
+            }
+            
         } else {
             studyParticipantCrfSchedule.setFormSubmissionMode(AppMode.CLINICWEB);
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
@@ -106,9 +162,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             if (spcItems != null) {
                 for (StudyParticipantCrfItem spcCrfItem : spcItems) {
                     if (spcCrfItem.getResponseMode() == null) {
-                        spcCrfItem.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
-                        spcCrfItem.setResponseMode(AppMode.CLINICWEB);
-                        spcCrfItem.setUpdatedBy(user.getUsername());
+                    	updateSpcrfItem(spcCrfItem, studyParticipantCrfSchedule, user);
                     }
                 }
             }
@@ -116,9 +170,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
             if (spcsAdded != null) {
                 for (StudyParticipantCrfScheduleAddedQuestion spcsaq : spcsAdded) {
                     if (spcsaq.getResponseMode() == null) {
-                        spcsaq.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
-                        spcsaq.setResponseMode(AppMode.CLINICWEB);
-                        spcsaq.setUpdatedBy(user.getUsername());
+                    	updateSpcsaq(spcsaq, studyParticipantCrfSchedule, user);
                     }
                 }
             }
@@ -131,7 +183,18 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         modelAndView.addObject("successMessage", "true");
         return modelAndView;
     }
+    
+    private void updateSpcrfItem(StudyParticipantCrfItem spcCrfItem, StudyParticipantCrfSchedule studyParticipantCrfSchedule, User user){
+    	 spcCrfItem.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
+         spcCrfItem.setResponseMode(AppMode.CLINICWEB);
+         spcCrfItem.setUpdatedBy(user.getUsername());
+    }
 
+    private void updateSpcsaq(StudyParticipantCrfScheduleAddedQuestion spcsaq, StudyParticipantCrfSchedule studyParticipantCrfSchedule, User user){
+    	spcsaq.setReponseDate(studyParticipantCrfSchedule.getCompletionDate());
+        spcsaq.setResponseMode(AppMode.CLINICWEB);
+        spcsaq.setUpdatedBy(user.getUsername());
+    }
 
     @Required
     public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
