@@ -68,10 +68,10 @@ public class LoadEq5dTermsController extends AbstractController {
 	        	ProCtcTerm existingProCtcTerm = getExistingProCtcTerm(proCtcTermSystemId);
 	        	
 	         	if(existingProCtcTerm != null){
-	         		//update the existing proctcTerm
-	         		buildProCtcTerm(existingProCtcTerm, csvLineList);
-	         		addValidValuesToProCtcTerm(existingProCtcTerm, csvLineList);
-	         		saveUpdatedProCtcTerm(existingProCtcTerm);
+	         		//update the existing proctcTerm .. unplugging the edit existing term functionality. Was making dupe entries in valid values vocab.
+//	         		buildProCtcTerm(existingProCtcTerm, csvLineList);
+//	         		addValidValuesToProCtcTerm(existingProCtcTerm, csvLineList);
+//	         		saveUpdatedProCtcTerm(existingProCtcTerm);
 	         	} else {
 	         		String categoryName = csvLineList.get(0).categoryName;
 	         		String termEng = csvLineList.get(0).termEnglish;
