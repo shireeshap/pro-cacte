@@ -26,7 +26,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
-
 /**
  * @author AmeyS
  * Helper for generating overall study report for Eq5D surverys
@@ -46,6 +45,7 @@ public class Eq5dOverallStudyReportHelper {
 	private static String PRESENT =	"PRES";
 	private static String AMOUNT =	"AMT";
 	private static Integer MARK_MANUAL_SKIP = -55;
+	private static String NOT_AVAILABLE = "Not Available";
 	
 	public Eq5dOverallStudyReportHelper(){
 		logger = LogFactory.getLog(getClass());
@@ -102,7 +102,8 @@ public class Eq5dOverallStudyReportHelper {
 	
 	public Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> getCareResults(
 			Map<String, LinkedHashMap<String, List<Date>>> crfDateMap, Map<String, LinkedHashMap<String, List<String>>> crfModeMap,
-			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap, Map<String, String> participantInfoMap) throws ParseException {
+			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap, Map<String, LinkedHashMap<String, List<String>>> healthScoreMap,
+			Map<String, String> participantInfoMap) throws ParseException {
 
 		Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> organizationMap = 
 			new TreeMap<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>(); 
@@ -113,6 +114,7 @@ public class Eq5dOverallStudyReportHelper {
 		ArrayList<Date> dates;
 		ArrayList<String> appModes;
 		ArrayList<CrfStatus> statusList;
+		ArrayList<String> healthScoreList;
 		
 		for(SpcrfsWrapper studyParticipantCrfSchedule : schedules){
 			String organization = participantsAndOrganizations.get(studyParticipantCrfSchedule.getId()).get(0).getOrganizationName();
@@ -146,6 +148,7 @@ public class Eq5dOverallStudyReportHelper {
 			LinkedHashMap<String, List<Date>> datesMap;
 			LinkedHashMap<String,List<String>> modeMap;
 			LinkedHashMap<String,List<CrfStatus>> statusMap;
+			LinkedHashMap<String,List<String>> VasMap;
 			
 			if(crfDateMap.get(crf) != null){
 				datesMap = crfDateMap.get(crf);
@@ -166,6 +169,13 @@ public class Eq5dOverallStudyReportHelper {
 			} else {
 				statusMap = new LinkedHashMap<String, List<CrfStatus>>();
 				crfStatusMap.put(crf, statusMap);
+			}
+			
+			if(healthScoreMap.get(crf) != null){
+				VasMap = healthScoreMap.get(crf);
+			} else {
+				VasMap = new LinkedHashMap<String, List<String>>();
+				healthScoreMap.put(crf, VasMap);
 			}
 			
 			if (datesMap.containsKey(participant)) {
@@ -189,7 +199,19 @@ public class Eq5dOverallStudyReportHelper {
 				statusMap.put(participant, statusList);
 			}
 			
+			if(VasMap.containsKey(participant)){
+				healthScoreList = (ArrayList<String>) VasMap.get(participant);
+			} else {
+				healthScoreList = new ArrayList<String>();
+				VasMap.put(participant, healthScoreList);
+			}
+			
 			statusList.add(studyParticipantCrfSchedule.getStatus());
+			if(studyParticipantCrfSchedule.getHealthAmount() != null){
+				healthScoreList.add(studyParticipantCrfSchedule.getHealthAmount().toString());
+			} else {
+				healthScoreList.add(NOT_AVAILABLE);
+			}
 			String mode = null;
 			if(responseModes.get(studyParticipantCrfSchedule.getId()) != null){
 				HashSet<String> responseModeSet = (HashSet<String>) responseModes.get(studyParticipantCrfSchedule.getId());

@@ -73,6 +73,8 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			Map<String, LinkedHashMap<String, List<String>>> eq5dCrfModeMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			// Save the survey status of the submitted surveys listed in 'list'
 			Map<String, LinkedHashMap<String, List<CrfStatus>>> eq5dCrfStatusMap = new TreeMap<String, LinkedHashMap<String, List<CrfStatus>>>();
+			// Save the VAS Health score
+			Map<String, LinkedHashMap<String, List<String>>> eq5dCrfHealthScoreMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			Map<String, String> eq5dParticipantInfoMap = new HashMap<String, String>();
 		  
 			
@@ -83,7 +85,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			
 			eq5dReportHelper.generateQuestionMappingForTableHeader(eq5dQuestionMapping, eq5dTermHeaders);
 			Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> eq5dOverAllResults = 
-				eq5dReportHelper.getCareResults(eq5dCrfDateMap, eq5dCrfModeMap, eq5dCrfStatusMap, eq5dParticipantInfoMap);
+				eq5dReportHelper.getCareResults(eq5dCrfDateMap, eq5dCrfModeMap, eq5dCrfStatusMap, eq5dCrfHealthScoreMap, eq5dParticipantInfoMap);
 			
 	
 			modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
@@ -101,6 +103,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			request.getSession().setAttribute("sessionEq5dCRFDatesMap", eq5dCrfDateMap);
 			request.getSession().setAttribute("sessionEq5dCRFModeMap", eq5dCrfModeMap);
 			request.getSession().setAttribute("sessionEq5dCRFStatusMap", eq5dCrfStatusMap);
+			request.getSession().setAttribute("sessionEq5dHealthScoreMap", eq5dCrfHealthScoreMap);
 			request.getSession().setAttribute("sessionEq5dProCtcQuestionMapping", eq5dQuestionMapping);
 			request.getSession().setAttribute("sessionEq5dProCtcTermHeaders", eq5dTermHeaders);
 			request.getSession().setAttribute("eq5dparticipantInfoMap", eq5dParticipantInfoMap);

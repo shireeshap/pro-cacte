@@ -48,6 +48,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	Map<String, LinkedHashMap<String, List<Date>>> eq5dCrfDateMap;
 	Map<String, LinkedHashMap<String, List<String>>> eq5dCrfModeMap;
 	Map<String, LinkedHashMap<String, List<CrfStatus>>> eq5dCrfStatusMap;
+	Map<String, LinkedHashMap<String, List<String>>> eq5dCrfHealthScoreMap;
 	Map<String, Map<ProCtcQuestionType, String>> eq5dQuestionMapping;
 	Map<String, Map<ProCtcQuestionType, String>> eq5dMeddraQuestionMapping;
 	List<String> eq5dTermHeaders;
@@ -141,6 +142,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	eq5dCrfDateMap = (Map<String, LinkedHashMap<String, List<Date>>>) request.getSession().getAttribute("sessionEq5dCRFDatesMap");
     	eq5dCrfModeMap = (Map<String, LinkedHashMap<String, List<String>>>) request.getSession().getAttribute("sessionEq5dCRFModeMap");
     	eq5dCrfStatusMap = (Map<String, LinkedHashMap<String, List<CrfStatus>>>) request.getSession().getAttribute("sessionEq5dCRFStatusMap");
+    	eq5dCrfHealthScoreMap = (Map<String, LinkedHashMap<String, List<String>>>) request.getSession().getAttribute("sessionEq5dHealthScoreMap");
     	eq5dQuestionMapping = (Map<String, Map<ProCtcQuestionType, String>>) request.getSession().getAttribute("sessionEq5dProCtcQuestionMapping");
     	eq5dTermHeaders = (List<String>) request.getSession().getAttribute("sessionEq5dProCtcTermHeaders");
     	eq5dMeddraHeaders = new ArrayList<String>();
@@ -167,7 +169,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		eq5dCsvWriter.writeNext(emptyRow);
 		
 		//Create main table header
-        createTableHeaders(eq5dTermHeaders, eq5dMeddraHeaders, eq5dCsvWriter);
+        createTableHeaders(eq5dTermHeaders, eq5dMeddraHeaders, true, eq5dCsvWriter);
         
         for(String organization : eq5dResults.keySet()){
         	Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap = eq5dResults.get(organization);
@@ -181,15 +183,17 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	                    List<Date> dates = null;
 	                    List<String> appModes = null;
 	                    List<CrfStatus> statusList = null;
+	                    List<String> healthScoreList = null;
 	                    
 	                    dates = getAllAdministeredDatesForCurrentSymptom(eq5dCrfDateMap.get(crf), participant);
 	                    appModes = getAllAppModesForCurrentSymptom(eq5dCrfModeMap.get(crf), participant);
 	                    statusList = getAllCrfStatusForCurrentSymptom(eq5dCrfStatusMap.get(crf), participant);
+	                    healthScoreList = getAllCrfHealthScoresForCurrentSymptom(eq5dCrfHealthScoreMap.get(crf), participant);
 	                    
 	                	int rownum = createCurrentRowPrefix(eq5dRowSet, dates, appModes, statusList, eq5dParticipantInfoMap.get(participant), participant, study.getShortTitle(), organization, 
-	                    		crf, eq5dTermHeaders, eq5dMeddraHeaders);
+	                    		crf, eq5dTermHeaders, eq5dMeddraHeaders, true);
 	                    
-	                	writeResponsesToCSV(symptomMap, eq5dRowSet, rownum, eq5dQuestionMapping, eq5dMeddraQuestionMapping);
+	                	writeResponsesToCSV(symptomMap, eq5dRowSet, rownum, eq5dQuestionMapping, eq5dMeddraQuestionMapping, healthScoreList, true);
 	                	
 	                    for(int i = 0; i<eq5dRowSet.size(); i++){
 	                    	eq5dRow = eq5dRowSet.get(i);
@@ -222,7 +226,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 		//Blank row
 		proCsvWriter.writeNext(emptyRow);
         //Create main table header
-        createTableHeaders(proCtcTermHeaders, meddraTermHeaders, proCsvWriter);
+        createTableHeaders(proCtcTermHeaders, meddraTermHeaders, false, proCsvWriter);
         
         for(String organization : results.keySet()){
         	Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap = results.get(organization);
@@ -242,9 +246,9 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	                    statusList = getAllCrfStatusForCurrentSymptom(crfStatusMap.get(crf), participant);
 	                    
 	                	int rownum = createCurrentRowPrefix(proRowSet, dates, appModes, statusList, participantInfoMap.get(participant), participant, study.getShortTitle(), organization, 
-	                    		crf, proCtcTermHeaders, meddraTermHeaders);
+	                    		crf, proCtcTermHeaders, meddraTermHeaders, false);
 	                    
-	                	writeResponsesToCSV(symptomMap, proRowSet, rownum, proCtcQuestionMapping, meddraQuestionMapping);
+	                	writeResponsesToCSV(symptomMap, proRowSet, rownum, proCtcQuestionMapping, meddraQuestionMapping, null, false);
 	                	
 	                    for(int i = 0; i<proRowSet.size(); i++){
 	                    	proRow = proRowSet.get(i);
@@ -262,8 +266,10 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	
 	
 	private void writeResponsesToCSV(Map<String, LinkedHashMap<String, List<String>>> symptomMap, List<List<String>> rowSet, Integer rownum, Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping,
-			Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping){
+			Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping, List<String> healthScoreList, boolean isEq5d){
 		
+
+		int startIndex = 7;
 		int cellNum = 7;
 		List<String> proRow = new ArrayList<String>();
         for (String termEnglish : symptomMap.keySet()) {
@@ -281,7 +287,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
                     String pos;
                     int tempPos;
                     pos = getCellNumberValidValue(proCtcQuestionMapping, meddraQuestionMapping, termEnglish, ProCtcQuestionType.getByCode(proCtcQuestionType));
-                     tempPos = Integer.valueOf(pos) + 7;
+                     tempPos = Integer.valueOf(pos) + startIndex;
                      if(!pos.equals(DEFAULT_POSITION)){
                     	 cellNum = tempPos;
                     	 proRow.set(cellNum, validValue);
@@ -294,10 +300,21 @@ public class StudyLevelFullReportCsvView extends AbstractView {
                 cellNum++;
             }
         }
+        
+        // Add the health score column for EQ5D report
+        if(isEq5d){
+        	List<String> row = new ArrayList<String>();
+        	for(int i = 0; i<rowSet.size(); i++){
+        		row = getRow(rowSet, i);
+        		row.set(12, healthScoreList.get(i));
+        	}
+        }
+        
 	}
 	
 	private Integer createCurrentRowPrefix(List<List<String>> rowSet, List<Date> dates, List<String> appModes, List<CrfStatus> statusList, String participantIdentifier, 
-			String participant, String studyShortTitle, String organization, String crf, List<String> proCtcTermHeaders, List<String> meddraTermHeaders){
+			String participant, String studyShortTitle, String organization, String crf, List<String> proCtcTermHeaders, List<String> meddraTermHeaders,
+			boolean isEq5d){
        	int rownum = 0;
        	if (dates != null && appModes!= null) {
        		int index = 0;
@@ -315,7 +332,12 @@ public class StudyLevelFullReportCsvView extends AbstractView {
        				row.add(5, NOT_AVAILABLE);
        			}
        			row.add(6, statusList.get(index).getDisplayName());
-       			markDefaultNotAdministered(row, 7, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
+       			
+       			if(!isEq5d){
+       				markDefaultNotAdministered(row, 7, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
+       			} else {
+       				markDefaultNotAdministered(row, 7, (proCtcTermHeaders.size() + meddraTermHeaders.size() + 1));
+       			}
        			index++;
        		}
        	}
@@ -354,6 +376,18 @@ public class StudyLevelFullReportCsvView extends AbstractView {
         	}
         }
 		return statusList;
+	}
+	
+	List<String> getAllCrfHealthScoresForCurrentSymptom(LinkedHashMap<String, List<String>> VasMap, String participant){
+		List<String> healthScoreList = null;
+		
+		for(String participantS : VasMap.keySet()){
+        	if(participant.equals(participantS)){
+        		healthScoreList = VasMap.get(participant);
+        		break;
+        	}
+        }
+		return healthScoreList;
 	}
 	
 	public byte[] fetchBytesFromFile(File file) throws IOException{
@@ -537,7 +571,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     
     
     
-    private void createTableHeaders(List<String> proCtcTermHeaders, List<String> meddraTermHeaders, CSVWriter writer) {
+    private void createTableHeaders(List<String> proCtcTermHeaders, List<String> meddraTermHeaders, boolean isEq5d, CSVWriter writer) {
     	List<String> proRow = new ArrayList<String>();
     	proRow.add(0, "Participant ID");
     	proRow.add(1, "Study");
@@ -546,7 +580,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     	proRow.add(4, "First response date");
     	proRow.add(5, "Mode");
     	proRow.add(6, "Status");
-		int col = 7;
+    	int col = 7;
 		if(!proCtcTermHeaders.isEmpty()){
 			for(int i = 0; i<proCtcTermHeaders.size(); i++){
 				proRow.add(col++, proCtcTermHeaders.get(i));
@@ -556,6 +590,9 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 			for(int i = 0; i<meddraTermHeaders.size(); i++){
 				proRow.add(col++, meddraTermHeaders.get(i));
 			}
+		}
+		if(isEq5d){
+			proRow.add(col++, "Health Score");
 		}
 		writer.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
 	}
@@ -567,7 +604,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	}
 	
 	private void markDefaultNotAdministered(List<String> row, int col, int length){
-    	for (int i = col; i<length + 7; i++){
+    	for (int i = col; i<length + col; i++){
     		row.add(i, String.valueOf(-2000));
     	}
     }
