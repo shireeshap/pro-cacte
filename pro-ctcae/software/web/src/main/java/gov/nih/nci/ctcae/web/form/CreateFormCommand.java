@@ -431,7 +431,11 @@ public class CreateFormCommand implements Serializable {
             NotificationRuleCondition notificationRuleCondition = new NotificationRuleCondition();
             notificationRuleCondition.setProCtcQuestionType(questionType);
             notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
-            notificationRuleCondition.setThreshold(3);
+            if(ProCtcQuestionType.PRESENT.equals(questionType)){
+            	notificationRuleCondition.setThreshold(1);
+            } else {
+            	notificationRuleCondition.setThreshold(3);
+            }
             notificationRule.addNotificationRuleCondition(notificationRuleCondition);
         }
 
@@ -595,7 +599,11 @@ public class CreateFormCommand implements Serializable {
         if(proCtcQuestionTypes.size()>0){
             notificationRuleCondition.setProCtcQuestionType((new ArrayList<ProCtcQuestionType>(crf.getAllQuestionTypes())).get(0));
             notificationRuleCondition.setNotificationRuleOperator(NotificationRuleOperator.GREATER_EQUAL);
-            notificationRuleCondition.setThreshold(3);
+            if(ProCtcQuestionType.PRESENT.equals(notificationRuleCondition.getProCtcQuestionType())){
+            	notificationRuleCondition.setThreshold(1);
+            } else {
+            	notificationRuleCondition.setThreshold(3);
+            }
             notificationRule.addNotificationRuleCondition(notificationRuleCondition);
             return notificationRuleCondition;
         }
