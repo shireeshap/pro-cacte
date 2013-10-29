@@ -29,16 +29,23 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
 
         ModelAndView modelAndView = new ModelAndView("reports/participantAddedQuestionsResults");
 
+        boolean isMeddraAddedQuestionQuery = false;
         ParticipantAddedQuestionsReportQuery query = new ParticipantAddedQuestionsReportQuery();
-        parseRequestParametersAndFormQuery(request, query);
-        
+        parseRequestParametersAndFormQuery(request, query, isMeddraAddedQuestionQuery);
         List result = genericRepository.find(query);
+
+        isMeddraAddedQuestionQuery = true;
+        ParticipantAddedQuestionsReportQuery meddraQuery = new ParticipantAddedQuestionsReportQuery(isMeddraAddedQuestionQuery);
+        parseRequestParametersAndFormQuery(request, meddraQuery, isMeddraAddedQuestionQuery);
+        List meddraResults = genericRepository.find(meddraQuery);
+        
+        result.addAll(meddraResults);
         modelAndView.addObject("results", result);
         modelAndView.addObject("isReportEmpty", result.isEmpty());
         return modelAndView;
     }
 
-    protected void parseRequestParametersAndFormQuery(HttpServletRequest request, ParticipantAddedQuestionsReportQuery query) throws ParseException {
+    protected void parseRequestParametersAndFormQuery(HttpServletRequest request, ParticipantAddedQuestionsReportQuery query, boolean isMeddraAddedQuestionQuery) throws ParseException {
     	String crfParam = request.getParameter("crf");
         String studySiteId = request.getParameter("studySite");
         String symptom = request.getParameter("symptom");
@@ -80,9 +87,15 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
         if (!StringUtils.isBlank(studySiteId)) {
             query.filterByStudySite(Integer.parseInt(studySiteId));
         }
-
-        if (!StringUtils.isBlank(symptom)) {
-            query.filterBySymptom(symptom);
+        
+        if(!isMeddraAddedQuestionQuery){
+        	if (!StringUtils.isBlank(symptom)) {
+        		query.filterBySymptom(symptom);
+        	}
+        } else {
+        	if (!StringUtils.isBlank(symptom)) {
+        		query.filterByMeddraSymptom(symptom);
+        	}
         }
     }
 

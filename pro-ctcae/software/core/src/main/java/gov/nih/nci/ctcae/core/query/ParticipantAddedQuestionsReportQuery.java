@@ -15,14 +15,20 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
      * The query string.
      */
     private static String queryString = "SELECT spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish, count(distinct spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id)  " +
-    		"from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish order by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish";
+    		"from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish order by spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish ";
 
+    private static String meddraQueryString = "SELECT spcsaq.meddraQuestion.lowLevelTerm.lowLevelTermVocab.meddraTermEnglish, count(distinct spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id)  " +
+	"from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.meddraQuestion.lowLevelTerm.lowLevelTermVocab.meddraTermEnglish order by spcsaq.meddraQuestion.lowLevelTerm.lowLevelTermVocab.meddraTermEnglish ";
     public ParticipantAddedQuestionsReportQuery(String query) {
         super(query);
     }
 
     public ParticipantAddedQuestionsReportQuery() {
         this(queryString);
+    }
+    
+    public ParticipantAddedQuestionsReportQuery(boolean isMeddraAddedQuestion){
+        this(meddraQueryString);
     }
 
     public void filterByCrf(Integer crfId) {
@@ -49,7 +55,12 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     }
 
     public void filterBySymptom(String symptom) {
-        andWhere("spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish=:symptom");
+        andWhere(" spcsaq.proCtcQuestion.proCtcTerm.proCtcTermVocab.termEnglish=:symptom ");
         setParameter("symptom", symptom);
+    }
+    
+    public void filterByMeddraSymptom(String symptom) {
+        andWhere(" spcsaq.meddraQuestion.lowLevelTerm.lowLevelTermVocab.meddraTermEnglish =:meddraSymptom ");
+        setParameter("meddraSymptom", symptom);
     }
 }
