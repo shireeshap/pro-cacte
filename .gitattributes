@@ -3037,6 +3037,7 @@ pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationConte
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-common.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/software/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
+pro-ctcae/software/web/src/main/resources/jawr.properties -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/resources/llt.csv -text
 pro-ctcae/software/web/src/main/resources/llt_spanish.csv -text
 pro-ctcae/software/web/src/main/resources/object-graph.xml -text

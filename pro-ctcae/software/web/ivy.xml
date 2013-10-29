@@ -147,6 +147,9 @@
         
         <!-- OpenCsv dependencies -->
         <dependency org="net.sf.opencsv" name="opencsv" rev="2.0"/>
+        
+        <!-- JAWR -->
+		<dependency org="net.jawr" name="jawr" rev="3.3.3" />
 		 
     </dependencies>
 </ivy-module>
