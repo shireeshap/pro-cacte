@@ -171,10 +171,7 @@
 		   	   	   $('studyInput-msg').style.display='block';
 		   	   	   return;
 		   	   } 
-		   	   
 		   	   document.getElementById('studyInput-msg').style.display='none';
-		   	   
-		   	   $('studyInput-msg').style='display:none';
     	   }
     	   
 	       showResultsInPopUpFlag = false;
