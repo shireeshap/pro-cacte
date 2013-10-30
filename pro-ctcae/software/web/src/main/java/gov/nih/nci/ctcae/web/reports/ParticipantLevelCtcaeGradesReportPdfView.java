@@ -360,7 +360,17 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 		Paragraph questionInstruction = new Paragraph(" (check one)", FontFactory.getFont("Arial", 9, Font.ITALIC));
 		question.add(questionInstruction);
 		document.add(question);
-		Paragraph responseOptions = new Paragraph(" O Investigator    O CRA (Nurse)    O CRA (Non-nurse)    O Other", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		Paragraph responseOptions = new Paragraph("", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions.add(new Phrase(" O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Investigator", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" CRA (Nurse)", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" CRA (Non-nurse)", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Other", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		
+		//responseOptions.add(lineContent);
 		responseOptions.setIndentationLeft(20f);
 		document.add(responseOptions);
 		
@@ -369,7 +379,15 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 		questionInstruction = new Paragraph(" (check one)", FontFactory.getFont("Arial", 9, Font.ITALIC));
 		question.add(questionInstruction);
 		document.add(question);
-		responseOptions = new Paragraph(" O Yes    O No (end form)    O Unsure (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions = new Paragraph("", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		//responseOptions = new Paragraph(" O Yes    O No (end form)    O Unsure (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions.add(new Phrase(" O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Yes", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" No (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Unsure (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		
 		responseOptions.setIndentationLeft(20f);
 		document.add(responseOptions);
 		
@@ -377,7 +395,14 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 		questionInstruction = new Paragraph(" (check one)", FontFactory.getFont("Arial", 9, Font.ITALIC));
 		question.add(questionInstruction);
 		document.add(question);
-		responseOptions = new Paragraph(" O Yes    O No (end form)    O Unsure", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions = new Paragraph("", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		//responseOptions = new Paragraph(" O Yes    O No (end form)    O Unsure", FontFactory.getFont("Arial", 9, Font.PLAIN));
+		responseOptions.add(new Phrase(" O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Yes", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" No (end form)", FontFactory.getFont("Arial", 9, Font.PLAIN)));
+		responseOptions.add(new Phrase("    O ", FontFactory.getFont("Arial", 10, Font.BOLD)));
+		responseOptions.add(new Phrase(" Unsure", FontFactory.getFont("Arial", 9, Font.PLAIN)));
 		responseOptions.setIndentationLeft(20f);
 		document.add(responseOptions);
 	}
