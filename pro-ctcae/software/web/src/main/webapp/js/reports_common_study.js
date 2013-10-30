@@ -12,6 +12,11 @@
        $('divFormRow').hide();
        $('studydata').show();
        selectedCrf = crfid;
+       // clear form input
+       if(jQuery("#form").length > 0){
+    	   jQuery("#form").val("");
+       }
+       // load forms drop-down with all released forms of the selected study
        var id = $('study').value
        crf.getReducedCrfs(id, updateFormDropDown)
    }
@@ -42,7 +47,15 @@
            $('studySiteDisplayName').innerHTML = values[0].displayName;
            $('divStudySiteRow').show();
        } else {
+    	   // clear studySite input markup
+    	   if(jQuery("#studySite").length > 0){
+        	   jQuery("#studySite").val("");
+           }
+    	   // show study site auto-completer and clear the studySiteInput input markup 
            $('studySiteAutoCompleter').show();
+           if(jQuery("#studySiteInput").length > 0){
+        	   jQuery("#studySiteInput").val("");
+           }
        }
    }
 
