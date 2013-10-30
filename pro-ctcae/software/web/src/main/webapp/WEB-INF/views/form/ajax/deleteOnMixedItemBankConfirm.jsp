@@ -13,7 +13,7 @@
 	<chrome:box title="">
 	<chrome:division>
 	    <p>
-	        <strong>Selecting from a new Item Bank will delete all existing questions. Would you like to continue anyway? </strong>
+	        <strong>Selecting from a new Item Library will delete all existing questions. Would you like to continue anyway? </strong>
 	        <br />
 	    </p><br />
 	    <input type="hidden" id="isConfirm" value="true"/>

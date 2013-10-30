@@ -978,7 +978,7 @@ function refreshQuestionDiv(questionId){
 	                </ul>
 	            </td>
 	        </tr>
-            <tr><td  style="text-align:right;font-weight:bold;margin-left:10em;">Item bank:</td>
+            <tr><td  style="text-align:right;font-weight:bold;margin-left:10em;"><spring:message code="form.label.question_bank"/>:</td>
                <td>
                <select id="itemBank" onchange="javascript:selectItemBank(this.value)">
                    <c:forEach items="${itemBank}" var="item">
