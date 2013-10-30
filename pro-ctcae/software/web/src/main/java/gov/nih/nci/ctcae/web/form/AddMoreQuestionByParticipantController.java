@@ -54,7 +54,7 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
         }
         	
         //Setting the next or previous page number to be rendered in command object (will be used in SubmitFormController)
-        sCommand.setCurrentPageIndex(String.valueOf(pageNumber));
+        sCommand.setCurrentPageIndex(pageNumber);
         
         ModelAndView mv = showForm(request, errors, "");
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", sCommand);

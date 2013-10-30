@@ -64,7 +64,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         
     	replayMocks();
     	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
-    	command.setCurrentPageIndex("5");
+    	command.setCurrentPageIndex(5);
     	command.setReviewPageIndex(7);
     	command.setDirection(CONTINUE);
 		ModelAndView modelAndView = controller.onSubmit(request, response, command, errors);
@@ -84,7 +84,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         
     	replayMocks();
     	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
-    	command.setCurrentPageIndex("5");
+    	command.setCurrentPageIndex(5);
     	command.setReviewPageIndex(7);
     	command.setDirection(BACK);
 		ModelAndView modelAndView = controller.onSubmit(request, response, command, errors);

@@ -194,16 +194,16 @@ public class SubmitFormCommand implements Serializable {
         return currentPageIndex;
     }
 
-    public void setCurrentPageIndex(String currentPageIndex) {
+    public void setCurrentPageIndex(Integer currentPageIndex) {
         direction = "";
-        if (StringUtils.isBlank(currentPageIndex)) {
+        if (currentPageIndex == null) {
             this.currentPageIndex = 1;
         } else {
-            this.currentPageIndex = Integer.parseInt(currentPageIndex);
+            this.currentPageIndex = currentPageIndex;
         }
     }
     
-    private Integer getCurrentPageIndex(){
+    public Integer getCurrentPageIndex(){
     	return currentPageIndex;
     }
 
@@ -556,18 +556,18 @@ public class SubmitFormCommand implements Serializable {
                         if (displayQuestionsList.size() > 1) {
                             if (displayQuestion.getSelectedValidValue().getDisplayOrder() == 0 || count == displayQuestionsList.size()) {
                                 tempIndex = tempIndex + 1;
-                                setCurrentPageIndex(Integer.toString(tempIndex));
+                                setCurrentPageIndex(tempIndex);
                             } else
-                                setCurrentPageIndex(Integer.toString(tempIndex));
+                                setCurrentPageIndex(tempIndex);
                         } else {
                             tempIndex = tempIndex + 1;
-                            setCurrentPageIndex(Integer.toString(tempIndex));
+                            setCurrentPageIndex(tempIndex);
                         }
                     }
                 }
             } else {
                 tempIndex = tempIndex + 1;
-                setCurrentPageIndex(Integer.toString(tempIndex));
+                setCurrentPageIndex(tempIndex);
             }
         }
     }

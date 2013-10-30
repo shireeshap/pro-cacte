@@ -176,6 +176,20 @@
         margin-right: 7px;
         float: left;
     }
+    
+    .progress-bar-inner {
+		-moz-border-radius: 20px;
+	    -webkit-border-radius: 20px;
+	    border-radius: 20px;
+	    -moz-box-shadow: 0 1px 1px #d1ebff inset;
+	    -webkit-box-shadow: 0 1px 1px #d1ebff inset ;
+	    box-shadow: 0 1px 1px #d1ebff inset;
+	    background-color: #0066cc;
+	    background-image: url(/proctcae/images/blue/progress-bar.png);
+	    background-repeat: repeat-x;
+	    width: ${(command.currentPageIndex/command.totalPages)*150} px;
+	    height: 15px;
+	}
 
 </style>
 <tags:includeScriptaculous/>
