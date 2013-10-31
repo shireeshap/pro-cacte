@@ -773,11 +773,8 @@
  		<property name="jobDetail" ref="spCrfItemCreatorJob" />
     </bean>
     
-    <bean id="nightlyTriggerForGradesCreation" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <bean id="nightlyTriggerForGradesCreation" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
  		<property name="jobDetail" ref="spCrfGradeCreatorJob" />
- 		<property name="startDelay" value="1"/>
-        <!-- repeat every 60 min -->
-        <property name="repeatInterval" value="900000"/>
     </bean>
     
 
