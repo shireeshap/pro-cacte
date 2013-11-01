@@ -222,9 +222,13 @@ public class ScheduleCrfAjaxFacade {
             }
             if (submitFormCommand.ctcTermAlreadyExistsInForm(ctcTerms)) {
                 if (language.equals("en")) {
-                    return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermEnglish();
+                	if(meddraRepository.isMappedToProCtcTerm(ctcTerms.get(0))){
+                		return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermEnglish();
+                	}
                 } else {
-                    return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermSpanish();
+                	if(meddraRepository.isMappedToProCtcTerm(ctcTerms.get(0))){
+                		return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermSpanish();
+                	}
                 }
             }
         }
@@ -251,18 +255,19 @@ public class ScheduleCrfAjaxFacade {
             } else {
                 ctcTerms = meddraRepository.findCtcTermForSpanishMeddraTerm(meddraTerm.getMeddraTerm(SupportedLanguageEnum.SPANISH));
             }
-            if (ctcTerms != null && ctcTerms.size() > 0 && "Y".equalsIgnoreCase(ctcTerms.get(0).getProCtcTerms().get(0).getCurrency())) {
+           
+            if (ctcTerms != null && ctcTerms.size() > 0 && 
+            		meddraRepository.isMappedToProCtcTerm(ctcTerms.get(0)) && "Y".equalsIgnoreCase(ctcTerms.get(0).getProCtcTerms().get(0).getCurrency())) {
                 if (language.equals("en")) {
-                    return ctcTerms.get(0).getProCtcTerms().get(0).getTermEnglish(SupportedLanguageEnum.ENGLISH);
+                		return ctcTerms.get(0).getProCtcTerms().get(0).getTermEnglish(SupportedLanguageEnum.ENGLISH);
                 } else {
-                    return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermSpanish();
+                		return ctcTerms.get(0).getProCtcTerms().get(0).getProCtcTermVocab().getTermSpanish();
                 }
             }
         }
         return "";
     }
-
-
+    
     /**
      * Sets the participant repository.
      *

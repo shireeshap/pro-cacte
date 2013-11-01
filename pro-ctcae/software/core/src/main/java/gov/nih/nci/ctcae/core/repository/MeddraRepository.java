@@ -49,19 +49,21 @@ public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
         MeddraQuery meddraQuery = new MeddraQuery();
         meddraQuery.filterByMeddraTerm(meddraTerm);
         LowLevelTerm lowLevelTerm = genericRepository.findSingle(meddraQuery);
-        String meddraCode = lowLevelTerm.getMeddraCode();
-        if (meddraCode == null) {
-            return null;
+        String meddraCode;
+        if(lowLevelTerm != null && lowLevelTerm.getMeddraCode() != null){
+        	meddraCode = lowLevelTerm.getMeddraCode();
+        } else {
+        	return null;
         }
         List<CtcTerm> ctcTerms = findCtcTermByMeddraCode(meddraCode);
-        if (ctcTerms == null || ctcTerms.size() == 0) {
+        if ((ctcTerms == null || ctcTerms.size() == 0) || (ctcTerms != null && !isMappedToProCtcTerm(ctcTerms.get(0)))) {
             Integer meddraPtId = lowLevelTerm.getMeddraPtId();
             meddraQuery = new MeddraQuery();
             meddraQuery.filterByMeddraPtId(meddraPtId);
             List<LowLevelTerm> lowLevelTerms = genericRepository.find(meddraQuery);
             for (LowLevelTerm llt : lowLevelTerms) {
                 ctcTerms = findCtcTermByMeddraCode(llt.getMeddraCode());
-                if (ctcTerms != null && ctcTerms.size() > 0) {
+                if (ctcTerms != null && ctcTerms.size() > 0 && isMappedToProCtcTerm(ctcTerms.get(0))) {
                     return ctcTerms;
                 }
             }
@@ -100,5 +102,13 @@ public class MeddraRepository implements Repository<LowLevelTerm, MeddraQuery> {
         List<CtcTerm> ctcTerm = genericRepository.find(ctcQuery);
 
         return ctcTerm;
+    }
+    
+    /* isMappedToProCtcTerm() method is added because:
+    MeddraTerm that corresponds to a ctcTerm which is no longer mapped to any proctcTerm (specifically found while debugging 
+    for meddraTerm Abdominal Distention: related to PRKC-2021,PRKC-2022)
+  */ 
+    public boolean isMappedToProCtcTerm(CtcTerm ctcTerm){
+    	return !ctcTerm.getProCtcTerms().isEmpty();
     }
 }
