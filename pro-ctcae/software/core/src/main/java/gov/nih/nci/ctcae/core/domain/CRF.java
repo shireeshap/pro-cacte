@@ -604,6 +604,7 @@ public class CRF extends BaseVersionable implements Comparable<CRF>{
         copiedCrf.setStatus(CrfStatus.DRAFT);
         copiedCrf.setCrfVersion(crfVersion);
         copiedCrf.setStudy(getStudy());
+        copiedCrf.setEq5d(eq5d);
         for (CRFPage crfPage : crfPages) {
             copiedCrf.addCrfPage(crfPage.copy());
         }
