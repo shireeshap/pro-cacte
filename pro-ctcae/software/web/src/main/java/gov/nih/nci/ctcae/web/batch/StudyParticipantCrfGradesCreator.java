@@ -31,6 +31,8 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
         DataAuditInfo.setLocal(auditInfo);
         
         Session session = getHibernateTemplate().getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        tx.begin();
         Query gradeMappingVersionQuery = session.createQuery(new String("SELECT pgmv FROM ProctcaeGradeMappingVersion pgmv " +
 		" where pgmv.version = 'v1.0'"));
         proctcaeGradeMappingVersion = (ProctcaeGradeMappingVersion) gradeMappingVersionQuery.list().get(0);
@@ -53,8 +55,10 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     	        		studyParticipantCrfSchedule.generateStudyParticipantCrfGrades(proctcaeGradeMappingVersion);
     	        	}
     	        }
+    	        tx.commit();
             }catch (Exception e) {
     			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades, rolling back changes...");
+    			tx.rollback();
     		}finally{
     			session.close();
     		}
