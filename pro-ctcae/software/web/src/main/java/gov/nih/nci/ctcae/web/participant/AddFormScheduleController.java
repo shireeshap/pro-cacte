@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
@@ -68,7 +69,7 @@ public class AddFormScheduleController extends AbstractController {
                     break;
                 }
             }
-            if (crf.getChildCrf() == null && !crf.isHidden()) {
+            if ((!hasChildCrf(crf) || hasDraftedChildCrf(crf)) && !crf.isHidden()) {
                 for (CRF cr : crfListMap.keySet()) {
                     if (cr.equals(studyParticipantCrf.getCrf()) && crfListMap.get(cr)) {
                         cExists = true;
@@ -98,8 +99,28 @@ public class AddFormScheduleController extends AbstractController {
         mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
         return mv;
     }
-
-
+    
+    public boolean hasChildCrf(CRF crf){
+    	if(crf.getChildCrf() != null){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean hasDraftedChildCrf(CRF crf){
+    	if(hasChildCrf(crf)){
+    		CRF childCrf = crf.getChildCrf();
+    		if(hasChildCrf(childCrf)){
+    			return false;
+    		} else {
+    			if(CrfStatus.DRAFT.equals(childCrf.getStatus())){
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
     /**
      * Instantiates a new adds the crf schedule controller.
      */
