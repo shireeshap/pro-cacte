@@ -2802,6 +2802,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermContr
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionNotifications.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/SPCrfGradeCreationTrigger.java -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/SpCrfItemCreator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/StudyParticipantCrfGradesCreator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/UpdateOnHoldStatus.java -text

@@ -768,12 +768,12 @@
     <bean id="nightlyTrigger" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
     	<property name="jobDetail" ref="pastDueSchedulesReminderEmailJob" />
     </bean>
-    
+      
     <bean id="nightlyTriggerForObjectCreation" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
  		<property name="jobDetail" ref="spCrfItemCreatorJob" />
     </bean>
     
-    <bean id="nightlyTriggerForGradesCreation" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
+    <bean id="nightlyTriggerForGradesCreation" class="gov.nih.nci.ctcae.web.batch.SPCrfGradeCreationTrigger">
  		<property name="jobDetail" ref="spCrfGradeCreatorJob" />
     </bean>
     

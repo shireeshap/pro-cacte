@@ -122,15 +122,19 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         }
         try {
         	sendOutNotifications(siteClincalStaffAndParticipantAssignmentMap, studyParticipantAndSchedulesMap);
+        	 tx.commit();
         } catch (IOException e) {
             logger.error(e.getMessage());
+            tx.rollback();
         } catch (MessagingException e) {
             logger.error(e.getMessage());
+            tx.rollback();
         } catch(Exception e){
             logger.error(e.getMessage());
+            tx.rollback();
         }	
         finally {
-            tx.commit();
+           session.close();
         }
         logger.debug("Nightly trigger bean job ends....");
     }
