@@ -92,12 +92,16 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
-        ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
+        boolean hasExistingUserAccount = false;
+    	ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
+    	if(isEditFlow(request)){
+    		hasExistingUserAccount = hasUserAccount(clinicalStaffCommand.getClinicalStaff().getId());
+    	}
         clinicalStaffCommand.apply();
         save(clinicalStaffCommand);
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
-        if (clinicalStaffCommand.getUserAccount() && "false".equals(request.getParameter("isEdit"))) {
+        if (clinicalStaffCommand.getUserAccount() && !hasExistingUserAccount) {
         	ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
         	String link = StringUtils.replace(request.getRequestURL().toString(), "pages/admin/createClinicalStaff", "public/resetPassword");
         	proctcaeEventPublisher.publishClinicalStaffNotification(link, clinicalStaff);
@@ -115,6 +119,18 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+    }
+    
+    public boolean hasUserAccount(Integer id){
+    	ClinicalStaff cs = clinicalStaffRepository.findById(id);
+    	if(cs.getUser() != null){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean isEditFlow(HttpServletRequest request){
+    	return (request.getParameter("isEdit") != null) && "true".equals(request.getParameter("isEdit"));
     }
 
     /* (non-Javadoc)
