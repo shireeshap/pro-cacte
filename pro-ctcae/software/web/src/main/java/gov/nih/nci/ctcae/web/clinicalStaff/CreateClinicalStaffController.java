@@ -15,6 +15,7 @@ import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -190,6 +191,17 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             if (!validUser) {
                 e.rejectValue("username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
             }
+        }
+        
+        // checking for duplicate study site
+        HashSet<OrganizationClinicalStaff> organizationClinicalStaffs = new HashSet<OrganizationClinicalStaff>();
+        int index = 0;
+        for(OrganizationClinicalStaff ocs : command.getClinicalStaff().getOrganizationClinicalStaffs()){
+        	if(!organizationClinicalStaffs.add(ocs)){
+        		String duplicateStudySiteErrorMsg = "Duplicate site" + ": " + ocs.getOrganization().getDisplayName();
+        		e.rejectValue("clinicalStaff.organizationClinicalStaffs[" + index +"]", "" , duplicateStudySiteErrorMsg);
+        	}
+        	index++;
         }
     }
 

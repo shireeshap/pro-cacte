@@ -123,7 +123,7 @@ public class Study extends BasePersistable {
      *
      * @return the study sites
      */
-    @UniqueObjectInCollection(message = "Duplicate Site")
+    //@UniqueObjectInCollection(message = "Duplicate Site")
     public List<StudySite> getStudySites() {
         List<StudySite> studySites = new LinkedList<StudySite>();
         for (StudyOrganization studyOrganization : getStudyOrganizations()) {

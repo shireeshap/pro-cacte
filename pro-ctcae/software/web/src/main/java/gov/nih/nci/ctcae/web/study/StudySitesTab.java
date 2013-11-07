@@ -126,6 +126,16 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
         		}
         	}
         }
+        
+        HashSet<StudySite> studySites = new HashSet<StudySite>();
+        int index = 0;
+        for(StudySite studySite : command.getStudy().getStudySites()){
+        	if(!studySites.add(studySite)){
+        		String duplicateStudySiteErrorMsg = "Duplicate study site" + ": " + studySite.getOrganization().getName();
+        		errors.rejectValue("study.studySites[" + index + "]", "" , duplicateStudySiteErrorMsg);        		
+        	}
+        	index++;
+        }
     }
 
     private StudyOrganizationClinicalStaff buildNewSocs(StudyOrganizationClinicalStaff socs, StudySite ss, OrganizationClinicalStaff ocs) {
