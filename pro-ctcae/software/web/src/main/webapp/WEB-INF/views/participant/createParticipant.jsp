@@ -16,12 +16,7 @@
 
 <html>
 <head>
-<tags:stylesheetLink name="tabbedflow"/>
-<tags:includeScriptaculous/>
-<tags:includePrototypeWindow/>
 
-<tags:stylesheetLink name="yui-autocomplete"/>
-<tags:javascriptLink name="yui-autocomplete"/>
 <tags:dwrJavascriptLink objects="organization"/>
 
 <script type="text/javascript">
