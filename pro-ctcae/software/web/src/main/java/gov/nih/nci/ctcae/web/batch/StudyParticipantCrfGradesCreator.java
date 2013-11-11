@@ -57,8 +57,9 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     	        }
     	        tx.commit();
             }catch (Exception e) {
-    			logger.error("Error in nightly trigger for creating studyParticipantCrfGrades, rolling back changes...");
+    			logger.error("Error in trigger for creating studyParticipantCrfGrades, rolling back changes...");
     			tx.rollback();
+    			e.printStackTrace();
     		}finally{
     			session.close();
     		}
