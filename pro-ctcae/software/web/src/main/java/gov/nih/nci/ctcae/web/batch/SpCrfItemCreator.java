@@ -28,16 +28,24 @@ public class SpCrfItemCreator extends HibernateDaoSupport {
         tx.begin();
         logger.error("SpCrfItemCreator: Nightly trigger bean job starts....");
         
-        List<StudyParticipantCrfSchedule> spCrfSchedules = (List<StudyParticipantCrfSchedule>)session.createQuery(
-        		"select spCrfSchedule from StudyParticipantCrfSchedule as spCrfSchedule where spCrfSchedule.startDate <= ? and spCrfSchedule.dueDate >= ?")
-        			.setDate(0, DateUtils.getCurrentDate()).setDate(1, DateUtils.getCurrentDate()).list();
+        try {
+			List<StudyParticipantCrfSchedule> spCrfSchedules = (List<StudyParticipantCrfSchedule>)session.createQuery(
+					"select spCrfSchedule from StudyParticipantCrfSchedule as spCrfSchedule where spCrfSchedule.startDate <= ? and spCrfSchedule.dueDate >= ?")
+						.setDate(0, DateUtils.getCurrentDate()).setDate(1, DateUtils.getCurrentDate()).list();
 
-        for (StudyParticipantCrfSchedule spCrfSchedule : spCrfSchedules) {
-        	//the get creates the spCrfItems for you
-        	spCrfSchedule.getStudyParticipantCrfItems();
-        }
-        
-        tx.commit();
+			for (StudyParticipantCrfSchedule spCrfSchedule : spCrfSchedules) {
+				//the get creates the spCrfItems for you
+				spCrfSchedule.getStudyParticipantCrfItems();
+			}
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("SpCrfItemCreator: Error in trigger for creating study pariticpant crf items for available schedules, rolling back changes...");
+			tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
         logger.error("SpCrfItemCreator: Nightly trigger bean job ends....");
     }
 
