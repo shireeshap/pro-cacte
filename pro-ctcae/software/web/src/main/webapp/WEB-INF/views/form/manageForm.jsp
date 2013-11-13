@@ -54,65 +54,6 @@
 <![endif]-->
 <script type="text/javascript">
 
-    function getStudies(sQuery) {
-        showIndicator("studyInput-indicator");
-        var callbackProxy = function(results) {
-            aResults = results;
-        };
-        var callMetaData = { callback:callbackProxy, async:false};
-        study.matchStudy(unescape(sQuery), callMetaData);
-        hideIndicator("studyInput-indicator");
-        return aResults;
-    }
-
-    var managerAutoComp;
-    Event.observe(window, 'load', function() {
-        new YUIAutoCompleter('studyInput', getStudies, handleSelect);
-        if ('${study.displayName}' != "") {
-            $('studyInput').value = "${study.displayName}";
-            $('studyInput').removeClassName('pending-search');
-        }
-    })
-            ;
-
-    function handleSelect(stype, args) {
-        var ele = args[0];
-        var oData = args[2];
-        if (oData == null) {
-            ele.getInputEl().value = "(Begin typing here)";
-            ele.getInputEl().addClassName('pending-search');
-        } else {
-            ele.getInputEl().value = oData.displayName;
-            ele.getInputEl().removeClassName('pending-search');
-            var id = ele.getInputEl().id;
-            var hiddenInputId = id.substring(0, id.indexOf('Input'));
-            $(hiddenInputId).value = oData.id;
-            buildTable();
-        }
-    }
-
-    function clearInput(inputId) {
-        $(inputId).clear();
-        $(inputId + 'Input').clear();
-        $(inputId + 'Input').focus();
-        $(inputId + 'Input').blur();
-    }
-
-    function buildTable() {
-        var id = $('study').value
-        var url = window.location.href.substring(0, window.location.href.indexOf('?'));
-        window.location.href = url + "?studyId=" + id;
-    }
-
-
-    function hideVersionForm(crfId) {
-        $('crfVersionShowImage_' + crfId).show();
-        $('crfVersionHideImage_' + crfId).hide();
-        $$('tr.childTableRow_' + crfId).each(function(item) {
-            item.remove();
-        });
-    }
-
     function submitForm() {
         document.forms[0].submit();
     }
