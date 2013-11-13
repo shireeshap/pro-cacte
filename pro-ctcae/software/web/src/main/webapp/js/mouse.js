@@ -34,10 +34,12 @@ function captureMousePosition(e) {
         // consistent with Netscape (above), add the scroll offsets to
         // both so we end up with an absolute value on the page, no
         // matter if the user has scrolled or not.
-        xMousePos = window.event.x+document.body.scrollLeft;
-        yMousePos = window.event.y+document.body.scrollTop;
-        xMousePosMax = document.body.clientWidth+document.body.scrollLeft;
-        yMousePosMax = document.body.clientHeight+document.body.scrollTop;
+        if(document.body){
+            xMousePos = window.event.x+document.body.scrollLeft;
+	        yMousePos = window.event.y+document.body.scrollTop;
+        	xMousePosMax = document.body.clientWidth+document.body.scrollLeft;
+        	yMousePosMax = document.body.clientHeight+document.body.scrollTop;
+        }
     } else if (document.getElementById) {
         // Netscape 6 behaves the same as Netscape 4 in this regard
         xMousePos = e.pageX;
