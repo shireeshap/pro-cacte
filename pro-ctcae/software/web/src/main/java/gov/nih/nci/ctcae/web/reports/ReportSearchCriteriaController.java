@@ -33,6 +33,7 @@ public class ReportSearchCriteriaController extends AbstractController {
     OrganizationAjaxFacade organizationAjaxFacade;
     StudyRepository studyRepository;
     private String PRIVILEGE_STUDY_REPORTS = "PRIVILEGE_STUDY_REPORTS";
+    private String STUDY_WIDE_FORMAT_REPORT = "overallStudyWideFormat";
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         cleanSession(request);
@@ -55,7 +56,12 @@ public class ReportSearchCriteriaController extends AbstractController {
 
             modelAndView.addObject("study", study);
 
-            List<CRF> crfs = getCrfsForStudy(study);
+            List<CRF> crfs; 
+            if(STUDY_WIDE_FORMAT_REPORT.equals(reportType)){
+            		crfs = getCrfsForStudy(study);
+            } else {
+            	crfs = getNonEq5dCrfsForStudy(study);
+            }
             modelAndView.addObject("crfs", crfs);
             if (crfs.size() == 1) {
                 CRF crf = crfs.get(0);
@@ -93,7 +99,11 @@ public class ReportSearchCriteriaController extends AbstractController {
     private List<CRF> getCrfsForStudy(Study study) throws Exception {
         return crfAjaxFacade.getReducedCrfs(study.getId());
     }
-
+    
+    private List<CRF> getNonEq5dCrfsForStudy(Study study) throws Exception {
+        return crfAjaxFacade.getNonEQ5DCrfs(study.getId());
+    }
+    
     public ReportSearchCriteriaController() {
         super();
         setSupportedMethods(new String[]{"GET"});

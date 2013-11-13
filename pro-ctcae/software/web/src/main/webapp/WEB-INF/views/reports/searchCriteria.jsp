@@ -140,11 +140,11 @@
 					if (displayForm) {
 		                var reportUrl = "${url}";
 		                if(reportUrl.substr(24) == 'symptomOverTime'){
-		                	displayForms();
+		                	displayForms('', reportUrl.substr(24));
 		                	displaySymptoms('', $('study').value);
 			                displaySites();
 		                } else {
-		                	displayForms();
+		                	displayForms('', reportUrl.substr(24));
 			                displaySites();
 		                }
 		                if (displayFilterBy) {

@@ -7,7 +7,7 @@
    var displayParticipant = false;
    var displayFilterBy = false;
 
-   function displayForms(crfid) {
+   function displayForms(crfid, reportUrl) {
        $('divSymptomsRow').hide();
        $('divFormRow').hide();
        $('studydata').show();
@@ -18,7 +18,11 @@
        }
        // load forms drop-down with all released forms of the selected study
        var id = $('study').value
-       crf.getReducedCrfs(id, updateFormDropDown)
+	   if(reportUrl == 'overallStudyWideFormat'){
+		   crf.getReducedCrfs(id, updateFormDropDown)
+	   } else {
+		   crf.getNonEQ5DCrfs(id, updateFormDropDown);
+	   }
    }
 
    function displaySites() {
@@ -75,6 +79,10 @@
                }
            }
        }
+   }
+   
+   function filterEQ5DCrfs(crfs){
+	   return crf.filterEQ5DCrfs(crfs);
    }
 
    function displaySymptoms(crfid, studyId) {

@@ -131,7 +131,18 @@ public class CrfAjaxFacade {
                 releasedCrfs.add(crf);
             }
         }
-       return ObjectTools.reduceAll(releasedCrfs, "id", "title");
+       return ObjectTools.reduceAll(releasedCrfs, "id", "title", "eq5d");
+    }
+    
+    public List<CRF> getNonEQ5DCrfs(Integer id) throws Exception{
+    	List<CRF> crfs = getReducedCrfs(id);
+    	List<CRF> nonEq5dCrfList = new ArrayList<CRF>();
+    	for(CRF crf : crfs){
+    		if(!crf.isEq5d()){
+    			nonEq5dCrfList.add(crf);
+    		}
+    	}
+    	return nonEq5dCrfList;
     }
     
     public List<CRF> getHiddenCrfs() throws Exception {
@@ -152,7 +163,8 @@ public class CrfAjaxFacade {
         return ObjectTools.reduceAll(new ArrayList<ProCtcTerm>(terms), "id", "term");
     }
 
-    /**Get symptoms from all the released forms for the study.
+    /**Get symptoms from all the released forms for the study except the
+     * EQ5D symptoms.
      * @param id
      */
     public List<ProCtcTerm> getAllSymptomsForStudy(Integer id) {
@@ -162,7 +174,9 @@ public class CrfAjaxFacade {
 			List<Integer> crfIds = new ArrayList<Integer>();
 			
 			for(CRF crf : crfList){
-				crfIds.add(crf.getId());
+				if(!crf.isEq5d()){
+					crfIds.add(crf.getId());
+				}
 			}
 			CrfPageItemQuery query = new CrfPageItemQuery();
 			query.filterByCrfIds(crfIds);
