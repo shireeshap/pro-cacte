@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,27 +77,11 @@ public class IvrsSchedule extends BasePersistable{
     public IvrsSchedule(StudyParticipantAssignment studyParticipantAssignment, Date studyParticipantCrfScheduleDate){
     	this.studyParticipantAssignment = studyParticipantAssignment;
     	this.callStatus = IvrsCallStatus.PENDING;
-
-    	Calendar prefTimeSetByParticipant = Calendar.getInstance(TimeZone.getTimeZone(studyParticipantAssignment.getCallTimeZone()));
-    	prefTimeSetByParticipant.setTime(studyParticipantCrfScheduleDate);
-    	if(studyParticipantAssignment.getCallAmPm().equalsIgnoreCase("am")){
-    		prefTimeSetByParticipant.set(Calendar.AM_PM, Calendar.AM);
-    	} else {
-    		prefTimeSetByParticipant.set(Calendar.AM_PM, Calendar.PM);
-    	}
-    	//In AM_PM mode 12 is equivalent to 0. Hours run from 0-11 only.
-    	if(studyParticipantAssignment.getCallHour() == 12){
-    		prefTimeSetByParticipant.set(Calendar.HOUR, 0);
-    	} else {
-    		prefTimeSetByParticipant.set(Calendar.HOUR, studyParticipantAssignment.getCallHour());
-    	}
     	
-    	prefTimeSetByParticipant.set(Calendar.MINUTE, studyParticipantAssignment.getCallMinute());
-
-    	Calendar prefDate = Calendar.getInstance();
-    	prefDate.setTimeInMillis(prefTimeSetByParticipant.getTimeInMillis());
+    	Date preferredTime = getPreferredTimeInSystemTimeZone(studyParticipantAssignment, studyParticipantCrfScheduleDate);
+    	Date actualPreferredTime = DateUtils.getEquivalentSystemTimeForTimeZone(preferredTime, studyParticipantAssignment.getCallTimeZone());
+    	this.preferredCallTime = actualPreferredTime;
     	
-    	this.preferredCallTime = prefDate.getTime();
     	this.nextCallTime = this.preferredCallTime;
     	//retry period is in minutes
     	this.retryPeriod = studyParticipantAssignment.getStudySite().getStudy().getCallBackHour();
@@ -107,7 +92,37 @@ public class IvrsSchedule extends BasePersistable{
     		this.callCount = 1;
     	}
     }
-
+    
+    /**
+     * getPreferredTimeInSystemTimeZone() method
+     * @param studyParticipantAssignment
+     * @param studyParticipantCrfScheduleDate
+     * @return Date
+     * Builds date (yyyy-MM-dd hh:mm:ss) in 24 hour format.
+     * This date represents participant's preferred call time but converted to the systems's timezone 
+     * (i.e actual date evaluated according to the particiant's timezone would differ this date.)
+     * e.g if participants preferred time is Nov 4th 2013 7:30:30 am CST (which is Nov 4th 2013 8:30 EST),
+     *     this method would return Nov 4th 2013 6:30:30 EST (assuming system's timezone as EST)
+     */
+    public Date getPreferredTimeInSystemTimeZone(StudyParticipantAssignment studyParticipantAssignment, Date studyParticipantCrfScheduleDate){
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(studyParticipantCrfScheduleDate);
+    	int callHour;
+    	//In AM_PM mode 12 is equivalent to 0. Hours run from 0-11 only.
+    	if(studyParticipantAssignment.getCallHour() == 12){
+    		callHour = 0;
+    	} else {
+    		callHour = studyParticipantAssignment.getCallHour();
+    	}
+    	if(studyParticipantAssignment.getCallAmPm().equalsIgnoreCase("pm")){
+    		callHour =  callHour + 12;
+    	}
+    	calendar.set(Calendar.HOUR_OF_DAY, callHour);
+    	calendar.set(Calendar.MINUTE, studyParticipantAssignment.getCallMinute());
+    	calendar.set(Calendar.SECOND, 0);
+    	
+    	return calendar.getTime();
+    }
     
 	public int getCallCount() {
 		return callCount;

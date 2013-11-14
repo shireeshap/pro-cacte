@@ -181,5 +181,29 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
           }
         return finalTimeString;
     }
-
+    
+    /**
+     * getEquivalentSystemTimeForTimeZone() method.
+     * @param date
+     * @param timeZoneId
+     * @return
+     * Given a date (yyyy-MM-dd hh:mm:ss) in 24 hour format and target timeZoneId,
+     * this method returns equivalent time as per the system's timezone.
+     * e.g if the date is "Nov 4th 2013 7:30:00" and timeZone is CST,
+     * then this method would return  "Nov 4th 2013 8:30:00 EST" (assuming system's timezone as EST)
+     */
+    public static Date getEquivalentSystemTimeForTimeZone(Date date, String timeZoneId){
+    	TimeZone targetTimeZone = TimeZone.getTimeZone(timeZoneId);
+    	Calendar targetZoneCalendar = Calendar.getInstance(targetTimeZone);
+    	targetZoneCalendar.setTimeInMillis(date.getTime());
+		
+    	Date dateInTargetZone = DateUtils.getDateInTimeZone(date, targetTimeZone.getID());
+		//System.out.println("Current time in ms in target zone: " + currentDateInTargetZone.getTime());
+		long offsetInMS = date.getTime() - dateInTargetZone.getTime();
+		long equivalentEstTimeForDate = date.getTime() + offsetInMS;
+		
+		Calendar newCal = Calendar.getInstance();
+		newCal.setTimeInMillis(equivalentEstTimeForDate);
+		return  newCal.getTime();
+    }
 }
