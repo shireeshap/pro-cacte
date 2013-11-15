@@ -1,9 +1,13 @@
 package gov.nih.nci.ctcae.commons.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.apache.log4j.lf5.util.DateFormatManager;
 
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
@@ -12,6 +16,10 @@ import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
  * @created Sep 26, 2008
  */
 public class DateUtilsTest extends CoreTestCase {
+	private static final String EST_TIMEZONE_ID = "America/New_York";
+	private static final String PST_TIMEZONE_ID = "America/Los_Angeles";
+	private static final String CST_TIMEZONE_ID = "America/Chicago";
+	private static final String MOUNTAIN_TIMEZONE_ID = "America/Denver";
 
     Date futureDate = DateUtils.createDate(2012, Calendar.JULY, 13);
     Date pastDate = DateUtils.createDate(2008, Calendar.JANUARY, 21);
@@ -137,5 +145,65 @@ public class DateUtilsTest extends CoreTestCase {
         d2 = c.getTime();
         assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
         System.out.println("testMonthsBetweenDates complete..");
+    }
+    
+    public void testGetEquivalentSystemTimeForTimeZone_date1() throws Exception{
+    	String pattern = "yyyy-MM-dd HH:mm:ss";
+    	DateFormat dateFormat = new SimpleDateFormat(pattern);
+    	
+    	String estDate1String = "2013-11-4 10:30:00";
+    	String pstDate1String = "2013-11-4 13:30:00";
+    	String cstDate1String = "2013-11-4 11:30:00";
+    	String mountainDate1String = "2013-11-4 12:30:00";
+    	Date estdate = dateFormat.parse(estDate1String);
+    	
+    	Date equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, CST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for CST", dateFormat.parse(cstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, PST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for PST", dateFormat.parse(pstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, MOUNTAIN_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for Moutain Time", dateFormat.parse(mountainDate1String), equivalentSystemTimeForTimeZone);
+    }
+    
+    public void testGetEquivalentSystemTimeForTimeZone_date2() throws Exception{
+    	String pattern = "yyyy-MM-dd HH:mm:ss";
+    	DateFormat dateFormat = new SimpleDateFormat(pattern);
+    	
+    	String estDate1String = "2013-02-28 22:30:00";
+    	String pstDate1String = "2013-03-01 01:30:00";
+    	String cstDate1String = "2013-02-28 23:30:00";
+    	String mountainDate1String = "2013-03-01 00:30:00";
+    	Date estdate = dateFormat.parse(estDate1String);
+    	
+    	Date equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, CST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for CST", dateFormat.parse(cstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, PST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for PST", dateFormat.parse(pstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, MOUNTAIN_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for Moutain Time", dateFormat.parse(mountainDate1String), equivalentSystemTimeForTimeZone);
+    }
+    
+    public void testGetEquivalentSystemTimeForTimeZone_date3() throws Exception{
+    	String pattern = "yyyy-MM-dd HH:mm:ss";
+    	DateFormat dateFormat = new SimpleDateFormat(pattern);
+    	
+    	String estDate1String = "2013-11-4 13:45:00";
+    	String pstDate1String = "2013-11-4 16:45:00";
+    	String cstDate1String = "2013-11-4 14:45:00";
+    	String mountainDate1String = "2013-11-4 15:45:00";
+    	Date estdate = dateFormat.parse(estDate1String);
+    	
+    	Date equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, CST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for CST", dateFormat.parse(cstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, PST_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for PST", dateFormat.parse(pstDate1String), equivalentSystemTimeForTimeZone);
+    	
+    	equivalentSystemTimeForTimeZone = DateUtils.getEquivalentSystemTimeForTimeZone(estdate, MOUNTAIN_TIMEZONE_ID);
+    	assertEquals("Wrong equivalent date for Moutain Time", dateFormat.parse(mountainDate1String), equivalentSystemTimeForTimeZone);
     }
 }
