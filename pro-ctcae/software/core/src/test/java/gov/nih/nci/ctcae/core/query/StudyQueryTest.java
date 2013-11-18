@@ -62,10 +62,9 @@ public class StudyQueryTest extends TestCase {
     public void testFilterBySite() throws Exception {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesForStudySite(1);
-        assertEquals("Select distinct study from Study study left join study.studyOrganizations as sso WHERE (sso.class = :studySite or sso.class = :leadSite ) AND sso.organization.id = :organizationId AND study.id in (:objectIds ) order by study.shortTitle",
+        assertEquals("Select distinct study from Study study left join study.studyOrganizations as sso WHERE sso.organization.id = :organizationId AND (sso.class = :dataCordinatingCenter or sso.class = :leadSite or sso.class = :fundingSponsorer or sso.class = :studySponsorer ) AND study.id in (:objectIds ) order by study.shortTitle",
                 studyQuery.getQueryString());
-        assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 3);
-
+        assertEquals("wrong number of parameters", 5, studyQuery.getParameterMap().size());
     }
 
 }
