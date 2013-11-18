@@ -109,8 +109,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	        zipOutputStream.flush();
 
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.debug("Debugging on error2: " + e.getStackTrace());
+			logger.error("Error in generating Overall Study Report: " + e.getStackTrace());
 		}
 		finally{
 			proCsvWriter.close();
@@ -154,7 +153,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 	}
 	
 	public void generateEq5dReport(HttpServletRequest request, Study study) throws IOException{
-		eq5DReport = new File(EQ_5D+".csv");
+		eq5DReport = new File(createFileName(EQ_5D, study.getShortTitle()));
 		eq5dWriter = new PrintWriter(eq5DReport);
 		
 		eq5dCsvWriter = new CSVWriter(eq5dWriter);
@@ -209,9 +208,13 @@ public class StudyLevelFullReportCsvView extends AbstractView {
         }
 	}
 	
+	public String createFileName(String reportType, String studyShortTitle){
+		return reportType + "_" + studyShortTitle +".csv";
+	}
+	
 	
 	public void generateProCtcaeReport(HttpServletRequest request, Study study) throws IOException{
-		overallStudyReport = new File(OVERALL_STUDY_REPORT+".csv");
+		overallStudyReport = new File(createFileName(OVERALL_STUDY_REPORT, study.getShortTitle()));
 		proWriter = new PrintWriter(overallStudyReport);
 		
 		proCsvWriter = new CSVWriter(proWriter);
