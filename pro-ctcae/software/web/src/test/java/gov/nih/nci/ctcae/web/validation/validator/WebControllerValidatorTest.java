@@ -74,7 +74,7 @@ public class WebControllerValidatorTest extends WebTestCase {
         verifyMocks();
         assertFalse(errors.hasErrors());
 
-    }*/
+    }
 
     public void testValidateFalseOnCollectionProperty() {
         HashMap<String, String> parmameterNameValues = new HashMap<String, String>();
@@ -104,6 +104,7 @@ public class WebControllerValidatorTest extends WebTestCase {
         assertEquals("studySites[1].organization.displayName", list.get(0).getField());
 
     }
+    */
 
     public static MockHttpServletRequest populateRequestForCreateStudy() {
         MockHttpServletRequest request = new MockHttpServletRequest();
