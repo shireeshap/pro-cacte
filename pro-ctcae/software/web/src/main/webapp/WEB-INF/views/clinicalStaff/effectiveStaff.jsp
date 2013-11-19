@@ -29,10 +29,11 @@
                 <div class="message_style">
                     <c:choose>
                         <c:when test="${command.status.displayName eq 'Active'}">
-                            This Clinical staff will be deactivated effective today.
+                           By clicking "De-activate", this user will no longer be able to login to the system, effective immediately. 
+            			   The system will automatically inactivate the user on any studies to which they are assigned. This user can be re-activated in the future if needed.
                         </c:when>
                         <c:otherwise>
-                            This Clinical staff will be activated effective today.
+                        	By clicking "Activate", this user will be authorized to login to the system, effective immediately.
                         </c:otherwise>
                     </c:choose>
                 </div>
