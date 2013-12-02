@@ -485,7 +485,7 @@ CP.getOrgs = function(sQuery) {
     var callbackProxy = function(results) {
         aResults = results;
     };
-    var ALL_STUDY_SITES='Get all study sites';
+    var ALL_STUDY_SITES='GetAllStudySites';
     var callMetaData = { callback:callbackProxy, async:false};
     organization.matchOrganizationForStudySites(unescape(sQuery),ALL_STUDY_SITES, callMetaData);
     hideIndicator("organizationId-input-indicator");

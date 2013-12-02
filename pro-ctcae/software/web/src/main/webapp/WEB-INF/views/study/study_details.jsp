@@ -94,7 +94,7 @@
             }
         }
 
-        var ALL_STUDY_SITES='Get all study sites';
+        var ALL_STUDY_SITES='GetAllStudySites';
         function getOrgs(sQuery) {
             showIndicator("study.studySponsor.organizationInput-indicator");
             var callbackProxy = function(results) {

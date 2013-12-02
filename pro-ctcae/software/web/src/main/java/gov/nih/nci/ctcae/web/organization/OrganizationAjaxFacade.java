@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class OrganizationAjaxFacade {
-	private final String ALL_STUDY_SITES="Get all study sites"; 
+	private final String ALL_STUDY_SITES="GetAllStudySites"; 
 	private String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
     /**
      * The organization repository.
@@ -82,7 +82,7 @@ public class OrganizationAjaxFacade {
     public List<Organization> matchOrganizationForStudySites(final String text, String value) {
         logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery;
-        if(!value.equalsIgnoreCase("Get all study sites")){
+        if(!value.equalsIgnoreCase(ALL_STUDY_SITES)){
         	organizationQuery = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_FILTER_STUDYSITES, false);
         	//Filter the list of studySites already assigned to a study and not populate them in Autocompleter list.
         	organizationQuery.whereToFilterDuplicateSites(value);
