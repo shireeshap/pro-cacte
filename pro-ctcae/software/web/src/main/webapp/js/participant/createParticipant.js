@@ -51,6 +51,75 @@ CP_NS.checkParticipantPinNumber = function (siteId) {
     }
 };
 
+
+// show/hide the Pin number/Confirm pin
+CP_NS.toggleUserPinDiv = function(){
+	jQuery('#userPinDiv').toggle();
+	jQuery('#updateUserPinDiv').toggle();
+}
+
+// show UserPinDiv & add NOTEMPTY check
+CP_NS.showUserPinDiv = function(studySiteId){
+	CP_NS.toggleUserPinDiv();
+	var pinNumberInput = jQuery("[id^='participant.pinNumber_" + studySiteId + "']");
+	if(!pinNumberInput.hasClass('validate-NOTEMPTY')){
+		pinNumberInput.addClass('validate-NOTEMPTY');
+	}
+	
+	var confirmPinNumberInput = jQuery("[id^='participant.confirmPinNumber_" + studySiteId + "']");
+	if(!confirmPinNumberInput.hasClass('validate-NOTEMPTY')){
+		confirmPinNumberInput.addClass('validate-NOTEMPTY');
+	}
+}
+
+// Hide UserPinDiv & remove NOTEMPTY check
+CP_NS.hideUserPinDiv = function(studySiteId){
+	var pinNumberInput = jQuery("[id^='participant.pinNumber_" + studySiteId + "']");
+	if(pinNumberInput.hasClass('validate-NOTEMPTY')){
+		pinNumberInput.removeClass('validate-NOTEMPTY');
+	}
+	
+	var confirmPinNumberInput = jQuery("[id^='participant.confirmPinNumber_" + studySiteId + "']");
+	if(confirmPinNumberInput.hasClass('validate-NOTEMPTY')){
+		confirmPinNumberInput.removeClass('validate-NOTEMPTY');
+	}
+	CP_NS.toggleUserPinDiv();
+}
+
+// show/hide the Password/Confirm password
+CP_NS.togglePasswordDiv = function(){
+	jQuery('#passwordDiv').toggle();
+	jQuery('#updatePasswordDiv').toggle();
+}
+
+// Hide passwordDiv & add NOTEMPTY check
+CP_NS.showPasswordDiv = function(studySiteId){
+	CP_NS.togglePasswordDiv();
+	var passwordInput = jQuery("[id^='participant.password_" + studySiteId + "']");
+	if(!passwordInput.hasClass('validate-NOTEMPTY')){
+		passwordInput.addClass('validate-NOTEMPTY');
+	}
+	
+	var confirmPasswordInput = jQuery("[id^='participant.confirmPassword_" + studySiteId + "']");
+	if(!confirmPasswordInput.hasClass('validate-NOTEMPTY')){
+		confirmPasswordInput.addClass('validate-NOTEMPTY');
+	}
+}
+
+// Hide passwordDiv & remove NOTEMPTY check
+CP_NS.hidePasswordDiv = function(studySiteId){
+	var passwordInput = jQuery("[id^='participant.password_" + studySiteId + "']");
+	if(passwordInput.hasClass('validate-NOTEMPTY')){
+		passwordInput.removeClass('validate-NOTEMPTY');
+	}
+	
+	var confirmPasswordInput = jQuery("[id^='participant.confirmPassword_" + studySiteId + "']");
+	if(confirmPasswordInput.hasClass('validate-NOTEMPTY')){
+		confirmPasswordInput.removeClass('validate-NOTEMPTY');
+	}
+	CP_NS.togglePasswordDiv();
+}
+
 CP_NS.showForms = function (obj, id) {
     var sites, i;
     sites = document.getElementsByName('studySites');

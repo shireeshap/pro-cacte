@@ -311,36 +311,52 @@
 
                             </c:otherwise>
                         </c:choose>
-                        <div class="row">
-                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span>
-                            	<spring:message code="participant.label.password"/>&nbsp;
-                            </div>
-                            <div class="ssValue">
-                                <input type="password" name="participant.password_${studysite.id}"
-                                       value="${participant.user.password}"
-                                       id="participant.password_${studysite.id}"
-                                       onblur="CP.checkPasswordPolicy(${studysite.id});" title="Password"
-                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
-                                <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
-                                    <li id="passwordError1_${studysite.id}"></li>
-                                </ul>
+                        <div id="updatePasswordDiv">
+                            <div class="row">
+	                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span>
+	                            	<spring:message code="participant.label.password"/>&nbsp;
+	                            </div>
+	                            <div class="ssValue">
+	                            	<tags:button color="blue" type="button" value="Update Password"
+	                            		onclick="CP_NS.showPasswordDiv(${studysite.id})" size="small"/>
+	                            </div>
                             </div>
                         </div>
                         
-                        <div class="row">
-                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
-                                    code="participant.label.confirmpassword"/>&nbsp;</div>
-                            <div class="ssValue">
-                                <input type="password" name="participant.confirmPassword_${studysite.id}"
-                                       value="${participant.user.password}"
-                                       id="participant.confirmPassword_${studysite.id}"
-                                       onblur="CP.checkPasswordMatch(${studysite.id});" title="Confirm"
-                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
-                                <ul id="passwordErrorConfirm_${studysite.id}" style="display:none; padding-left:12em "
-                                    class="errors">
-                                    <li id="passwordErrorConfirm1_${studysite.id}"></li>
-                                </ul>
-                            </div>
+                        <div id="passwordDiv" style="display:none">
+	                        <div class="row">
+	                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span>
+	                            	<spring:message code="participant.label.password"/>&nbsp;
+	                            </div>
+	                            <div class="ssValue">
+	                                <input type="password" name="participant.password_${studysite.id}"
+	                                       value="${participant.user.password}"
+	                                       id="participant.password_${studysite.id}"
+	                                       onblur="CP.checkPasswordPolicy(${studysite.id});" title="Password"
+	                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
+	                                <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
+	                                    <li id="passwordError1_${studysite.id}"></li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                        
+	                        <div class="row">
+	                            <div class="ssLabel"><span class="required-indicator">*&nbsp;&nbsp; </span><spring:message
+	                                    code="participant.label.confirmpassword"/>&nbsp;</div>
+	                            <div class="ssValue">
+	                                <input type="password" name="participant.confirmPassword_${studysite.id}"
+	                                       value="${participant.user.password}"
+	                                       id="participant.confirmPassword_${studysite.id}"
+	                                       onblur="CP.checkPasswordMatch(${studysite.id});" title="Confirm"
+	                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
+	                                <ul id="passwordErrorConfirm_${studysite.id}" style="display:none; padding-left:12em "
+	                                    class="errors">
+	                                    <li id="passwordErrorConfirm1_${studysite.id}"></li>
+	                                </ul>
+	                                <tags:button color="red" type="button" value="Hide Password"
+	                                	onclick="CP_NS.hidePasswordDiv(${studysite.id})" size="small"/>
+	                            </div>
+	                        </div>
                         </div>
 
 						<c:choose>
@@ -437,37 +453,51 @@
             </ul>
         </div>
     </div>
-    <div class="row">
+    
+    <div id="updateUserPinDiv" class="row">
         <div class="ssLabel">
             <span class="required-indicator">*&nbsp;&nbsp; </span> PIN number
         </div>
         <div class="ssValue">
-            <input type="password" name="participantPinNumber_${studysite.id}"
-                   value="${studyParticipantAssignment.participant.pinNumber}"
-                   id="participant.pinNumber_${studysite.id}"
-                   onblur="CP_NS.checkParticipantPinNumber(${studysite.id});" title="Pin number"
-                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-            <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
-                <li><spring:message code='participant.pinnumber_pattern'
-                                    text='participant.pinnumber_pattern'/></li>
-            </ul>
+        	 <tags:button color="blue" type="button" value="Update Pin"
+                 onclick="CP_NS.showUserPinDiv(${studysite.id});" size="small"/>
         </div>
     </div>
-    <div class="row">
-        <div class="ssLabel">
-            <span class="required-indicator">*&nbsp;&nbsp; </span> Confirm
-        </div>
-        <div class="ssValue">
-            <input type="password" name="participantPinNumberConfirm_${studysite.id}"
-                   value="${studyParticipantAssignment.participant.confirmPinNumber}"
-                   id="participant.confirmPinNumber_${studysite.id}"
-                   onblur="CP.checkPinMatch(${studysite.id});" title="Confirm Pin number"
-                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
-            <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
-                <li><spring:message code='participant.confirm_pinnumber'
-                                    text='participant.confirm_pinnumber'/></li>
-            </ul>
-        </div>
+    <div id="userPinDiv" style="display:none">
+	    <div class="row">
+	        <div class="ssLabel">
+	            <span class="required-indicator">*&nbsp;&nbsp; </span> PIN number
+	        </div>
+	        <div class="ssValue">
+	            <input type="password" name="participantPinNumber_${studysite.id}"
+	                   value="${studyParticipantAssignment.participant.pinNumber}"
+	                   id="participant.pinNumber_${studysite.id}"
+	                   onblur="CP_NS.checkParticipantPinNumber(${studysite.id});" title="Pin number"
+	                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+	            <ul id="PinPatternError_${studysite.id}" style="display:none;" class="errors">
+	                <li><spring:message code='participant.pinnumber_pattern'
+	                                    text='participant.pinnumber_pattern'/></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <div class="ssLabel">
+	            <span class="required-indicator">*&nbsp;&nbsp; </span> Confirm
+	        </div>
+	        <div class="ssValue">
+	            <input type="password" name="participantPinNumberConfirm_${studysite.id}"
+	                   value="${studyParticipantAssignment.participant.confirmPinNumber}"
+	                   id="participant.confirmPinNumber_${studysite.id}"
+	                   onblur="CP.checkPinMatch(${studysite.id});" title="Confirm Pin number"
+	                   class="${showTime eq true ? "validate-NOTEMPTY":""}"/>
+	            <ul id="confirmPinError_${studysite.id}" style="display:none;" class="errors">
+	                <li><spring:message code='participant.confirm_pinnumber'
+	                                    text='participant.confirm_pinnumber'/></li>
+	            </ul>
+	            <tags:button color="red" type="button"  value="Hide Pin" 
+	            	onclick="CP_NS.hideUserPinDiv(${studysite.id});" size="small"/>
+	        </div>
+	    </div>
     </div>
     
     <div class="row">

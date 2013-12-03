@@ -432,6 +432,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         command.initialize();
+        // intialize confirm pin fied in the ParticipantCommand object
+        command.getParticipant().setConfirmPinNumber(command.getParticipant().getPinNumber());
 
         referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
