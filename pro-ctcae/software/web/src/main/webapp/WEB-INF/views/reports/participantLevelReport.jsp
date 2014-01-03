@@ -101,8 +101,10 @@
         function showResultsTable(transport) {
             $('displayParticipantCareResults').show();
             $('displayResultsTable').innerHTML = transport.responseText;
+            displayPagination();
+            setPaginationState();
         }
-
+        
         function getChartView() {
             $('careResultsTable').hide();
             $('careResultsGraph').show();
@@ -133,7 +135,6 @@
         function hideHelp() {
             $('attribute-help-content').style.display = 'none';
         }
-
     </script>
     <style type="text/css">
         * {
@@ -142,13 +143,54 @@
     </style>
 
     <script type="text/javascript">
+    	var pagination;
+    	var SymptomData;
         var managerAutoComp;
         Event.observe(window, 'load', function() {
             new YUIAutoCompleter('studyInput', getStudies, handleSelect);
             new YUIAutoCompleter('participantInput', getParticipants, handleSelect);
             new YUIAutoCompleter('studySiteInput', getOrganizations, handleSelect);
         });
-
+        
+        function displayPagination(){
+        	pagination = new YAHOO.widget.Paginator({
+    			    rowsPerPage : 10,
+    			    totalRecords: 15,
+    			    containers  : 'navigation'
+    		});
+        	pagination.render();
+        	
+        	SymptomData = {
+    				generateRequest : function(requestedState){
+    					var result = SymptomData.getContent(requestedState.page);
+    					
+    					pagination.setState(requestedState);
+    				},
+    	
+    				getContent : function(pageNumber){
+    					jQuery("div[id^='participantReport_']").hide();
+    					jQuery("#participantReport_page" + pageNumber).show();
+    					return 'Pagination: ' + pageNumber;
+    				}
+    		};
+    	
+    		pagination.subscribe('changeRequest', SymptomData.generateRequest);
+		}
+        
+        function setPaginationState(){
+        	var recordsPerPage = jQuery("#recordsPerPage").val();
+        	if(recordsPerPage !== ""){
+	        	pagination.setRowsPerPage(recordsPerPage);
+        	}
+        	
+        	var totalPageCount = jQuery("#totalPageCount").val(); 
+        	if(totalPageCount !== ""){
+	        	pagination.setTotalRecords(totalPageCount);
+        	}
+        	SymptomData.getContent(1);
+        }
+        
+        
         function getStudies(sQuery) {
             showIndicator("studyInput-indicator");
             var callbackProxy = function(results) {
