@@ -488,12 +488,27 @@ function resetInputs(propertyName){
                 jQuery('#' + fieldName + '.error').show();
                 $(fieldName + '.error').show();
                 $(fieldName).value = "";
+                fadeSearchButton();
                 return true;
             }
         }
+        showSearchButton();
         return false;
     }
 
+ 
+function fadeSearchButton(){
+	if(jQuery("#search").length != 0){
+		jQuery('#search').attr("disabled", true);
+	}
+}  
+
+function showSearchButton(){
+	if(jQuery("#search").length != 0){
+		jQuery('#search').attr("disabled", false);
+	}
+}
+ 
 //the activity indicator methods
 function showIndicator(id) {
 	if(id == null || id == ''){

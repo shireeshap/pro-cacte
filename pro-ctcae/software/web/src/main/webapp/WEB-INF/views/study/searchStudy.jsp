@@ -63,6 +63,20 @@
 <script>
     var myDataTable;
     YAHOO.util.Event.addListener(window, "load", function() {
+    	var keyPress = {
+    			13: "input:text, input:password",
+    			end: null
+    	};
+    	
+    	jQuery(document).bind("keydown", function(e){
+    		var selector = keyPress[e.which];
+    		
+    		if(selector !== undefined && jQuery(e.target).is(selector)){
+    			e.preventDefault();
+    		}
+    		return true;
+    	});
+    	
         YAHOO.example.Basic = function() {
             var myColumnDefs = [
                 {key:"assignedIdentifier", label:"Study identifier",sortable:true, resizeable:false, width:140},
@@ -207,10 +221,7 @@
                     <td  width="75%" align="center">
                         <input type="text" id="searchText" name="searchText" size="50" maxlength="50" style="width: 360px;"
                                onblur="isSpclChar('searchText');" value="${searchText}" class="form-control">
-                        <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
-                            <li><spring:message code='special.character.message' text='special.character.message'/></li>
-                        </ul>
-                        <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();"/>
+                        <tags:button color="blue" icon="search" type="button" value='Search' onclick="submitForm();" id="search"/>
                         <tags:indicator id="indicator"/>
                         <div id="error"></div>
 			        </td>
@@ -220,6 +231,14 @@
 			                          value="Create Study" href="/proctcae/pages/study/createStudy"/>
 			            </proctcae:urlAuthorize>
 			        </td>
+		        </tr>
+		        <tr>
+			        <td width="75%" align="center">
+                        <ul id="searchText.error" style="display:none;left-padding:8em;" class="errors">
+                            <li><spring:message code='special.character.message' text='special.character.message'/></li>
+                        </ul>
+			        </td>
+			        <td width="25%" align="right"></td>
 		        </tr>
         	</table>
         	<br/><br/>
