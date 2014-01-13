@@ -454,7 +454,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         if (!errors.hasErrors()) {
             try {
                 if (!command.getParticipant().isPersisted()) {
-                    command.assignCrfsToParticipant(false);
+                    command.assignCrfsToParticipant(false, false);
                     //adding this attr to session for use in getRequiredPrivileges above.
                     //This is because the create flow takes you into the enterResponses flow and hitting back on that screen
                     //brings you into the edit flow. At this point the prt.id privelege is not loaded into the uses security context and
@@ -469,7 +469,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         offSetDiff = DateUtils.daysBetweenDates(newStartDate, studyParticipantAssignment.getStudyStartDate());
                         studyParticipantAssignment.setStudyStartDate(newStartDate);
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
-                        command.assignCrfsToParticipant(true);
+                        command.assignCrfsToParticipant(true, true);
                     }
                     if (!studyParticipantAssignment.getArm().getId().equals(command.getArmId())) {
                         for (Arm arm : studyParticipantAssignment.getStudySite().getStudy().getArms()) {
@@ -478,7 +478,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                             }
                         }
                         studyParticipantAssignment.removeSpCrfsIfNoCompletedSchedules();
-                        command.assignCrfsToParticipant(true);
+                        command.assignCrfsToParticipant(true, true);
                     }
 
                     boolean doNotCreate = false;

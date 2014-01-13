@@ -194,7 +194,7 @@ public class ParticipantTestHelper {
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
  
-                spc.createSchedules(false);
+                spc.createSchedules(false, false);
                 //initialize the crfItems under every spcScheduleas crateSchedules does not crate crfItems
                 for(StudyParticipantCrfSchedule spcSchedule: spc.getStudyParticipantCrfSchedules()){
                 	spcSchedule.getStudyParticipantCrfItems();
@@ -213,7 +213,7 @@ public class ParticipantTestHelper {
         			spc.setStartDate(new Date());
         			participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
         			
-        			spc.createSchedules(false);
+        			spc.createSchedules(false, false);
         			//initialize the crfItems under every spcScheduleas crateSchedules does not crate crfItems
         			for(StudyParticipantCrfSchedule spcSchedule: spc.getStudyParticipantCrfSchedules()){
         				spcSchedule.getStudyParticipantCrfItems();

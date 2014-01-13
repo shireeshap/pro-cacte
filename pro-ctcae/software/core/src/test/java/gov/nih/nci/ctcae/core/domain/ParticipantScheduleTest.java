@@ -84,7 +84,7 @@ public class ParticipantScheduleTest extends TestCase {
         proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
     }
 
     public void testCreateSchedule() throws Exception {
@@ -101,7 +101,7 @@ public class ParticipantScheduleTest extends TestCase {
     	proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
     	
     	List<StudyParticipantCrfSchedule> allCurrentMothSchedules = participantSchedule.getCurrentMonthSchedules();
     	assertEquals(3, allCurrentMothSchedules.size());
@@ -115,7 +115,7 @@ public class ParticipantScheduleTest extends TestCase {
     	proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
         
     	childCrf = createCRf(2, CRF_TITLE2, CRF_VERSION2);
         childCrf.setEffectiveStartDate(DateUtils.parseDate("01/18/2011"));
@@ -157,7 +157,7 @@ public class ParticipantScheduleTest extends TestCase {
     	proCtcAECalendar.setCycleParameters(cycle1,DateUtils.parseDate("01/18/2011"),1);
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DateUtils.parseDate("01/30/2011"));
@@ -174,7 +174,7 @@ public class ParticipantScheduleTest extends TestCase {
         studyParticipantCrfs.add(studyParticipantCrf);
         participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
         // 3 surveys are scheduled ahead, starting today's date
-        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+        participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
         
         List<String> formIds = new ArrayList<String>();
         formIds.add(crf.getId().toString());
@@ -185,7 +185,7 @@ public class ParticipantScheduleTest extends TestCase {
     	
     	proCtcAECalendar.setCycleParameters(cycle1, DateUtils.addDaysToDate(today, -4), 1);
     	// 2 surverys are scheduled and 1 survey is NotApplicable
-    	participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false);
+    	participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.CYCLE, false, false);
     	participantSchedule.removeAllSchedules(formIds);
     	// expect 2 scheduled schedules to be removed
     	assertEquals(1, participantSchedule.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size());

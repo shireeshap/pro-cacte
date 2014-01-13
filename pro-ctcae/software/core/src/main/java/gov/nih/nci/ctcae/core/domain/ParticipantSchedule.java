@@ -123,11 +123,14 @@ public class ParticipantSchedule {
 
     /**
      * Creates the schedules.
-     *
      * @param scheduleType
      * @throws ParseException the parse exception
+     * if isStartDateOrArmChanged = true (i.e user is currently in editParticipant flow)
+     *  then do not create any PastDue schedules
+     * if isStartDateOrArmChanged = false (i.e user is in createParticipant flow)
+     *  then create schedules unrestricted of any status criteria honoring participant's start_date and survey release_date.
      */
-    public void createSchedules(ScheduleType scheduleType, boolean armChange) throws ParseException {
+    public void createSchedules(ScheduleType scheduleType, boolean armChange, boolean isStartDateOrArmChanged) throws ParseException {
         proCtcAECalendar.prepareSchedules(scheduleType);
         //TODO:Need to remove dueAfterPeriodInMill code totally after testing of new code for due date
         //long dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
@@ -136,12 +139,27 @@ public class ParticipantSchedule {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextGeneralScehdule();
                 Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
-                createSchedule(nextSchedule, dueDate, -1, -1, null, false, armChange);
+                if(!isStartDateOrArmChanged){
+                	createSchedule(nextSchedule, dueDate, -1, -1, null, false, armChange);
+                } else {
+                	Date today = new Date();
+                	if(dueDate == null || (dueDate!=null && DateUtils.compareDate(dueDate, today) >= 0)){
+                		createSchedule(nextSchedule, dueDate, -1, -1, null, false, armChange);
+                	}
+                	
+                }
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
                 Calendar nextSchedule = proCtcAECalendar.getNextCycleScehdule();
                 Date dueDate = proCtcAECalendar.getDueDateForCalendarDate(nextSchedule, proCtcAECalendar.getDueDateUnit(), proCtcAECalendar.getDueDateAmount());
-                createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false, armChange);
+                if(!isStartDateOrArmChanged){
+                	createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false, armChange);                	
+                } else {
+                	Date today = new Date();
+                	if(dueDate == null || (dueDate!=null && DateUtils.compareDate(dueDate, today) >= 0)){
+                    	createSchedule(nextSchedule, dueDate, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay(), null, false, armChange);
+                   	}
+                }
             }
         }
     }

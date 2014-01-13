@@ -262,7 +262,7 @@ public class ParticipantCommand {
         return studyParticipantAssignment;
     }
 
-    public void assignCrfsToParticipant(boolean armChange) throws ParseException {
+    public void assignCrfsToParticipant(boolean armChange, boolean isStartDateOrArmChanged) throws ParseException {
         StudyParticipantAssignment studyParticipantAssignment = getSelectedStudyParticipantAssignment();
         Date studyStartDate = studyParticipantAssignment.getStudyStartDate();
         Study study = studyParticipantAssignment.getStudySite().getStudy();
@@ -281,7 +281,7 @@ public class ParticipantCommand {
                             if (spc.getCrf().equals(crf) && spc.getArm().equals(studyParticipantAssignment.getArm())) {
                                     studyParticipantCrf = spc;
                                         studyParticipantCrf.setStartDate(getNewStartDate());
-                                    studyParticipantCrf.createSchedules(true);
+                                    studyParticipantCrf.createSchedules(true, isStartDateOrArmChanged);
                                     createSpCrf = false;
                             }
                         }
@@ -296,7 +296,7 @@ public class ParticipantCommand {
                         studyParticipantCrf.setCrf(crf);
                         studyParticipantCrf.setArm(studyParticipantAssignment.getArm());
                         studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                        studyParticipantCrf.createSchedules(armChange);
+                        studyParticipantCrf.createSchedules(armChange, isStartDateOrArmChanged);
                         studyParticipantCrf.setScheduleInitialized(true);
                     }
                 }
