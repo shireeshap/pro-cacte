@@ -2153,6 +2153,7 @@ pro-ctcae/software/core/core.iml -text
 pro-ctcae/software/core/ivy-build.xml -text
 pro-ctcae/software/core/ivy.xml -text
 pro-ctcae/software/core/src/main/Main2.iml -text
+pro-ctcae/software/core/src/main/db/PostGreSql/fuzzystrmatch.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_1.sql -text
 pro-ctcae/software/core/src/main/db/functions/ivrs_functions_pgsql_2.sql -text
@@ -2331,6 +2332,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/016_add_entire_lis
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/017_add_entire_list_of_organizations_2.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/018_update_existing_organizations.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/019_update_ctc_term_mapping.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/020_execute_fuzzyStrMatch.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ProctcTermTypeBasedCategoryEnum.java -text
@@ -2463,6 +2465,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/pas
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/security/passwordpolicy/PasswordPolicy.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/MeddraAutoCompleterDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/StudyWideFormatReportDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedMeddraQuestionCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedMeddraQuestionWrapper.java -text
@@ -2471,6 +2474,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedP
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/FirstResponseDateCallBackHandler.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/MatchingMeddraTermsRowMapper.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/MeddraAutoCompleterWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOganizationWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOrganizationCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ResponseModesCallBackHandler.java -text
@@ -2577,6 +2582,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/UserRoleSer
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/service/UserRoleServiceImpl.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/utils/ranking/MeddraTermRanker.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/utils/ranking/RankBasedSorterUtils.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/utils/ranking/RankSorter.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/utils/ranking/RankedObject.java -text

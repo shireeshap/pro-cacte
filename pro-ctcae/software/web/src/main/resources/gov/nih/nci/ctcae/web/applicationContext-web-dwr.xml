@@ -49,6 +49,7 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="meddraRepository" ref="meddraRepository"/>
+        <property name="meddraAutoCompleterDao" ref="meddraAutoCompleterDao"/>
     </bean>
     <bean id="crfAjaxFacade"
           class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">

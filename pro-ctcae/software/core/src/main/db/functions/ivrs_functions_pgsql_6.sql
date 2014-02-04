@@ -1920,5 +1920,26 @@ END;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
-
 SELECT ivrs_updateSymp_filename();
+
+CREATE OR REPLACE FUNCTION hasSimilarDmetaphoneTokens(searchString text, meddra_term_vocab text) RETURNS boolean AS $x$
+  DECLARE
+	padded_dMetaphone Text := '';
+	is_matching boolean;
+	term Text;
+	
+  BEGIN
+	select dmetaphone(searchString) into padded_dMetaphone;
+	
+	For term in select * from unnest(string_to_array(meddra_term_vocab, ' '))
+	LOOP
+		IF dmetaphone(term) = padded_dMetaphone THEN
+			return true;
+		END IF;
+	END LOOP;	
+    RETURN false;
+EXCEPTION
+    WHEN OTHERS THEN
+    return 'Exception';
+END;
+$x$ LANGUAGE plpgsql;

@@ -351,6 +351,14 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     
+    <bean name="meddraAutoCompleterDao" class="gov.nih.nci.ctcae.core.jdbc.MeddraAutoCompleterDao">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean> 
+
+	<bean name="accruReportDao" class="gov.nih.nci.ctcae.core.jdbc.AccruReportDao">
+	    <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+    
     <!-- IVRS introduced repos -->
     <bean id="ivrsScheduleRepository"
           class="gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository"
