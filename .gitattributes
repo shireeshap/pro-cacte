@@ -2332,7 +2332,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/016_add_entire_lis
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/017_add_entire_list_of_organizations_2.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/018_update_existing_organizations.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/019_update_ctc_term_mapping.groovy -text
-pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/020_execute_fuzzyStrMatch.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/001_execute_fuzzyStrMatch.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ProctcTermTypeBasedCategoryEnum.java -text
