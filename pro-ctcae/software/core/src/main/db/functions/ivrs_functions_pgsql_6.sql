@@ -1940,6 +1940,6 @@ CREATE OR REPLACE FUNCTION hasSimilarDmetaphoneTokens(searchString text, meddra_
     RETURN false;
 EXCEPTION
     WHEN OTHERS THEN
-    return 'Exception';
+    return false;
 END;
 $x$ LANGUAGE plpgsql;
