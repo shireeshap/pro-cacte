@@ -15,9 +15,10 @@
         var callbackProxy = function(results) {
             aResults = results;
         };
+        var ALL_STUDY_SITES='GetAllStudySites';
         var callMetaData = { callback:callbackProxy, async:false};
         if (${cca}) {
-            organization.matchOrganizationForStudySites(unescape(sQuery), callMetaData);
+            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
         } else {
             organization.matchOrganizationForStudySitesWithSecurity(unescape(sQuery), callMetaData);
         }
