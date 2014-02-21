@@ -2474,7 +2474,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/AddedP
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/CrfQuestionsTemplateWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/FirstResponseDateCallBackHandler.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/MatchingMeddraTermsRowMapper.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/MatchingMeddraTermsCallBackHandler.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/MeddraAutoCompleterWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOganizationWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/ParticipantAndOrganizationCallBackHandler.java -text

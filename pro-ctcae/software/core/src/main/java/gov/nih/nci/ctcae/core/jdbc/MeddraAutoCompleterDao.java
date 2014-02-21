@@ -1,10 +1,12 @@
 package gov.nih.nci.ctcae.core.jdbc;
 
-import gov.nih.nci.ctcae.core.jdbc.support.MatchingMeddraTermsRowMapper;
+import gov.nih.nci.ctcae.core.jdbc.support.MatchingMeddraTermsCallBackHandler;
 import gov.nih.nci.ctcae.core.jdbc.support.MeddraAutoCompleterWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -37,7 +39,8 @@ public class MeddraAutoCompleterDao {
     		" or hasSimilarDmetaphoneTokens('"+ searchString +"', mlltv.meddra_term_spanish) = true ) ";
     	}
 
-   	 List<MeddraAutoCompleterWrapper> result = jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsRowMapper(language));
+    	List<MeddraAutoCompleterWrapper> result = new ArrayList<MeddraAutoCompleterWrapper>();
+   	 jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsCallBackHandler(language, result));
    	 return result;
     }
     
