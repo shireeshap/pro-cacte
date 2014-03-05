@@ -1,17 +1,22 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.*;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.easymock.classextension.EasyMock;
+import org.springframework.context.ApplicationContext;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockPageContext;
+import org.springframework.mock.web.MockServletContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
  * @author Vinay Kumar
@@ -25,6 +30,7 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
     protected MockHttpSession session;
     protected MockPageContext pageContext;
     protected XmlWebApplicationContext webApplicationContext;
+    protected Set<Object> mocks = new HashSet<Object>();
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -52,17 +58,30 @@ public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
         XmlWebApplicationContext context = new XmlWebApplicationContext();
         context.setParent(parent);
         context.setServletContext(servletContext);
-        //Resource r = new FileSystemResource("");
-        //try {
-            //String path = r.getFile().getCanonicalPath();
-            //System.out.println(path);
-            //context.setConfigLocations(new String[]{String.format("file:" + path + "/web/src/main/webapp/WEB-INF/%s-servlet.xml", servletName)});
-        //} catch (IOException e) {
-        //    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-       // }
-
-        //context.refresh();
         return context;
+    }
+    
+
+    ////// MOCK REGISTRATION AND HANDLING
+    public <T> T registerMockFor(Class<T> forClass) {
+        return registered(EasyMock.createMock(forClass));
+    }
+
+    public void replayMocks() {
+        for (Object mock : mocks) EasyMock.replay(mock);
+    }
+
+    public void verifyMocks() {
+        for (Object mock : mocks) EasyMock.verify(mock);
+    }
+
+    public void resetMocks() {
+        for (Object mock : mocks) EasyMock.reset(mock);
+    }
+
+    private <T> T registered(T mock) {
+        mocks.add(mock);
+        return mock;
     }
 
     @Override
