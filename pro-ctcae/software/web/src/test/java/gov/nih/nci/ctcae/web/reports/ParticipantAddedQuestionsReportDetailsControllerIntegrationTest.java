@@ -1,12 +1,5 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
@@ -15,6 +8,10 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+
+import java.util.List;
+
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author AmeyS
