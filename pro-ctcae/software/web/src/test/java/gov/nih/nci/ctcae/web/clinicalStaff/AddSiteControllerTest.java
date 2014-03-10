@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
+import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertEqualArrays;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
-import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import org.springframework.web.servlet.ModelAndView;
 
-import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertEqualArrays;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Mehul Gulati

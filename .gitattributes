@@ -3890,10 +3890,17 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/MockSection.java -tex
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilterTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/SeleniumProperties.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtilsTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/EffectiveStaffControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/FetchClinicalStaffControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/NotificationDetailsControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaffControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text

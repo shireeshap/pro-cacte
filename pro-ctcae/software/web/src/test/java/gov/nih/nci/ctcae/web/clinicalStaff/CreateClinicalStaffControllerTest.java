@@ -1,40 +1,40 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
+import static org.easymock.EasyMock.expect;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.web.WebTestCase;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
-import static org.easymock.EasyMock.expect;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Mehul Gulati
  *         Date: Nov 24, 2008
  */
-public class CreateClinicalStaffControllerTest extends WebTestCase {
+public class CreateClinicalStaffControllerTest extends AbstractWebIntegrationTestCase {
     private CreateClinicalStaffController createClinicalStaffController;
     private ClinicalStaffCommand clinicalStaffCommand;
     private ClinicalStaff clinicalStaff = new ClinicalStaff();
     private ClinicalStaffRepository clinicalStaffRepository;
-
+    private final static String SYSTEM_ADMIN = "system_admin";
 
     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        createClinicalStaffController = new CreateClinicalStaffController();
-        clinicalStaffCommand = (ClinicalStaffCommand) createClinicalStaffController.formBackingObject(request);
-        clinicalStaffRepository = registerMockFor(ClinicalStaffRepository.class);
-        clinicalStaffCommand.setClinicalStaff(clinicalStaff);
-        clinicalStaff = new ClinicalStaff();
-        clinicalStaff.setUser(new User());
-        createClinicalStaffController.setClinicalStaffRepository(clinicalStaffRepository);
+    protected void onSetUp() throws Exception {
+    	super.onSetUp();
+    	createClinicalStaffController = new CreateClinicalStaffController();
+    	clinicalStaffCommand = (ClinicalStaffCommand) createClinicalStaffController.formBackingObject(request);
+    	clinicalStaffRepository = registerMockFor(ClinicalStaffRepository.class);
+    	clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+    	clinicalStaff = new ClinicalStaff();
+    	clinicalStaff.setUser(new User());
+    	createClinicalStaffController.setClinicalStaffRepository(clinicalStaffRepository);
+    	login(SYSTEM_ADMIN);
     }
 
     public void testConstructor() {
         assertEquals("clinicalStaff/createClinicalStaff", createClinicalStaffController.getFormView());
     }
-
 
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
@@ -49,7 +49,5 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
     public void testFormBackingObject() throws Exception {
         assertNotNull(clinicalStaffCommand);
         assertNotNull(clinicalStaffCommand.getClinicalStaff());
-
     }
-
 }
