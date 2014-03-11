@@ -142,9 +142,9 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     /**
      * add the study site level clinicians
      */
-    private List<StudyOrganizationClinicalStaff> buildClinicalStaffList(StudySite studySite) {
+    public List<StudyOrganizationClinicalStaff> buildClinicalStaffList(StudySite studySite) {
     	List<StudyOrganizationClinicalStaff> clinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
-    	studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
+    	clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA));
         clinicalStaffList.addAll(studySite.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI));
         //add the study level clinicians
     	clinicalStaffList.addAll(studySite.getStudy().getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
@@ -201,7 +201,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
     /**
      *  For all schedules that are past their due date, update status to Pastdue or completed accordingly
      */
-    private void updateScheduleStatusForPastDueSurveys(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Date today) {
+	public void updateScheduleStatusForPastDueSurveys(StudyParticipantCrfSchedule studyParticipantCrfSchedule, Date today) {
     	if (today.after(studyParticipantCrfSchedule.getDueDate())) {
     		if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
                 studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
