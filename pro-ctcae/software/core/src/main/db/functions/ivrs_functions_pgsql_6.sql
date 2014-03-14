@@ -1934,7 +1934,11 @@ CREATE OR REPLACE FUNCTION hasSimilarDmetaphoneTokens(searchString text, meddra_
 	For term in select * from unnest(string_to_array(meddra_term_vocab, ' '))
 	LOOP
 		IF dmetaphone(term) = padded_dMetaphone THEN
-			return true;
+			IF not (position('nos' in lower(searchString)) > 0::integer) and (position('nos' in lower(term)) > 0::integer) THEN
+				return false;
+			ELSE
+				return true;
+			END IF;
 		END IF;
 	END LOOP;	
     RETURN false;
