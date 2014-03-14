@@ -36,12 +36,14 @@ public class ProctcaeGradeMappingsLoader  {
     private static final String PRES_ABS = "PRES/ABS";
     private static final String pCTCAE = "pCTCAE";
 	private static final String NA = "n/a";
+	private final static String PROCTCAE_VERBATIM = "Verbatim";
+	private final static String NO_VERBATIM = "VerbatimNotAvailable";
     
     protected static final Log log = LogFactory.getLog(ProctcaeGradeMappingsLoader.class);
 
 
     public void loadProctcaeGradeMappings() throws Exception {
-        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE-GradeMapping_v1.1_08.29.13.csv");
+        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE-GradeMapping_v1.3_03.11.14.csv");
         CsvReader reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF8"));
         reader.readHeaders();
         
@@ -56,6 +58,8 @@ public class ProctcaeGradeMappingsLoader  {
                 String amount = reader.get(AMT).trim();
                 String presentAbsent = reader.get(PRES_ABS).trim();
                 String grade = reader.get(pCTCAE).trim();
+                String proctcaeVerbatim = reader.get(PROCTCAE_VERBATIM).trim();
+                proctcaeVerbatim = (StringUtils.isBlank(proctcaeVerbatim)? NO_VERBATIM : proctcaeVerbatim);
                 
         		Integer systemId;
         		try{
@@ -65,11 +69,11 @@ public class ProctcaeGradeMappingsLoader  {
         			continue;
         		}
                 
-                if(existingProctcaeTerm == null || existingProctcaeTerm.getProCtcSystemId() == null ||
-                		!existingProctcaeTerm.getProCtcSystemId().equals(systemId)){
+                if(existingProctcaeTerm == null || (existingProctcaeTerm != null && existingProctcaeTerm.getProCtcSystemId() == null) ||
+                		(existingProctcaeTerm != null && !existingProctcaeTerm.getProCtcSystemId().equals(systemId))){
                     existingProctcaeTerm = getExistingProCtcTerm(systemId);
                 }
-                ProctcaeGradeMapping pgMapping = buildGradeMapping(frequency, severity, interference, amount, presentAbsent, grade, existingProctcaeTerm, pgmv);
+                ProctcaeGradeMapping pgMapping = buildGradeMapping(frequency, severity, interference, amount, presentAbsent, grade, proctcaeVerbatim, existingProctcaeTerm, pgmv);
                 
                 if(existingProctcaeTerm != null && pgMapping != null) {
                 	//If pgMapping does not already exist then add it.
@@ -81,6 +85,9 @@ public class ProctcaeGradeMappingsLoader  {
                 		ProctcaeGradeMapping existingPgMapping = existingProctcaeTerm.getProCtcGradeMappings().get(indexOfExistingPgMapping);
                 		if(!existingPgMapping.getProCtcGrade().equalsIgnoreCase(pgMapping.getProCtcGrade())){
                 			existingPgMapping.setProCtcGrade(pgMapping.getProCtcGrade());
+                		}
+                		if(!existingPgMapping.getProctcaeVerbatim().equalsIgnoreCase(pgMapping.getProctcaeVerbatim())){
+                			existingPgMapping.setProctcaeVerbatim(pgMapping.getProctcaeVerbatim());
                 		}
                 	}
                 }
@@ -101,8 +108,8 @@ public class ProctcaeGradeMappingsLoader  {
 
 
 	private ProctcaeGradeMapping buildGradeMapping(String frequencyStr,
-			String severityStr, String interferenceStr, String amountStr,
-			String presentAbsentStr, String grade, ProCtcTerm existingProctcaeTerm, ProctcaeGradeMappingVersion pgmv) {
+			String severityStr, String interferenceStr, String amountStr,String presentAbsentStr, 
+			String grade, String proctcaeVerbatim, ProCtcTerm existingProctcaeTerm, ProctcaeGradeMappingVersion pgmv) {
 		
 		ProctcaeGradeMapping pgMapping;
 		try{
@@ -113,11 +120,11 @@ public class ProctcaeGradeMappingsLoader  {
 			Integer presentAbsent = getValue(presentAbsentStr);
 			
 			if(presentAbsent != null){
-				pgMapping = new ProctcaeGradeMapping(presentAbsent, false, grade, pgmv, existingProctcaeTerm);
+				pgMapping = new ProctcaeGradeMapping(presentAbsent, false, grade, proctcaeVerbatim, pgmv, existingProctcaeTerm);
 			} else if(amt != null){
-				pgMapping = new ProctcaeGradeMapping(amt, true, grade, pgmv, existingProctcaeTerm);
+				pgMapping = new ProctcaeGradeMapping(amt, true, grade, proctcaeVerbatim, pgmv, existingProctcaeTerm);
 			} else {
-				pgMapping = new ProctcaeGradeMapping(freq, sev, interference, grade, pgmv, existingProctcaeTerm);				
+				pgMapping = new ProctcaeGradeMapping(freq, sev, interference, grade, proctcaeVerbatim, pgmv, existingProctcaeTerm);				
 			}
 		} catch(NumberFormatException nfe){
 			return null;

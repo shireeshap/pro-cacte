@@ -41,6 +41,9 @@ public class StudyParticipantCrfGrades extends BaseVersionable {
 
 	@Column(name = "grade", nullable = true)
     private String grade;
+	
+    @Column(name="proctcae_verbatim", nullable = true)
+    private String proctcaeVerbatim;
     
 
 	public StudyParticipantCrfGrades() {
@@ -102,6 +105,14 @@ public class StudyParticipantCrfGrades extends BaseVersionable {
     public void setGrade(String grade) {
     	this.grade = grade;
     }
+    
+	public String getProctcaeVerbatim() {
+		return proctcaeVerbatim;
+	}
+
+	public void setProctcaeVerbatim(String proctcaeVerbatim) {
+		this.proctcaeVerbatim = proctcaeVerbatim;
+	}
     
     @Override
     public boolean equals(final Object o) {

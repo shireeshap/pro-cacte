@@ -52,6 +52,9 @@ public class ProctcaeGradeMapping extends BasePersistable {
     
     @Column(name = "pro_ctc_grade", nullable = false)
     private String proCtcGrade;
+    
+    @Column(name="proctcae_verbatim", nullable = false)
+    private String proctcaeVerbatim;
 
 	@JoinColumn(name = "proctcae_grade_mapping_version_id", referencedColumnName = "id")
     @ManyToOne
@@ -65,8 +68,8 @@ public class ProctcaeGradeMapping extends BasePersistable {
     	
     }
     
-	public ProctcaeGradeMapping(Integer amountOrPresentAbsent, boolean isAmount, String proCtcGrade,
-			ProctcaeGradeMappingVersion proctcaeGradeMappingVersion,
+	public ProctcaeGradeMapping(Integer amountOrPresentAbsent, boolean isAmount, String proCtcGrade, 
+			String proctcaeVerbatim, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion,
 			ProCtcTerm proCtcTerm) {
 		super();
 		if(isAmount){
@@ -75,19 +78,20 @@ public class ProctcaeGradeMapping extends BasePersistable {
 			this.present_absent = amountOrPresentAbsent;
 		}
 		this.proCtcGrade = proCtcGrade;
+		this.proctcaeVerbatim = proctcaeVerbatim;
 		this.proctcaeGradeMappingVersion = proctcaeGradeMappingVersion;
 		this.proCtcTerm = proCtcTerm;
 	}
 
-	public ProctcaeGradeMapping(Integer frequency, Integer severity,
-			Integer interference, String proCtcGrade,
-			ProctcaeGradeMappingVersion proctcaeGradeMappingVersion,
+	public ProctcaeGradeMapping(Integer frequency, Integer severity, Integer interference, 
+			String proCtcGrade, String proctcaeVerbatim, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion,
 			ProCtcTerm proCtcTerm) {
 		super();
 		this.frequency = frequency;
 		this.severity = severity;
 		this.interference = interference;
 		this.proCtcGrade = proCtcGrade;
+		this.proctcaeVerbatim = proctcaeVerbatim;
 		this.proctcaeGradeMappingVersion = proctcaeGradeMappingVersion;
 		this.proCtcTerm = proCtcTerm;
 	}
@@ -138,6 +142,14 @@ public class ProctcaeGradeMapping extends BasePersistable {
 
 	public void setProCtcGrade(String proCtcGrade) {
 		this.proCtcGrade = proCtcGrade;
+	}
+	
+	public String getProctcaeVerbatim() {
+		return proctcaeVerbatim;
+	}
+
+	public void setProctcaeVerbatim(String proctcaeVerbatim) {
+		this.proctcaeVerbatim = proctcaeVerbatim;
 	}
 
 	public ProctcaeGradeMappingVersion getProCtcGradeMappingVersion() {

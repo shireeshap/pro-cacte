@@ -57,6 +57,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
         ModelAndView modelAndView = new ModelAndView("reports/participantLevelCtcaeGradesReportResults");
         StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request, modelAndView);
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
+        List<Integer> scheduleIds;
         String startDate = request.getParameter(START_DATE);
     	String endDate = request.getParameter(END_DATE);
     	Date stDate = null;
@@ -68,8 +69,8 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	if(!StringUtils.isEmpty(endDate)){
     		eDate = DateUtils.parseDate(endDate);
     	}
-
-    	
+    	// Get a list of involved studyParticipantCrfScheduleIds
+    	scheduleIds = getAllScheduleIds(list);
         // Load studyParticipantCrfGrades from db
         Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGardeMap = loadStudyParticipantCrfGrades(list);
         // Generate a consolidated list of AE's, with each AE entry reflecting its evaluated ctcae grade along with its starting & ending date 
@@ -111,6 +112,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 					aeReportEntryWrapper.setEndDate(null);
 				}
     			aeReportEntryWrapper.setGrade(participantGradeWrapper.getGrade());
+    			aeReportEntryWrapper.setProctcaeVerbatim(participantGradeWrapper.getProctcaeVerbatim());
     			adverseEventListForDisplay.add(aeReportEntryWrapper);
     		}
     	}
@@ -227,6 +229,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 					if(isWithinReportingDateRange(stDate, date, eDate) || isBeforeReportingDateRange(stDate, date, eDate)){
 						gradeValueWrapper.setProCtcTerms(pDateMap.get(date).getProCtcTerms());
 					}
+					gradeValueWrapper.setProctcaeVerbatim(pDateMap.get(date).getProctcaeVerbatim());
 					intermidiateDateMap.put(date, gradeValueWrapper);
 					currentGrade = evaluatedGrade;
 				} else {
@@ -235,6 +238,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 						proCtcTerms = (gradeValueWrapper.getProCtcTerms() != null ? gradeValueWrapper.getProCtcTerms() : new HashSet<String>());
 						proCtcTerms.addAll(pDateMap.get(date).getProCtcTerms());
 						gradeValueWrapper.setProCtcTerms(proCtcTerms);
+						gradeValueWrapper.setProctcaeVerbatim(pDateMap.get(date).getProctcaeVerbatim());
 					}
 				}
     		}
@@ -255,6 +259,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     			if(!intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms().isEmpty()){
     				grade.setProCtcTerms(getProTermSetAsString(intermidiateParticipantGradeMap.get(symptom).get(date).getProCtcTerms()));
     			}
+    			grade.setProctcaeVerbatim(intermidiateParticipantGradeMap.get(symptom).get(date).getProctcaeVerbatim());
     			if((i+1) < intermidiateGradeList.size()){
     				grade.setEndDate(intermidiateGradeList.get(i+1).getKey());
     			} else {
@@ -331,6 +336,14 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     	
     	return proTermString.substring(0, proTermString.length() - 1);
     }
+ 
+    private List<Integer> getAllScheduleIds(List<StudyParticipantCrfSchedule> list){
+    	List<Integer> scheduleIds = new ArrayList<Integer>();
+    	for(StudyParticipantCrfSchedule schedule : list){
+    		scheduleIds.add(schedule.getId());
+    	}
+    	return scheduleIds;
+    }
     
     private Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> loadStudyParticipantCrfGrades(List<StudyParticipantCrfSchedule> schedules){
     	Map<AeWrapper, Map<Date, List<GradeValueWrapper>>> participantGradeMap = new HashMap<AeWrapper, Map<Date, List<GradeValueWrapper>>>();
@@ -375,6 +388,7 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
 					proCtcTerms.add(proCtcTerm);
 					gradeValueWrapper.setProCtcTerms(proCtcTerms);
 					gradeValueList.add(gradeValueWrapper);
+					gradeValueWrapper.setProctcaeVerbatim(studyParticipantCrfGrade.getProctcaeVerbatim());
     			}
     			
     		}
@@ -398,17 +412,17 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
         request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
         return query;
     }
-    
-    @Required
-    public void setGenericRepository(GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 
-    @Required
-    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
-
+	@Required
+	public void setGenericRepository(GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
+	}
+	
+	@Required
+	public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
+	}
+	
     private class MyDisplaySorter implements Comparator {
 		@Override
 		public int compare(Object obj1, Object obj2) {

@@ -39,7 +39,7 @@ public class ProctcaeGradeMappingsLoaderTest extends TestDataManager {
 			fail();
 		}
 		ProCtcTerm pTerm = getDefaultProCtcTerm();
-		ProctcaeGradeMapping pgMapping = new ProctcaeGradeMapping(0, 0, 0, null, pgmv, pTerm);
+		ProctcaeGradeMapping pgMapping = new ProctcaeGradeMapping(0, 0, 0, null, null, pgmv, pTerm);
 		
 		Map<ProctcaeGradeMapping, String> pgmMap = pTerm.getProctcaeGradeMappingMap();
 		assertEquals(ProctcaeGradeMapping.ZERO, pgmMap.get(pgMapping));

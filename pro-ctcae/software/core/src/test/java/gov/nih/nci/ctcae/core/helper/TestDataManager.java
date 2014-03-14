@@ -367,7 +367,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 		
 		if(defaultProctcaeGradeMappingVersion == null){
 			defaultProctcaeGradeMappingVersion = new ProctcaeGradeMappingVersion();
-			defaultProctcaeGradeMappingVersion.setVersion("v1.0");
+			defaultProctcaeGradeMappingVersion.setVersion(ProctcaeGradeMappingVersionQuery.VERSION_NUMBER);
 			defaultProctcaeGradeMappingVersion.setName("Mapping document");
 			defaultProctcaeGradeMappingVersion = genericRepository.save(defaultProctcaeGradeMappingVersion); 
 		}

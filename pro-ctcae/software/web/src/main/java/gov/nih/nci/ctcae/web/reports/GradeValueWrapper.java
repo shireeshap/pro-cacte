@@ -11,6 +11,7 @@ import java.util.HashSet;
 public class GradeValueWrapper implements Serializable{
 	private String grade;
 	private HashSet<String> proCtcTerms = new HashSet<String>();
+	private String proctcaeVerbatim;
 	
 	public String getGrade() {
 		return grade;
@@ -23,5 +24,12 @@ public class GradeValueWrapper implements Serializable{
 	}
 	public void setProCtcTerms(HashSet<String> proCtcTerms) {
 		this.proCtcTerms = proCtcTerms;
+	}
+
+	public String getProctcaeVerbatim() {
+		return proctcaeVerbatim;
+	}
+	public void setProctcaeVerbatim(String proctcaeVerbatim) {
+		this.proctcaeVerbatim = proctcaeVerbatim;
 	}
 }

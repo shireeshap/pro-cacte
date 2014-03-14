@@ -23,6 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     protected static final Log logger = LogFactory.getLog(StudyParticipantCrfGradesCreator.class);
     private ProctcaeGradeMappingVersion proctcaeGradeMappingVersion;
+    /* Note: Please do update the references present in ProctcaeGradeMappingVersionQuery.java
+	 *  v2.0 includes an update to grade mapping and v3.0 includes a additional Verbatim column.
+	 *  Next release will directly use v3.0
+	 */ 
+    private final static String VERSION_NUMBER = "v3.0";
 
 	@Transactional
     public void createGradesForCompletedSchedules() {
@@ -34,12 +39,13 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
         Transaction tx = session.beginTransaction();
         tx.begin();
         Query gradeMappingVersionQuery = session.createQuery(new String("SELECT pgmv FROM ProctcaeGradeMappingVersion pgmv " +
-		" where pgmv.version = 'v1.0'"));
+		" where pgmv.version = '" + VERSION_NUMBER + "'"));
         proctcaeGradeMappingVersion = (ProctcaeGradeMappingVersion) gradeMappingVersionQuery.list().get(0);
         
         logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job starts....");
         
-        Query proctcaeGradeMappingQuery = session.createQuery(new String("SELECT count(*) FROM ProctcaeGradeMapping"));
+        Query proctcaeGradeMappingQuery = session.createQuery(new String("SELECT count(*) FROM ProctcaeGradeMapping pgm" +
+        		" WHERE pgm.proctcaeGradeMappingVersion.version = '" + VERSION_NUMBER + "'"));
         Long proctcaeGradeMappingCount = (Long) proctcaeGradeMappingQuery.list().get(0);
         
         if(proctcaeGradeMappingCount > 0){
@@ -63,6 +69,8 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     		}finally{
     			session.close();
     		}
+        } else {
+        	logger.error("StudyParticipantCrfGradeCreator: Proctcae grade mapping document (version: " + VERSION_NUMBER +") is not loaded...");
         }
 
         logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job ends....");

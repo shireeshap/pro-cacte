@@ -16,6 +16,7 @@ public class AeReportEntryWrapper implements Serializable{
 	private Date startDate;
 	private Date endDate;
 	private String grade;
+	private String proctcaeVerbatim;
 	
 	public String getId() {
 		return id;
@@ -60,5 +61,12 @@ public class AeReportEntryWrapper implements Serializable{
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	
+	public String getProctcaeVerbatim() {
+		return proctcaeVerbatim;
+	}
+	public void setProctcaeVerbatim(String proctcaeVerbatim) {
+		this.proctcaeVerbatim = proctcaeVerbatim;
 	}
 }

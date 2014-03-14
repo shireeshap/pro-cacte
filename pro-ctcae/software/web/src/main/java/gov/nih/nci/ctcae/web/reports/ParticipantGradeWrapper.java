@@ -11,6 +11,7 @@ public class ParticipantGradeWrapper {
 	private Date endDate;
 	private String grade;
 	private String proCtcTerms;
+	private String proctcaeVerbatim;
 
 	public Date getStartDate() {
 		return startDate;
@@ -35,5 +36,12 @@ public class ParticipantGradeWrapper {
 	}
 	public void setProCtcTerms(String proCtcTerms) {
 		this.proCtcTerms = proCtcTerms;
+	}
+	
+	public String getProctcaeVerbatim() {
+		return proctcaeVerbatim;
+	}
+	public void setProctcaeVerbatim(String proctcaeVerbatim) {
+		this.proctcaeVerbatim = proctcaeVerbatim;
 	}
 }

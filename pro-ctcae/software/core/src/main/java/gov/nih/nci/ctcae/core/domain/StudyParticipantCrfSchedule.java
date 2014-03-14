@@ -818,10 +818,12 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			Map<ProCtcQuestionType, String> questionTypeMap = proResponseMap.get(symptom);
 	    			ProctcaeGradeMapping gradeKey = generateGradeKey(questionTypeMap, symptom, proctcaeGradeMappingVersion);
 	    			String evaluatedGrade = symptom.getProctcaeGradeMappingMap().get(gradeKey);
+	    			String proctcaeVerbatim = symptom.getProctcaeVerbatimMappingMap().get(gradeKey);
 	    			if(studyParticipantCrfGrade.getGradeEvaluationDate() == null){
 	    				studyParticipantCrfGrade.setGradeEvaluationDate(getStartDate());
 	    			}
 	    			studyParticipantCrfGrade.setGrade(evaluatedGrade);
+	    			studyParticipantCrfGrade.setProctcaeVerbatim(proctcaeVerbatim);
 	    		}
 	    	}
 	    	

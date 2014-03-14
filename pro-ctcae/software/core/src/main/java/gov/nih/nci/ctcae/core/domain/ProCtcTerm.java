@@ -310,6 +310,17 @@ public class ProCtcTerm extends BasePersistable implements Comparable<ProCtcTerm
     	
     	return pgmMap;
     }
+    
+    @Transient
+    public Map<ProctcaeGradeMapping, String> getProctcaeVerbatimMappingMap(){
+    	Map<ProctcaeGradeMapping, String> pgmMap = new HashMap<ProctcaeGradeMapping, String>();
+    	
+    	for(ProctcaeGradeMapping pgm : proCtcGradeMappings){
+    		pgmMap.put(pgm, pgm.getProctcaeVerbatim());
+    	}
+    	
+    	return pgmMap;
+    }
 
     public Boolean isCore() {
         return core;

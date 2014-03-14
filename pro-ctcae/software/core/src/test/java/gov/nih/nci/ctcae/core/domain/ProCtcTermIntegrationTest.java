@@ -17,6 +17,7 @@ public class ProCtcTermIntegrationTest extends TestDataManager {
 
     private ProCtcTerm proProCtcTerm;
     private ProctcaeGradeMappingVersion pgmv;
+    private static String PROCTCAE_VERBATIIM = "proctcaeVerbatim";
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -173,11 +174,11 @@ public class ProCtcTermIntegrationTest extends TestDataManager {
 		List<ProctcaeGradeMapping> pcgmList = new ArrayList<ProctcaeGradeMapping>();
 		
 		ProctcaeGradeMappingVersion proCtcGradeMappingVersion = pgmv;
-		pcgmList.add(new ProctcaeGradeMapping(0, true, ProctcaeGradeMapping.ZERO, proCtcGradeMappingVersion, term));
-		pcgmList.add(new ProctcaeGradeMapping(1, true, ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS, proCtcGradeMappingVersion, term));
+		pcgmList.add(new ProctcaeGradeMapping(0, true, ProctcaeGradeMapping.ZERO, PROCTCAE_VERBATIIM, proCtcGradeMappingVersion, term));
+		pcgmList.add(new ProctcaeGradeMapping(1, true, ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS, PROCTCAE_VERBATIIM, proCtcGradeMappingVersion, term));
 
-		pcgmList.add(new ProctcaeGradeMapping(1, false, ProctcaeGradeMapping.ONE, proCtcGradeMappingVersion, term));
-		pcgmList.add(new ProctcaeGradeMapping(1, 2, 0, ProctcaeGradeMapping.TWO, proCtcGradeMappingVersion, term));
+		pcgmList.add(new ProctcaeGradeMapping(1, false, ProctcaeGradeMapping.ONE, PROCTCAE_VERBATIIM, proCtcGradeMappingVersion, term));
+		pcgmList.add(new ProctcaeGradeMapping(1, 2, 0, ProctcaeGradeMapping.TWO, PROCTCAE_VERBATIIM, proCtcGradeMappingVersion, term));
 		
 		return pcgmList;
 	}
