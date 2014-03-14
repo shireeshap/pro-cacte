@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping;
 import gov.nih.nci.ctcae.core.domain.Study;
 
 import java.awt.Font;
@@ -45,6 +44,14 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
     private static String END_DATE = "endDate";
     private static String NO_PARTICIPANT_IDENTIFIER = "";
 	private int totalPages = 0;
+	private static String HEADER_VERBATIM = "Patient-reported PRO-CTCAE / Verbatim" ;
+	private static String HEADER_TERM = "Adverse Event Term";
+	private static String HEADER_MEDDRA_CODE = "MedDRA Adverse Event Code";
+	private static String HEADER_START_DATE = "Start Date";
+	private static String HEADER_END_DATE = "End Date";
+	private static String HEADER_INVESTIGATOR_REPORTED_GRADE = "Investigator Reported Event Grade";
+	private static String HEADER_OUTCOME = "Outcome";
+	private static String HEADER_AE_ATTRIBUTION = "AE Attribution";
 	
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -106,7 +113,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	private void addSurveySolicitedSymptomsToDocument(PdfWriter pdfWriter, Document document, 
 			List<AeReportEntryWrapper> sortedAeWithGradesList) throws DocumentException, IOException {
 		document.add(getBlankRow());
-        Table table = getHeaderSectionForSurveySolicitedSymptomsTable(false);
+        Table table = getHeaderSectionForSurveySolicitedSymptomsTable();
         addSymptomsToTable(table, sortedAeWithGradesList);
         document.add(table);
         return;
@@ -129,45 +136,47 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	private void addSymptomsToTable(Table table, List<AeReportEntryWrapper> sortedAeWithGradesList) throws BadElementException {
         Cell cell;
         for(AeReportEntryWrapper entry : sortedAeWithGradesList){
-			String verbatim = (entry.getProCtcTerm() != null ? entry.getProCtcTerm() : entry.getCtcaeTerm());
-			cell = new Cell(new Paragraph(verbatim, FontFactory.getFont("Arial", 10, Font.PLAIN)));
-	        cell.setRowspan(1);
-	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	        table.addCell(cell);
 	        
+	        // Adverse Event + meddra code
 	        Paragraph paragraph = null;
 	        if(entry.getCtcaeTerm() != null){
 	        	paragraph = new Paragraph(entry.getCtcaeTerm(), FontFactory.getFont("Arial", 10, Font.PLAIN));
 	        } else {
 	        	paragraph = new Paragraph("[Patient added free text]", FontFactory.getFont("Arial", 10, Font.ITALIC));
 	        }
-	        cell = new Cell(paragraph);
-	        cell.setRowspan(1);
-	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	        table.addCell(cell);
-	      
 	        String meddraCode = (entry.getMeddraCode() != null ? entry.getMeddraCode() : "");
-	        cell = new Cell(new Paragraph(meddraCode, FontFactory.getFont("Arial", 10, Font.PLAIN)));
+	        Paragraph meddraCodeParagraph = new Paragraph(" (" + meddraCode + ")", FontFactory.getFont("Arial", 10, Font.PLAIN));
+	        cell = new Cell(paragraph);
+	        cell.add(meddraCodeParagraph);
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
+	        // Start date
 	        cell = new Cell(new Paragraph(convertDateToReqdFormat(entry.getStartDate()), FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
+	        // End date
 	        cell = new Cell(new Paragraph(convertDateToReqdFormat(entry.getEndDate()), FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
-	        String grade;
+	        // Patient-reported PRO-CTCAE / Verbatim
+	        String verbatim = entry.getProctcaeVerbatim();
+			cell = new Cell(new Paragraph(verbatim, FontFactory.getFont("Arial", 10, Font.PLAIN)));
+	        cell.setRowspan(1);
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	        table.addCell(cell);
+	        
+	        // System generated ctcae grade: removed from display
+	        /*String grade;
 	        if(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS.equals(entry.getGrade())){
 	        	grade = entry.getGrade();
 	        } else {
@@ -177,20 +186,23 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	        table.addCell(cell);
+	        table.addCell(cell);*/
 			
+	        // Investigator reported grade
+	        cell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 10, Font.PLAIN)));
+	        cell.setRowspan(1);
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	        table.addCell(cell);
+
+	        // Outcome
 	        cell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
-	        cell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 10, Font.PLAIN)));
-	        cell.setRowspan(1);
-	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	        table.addCell(cell);
-	        
+	        // AE attribution
 	        cell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
 	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -198,42 +210,38 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        table.addCell(cell);
         }
 	}
-
-	private Table getHeaderSectionForSurveySolicitedSymptomsTable(boolean contdIndicator) throws DocumentException {
+	
+	/** GetHeaderSectionForSurveySolicitedSymptomsTable() function.
+	 * @param contdIndicator
+	 * @return
+	 * @throws DocumentException
+	 * returns the header row of the table
+	 */
+	private Table getHeaderSectionForSurveySolicitedSymptomsTable() throws DocumentException {
         // Data Table
-		Table table = new Table(9);
+		Table table = new Table(7);
 		table.setWidth(100);
-		table.setWidths(new int[]{10, 18, 10, 10, 10, 8, 9, 15, 10});
+		table.setWidths(new int[]{18, 10, 10, 30, 9, 15, 10});
 		table.setAlignment(Element.ALIGN_CENTER);
         table.setAlignment(Element.ALIGN_MIDDLE);
         table.setPadding(1);
         table.setCellsFitPage(true);
         table.setBorder(0);
         
-        //First head row of the table
-        Cell cell = new Cell(new Paragraph("Verbatim", FontFactory.getFont("Arial", 10, Font.BOLD)));
-        cell.setRowspan(4);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
-        
-        cell = new Cell(new Paragraph("Adverse Event Term", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Adverse Event with meddra code header
+        Cell cell = new Cell(new Paragraph(HEADER_TERM, FontFactory.getFont("Arial", 10, Font.BOLD)));
         Paragraph info = new Paragraph("(CTCAE v4.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.add(info);
+        cell.add(new Paragraph(" & ", FontFactory.getFont("Arial", 10, Font.PLAIN)));
+        cell.add(new Paragraph(HEADER_MEDDRA_CODE, FontFactory.getFont("Arial", 10, Font.BOLD)));
+        cell.add(new Paragraph("(v12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN)));
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("MedDRA Adverse Event Code", FontFactory.getFont("Arial", 10, Font.BOLD)));
-        cell.setRowspan(4);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        info = new Paragraph("(v12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
-        cell.add(info);
-        table.addCell(cell);
-        
-        cell = new Cell(new Paragraph("Start Date", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Start date
+        cell = new Cell(new Paragraph(HEADER_START_DATE, FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -241,7 +249,8 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         cell.add(info);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("End Date", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Old end date
+        cell = new Cell(new Paragraph(HEADER_END_DATE, FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -249,33 +258,44 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         cell.add(info);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("Patient Reported Event Grade", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Patient-reported PRO-CTCAE / Verbatim
+        cell = new Cell(new Paragraph(HEADER_VERBATIM, FontFactory.getFont("Arial", 10, Font.BOLD)));
+        cell.setRowspan(4);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+        
+        // System generated ctcae grade: remved from the display
+        /*cell = new Cell(new Paragraph("Patient Reported Event Grade", FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        table.addCell(cell);*/
 		
-        cell = new Cell(new Paragraph("Investigator Reported Event Grade", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Investigator Reported Event Grade
+        cell = new Cell(new Paragraph(HEADER_INVESTIGATOR_REPORTED_GRADE, FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("Outcome", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // Outcome
+        cell = new Cell(new Paragraph(HEADER_OUTCOME, FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph("AE Attribution", FontFactory.getFont("Arial", 10, Font.BOLD)));
+        // AE Attribution
+        cell = new Cell(new Paragraph(HEADER_AE_ATTRIBUTION, FontFactory.getFont("Arial", 10, Font.BOLD)));
         cell.setRowspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell);
         
         
-        com.lowagie.text.List patientReportedGradesList = new com.lowagie.text.List(false, 6);
-        Chunk listSymbol = new Chunk("\u2022", FontFactory.getFont("Arial", 12, Font.BOLD));
+        // System generated ctcae grade: remved from the display
+        /*com.lowagie.text.List patientReportedGradesList = new com.lowagie.text.List(false, 6);
         patientReportedGradesList.setListSymbol(listSymbol);
         patientReportedGradesList.setIndentationLeft(15);
         ListItem listItem = new ListItem("Grade 1", FontFactory.getFont("Arial", 9, Font.PLAIN));
@@ -288,13 +308,14 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         cell.setRowspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.setVerticalAlignment(Element.ALIGN_TOP);
-        table.addCell(cell);
+        table.addCell(cell);*/
         
         
         com.lowagie.text.List investigatorReportedGradesList = new com.lowagie.text.List(false, 6);
+        Chunk listSymbol = new Chunk("\u2022", FontFactory.getFont("Arial", 12, Font.BOLD));
         investigatorReportedGradesList.setListSymbol(listSymbol);
         investigatorReportedGradesList.setIndentationLeft(10);
-        listItem = new ListItem("Grade 1", FontFactory.getFont("Arial", 9, Font.PLAIN));
+        ListItem listItem = new ListItem("Grade 1", FontFactory.getFont("Arial", 9, Font.PLAIN));
         investigatorReportedGradesList.add(listItem);
         listItem = new ListItem("Grade 2", FontFactory.getFont("Arial", 9, Font.PLAIN));
         investigatorReportedGradesList.add(listItem);
@@ -413,10 +434,6 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         instructionsTable.setWidth(100);
         instructionsTable.setBorderWidth(0);
 
-        /*
-        Paragraph reportingCycle = new Paragraph("\nCycle:", FontFactory.getFont("Arial", 10, Font.PLAIN));
-        reportingCycle.add(new Paragraph(" All Cycles", FontFactory.getFont("Arial", 10, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
-        */
         Paragraph instructionalParagraph = new Paragraph("\nINSTRUCTIONS: ", FontFactory.getFont("Arial", 10, Font.PLAIN));
         instructionalParagraph.add(new Phrase("\n\nReview and update each cycle. Use this form to assist reporting into RAVE. Note that RAVE will also " +
         		"include fields for: Study drug action taken (including dose modifications) and Serious Adverse Events. A new log line should " +
@@ -428,8 +445,6 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         		", End Date: " + (StringUtils.isEmpty(reportEndDate) ? "__ / __ / ____" : convertDateToReqdFormat(reportEndDate)) , FontFactory.getFont("Arial", 10, Font.PLAIN));
         instructionalParagraph.add(datePara);
 
-        /*Cell headerCell = new Cell(reportingCycle);
-        headerCell.add(instructionalParagraph);*/
         Cell headerCell = new Cell(instructionalParagraph);
         headerCell.setBorderWidth(0);
         instructionsTable.addCell(headerCell);
@@ -700,5 +715,4 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 
         return insideTable;
 	}
-	
 }
