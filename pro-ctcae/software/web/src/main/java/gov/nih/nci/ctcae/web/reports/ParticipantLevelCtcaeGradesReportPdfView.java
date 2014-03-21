@@ -45,8 +45,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
     private static String NO_PARTICIPANT_IDENTIFIER = "";
 	private int totalPages = 0;
 	private static String HEADER_VERBATIM = "Patient-reported PRO-CTCAE / Verbatim" ;
-	private static String HEADER_TERM = "Adverse Event Term";
-	private static String HEADER_MEDDRA_CODE = "MedDRA Adverse Event Code";
+	private static String HEADER_AE_AND_MEDDRA_CODE = "CTCAE v4.0 Term and MedDRA Code (v12.0)";
 	private static String HEADER_START_DATE = "Start Date";
 	private static String HEADER_END_DATE = "End Date";
 	private static String HEADER_INVESTIGATOR_REPORTED_GRADE = "Investigator Reported Event Grade";
@@ -171,7 +170,8 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        String verbatim = entry.getProctcaeVerbatim();
 			cell = new Cell(new Paragraph(verbatim, FontFactory.getFont("Arial", 10, Font.PLAIN)));
 	        cell.setRowspan(1);
-	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        cell.setUseBorderPadding(true);
+	        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	        table.addCell(cell);
 	        
@@ -229,15 +229,15 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         table.setBorder(0);
         
         // Adverse Event with meddra code header
-        Cell cell = new Cell(new Paragraph(HEADER_TERM, FontFactory.getFont("Arial", 10, Font.BOLD)));
-        Paragraph info = new Paragraph("(CTCAE v4.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        Cell cell = new Cell(new Paragraph(HEADER_AE_AND_MEDDRA_CODE, FontFactory.getFont("Arial", 10, Font.BOLD)));
+        //Paragraph info = new Paragraph("(CTCAE v4.0)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.add(info);
-        cell.add(new Paragraph(" & ", FontFactory.getFont("Arial", 10, Font.PLAIN)));
+        //cell.add(info);
+        /*cell.add(new Paragraph(" & ", FontFactory.getFont("Arial", 10, Font.PLAIN)));
         cell.add(new Paragraph(HEADER_MEDDRA_CODE, FontFactory.getFont("Arial", 10, Font.BOLD)));
-        cell.add(new Paragraph("(v12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN)));
+        cell.add(new Paragraph("(v12.0)", FontFactory.getFont("Arial", 10, Font.PLAIN)));*/
         table.addCell(cell);
         
         // Start date
@@ -245,7 +245,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         cell.setRowspan(4);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        info = new Paragraph("(dd-MMM-yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
+        Paragraph info = new Paragraph("(dd-MMM-yyyy)", FontFactory.getFont("Arial", 10, Font.PLAIN));
         cell.add(info);
         table.addCell(cell);
         
