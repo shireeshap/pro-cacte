@@ -62,8 +62,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			Set<Integer> accessibleParticipants = new HashSet<Integer>();
 			List<Integer> participantIds = new ArrayList<Integer>();
 			
-			participantIds = fetchParticipantOnStudy(new ArrayList<Integer>(accessibleStudies));
-			accessibleParticipants.addAll((Collection<Integer>) participantIds);
+			for(Integer studyId : accessibleStudies){
+				boolean hasStudyLevelRole = hasStudyLevelRoleOnStudy(studyRoleMap, rolesAllowedForPrivilege, studyId);
+				participantIds = fetchParticipantOnStudy(studyId, user, rolesAllowedForPrivilege, hasStudyLevelRole);
+				accessibleParticipants.addAll((Collection<Integer>) participantIds);
+			}
+			
 			for(Integer id : accessibleParticipants){
 				privilegeList.add(privilegeName + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(id));
 			}
@@ -79,10 +83,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 	
 	
-	public List<Integer> fetchParticipantOnStudy(List<Integer> studyIds){
+	/**fetchParticipantOnStudy() function
+	 * Find participants on specified study such that the current loggedIn user at least of the roles provided in list.
+	 * @param studyId
+	 * @param user
+	 * @param rolesAllowedForPrivilege
+	 * @return
+	 */
+	public List<Integer> fetchParticipantOnStudy(Integer studyId, User user, List<Role> rolesAllowedForPrivilege, boolean hasStudyLevelRole){
 		List<Integer> participantIds = new ArrayList<Integer>();
 		ParticipantQuery query = new ParticipantQuery(false);
-		query.filterByStudyIds(studyIds);
+		if(hasStudyLevelRole){
+			query.leftJoinForLeadRole();
+		} else {
+			query.leftJoinForSiteRole();
+		}
+		query.filterByStaffUsername(user.getUsername());
+		query.filterByStudyId(studyId);
+		query.filterByRole(rolesAllowedForPrivilege);
+			
 		List<Participant> participants = genericRepository.find(query);
 		for(Participant p : participants){
 			participantIds.add(p.getId());
@@ -142,6 +161,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public boolean hasAccessForStudyInstance(User user, Study study, String privilegeName) {
 		 List<Role> roles = findRolesForPrivilege(user, privilegeName);
 	     return hasRole(study, roles, user);
+	}
+	
+	/**hasStudyLevelRoleOnStudy() function.
+	 * Check if the user has one of the allowed roles on the specified study and
+	 * return true if that is not a site level role.
+	 */
+	@Override
+	public boolean hasStudyLevelRoleOnStudy(Map<Role, ArrayList<Integer>> studyRoleMap,
+			List<Role> rolesAllowedForPrivilege, Integer studyId) {
+		for(Role role : studyRoleMap.keySet()){
+			if(studyRoleMap.get(role).contains(studyId)){
+				if(!(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || 
+	        			role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN))){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static Study getStudy(Participant participant){

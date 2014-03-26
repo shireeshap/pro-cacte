@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.security.ApplicationSecurityManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,6 +38,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     private static final String NAME = "name";
     private static final String ORGANIZATION_NAME = "sortByOrganizationName";
     private boolean isStudySiteLevel = false;
+    private static String ROLE = "role";
     
 
     /** Instantiates a new participant query.
@@ -222,9 +223,16 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
      */
     public void filterByStudyIds(List<Integer> studies) {
         if (studies != null && !studies.isEmpty()) {
-            leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
+           // leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
             andWhere("study.id in (:" + STUDY_IDS + ")");
             setParameterList(STUDY_IDS, studies);
+        }
+    }
+    
+    public void filterByStudyId(Integer studyId) {
+        if (studyId != null) {
+            andWhere("study.id =:" + STUDY_ID);
+            setParameter(STUDY_ID, studyId);
         }
     }
 
@@ -340,25 +348,40 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         }
     }
 
-    public void setLeftJoinForUserName() {
+    public void leftJoinForLeadRole() {
         leftJoin("p.studyParticipantAssignments as spa " +
-                "left outer join spa.studySite as ss join ss.study as study " +
+                "left outer join spa.studySite as ss " +
                 "left outer join ss.study as study " +
                 "left outer join study.studyOrganizations as so " +
                 "left outer join so.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
-                "left outer join cs.user as user");
-        }
+                "left outer join cs.user as user ");
+    }
+    
+    public void leftJoinForSiteRole() {
+        leftJoin("p.studyParticipantAssignments as spa " +
+                "left outer join spa.studySite as ss " +
+                "left outer join ss.study as study " +
+                "left outer join study.studyOrganizations as so " +
+                "left outer join ss.studyOrganizationClinicalStaffs as socs " +
+                "left outer join socs.organizationClinicalStaff as oc " +
+                "left outer join oc.clinicalStaff as cs " +
+                "left outer join cs.user as user ");
+    }
 
     public void filterByStaffUsername(final String userName) {
-        setLeftJoinForUserName();
         andWhere("user.username = :" + USERNAME);
         setParameter(USERNAME, userName);
     }
 
     public Class<Organization> getPersistableClass() {
         return Organization.class;
+    }
+
+    public void filterByRole(final Collection<Role> roles) {
+        andWhere("socs.role in ( :" + ROLE + ")");
+        setParameterList(ROLE, roles);
     }
 
     protected String getObjectIdQueryString() {

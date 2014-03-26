@@ -10,7 +10,7 @@ Author: Amey
 
 public enum  QueryStrings implements CodedEnum<String>{
 	
-	PARTICIPANT_QUERY_BASIC("SELECT p from Participant p order by p.id"), 
+	PARTICIPANT_QUERY_BASIC("SELECT distinct p from Participant p order by p.id"), 
 	PARTICIPANT_QUERY_COUNT("SELECT count(distinct p) from Participant p"),
 	PARTICIPANT_QUERY_WITH_JOINS("SELECT p from Participant p"),
 	

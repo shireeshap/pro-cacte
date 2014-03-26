@@ -24,6 +24,7 @@ public class AuthorizationServiceImplTest extends TestDataManager{
 	private static String PRIVILEGE_ADD_STUDY_SITE = "PRIVILEGE_ADD_STUDY_SITE";
 	private static String PRIVILEGE_CREATE_PARTICIPANT = "PRIVILEGE_CREATE_PARTICIPANT";
 	private static String PRIVILEGE_CREATE_FORM = "PRIVILEGE_CREATE_FORM";
+	private static String PI_USER_NAME = "ethan.basch@demo.com";
 	Map<String, List<Role>> userSpecificPrivilegeRoleMap;
 	Map<String, Boolean> studySectionPrivilegesMap;
 	Map<String, Boolean> participantSectionPrivilegesMap;
@@ -50,13 +51,8 @@ public class AuthorizationServiceImplTest extends TestDataManager{
 		studyIds = new ArrayList<Integer>();
 		studyIds.add(studyId);
 		studyRoleMap.put(Role.PI, studyIds);
-		user = new User();
-		user.setUserSpecificPrivilegeRoleMap(userSpecificPrivilegeRoleMap);
+		user = findUserByUserName(PI_USER_NAME);
 		processedPrivileges  = new ArrayList<String>();
-		userRole = new UserRole();
-		userRole.setRole(Role.PI);
-		userRole.setUser(user);
-		user.getUserRoles().add(userRole);
 		filteredAccessPrivilegeMap = new HashMap<String, Boolean>();
 		filteredAccessPrivilegeMap.put(PRIVILEGE_ADD_STUDY_SITE, true);
 		filteredAccessPrivilegeMap.put(PRIVILEGE_CREATE_PARTICIPANT, true);
@@ -96,5 +92,9 @@ public class AuthorizationServiceImplTest extends TestDataManager{
 		query.filterByStudy(studyId);
 		Long count = genericRepository.findWithCount(query);
 		assertEquals((++count).intValue(), processedPrivileges.size());
+	}
+	
+	private User findUserByUserName(String userName){
+		 return userRepository.loadUserByUsername(userName);
 	}
 }
