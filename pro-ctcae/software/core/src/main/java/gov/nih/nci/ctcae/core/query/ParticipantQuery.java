@@ -68,13 +68,17 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         	}else{        	
         		leftJoinStudySites();
         	}
-            if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI)){
-                objectIds = currentLoggedInUser.findAccessibleObjectIds(Study.class);
-
-            } else if(role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
+        	
+        	// To support PRKC-2391. 
+        	// For LEAD_PI AND LEAD_CRA role, the domain privilege generator grants access to all the studyOrganizations associated with the study.
+        	// But for the SITE_LEVEL roles, it grants access only to its associated studyOrganization.
+        	// Hence LEAD_PI AND LEAD_CRA role can access participants on all the sites, whereas, the SITE_LEVEL roles can access participants only on their site. 
+        	if(role.equals(Role.LEAD_CRA) || role.equals(Role.PI) || 
+        			role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI) || 
+        			role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)){
             	isStudySiteLevel = true;
                 objectIds = currentLoggedInUser.findAccessibleObjectIds(StudyOrganization.class);
-            }
+        	}
         }
         filterByObjectIds(objectIds);
     }
