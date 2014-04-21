@@ -435,11 +435,14 @@ public class ParticipantLevelCtcaeGradesReportResultsController extends Abstract
     private class MyConsolidatedAeSorter implements Comparator<AeReportEntryWrapper>{
 		@Override
 		public int compare(AeReportEntryWrapper adverseEvent1, AeReportEntryWrapper adverseEvent2) {
-			// primary sort by Adverse Event's start date.
-			int result = adverseEvent1.getStartDate().compareTo(adverseEvent2.getStartDate());
-			// secondary sort by Adverse Event's Ctcae term, in the event of AE's start dates being equal.
-			if(result == 0 & !StringUtils.isEmpty(adverseEvent1.getCtcaeTerm()) && !StringUtils.isEmpty(adverseEvent2.getCtcaeTerm())){
+			int result = 0;
+			// primary sort by Adverse Event's Ctcae term
+			if(!StringUtils.isEmpty(adverseEvent1.getCtcaeTerm()) && !StringUtils.isEmpty(adverseEvent2.getCtcaeTerm())){
 				result = adverseEvent1.getCtcaeTerm().compareToIgnoreCase(adverseEvent2.getCtcaeTerm());
+			}
+			// secondary sort by Adverse Event's start date.
+			if(result == 0){
+				result = adverseEvent1.getStartDate().compareTo(adverseEvent2.getStartDate());
 			}
 			return result;
 		}
