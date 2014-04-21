@@ -24,10 +24,10 @@ public class StudyParticipantCrfGradesCreator extends HibernateDaoSupport {
     protected static final Log logger = LogFactory.getLog(StudyParticipantCrfGradesCreator.class);
     private ProctcaeGradeMappingVersion proctcaeGradeMappingVersion;
     /* Note: Please do update the references present in ProctcaeGradeMappingVersionQuery.java
-	 *  v2.0 includes an update to grade mapping and v3.0 includes a additional Verbatim column.
-	 *  Next release will directly use v3.0
+     * Current release is using v1.0
+	 * Next release will use v4.0
 	 */ 
-    private final static String VERSION_NUMBER = "v3.0";
+    private final static String VERSION_NUMBER = "v4.0";
 
 	@Transactional
     public void createGradesForCompletedSchedules() {

@@ -43,7 +43,8 @@ public class ProctcaeGradeMappingsLoader  {
 
 
     public void loadProctcaeGradeMappings() throws Exception {
-        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE-GradeMapping_v1.3_03.11.14.csv");
+        ClassPathResource classPathResource = new ClassPathResource("PRO-CTCAE-GradeMapping_v1.4_04.11.14.csv");
+        															 
         CsvReader reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF8"));
         reader.readHeaders();
         

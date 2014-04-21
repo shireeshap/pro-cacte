@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class ProctcaeGradeMappingVersionQueryTest extends TestCase{
 	
 	private static String VERSION = "version";
-	private static String VERSION_NUMBER = "v3.0";
+	private static String VERSION_NUMBER = "v4.0";
 	
 	public void testQueryConstructor(){
 		ProctcaeGradeMappingVersionQuery query = new ProctcaeGradeMappingVersionQuery();
