@@ -3927,7 +3927,13 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/FormRulesTabTest
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/HiddenFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/ivrs/callout/IvrsCallOutSchedulerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/CrfActivityDateComparatorTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/FailedAuthenticationControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/ForgotPasswordControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/ForgotUsernameControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginParameterizableViewControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/PasswordExpiredControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesControllerTest.java -text
