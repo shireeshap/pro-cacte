@@ -3905,6 +3905,9 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/FetchCl
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/NotificationDetailsControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ViewClinicalStaffControllerTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/MyTestApplicationListener.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotificationEventTest.java -text
+pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotificationOnSetupEventTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text
