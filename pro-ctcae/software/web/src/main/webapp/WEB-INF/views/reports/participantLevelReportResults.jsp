@@ -47,11 +47,11 @@
     <c:choose>
         <c:when test="${fn:length(dates) > 0}">
             <tags:instructions code="participant.report.result.instructions"/>
-        	<div id="nav">
+        	<div id="nav" class="yui-skin-sam">
 	            <table width="100%">
 		            <tr>
 		                <td width="72%">
-		                    <div id="navigation">
+		                    <div id="navigation" class="yui-pg-container">
 	 						</div>
 		                </td>
 		                <td width="28%" align="right">
