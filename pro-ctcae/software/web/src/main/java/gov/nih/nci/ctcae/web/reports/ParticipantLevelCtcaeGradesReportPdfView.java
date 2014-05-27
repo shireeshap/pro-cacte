@@ -44,13 +44,14 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
     private static String END_DATE = "endDate";
     private static String NO_PARTICIPANT_IDENTIFIER = "";
 	private int totalPages = 0;
-	private static String HEADER_VERBATIM = "Patient-reported PRO-CTCAE / Verbatim" ;
+	private static String HEADER_VERBATIM = "Verbatim patient-reported PRO-CTCAE" ;
 	private static String HEADER_AE_AND_MEDDRA_CODE = "CTCAE v4.0 Term and MedDRA Code (v12.0)";
 	private static String HEADER_START_DATE = "Start Date";
 	private static String HEADER_END_DATE = "End Date";
 	private static String HEADER_INVESTIGATOR_REPORTED_GRADE = "Investigator Reported Event Grade";
 	private static String HEADER_OUTCOME = "Outcome";
 	private static String HEADER_AE_ATTRIBUTION = "AE Attribution";
+	private static String COLON = ":";
 	
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -113,6 +114,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 			List<AeReportEntryWrapper> sortedAeWithGradesList) throws DocumentException, IOException {
 		document.add(getBlankRow());
         Table table = getHeaderSectionForSurveySolicitedSymptomsTable();
+        table.setLastHeaderRow(3);
         addSymptomsToTable(table, sortedAeWithGradesList);
         document.add(table);
         return;
@@ -168,7 +170,11 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        
 	        // Patient-reported PRO-CTCAE / Verbatim
 	        String verbatim = entry.getProctcaeVerbatim();
-			cell = new Cell(new Paragraph(verbatim, FontFactory.getFont("Arial", 10, Font.PLAIN)));
+	        String symptomName = verbatim.substring(0, verbatim.indexOf(COLON) + 1);
+	        String symptomDescription = verbatim.substring(verbatim.indexOf(COLON) + 1);
+	        Paragraph verbatimParagraph = new Paragraph(symptomName, FontFactory.getFont("Arial", 10, Font.PLAIN));
+	        verbatimParagraph.add(new Chunk(symptomDescription, FontFactory.getFont("Arial", 10, Font.ITALIC)));
+			cell = new Cell(verbatimParagraph);
 	        cell.setRowspan(1);
 	        cell.setUseBorderPadding(true);
 	        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -373,7 +379,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	}
 
 	private void addFeedbackQuestionsToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
-        
+		document.newPage();
 		document.add(new Paragraph("  ", FontFactory.getFont("Arial", 8)));
 		document.add(new Paragraph("Feedback Questions:", FontFactory.getFont("Arial", 9, Font.PLAIN)));
 		
