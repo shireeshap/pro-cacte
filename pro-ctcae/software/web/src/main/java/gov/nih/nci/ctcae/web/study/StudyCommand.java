@@ -12,6 +12,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.StudySponsor;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.service.AuthorizationServiceImpl;
 
 import java.util.ArrayList;
@@ -49,9 +50,10 @@ public class StudyCommand {
     private List<Integer> piIndexesToRemove = new ArrayList<Integer>();
     private boolean odc;
     private String studyInstanceSpecificPrivilege;
+    private boolean editLeadSite = true;
 
 
-    /**
+	/**
      * Instantiates a new study command.
      */
     public StudyCommand() {
@@ -113,6 +115,14 @@ public class StudyCommand {
     public String getStudyInstanceSpecificPrivilege(){
     	return studyInstanceSpecificPrivilege;
     }
+    
+    public boolean isEditLeadSite() {
+		return editLeadSite;
+	}
+
+	public void setEditLeadSite(boolean editLeadSite) {
+		this.editLeadSite = editLeadSite;
+	}
 
     public List<StudyOrganizationClinicalStaff> getOverallDataCoordinators() {
     	if(overallDataCoordinators.isEmpty()){
@@ -304,4 +314,12 @@ public class StudyCommand {
         getStudy().getArms().size();
 
 	}
+	
+    public boolean isAnyParticipantPresent(GenericRepository genericRepository, Integer studyId){
+    	Study study = (Study) genericRepository.findById(Study.class, studyId);
+    	if(study.getLeadStudySite().getStudyParticipantAssignments().size() > 0){
+    		return false;
+    	}
+    	return true;
+    }
 }

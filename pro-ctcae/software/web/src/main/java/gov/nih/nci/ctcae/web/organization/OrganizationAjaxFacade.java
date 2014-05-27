@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -44,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrganizationAjaxFacade {
 	private final String ALL_STUDY_SITES="GetAllStudySites"; 
 	private String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
+	private String BLANK = "";
     /**
      * The organization repository.
      */
@@ -91,6 +93,24 @@ public class OrganizationAjaxFacade {
         
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
         //organizationQuery.setMaximumResults(25);
+        List<Organization> organizations = genericRepository.find(organizationQuery);
+        organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<Organization>() {
+            public String serialize(Organization object) {
+                return object.toString();
+            }
+        });
+        return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
+
+    }
+    
+    public List<Organization> matchOrganizationForLeadSites(final String text, String value) {
+        logger.info("in match organization method. Search string :" + text);
+        OrganizationQuery organizationQuery = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_BASIC,false);
+        if(value !=null && !BLANK.equals(value)){
+        	organizationQuery.filterStudySiteIfParticipantPresent(value);
+        }
+        organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
+
         List<Organization> organizations = genericRepository.find(organizationQuery);
         organizations = RankBasedSorterUtils.sort(organizations, text, new Serializer<Organization>() {
             public String serialize(Organization object) {

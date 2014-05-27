@@ -1,17 +1,31 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.AppMode;
+import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.FormArmSchedule;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyMode;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 
 //
 
@@ -25,7 +39,9 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
 
     UserRepository userRepository;
-    private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
+    GenericRepository genericRepository;
+
+	private UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator;
 
     /**
      * Instantiates a new study details tab.
@@ -92,8 +108,13 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
             }
             studyCommand.setAppModes(appModes.toArray(new String[]{}));
         }
-
+        
+        if(studyCommand.getStudy().getId() != null){
+        	boolean editLeadSite = studyCommand.isAnyParticipantPresent(genericRepository, studyCommand.getStudy().getId());
+        	studyCommand.setEditLeadSite(editLeadSite);
+        }
     }
+    
 
     @Override
     public Map<String, Object> referenceData() {
@@ -201,6 +222,14 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    
+    public GenericRepository getGenericRepository() {
+		return genericRepository;
+	}
+
+	public void setGenericRepository(GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
+	}
 
     public void setUniqueIdentifierForStudyValidator(UniqueIdentifierForStudyValidator uniqueIdentifierForStudyValidator) {
         this.uniqueIdentifierForStudyValidator = uniqueIdentifierForStudyValidator;

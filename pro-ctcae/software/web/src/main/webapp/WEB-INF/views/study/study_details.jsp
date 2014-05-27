@@ -134,7 +134,12 @@
                 aResults = results;
             };
             var callMetaData = { callback:callbackProxy, async:false};
-            organization.matchOrganizationForStudySites(unescape(sQuery), ALL_STUDY_SITES, callMetaData);
+            var studyId = "${param['studyId']}";
+            if (studyId == "") {
+                studyId = "${command.study.id}";
+            }
+            
+            organization.matchOrganizationForLeadSites(unescape(sQuery), studyId, callMetaData);
             hideIndicator("study.leadStudySite.organizationInput-indicator");
             return aResults;
         }
@@ -306,21 +311,30 @@
                                     hiddenInputName="study.fundingSponsor.organization"/>
                 </div>
             </div>
-
     
-            <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_lead_site'/></div>
-                <div class="value">
-	                <form:input path="study.leadStudySite.organization" id="study.leadStudySite.organization"
-					                cssClass="validate-NOTEMPTY"
-					                title="Study funding sponsor"
-					                cssStyle="display:none;"/>
-                    <tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput"
-                                    value="${command.study.leadStudySite.organization.displayName}"
-                                    required="false"
-                                    hiddenInputName="study.leadStudySite.organization"/>
-                </div>
-            </div>
+           <c:choose>
+	           <c:when test="${command.editLeadSite eq true}">
+	                <div class="row">
+					<div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_lead_site'/></div>
+						<div class="value">
+						<form:input path="study.leadStudySite.organization" id="study.leadStudySite.organization"
+						                cssClass="validate-NOTEMPTY"
+						                title="Study funding sponsor"
+						                cssStyle="display:none;"/>
+						<tags:yuiAutocompleter inputName="study.leadStudySite.organizationInput"
+						                value="${command.study.leadStudySite.organization.displayName}"
+						               required="false"
+						               hiddenInputName="study.leadStudySite.organization"/>
+					</div>
+	               </div>
+	           </c:when>
+	           <c:otherwise>
+					<div class="row">
+						<div class="label"><tags:requiredIndicator/><tags:message code='study.label.study_lead_site'/></div>
+					    <div class="value">${command.study.leadStudySite.organization.displayName}</div>
+					</div>
+	           </c:otherwise>
+       	   </c:choose>
        <br />
 
        <chrome:division title="study.section.study_arms">

@@ -57,6 +57,10 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
     	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"') ");
     	
     }
+    
+    public void filterStudySiteIfParticipantPresent(String studyId){
+    	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"' and so.class = 'SST' and so.studyParticipantAssignments IS NOT EMPTY) ");
+    }
    
     /**
      * Filter by nci institute code.
