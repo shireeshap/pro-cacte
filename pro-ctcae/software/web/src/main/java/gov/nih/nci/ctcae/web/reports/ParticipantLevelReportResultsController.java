@@ -44,7 +44,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
 
     GenericRepository genericRepository;
     ProCtcTermRepository proCtcTermRepository;
-    private static Integer RECORDS_PER_PAGE = 10;
+    private static Integer RECORDS_PER_PAGE = 8;
     private static String PAGE = "page";
 
 
