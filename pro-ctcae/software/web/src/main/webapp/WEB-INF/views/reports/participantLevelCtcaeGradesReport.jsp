@@ -182,7 +182,7 @@
 </head>
 <body>
 <report:participantReportThirdlevelMenu selected="ctcaeGrades"/>
-<tags:instructions code=""/>
+<tags:instructions code="reports.ctcaeGrades.instructions"/>
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
 
