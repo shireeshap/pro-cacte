@@ -26,7 +26,16 @@ import org.springframework.web.servlet.mvc.AbstractController;
 public class AddCrfScheduleController extends AbstractController {
 
     GenericRepository genericRepository;
-    ParticipantScheduleService participantScheduleService;  
+    ParticipantScheduleService participantScheduleService;
+    private static final String DELETE_ALL_FUTURE = "delallfuture";
+    private static final String DELETE_ALL = "delall";
+    private static final String MOVE_ALL = "moveall";
+    private static final String MOVE_ALL_FUTURE = "moveallfuture";
+    private static final String ADD_DEL = "add,del";
+    private static final String ON_HOLD = "onhold";
+    private static final String OFF_HOLD = "offhold";
+    private static final String ADD = "add";
+    private static final String DELETE = "del";
 
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -55,36 +64,42 @@ public class AddCrfScheduleController extends AbstractController {
         Calendar c = new GregorianCalendar();
 
 
-        if ("delall".equals(action)) {
+        if (DELETE_ALL.equals(action)) {
         	 HashSet<StudyParticipantCrf> spcrfList = participantSchedule.removeAllSchedules(formIds);
         	 participantScheduleService.save(spcrfList);
         	 isSave = true;
         }
         c.setTime(participantSchedule.getProCtcAECalendar().getTime());
 
-        if ("moveall".equals(action)) {
+        if (MOVE_ALL.equals(action)) {
             String strNewdate = date.substring(0, date.indexOf(","));
             Date newDate = DateUtils.parseDate(strNewdate);
+            Calendar cNewDate = Calendar.getInstance();
+            cNewDate.setTime(newDate);
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveAllSchedules(DateUtils.daysBetweenDates(newDate, c.getTime()), formIds);
+            participantSchedule.moveAllSchedules(DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds);
         }
 
-        if ("moveallfuture".equals(action)) {
+        if (MOVE_ALL_FUTURE.equals(action)) {
             String strNewdate = date.substring(0, date.indexOf(","));
             Date newDate = DateUtils.parseDate(strNewdate);
+            Calendar cNewDate = Calendar.getInstance();
+            cNewDate.setTime(newDate);
+            
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveFutureSchedules(c, DateUtils.daysBetweenDates(newDate, c.getTime()), formIds);
+            
+            participantSchedule.moveFutureSchedules(c, DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds);
         }
-        if ("delallfuture".equals(action)) {
+        if (DELETE_ALL_FUTURE.equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
             HashSet<StudyParticipantCrf> spcrfList = participantSchedule.deleteFutureSchedules(c, formIds);
         	participantScheduleService.save(spcrfList);
         	isSave = true;
         }
 
-        if ("add,del".equals(action)) {
+        if (ADD_DEL.equals(action)) {
             LinkedHashMap<String, List<String>> resultMap = new LinkedHashMap<String, List<String>>();
             ModelAndView mv = new ModelAndView("participant/moveSuccessForm");
 
@@ -106,7 +121,7 @@ public class AddCrfScheduleController extends AbstractController {
             return mv;
         }
 
-        if ("onhold".equals(action)) {
+        if (ON_HOLD.equals(action)) {
             studyParticipantAssignment.putOnHold(DateUtils.parseDate(date));
            //For PRKC-1867: Updating the status to OnHold only if the onHoldTreatmentDate is equal to todays date.
             if(DateUtils.compareDate(today, studyParticipantAssignment.getOnHoldTreatmentDate()) == 0){
@@ -116,7 +131,7 @@ public class AddCrfScheduleController extends AbstractController {
             participantCommand.lazyInitializeParticipant(genericRepository);
         }
 
-        if ("offhold".equals(action)) {
+        if (OFF_HOLD.equals(action)) {
             int cycle = ServletRequestUtils.getIntParameter(request, "cycle", 0);
             int day = ServletRequestUtils.getIntParameter(request, "day", 0);
             studyParticipantAssignment.setOffHoldTreatmentDate(DateUtils.parseDate(offHoldDate));
@@ -171,7 +186,7 @@ public class AddCrfScheduleController extends AbstractController {
             participantCommand.lazyInitializeParticipant(genericRepository);
         }
 
-        if ("add".equals(action)) {
+        if (ADD.equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
             Calendar dueCalendar = (Calendar) c.clone();
             dueCalendar.add(Calendar.DATE, 1);
@@ -180,7 +195,7 @@ public class AddCrfScheduleController extends AbstractController {
            // participantSchedule.createSchedule(c, null, -1, -1, formIds, false, false);
             isSave = true;
         }
-        if ("del".equals(action)) {
+        if (DELETE.equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
             HashSet<StudyParticipantCrf> spcrfList = participantSchedule.removeSchedule(c, formIds);
             participantScheduleService.save(spcrfList);

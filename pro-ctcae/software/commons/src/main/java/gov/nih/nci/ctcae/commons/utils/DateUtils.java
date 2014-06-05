@@ -206,4 +206,31 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 		newCal.setTimeInMillis(equivalentEstTimeForDate);
 		return  newCal.getTime();
     }
+    
+    public static int daysBetweenDatesWithRoundOff(Calendar c1, Calendar c2){
+    	c1.set(Calendar.HOUR_OF_DAY, 0);
+        c1.set(Calendar.MINUTE, 0);
+        c1.set(Calendar.SECOND, 0);
+        c1.set(Calendar.MILLISECOND, 0);
+        
+        c2.set(Calendar.HOUR_OF_DAY, 0);
+        c2.set(Calendar.MINUTE, 0);
+        c2.set(Calendar.SECOND, 0);
+        c2.set(Calendar.MILLISECOND, 0);
+        
+        long diffMillis = c1.getTimeInMillis() - c2.getTimeInMillis();
+        double diff = (double)(diffMillis/ (double) (1000 * 60 * 60 * 24));
+        double mantissa = diff % 1;
+        // i.e 24.6 => 25 (as 0.6 > 0.5), 24.42 => 24 (as 0.42 < 0.5)
+        if(mantissa > 0.5){
+        	diff = Math.ceil(diff);
+        }
+        
+        // i.e -24.6 => -25 (as -0.6 < -0.5), -24.42 => -24 (as -0.42 > -0.5)
+        if(mantissa < -0.5){
+        	diff = Math.floor(diff);
+        }
+        
+        return new Double(diff).intValue();
+    }
 }
