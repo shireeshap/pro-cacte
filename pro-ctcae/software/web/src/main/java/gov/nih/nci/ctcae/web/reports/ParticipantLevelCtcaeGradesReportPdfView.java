@@ -52,6 +52,7 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	private static String HEADER_OUTCOME = "Outcome";
 	private static String HEADER_AE_ATTRIBUTION = "AE Attribution";
 	private static String COLON = ":";
+	private static String EMPTY_STRING = "";
 	
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -108,7 +109,6 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
         // Add feedback questions section on the report
         addFeedbackQuestionsToDocument(document, pdfWriter);
     }
-
 
 	private void addSurveySolicitedSymptomsToDocument(PdfWriter pdfWriter, Document document, 
 			List<AeReportEntryWrapper> sortedAeWithGradesList) throws DocumentException, IOException {
@@ -170,8 +170,12 @@ public class ParticipantLevelCtcaeGradesReportPdfView extends AbstractPdfView {
 	        
 	        // Patient-reported PRO-CTCAE / Verbatim
 	        String verbatim = entry.getProctcaeVerbatim();
-	        String symptomName = verbatim.substring(0, verbatim.indexOf(COLON) + 1);
-	        String symptomDescription = verbatim.substring(verbatim.indexOf(COLON) + 1);
+	        String symptomName = EMPTY_STRING;
+	        String symptomDescription = EMPTY_STRING;
+	        if(!StringUtils.isEmpty(verbatim)){
+	        	symptomName = verbatim.substring(0, verbatim.indexOf(COLON) + 1);
+	        	symptomDescription = verbatim.substring(verbatim.indexOf(COLON) + 1);
+	        }
 	        Paragraph verbatimParagraph = new Paragraph(symptomName, FontFactory.getFont("Arial", 10, Font.PLAIN));
 	        verbatimParagraph.add(new Chunk(symptomDescription, FontFactory.getFont("Arial", 10, Font.ITALIC)));
 			cell = new Cell(verbatimParagraph);
