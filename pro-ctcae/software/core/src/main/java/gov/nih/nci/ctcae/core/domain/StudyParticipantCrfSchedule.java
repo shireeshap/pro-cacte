@@ -32,6 +32,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -787,9 +788,10 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	 * This method should only be called upon a completed schedule.
 	 */
 	public void generateStudyParticipantCrfGrades(ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+		Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
+		Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
+		
 		if(this.getStudyParticipantCrfGrades().isEmpty() && !getStudyParticipantCrf().getCrf().isEq5d()){
-			Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
-			Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
 			
 			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
 				StudyParticipantCrfGrades studyParticipantCrfGrade = createStudyParticipantCrfGrade(spcCrfItem, proctcaeGradeMappingVersion);
@@ -805,6 +807,14 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 			}
 			
 			generateFinalGradeFromResponses(proResponseMap, meddraResponseMap, proctcaeGradeMappingVersion);
+		} else {
+			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
+					StudyParticipantCrfGrades studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
+					if(studyParticipantCrfGrade != null && StringUtils.isEmpty(studyParticipantCrfGrade.getProctcaeVerbatim())){
+						addToResponseMap(proResponseMap, spcCrfItem);
+					}
+			}
+			updateProctcaeVerbatimForGrade(proResponseMap, proctcaeGradeMappingVersion);
 		}
 	}
 	
@@ -853,6 +863,23 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    		}
 	    	}
     	
+    	}catch (Exception e) {
+			logger.error("Error in generating ctcae grade in schedule id:" + getId() + " ,error message is: " + e.getMessage());
+		}
+    }
+    
+    private void updateProctcaeVerbatimForGrade(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    	StudyParticipantCrfGrades studyParticipantCrfGrade;
+    	try {
+	    	for(ProCtcTerm symptom : proResponseMap.keySet()){
+	    		studyParticipantCrfGrade = getStudyParticipantCrfGrade(symptom);
+	    		if(studyParticipantCrfGrade != null){
+	    			Map<ProCtcQuestionType, String> questionTypeMap = proResponseMap.get(symptom);
+	    			ProctcaeGradeMapping gradeKey = generateGradeKey(questionTypeMap, symptom, proctcaeGradeMappingVersion);
+	    			String proctcaeVerbatim = symptom.getProctcaeVerbatimMappingMap().get(gradeKey);
+	    			studyParticipantCrfGrade.setProctcaeVerbatim(proctcaeVerbatim);
+	    		}
+	    	}
     	}catch (Exception e) {
 			logger.error("Error in generating ctcae grade in schedule id:" + getId() + " ,error message is: " + e.getMessage());
 		}
@@ -1030,6 +1057,15 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
     	} else {
     		return null;
     	}
+    }
+    
+    public StudyParticipantCrfGrades getStudyParticipantCrfGrade(Question question){
+    	if(question instanceof ProCtcQuestion){
+    		return getStudyParticipantCrfGrade(((ProCtcQuestion)question).getProCtcTerm());
+    	} else if(question instanceof MeddraQuestion){
+    		return getStudyParticipantCrfGrade(((MeddraQuestion)question).getLowLevelTerm());
+    	}
+    	return null;
     }
     
     public StudyParticipantCrfGrades getStudyParticipantCrfGrade(ProCtcTerm proCtcTerm){
