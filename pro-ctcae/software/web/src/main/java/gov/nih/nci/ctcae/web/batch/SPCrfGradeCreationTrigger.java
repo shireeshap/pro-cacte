@@ -9,11 +9,11 @@ public class SPCrfGradeCreationTrigger extends SimpleTriggerBean {
     public SPCrfGradeCreationTrigger() {
         setStartDelay(0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 11);
+        calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 15);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.set(Calendar.AM_PM, Calendar.PM);
         setStartTime(calendar.getTime());
         //for testing
         //setRepeatInterval(10 * 60 * 1000);
