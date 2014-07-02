@@ -807,7 +807,8 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 			}
 			
 			generateFinalGradeFromResponses(proResponseMap, meddraResponseMap, proctcaeGradeMappingVersion);
-		} else {
+			
+		} else if(!getStudyParticipantCrf().getCrf().isEq5d() && !this.getStudyParticipantCrfGrades().isEmpty()) {
 			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
 					StudyParticipantCrfGrades studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
 					if(studyParticipantCrfGrade != null && StringUtils.isEmpty(studyParticipantCrfGrade.getProctcaeVerbatim())){
