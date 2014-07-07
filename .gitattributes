@@ -2349,6 +2349,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/Proctcae
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateMeddraSpanishLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProCtcTermsImporterV4.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/UpdateProctcaeVerbatimLoader.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
@@ -2808,6 +2809,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ProductionDataCorrect
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermSpanishController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateSpcrfGradesVerbatimController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionNotifications.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
@@ -3299,6 +3301,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/password_policy_configure.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcaeGradeMappingsLoaded.jsp -text svneol=unset#text/plain
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcaeVerbatimUpdated.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proctcae_video_player.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/fullStudyReport.jsp -text

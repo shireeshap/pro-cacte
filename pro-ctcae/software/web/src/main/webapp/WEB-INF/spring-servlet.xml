@@ -759,6 +759,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <bean name="updateProctcaeVerbatimLoader" class="gov.nih.nci.ctcae.core.csv.loader.UpdateProctcaeVerbatimLoader">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <bean id="spCrfGradeCreatorJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="spCrfGradeCreatorBean"/>
@@ -919,6 +923,11 @@
     <bean name="/loadProctcaeGradeMappings" id="loadProctcaeGradeMappings"
           class="gov.nih.nci.ctcae.web.LoadProctcaeGradeMappingsController">
         <property name="proctcaeGradeMappingsLoader" ref="proctcaeGradeMappingsLoader"/>
+    </bean>
+    
+    <bean name="/updateProctcaeVerbatim" id="updateProctcaeVerbatim"
+          class="gov.nih.nci.ctcae.web.UpdateSpcrfGradesVerbatimController">
+        <property name="updateProctcaeVerbatimLoader" ref="updateProctcaeVerbatimLoader"/>
     </bean>
     
     <bean name="proctcaeGradeMappingsLoader" class="gov.nih.nci.ctcae.core.csv.loader.ProctcaeGradeMappingsLoader">

@@ -788,10 +788,9 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	 * This method should only be called upon a completed schedule.
 	 */
 	public void generateStudyParticipantCrfGrades(ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
-		Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
-		Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
-		
 		if(this.getStudyParticipantCrfGrades().isEmpty() && !getStudyParticipantCrf().getCrf().isEq5d()){
+			Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
+			Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
 			
 			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
 				StudyParticipantCrfGrades studyParticipantCrfGrade = createStudyParticipantCrfGrade(spcCrfItem, proctcaeGradeMappingVersion);
@@ -807,8 +806,13 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 			}
 			
 			generateFinalGradeFromResponses(proResponseMap, meddraResponseMap, proctcaeGradeMappingVersion);
-			
-		} else if(!getStudyParticipantCrf().getCrf().isEq5d() && !this.getStudyParticipantCrfGrades().isEmpty()) {
+		}
+	}
+	
+	public void updateSpcrfGradeVerbatim(ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+		Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
+		
+		if(!getStudyParticipantCrf().getCrf().isEq5d() && !this.getStudyParticipantCrfGrades().isEmpty()) {
 			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
 					StudyParticipantCrfGrades studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
 					if(studyParticipantCrfGrade != null && StringUtils.isEmpty(studyParticipantCrfGrade.getProctcaeVerbatim())){
