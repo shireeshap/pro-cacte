@@ -811,6 +811,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	
 	public void updateSpcrfGradeVerbatim(ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
 		Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap = new HashMap<ProCtcTerm, Map<ProCtcQuestionType, String>>();
+		Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap = new HashMap<LowLevelTerm, Map<ProCtcQuestionType, String>>();
 		
 		if(!getStudyParticipantCrf().getCrf().isEq5d() && !this.getStudyParticipantCrfGrades().isEmpty()) {
 			for (StudyParticipantCrfItem spcCrfItem : getStudyParticipantCrfItems()) {
@@ -818,6 +819,13 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 					if(studyParticipantCrfGrade != null && StringUtils.isEmpty(studyParticipantCrfGrade.getProctcaeVerbatim())){
 						addToResponseMap(proResponseMap, spcCrfItem);
 					}
+			}
+			
+			for (StudyParticipantCrfScheduleAddedQuestion spcsaq : getStudyParticipantCrfScheduleAddedQuestions()) {
+				StudyParticipantCrfGrades studyParticipantCrfGrade = getStudyParticipantCrfGrade(spcsaq.getProCtcOrMeddraQuestion());
+				if(studyParticipantCrfGrade != null && StringUtils.isEmpty(studyParticipantCrfGrade.getProctcaeVerbatim())){
+					addToResponseMap(proResponseMap, meddraResponseMap, spcsaq);
+				}
 			}
 			updateProctcaeVerbatimForGrade(proResponseMap, proctcaeGradeMappingVersion);
 		}
