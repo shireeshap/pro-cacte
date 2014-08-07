@@ -54,13 +54,18 @@ import com.lowagie.text.pdf.RadioCheckField;
  */
 public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	
-	public static final String[] aeNameArray = new String[]{"Platelet count decreased", "White blood cell decreased", "Neutrophil count decreased", "Dysphagia", "Diarrhea", "Nausea", "Vomiting", "Dyspnea", "Peripheral sensory neuropathy", "Allergic reaction", 
-			"Constipation", "Mucositis oral", "Fatigue", "Pain", "Anorexia", "Ventricular arrhythmia", "Thromboembolic event (PE/DVT)", "Anxiety", "Depression", "Rectal mucositis", "Anal mucositis", "Laryngopharyngeal dysesthesia", "Chest pain - cardiac", "Myocardial infarction"};
-	public static final String[] aeMeddraCode = new String[]{"10035528", "10049182", "10029366", "10013950", "10012727", "10028813", "10047700", "10013963", "10034620", "10001718", "10010774", "10028130", "10016256", 
-			"10033371", "10002646", "10047281", "10043565", "10002855", "10012378", "10063190", "10065721", "10062667", "10008481", "10028596"};
-	public static final int[] aeGrade = new int[]{4, 4, 4, 5, 5, 3, 5, 5, 5, 5, 5, 5, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 3, 5};
+	public static final String[] aeNameArray = new String[]{"Dysphagia", "Diarrhea", "Nausea", "Vomiting", "Dyspnea", "Peripheral sensory neuropathy", 
+			"Constipation", "Mucositis oral", "Fatigue", "Pain", "Anorexia", "Anxiety", "Depression"};
+	public static final String[] aeMeddraCode = new String[]{"10013950", "10012727", "10028813", "10047700", "10013963", "10034620", "10010774", "10028130", "10016256", 
+			"10033371", "10002646", "10002855", "10012378"};
+	public static final int[] aeGrade = new int[]{5, 5, 3, 5, 5, 5, 5, 5, 3, 3, 5, 5, 5};
 	
 	private int totalPages = 0;
+	private static String REPORT_TITLE = "Alliance for Clinical Trials in Oncology";
+	private static String PROTOCOL_NUMBER = "Protocol Number:";
+	private static String SOLICITED_AE = "Solicited Adverse Event";
+	private static String PATIENT_ID = "Patient ID:";
+	private static String INSTITUTION_NO = "Institution (Inst. Number):";
 	
 	class AEDetail {
 		String AEName;
@@ -115,6 +120,10 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         buildDocument(map, dupe, dupePdfWriter, request, httpServletResponse);
         totalPages = dupePdfWriter.getPageNumber();
         
+        MyPdfPageEvent pageEvent = new MyPdfPageEvent();
+        pageEvent.setTotalPages(totalPages);
+        pdfWriter.setPageEvent(pageEvent);
+        
         document.setMargins(35, 35, 15, 15);
         buildDocument(map, document, pdfWriter, request, httpServletResponse);
     }
@@ -144,88 +153,28 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         document.setHeader(header); 
         document.open();
         
-        addCheckboxesToHeader(pdfWriter);
-
         Table instructionsTable = getInstructionsForDocument(reportStartDate, reportEndDate);
         document.add(instructionsTable);
         
         // survey solicited symptoms section header
         addSurveySolicitedSymptomsToDocument(pdfWriter, document, results);
         addFeedbackQuestionsToDocument(document, pdfWriter);
+        pdfWriter.newPage();
         addClinicianReportedSymptomsTableToDocument(document, pdfWriter);
     }
 
-
-	/**
-	 * Adds the checkboxes to header.
-	 */
-	private void addCheckboxesToHeader(PdfWriter pdfWriter) throws IOException, DocumentException {
-		String yesStr = "Yes";
-		String noStr = "No";
-		RadioCheckField check = new RadioCheckField(pdfWriter, new Rectangle(542, 492, 552, 502), yesStr + Math.random(), yesStr);
-        check.setCheckType(RadioCheckField.TYPE_CROSS);
-        check.setBorderWidth(BaseField.BORDER_WIDTH_THIN);
-        check.setBorderColor(Color.black);
-        check.setBackgroundColor(Color.white);
-        PdfFormField ck = check.getCheckField();
-        pdfWriter.addAnnotation(ck);
-        
-        check = new RadioCheckField(pdfWriter, new Rectangle(574, 492, 584, 502), noStr + Math.random(), yesStr);
-        check.setCheckType(RadioCheckField.TYPE_CROSS);
-        check.setBorderWidth(BaseField.BORDER_WIDTH_THIN);
-        check.setBorderColor(Color.black);
-        check.setBackgroundColor(Color.white);
-        ck = check.getCheckField();
-        pdfWriter.addAnnotation(ck);
-        
-        PdfContentByte cb = pdfWriter.getDirectContent();
-        cb.beginText();
-		cb.setFontAndSize(BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED), 8f);
-		cb.showTextAligned(Element.ALIGN_LEFT, yesStr, 554, 492, 0);
-		cb.endText();
-		
-        cb.beginText();
-		cb.setFontAndSize(BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED), 8f);
-		cb.showTextAligned(Element.ALIGN_LEFT, noStr, 586, 492, 0);
-		cb.endText();
-		
-        cb = pdfWriter.getDirectContent();
-        cb.beginText();
-        //new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL)
-		cb.setFontAndSize(BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED), 10f);
-		int currentPageNumber = pdfWriter.getPageNumber() - 1;
-		int total = totalPages - 1;
-		cb.showTextAligned(Element.ALIGN_LEFT, "Page "+ currentPageNumber +" of "+ total, 553, 12, 0);
-		cb.endText();
-	}
-
-
-	private void addSurveySolicitedSymptomsToDocument(PdfWriter pdfWriter, Document document, 
+    private void addSurveySolicitedSymptomsToDocument(PdfWriter pdfWriter, Document document, 
 			TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results) throws DocumentException, IOException {
 
 		Table table = getHeaderSectionForSurveySolicitedSymptomsTable(false);
         List<AEDetail> aeDetailList = buildAEListForDisplay(0, 7);
         addSymptomsToTable(table, aeDetailList, results);
         document.add(table);
-		addCheckboxesToHeader(pdfWriter);
 
 		table = getHeaderSectionForSurveySolicitedSymptomsTable(true);
-        aeDetailList = buildAEListForDisplay(8, 18);
+        aeDetailList = buildAEListForDisplay(8, 12);
         addSymptomsToTable(table, aeDetailList, results);
         document.add(table);
-		addCheckboxesToHeader(pdfWriter);
-        
-		table = getHeaderSectionForSurveySolicitedSymptomsTable(true);
-        aeDetailList = buildAEListForDisplay(19, 23);
-        addSymptomsToTable(table, aeDetailList, results);
-
-//        Cell cell = new Cell(new Paragraph("*See section 10.0 of the protocol.", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-//        cell.setColspan(13);
-//        cell.setBorder(0);
-//        table.addCell(cell);
-
-        document.add(table);
-		addCheckboxesToHeader(pdfWriter);
         return;
 	}
 
@@ -373,13 +322,11 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         table.setCellsFitPage(true);
         table.setBorder(0);
         
-        Paragraph p = new Paragraph(" Solicited Adverse Events ", FontFactory.getFont("Times-Roman", 13, Font.BOLD));
-        if(contdIndicator){
-        	p.add(new Phrase("(continued)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
-        }
+        Paragraph p = new Paragraph("", FontFactory.getFont("Times-Roman", 13, Font.BOLD));
         Cell headerCell = new Cell(p);
         headerCell.setBorder(0);
         headerCell.setColspan(13);
+        headerCell.setRowspan(2);
         table.addCell(headerCell);
         
         Cell cell = new Cell(new Paragraph("Adverse Event Text Name\n (CTCAE v 4.0)", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
@@ -543,14 +490,11 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         table.addCell(cell);
         
         document.add(table);
-		addCheckboxesToHeader(pdfWriter);
 	}
 
 
 	private void addFeedbackQuestionsToDocument(Document document, PdfWriter pdfWriter) throws DocumentException, IOException {
         
-//		document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 25, Font.PLAIN)));
-//      document.add(new Paragraph(" Feedback Questions", FontFactory.getFont("Times-Roman", 12, Font.BOLD | com.lowagie.text.Font.UNDERLINE)));
       document.add(new Paragraph("  ", FontFactory.getFont("Times-Roman", 8)));
 
 		Paragraph fQuestion = new Paragraph("Is the person who filled out the above form the same person who assigned the actual CTCAE grades for this patient?", FontFactory.getFont("Times-Roman", 10));
@@ -558,19 +502,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         document.add(fQuestion);
         document.add(new Paragraph("    O Yes", FontFactory.getFont("Times-Roman", 10)));
         document.add(new Paragraph("    O No", FontFactory.getFont("Times-Roman", 10)));
-        //document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
-        
-//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-//        document.add(new Paragraph("2. Who assigned the actual CTCAE grades for the above form?", FontFactory.getFont("Times-Roman", 10)));
-//        document.add(new Paragraph("    O Non-clinician", FontFactory.getFont("Times-Roman", 10)));
-//        document.add(new Paragraph("    O Clinician who did not see the patient", FontFactory.getFont("Times-Roman", 10)));
-//        document.add(new Paragraph("    O Clinician who did see the patient", FontFactory.getFont("Times-Roman", 10)));
-//
-//        document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
-//        document.add(new Paragraph("3. Were the CTCAE grades on the above form transcribed from a different source (e.g., a different form or the medical record), or " +
-//        		"were they graded directly onto the above form?", FontFactory.getFont("Times-Roman", 10)));
-//        document.add(new Paragraph("    O Transcribed from another source", FontFactory.getFont("Times-Roman", 10)));
-//        document.add(new Paragraph("    O Graded directly on the above form", FontFactory.getFont("Times-Roman", 10)));
         
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
 		Paragraph sQuestion = new Paragraph("Did the person who assigned CTCAE grades for the above form have access to the patient's self-reported AE " +
@@ -578,13 +509,13 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		sQuestion.add(new Phrase(" (check one)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(sQuestion);
         Paragraph para = new Paragraph("    O Yes ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
-//        para.add(new Phrase("(If Yes, proceed to next question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
         para = new Paragraph("    O No ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
         para.add(new Phrase("(If No, proceed to Other Adverse Events question)", FontFactory.getFont("Times-Roman", 10, Font.ITALIC)));
         document.add(para);
         
+        document.newPage();
         document.add(new Paragraph(" ", FontFactory.getFont("Times-Roman", 6)));
 		Paragraph tQuestion = new Paragraph("Were any of the assigned CTCAE grades in the above form different than they would " +
         		"have been in the absence of access to the patient's self-reported AE responses?", FontFactory.getFont("Times-Roman", 10));
@@ -613,7 +544,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         blurb.setIndentationLeft(20f);
         document.add(blurb);
         
-		addCheckboxesToHeader(pdfWriter);
 	}
 
 
@@ -625,7 +555,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         Paragraph instructionalParagraph = new Paragraph("\nInstructions: ", FontFactory.getFont("Times-Roman", 10, Font.BOLD));
         instructionalParagraph.add(new Phrase("This form should be completed by the CRA per the Test Schedule (Section 4.0) using patient's medical records, starting from the first day since the prior reporting period if post-baseline. " +
         		"When completing this form, the patient's self-reported adverse event ratings (shown in the table below for the reporting period) should be used as a reference.\n \n" , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        //instructionalParagraph.add(new Paragraph("Reporting Period Start Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) " + reportStartDate , FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
         Paragraph datePara = new Paragraph("Reporting Period End Date (date on which the clinician evaluated patient's adverse events): (dd MMM yyyy) ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN));
         datePara.add(new Phrase(convertDateToReqdFormat(reportEndDate), FontFactory.getFont("Times-Roman", 10, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
         instructionalParagraph.add(datePara);
@@ -700,178 +629,214 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		}
 		return "";
 	}
-
+	
+	
 	private Table getHeaderForDocument(PdfWriter pdfWriter, Study study, Participant participant, String reportStartDate, String reportEndDate) throws DocumentException, IOException {
-		Table insideTable = new Table(9);
+		Table insideTable = new Table(8);
 		insideTable.setAlignment(Table.ALIGN_LEFT);
-		insideTable.setBorder(1);
-		insideTable.setBorderWidthBottom(1);
-		insideTable.setBorderWidthLeft(1);
-		insideTable.setBorderWidthRight(1);
-		insideTable.setBorderColor(Color.BLACK);
-        insideTable.setWidth(81);
-        insideTable.setWidths(new int[]{13, 12, 10, 10, 1, 10, 10, 10, 10});
-        
-        Cell headerCell = new Cell(new Paragraph("PLACE LABEL HERE", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        headerCell.setColspan(5);
-        headerCell.setRowspan(1);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthLeft(1);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        insideTable.addCell(headerCell);
-        
-        headerCell = new Cell(new Paragraph("Alliance for Clinical Trials in Oncology", FontFactory.getFont("Times-Roman", 13, Font.BOLD)));
-        headerCell.setColspan(4);
-        headerCell.setRowspan(3);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthLeft(1);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        insideTable.addCell(headerCell);
-        
-        Paragraph para1 = new Paragraph(" Protocol Number:", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        headerCell = new Cell(para1);
+		insideTable.setBorder(Rectangle.NO_BORDER);
+		insideTable.setWidth(100);
+		insideTable.setWidths(new int[]{33, 3, 5, 11, 3, 25, 14, 6});
+		
+		// Line 1:
+		Paragraph para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.BOLD));
+		Cell headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthRight(0);
         headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        headerCell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-        
-        para1 = new Paragraph(String.format(" %s", study.getAssignedIdentifier().toUpperCase()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        headerCell = new Cell(para1);
+		
+		headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
         headerCell.setColspan(3);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(1);
-        headerCell.setBorderWidthRight(0);
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        para1 = new Paragraph("", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        headerCell = new Cell(para1);
+        para1 = new Paragraph(REPORT_TITLE, FontFactory.getFont("Arial", 11, Font.BOLD));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(4);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        //Line 2:
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthRight(0);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-
-
-
-        Paragraph para2 = new Paragraph(" Patient ID: ", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        para2.add(new Phrase(String.format("  %s  ", participant.getStudyParticipantIdentifier().toUpperCase()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
-        headerCell = new Cell(para2);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(3);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
         headerCell.setColspan(2);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthRight(0);
-        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        para1 = new Paragraph(PROTOCOL_NUMBER, FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        para1 = new Paragraph(study.getAssignedIdentifier(), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        para2 = new Paragraph(" Patient Initials: " , FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        Cell piCell = new Cell(para2);
-        piCell.setColspan(1);
-        piCell.setRowspan(2);
-        piCell.setBorderWidthBottom(0);
-        piCell.setBorderWidthTop(0);
-        piCell.setBorderWidthRight(0);
-        piCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        piCell.setVerticalAlignment(Element.ALIGN_TOP);
-        insideTable.addCell(piCell);
+        //Line 3:
+        headerCell = new Cell(new Paragraph(""));
+        headerCell.setColspan(1);
+        headerCell.setRowspan(4);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
         
-        para2 = new Paragraph(String.format(" %s", participant.getNameInitialsForReports()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        piCell = new Cell(para2);
-        piCell.setColspan(1);
-        piCell.setRowspan(1);
-        piCell.setBorderWidthBottom(1);
-        piCell.setBorderWidthTop(0);
-        piCell.setBorderWidthRight(0);
-        piCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        piCell.setVerticalAlignment(Element.ALIGN_TOP);
-        insideTable.addCell(piCell);
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(3);
+        headerCell.setRowspan(4);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
         
-        para1 = new Paragraph("", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(4);
+        headerCell.setRowspan(4);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        //Line 4:
+        headerCell = new Cell(new Paragraph(SOLICITED_AE, FontFactory.getFont("Arial", 14, Font.BOLD)));
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(3);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        para1 = new Paragraph(PATIENT_ID, FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        String studyParticipantIdentifier = null;
+        if(participant.getStudyParticipantAssignments().size() > 0){
+        	studyParticipantIdentifier = participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier();
+        }
+        para1 = new Paragraph(studyParticipantIdentifier, FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(2);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        //Line 5:
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 14, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(3);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
         headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthRight(0);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-
-        headerCell = new Cell(new Paragraph("Solicited Adverse Event Form", FontFactory.getFont("Times-Roman", 11, Font.BOLD)));
-        headerCell.setColspan(4);
+        para1 = new Paragraph(INSTITUTION_NO, FontFactory.getFont("Arial", 11, Font.PLAIN));
+        headerCell = new Cell(para1);
+        headerCell.setColspan(1);
         headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthLeft(1);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        para1 = new Paragraph(String.format("%s", participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getDisplayName()), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+        headerCell = new Cell(para1);
+        headerCell.setColspan(2);
+        headerCell.setRowspan(2);
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        para2 = new Paragraph(" L  F  M", FontFactory.getFont("Times-Roman", 6, Font.PLAIN));
-        piCell = new Cell(para2);
-        piCell.setColspan(1);
-        piCell.setRowspan(1);
-        piCell.setBorderWidthBottom(0);
-        piCell.setBorderWidthTop(0);
-        piCell.setBorderWidthRight(0);
-        piCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        piCell.setVerticalAlignment(Element.ALIGN_TOP);
-        insideTable.addCell(piCell);
-
-        para2 = new Paragraph(" Institution Number: ", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        para2.add(new Phrase(String.format("%s", participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getNciInstituteCode()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
-        headerCell = new Cell(para2);
-        headerCell.setColspan(5);
-        headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthRight(0);
-        headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        insideTable.addCell(headerCell);
-
-        headerCell = new Cell(new Paragraph("ALL ITEMS MUST BE COMPLETED", FontFactory.getFont("Times-Roman", 8, Font.BOLD)));
-        headerCell.setColspan(4);
-        headerCell.setRowspan(2);
-        headerCell.setBorderWidthBottom(0);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthLeft(1);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        insideTable.addCell(headerCell);
-
-        para2 = new Paragraph(" Institution:", FontFactory.getFont("Times-Roman", 11, Font.PLAIN));
-        para2.add(new Phrase(String.format("%s", participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getDisplayName()), FontFactory.getFont("Times-Roman", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE)));
-        headerCell = new Cell(para2);
-        headerCell.setColspan(5);
-        headerCell.setRowspan(2);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthRight(0);
+        //Blank line after header
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(1);
+        headerCell.setRowspan(4);
         headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        Paragraph subtext = new Paragraph("Are data amended? ", FontFactory.getFont("Times-Roman", 8));
-        subtext.add(new Phrase("(check one)", FontFactory.getFont("Times-Roman", 8, Font.ITALIC)));
-        subtext.setIndentationLeft(-55f);
-        Paragraph pleaseCircle = new Paragraph("\n                            (If data amended, please circle in red when using paper forms)\n", FontFactory.getFont("Times-Roman", 8, Font.ITALIC));
-        pleaseCircle.setAlignment(Element.ALIGN_CENTER);
-        subtext.add(pleaseCircle);
-        
-        headerCell = new Cell(subtext);
-        headerCell.setColspan(4);
-        headerCell.setRowspan(2);
-        headerCell.setBorderWidthTop(0);
-        headerCell.setBorderWidthLeft(1);
+        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(3);
+        headerCell.setRowspan(4);
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        subtext = new Paragraph(" ", FontFactory.getFont("Times-Roman", 8));
-        headerCell = new Cell(subtext);
-        headerCell.setColspan(9);
-        headerCell.setRowspan(1);
-        headerCell.setBorder(0);
+        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
+        headerCell.setColspan(4);
+        headerCell.setRowspan(4);
+        headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        headerCell.setNoWrap(false);
         insideTable.addCell(headerCell);
         
+        headerCell = new Cell(new Paragraph("\n"));
+        headerCell.setColspan(8);
+        headerCell.setRowspan(2);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+
         return insideTable;
 	}
 	
