@@ -356,6 +356,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 try {
                     userNameAndPasswordValidator.validatePasswordPolicy(cloneUserWithNewPassword);
                     //encode pwd in participant after validation is successful.
+                    command.getParticipant().getUser().setUsername(command.getParticipant().getUser().getUsername().toLowerCase());
                     String newPasswordAfterEncoding = userRepository.getEncodedPassword(command.getParticipant().getUser(), command.getParticipant().getPassword());
                     command.getParticipant().setPassword(newPasswordAfterEncoding);
                 } catch (PasswordCreationPolicyException ex) {
