@@ -827,7 +827,7 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 					addToResponseMap(proResponseMap, meddraResponseMap, spcsaq);
 				}
 			}
-			updateProctcaeVerbatimForGrade(proResponseMap, proctcaeGradeMappingVersion);
+			updateProctcaeVerbatimForGrade(proResponseMap, meddraResponseMap, proctcaeGradeMappingVersion);
 		}
 	}
 	
@@ -870,8 +870,9 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			Integer displayOrder = Integer.parseInt(questionTypeMap.get(ProCtcQuestionType.PRESENT));
 	    			if(displayOrder == 1){
 	    				studyParticipantCrfGrade.setGrade(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+	    				studyParticipantCrfGrade.setProctcaeVerbatim(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
 	    			} else {
-	    				studyParticipantCrfGrade.setGrade(String.valueOf(0));
+	    				studyParticipantCrfGrade.setGrade("0");
 	    			}
 	    		}
 	    	}
@@ -881,7 +882,8 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 		}
     }
     
-    private void updateProctcaeVerbatimForGrade(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
+    private void updateProctcaeVerbatimForGrade(Map<ProCtcTerm, Map<ProCtcQuestionType, String>> proResponseMap, Map<LowLevelTerm, Map<ProCtcQuestionType, String>> meddraResponseMap,
+    		ProctcaeGradeMappingVersion proctcaeGradeMappingVersion){
     	StudyParticipantCrfGrades studyParticipantCrfGrade;
     	try {
 	    	for(ProCtcTerm symptom : proResponseMap.keySet()){
@@ -893,8 +895,24 @@ public class StudyParticipantCrfSchedule extends BaseVersionable implements Comp
 	    			studyParticipantCrfGrade.setProctcaeVerbatim(proctcaeVerbatim);
 	    		}
 	    	}
+	    	
+	    	for(LowLevelTerm symptom : meddraResponseMap.keySet()){
+	    		studyParticipantCrfGrade = getStudyParticipantCrfGrade(symptom);
+	    		if(studyParticipantCrfGrade != null){
+	    			Map<ProCtcQuestionType, String> questionTypeMap = meddraResponseMap.get(symptom);
+	    			
+	    			if(questionTypeMap.size() > 1){
+	    				logger.error("Error in updating ctcae grade: LowLevelTerm contains a questionType other than Present/Absent");
+	    			}
+	    			
+	    			Integer displayOrder = Integer.parseInt(questionTypeMap.get(ProCtcQuestionType.PRESENT));
+	    			if(displayOrder == 1){
+	    				studyParticipantCrfGrade.setProctcaeVerbatim(ProctcaeGradeMapping.PRESENT_CLINICIAN_ASSESS);
+	    			} 
+	    		}
+	    	}
     	}catch (Exception e) {
-			logger.error("Error in generating ctcae grade in schedule id:" + getId() + " ,error message is: " + e.getMessage());
+			logger.error("Error in updating ctcae grade in schedule id:" + getId() + " ,error message is: " + e.getMessage());
 		}
     }
     
