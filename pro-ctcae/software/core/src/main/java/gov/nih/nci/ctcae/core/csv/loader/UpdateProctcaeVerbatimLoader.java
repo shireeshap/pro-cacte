@@ -44,7 +44,7 @@ public class UpdateProctcaeVerbatimLoader extends HibernateDaoSupport{
 		" where pgmv.version = '" + VERSION_NUMBER + "'"));
         proctcaeGradeMappingVersion = (ProctcaeGradeMappingVersion) gradeMappingVersionQuery.list().get(0);
         
-        logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job starts....");
+        logger.error("UpdateProctcaeVerbatimLoader: Updating proctcae_verbatim job starts....");
         
         Query proctcaeGradeMappingQuery = session.createQuery(new String("SELECT count(*) FROM ProctcaeGradeMapping pgm" +
         		" WHERE pgm.proctcaeGradeMappingVersion.version = '" + VERSION_NUMBER + "'"));
@@ -65,16 +65,16 @@ public class UpdateProctcaeVerbatimLoader extends HibernateDaoSupport{
     	        }
     	        tx.commit();
             }catch (Exception e) {
-    			logger.error("Error in trigger for creating studyParticipantCrfGrades, rolling back changes...");
+    			logger.error("Error in UpdateProctcaeVerbatimLoader, rolling back changes...");
     			tx.rollback();
     			e.printStackTrace();
     		}finally{
     			session.close();
     		}
         } else {
-        	logger.error("StudyParticipantCrfGradeCreator: Proctcae grade mapping document (version: " + VERSION_NUMBER +") is not loaded...");
+        	logger.error("UpdateProctcaeVerbatimLoader: Proctcae grade mapping document (version: " + VERSION_NUMBER +") is not loaded...");
         }
 
-        logger.error("StudyParticipantCrfGradeCreator: Nightly trigger bean job ends....");
+        logger.error("UpdateProctcaeVerbatimLoader: Updating proctcae_verbatim job ends....");
 	}
 }
