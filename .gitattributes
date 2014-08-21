@@ -2960,6 +2960,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/OverallStudyD
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantGradeWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelAccruTDMOneReportPdfView.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelAccruTDMOneReportResultsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelChartGenerator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelCtcaeGradesReportPdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelCtcaeGradesReportResultsController.java -text
@@ -3307,6 +3309,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.js
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/fullStudyReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelAccruTDMOneReport.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelAccruTDMOneReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelCtcaeGradesReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelCtcaeGradesReportResults.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text

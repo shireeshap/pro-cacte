@@ -27,6 +27,7 @@ public class ParticipantLevelReportController extends AbstractController {
     private static String REPORT_TYPE = "rt";
     private static String SCHEDULE_ID = "sid";
     private static String CTCAE_GRADES = "ctcaeGrades";
+    private static String ACCRU_TDM_ONE = "accruTDMOne";
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
     	
@@ -37,6 +38,8 @@ public class ParticipantLevelReportController extends AbstractController {
             modelAndView = new ModelAndView("reports/participantLevelWorstSymptomReport");
         } else if(reportType!=null && reportType.equals(CTCAE_GRADES)){
         	modelAndView = new ModelAndView("reports/participantLevelCtcaeGradesReport");
+        } else if(reportType!=null && ACCRU_TDM_ONE.equals(reportType)){
+        	modelAndView = new ModelAndView("reports/participantLevelAccruTDMOneReport");
         }
 
         if (!StringUtils.isBlank(scheduleId)) {

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
  */
 public class ParticipantLevelReportPdfController extends AbstractController {
 	 private static String CTCAE_GRADES = "ctcaeGrades";
+	 private static String ACCRU_TDM_ONE = "accruTDMOne";
 	 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView mv;
@@ -25,6 +26,10 @@ public class ParticipantLevelReportPdfController extends AbstractController {
         } else if(reportType != null && CTCAE_GRADES.equals(reportType)){
         	ParticipantLevelCtcaeGradesReportPdfView participantLevelCtcaeGradesReportPdfView = new ParticipantLevelCtcaeGradesReportPdfView();
         	mv = new ModelAndView(participantLevelCtcaeGradesReportPdfView);
+        	
+        } else if(reportType!= null && ACCRU_TDM_ONE.equals(reportType)) {
+        	ParticipantLevelAccruTDMOneReportPdfView participantLevelAccruTDMOneReportPdfView = new ParticipantLevelAccruTDMOneReportPdfView();
+        	mv = new ModelAndView(participantLevelAccruTDMOneReportPdfView);
         	
         } else {
             ParticipantLevelReportPdfView participantLevelReportPdfView = new ParticipantLevelReportPdfView();

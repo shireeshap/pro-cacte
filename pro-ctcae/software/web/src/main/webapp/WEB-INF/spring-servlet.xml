@@ -566,6 +566,12 @@
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
     
+    <bean name="/reports/participantAccruTDMResults" id="participantAccruTDMResultsController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelAccruTDMOneReportResultsController">
+        <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
+    
      <bean name="/reports/participantCtcaeGradesCareResults" id="participantCtcaeGradesCareResults"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelCtcaeGradesReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>

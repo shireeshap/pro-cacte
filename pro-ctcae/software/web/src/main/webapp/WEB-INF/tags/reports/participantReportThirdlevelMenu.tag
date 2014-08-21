@@ -22,10 +22,17 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-                <li id="thirdlevelnav-x" class="tab ${selected=='ctcaeGrades'?'selected':''}">
             <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                <li id="thirdlevelnav-x" class="tab ${selected=='ctcaeGrades'?'selected':''}">
                     <div>
                         <a href="participantReport?rt=ctcaeGrades">ACCRU Eribulin AE Form</a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
+             <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                <li id="thirdlevelnav-x" class="tab ${selected=='accruTDMOne'?'selected':''}">
+                    <div>
+                        <a href="participantReport?rt=accruTDMOne">ACCRU T-DM1 AE Form</a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
