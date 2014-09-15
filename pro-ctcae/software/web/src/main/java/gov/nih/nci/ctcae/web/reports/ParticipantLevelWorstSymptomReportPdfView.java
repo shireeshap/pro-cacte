@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
 import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
+import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
@@ -484,11 +485,6 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         cell.setBorder(0);
         table.addCell(cell);
         
-        cell = new Cell(new Paragraph(" ", FontFactory.getFont("Times-Roman", 10, Font.PLAIN)));
-        cell.setColspan(9);
-        cell.setBorder(0);
-        table.addCell(cell);
-        
         document.add(table);
 	}
 
@@ -632,11 +628,11 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 	
 	
 	private Table getHeaderForDocument(PdfWriter pdfWriter, Study study, Participant participant, String reportStartDate, String reportEndDate) throws DocumentException, IOException {
-		Table insideTable = new Table(8);
+		Table insideTable = new Table(9);
 		insideTable.setAlignment(Table.ALIGN_LEFT);
 		insideTable.setBorder(Rectangle.NO_BORDER);
 		insideTable.setWidth(100);
-		insideTable.setWidths(new int[]{33, 3, 5, 11, 3, 25, 14, 6});
+		insideTable.setWidths(new int[]{33, 3, 5, 11, 3, 24, 1, 14, 6});
 		
 		// Line 1:
 		Paragraph para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.BOLD));
@@ -654,16 +650,16 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
-        para1 = new Paragraph(REPORT_TITLE, FontFactory.getFont("Arial", 11, Font.BOLD));
+        para1 = new Paragraph(REPORT_TITLE, FontFactory.getFont("Arial", 15, Font.BOLD));
 		headerCell = new Cell(para1);
-        headerCell.setColspan(4);
+        headerCell.setColspan(5);
         headerCell.setRowspan(2);
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
         //Line 2:
-        para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
+        para1 = new Paragraph(SOLICITED_AE, FontFactory.getFont("Arial", 14, Font.BOLD));
 		headerCell = new Cell(para1);
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
@@ -673,7 +669,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         
         para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
 		headerCell = new Cell(para1);
-        headerCell.setColspan(3);
+        headerCell.setColspan(2);
         headerCell.setRowspan(2);
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         headerCell.setBorder(Rectangle.NO_BORDER);
@@ -693,11 +689,17 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-        para1 = new Paragraph(study.getAssignedIdentifier(), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
-		headerCell = new Cell(para1);
+        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
         headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        para1 = new Paragraph(study.getAssignedIdentifier(), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+		headerCell = new Cell(para1);
+        headerCell.setColspan(2);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
@@ -719,14 +721,14 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         
         para1 = new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN));
 		headerCell = new Cell(para1);
-        headerCell.setColspan(4);
+        headerCell.setColspan(5);
         headerCell.setRowspan(4);
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
         //Line 4:
-        headerCell = new Cell(new Paragraph(SOLICITED_AE, FontFactory.getFont("Arial", 14, Font.BOLD)));
+        headerCell = new Cell(new Paragraph(""));
         headerCell.setColspan(1);
         headerCell.setRowspan(2);
         headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -755,6 +757,12 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
+        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
         String studyParticipantIdentifier = null;
         if(participant.getStudyParticipantAssignments().size() > 0){
         	studyParticipantIdentifier = participant.getStudyParticipantAssignments().get(0).getStudyParticipantIdentifier();
@@ -763,7 +771,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
 		headerCell = new Cell(para1);
         headerCell.setColspan(2);
         headerCell.setRowspan(2);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
@@ -798,11 +806,21 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
-        para1 = new Paragraph(String.format("%s", participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().getDisplayName()), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
+        headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
+        headerCell.setColspan(1);
+        headerCell.setRowspan(2);
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setBorder(Rectangle.NO_BORDER);
+        insideTable.addCell(headerCell);
+        
+        Organization org = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
+        String institution = (org.getNciInstituteCode() == null ? "" : org.getName() +" ( " + org.getNciInstituteCode() + " )");
+        
+        para1 = new Paragraph(String.format("%s", institution), FontFactory.getFont("Arial", 11, Font.PLAIN | com.lowagie.text.Font.UNDERLINE));
         headerCell = new Cell(para1);
         headerCell.setColspan(2);
         headerCell.setRowspan(2);
-        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
         
@@ -824,7 +842,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         insideTable.addCell(headerCell);
         
         headerCell = new Cell(new Paragraph("", FontFactory.getFont("Arial", 11, Font.PLAIN)));
-        headerCell.setColspan(4);
+        headerCell.setColspan(5);
         headerCell.setRowspan(4);
         headerCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         headerCell.setBorder(Rectangle.NO_BORDER);
@@ -832,7 +850,7 @@ public class ParticipantLevelWorstSymptomReportPdfView extends AbstractPdfView {
         insideTable.addCell(headerCell);
         
         headerCell = new Cell(new Paragraph("\n"));
-        headerCell.setColspan(8);
+        headerCell.setColspan(9);
         headerCell.setRowspan(2);
         headerCell.setBorder(Rectangle.NO_BORDER);
         insideTable.addCell(headerCell);
