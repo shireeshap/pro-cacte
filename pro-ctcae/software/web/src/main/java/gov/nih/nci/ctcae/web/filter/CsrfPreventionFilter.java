@@ -53,7 +53,7 @@ public class CsrfPreventionFilter implements Filter {
             }
         }
 
-        chain.doFilter(new SecurityRequestWrapper(request), new SecurityResponseWrapper(response));
+        chain.doFilter(new XSSRequestWrapper(request), new SecurityResponseWrapper(response));
     }
 
  

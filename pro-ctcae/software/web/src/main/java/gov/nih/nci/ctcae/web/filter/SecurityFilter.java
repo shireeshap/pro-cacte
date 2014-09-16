@@ -52,7 +52,7 @@ import org.apache.commons.lang.StringUtils;
             return;
         }
 
-        chain.doFilter(new SecurityRequestWrapper(request), new SecurityResponseWrapper(response));
+        chain.doFilter(new XSSRequestWrapper(request), new SecurityResponseWrapper(response));
     }
 
     private boolean uriContainsIllegalCharacters(HttpServletRequest request) {

@@ -130,7 +130,16 @@
         <servlet-name>DisplayChart</servlet-name>
         <url-pattern>/servlet/DisplayChart</url-pattern>
     </servlet-mapping>
-
+    
+    <filter>
+    	<filter-name>SanitizeHttpRequestFilter</filter-name>
+    	<filter-class>gov.nih.nci.ctcae.web.filter.SanitizeRequestFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+    	<filter-name>SanitizeHttpRequestFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>LocalizationFilter</filter-name>
