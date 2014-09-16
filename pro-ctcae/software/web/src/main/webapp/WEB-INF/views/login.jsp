@@ -115,8 +115,8 @@
                             </p>
                             <p class="inputs">
                                 <spring:message code="login.password" var="pwd" />
-                                <input style="display: block" class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" />
-                                <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur();" />
+                                <input style="display: block" class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" autocomplete="off" />
+                                <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur();" autocomplete="off" />
                             </p><br />
                             <div>
                                 <p class="submit">
