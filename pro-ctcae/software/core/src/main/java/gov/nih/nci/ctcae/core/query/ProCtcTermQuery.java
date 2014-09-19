@@ -12,6 +12,8 @@ public class ProCtcTermQuery extends AbstractQuery {
      * The query string. removed the "order by o.proCtcTermVocab.termEnglish" portion
      */
     private static String queryString = "SELECT distinct(o) from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues";
+    private static String queryStringEnglish = "SELECT distinct o.proCtcTermVocab.termEnglish from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues";
+    private static String queryStringSpanish = "SELECT distinct o.proCtcTermVocab.termSpanish from ProCtcTerm o left join o.proCtcQuestions as proCtcQuestion left join proCtcQuestion.validValues";
     private static String CTC_CATEGORY_ID = "ctcCategoryId";
     private static String CTC_NAME = "ctcName";
     private static String CTC_TERM_ID = "ctcTermId";
@@ -25,6 +27,22 @@ public class ProCtcTermQuery extends AbstractQuery {
      */
     public ProCtcTermQuery() {
     	super(queryString);
+    	leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
+    	filterOutEq5dTerms();
+    	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
+    	setParameter(CTC_NAME, "CTC v4.0");
+    }
+    
+    public ProCtcTermQuery(String englishQuery) {
+    	super(queryStringEnglish);
+    	leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
+    	filterOutEq5dTerms();
+    	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
+    	setParameter(CTC_NAME, "CTC v4.0");
+    }
+    
+    public ProCtcTermQuery(boolean spanishQuery) {
+    	super(queryStringSpanish);
     	leftJoin("o.ctcTerm.categoryTermSets as categoryTerm");
     	filterOutEq5dTerms();
     	andWhere(" categoryTerm.category.ctc.name = :" + CTC_NAME);
@@ -91,6 +109,18 @@ public class ProCtcTermQuery extends AbstractQuery {
     public void filterByTerm(final String term) {
         String searchString = term.toLowerCase();
         andWhere("lower(o.proCtcTermVocab.termEnglish) = :" + PROCTC_TERM);
+        setParameter(PROCTC_TERM, searchString);
+    }
+    
+    public void filterWithMatchingEnglishText(final String term) {
+    	String searchString = term != null ? "%" + term.toLowerCase() + "%" : "%";
+        andWhere(String.format("lower(o.proCtcTermVocab.termEnglish) LIKE :%s", PROCTC_TERM));
+        setParameter(PROCTC_TERM, searchString);
+    }
+    
+    public void filterWithMatchingSpanishText(final String term) {
+    	String searchString = term != null ? "%" + term.toLowerCase() + "%" : "%";
+        andWhere(String.format("lower(o.proCtcTermVocab.termSpanish) LIKE :%s", PROCTC_TERM));
         setParameter(PROCTC_TERM, searchString);
     }
 

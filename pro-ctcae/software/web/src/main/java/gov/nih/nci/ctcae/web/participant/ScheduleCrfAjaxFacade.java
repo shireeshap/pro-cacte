@@ -11,6 +11,7 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
@@ -58,6 +59,8 @@ public class ScheduleCrfAjaxFacade {
     private GenericRepository genericRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
+    private static final String ENGLISH = "en";
+    private static final String SPANISH = "es";
 
     /**
      * Match studies.
@@ -161,12 +164,23 @@ public class ScheduleCrfAjaxFacade {
             	 }
             }
         }
+        
+        ProCtcTermQuery proCtcTermQuery;
+        if(ENGLISH.equals(language)){
+        	proCtcTermQuery = new ProCtcTermQuery(ENGLISH);
+        	proCtcTermQuery.filterWithMatchingEnglishText(text);
+        } else {
+        	proCtcTermQuery = new ProCtcTermQuery(true);
+        	proCtcTermQuery.filterWithMatchingSpanishText(text);
+        }
+        
         MeddraQuery meddraQuery;
         if (language.equals("en")) {
             meddraQuery = new MeddraQuery(true);
         } else {
             meddraQuery = new MeddraQuery(language);
         }
+        
         if (text != null) {
             if (language.equals("en")) {
                 meddraQuery.filterMeddraWithMatchingText(text);
@@ -177,6 +191,10 @@ public class ScheduleCrfAjaxFacade {
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
             results.addAll(meddraTerms);
+            
+        	List proCtcTermsObj = genericRepository.find(proCtcTermQuery);
+        	List<String> proCtcTerms = (List<String>) proCtcTermsObj;
+            results.addAll(proCtcTerms);
         }
         results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
             public String serialize(String object) {
