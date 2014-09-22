@@ -263,6 +263,22 @@ public class ScheduleCrfAjaxFacade {
         if (language == null || language == "") {
             language = "en";
         }
+        
+        ProCtcTerm proCtcTerm;
+        if (language.equals("en")) {
+            proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(text);
+        } else {
+            proCtcTerm = proCtcTermRepository.findSpanishProTermBySymptom(text);
+        }
+        
+        if(proCtcTerm != null) {
+        	if(ENGLISH.equals(language)) {
+        		return proCtcTerm.getProCtcTermVocab().getTermEnglish();
+        	} else {
+        		return proCtcTerm.getProCtcTermVocab().getTermSpanish();
+        	}
+        }
+        
         LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         submitFormCommand.setLanguage(language);
 
