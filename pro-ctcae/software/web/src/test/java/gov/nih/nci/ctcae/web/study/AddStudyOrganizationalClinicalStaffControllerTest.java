@@ -31,6 +31,7 @@ public class AddStudyOrganizationalClinicalStaffControllerTest extends AbstractW
 	private static String VIEW_NAME = "study/ajax/oneStudyOrganizationalClinicalStaffSection";
 	private static String INDEX = "index";
 	private static String COMMAND = "command";
+	private static String VIEW_NAME_PI = "study/ajax/onePIStaffSection";
 	
 	@Override
 	protected void onSetUp() throws Exception {
@@ -63,10 +64,10 @@ public class AddStudyOrganizationalClinicalStaffControllerTest extends AbstractW
 		
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 
-		assertEquals(VIEW_NAME, modelAndView.getViewName());
+		assertEquals(VIEW_NAME_PI, modelAndView.getViewName());
 		lcraLastIndex++;
 		assertEquals(lcraLastIndex.toString(), modelAndView.getModelMap().get(INDEX).toString());
-		assertEquals(Role.PI, command.getLeadCRAs().get(0).getRole());
+		assertEquals(Role.PI, command.getPrincipalInvestigators().get(0).getRole());
 	}
 	
 	public void testPattern(){
