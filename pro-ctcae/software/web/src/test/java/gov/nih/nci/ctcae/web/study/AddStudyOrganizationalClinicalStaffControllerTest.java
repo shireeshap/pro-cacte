@@ -69,14 +69,4 @@ public class AddStudyOrganizationalClinicalStaffControllerTest extends AbstractW
 		assertEquals(lcraLastIndex.toString(), modelAndView.getModelMap().get(INDEX).toString());
 		assertEquals(Role.PI, command.getPrincipalInvestigators().get(0).getRole());
 	}
-	
-	public void testPattern(){
-		String regex = "<img[\t\n\r]*(.*?)";
-		String input = "<img src=\\\"javascript:alert(351)>\\\"";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(input);
-		
-		String value = matcher.replaceAll("");
-		System.out.println(value);
-	}
 }
