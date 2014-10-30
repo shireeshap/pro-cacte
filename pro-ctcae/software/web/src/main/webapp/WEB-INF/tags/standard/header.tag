@@ -29,6 +29,13 @@
         pageTracker._trackPageview();
     } catch(err) {
     }
+    
+    //Tracker for dev.semanticbits.com/proctcae
+    try {
+        var pageTracker = _gat._getTracker("UA-26475546-2");
+        pageTracker._trackPageview();
+    } catch(err) {
+    }
 
     function openNewWindow(url) {
         popupWin = window.open(url,
