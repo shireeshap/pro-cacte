@@ -7,7 +7,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-
 <style>
 body {
 	background-position:center -98px;
@@ -25,6 +24,16 @@ body {
 	z-index:2;
 }
 </style>
+
+<script type="text/javascript">
+	//Tracker for dev.semanticbits.com/proctcae. Noheader.tag is is included in participant interface, thus, 
+	// it enables participant interface for google analytics.
+	try {
+	    var pageTracker = _gat._getTracker("UA-26475546-2");
+	    pageTracker._trackPageview();
+	} catch(err) {
+	}
+</script>
 <div id="header">
 
     <div class="background-R">
