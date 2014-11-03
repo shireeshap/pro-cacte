@@ -114,11 +114,13 @@
             if (!alreadySubmitted) {
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
+	            // GA Event tracking: Track participant trying to navigate through the survey.
+	            ga('send', 'click', 'Survey', 'Navigation', 'nav-buttons');
                 document.myForm.submit();
-                ga('send', 'click', 'Survey', 'Submit', 'nav-buttons');
             }
             
-            ga('send', 'click', 'Survey', 'Navigation', 'nav-buttons');
+                // GA Event tracking: Track participant attempting to submit a survey.
+                ga('send', 'click', 'Survey', 'Submit', 'nav-buttons');
         }
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
             var x = document.getElementsByName('response' + questionIndexOnPage);
@@ -189,7 +191,7 @@
     </script>
 </head>
 <body>
-<ctcae:form method="post" name="myForm">
+<ctcae:form method="post" name="myForm" id="myForm">
 	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
     <tags:hasErrorsMessageSuccinct hideErrorDetails="false"/>
 
