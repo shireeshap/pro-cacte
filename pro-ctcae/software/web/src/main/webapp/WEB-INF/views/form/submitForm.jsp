@@ -115,7 +115,10 @@
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
                 document.myForm.submit();
+                ga('send', 'click', 'Survey', 'Submit', 'nav-buttons');
             }
+            
+            ga('send', 'click', 'Survey', 'Navigation', 'nav-buttons');
         }
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
             var x = document.getElementsByName('response' + questionIndexOnPage);
