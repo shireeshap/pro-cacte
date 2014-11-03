@@ -115,12 +115,15 @@
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
 	            // GA Event tracking: Track participant trying to navigate through the survey.
-	            __gaTracker('send', 'event', 'Survey', 'Navigation', 'nav-buttons');
+	            //__gaTracker('send', 'event', 'Survey', 'Navigation', 'nav-buttons');
+	            __gaTracker('send', 'event', {
+	            	  'eventCategory': 'Survey',
+	            	  'eventAction': 'Navigation',
+	            	  'eventLabel': 'nav-buttons',
+	            	  
+	            	});
                 document.myForm.submit();
             }
-            
-                // GA Event tracking: Track participant attempting to submit a survey.
-                __gaTracker('send', 'event', 'Survey', 'Submit', 'nav-buttons');
         }
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
             var x = document.getElementsByName('response' + questionIndexOnPage);
