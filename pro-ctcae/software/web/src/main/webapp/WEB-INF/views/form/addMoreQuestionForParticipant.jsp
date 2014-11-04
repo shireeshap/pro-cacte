@@ -516,6 +516,25 @@
 				 return false;
 		}
 	}
+	
+	 jQuery(document).ready(function(){
+     	jQuery("#additionalQsBack").click(function(){
+     		__gaTracker('send', 'event', {
+	            	  'eventCategory': 'Survey',
+	            	  'eventAction': ${command.schedule.id},
+	            	  'eventLabel': 'backToSurveyFromAQ',
+	            	});        		
+     	});
+     	
+     	jQuery("#additionalQsForward").click(function(){
+     		__gaTracker('send', 'event', {
+	            	  'eventCategory': 'Survey',
+	            	  'eventAction': ${command.schedule.id},
+	            	  'eventLabel': 'fwdToMoreQsFromAQ'
+	            	});        		
+     	});
+     });
+	 
     </script>
 </head>
 <body>
@@ -678,11 +697,11 @@
     <tr>
         <td align="right" width="50%">
             <spring:message code="back" var="back"/>
-            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back', '${command.isEq5dCrf}')"><span>${back}</span></a>
+            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back', '${command.isEq5dCrf}')" id="additionalQsBack"><span>${back}</span></a>
         </td>
         <td align="left" width="50%">
             <spring:message code="next" var="next"/>
-            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue', '${command.isEq5dCrf}')"><span>${next}</span></a>
+            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue', '${command.isEq5dCrf}')" id="additionalQsForward"><span>${next}</span></a>
         </td>
     </tr>
 </table>

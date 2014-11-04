@@ -106,6 +106,16 @@
              'open_window',
              'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=640, height=480, left=0, top=0')
          }
+        
+        jQuery(document).ready(function(){
+        	jQuery("#beginSurvey").click(function(){
+        		__gaTracker('send', 'event', {
+	            	  'eventCategory': 'Survey',
+	            	  'eventAction': ${studyParticipantCrfSchedule.id},
+	            	  'eventLabel': 'Started'
+	            	});        		
+        	});
+        });
     </script>
 
 </head>
@@ -299,7 +309,7 @@
 		                                <td>
 		                                    <c:if test="${expiredFlag}">
 		                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}&isBegin=true"
-		                                           class="btn small-green"><span><tags:message code="label.start"/></span></a>
+		                                           class="btn small-green" id="beginSurvey"><span><tags:message code="label.start"/></span></a>
 		                                    </c:if>
 		                                </td>
 		                            </tr>

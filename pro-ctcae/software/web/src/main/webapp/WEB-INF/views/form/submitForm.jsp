@@ -118,9 +118,8 @@
 	            //__gaTracker('send', 'event', 'Survey', 'Navigation', 'nav-buttons');
 	            __gaTracker('send', 'event', {
 	            	  'eventCategory': 'Survey',
-	            	  'eventAction': 'Navigation',
-	            	  'eventLabel': 'nav-buttons',
-	            	  
+	            	  'eventAction': ${command.schedule.id},
+	            	  'eventLabel': direction
 	            	});
                 document.myForm.submit();
             }
