@@ -107,15 +107,22 @@
              'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=640, height=480, left=0, top=0')
          }
         
-        jQuery(document).ready(function(){
-        	jQuery("#beginSurvey").click(function(){
-        		__gaTracker('send', 'event', {
-	            	  'eventCategory': 'Survey',
-	            	  'eventAction': ${studyParticipantCrfSchedule.id},
-	            	  'eventLabel': 'Started'
-	            	});        		
+        
+        Event.observe(window, 'load', function() {
+        	jQuery('[id^="beginSurvey"]').click(function(event){
+	        	trackEvent(event);
         	});
-        });
+
+        }); 
+        
+        function trackEvent(event) {
+        	var action = event.target.id;
+	   		__gaTracker('send', 'event', {
+	        	  'eventCategory': 'Survey',
+	        	  'eventAction': action,
+	        	  'eventLabel': 'Started'
+	        	});
+        }
     </script>
 
 </head>
@@ -309,7 +316,7 @@
 		                                <td>
 		                                    <c:if test="${expiredFlag}">
 		                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}&isBegin=true"
-		                                           class="btn small-green" id="beginSurvey"><span><tags:message code="label.start"/></span></a>
+		                                           class="btn small-green" id="beginSurvey" onclick="anchorClik()"><span id="${studyParticipantCrfSchedule.id}"><tags:message code="label.start"/></span></a>
 		                                    </c:if>
 		                                </td>
 		                            </tr>

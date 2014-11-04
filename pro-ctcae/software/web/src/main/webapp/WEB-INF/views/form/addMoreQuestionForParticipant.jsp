@@ -517,24 +517,36 @@
 		}
 	}
 	
-	 jQuery(document).ready(function(){
-     	jQuery("#additionalQsBack").click(function(){
-     		__gaTracker('send', 'event', {
-	            	  'eventCategory': 'Survey',
-	            	  'eventAction': ${command.schedule.id},
-	            	  'eventLabel': 'backToSurveyFromAQ',
-	            	});        		
-     	});
-     	
-     	jQuery("#additionalQsForward").click(function(){
-     		__gaTracker('send', 'event', {
-	            	  'eventCategory': 'Survey',
-	            	  'eventAction': ${command.schedule.id},
-	            	  'eventLabel': 'fwdToMoreQsFromAQ'
-	            	});        		
-     	});
-     });
-	 
+	 Event.observe(window, 'load', function() {
+   		jQuery('[id^="additionalQsBack"]').click(function(event){
+	       	alert("jQuery back ready test!");
+	       	trackBackEvent(event);
+   		});
+   	
+    	jQuery('[id^="additionalQsForward"]').click(function(event){
+	       	trackFwdEvent(event);
+		});
+
+     }); 
+     
+     function trackBackEvent(event) {
+     	var action = event.target.id;
+	   		__gaTracker('send', 'event', {
+	        	  'eventCategory': 'Survey',
+	        	  'eventAction': action,
+	        	  'eventLabel': 'backToSurveyFromAQ'
+	        	});
+     }
+     
+     function trackFwdEvent(event) {
+      	var action = event.target.id;
+ 	   		__gaTracker('send', 'event', {
+ 	        	  'eventCategory': 'Survey',
+ 	        	  'eventAction': action,
+ 	        	  'eventLabel': 'fwdToMoreQsFromAQ'
+ 	        	});
+      }
+	
     </script>
 </head>
 <body>
@@ -697,11 +709,11 @@
     <tr>
         <td align="right" width="50%">
             <spring:message code="back" var="back"/>
-            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back', '${command.isEq5dCrf}')" id="additionalQsBack"><span>${back}</span></a>
+            <a href="#" class="btn big-blue-left" onclick="javascript:submitForm('back', '${command.isEq5dCrf}')" id="additionalQsBack"><span id="${studyParticipantCrfSchedule.id}">${back}</span></a>
         </td>
         <td align="left" width="50%">
             <spring:message code="next" var="next"/>
-            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue', '${command.isEq5dCrf}')" id="additionalQsForward"><span>${next}</span></a>
+            <a href="#" class="btn huge-green" onclick="javascript:submitForm('continue', '${command.isEq5dCrf}')" id="additionalQsForward"><span id="${studyParticipantCrfSchedule.id}">${next}</span></a>
         </td>
     </tr>
 </table>

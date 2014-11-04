@@ -110,7 +110,7 @@
     <script type="text/javascript">
         var alreadySubmitted = false;
         var totalQuestionsOnPage = ${fn:length(command.currentPageQuestions)};
-        function submitForm(direction) {
+        function submitForm(direction, scheduleId) {
             if (!alreadySubmitted) {
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
@@ -118,7 +118,7 @@
 	            //__gaTracker('send', 'event', 'Survey', 'Navigation', 'nav-buttons');
 	            __gaTracker('send', 'event', {
 	            	  'eventCategory': 'Survey',
-	            	  'eventAction': ${command.schedule.id},
+	            	  'eventAction': scheduleId,
 	            	  'eventLabel': direction
 	            	});
                 document.myForm.submit();
@@ -335,7 +335,7 @@
                 <spring:message code="back" var="back"/>
                 <c:if test="${command.newPageIndex gt 1}">
                     <a href="#" class="btn big-blue-left"
-                       onclick="javascript:submitForm('back')"><span>${back}</span></a>
+                       onclick="javascript:submitForm('back', ${command.schedule.id})"><span>${back}</span></a>
                 </c:if>
             </td>
             <td align="left" width="50%">
@@ -343,7 +343,7 @@
                 <c:choose>
                     <c:when test="${command.newPageIndex le command.totalPages}">
                         <a href="#" class="btn huge-green"
-                           onclick="javascript:submitForm('continue')"><span>${next}</span></a>
+                           onclick="javascript:submitForm('continue', ${command.schedule.id})"><span>${next}</span></a>
                     </c:when>
                 </c:choose>
             </td>
