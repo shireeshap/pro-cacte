@@ -40,7 +40,7 @@ body {
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
 	
-	__gaTracker('create', 'UA-26475546-2', 'auto');
+	__gaTracker('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
 	__gaTracker('send', 'pageview');
 </script>
 <div id="header">
