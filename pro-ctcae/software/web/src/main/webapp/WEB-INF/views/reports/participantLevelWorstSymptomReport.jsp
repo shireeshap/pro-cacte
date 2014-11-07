@@ -51,6 +51,14 @@
                             "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate
                             + "&endDate=" + endDate,
                     onComplete:function(transport) {
+                    	// Capture report generation time and send it to google analytics
+                    	try{
+	                    	var endTime = new Date().getTime();
+	                    	var timeEllapsed = endTime - startTime;
+	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed]);
+                    	} catch(ex) {
+                    		//TODo: Need to add exception handing code                    		
+                    	}
                         showResultsTable(transport);
                         hideIndicator();
                     },
@@ -240,6 +248,10 @@
         </div>
 
         <br/>
+        
+        <c:set var="reportType" value="${param.rt}"/>
+		<input type="hidden" name="reportType" id="reportType" value="${reportType}" />
+		<input type="hidden" name="reportCategory" id="reportCategory" value="ParticipantReports" />
 
         <div id="search" style="display:none" class="row">
             <div style="margin-left:9em"><tags:button color="blue" value="Generate Report"

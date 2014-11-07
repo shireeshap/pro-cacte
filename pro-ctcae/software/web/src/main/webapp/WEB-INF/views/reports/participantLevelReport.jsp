@@ -344,7 +344,6 @@
         </div>
 
         <br/>
-        
 		
 		<c:set var="reportType" value="${param.rt}"/>
 		<input type="hidden" name="reportType" id="reportType" value="${reportType}" />
