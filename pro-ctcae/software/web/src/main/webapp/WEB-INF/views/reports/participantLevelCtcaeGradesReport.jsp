@@ -59,6 +59,7 @@
             var participantId = $('participant').value;
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
+            var startTime = new Date().getTime();
             if (format == 'tabular') {
                 showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCtcaeGradesCareResults"/>", {
