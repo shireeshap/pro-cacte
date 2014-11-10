@@ -15,17 +15,22 @@
 <script type="text/javascript">
     try {
         var pageTracker = _gat._getTracker("UA-15798971-1");
+        _gaq.push(['_setSiteSpeedSampleRate', 100]);
         pageTracker._trackPageview();
     } catch(err) {
     }
 
+    // Current PRO-CTCAE PROD tracker.
     try {
         var pageTracker = _gat._getTracker("UA-26475546-1");
+        _gaq.push(['_setSiteSpeedSampleRate', 100]);
         pageTracker._trackPageview();
     } catch(err) {
     }
+    
     try {
         var pageTracker = _gat._getTracker("UA-26475150-1");
+        _gaq.push(['_setSiteSpeedSampleRate', 100]);
         pageTracker._trackPageview();
     } catch(err) {
     }
@@ -33,6 +38,7 @@
     //Tracker for dev.semanticbits.com/proctcae
     try {
         var pageTracker = _gat._getTracker("UA-26475546-2");
+        _gaq.push(['_setSiteSpeedSampleRate', 100]);
         pageTracker._trackPageview();
     } catch(err) {
     }
