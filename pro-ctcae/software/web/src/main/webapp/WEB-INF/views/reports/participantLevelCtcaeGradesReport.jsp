@@ -66,12 +66,12 @@
                     parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&participantId=" + participantId +
                             "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate
                             + "&endDate=" + endDate,
-                    onComplete:function(transport) {
+                    onComplete:subfunction(transport) {
                     	// Capture report generation time and send it to google analytics
                     	try{
 	                    	var endTime = new Date().getTime();
 	                    	var timeEllapsed = endTime - startTime;
-	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed]);
+	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed, jQuery("#reportCategory").val(), 100]);
                     	} catch(ex) {
                     		//TODo: Need to add exception handing code                    		
                     	}

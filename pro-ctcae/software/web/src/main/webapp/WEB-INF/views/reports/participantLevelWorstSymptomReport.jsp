@@ -56,7 +56,7 @@
                     	try{
 	                    	var endTime = new Date().getTime();
 	                    	var timeEllapsed = endTime - startTime;
-	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed]);
+	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed, jQuery("#reportCategory").val(), 100]);
                     	} catch(ex) {
                     		//TODo: Need to add exception handing code                    		
                     	}
