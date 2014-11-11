@@ -66,7 +66,7 @@
                     parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&participantId=" + participantId +
                             "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate
                             + "&endDate=" + endDate,
-                    onComplete:subfunction(transport) {
+                    onComplete:function(transport) {
                     	// Capture report generation time and send it to google analytics
                     	try{
 	                    	var endTime = new Date().getTime();
