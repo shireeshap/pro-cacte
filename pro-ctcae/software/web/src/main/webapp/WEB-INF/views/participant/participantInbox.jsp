@@ -111,6 +111,8 @@
         Event.observe(window, 'load', function() {
         	jQuery('[id^="beginSurvey"]').click(function(event){
 	        	trackEvent(event);
+	        	//try time tracking with analytics.js function
+	        	__gaTracker('send', 'timing', 'timeCategory', 'timeVariable', 20, 'timeLabel');
         	});
 
         }); 
