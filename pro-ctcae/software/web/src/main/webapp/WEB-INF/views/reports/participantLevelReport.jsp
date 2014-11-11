@@ -81,9 +81,21 @@
                     	try{
 	                    	var endTime = new Date().getTime();
 	                    	var timeEllapsed = endTime - startTime;
-	                    	_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed, jQuery("#reportCategory").val(), 100]);
+			                    	// Comment ga.js code
+			                    	//_gaq.push(['_trackTiming', jQuery("#reportCategory").val(), jQuery("#reportType").val(), timeEllapsed, jQuery("#reportCategory").val(), 100]);
+	                    	//Try time tracking with analytics.js function
+	        	        	__gaTracker('send', {
+	        	        		  'hitType': 'timing',
+	        	        		  'timingCategory': jQuery("#reportCategory").val(),
+	        	        		  'timingVar': jQuery("#reportType").val(),
+	        	        		  'timingValue': timeEllapsed,
+	        	        		  'timingLabel': jQuery("#reportCategory").val()
+	        	        		});
                     	} catch(ex) {
-                    		//TODo: Need to add exception handing code                    		
+                    		__gaTracker('send', 'exception', {
+                  			  'exDescription': ex.message,
+                  			  'exFatal': false
+                  			});                		
                     	}
                         showResultsTable(transport);
                         hideIndicator();
