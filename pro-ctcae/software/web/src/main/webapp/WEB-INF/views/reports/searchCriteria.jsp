@@ -65,20 +65,38 @@
             }
             showIndicator();
             showMessage();
+            var startTime = new Date().getTime();
             var request = new Ajax.Request(reportUrl, {
                 parameters:getQueryString(group, arms),
                 onComplete:function(transport) {
                     if (showResultsInPopUpFlag) {
                         showResultsInPopUp(transport);
                     } else {
+                    	try{
+	                    	var endTime = new Date().getTime();
+	                    	var timeEllapsed = endTime - startTime;
+	                    	//Try time tracking with analytics.js function
+	        	        	__gaTracker('send', {
+	        	        		  'hitType': 'timing',
+	        	        		  'timingCategory': jQuery("#reportCategory").val(),
+	        	        		  'timingVar': jQuery("#reportType").val(),
+	        	        		  'timingValue': timeEllapsed,
+	        	        		  'timingLabel': jQuery("#reportCategory").val()
+	        	        		});
+                    	} catch(ex) {
+                    		__gaTracker('send', 'exception', {
+                  			  'exDescription': ex.message,
+                  			  'exFatal': false
+                  			});                		
+                    	}
+                    	
                         showResults(transport);
                     }
                     hideIndicator();
                     $('waitMessage').hide();
                 },
                 method:'get'
-            }
-                    )
+            })
         }
         
         function showMessage(){
@@ -337,6 +355,11 @@
             </div>
         </c:if>
        <br>
+       
+		<c:set var="reportType" value="${param.rt}"/>
+	   	<input type="hidden" name="reportType" id="reportType" value="${reportType}" />
+	   	<input type="hidden" name="reportCategory" id="reportCategory" value="StudyReports" />
+		
        <div id="search" class="row" align="left">
             <div style="margin-left:11.5em">
                 <tags:button color="blue" value="Generate Report" onclick="handleGenerateReport();" size="big"
