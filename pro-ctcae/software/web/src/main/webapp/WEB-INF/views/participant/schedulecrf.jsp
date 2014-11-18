@@ -45,6 +45,27 @@ function addRemoveSchedule(index, date, action, pid) {
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
                 //jQuery('#ajaxLoadingImgDiv').hide();
+                var startTime = new Date().getTime();
+                var actionLabel = getReadableActionString(action);
+                try{
+    	        	var endTime = new Date().getTime();
+    	        	var timeEllapsed = endTime - startTime;
+    	        	var label = "Participant_" + ${command.participant.id};
+    		       	//Try time tracking with analytics.js function
+    		       	 __gaTracker('send', {
+    		       		  'hitType': 'timing',
+    		       		  'timingCategory': "ParticipantCalendar",
+    		       		  'timingVar': actionLabel,
+    		       		  'timingValue': timeEllapsed,
+    		       		  'timingLabel': label
+    		       		}); 
+        	    	} catch(ex) {	
+        		    		__gaTracker('send', 'exception', {
+        		  			  'exDescription': ex.message,
+        		  			  'exFatal': false
+        		  			});                		
+        	    	}
+        	    	
                 if (transport.responseText == "getCalendar") {
                     getCalendar(index, "dir=refresh", pid);
                 } else {
@@ -55,6 +76,30 @@ function addRemoveSchedule(index, date, action, pid) {
             method:'get'
         })
     }
+}
+
+function getReadableActionString(action) {
+	if(action == 'add,del') {
+		return 'moveSchedule';
+		
+	} else if(action == 'del') {
+		return 'deleteSchedule';
+		
+	} else if(action == 'moveallfuture') {
+		return 'moveAllFollowingSchedules';
+		
+	} else if(action == 'moveall') {
+		return 'moveAllSchedules';
+		
+	} else if(action == 'delallfuture') {
+		return 'deleteAllFollowingSchedules';
+		
+	} else if(action == 'delall') {
+		return 'deleteAllSchedules';
+		
+	} else {
+		return 'addSchedule';
+	}
 }
 
 function closeAndRefresh(){
@@ -218,6 +263,26 @@ function participantOnHold(id, date, index) {
         parameters:<tags:ajaxstandardparams/>+"&flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index,
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
+            var startTime = new Date().getTime();
+            try{
+	        	var endTime = new Date().getTime();
+	        	var timeEllapsed = endTime - startTime;
+	        	var label = "Participant_" + ${command.participant.id};
+		       	//Try time tracking with analytics.js function
+		       	 __gaTracker('send', {
+		       		  'hitType': 'timing',
+		       		  'timingCategory': "ParticipantCalendar",
+		       		  'timingVar': 'onHold',
+		       		  'timingValue': timeEllapsed,
+		       		  'timingLabel': label
+		       		}); 
+    	    	} catch(ex) {	
+    		    		__gaTracker('send', 'exception', {
+    		  			  'exDescription': ex.message,
+    		  			  'exFatal': false
+    		  			});                		
+    	    	}
+    	    	
             showConfirmationWindow(transport, 600, 250);
         },
         method:'get'
@@ -397,6 +462,25 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
 	           // jQuery('#ajaxLoadingImgDiv').hide();
+	               var startTime = new Date().getTime();
+		           try{
+			        	var endTime = new Date().getTime();
+			        	var timeEllapsed = endTime - startTime;
+			        	var label = "Participant_" + ${command.participant.id};
+				       	//Try time tracking with analytics.js function
+				       	 __gaTracker('send', {
+				       		  'hitType': 'timing',
+				       		  'timingCategory': "ParticipantCalendar",
+				       		  'timingVar': 'offHold',
+				       		  'timingValue': timeEllapsed,
+				       		  'timingLabel': label
+				       		}); 
+		    	    	} catch(ex) {
+		    		    		__gaTracker('send', 'exception', {
+		    		  			  'exDescription': ex.message,
+		    		  			  'exFatal': false
+		    		  			});                		
+		    	   	  }
 	            if (transport.responseText == "getCalendar") {
 	                getCalendar(index, "dir=refresh");
 	            } else {
