@@ -42,10 +42,10 @@ function addRemoveSchedule(index, date, action, pid) {
         getCalendar(index, "dir=refresh");
     } else {
         //jQuery('#ajaxLoadingImgDiv').show();
+        var startTime = new Date().getTime();
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
                 //jQuery('#ajaxLoadingImgDiv').hide();
-                var startTime = new Date().getTime();
                 var actionLabel = getReadableActionString(action);
                 try{
     	        	var endTime = new Date().getTime();
@@ -259,11 +259,11 @@ function showCalendar(index, transport) {
 
 function participantOnHold(id, date, index) {
     //jQuery('#ajaxLoadingImgDiv').show();
+    var startTime = new Date().getTime();
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
         parameters:<tags:ajaxstandardparams/>+"&flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index,
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
-            var startTime = new Date().getTime();
             try{
 	        	var endTime = new Date().getTime();
 	        	var timeEllapsed = endTime - startTime;
@@ -459,10 +459,10 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
         getCalendar(index, "dir=refresh");
     } else {
         //jQuery('#ajaxLoadingImgDiv').show();
+	    var startTime = new Date().getTime();
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
 	           // jQuery('#ajaxLoadingImgDiv').hide();
-	               var startTime = new Date().getTime();
 		           try{
 			        	var endTime = new Date().getTime();
 			        	var timeEllapsed = endTime - startTime;
