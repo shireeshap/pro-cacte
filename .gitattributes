@@ -2333,6 +2333,7 @@ pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/018_update_existin
 pro-ctcae/software/core/src/main/db/migrate/007_elaboration_1/019_update_ctc_term_mapping.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/001_insert_grade_mapping_v4.0.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/002_addVerbatimColumn.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/003_add_organizations.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ProctcTermTypeBasedCategoryEnum.java -text
