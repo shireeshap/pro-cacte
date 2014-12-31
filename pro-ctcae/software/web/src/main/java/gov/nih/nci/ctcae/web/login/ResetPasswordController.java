@@ -43,6 +43,9 @@ public class ResetPasswordController extends SimpleFormController {
         ResetPasswordCommand command = new ResetPasswordCommand();
         String token = request.getParameter("token");
         command.setUser(userRepository.findByUserToken(token));
+        if(command.getUser() == null) {
+        	throw new InvalidResetPasswordLinkException("InvalidLink", "Invalid reset password link.");
+        }
         command.getUser().getUserPasswordHistory().size();
         return command;
 

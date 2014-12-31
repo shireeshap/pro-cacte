@@ -113,4 +113,13 @@
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
     </bean>
+    
+    <bean id="simpleMappingExResolver" 
+	    class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	    <property name="exceptionMappings">
+	    	<props>
+	    		<prop key="gov.nih.nci.ctcae.web.login.InvalidResetPasswordLinkException">resetPassword</prop>
+	    	</props>
+	    </property>
+    </bean>
 </beans>

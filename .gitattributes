@@ -2899,6 +2899,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDate
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/FailedAuthenticationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotUsernameController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/InvalidResetPasswordLinkException.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginParameterizableViewController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ParticipantDisplayNameComparator.java -text
