@@ -23,6 +23,12 @@
         	<spring:message code="rp.message.1" /><a href="/proctcae/public/password"><spring:message code="rp.message.2" /></a><spring:message code="rp.message.3" />
         </chrome:box>
     </c:when>
+    <c:when test="${not empty exception.errorCode && exception.errorCode == 'InvalidLink'}">
+    	<spring:message code="rp.expiredlink" var="expiredlink" />
+        <chrome:box title="InvalidLink" autopad="true">
+        	<spring:message code="il.message.1" /><a href="/proctcae/public/password"><spring:message code="il.message.2" /></a><spring:message code="il.message.3" />
+        </chrome:box>
+    </c:when>
     <c:otherwise>
         <ctcae:form method="post">
         	<input type="hidden" id="CSRF_TOKEN" name="CSRF_TOKEN" value="${sessionScope.CSRF_TOKEN}" />
