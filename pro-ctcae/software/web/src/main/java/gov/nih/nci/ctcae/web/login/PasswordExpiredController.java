@@ -2,22 +2,19 @@ package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.core.query.UserQuery;
-import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
-import gov.nih.nci.ctcae.core.validation.ValidationError;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.validators.PasswordCreationPolicyException;
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.core.validation.ValidationError;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.validation.BindException;
-
-import java.util.Collection;
-import java.util.List;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * @author mehul gulati
@@ -55,6 +52,12 @@ public class PasswordExpiredController extends SimpleFormController {
         } else {
             User realUser = users.get(0);
             String encodedPassword = userRepository.getEncodedPassword(user);
+            if(realUser.getPassword() == null) {
+            	errors.reject("PASSWORD_NOT_SETUP", "The system is not able to find any password being set up for this account." +
+            			" Please use the Forgot Password link on the login screen to setup a new password.");
+            	clearAllPasswords(user);
+            	return;
+            }
             if (!realUser.getPassword().equals(encodedPassword)) {
                 errors.reject("INVALID_PASSWORD", "The old password does not match for the user name provided. Please provide correct password.");
                 clearAllPasswords(user);
