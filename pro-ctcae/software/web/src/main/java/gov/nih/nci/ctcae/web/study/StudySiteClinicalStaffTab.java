@@ -105,7 +105,7 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
             request.setAttribute("flashMessage", "save.confirmation");
         }
         
-        List<StudyOrganizationClinicalStaff> socsWithToggledNotifyOption = getSocsWithToggledNotifyOption(command, command.getStudy());
+        List<StudyOrganizationClinicalStaff> socsWithToggledNotifyOption = getSocsWithToggledNotifyOption(command, studyRepository.findById(command.getStudy().getId()));
         for(StudyOrganizationClinicalStaff socs : socsWithToggledNotifyOption){
         	genericRepository.save(socs);
         }
