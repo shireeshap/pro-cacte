@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DelegatingMessageSource;
@@ -36,7 +38,7 @@ public class ForgotPasswordController extends AbstractFormController {
 
     UserRepository userRepository;
     private DelegatingMessageSource messageSource;
-    						  
+    protected static final Log logger = LogFactory.getLog(PasswordExpiredController.class);
 
 	public void setMessageSource(DelegatingMessageSource messageSource) {
 		this.messageSource = messageSource;
@@ -119,8 +121,11 @@ public class ForgotPasswordController extends AbstractFormController {
             helper.setTo(clinicalStaff.getEmailAddress());
             helper.setText(content, false);
             javaMailSender.send(message);
-
+            logger.error("ForgotPasswordController: Sent forgot password email to ClinicalStaff " +
+            		"with email address " + clinicalStaff.getEmailAddress());
         } catch (Exception ex) {
+        	logger.error("ForgotPasswordController: Exception in sending out forgot password email to ClinicalStaff " +
+            		"with email address " + clinicalStaff.getEmailAddress());
             ex.printStackTrace();
         }
     }
@@ -157,8 +162,11 @@ public class ForgotPasswordController extends AbstractFormController {
             helper.setTo(participant.getEmailAddress());
             helper.setText(content, false);
             javaMailSender.send(message);
-
+            logger.error("ForgotPasswordController: Sent forgot password email to participant " +
+            		"with email address " + participant.getEmailAddress());
         } catch (Exception ex) {
+            logger.error("ForgotPasswordController: Exception in sending out forgot password email to participant " +
+            		"with email address " + participant.getEmailAddress());
             ex.printStackTrace();
         }
     }
