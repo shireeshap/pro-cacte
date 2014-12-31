@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -281,7 +282,71 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	        }
 	    }
 	    return null;
-		}
+	}
+	
+    public void moveAllSchedules(int offset, List<String> formIds, List<StudyParticipantCrf> studyParticipantCrfs) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    moveSingleSchedule(studyParticipantCrfSchedule, offset,studyParticipantCrf.getStudyParticipantAssignment());
+                    studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offset);
+                    studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
+                }
+            }
+        }
+    }
+    
+    private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset, StudyParticipantAssignment spa) {
+        if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+            Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
+            Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
+            c1.add(Calendar.DATE, offset);
+            c2.add(Calendar.DATE, offset);
+
+            studyParticipantCrfSchedule.setStartDate(c1.getTime());
+            studyParticipantCrfSchedule.setDueDate(c2.getTime());
+            Date today = ProCtcAECalendar.getCalendarForDate(new Date()).getTime();
+            if (today.after(studyParticipantCrfSchedule.getDueDate())) {
+                studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+            } else {
+                if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
+                    studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+                }
+            }
+            //if a survey is moved during on-hold period to a date later or equal to on-hold date, then set its status to 'ONHOLD'
+            if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(),spa.getOnHoldTreatmentDate()) >= 0)){
+            	studyParticipantCrfSchedule.setStatus(CrfStatus.ONHOLD);
+            }else if(spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(),spa.getOnHoldTreatmentDate()) < 0)){
+            	studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+            }
+
+        }
+    }
+    
+    public void moveFutureSchedules(Calendar c, int offset, List<String> formIds, List<StudyParticipantCrf> studyParticipantCrfs) {
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int date = c.get(Calendar.DATE);
+        Calendar a = new GregorianCalendar(year, month, date);
+        Calendar b = new GregorianCalendar();
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            if (formIds.contains(studyParticipantCrf.getCrf().getId().toString())) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    b.setTime(studyParticipantCrfSchedule.getStartDate());
+                    int mon = b.get(Calendar.MONTH);
+                    int dt = b.get(Calendar.DATE);
+                    int yr = b.get(Calendar.YEAR);
+                    b.clear();
+                    b.set(yr, mon, dt);
+                    if (b.getTimeInMillis() >= a.getTimeInMillis()) {
+                        moveSingleSchedule(studyParticipantCrfSchedule, offset, studyParticipantCrf.getStudyParticipantAssignment());
+                        studyParticipantCrfSchedule.updateIvrsSchedules(studyParticipantCrf, offset);
+                        studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
+                    }
+                }
+            }
+        }
+    }
 	
 	
 	public void save(HashSet<StudyParticipantCrf> studyParticipantCrf) throws Exception{

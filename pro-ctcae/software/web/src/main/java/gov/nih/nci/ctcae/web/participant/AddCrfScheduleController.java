@@ -78,7 +78,7 @@ public class AddCrfScheduleController extends AbstractController {
             cNewDate.setTime(newDate);
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveAllSchedules(DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds);
+            participantScheduleService.moveAllSchedules(DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds, participantSchedule.getStudyParticipantCrfs());
         }
 
         if (MOVE_ALL_FUTURE.equals(action)) {
@@ -90,8 +90,9 @@ public class AddCrfScheduleController extends AbstractController {
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
             
-            participantSchedule.moveFutureSchedules(c, DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds);
+            participantScheduleService.moveFutureSchedules(c, DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds, participantSchedule.getStudyParticipantCrfs());
         }
+        
         if (DELETE_ALL_FUTURE.equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
             HashSet<StudyParticipantCrf> spcrfList = participantSchedule.deleteFutureSchedules(c, formIds);
@@ -152,7 +153,7 @@ public class AddCrfScheduleController extends AbstractController {
                                     studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
                                     studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
                                 }
-                            } else {
+                        	} else {
                                 setScheduleDateAndStatus(studyParticipantCrfSchedule, timeDiff, dateOffset);
                             }
                         }
