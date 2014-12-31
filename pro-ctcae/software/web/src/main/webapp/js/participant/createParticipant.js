@@ -171,6 +171,7 @@ CP_NS.validateAndSubmit = function (date, form) {
         alert('Please provide a valid date');
         return;
     }
+    ValidationManager.registerForm(form)
     form.submit();
 };
 

@@ -55,7 +55,8 @@ function validateFields(formFields) {
                     (element.pattern.toLowerCase() == 'alphanumeric' && isAlphanumeric(element.value, true) == false) ||
                     (element.pattern.toLowerCase() == 'numeric' && isNumeric(element.value, true) == false) ||
                     (element.pattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ||
-                    (element.pattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false)) {
+                    (element.pattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false) ||
+                    (element.pattern.toLowerCase().indexOf('date_regex') != -1 && isCorrectDateRegex(element.value) == false)) {
                     ValidationManager.showError(element, element.patternError);
                     validForm = false;
                     continue;
@@ -297,6 +298,11 @@ function isCorrectDate(string) {
         date = string;
     }
     return isDate(date, format);
+}
+
+//Custom function to validate date string against a regex expression
+function isCorrectDateRegex(string) {
+	return string.match(/^\d\d?\/\d\d?\/(18|19|20|21)\d{2}$/) != null;
 }
 
 // Remove characters that might cause security problems from a string 

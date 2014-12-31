@@ -18,4 +18,4 @@
                 required="${required}" noForm="${noForm}"
                 dateValue="${dateValue}" onchange="${onchange}"
                 doNotShowFormat="${doNotShowFormat}" doNotshowLabel="${doNotshowLabel}"
-                cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}" size="${size}" disabled="${disabled}"/>
+                cssClass="${required ? 'validate-NOTEMPTY&&DATE&DATE_REGEX' : 'validate-DATE'}" size="${size}" disabled="${disabled}"/>
