@@ -11,13 +11,6 @@
 <tags:javascriptLink name="ga"/>
 <tags:includeVirtualKeyboard/>
 <script type="text/javascript">
-    try {
-        var pageTracker = _gat._getTracker("UA-15798971-1");
-        _gaq.push(['_setSiteSpeedSampleRate', 100]);
-        pageTracker._trackPageview();
-    } catch(err) {
-    }
-
     // Current PRO-CTCAE PROD tracker.
     try {
         var pageTracker = _gat._getTracker("UA-26475546-1");
@@ -26,30 +19,23 @@
     } catch(err) {
     }
     
-    try {
-        var pageTracker = _gat._getTracker("UA-26475150-1");
-        _gaq.push(['_setSiteSpeedSampleRate', 100]);
-        pageTracker._trackPageview();
-    } catch(err) {
-    }
-    
-		    /* //Tracker for dev.semanticbits.com/proctcae
-		    try {
-		        var pageTracker = _gat._getTracker("UA-26475546-2");
-		        _gaq.push(['_setSiteSpeedSampleRate', 100]);
-		        pageTracker._trackPageview();
-		    } catch(err) {
-		    } */
- 	// Attempt to use analytics.gs			
+	//Tracker for SemanticBits DEV tier	
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBDev');
+	__gaTrackerSBDev('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
+	__gaTrackerSBDev('send', 'pageview');
 	
-	__gaTracker('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
-	__gaTracker('send', 'pageview');
-	
+	//Tracker for SemanticBits QA tier	
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBQA');
+	__gaTrackerSBQA('create', 'UA-26475546-3', 'auto');
+	__gaTrackerSBQA('send', 'pageview');
 
+	
     function openNewWindow(url) {
         popupWin = window.open(url,
                 'open_window',

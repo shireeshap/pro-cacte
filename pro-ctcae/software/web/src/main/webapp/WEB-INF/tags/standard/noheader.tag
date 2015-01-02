@@ -26,22 +26,33 @@ body {
 </style>
 
 <script type="text/javascript">
-	//Tracker for dev.semanticbits.com/proctcae. Noheader.tag is is included in participant interface, thus, 
-	// it enables participant interface for google analytics.
-			//getTracker method is depreciated.
-			/* try {
-			    var pageTracker = _gat._getTracker("UA-26475546-2");
-			    pageTracker._trackPageview();
-			} catch(err) {
-			} */ 
-	// Attempt to use analytics.gs			
+	/* Noheader.tag is included in participant interface.
+	   Tracker declared here enables participant interface for google analytics. */
+		
+	 // Current PRO-CTCAE PROD tracker.			
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+	})(window,document,'script','//www.google-analytics.com/analytics.js','pageTracker');
+	pageTracker('create', 'UA-26475546-1', 'auto');
+	pageTracker('send', 'pageview');		
+
+	//Tracker for SemanticBits DEV tier				
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBDev');
+	__gaTrackerSBDev('create', 'UA-26475546-2', 'auto');
+	__gaTrackerSBDev('send', 'pageview');
 	
-	__gaTracker('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
-	__gaTracker('send', 'pageview');
+	//Tracker for SemanticBits QA tier	
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBQA');
+	__gaTrackerSBQA('create', 'UA-26475546-3', 'auto');
+	__gaTrackerSBQA('send', 'pageview');
+	
 </script>
 <div id="header">
 
