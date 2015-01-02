@@ -16,7 +16,6 @@
     // Current PRO-CTCAE PROD tracker.
     try {
         var pageTracker = _gat._getTracker("UA-26475546-1");
-        _gaq.push(['_setSiteSpeedSampleRate', 100]);
         pageTracker._trackPageview();
     } catch(err) {
     }
