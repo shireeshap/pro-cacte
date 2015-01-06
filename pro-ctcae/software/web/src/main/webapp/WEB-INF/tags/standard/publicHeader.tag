@@ -13,27 +13,36 @@
 <script type="text/javascript">
     // Current PRO-CTCAE PROD tracker.
     try {
-        var pageTracker = _gat._getTracker("UA-26475546-1");
-        pageTracker._trackPageview();
-    } catch(err) {
-    }
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    	})(window,document,'script','//www.google-analytics.com/analytics.js','pageTracker');
+			pageTracker('create', 'UA-26475546-1', 'auto');
+	    	pageTracker('send', 'pageview');
+	 } catch(err) {
+    	}
     
-	//Tracker for SemanticBits DEV tier	
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBDev');
-	__gaTrackerSBDev('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
-	__gaTrackerSBDev('send', 'pageview');
+	//Tracker for SemanticBits DEV tier
+	try {
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBDev');
+		__gaTrackerSBDev('create', 'UA-26475546-2', 'auto',  {'siteSpeedSampleRate': 100, 'sampleRate': 100});
+		__gaTrackerSBDev('send', 'pageview');
+	 } catch(err) {
+    	}
 	
 	//Tracker for SemanticBits QA tier	
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBQA');
-	__gaTrackerSBQA('create', 'UA-26475546-3', 'auto');
-	__gaTrackerSBQA('send', 'pageview');
-
+	try {
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBQA');
+		__gaTrackerSBQA('create', 'UA-26475546-3', 'auto');
+		__gaTrackerSBQA('send', 'pageview');
+	 } catch(err) {
+     	}
 	
     function openNewWindow(url) {
         popupWin = window.open(url,
