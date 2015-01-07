@@ -28,41 +28,28 @@ body {
 <script type="text/javascript">
 	/* Noheader.tag is included in participant interface.
 	   Tracker declared here enables participant interface for google analytics. */
-		
-	 // Current PRO-CTCAE PROD tracker.	
-	 try {
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','pageTracker');
-		pageTracker('create', 'UA-26475546-1', 'auto');
-		pageTracker('send', 'pageview');		
-	 } catch(err) {
-       	}
-
-	//Tracker for SemanticBits DEV tier	
-	try {
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBDev');
-		__gaTrackerSBDev('create', 'UA-26475546-2', 'auto', {'name':'__gaTrackerSBDev'});
-		__gaTrackerSBDev('send', 'pageview');
-	 } catch(err) {
-    	}
-	
-	//Tracker for SemanticBits QA tier	
-	try {
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTrackerSBQA');
-		__gaTrackerSBQA('create', 'UA-26475546-3', 'auto', {'name':'__gaTrackerSBQA'});
-		__gaTrackerSBQA('send', 'pageview');
-	 } catch(err) {
-     	}
-	
+	   try {
+		    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		    	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		    	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		    	})(window,document,'script','//www.google-analytics.com/analytics.js','pageTracker');
+		    
+				 // Current PRO-CTCAE PROD tracker.
+				pageTracker('create', 'UA-26475546-1', 'auto');
+		    	pageTracker('send', 'pageview');
+		    	
+		    	//Tracker for SemanticBits DEV tier
+		    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev'});
+		    	pageTracker('gaTrackerSBDev.send', 'pageview');
+		    	
+		    	//Tracker for SemanticBits QA tier	
+		    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA'});
+		    	pageTracker('gaTrackerSBQA.send', 'pageview');
+		 } catch(err) {
+			 console.log('Error in Google analytics initialization');
+	    	}
 </script>
+
 <div id="header">
 
     <div class="background-R">
