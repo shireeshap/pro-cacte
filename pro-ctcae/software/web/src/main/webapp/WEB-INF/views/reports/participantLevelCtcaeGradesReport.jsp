@@ -32,9 +32,15 @@
         }
         
         function dateRangeCheck(){
-        	 var stDate = $('startDate').value;
-             var endDate = $('endDate').value;
-             if(endDate < stDate){
+        	 var stDateString = $('startDate').value;
+             var endDateString = $('endDate').value;
+             try {
+	             stDate = new Date(stDateString);
+	             endDate = new Date(endDateString);
+             } catch(ex) {
+            	 return true;
+             }
+             if(endDate.getTime() < stDate.getTime()){
             	 return true;
              }
              return false;
