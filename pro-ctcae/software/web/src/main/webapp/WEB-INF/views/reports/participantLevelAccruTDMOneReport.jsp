@@ -32,13 +32,19 @@
         }
         
         function dateRangeCheck(){
-        	 var stDate = $('startDate').value;
-             var endDate = $('endDate').value;
-             if(endDate < stDate){
-            	 return true;
-             }
-             return false;
-        }
+          	 var stDateString = $('startDate').value;
+               var endDateString = $('endDate').value;
+               try {
+   	             stDate = new Date(stDateString);
+   	             endDate = new Date(endDateString);
+               } catch(ex) {
+              	 return true;
+               }
+               if(endDate.getTime() < stDate.getTime()){
+              	 return true;
+               }
+               return false;
+          }
         
         function participantCareResults(format, symptomId, selectedTypes) {
             if (!performValidations()) {
