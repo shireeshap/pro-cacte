@@ -51,19 +51,17 @@ function addRemoveSchedule(index, date, action, pid) {
     	        	var endTime = new Date().getTime();
     	        	var timeEllapsed = endTime - startTime;
     	        	var label = "Participant_" + ${command.participant.id};
-    		       	//Try time tracking with analytics.js function
-    		       	 __gaTracker('send', {
-    		       		  'hitType': 'timing',
-    		       		  'timingCategory': "ParticipantCalendar",
-    		       		  'timingVar': actionLabel,
-    		       		  'timingValue': timeEllapsed,
-    		       		  'timingLabel': label
-    		       		}); 
-        	    	} catch(ex) {	
-        		    		__gaTracker('send', 'exception', {
-        		  			  'exDescription': ex.message,
-        		  			  'exFatal': false
-        		  			});                		
+    		       	
+    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed);
+    		       	if(isTier_SB_DEV()) {
+	    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerSBDev');
+    		       	}
+
+    		       	if(isTier_SB_QA()) {
+	    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerSBQA');
+    		       	}
+        	    } catch(ex) {	
+        		    	console.log('Google analytics: Exception in timing event on participant calendar.');               		
         	    	}
         	    	
                 if (transport.responseText == "getCalendar") {
@@ -77,6 +75,30 @@ function addRemoveSchedule(index, date, action, pid) {
         })
     }
 }
+
+function sendTimingHitToGA(action, label, timeEllapsed, trackerName) {
+	try {
+	 	if(trackerName != undefined) {
+	 		pageTracker(trackerName+'.send', {
+	   		  'hitType': 'timing',
+	   		  'timingCategory': "ParticipantCalendar",
+	   		  'timingVar': action,
+	   		  'timingValue': timeEllapsed,
+	   		  'timingLabel': label
+	   		});
+	 	} else {
+	 		pageTracker('send', {
+	     		  'hitType': 'timing',
+	       		  'timingCategory': "ParticipantCalendar",
+	       		  'timingVar': action,
+	       		  'timingValue': timeEllapsed,
+	       		  'timingLabel': label
+	       		}); 
+	 	}
+	} catch(err) {
+		console.log('Google analytics: Exception in timing event on participant calendar.');  
+	}
+ }
 
 function getReadableActionString(action) {
 	if(action == 'add,del') {
@@ -268,20 +290,18 @@ function participantOnHold(id, date, index) {
 	        	var endTime = new Date().getTime();
 	        	var timeEllapsed = endTime - startTime;
 	        	var label = "Participant_" + ${command.participant.id};
-		       	//Try time tracking with analytics.js function
-		       	 __gaTracker('send', {
-		       		  'hitType': 'timing',
-		       		  'timingCategory': "ParticipantCalendar",
-		       		  'timingVar': 'onHold',
-		       		  'timingValue': timeEllapsed,
-		       		  'timingLabel': label
-		       		}); 
-    	    	} catch(ex) {	
-    		    		__gaTracker('send', 'exception', {
-    		  			  'exDescription': ex.message,
-    		  			  'exFatal': false
-    		  			});                		
-    	    	}
+		       	       	
+		      	sendTimingHitToGA('onHold', label, timeEllapsed);
+		      	if(isTier_SB_DEV()) {
+			       	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBDev');
+		      	}
+
+		      	if(isTier_SB_QA()) {
+			       	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBQA');
+		      	}
+   	    	} catch(ex) {	
+   	    		console.log('Google analytics: Exception in timing event on participant calendar.');               		               		
+   	    	}
     	    	
             showConfirmationWindow(transport, 600, 250);
         },
@@ -467,20 +487,18 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
 			        	var endTime = new Date().getTime();
 			        	var timeEllapsed = endTime - startTime;
 			        	var label = "Participant_" + ${command.participant.id};
-				       	//Try time tracking with analytics.js function
-				       	 __gaTracker('send', {
-				       		  'hitType': 'timing',
-				       		  'timingCategory': "ParticipantCalendar",
-				       		  'timingVar': 'offHold',
-				       		  'timingValue': timeEllapsed,
-				       		  'timingLabel': label
-				       		}); 
-		    	    	} catch(ex) {
-		    		    		__gaTracker('send', 'exception', {
-		    		  			  'exDescription': ex.message,
-		    		  			  'exFatal': false
-		    		  			});                		
-		    	   	  }
+				       	
+				     	sendTimingHitToGA('offHold', label, timeEllapsed);
+				     	if(isTier_SB_DEV()) {
+					       	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerSBDev');
+				     	}
+
+				     	if(isTier_SB_QA()) {
+					       	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerSBQA');
+				     	}
+	    	    	} catch(ex) {
+	    	    		console.log('Google analytics: Exception in timing event on participant calendar.');               		               		
+	    	   	  }
 	            if (transport.responseText == "getCalendar") {
 	                getCalendar(index, "dir=refresh");
 	            } else {

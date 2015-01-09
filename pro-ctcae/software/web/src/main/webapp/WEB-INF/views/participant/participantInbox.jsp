@@ -116,12 +116,37 @@
         }); 
         
         function trackEvent(event) {
-        	var action = event.target.id;
-	   		__gaTracker('send', 'event', {
-	        	  'eventCategory': 'Survey',
-	        	  'eventAction': action,
-	        	  'eventLabel': 'Started'
-	        	});
+	       	var hrefLink = jQuery(event.currentTarget).attr("href");
+	       	var action = hrefLink.substring(hrefLink.indexOf('id=') + 3, hrefLink.indexOf('&'));
+	      	 	 
+	       	sendEventHitToGA(action);
+	       	if(isTier_SB_DEV()) {
+		       	sendEventHitToGA(action, 'gaTrackerSBDev');
+	       	}
+
+	       	if(isTier_SB_QA()) {
+		       	sendEventHitToGA(action, 'gaTrackerSBQA');
+	       	}
+        }
+        
+        function sendEventHitToGA(action, trackerName) {
+        	try {
+	        	if(trackerName != undefined) {
+	        		pageTracker(trackerName+'.send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': 'Started'
+		        	});
+	        	} else {
+	        		pageTracker('send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': 'Started'
+		        	});
+	        	}
+        	} catch(err) {
+        		console.log('Google analytics: Exception in tracking Survey Start event');
+        	}
         }
     </script>
 

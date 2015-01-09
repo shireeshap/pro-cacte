@@ -519,34 +519,58 @@
 	
 	 Event.observe(window, 'load', function() {
    		jQuery('[id^="additionalQsBack"]').click(function(event){
-	       	alert("jQuery back ready test!");
 	       	trackBackEvent(event);
    		});
    	
     	jQuery('[id^="additionalQsForward"]').click(function(event){
-	       	trackFwdEvent(event);
+    		trackFwdEvent(event);
 		});
 
      }); 
      
      function trackBackEvent(event) {
-     	var action = event.target.id;
-	   		__gaTracker('send', 'event', {
-	        	  'eventCategory': 'Survey',
-	        	  'eventAction': action,
-	        	  'eventLabel': 'backToSurveyFromAQ'
-	        	});
+    	var action = "${command.schedule.id}";
+     	sendEventHitToGA(action, 'backToSurveyFromAQ');
+     	if(isTier_SB_DEV()) {
+	     	sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBDev');
+     	}
+
+     	if(isTier_SB_QA()) {
+	     	sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBQA');
+     	}
      }
      
      function trackFwdEvent(event) {
-      	var action = event.target.id;
- 	   		__gaTracker('send', 'event', {
- 	        	  'eventCategory': 'Survey',
- 	        	  'eventAction': action,
- 	        	  'eventLabel': 'fwdToMoreQsFromAQ'
- 	        	});
+    	var action = "${command.schedule.id}";
+    	sendEventHitToGA(action, 'fwdToMoreQsFromAQ');
+    	if(isTier_SB_DEV()) {
+	     	sendEventHitToGA(action, 'fwdToMoreQsFromAQ', 'gaTrackerSBDev');
+    	}
+
+    	if(isTier_SB_QA()) {
+	     	sendEventHitToGA(action, 'fwdToMoreQsFromAQ', 'gaTrackerSBQA');
+    	}
       }
-	
+     
+     function sendEventHitToGA(action, label, trackerName) {
+    	 try {
+	    	 if(trackerName != undefined) {
+	     		pageTracker(trackerName+'.send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': label
+		        	});
+	     	} else {
+	     		pageTracker('send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': label
+		        	});
+	     	}
+    	 } catch(err) {
+    		 console.log('Google analytics: Exception in tracking Survey Navigation event.');
+    	 }
+     }
     </script>
 </head>
 <body>

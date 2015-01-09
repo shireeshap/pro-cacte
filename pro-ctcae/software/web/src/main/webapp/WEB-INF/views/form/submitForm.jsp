@@ -114,16 +114,41 @@
             if (!alreadySubmitted) {
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
-	            // GA Event tracking: Track participant trying to navigate through the survey.
-	            //__gaTracker('send', 'event', 'Survey', 'Navigation', 'nav-buttons');
-	            __gaTracker('send', 'event', {
-	            	  'eventCategory': 'Survey',
-	            	  'eventAction': scheduleId,
-	            	  'eventLabel': direction
-	            	});
+	          
+                // GA Event tracking: Track participant trying to navigate through the survey.
+	            sendEventHitToGA(scheduleId, direction);
+	            if(isTier_SB_DEV()) {
+		            sendEventHitToGA(scheduleId, direction, 'gaTrackerSBDev');
+	            }
+
+	            if(isTier_SB_QA()) {
+		            sendEventHitToGA(scheduleId, direction, 'gaTrackerSBQA');
+	            }
                 document.myForm.submit();
             }
         }
+        
+        function sendEventHitToGA(action, label, trackerName) {
+        	// action is scheduleId & label is survey navigation direction
+        	try{
+	        	if(trackerName != undefined) {
+	        		pageTracker(trackerName+'.send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': label
+		        	});
+	        	} else {
+	        		pageTracker('send', 'event', {
+		        	  'eventCategory': 'Survey',
+		        	  'eventAction': action,
+		        	  'eventLabel': label
+		        	});
+	        	}
+        	} catch(err) {
+        		console.log('Google analytics: Exception in tracking Survey Navigation event.');
+        	}
+        }
+        
         function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion, displayName) {
             var x = document.getElementsByName('response' + questionIndexOnPage);
             x[validValueIndexForQuestion].checked = true;

@@ -8,7 +8,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<tags:javascriptLink name="ga"/>
+<tags:javascriptLink name="google_analytics_trackers"/>
 <tags:includeVirtualKeyboard/>
 <script type="text/javascript">
     try {
@@ -21,13 +21,17 @@
 			pageTracker('create', 'UA-26475546-1', 'auto');
 	    	pageTracker('send', 'pageview');
 	    	
-	    	//Tracker for SemanticBits DEV tier
-	    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev'});
-	    	pageTracker('gaTrackerSBDev.send', 'pageview');
+	    	if(isTier_SB_DEV()) {
+		    	//Tracker for SemanticBits DEV tier
+		    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev'});
+		    	pageTracker('gaTrackerSBDev.send', 'pageview');
+	    	}
 	    	
-	    	//Tracker for SemanticBits QA tier	
-	    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA'});
-	    	pageTracker('gaTrackerSBQA.send', 'pageview');
+	    	if(isTier_SB_QA()) {
+		    	//Tracker for SemanticBits QA tier	
+		    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA'});
+		    	pageTracker('gaTrackerSBQA.send', 'pageview');
+	    	}
 	 } catch(err) {
 		 console.log('Error in Google analytics initialization');
     	}

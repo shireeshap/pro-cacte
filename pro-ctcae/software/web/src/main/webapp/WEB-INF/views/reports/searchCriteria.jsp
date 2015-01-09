@@ -75,19 +75,18 @@
                     	try{
 	                    	var endTime = new Date().getTime();
 	                    	var timeEllapsed = endTime - startTime;
-	                    	//Try time tracking with analytics.js function
-	        	        	__gaTracker('send', {
-	        	        		  'hitType': 'timing',
-	        	        		  'timingCategory': jQuery("#reportCategory").val(),
-	        	        		  'timingVar': jQuery("#reportType").val(),
-	        	        		  'timingValue': timeEllapsed,
-	        	        		  'timingLabel': jQuery("#reportCategory").val()
-	        	        		});
+	                    	
+	                    	// Send timing hit to GA
+	                    	sendTimingHitToGA(timeEllapsed);
+	                    	if(isTier_SB_DEV()) {
+		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDev');
+	                    	}
+
+	                    	if(isTier_SB_QA()) {
+		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBQA');
+	                    	}
                     	} catch(ex) {
-                    		__gaTracker('send', 'exception', {
-                  			  'exDescription': ex.message,
-                  			  'exFatal': false
-                  			});                		
+                    		console.log('Google Analytics: Exception in tracking report time.');   		
                     	}
                     	
                         showResults(transport);
@@ -97,6 +96,31 @@
                 },
                 method:'get'
             })
+        }
+        
+        
+        function sendTimingHitToGA(timeEllapsed, trackerName) {
+        	try {
+	        	if(trackerName != undefined) {
+	        		pageTracker(trackerName+'.send', {
+		        		  'hitType': 'timing',
+		        		  'timingCategory': jQuery("#reportCategory").val(),
+		        		  'timingVar': jQuery("#reportType").val(),
+		        		  'timingValue': timeEllapsed,
+		        		  'timingLabel': jQuery("#reportCategory").val()
+		        		});
+	        	} else {
+	        		pageTracker('send', {
+		        		  'hitType': 'timing',
+		        		  'timingCategory': jQuery("#reportCategory").val(),
+		        		  'timingVar': jQuery("#reportType").val(),
+		        		  'timingValue': timeEllapsed,
+		        		  'timingLabel': jQuery("#reportCategory").val()
+		        		});
+	        	}
+        	} catch(err) {
+        		console.log('Google Analytics: Exception in tracking report time.');   		
+        	}
         }
         
         function showMessage(){
