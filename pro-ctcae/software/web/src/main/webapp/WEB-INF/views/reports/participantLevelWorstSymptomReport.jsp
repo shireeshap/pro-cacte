@@ -30,11 +30,32 @@
                 setTimeout("participantCareResults();", 2000);
             </c:if>
         }
+        
+        function dateRangeCheck(){
+       	 var stDateString = $('startDate').value;
+            var endDateString = $('endDate').value;
+            try {
+	             stDate = new Date(stDateString);
+	             endDate = new Date(endDateString);
+            } catch(ex) {
+           	 return true;
+            }
+            if(endDate.getTime() < stDate.getTime()){
+           	 return true;
+            }
+            return false;
+       }
 
         function participantCareResults(format, symptomId, selectedTypes) {
             if (!performValidations()) {
                 return;
             }
+            
+            if(dateRangeCheck()){
+            	alert('Please choose an End date greater or equal to the selected Start date');
+            	return;
+            }
+            
             if (typeof(format) == 'undefined') {
                 format = 'tabular';
             }
