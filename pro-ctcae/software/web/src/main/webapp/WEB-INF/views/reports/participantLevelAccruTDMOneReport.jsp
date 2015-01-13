@@ -79,7 +79,10 @@
 	                    	var timeEllapsed = endTime - startTime;
 	                    	
 	                    	// Send timing hit to GA
-	                    	sendTimingHitToGA(timeEllapsed);
+	                    	if(isPROD()) {
+		                    	sendTimingHitToGA(timeEllapsed);
+	                    	}
+
 	                    	if(isTier_SB_DEV()) {
 		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDev');
 	                    	}

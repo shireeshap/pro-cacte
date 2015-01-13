@@ -119,8 +119,11 @@
 	       	var hrefLink = jQuery(event.currentTarget).attr("href");
 	       	var action = hrefLink.substring(hrefLink.indexOf('id=') + 3, hrefLink.indexOf('&'));
 	      	 	 
-	       	sendEventHitToGA(action);
-	       	if(isTier_SB_DEV()) {
+	    	if(isPROD()) {
+		       	sendEventHitToGA(action);
+	    	}
+
+	    	if(isTier_SB_DEV()) {
 		       	sendEventHitToGA(action, 'gaTrackerSBDev');
 	       	}
 

@@ -115,9 +115,12 @@
                 alreadySubmitted = true;
                 document.myForm.direction.value = direction;
 	          
-                // GA Event tracking: Track participant trying to navigate through the survey.
-	            sendEventHitToGA(scheduleId, direction);
-	            if(isTier_SB_DEV()) {
+                // GA Event tracking: Track participant who is trying to navigate through the survey.
+                if(isPROD()) {
+		            sendEventHitToGA(scheduleId, direction);
+                }
+
+                if(isTier_SB_DEV()) {
 		            sendEventHitToGA(scheduleId, direction, 'gaTrackerSBDev');
 	            }
 

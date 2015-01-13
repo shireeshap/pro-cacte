@@ -17,15 +17,17 @@
 	    	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	    	})(window,document,'script','//www.google-analytics.com/analytics.js','pageTracker');
 	    
-			 // Current PRO-CTCAE PROD tracker.
-			pageTracker('create', 'UA-26475546-1', 'auto', {'siteSpeedSampleRate': 75});
-	    	pageTracker('send', 'pageview');
+	    	if(isPROD()) {
+		    	// Current PRO-CTCAE PROD tracker.
+				pageTracker('create', 'UA-26475546-1', 'auto', {'siteSpeedSampleRate': 75});
+		    	pageTracker('send', 'pageview');
+	    	}
 	    	
-	    //	if(isTier_SB_DEV()) {
+	    	if(isTier_SB_DEV()) {
 		    	//Tracker for SemanticBits DEV tier
 		    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev', 'siteSpeedSampleRate': 75});
 		    	pageTracker('gaTrackerSBDev.send', 'pageview');
-	    	//}
+	    	}
 		    	
 	    	if(isTier_SB_QA()) {
 		    	//Tracker for SemanticBits QA tier	

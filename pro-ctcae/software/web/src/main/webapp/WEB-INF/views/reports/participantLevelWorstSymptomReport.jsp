@@ -78,8 +78,10 @@
 	                    	var endTime = new Date().getTime();
 	                    	var timeEllapsed = endTime - startTime;
 				            
-	                    	// Send timing hit to GA
-	                    	sendTimingHitToGA(timeEllapsed);
+	                    	// Send timing hit to Prod
+	                    	if(isPROD()) {
+		                    	sendTimingHitToGA(timeEllapsed);
+	                    	}
 	                    	if(isTier_SB_DEV()) {
 		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDev');
 	                    	}

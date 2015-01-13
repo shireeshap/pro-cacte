@@ -530,8 +530,12 @@
      
      function trackBackEvent(event) {
     	var action = "${command.schedule.id}";
-     	sendEventHitToGA(action, 'backToSurveyFromAQ');
-     	if(isTier_SB_DEV()) {
+    	
+    	if(isPROD()) {
+	    	sendEventHitToGA(action, 'backToSurveyFromAQ');
+    	}
+
+    	if(isTier_SB_DEV()) {
 	     	sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBDev');
      	}
 
@@ -542,7 +546,11 @@
      
      function trackFwdEvent(event) {
     	var action = "${command.schedule.id}";
-    	sendEventHitToGA(action, 'fwdToMoreQsFromAQ');
+    	
+    	if(isPROD()) {
+	    	sendEventHitToGA(action, 'fwdToMoreQsFromAQ');
+    	}
+
     	if(isTier_SB_DEV()) {
 	     	sendEventHitToGA(action, 'fwdToMoreQsFromAQ', 'gaTrackerSBDev');
     	}

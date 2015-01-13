@@ -52,8 +52,11 @@ function addRemoveSchedule(index, date, action, pid) {
     	        	var timeEllapsed = endTime - startTime;
     	        	var label = "Participant_" + ${command.participant.id};
     		       	
-    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed);
-    		       	if(isTier_SB_DEV()) {
+    	        	if(isPROD()) {
+	    	        	sendTimingHitToGA(actionLabel, label, timeEllapsed);
+    	        	}
+
+    	        	if(isTier_SB_DEV()) {
 	    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerSBDev');
     		       	}
 
@@ -291,12 +294,15 @@ function participantOnHold(id, date, index) {
 	        	var timeEllapsed = endTime - startTime;
 	        	var label = "Participant_" + ${command.participant.id};
 		       	       	
-		      	sendTimingHitToGA('onHold', label, timeEllapsed);
-		      	if(isTier_SB_DEV()) {
+	        	if(isPROD()) {
+		        	sendTimingHitToGA('onHold', label, timeEllapsed);
+	        	}
+	        	
+	        	if(isTier_SB_DEV()) {
 			       	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBDev');
 		      	}
-
-		      	if(isTier_SB_QA()) {
+		      	
+	        	if(isTier_SB_QA()) {
 			       	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBQA');
 		      	}
    	    	} catch(ex) {	
@@ -488,8 +494,11 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
 			        	var timeEllapsed = endTime - startTime;
 			        	var label = "Participant_" + ${command.participant.id};
 				       	
-				     	sendTimingHitToGA('offHold', label, timeEllapsed);
-				     	if(isTier_SB_DEV()) {
+			        	if(isPROD()) {
+				        	sendTimingHitToGA('offHold', label, timeEllapsed);
+			        	}
+
+			        	if(isTier_SB_DEV()) {
 					       	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerSBDev');
 				     	}
 
