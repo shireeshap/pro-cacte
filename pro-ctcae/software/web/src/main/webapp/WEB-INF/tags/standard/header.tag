@@ -21,19 +21,19 @@
 
 	    	if(isPROD()) {
 				 // Current PRO-CTCAE PROD tracker.
-				pageTracker('create', 'UA-26475546-1', 'auto', {'siteSpeedSampleRate': 75});
+				pageTracker('create', 'UA-26475546-1', 'auto', {'siteSpeedSampleRate': 100});
 		    	pageTracker('send', 'pageview');
 	    	}
 	    	
 	    	if(isTier_SB_DEV()) {
 		    	//Tracker for SemanticBits DEV tier
-		    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev', 'siteSpeedSampleRate': 75});
+		    	pageTracker('create', 'UA-26475546-2', 'auto', {'name':'gaTrackerSBDev', 'siteSpeedSampleRate': 100});
 		    	pageTracker('gaTrackerSBDev.send', 'pageview');
 	    	}
 	    	
 	    	if(isTier_SB_QA()) {
 		    	//Tracker for SemanticBits QA tier	
-		    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA', 'siteSpeedSampleRate': 75});
+		    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA', 'siteSpeedSampleRate': 100});
 		    	pageTracker('gaTrackerSBQA.send', 'pageview');
 	    	}
 	 } catch(err) {
