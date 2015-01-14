@@ -71,7 +71,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         Transaction tx = session.beginTransaction();
         tx.begin();
         
-        logger.debug("Nightly trigger bean job starts....");
+        logger.error("PastDueSchedulesReminderEmail: Nightly trigger bean job starts....");
         Query query = session.createQuery(new String("Select study from Study study"));
         List<Study> studies = query.list();
         
@@ -136,7 +136,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
         finally {
            session.close();
         }
-        logger.debug("Nightly trigger bean job ends....");
+        logger.error("PastDueSchedulesReminderEmail: Nightly trigger bean job ends....");
     }
 
     /**

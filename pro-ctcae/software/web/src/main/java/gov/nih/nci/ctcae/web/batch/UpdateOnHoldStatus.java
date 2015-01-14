@@ -34,7 +34,7 @@ public class UpdateOnHoldStatus extends HibernateDaoSupport{
      Session session = getHibernateTemplate().getSessionFactory().openSession();
      Transaction tx = session.beginTransaction();
      tx.begin();
-     logger.debug("UpdateOnHoldStatus: Nightly trigger bean job starts....");
+     logger.error("UpdateOnHoldStatus: UpdateOnHoldStatus: Nightly trigger bean job starts....");
 	
      StudyParticipantAssignmentQuery query = new StudyParticipantAssignmentQuery();
      query.filterByStatus(STATUS_ACTIVE);
@@ -51,7 +51,7 @@ public class UpdateOnHoldStatus extends HibernateDaoSupport{
 		     }
 		 }
 	 }
-     logger.debug("UpdateOnHoldStatus: Nightly trigger bean job ends....");
+     logger.error("UpdateOnHoldStatus: UpdateOnHoldStatus: Nightly trigger bean job ends....");
     }
 	 
 	public void setGenericRepository(GenericRepository genericRepository){
