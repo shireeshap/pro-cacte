@@ -1,23 +1,21 @@
 package gov.nih.nci.ctcae.web.batch;
 
-import org.springframework.scheduling.quartz.SimpleTriggerBean;
+import java.text.ParseException;
 
-import java.util.Calendar;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.quartz.CronTriggerBean;
 
 
-public class SPCrfGradeCreationTrigger extends SimpleTriggerBean {
+public class SPCrfGradeCreationTrigger extends CronTriggerBean {
+	protected final static Log logger = LogFactory.getLog(SPCrfGradeCreationTrigger.class.getName());
+	
     public SPCrfGradeCreationTrigger() {
-        setStartDelay(0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 01);
-        calendar.set(Calendar.MINUTE, 15);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.AM_PM, Calendar.AM);
-        setStartTime(calendar.getTime());
-        //for testing
-        //setRepeatInterval(1 * 60 * 60 * 1000);
-        //original value
-        setRepeatInterval(24 * 60 * 60 * 1000);
+    	
+    	try {
+			setCronExpression("0 15 1 * * ? ");
+		} catch (ParseException e) {
+			logger.error("SPCrfGradeCreationTrigger: ParseException in cron expression. " + e.getMessage());
+		}
     }
 }

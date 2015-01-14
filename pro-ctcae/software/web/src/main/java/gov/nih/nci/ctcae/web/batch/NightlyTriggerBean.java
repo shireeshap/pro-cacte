@@ -1,23 +1,20 @@
 package gov.nih.nci.ctcae.web.batch;
 
-import org.springframework.scheduling.quartz.SimpleTriggerBean;
+import java.text.ParseException;
 
-import java.util.Calendar;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.quartz.CronTriggerBean;
 
 
-public class NightlyTriggerBean extends SimpleTriggerBean {
+public class NightlyTriggerBean extends CronTriggerBean {
+	protected static final Log logger = LogFactory.getLog(NightlyTriggerBean.class.getName());
+	
     public NightlyTriggerBean() {
-        setStartDelay(0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 00);
-        calendar.set(Calendar.MINUTE, 30);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.AM_PM, Calendar.AM);
-        setStartTime(calendar.getTime());
-        //for testing
-       // setRepeatInterval(1 * 60 * 60 * 1000);
-        //original value
-        setRepeatInterval(24 * 60 * 60 * 1000);
+    	try {
+			setCronExpression("0 30 0 * * ? ");
+		} catch (ParseException e) {
+			logger.error("NightlyTriggerBean: ParseException in cron expression. " + e.getMessage());
+		}
     }
 }
