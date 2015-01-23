@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.web.filter;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,12 +92,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper{
 	    private String stripXSS(String value) {
 	        if (value != null) {
 	        	value = new HTMLInputFilter().filter(value);
-	        	try {
-					value = URLDecoder.decode(value, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					logger.error("XSSRequestWrapper: Error in decoding Url: " + e.getMessage());
-				}
-	 
+	        	
 	            // Avoid null characters
 	            value = value.replaceAll("\0", "");
 	            
