@@ -108,6 +108,22 @@
 
     var myDataTable;
     YAHOO.util.Event.addListener(window, "load", function() {
+    	var keyPress = {
+    			13: "input:text, input:password",
+    			end: null
+    	};
+    	
+    	jQuery(document).bind("keydown", function(e){
+    		var selector = keyPress[e.which];
+    		
+    		if(selector !== undefined && jQuery(e.target).is(selector)){
+    			if(isSpclChar('searchString')) {
+	    			e.preventDefault();
+    			}
+    		}
+    		return true;
+    	});
+    	
         YAHOO.example.Basic = function() {
             var myColumnDefs = [
                 {key:"lastName", label:"Last name", sortable:true,resizeable:false, width:100},
