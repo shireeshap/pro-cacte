@@ -36,6 +36,24 @@
 		    	pageTracker('create', 'UA-26475546-3', 'auto', {'name':'gaTrackerSBQA', 'siteSpeedSampleRate': 100});
 		    	pageTracker('gaTrackerSBQA.send', 'pageview');
 	    	}
+	    	
+	    	if(isTier_NCI_DEV()) {
+	    		//Tracker for NCI-DEV tier	
+		    	pageTracker('create', 'UA-26475546-4', 'auto', {'name':'gaTrackerNCIDEV', 'siteSpeedSampleRate': 100});
+		    	pageTracker('gaTrackerNCIDEV.send', 'pageview');
+	    	}
+	    	
+	    	if(isTier_NCI_STAGE()) {
+	    		//Tracker for NCI-STAGE tier	
+		    	pageTracker('create', 'UA-26475546-5', 'auto', {'name':'gaTrackerNCISTAGE', 'siteSpeedSampleRate': 100});
+		    	pageTracker('gaTrackerNCISTAGE.send', 'pageview');
+	    	}
+	    	
+	    	if(isTier_SB_Demo()) {
+	    		//Tracker for SemanticBits SB-DEMO tier	
+		    	pageTracker('create', 'UA-26475546-6', 'auto', {'name':'gaTrackerSBDEMO', 'siteSpeedSampleRate': 100});
+		    	pageTracker('gaTrackerSBDEMO.send', 'pageview');
+	    	}
 	 } catch(err) {
 		 console.log('Error in Google analytics initialization');
 		}

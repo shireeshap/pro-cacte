@@ -542,6 +542,19 @@
      	if(isTier_SB_QA()) {
 	     	sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBQA');
      	}
+     	
+    	if(isTier_NCI_DEV()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+    	}
+    	
+    	if(isTier_NCI_STAGE()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+    	}
+    	
+    	if(isTier_SB_Demo()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+    	}
+
      }
      
      function trackFwdEvent(event) {
@@ -558,6 +571,19 @@
     	if(isTier_SB_QA()) {
 	     	sendEventHitToGA(action, 'fwdToMoreQsFromAQ', 'gaTrackerSBQA');
     	}
+    	
+    	if(isTier_NCI_DEV()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+    	}
+    	
+    	if(isTier_NCI_STAGE()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+    	}
+    	
+    	if(isTier_SB_Demo()) {
+        	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+    	}
+    	
       }
      
      function sendEventHitToGA(action, label, trackerName) {

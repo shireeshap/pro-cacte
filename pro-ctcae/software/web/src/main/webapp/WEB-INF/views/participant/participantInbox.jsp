@@ -130,6 +130,19 @@
 	       	if(isTier_SB_QA()) {
 		       	sendEventHitToGA(action, 'gaTrackerSBQA');
 	       	}
+	       	
+        	if(isTier_NCI_DEV()) {
+            	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+        	}
+        	
+        	if(isTier_NCI_STAGE()) {
+            	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+        	}
+        	
+        	if(isTier_SB_Demo()) {
+            	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+        	}
+
         }
         
         function sendEventHitToGA(action, trackerName) {

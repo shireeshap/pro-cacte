@@ -63,6 +63,18 @@ function addRemoveSchedule(index, date, action, pid) {
     		       	if(isTier_SB_QA()) {
 	    		       	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerSBQA');
     		       	}
+    		       	
+                	if(isTier_NCI_DEV()) {
+                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+                	}
+                	
+                	if(isTier_NCI_STAGE()) {
+                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+                	}
+                	
+                	if(isTier_SB_Demo()) {
+                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+                	}
         	    } catch(ex) {	
         		    	console.log('Google analytics: Exception in timing event on participant calendar.');               		
         	    	}
@@ -305,6 +317,19 @@ function participantOnHold(id, date, index) {
 	        	if(isTier_SB_QA()) {
 			       	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBQA');
 		      	}
+	        	
+            	if(isTier_NCI_DEV()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+            	}
+            	
+            	if(isTier_NCI_STAGE()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+            	}
+            	
+            	if(isTier_SB_Demo()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+            	}
+
    	    	} catch(ex) {	
    	    		console.log('Google analytics: Exception in timing event on participant calendar.');               		               		
    	    	}
@@ -505,6 +530,19 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
 				     	if(isTier_SB_QA()) {
 					       	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerSBQA');
 				     	}
+				     	
+                    	if(isTier_NCI_DEV()) {
+	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+                    	}
+                    	
+                    	if(isTier_NCI_STAGE()) {
+	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+                    	}
+                    	
+                    	if(isTier_SB_Demo()) {
+	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+                    	}
+
 	    	    	} catch(ex) {
 	    	    		console.log('Google analytics: Exception in timing event on participant calendar.');               		               		
 	    	   	  }

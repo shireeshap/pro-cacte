@@ -127,6 +127,19 @@
 	            if(isTier_SB_QA()) {
 		            sendEventHitToGA(scheduleId, direction, 'gaTrackerSBQA');
 	            }
+	            
+            	if(isTier_NCI_DEV()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+            	}
+            	
+            	if(isTier_NCI_STAGE()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+            	}
+            	
+            	if(isTier_SB_Demo()) {
+                	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+            	}
+
                 document.myForm.submit();
             }
         }
