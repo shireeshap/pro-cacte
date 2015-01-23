@@ -89,6 +89,19 @@
 	                    	if(isTier_SB_QA()) {
 		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBQA');
 	                    	}
+	                    	
+	                    	if(isTier_NCI_DEV()) {
+		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+	                    	}
+	                    	
+	                    	if(isTier_NCI_STAGE()) {
+		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+	                    	}
+	                    	
+	                    	if(isTier_SB_Demo()) {
+		                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+	                    	}
+
                     	} catch(ex) {
                     		console.log('Google Analytics: Exception in tracking report time.');        		
                     	}
