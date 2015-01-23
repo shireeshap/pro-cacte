@@ -112,7 +112,9 @@
     		var selector = keyPress[e.which];
     		
     		if(selector !== undefined && jQuery(e.target).is(selector)){
-    			e.preventDefault();
+    			if(isSpclChar('searchString')) {
+	    			e.preventDefault();
+    			}
     		}
     		return true;
     	});
