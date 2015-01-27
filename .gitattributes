@@ -3556,6 +3556,7 @@ pro-ctcae/software/web/src/main/webapp/images/blue/icons/reportSearchCriteriaCon
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/routineReportController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/scheduleCrfController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchClinicalStaffController_icon.png -text
+pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchOrganizationController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchParticipantController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/searchStudyController_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/blue/icons/studyController_icon.png -text
