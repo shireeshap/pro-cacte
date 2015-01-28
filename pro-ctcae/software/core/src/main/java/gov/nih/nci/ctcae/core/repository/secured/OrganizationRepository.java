@@ -34,8 +34,10 @@ public class OrganizationRepository implements Repository<Organization, Organiza
 
     public Organization save(Organization organization) {
         return genericRepository.save(organization);
-
-
+    }
+    
+    public Long findWithCount(OrganizationQuery query) {
+        return genericRepository.findWithCount(query);
     }
 
     public void delete(Organization organization) {
