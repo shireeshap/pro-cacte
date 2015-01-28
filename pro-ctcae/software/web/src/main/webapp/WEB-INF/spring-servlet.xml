@@ -120,6 +120,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="administration.tab.passwordPolicy"
                                   p:linkName="passwordPolicyConfigurationController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+		                          p:displayName="administration.tab.searchOrganization"
+		                          p:linkName="searchOrganizationController"/>
                         </list>
                     </property>
                 </bean>
@@ -432,6 +435,13 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
+    
+	<bean name="/organization/fetchOrganization" id="fetchOrganizationController"
+	      class="gov.nih.nci.ctcae.web.organization.FetchOrganizationController">
+	   <property name="organizationAjaxFacade" ref="organizationAjaxFacade"/>
+	   <property name="studyRepository" ref="studyRepository"/>
+	   <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+    </bean>
 
      <bean name="/form/fetchCrf" id="fetchCrfController"
           class="gov.nih.nci.ctcae.web.form.FetchCrfController">
@@ -518,6 +528,9 @@
     </bean>
     <bean name="/admin/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
+    </bean>
+    <bean name="/admin/searchOrganization" id="searchOrganizationController"
+          class="gov.nih.nci.ctcae.web.organization.SearchOrganizationController">
     </bean>
     <bean name="/participant/monitorForm" id="monitorFormController"
           class="gov.nih.nci.ctcae.web.participant.MonitorFormController">

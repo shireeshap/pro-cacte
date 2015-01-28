@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.query;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * The Class OrganizationQuery.
  *
@@ -13,6 +15,9 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
 
     private static String ORGANIZATION_NAME = "name";
     private static String NCI_CODE = "nciInstituteCode";
+    private static final String SHORT_TITLE = "shortTitle";
+    private static final String LONG_TITLE = "longTitle";
+    private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
 
     /**
      * Instantiates a new organization query.
@@ -48,6 +53,10 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
         setParameter(NCI_CODE, searchString);
     }
     
+    public void leftJoinStudy() {
+    	leftJoin(" o.studyOrganizations as so left outer join so.study as study ");
+    }
+    
     /**
      * Where to filter duplicate sites.
      *
@@ -61,7 +70,7 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
     public void filterStudySiteIfParticipantPresent(String studyId){
     	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"' and so.class = 'SST' and so.studyParticipantAssignments IS NOT EMPTY) ");
     }
-   
+    
     /**
      * Filter by nci institute code.
      *
@@ -89,5 +98,19 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
 
     protected String getObjectIdQueryString() {
         return "o.id";
+    }
+    
+    public void filterByAll(String text, String key) {
+        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+        andWhere(String.format("(lower(o.name) LIKE :%s " +
+                "or lower(o.nciInstituteCode) LIKE :%s " +
+                "or lower(study.assignedIdentifier) LIKE :%s " +
+                "or lower(study.longTitle) LIKE :%s " +
+                "or lower(study.shortTitle) LIKE :%s )", ORGANIZATION_NAME + key, NCI_CODE + key, ASSIGNED_IDENTIFIER + key, LONG_TITLE + key, SHORT_TITLE + key));
+        setParameter(ORGANIZATION_NAME + key, searchString);
+        setParameter(NCI_CODE + key, searchString);
+        setParameter(ASSIGNED_IDENTIFIER + key, searchString);
+        setParameter(SHORT_TITLE + key, searchString);
+        setParameter(LONG_TITLE + key, searchString);
     }
 }

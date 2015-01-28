@@ -2,12 +2,18 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueNciIdentifierForOrganization;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -48,7 +54,18 @@ public class Organization extends BaseVersionable implements Comparable<Organiza
      */
     @Column(name = "nci_institute_code", nullable = false)
     private String nciInstituteCode;
+    
+    
+    /** The study organization association
+     * 
+     */
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
+    public List<StudyOrganization> getStudyOrganizations() {
+		return studyOrganizations;
+	}
 
     /**
      * Gets the display name.

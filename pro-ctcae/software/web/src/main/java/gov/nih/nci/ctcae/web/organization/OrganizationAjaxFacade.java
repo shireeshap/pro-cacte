@@ -26,10 +26,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +46,9 @@ public class OrganizationAjaxFacade {
 	private final String ALL_STUDY_SITES="GetAllStudySites"; 
 	private String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
 	private String BLANK = "";
+	private final static String ORGANIZATION_NAME_SORT = "organizationName";
+	private final static String STUDY_SORT = "study";
+
     /**
      * The organization repository.
      */
@@ -229,6 +232,68 @@ public class OrganizationAjaxFacade {
         return ObjectTools.reduceAll(studyOrganizations, "id", "organization.name", "organization.nciInstituteCode");
 
     }
+    
+    /**
+     * Search clinical staff.
+     *
+     * @param searchString
+     * @return the string
+     */
+    public List<Organization> searchOrganizations(String[] searchString, Integer startIndex, Integer results, String sort, String dir) {
+        List<Organization> organizations = getOrganizationObjects(searchString, startIndex, results, sort, dir, true);
+        return organizations;
+    }
+
+    public List<Organization> getOrganizationObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, boolean showInactive) {
+    	OrganizationQuery organizationQuery  = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_SORTBY_FIELDS, true);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        String userName = user.getUsername();
+        int sIndex = startIndex;
+        
+        List<Organization> organizations = new ArrayList<Organization>();
+        organizationQuery.setFirstResult(startIndex);
+        organizationQuery.setMaximumResults(results);
+        
+        //TBD: Implement sort on right database attribute when users clicks on dataTable column on-screen
+        organizationQuery.setSortBy("o." + sort);
+        organizationQuery.setSortDirection(dir);
+        
+        if (user.isAdmin() || user.isCCA()) {
+            if (searchStrings != null) {
+                organizationQuery.leftJoinStudy();
+                int index = 0;
+                for (String searchString : searchStrings) {
+                	organizationQuery.filterByAll(searchString, "" + index);
+                    index++;
+                }
+            }
+            organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+        }
+		return organizations;
+    }
+    
+    public Long resultCount(String[] searchTexts) {
+    	Long resultCount = (long) 0;
+    	OrganizationQuery organizationQuery = new OrganizationQuery(QueryStrings.ORGANIZATION_QUERY_COUNT, true);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = user.getUsername();
+        
+        if (user.isAdmin() || user.isCCA()) {
+            if (searchTexts != null) {
+                organizationQuery.leftJoinStudy();
+                int index = 0;
+                for (String searchString : searchTexts) {
+                	organizationQuery.filterByAll(searchString, "" + index);
+                    index++;
+                }
+            }
+            resultCount = organizationRepository.findWithCount(organizationQuery);
+        }
+        return resultCount;
+    }
+    
+    
 
 
     /**

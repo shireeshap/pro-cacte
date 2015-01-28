@@ -37,6 +37,8 @@ public enum  QueryStrings implements CodedEnum<String>{
     OCS_QUERY_BASIC("SELECT scs from OrganizationClinicalStaff scs order by scs.clinicalStaff.firstName"),
     
     ORGANIZATION_QUERY_BASIC("SELECT distinct(o) from Organization o order by o.id "),
+    ORGANIZATION_QUERY_COUNT("SELECT count(distinct o) from Organization o "),
+    ORGANIZATION_QUERY_SORTBY_FIELDS("SELECT distinct o from Organization o "),
 	ORGANIZATION_QUERY_FILTER_STUDYSITES("SELECT distinct(o) from Organization o "),
 	
 	SO_QUERY_BASIC("SELECT o from StudyOrganization o order by o.organization.name ");

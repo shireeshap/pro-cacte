@@ -2908,7 +2908,11 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCo
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/FetchOrganizationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/SearchOrganizationController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/SearchOrganizationDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/SearchOrganizationWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddFormScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddNotificationClinicalStaffController.java -text
@@ -3269,6 +3273,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/inbox.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/login.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/organization/searchOrganization.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/addSchedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
