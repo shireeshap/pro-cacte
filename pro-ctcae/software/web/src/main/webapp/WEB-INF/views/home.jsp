@@ -830,6 +830,23 @@ YAHOO.util.Event.addListener(window, "load", function() {
                         </td>
                     </proctcae:urlAuthorize>
                 </tr>
+                
+                <tr>
+                    <proctcae:urlAuthorize url="/pages/admin/createOrganization">
+                        <td id="a2" class="quickLinkBGon"
+                            style="border-bottom: 1px #cccccc solid; border-right: 1px #cccccc solid;" width="50%">
+                            <div class="quickLinkRow">
+                                <div class="quickLinkPicture"><img
+                                        src="<c:url value="/images/blue/icons/searchOrganizationController_icon.png"/>"
+                                        align="middle"
+                                        class="quickLink"></div>
+                                <div class="quickLinkLabel"><a href="<c:url value='/pages/admin/createOrganization' />"
+                                                               class="quickLink">Create new Organization</a></div>
+                            </div>
+                        </td>
+                    </proctcae:urlAuthorize>
+                </tr>
+                
                 <c:if test="${nurseLevelRole}">
                     <tr>
                         <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
