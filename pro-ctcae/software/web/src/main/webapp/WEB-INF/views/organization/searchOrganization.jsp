@@ -62,19 +62,13 @@
 
 <script>
 
-    function showPopUpMenuClinicalStaff(cid, status) {
+    function showPopUpMenuOrganization(organizationId) {
         var html = '<div id="search-engines"><ul>';
-        <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit Organization</a></li>';
-            if (status == 'Active') {
-                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
-            } else {
-                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
-            }
+        <proctcae:urlAuthorize url="/pages/admin/createOrganization">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/createOrganization"/>?organizationId=' + organizationId + '\'">Edit Organization</a></li>';
         </proctcae:urlAuthorize>
-
         html += '</ul></div>';
-        jQuery('#clinicalStaffActions' + cid).menu({
+        jQuery('#organizationActions' + organizationId).menu({
             content: html,
             maxHeight: 180,
             positionOpts: {
@@ -124,10 +118,9 @@
         YAHOO.example.Basic = function() {
             var myColumnDefs = [
                 {key:"nciInstituteCode", label:"NCI Identifier", sortable:true, resizeable:false, width:100},
-                {key:"organizationName", label:"Organization name", sortable:true,resizeable:false, width:200},
-                {key:"study", label:"Study", sortable:false, resizeable:false, width:350},
-                {key:"status", label:"Status", sortable:true, resizeable:false, width:100},
-                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:80}
+                {key:"organizationName", label:"Organization name", sortable:true,resizeable:false, width:240},
+                {key:"study", label:"Study", sortable:false, resizeable:false, width:400},
+                {key:"actions", label:"Actions", sortable:false, resizeable:false, width:100}
             ];
 
             var myDataSource = new YAHOO.util.DataSource("/proctcae/pages/organization/fetchOrganization?");
@@ -211,8 +204,7 @@
             oneOrMoreSelected: '% visible'
         }, function(event) {
             showHideColumnsForYUITable(event.val())
-        }
-                );
+        });
     });
 </script>
 
@@ -237,9 +229,9 @@
                     </ul>
                 </td>
                 <td align="right">
-	                <proctcae:urlAuthorize url="/pages/admin/createClinicalStaff">
+	                <proctcae:urlAuthorize url="/pages/admin/createOrganization">
 	                    <tags:button color="blue" markupWithTag="a" id="newStaff" icon="add"
-	                                 value="New Organization" href="/proctcae/pages/admin/createClinicalStaff"/>
+	                                 value="New Organization" href="/proctcae/pages/admin/createOrganization"/>
 	                </proctcae:urlAuthorize>
                 </td>
             </tr>
@@ -257,12 +249,9 @@
                     <div> Show/Hide Column:
                         <select id="columnOptionsForCaseTable" name="columnOptionsForCaseTable" multiple="multiple"
                                 title="Show/Hide Columns">
-                            <option value="lastName" selected="selected">Last name</option>
-                            <option value="firstName" selected="selected">First name</option>
-                            <option value="nciIdentifier" selected="selected">NCI identifier</option>
-                            <option value="site" selected="selected">Site</option>
+                            <option value="nciInstituteCode" selected="selected">NCI Identifier</option>
+                            <option value="organizationName" selected="selected">Organization name</option>
                             <option value="study" selected="selected">Study</option>
-                            <option value="status" selected="selected">Status</option>
                         </select>
                     </div>
                 </td>
