@@ -74,22 +74,17 @@ public class FetchOrganizationController extends AbstractController {
             dto.setNciInstituteCode(organization.getNciInstituteCode());
             dto.setOrganizationName(organization.getName());
 
-            dto.setStatus("Organization status place holder");
-
             String studyNames = getStudyNames(organization);
             dto.setStudy(studyNames);
             
             String statusPlaceHolder = "Active";
 
-            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='clinicalStaffActions"
+            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='organizationActions"
                     + organization.getId() + "'"
-                    + " onmouseover=\"javascript:showPopUpMenuClinicalStaff('"
+                    + " onmouseover=\"javascript:showPopUpMenuOrganization('"
                     + organization.getId()
-                    + "','"
-                    + statusPlaceHolder
                     + "');\">"
                     + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
-
             dto.setActions(actions);
 
             searchOrganizationWrapper.getSearchOrganizationDTOs()[index] = dto;

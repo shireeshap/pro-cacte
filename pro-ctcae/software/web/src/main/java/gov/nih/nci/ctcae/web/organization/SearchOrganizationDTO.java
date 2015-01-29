@@ -9,7 +9,6 @@ public class SearchOrganizationDTO {
 	private String nciInstituteCode;
 	private String organizationName;
 	private String study;
-	private String status;
 	private String actions;
 
 	public String getNciInstituteCode() {
@@ -30,12 +29,7 @@ public class SearchOrganizationDTO {
 	public void setStudy(String study) {
 		this.study = study;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+
 	public String getActions() {
 		return actions;
 	}
