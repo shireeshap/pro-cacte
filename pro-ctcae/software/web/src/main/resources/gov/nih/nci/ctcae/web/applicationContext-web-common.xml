@@ -77,6 +77,11 @@
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
     
+    <bean id="uniqueIdentifierForOrganizationValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForOrganizationValidator">
+        <property name="organizationRepository" ref="organizationRepository"/>
+    </bean>
+    
     <bean id="uniqueStaffEmailAddressValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueStaffEmailAddressValidator">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
