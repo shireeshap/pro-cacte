@@ -109,7 +109,11 @@
         <intercept-url pattern="/pages/admin/searchClinicalStaff" access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/admin/viewClinicalStaff" access="PRIVILEGE_VIEW_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
-
+        
+        <intercept-url pattern="/pages/admin/createOrganization" access="PRIVILEGE_CREATE_ORGANIZATION"/>
+        <intercept-url pattern="/pages/admin/editOrganization" access="PRIVILEGE_EDIT_ORGANIZATION"/>
+        <intercept-url pattern="/pages/admin/searchOrganization" access="PRIVILEGE_EDIT_ORGANIZATION"/>
+        
         <intercept-url pattern="/pages/reports/report" access="PRIVILEGE_STUDY_REPORTS"/>
         <intercept-url pattern="/pages/reports/participantReport" access="PRIVILEGE_PARTICIPANT_REPORTS"/>
         <intercept-url pattern="/pages/reports/*" access="PRIVILEGE_STUDY_REPORTS,PRIVILEGE_PARTICIPANT_REPORTS"/>
