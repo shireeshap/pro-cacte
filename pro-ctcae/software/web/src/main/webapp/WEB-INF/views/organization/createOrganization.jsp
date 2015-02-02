@@ -49,33 +49,31 @@
         }
     </style>
     <script type="text/javascript">
-	    jQuery.ready(function(){
-	    	function checkOrganizationIdentifier() {
-	    		var organizationId = "${param['organizationId']}";
-	    		if(organizationId == null) {
-	    			organizationId = "${createOrganizationCommand.organization.nciInstituteCode}";
-	    		}
-	    		
-	    		var organizationIdentifier = jQuery("#organization\\.nciInstituteCode").val();
-	    		jQuery("#organization\\.nciInstituteCode\\.error").hide();
-	    		
-				if(organizationIdentifier != '') {
-					uniqueOrgIdValidator.validate(organizationId, organizationIdentifier, validationCallBackHandler);
-					return
-				} else {
-	    			jQuery("#organization\\.nciInstituteCode\\.error").hide();
-	    		}
-	    	}
-	    	
-	    	function validationCallBackHandler(result){
-				if(result) {
-	    			jQuery("#organization\\.nciInstituteCode\\.error").show();
-	    		} else {
-	    			jQuery("#organization\\.nciInstituteCode\\.error").hide();
-	    		}
-			}
-	    });
-    </script>
+ 		function checkOrganizationIdentifier() {
+  		var organizationId = "${param['organizationId']}";
+  		if(organizationId == null) {
+  			organizationId = "${createOrganizationCommand.organization.nciInstituteCode}";
+  		}
+  		
+  		var organizationIdentifier = jQuery("#organization\\.nciInstituteCode").val();
+  		jQuery("#organization\\.nciInstituteCode\\.error").hide();
+  		
+		if(organizationIdentifier != '') {
+			uniqueOrgIdValidator.validate(organizationId, organizationIdentifier, validationCallBackHandler);
+			return
+		} else {
+	  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
+	  		}
+  		}
+ 		
+ 		function validationCallBackHandler(result){
+			if(result) {
+	  			jQuery("#organization\\.nciInstituteCode\\.error").show();
+	  		} else {
+	  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
+	  		}
+		}
+ 	</script>
 </head>
 <body>
 <organization:thirdlevelmenu selected="createOrganization"/>
