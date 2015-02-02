@@ -46,8 +46,7 @@ public class OrganizationAjaxFacade {
 	private final String ALL_STUDY_SITES="GetAllStudySites"; 
 	private String PRIVILEGE_CREATE_CLINICAL_STAFF = "PRIVILEGE_CREATE_CLINICAL_STAFF";
 	private String BLANK = "";
-	private final static String ORGANIZATION_NAME_SORT = "organizationName";
-	private final static String STUDY_SORT = "study";
+	private final static String NCI_INSTITUTION_CODE_SORT = "nciInstituteCode";
 
     /**
      * The organization repository.
@@ -255,8 +254,11 @@ public class OrganizationAjaxFacade {
         organizationQuery.setFirstResult(startIndex);
         organizationQuery.setMaximumResults(results);
         
-        //TBD: Implement sort on right database attribute when users clicks on dataTable column on-screen
-        organizationQuery.setSortBy("o." + sort);
+        if(NCI_INSTITUTION_CODE_SORT.equals(sort)) {
+        	organizationQuery.setSortBy(" o.nciInstituteCode ");
+        } else {
+        	organizationQuery.setSortBy(" o.name ");
+        }
         organizationQuery.setSortDirection(dir);
         
         if (user.isAdmin() || user.isCCA()) {

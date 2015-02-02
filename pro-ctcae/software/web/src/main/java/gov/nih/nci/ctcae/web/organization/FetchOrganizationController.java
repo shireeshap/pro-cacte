@@ -32,12 +32,12 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * Populates the result on dataTable in jsp page.
  */
 public class FetchOrganizationController extends AbstractController {
-   private OrganizationAjaxFacade organizationalAjaxFacade;
+    private OrganizationAjaxFacade organizationalAjaxFacade;
     private StudyRepository studyRepository;
     private Properties proCtcAEProperties;
-	private static String ORGANIZATION_SEARCH_STRING = "seachString";
 	private final static String ORGANIZATION_NAME_SORT = "organizationName";
 	private final static String STUDY_SORT = "study";
+	public static String ORGANIZATION_SEARCH_STRING = "searchString";
 	
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
