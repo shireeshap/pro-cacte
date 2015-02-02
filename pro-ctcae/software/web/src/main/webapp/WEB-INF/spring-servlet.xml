@@ -234,6 +234,12 @@
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    
+    <bean name="/admin/createOrganization" id="createOrganizationController"
+	      class="gov.nih.nci.ctcae.web.organization.CreateOrganizationController">
+	    <property name="genericRepository" ref="genericRepository"/>
+	    <property name="organizationRepository" ref="organizationRepository"/>
+    </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
@@ -966,9 +972,4 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantReportingModeHistoryController">
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
-
-
-
 </beans>
-
-

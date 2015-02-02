@@ -2908,6 +2908,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCo
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/CreateOrganizationCommand.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/CreateOrganizationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/FetchOrganizationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/SearchOrganizationController.java -text
@@ -3274,6 +3276,8 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/inbox.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/mobile/login.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/organization/confirmOrganization.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/organization/createOrganization.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/organization/searchOrganization.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/addSchedule.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text

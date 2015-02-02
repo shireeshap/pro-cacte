@@ -35,6 +35,17 @@ public class OrganizationRepository implements Repository<Organization, Organiza
     public Organization save(Organization organization) {
         return genericRepository.save(organization);
     }
+  
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public Organization saveOrUpdate(Organization organization) {
+    	if(organization.getName().isEmpty()) {
+    		throw new CtcAeSystemException(" can not save organization without a name");
+    	}
+    	if(organization.getNciInstituteCode().isEmpty()) {
+    		throw new CtcAeSystemException(" can not save organization without a nciInstituteCode");
+    	}
+    	return genericRepository.save(organization);
+    }
     
     public Long findWithCount(OrganizationQuery query) {
         return genericRepository.findWithCount(query);
