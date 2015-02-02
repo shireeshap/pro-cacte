@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * SearchOrganizationController class
  */
 public class SearchOrganizationController extends AbstractController {
-	private static String ORGANIZATION_SEARCH_STRING = "seachString";
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -21,7 +20,7 @@ public class SearchOrganizationController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("organization/searchOrganization");
         String searchString = request.getParameter("searchString");
         modelAndView.addObject("searchString",searchString);
-        request.getSession().setAttribute(ORGANIZATION_SEARCH_STRING, searchString);
+        request.getSession().setAttribute(FetchOrganizationController.ORGANIZATION_SEARCH_STRING, searchString);
         return modelAndView;
     }
 }
