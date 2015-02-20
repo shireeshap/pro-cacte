@@ -129,15 +129,15 @@
 	            }
 	            
             	if(isTier_NCI_DEV()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+            		sendEventHitToGA(scheduleId, direction, 'gaTrackerNCIDEV');
             	}
             	
             	if(isTier_NCI_STAGE()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+            		sendEventHitToGA(scheduleId, direction, 'gaTrackerNCISTAGE');
             	}
             	
             	if(isTier_SB_Demo()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+            		sendEventHitToGA(scheduleId, direction, 'gaTrackerSBDEMO');
             	}
 
                 document.myForm.submit();

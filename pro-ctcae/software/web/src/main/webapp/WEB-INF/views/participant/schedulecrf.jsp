@@ -65,15 +65,15 @@ function addRemoveSchedule(index, date, action, pid) {
     		       	}
     		       	
                 	if(isTier_NCI_DEV()) {
-                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+                    	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerNCIDEV');
                 	}
                 	
                 	if(isTier_NCI_STAGE()) {
-                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+                    	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerNCISTAGE');
                 	}
                 	
                 	if(isTier_SB_Demo()) {
-                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+                    	sendTimingHitToGA(actionLabel, label, timeEllapsed, 'gaTrackerSBDEMO');
                 	}
         	    } catch(ex) {	
         		    	console.log('Google analytics: Exception in timing event on participant calendar.');               		
@@ -319,15 +319,15 @@ function participantOnHold(id, date, index) {
 		      	}
 	        	
             	if(isTier_NCI_DEV()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+                	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerNCIDEV');
             	}
             	
             	if(isTier_NCI_STAGE()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+                	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerNCISTAGE');
             	}
             	
             	if(isTier_SB_Demo()) {
-                	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+                	sendTimingHitToGA('onHold', label, timeEllapsed, 'gaTrackerSBDEMO');
             	}
 
    	    	} catch(ex) {	
@@ -532,15 +532,15 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
 				     	}
 				     	
                     	if(isTier_NCI_DEV()) {
-	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+	                    	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerNCIDEV');
                     	}
                     	
                     	if(isTier_NCI_STAGE()) {
-	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+	                    	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerNCISTAGE');
                     	}
                     	
                     	if(isTier_SB_Demo()) {
-	                    	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+	                    	sendTimingHitToGA('offHold', label, timeEllapsed, 'gaTrackerSBDEMO');
                     	}
 
 	    	    	} catch(ex) {

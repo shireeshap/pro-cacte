@@ -132,15 +132,15 @@
 	       	}
 	       	
         	if(isTier_NCI_DEV()) {
-            	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+        		sendEventHitToGA(action, 'gaTrackerNCIDEV');
         	}
         	
         	if(isTier_NCI_STAGE()) {
-            	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+        		sendEventHitToGA(action, 'gaTrackerNCISTAGE');
         	}
         	
         	if(isTier_SB_Demo()) {
-            	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+        		sendEventHitToGA(action, 'gaTrackerSBDEMO');
         	}
 
         }

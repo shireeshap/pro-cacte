@@ -544,15 +544,15 @@
      	}
      	
     	if(isTier_NCI_DEV()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerNCIDEV');
     	}
     	
     	if(isTier_NCI_STAGE()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerNCISTAGE');
     	}
     	
     	if(isTier_SB_Demo()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBDEMO');
     	}
 
      }
@@ -573,15 +573,15 @@
     	}
     	
     	if(isTier_NCI_DEV()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCIDEV');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerNCIDEV');
     	}
     	
     	if(isTier_NCI_STAGE()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerNCISTAGE');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerNCISTAGE');
     	}
     	
     	if(isTier_SB_Demo()) {
-        	sendTimingHitToGA(timeEllapsed, 'gaTrackerSBDEMO');
+    		sendEventHitToGA(action, 'backToSurveyFromAQ', 'gaTrackerSBDEMO');
     	}
     	
       }
