@@ -35,4 +35,9 @@
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
+    
+    <bean id="uniqueIdentifierForOrganizationValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForOrganizationValidator">
+        <property name="organizationRepository" ref="organizationRepository"/>
+    </bean>
 </beans>

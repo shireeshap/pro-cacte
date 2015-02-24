@@ -236,9 +236,10 @@
     </bean>
     
     <bean name="/admin/createOrganization" id="createOrganizationController"
-	      class="gov.nih.nci.ctcae.web.organization.CreateOrganizationController">
+	      class="gov.nih.nci.ctcae.web.organization.CreateOrganizationController" parent="ctcaeSimpleFormController">
 	    <property name="genericRepository" ref="genericRepository"/>
 	    <property name="organizationRepository" ref="organizationRepository"/>
+	    <property name="uniqueOrgIdValidator" ref="uniqueIdentifierForOrganizationValidator"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"

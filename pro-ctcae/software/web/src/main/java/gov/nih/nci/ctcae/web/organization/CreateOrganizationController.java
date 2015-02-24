@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.web.organization;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForOrganizationValidator;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,23 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 /**
  * @author Amey
  * CreateOrganizationController class.
  *
  */
-public class CreateOrganizationController extends SimpleFormController {
+public class CreateOrganizationController extends CtcAeSimpleFormController {
 	private static final String ORGANIZATION_ID = "organizationId";
     private GenericRepository genericRepository;
     private OrganizationRepository organizationRepository;
+    private UniqueIdentifierForOrganizationValidator uniqueOrgIdValidator;
+	private final static String IS_EDIT = "isEdit";
 
     public CreateOrganizationController() {
         setFormView("organization/createOrganization");
         setCommandClass(CreateOrganizationCommand.class);
         setCommandName("createOrganizationCommand");
         setBindOnNewForm(true);
+        setSessionForm(true);
     }
 
     @Override
@@ -36,15 +40,26 @@ public class CreateOrganizationController extends SimpleFormController {
     	if(organizationId != null) {
     		Organization organization = organizationRepository.findById(new Integer(organizationId));
     		command.setOrganization(organization);
-    		request.setAttribute("isEdit", true);
+    		request.setAttribute(IS_EDIT, true);
     	}
         return command;
     }
     
     @Override
-	protected ModelAndView processFormSubmission(HttpServletRequest request,
-    			HttpServletResponse response, Object command, BindException errors) throws Exception {
+    protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors) throws Exception {
+    	CreateOrganizationCommand createOrgCommand = (CreateOrganizationCommand) command;
+    	super.onBindAndValidate(request, command, errors);
     	
+    	
+		boolean hasUniqueIdentifier = uniqueOrgIdValidator.validate(createOrgCommand.getOrganization().getId(), createOrgCommand.getOrganization().getNciInstituteCode());
+		if(hasUniqueIdentifier) {
+			errors.reject("nciInstituteCode_validation");
+		}
+    	
+    }
+    
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,HttpServletResponse response, Object command, BindException errors) throws Exception {
     	CreateOrganizationCommand createOrganizationCommand = (CreateOrganizationCommand) command;
     	save(createOrganizationCommand);
     	
@@ -53,8 +68,8 @@ public class CreateOrganizationController extends SimpleFormController {
     	request.setAttribute("createOrganizationCommand", command);
     	return showForm(request, errors, "organization/confirmOrganization");
     }
-    
-   private void save(CreateOrganizationCommand createOrganizationCommand) {
+
+    private void save(CreateOrganizationCommand createOrganizationCommand) {
 	   Organization organization = organizationRepository.saveOrUpdate(createOrganizationCommand.getOrganization());
 	   createOrganizationCommand.setOrganization(organization);
    }
@@ -68,4 +83,9 @@ public class CreateOrganizationController extends SimpleFormController {
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
+    
+    @Required
+	public void setUniqueOrgIdValidator(UniqueIdentifierForOrganizationValidator uniqueOrgIdValidator) {
+		this.uniqueOrgIdValidator = uniqueOrgIdValidator;
+	}
 }

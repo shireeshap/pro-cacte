@@ -16,18 +16,18 @@ public class UniqueIdentifierForOrganizationValidator extends AbstractValidator<
 	String message;
 	OrganizationRepository organizationRepository;
 
-	public boolean validate(String organizationId, String nciInstituteCode) {
+	public boolean validate(Integer organizationId, String nciInstituteCode) {
 		OrganizationQuery query = new OrganizationQuery();
 		query.filterByNciCodeExactMatch(nciInstituteCode);
 		List<Organization> organizations = (List<Organization>) organizationRepository.find(query);
 		
 		if(organizations != null && !organizations.isEmpty()) {
-			if(organizationId == null || StringUtils.isEmpty(organizationId)) {
+			if(organizationId == null) {
 				return true;
 			} else {
 				boolean flag = false;
 				for(Organization organization : organizations) {
-					if(organization.getId().equals(Integer.parseInt(organizationId))) {
+					if(organization.getId().equals(organizationId)) {
 						flag = true;
 					}
 				}
