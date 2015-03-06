@@ -293,6 +293,10 @@ public class StudyParticipantCrf extends BaseVersionable {
                             createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE, armChange, isStartDateOrArmChanged);
                             calendarStartDate = proCtcAECalendar.incrementCalendar().getTime();
                             cycleNumber++;
+                        } else {
+                        	 proCtcAECalendar.setCycleParameters(crfCycle, calendarStartDate, cycleNumber);
+                             calendarStartDate = proCtcAECalendar.incrementCalendar().getTime();
+                             cycleNumber++;
                         }
                     }
                 }
