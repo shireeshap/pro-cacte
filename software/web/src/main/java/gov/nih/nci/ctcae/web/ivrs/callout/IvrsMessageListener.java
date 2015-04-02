@@ -246,7 +246,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     		}
     	}
 		
-    	log.error("IvrsMessageListener blackoutIndicator value: " + blackoutIndicator);
+    	logger.error("IvrsMessageListener blackoutIndicator value: " + blackoutIndicator);
 		return blackoutIndicator;
 	}
 
