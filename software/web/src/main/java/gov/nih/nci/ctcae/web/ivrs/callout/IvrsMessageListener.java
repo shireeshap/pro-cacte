@@ -186,8 +186,9 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 		cal.setTime(ivrsSchedule.getNextCallTime());
 		int scheduled = cal.get(Calendar.DAY_OF_MONTH);
 		
+		logger.error("NextCallTime: " + cal.getTime());
 		logger.error("Today: " + today + " scheduled: " + scheduled);
-		if(scheduled != today || (Math.abs(scheduled - today) > 1)){
+		if(scheduled != today && (Math.abs(scheduled - today) > 1)){
 			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call not originally scheduled for today.");
 			returnBool = true;
 		}
@@ -222,6 +223,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     	logger.error("Vaue of isSame:" + isSameDay);
     	logger.error("Patient time hourOfDay: " + currentTimeInParticipantTimeZone.get(Calendar.HOUR_OF_DAY));
     	logger.error("Patient time minutesOfDay: " + currentTimeInParticipantTimeZone.get(Calendar.MINUTE));
+    	logger.error("Blackout parameters, hhStart: " + hhStart + " hhEnd: " + hhEnd + " mmStart: " + mmStart + " mmEnd:" + mmEnd);
     	
     	//isSameDay == false means timings like 21:00 to 04:59
     	if(!isSameDay){
