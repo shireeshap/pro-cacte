@@ -178,9 +178,17 @@
 	                    	<c:set var="helpLinkCode" value="_home" /> 
 	                    </c:otherwise>
                     </c:choose>
-                    <spring:message var="helpLink" code="${helpLinkCode}" text=""/>
-                    <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
-                       target="_blank"><tags:message code="label.help" /></a>
+                    
+                    <c:choose>
+		        		<c:when test="${pageContext.request.requestURI eq '/proctcae/public/showVideo'}">
+		        			<a href="/proctcae" id="home"><spring:message code='label.home'/></a>
+		        		</c:when>
+		        		<c:otherwise>
+		                    <spring:message var="helpLink" code="${helpLinkCode}" text=""/>
+		                    <a id="help" href="https://wiki.nci.nih.gov/display/PROCTCAEHELP${helpLink}"
+		                       target="_blank"><tags:message code="label.help" /></a>
+		        		</c:otherwise>
+		        	</c:choose>
                 </proctcae:urlAuthorize>
 
                 <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
