@@ -146,14 +146,27 @@ CP.checkParticipantEmail = function() {
 //validation check for password policy
 CP.checkPasswordPolicy = function(siteId) {
     var userPassword = $('participant.password_'+siteId).value;
-    var userName = $('participant.username_'+siteId).value;
+    var userName;
+    if(jQuery('#participant\\.username_'+siteId).length > 0) {
+	    userName = $('participant.username_'+siteId).value;
+    } else {
+    	userName = $('participant.user.username').value;
+    }
     var confirmPassword = $('participant.confirmPassword_'+siteId).value;
     if (confirmPassword != "") {
         CP.checkPasswordMatch(siteId);
     }
     if (userPassword != "") {
-        userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, CP.passReturnValue);
-        return;
+    	var inValid = CP_NS.isSpclCharForPassword('participant.password_'+siteId);
+    	if(inValid) {
+    		$('passwordError_'+siteId).show();
+            document.getElementById('passwordError1_'+siteId).innerHTML = "Use of special character such as '&', '<', '>', ' \" ' is not allowed for password.";
+            CP.isPasswordError = true;
+    	} else {
+    		$('passwordError_'+siteId).hide();
+	        userNameValidation.validatePasswordPolicyDwr("PARTICIPANT", userPassword, userName, CP.passReturnValue);
+	        return;
+    	}
     }
     else {
         jQuery('#passwordError').hide();
@@ -196,8 +209,8 @@ CP.checkPasswordMatch = function(siteId) {
         if (password == confirmPassword) {
             jQuery('#passwordErrorConfirm_'+siteId).hide();
             CP.isConfirmPassError = false;
-        }
-        else {
+        } else {
+        	$('participant.confirmPassword_'+siteId).value = "";
             jQuery('#passwordErrorConfirm_'+siteId).show();
             document.getElementById('passwordErrorConfirm1_'+siteId).innerHTML = "Password does not match confirm password.";
             CP.isConfirmPassError = true;
