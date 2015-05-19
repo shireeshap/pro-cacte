@@ -479,12 +479,10 @@ function resetInputs(propertyName){
    function isSpclChar(fieldName) {
         var iChars = "!@#$^&*+=[]\\\';,./{}|\":<>?";
         var fieldValue = $(fieldName).value;
-//       alert(fieldValue);
         jQuery('#' + fieldName + '.error').hide();
         $(fieldName + '.error').hide();
         for (var i = 0; i < fieldValue.length; i++) {
             if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
-                // alert ("The box has special characters. \nThese are not allowed.\n");
                 jQuery('#' + fieldName + '.error').show();
                 $(fieldName + '.error').show();
                 $(fieldName).value = "";
@@ -495,6 +493,20 @@ function resetInputs(propertyName){
         showSearchButton();
         return false;
     }
+   
+   function isSpclCharForPassword(fieldName) {
+       var iChars = "&><\"";
+       var fieldValue = $(fieldName).value;
+       $(fieldName + '.error').hide();
+       for (var i = 0; i < fieldValue.length; i++) {
+           if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+        	   $(fieldName + '.error').show();
+        	   $(fieldName).value = "";
+               return true;
+           }
+       }
+       return false;
+   }
 
  
 function fadeSearchButton(){

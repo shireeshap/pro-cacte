@@ -361,6 +361,18 @@ CP_NS.isSpclChar = function (fieldName) {
     return false;
 };
 
+CP_NS.isSpclCharForPassword = function (fieldName) {
+	 var iChars = "&><\"";
+     var fieldValue = $(fieldName).value;
+    for (var i = 0; i < fieldValue.length; i++) {
+        if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
+        	$(fieldName).value = "";
+            return true;
+        }
+    }
+    return false;
+}
+
 CP_NS.populateDefaultUserNumber = function (siteId) {
     var pNumber, nonFormattedPNumber, re, uNumber;
     pNumber = $('participant.phoneNumber').value;
