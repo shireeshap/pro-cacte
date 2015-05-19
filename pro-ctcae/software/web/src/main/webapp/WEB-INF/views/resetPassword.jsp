@@ -12,6 +12,17 @@
 
 <html>
 <head>
+	<script type="text/javascript">
+    	jQuery(document).ready(function() {
+	    	jQuery("#password").focus(function() {
+	    		jQuery("#password\\.error").hide();
+	    	});
+	    	
+	    	jQuery("#confirmPassword").focus(function() {
+	    		jQuery("#confirmPassword\\.error").hide();
+	    	});
+    	});
+    </script>
 
 </head>
 <body>
@@ -61,10 +72,18 @@
                                              required="true"/>
                             <tags:renderPassword propertyName="password"
                                                  displayName="user.label.newpass"
-                                                 required="true"/>
+                                                 required="true"
+                                                 onblur="isSpclCharForPassword('password')"/>
+							<div id="password.error" style="display:none;" class="errors">
+								<spring:message code='password.special.character.message' text='password.special.character.message'/>
+							</div>
                             <tags:renderPassword propertyName="confirmPassword"
                                                  displayName="user.label.confirmpass"
-                                                 required="true"/>
+                                                 required="true"
+                                                 onblur="isSpclCharForPassword('confirmPassword')"/>
+							<div id="confirmPassword.error" style="display:none;" class="errors">
+								<spring:message code='password.special.character.message' text='password.special.character.message'/>
+							</div>                                          
                         </td>
                     </tr>
                     <tr>

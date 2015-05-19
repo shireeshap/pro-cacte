@@ -64,6 +64,13 @@
     	      document.loginForm.submit();
     	   }
     	}
+    	
+    	jQuery(document).ready(function() {
+	    	jQuery("#password").focus(function() {
+	    		jQuery("#password\\.error").hide();
+	    	});
+    	});
+    	
     </script>
 </head>
 
@@ -116,7 +123,10 @@
                             <p class="inputs">
                                 <spring:message code="login.password" var="pwd" />
                                 <input style="display: block" class="password" id="fakepassword" name="j_fakepassword" size="30" type="text" value="${pwd}" onfocus="pwdFocus();" autocomplete="off" />
-                                <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur();" autocomplete="off" />
+                                <input style="display: none" class="password" id="password" name="j_password" size="30" type="password" value="" onclick="attachKeyBoard($('password'));" onblur="pwdBlur(); isSpclCharForPassword('password')" autocomplete="off" />
+                                <div id="password.error" style="display:none;" class="errors">
+                                	<spring:message code='password.special.character.message' text='password.special.character.message'/>
+                                </div>
                             </p><br />
                             <div>
                                 <p class="submit">

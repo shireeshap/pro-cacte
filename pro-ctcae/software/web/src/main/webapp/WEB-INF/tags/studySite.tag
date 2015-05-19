@@ -396,6 +396,14 @@
                         
                         	</c:otherwise>
                         </c:choose>
+                        
+                        <script type="text/javascript">
+                        	jQuery(document).ready(function() {
+		                        jQuery("participant\\.confirmPassword_"+${studysite.id}).focus(function() {
+		                    	    jQuery('#passwordErrorConfirm_'+${studysite.id}).hide();
+		                        });
+                        	});
+                        </script>
 
 						<c:choose>
 							<c:when test="${!empty studyParticipantAssignment.homeWebLanguage and studyParticipantAssignment.homeWebLanguage != ''}">
