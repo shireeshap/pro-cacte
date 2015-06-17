@@ -50,20 +50,20 @@
     </style>
     <script type="text/javascript">
  		function checkOrganizationIdentifier() {
-  		var organizationId = "${param['organizationId']}";
-  		if(organizationId == null) {
-  			organizationId = "${createOrganizationCommand.organization.nciInstituteCode}";
-  		}
-  		
-  		var organizationIdentifier = jQuery("#organization\\.nciInstituteCode").val();
-  		jQuery("#organization\\.nciInstituteCode\\.error").hide();
-  		
-		if(organizationIdentifier != '') {
-			uniqueOrgIdValidator.validate(organizationId, organizationIdentifier, validationCallBackHandler);
-			return
-		} else {
-	  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
+	  		var organizationId = "${param['organizationId']}";
+	  		if(organizationId == null) {
+	  			organizationId = "${createOrganizationCommand.organization.nciInstituteCode}";
 	  		}
+	  		
+	  		var organizationIdentifier = jQuery("#organization\\.nciInstituteCode").val();
+	  		jQuery("#organization\\.nciInstituteCode\\.error").hide();
+	  		
+			if(organizationIdentifier != '') {
+				uniqueOrgIdValidator.validate(organizationId, organizationIdentifier, validationCallBackHandler);
+				return
+			} else {
+		  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
+		  		}
   		}
  		
  		function validationCallBackHandler(result){
