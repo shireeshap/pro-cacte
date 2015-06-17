@@ -44,7 +44,7 @@ public class LoginParameterizableViewController extends ParameterizableViewContr
             }
         }
         List<Alert> alerts = alertAjaxFacade.fetchUpcommingAlerts();
-        mv.addObject("alertss", alerts);
+        mv.addObject("alerts", alerts);
         
         String videoUrl = properties.getProperty(HELP_VIDEO_URL_EN);
         if (lang.equals("es"))
