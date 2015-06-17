@@ -1,4 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="gov.nih.nci.ctcae.core.domain.Alert"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="gov.nih.nci.ctcae.web.ControllersUtils" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -6,6 +8,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+
 
 
 <%--
@@ -18,6 +21,14 @@
 <head>
     
     <style type="text/css">
+		.solid-box {
+			border: 4px solid #c03;
+		    color: #c03;
+		    font-size: 11pt;
+		    margin: 15px;
+		    padding: 0 0 0.2em 1em;
+		}
+		
         .box {
             width: 35em;
             margin: 0 auto;
@@ -112,6 +123,24 @@
 		            </c:otherwise>
 		        </c:choose>
 		    </c:if>
+		    <div id="upCommingAlertsDiv">
+		    	<c:if test="${not empty alerts}">
+			    	<div class="solid-box">
+					    <div class="row">
+			            	<div class="label">Attention:</div>
+			            	<br/>
+				    		<div>
+						    	<c:forEach items="${alerts}" var="alert">
+					                <div class="value">
+					                	<span><img src="/proctcae/images/arrow_icon.gif"/></span> ${alert.alertMessage}
+					                </div>
+						    	</c:forEach>
+				    		</div>
+		            	</div>
+			    	</div>
+		    	</c:if>
+		    </div>
+		    
 		    <c:if test="${showLogin}">
 	           <div class="content-box">     
                    <div class="box-container">
