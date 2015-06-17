@@ -2359,6 +2359,8 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/ProCtcDao.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Alert.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AlertStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/AppMode.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/Arm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
@@ -2490,6 +2492,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/Respon
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/SpcrfsWrapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/support/StudyParticipantCrfScheduleRowMapper.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/AlertQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/CrfPageItemQuery.java -text
@@ -2526,6 +2529,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/Abstr
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/ReportParticipantCountQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeWorstResponsesQuery.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomSummaryWorstResponsesQuery.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/AlertRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/FormArmScheduleRepository.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
@@ -2817,6 +2821,14 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermSpani
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateMeddraTermsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/UpdateSpcrfGradesVerbatimController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/AlertAjaxFacade.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/CopySystemAlertController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/CreateSystemAlertCommand.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/CreateSystemAlertController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/FetchSystemAlertBannerController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/SearchAlertController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/SearchAlertDTO.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/alert/SearchAlertWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/FormSubmissionNotifications.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text

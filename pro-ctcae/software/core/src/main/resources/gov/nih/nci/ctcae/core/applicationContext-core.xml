@@ -94,6 +94,7 @@
         <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMappingVersion</value>
         <value>gov.nih.nci.ctcae.core.domain.ProctcaeGradeMapping</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfGrades</value>
+        <value>gov.nih.nci.ctcae.core.domain.Alert</value>
     </util:list>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
@@ -345,6 +346,10 @@
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
         <property name="passwordPolicyService" ref="passwordPolicyService"/>
         <property name="authorizationServiceImpl" ref="authorizationServiceImpl"/>
+    </bean>
+    
+     <bean id="alertRepository" class="gov.nih.nci.ctcae.core.repository.AlertRepository"
+          p:genericRepository-ref="genericRepository">
     </bean>
 
     <bean id="meddraLoaderRepository" class="gov.nih.nci.ctcae.core.repository.MeddraLoaderRepository">

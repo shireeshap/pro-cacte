@@ -123,6 +123,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
 		                          p:displayName="administration.tab.searchOrganization"
 		                          p:linkName="searchOrganizationController"/>
+		                    <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+		                          p:displayName="alert.tab.searchAlert"
+		                          p:linkName="searchAlertController"/>
                         </list>
                     </property>
                 </bean>
@@ -197,6 +200,16 @@
           class="gov.nih.nci.ctcae.web.clinicalStaff.EffectiveStaffController" parent="ctcaeSimpleFormController"
           p:clinicalStaffRepository-ref="clinicalStaffRepository">
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+    </bean>
+    
+     <bean name="/admin/alert/toggleSystemAlertStatus" id="effectiveAlertController"
+          class="gov.nih.nci.ctcae.web.alert.ToggleSystemAlertStatusController" parent="ctcaeSimpleFormController"
+          p:alertRepository-ref="alertRepository">
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+    </bean>
+    
+    <bean name="/admin/alert/copySystemAlert" id="copyAlertController"
+          class="gov.nih.nci.ctcae.web.alert.CopySystemAlertController" p:alertRepository-ref="alertRepository">
     </bean>
 
 
@@ -449,7 +462,13 @@
 	   <property name="studyRepository" ref="studyRepository"/>
 	   <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
-
+    
+    <bean name="/alert/fetchSystemAlertBanner" id="fetchSystemAlertBannerController"
+          class="gov.nih.nci.ctcae.web.alert.FetchSystemAlertBannerController">
+        <property name="alertAjaxFacade" ref="alertAjaxFacade"/>
+        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+    </bean>
+    
      <bean name="/form/fetchCrf" id="fetchCrfController"
           class="gov.nih.nci.ctcae.web.form.FetchCrfController">
         <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
@@ -539,6 +558,16 @@
     <bean name="/admin/searchOrganization" id="searchOrganizationController"
           class="gov.nih.nci.ctcae.web.organization.SearchOrganizationController">
     </bean>
+    <bean name="/admin/searchAlert" id="searchAlertController"
+          class="gov.nih.nci.ctcae.web.alert.SearchAlertController">
+    </bean>
+    
+    <bean name="/admin/createSystemAlert" id="createSystemAlert" 
+    	  class="gov.nih.nci.ctcae.web.alert.CreateSystemAlertController" parent="ctcaeSimpleFormController">
+   		<property name="alertRepository" ref="alertRepository"/>
+    </bean>
+    
+    
     <bean name="/participant/monitorForm" id="monitorFormController"
           class="gov.nih.nci.ctcae.web.participant.MonitorFormController">
     </bean>

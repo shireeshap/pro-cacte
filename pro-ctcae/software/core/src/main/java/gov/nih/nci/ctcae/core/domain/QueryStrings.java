@@ -41,9 +41,11 @@ public enum  QueryStrings implements CodedEnum<String>{
     ORGANIZATION_QUERY_SORTBY_FIELDS("SELECT distinct o from Organization o "),
 	ORGANIZATION_QUERY_FILTER_STUDYSITES("SELECT distinct(o) from Organization o "),
 	
-	SO_QUERY_BASIC("SELECT o from StudyOrganization o order by o.organization.name ");
+	SO_QUERY_BASIC("SELECT o from StudyOrganization o order by o.organization.name "),
 	
-	
+	ALERT_QUERY_BASIC(" SELECT distinct alert from Alert alert order by alert.id "),
+	ALERT_QUERY_COUNT(" SELECT count(distinct alert) from Alert alert "),
+	ALERT_QUERY_SORTBY_FIELDS(" SELECT distinct alert from Alert alert ");
 	
 	private String queryString;
 	
