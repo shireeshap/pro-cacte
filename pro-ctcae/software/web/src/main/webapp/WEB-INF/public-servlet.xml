@@ -49,6 +49,7 @@
             <value>login</value>
         </property>
         <property name="properties" ref="proCtcAeProperties"/>
+        <property name="alertAjaxFacade" ref="alertAjaxFacade"/>
     </bean>
     <bean name="/accessDenied" id="accessDeniedController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
