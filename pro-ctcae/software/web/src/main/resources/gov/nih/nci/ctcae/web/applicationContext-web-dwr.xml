@@ -36,6 +36,11 @@
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="organizationClinicalStaffRepository" ref="organizationClinicalStaffRepository"/>
     </bean>
+    
+    <bean id="alertAjaxFacade"
+          class="gov.nih.nci.ctcae.web.alert.AlertAjaxFacade">
+        <property name="alertRepository" ref="alertRepository"/>
+    </bean>
 
     <bean id="participantAjaxFacade"
           class="gov.nih.nci.ctcae.web.participant.ParticipantAjaxFacade">
