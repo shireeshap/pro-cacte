@@ -1,13 +1,18 @@
 package gov.nih.nci.ctcae.web.login;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.ParameterizableViewController;
-import org.springframework.web.servlet.support.RequestContextUtils;
+import gov.nih.nci.ctcae.core.domain.Alert;
+import gov.nih.nci.ctcae.web.alert.AlertAjaxFacade;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
-import java.util.Properties;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.ParameterizableViewController;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,8 +24,8 @@ import java.util.Properties;
 public class LoginParameterizableViewController extends ParameterizableViewController {
 
     private Properties properties;
-
-    public static final String HELP_VIDEO_URL_EN = "help.video.url.en";
+    private AlertAjaxFacade alertAjaxFacade;
+	public static final String HELP_VIDEO_URL_EN = "help.video.url.en";
     public static final String HELP_VIDEO_URL_ES = "help.video.url.es";
 
     public LoginParameterizableViewController(){
@@ -38,12 +43,15 @@ public class LoginParameterizableViewController extends ParameterizableViewContr
                 lang = "en";
             }
         }
+        List<Alert> alerts = alertAjaxFacade.fetchUpcommingAlerts();
+        mv.addObject("alertss", alerts);
+        
         String videoUrl = properties.getProperty(HELP_VIDEO_URL_EN);
         if (lang.equals("es"))
             videoUrl = properties.getProperty(HELP_VIDEO_URL_ES);
         mv.addObject("videoUrl", videoUrl);
 
-        return mv;    //To change body of overridden methods use File | Settings | File Templates.
+        return mv;
     }
 
     public Properties getProperties() {
@@ -51,6 +59,10 @@ public class LoginParameterizableViewController extends ParameterizableViewContr
     }
 
     public void setProperties(Properties properties) {
-        this.properties = properties;
+    	this.properties = properties;
     }
+
+    public void setAlertAjaxFacade(AlertAjaxFacade alertAjaxFacade) {
+		this.alertAjaxFacade = alertAjaxFacade;
+	}
 }
