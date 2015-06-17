@@ -114,6 +114,10 @@
         <intercept-url pattern="/pages/admin/editOrganization" access="PRIVILEGE_EDIT_ORGANIZATION"/>
         <intercept-url pattern="/pages/admin/searchOrganization" access="PRIVILEGE_EDIT_ORGANIZATION"/>
         
+        <intercept-url pattern="/pages/admin/createSystemAlert" access="PRIVILEGE_CREATE_ALERT"/>
+        <intercept-url pattern="/pages/admin/editAlert" access="PRIVILEGE_EDIT_ALERT"/>
+        <intercept-url pattern="/pages/admin/searchAlert" access="PRIVILEGE_EDIT_ALERT"/>
+        
         <intercept-url pattern="/pages/reports/report" access="PRIVILEGE_STUDY_REPORTS"/>
         <intercept-url pattern="/pages/reports/participantReport" access="PRIVILEGE_PARTICIPANT_REPORTS"/>
         <intercept-url pattern="/pages/reports/*" access="PRIVILEGE_STUDY_REPORTS,PRIVILEGE_PARTICIPANT_REPORTS"/>
