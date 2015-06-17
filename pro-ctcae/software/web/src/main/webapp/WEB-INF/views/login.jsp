@@ -25,8 +25,22 @@
 			border: 4px solid #c03;
 		    color: #c03;
 		    font-size: 11pt;
-		    margin: 15px;
+		    margin: 0px 120px 12px 120px;
 		    padding: 0 0 0.2em 1em;
+		}
+		
+		.alert-heading {
+			float: left;
+		    font-weight: bold;
+		    margin-left: 0;
+		    text-align: left;
+		    width: 10em;
+		}
+		
+		.alert-message {
+			font-weight: normal;
+   			margin-left: 4em;
+   			text-align: left;
 		}
 		
         .box {
@@ -127,11 +141,11 @@
 		    	<c:if test="${not empty alerts}">
 			    	<div class="solid-box">
 					    <div class="row">
-			            	<div class="label">Attention:</div>
+			            	<div class="alert-heading">Attention:</div>
 			            	<br/>
 				    		<div>
 						    	<c:forEach items="${alerts}" var="alert">
-					                <div class="value">
+					                <div class="alert-message">
 					                	<span><img src="/proctcae/images/arrow_icon.gif"/></span> ${alert.alertMessage}
 					                </div>
 						    	</c:forEach>
