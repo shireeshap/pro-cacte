@@ -3224,6 +3224,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/version.properties -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views.xml -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/accountLocked.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/alert/createSystemAlert.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/clinicalStaff/effectiveStaff.jsp -text
