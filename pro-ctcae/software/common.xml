@@ -118,14 +118,13 @@
         <isfalse value="${run.review.reports}"/>
     </condition>
 
-    <!--Check for JDK version, we need to make sure that JDK 1.5 we use -->
-    <condition property="isJDK1.5">
+    <!--Check for JDK version, we need to make sure that JDK 1.7 we use -->
+    <condition property="isJDK1.7">
         <or>
-            <equals arg1="${ant.java.version}" arg2="1.5"/>
-            <equals arg1="${ant.java.version}" arg2="1.6"/>
+            <equals arg1="${ant.java.version}" arg2="1.7"/>
         </or>
     </condition>
-    <fail message="JDK 1.5 is currently required to build this project!" unless="isJDK1.5"/>
+    <fail message="JDK 1.7 is currently required to build this project!" unless="isJDK1.7"/>
 
     <!-- This path will contain all the libraries required to compile
               the main application -->
@@ -304,8 +303,8 @@
              </fileset>
         </copy>
 
-        <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5"
-               target="1.5">
+        <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" 
+        	source="1.7" target="1.7" encoding="UTF-8">
         </javac>
     </target>
 
@@ -317,7 +316,7 @@
         <echo message="Executing in ${ant.project.name}"/>
         <copy-resources src="${test.src.resources}" dest="${test.classes.dir}" filter="false"/>
         <javac srcdir="${test.src}" destdir="${test.classes.dir}" classpathref="test.classpath"
-               debug="true" source="1.5" target="1.5"/>
+               debug="true" source="1.7" target="1.7" encoding="UTF-8"/>
         <property name="no.compile-test" value="true"/>
     </target>
 
