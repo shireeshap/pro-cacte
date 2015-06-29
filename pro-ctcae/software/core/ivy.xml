@@ -137,11 +137,11 @@
         <dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
         <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
         <dependency org="opensymphony" name="quartz-all" rev="1.6.0"/>
-        <dependency org="net.sourceforge.cobertura" name="cobertura" rev="1.9.2" conf="test->default(*)"/>
+        <dependency org="net.sourceforge.cobertura" name="cobertura" rev="2.0.3" force="true" conf="test->default(*)"/>
         <dependency org="asm" name="asm" rev="3.0" conf="test->default(*)"/>
         <dependency org="asm" name="asm-tree" rev="3.0" conf="test->default(*)"/>
         <dependency org="oro" name="oro" rev="2.0.8" conf="test->default(*)"/>
-        <dependency org="ant" name="ant" rev="1.6.5" conf="test->master(*)"/>
+        <dependency org="org.apache.ant" name="ant" rev="1.9.2" force="true" conf="test->master(*)"/>
         <dependency org="log4j" name="log4j" rev="1.2.13" conf="test->default(*)"/>
 
     </dependencies>
