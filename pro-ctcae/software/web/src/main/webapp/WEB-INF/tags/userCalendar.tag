@@ -82,41 +82,41 @@
                                     <c:set var="currentSchedule" value="${schedule}"/>
                                 </c:if>
                             </c:forEach>
-                            <c:set var="class" value="blue"/>
-                            <c:set var="break" value="false"/>
+                            <c:set var="cssClass" value="blue"/>
+                            <c:set var="onBreak" value="false"/>
                             <c:set var="inprog" value="false"/>
                             <c:set var="sched" value="false"/>
                             <c:set var="onhold" value="false"/>
                             <c:forEach items="${currentSchedule.value}" var="sch">
-                                <c:if test="${break eq false}">
+                                <c:if test="${onBreak eq false}">
                                     <c:if test="${sch.status.displayName eq 'Past-due'}">
-                                        <c:set var="class" value="red"/>
-                                        <c:set var="break" value="true"/>
+                                        <c:set var="cssClass" value="red"/>
+                                        <c:set var="onBreak" value="true"/>
                                     </c:if>
                                     <c:if test="${sched eq false}">
                                         <c:if test="${inprog eq false}">
                                             <c:if test="${sch.status.displayName eq 'Completed'}">
-                                                <c:set var="class" value="green"/>
+                                                <c:set var="cssClass" value="green"/>
                                             </c:if>
                                             <c:if test="${sch.status.displayName eq 'In-progress'}">
-                                                <c:set var="class" value="orange"/>
+                                                <c:set var="cssClass" value="orange"/>
                                                 <c:set var="inprog" value="true"/>
                                             </c:if>
                                         </c:if>
                                         <c:if test="${sch.status.displayName eq 'Scheduled'}">
-                                            <c:set var="class" value="blue"/>
+                                            <c:set var="cssClass" value="blue"/>
                                             <c:set var="sched" value="true"/>
                                         </c:if>
                                     </c:if>
                                     <c:if test="${sch.status.displayName eq 'On-hold' && sched eq false && inprog eq false}">
-                                        <c:set var="class" value="yellow"/>
+                                        <c:set var="cssClass" value="yellow"/>
                                     </c:if>
                                 </c:if>
 
                             </c:forEach>
                             <c:choose>
                                 <c:when test="${hasSchedules eq true}">
-                                    <div id="schedule_${day}" class="${class}" style="text-align:center;" title="">
+                                    <div id="schedule_${day}" class="${cssClass}" style="text-align:center;" title="">
                                      <div style="float:right;"><a
                                             class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                                             id="scheduleActions${day}"
