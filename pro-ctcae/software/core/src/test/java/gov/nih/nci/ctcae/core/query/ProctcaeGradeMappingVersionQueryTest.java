@@ -15,7 +15,7 @@ public class ProctcaeGradeMappingVersionQueryTest extends TestCase{
 	public void testFilterByVersion(){
 		ProctcaeGradeMappingVersionQuery query = new ProctcaeGradeMappingVersionQuery();
 		query.filterByDefaultVersion();
-		assertEquals(query.getQueryString(), "select gmv from ProctcaeGradeMappingVersion gmv WHERE gmv.version = :version");
+		assertEquals("select gmv from ProctcaeGradeMappingVersion gmv WHERE lower(gmv.version) = :version", query.getQueryString());
 		assertEquals(query.getParameterMap().get(VERSION), VERSION_NUMBER);
 	}
 }
