@@ -1,5 +1,15 @@
 package gov.nih.nci.ctcae.web;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.isNull;
+import static org.easymock.EasyMock.reportMatcher;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+
 import org.easymock.IArgumentMatcher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
@@ -10,12 +20,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import java.io.IOException;
-
-import static org.easymock.EasyMock.*;
 
 /**
  * @author Vinay Kumar
@@ -92,6 +96,7 @@ public class OpenSessionInViewInterceptorFilterTest extends WebTestCase {
 	private void doFilter() throws IOException, ServletException {
 		replayMocks();
 		filter.doFilter(request, response, filterChain);
+		interceptor.setFlushMode(0);
 		verifyMocks();
 	}
 
