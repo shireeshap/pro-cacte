@@ -37,12 +37,18 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("participant/participantInbox?lang=en", ((RedirectView) mv.getView()).getUrl());
     }
 
-    public void testAdminLogin() throws Exception {
+    public void testAdminLogin_shouldFail() throws Exception {
         login(SYSTEM_ADMIN);
         LoginController controller = new LoginController();
+        controller.setUserRepository(userRepository);
+        ModelAndView mv = null;
         
-        ModelAndView mv = controller.handleRequestInternal(request, response);
-        assertEquals("home", mv.getViewName());
+        try {
+        	mv = controller.handleRequestInternal(request, response);
+        	
+        } catch(Exception e) {
+        	assertEquals("User must be one of these - Clinical Staff, Participant, Admin - system_admin", e.getMessage());
+        }
     }
 
     /**
