@@ -1,8 +1,11 @@
 package gov.nih.nci.ctcae.web.login;
 
 import static org.easymock.EasyMock.expect;
+import gov.nih.nci.ctcae.core.domain.Alert;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
+import gov.nih.nci.ctcae.web.alert.AlertAjaxFacade;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -12,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class LoginParameterizableViewControllerTest extends AbstractWebIntegrationTestCase{
 	LoginParameterizableViewController controller;
+	AlertAjaxFacade alertAjaxFacade;
 	Properties properties;
 	private static final String LANGUAGE = "lang";
 	private static final String VIDEO_URL = "videoUrl";
@@ -24,12 +28,15 @@ public class LoginParameterizableViewControllerTest extends AbstractWebIntegrati
 		controller = new LoginParameterizableViewController();
 		properties = registerMockFor(Properties.class);
 		controller.setProperties(properties);
+		alertAjaxFacade = registerMockFor(AlertAjaxFacade.class);
+		controller.setAlertAjaxFacade(alertAjaxFacade);
 	}
 	
 	public void testHandleRequestInternal_en() throws Exception{
 		ModelAndView modelAndView;
 		request.setParameter(LANGUAGE, ENGLISH);
 		expect(properties.getProperty(controller.HELP_VIDEO_URL_EN)).andReturn(controller.HELP_VIDEO_URL_EN);
+		expect(alertAjaxFacade.fetchUpcommingAlerts()).andReturn(new ArrayList<Alert>()).anyTimes();
 		
 		replayMocks();
 		modelAndView = controller.handleRequestInternal(request, response);
@@ -43,6 +50,7 @@ public class LoginParameterizableViewControllerTest extends AbstractWebIntegrati
 		request.setParameter(LANGUAGE, SPANISH);
 		expect(properties.getProperty(controller.HELP_VIDEO_URL_EN)).andReturn(controller.HELP_VIDEO_URL_EN);
 		expect(properties.getProperty(controller.HELP_VIDEO_URL_ES)).andReturn(controller.HELP_VIDEO_URL_ES);
+		expect(alertAjaxFacade.fetchUpcommingAlerts()).andReturn(new ArrayList<Alert>()).anyTimes();
 		
 		replayMocks();
 		modelAndView = controller.handleRequestInternal(request, response);
