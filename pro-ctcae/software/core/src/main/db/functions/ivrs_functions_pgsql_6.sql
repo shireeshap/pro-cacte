@@ -1078,13 +1078,13 @@ DECLARE
 	v_ret_second_count integer :=0;
 	v_set_count integer :=0;
     -- select all the inprogress and completed forms for the user
-	curs_inprogress_forms CURSOR(user_id integer) IS
+	curs_inprogress_forms CURSOR(userIdentifier integer) IS
 	SELECT spcs.id
 	FROM sp_crf_schedules spcs
 	JOIN study_participant_crfs spc ON  spcs.study_participant_crf_id=spc.id
 	JOIN study_participant_assignments sp ON spc.study_participant_id = sp.id
 	JOIN participants p ON sp.participant_id = p.id
-	WHERE (spcs.status= 'INPROGRESS' OR spcs.status = 'COMPLETED') AND p.user_id=user_id ORDER BY spcs.id;
+	WHERE (spcs.status= 'INPROGRESS' OR spcs.status = 'COMPLETED') AND p.user_id=userIdentifier ORDER BY spcs.id;
 
 BEGIN
     -- get the gender for the user
