@@ -6,7 +6,7 @@
 <%@ attribute name="displayOrder" type="java.lang.String" required="false" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="class" value="norm"/>
+<c:set var="cssClass" value="norm"/>
 <c:set var="onmouseout" value="onmouseout=\"javascript:this.className='norm';\""/>
 <c:if test="${validValueId eq selectedId}">
     <c:set var="checked" value='checked="true"'/>
