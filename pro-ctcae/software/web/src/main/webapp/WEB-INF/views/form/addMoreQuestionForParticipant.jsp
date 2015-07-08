@@ -232,6 +232,23 @@
 	    }
     </c:if>
     
+    YAHOO.util.Event.addListener(window, "load", function() {
+    	var keyPress = {
+    			13: "input:text",
+    			end: null
+    	};
+    	
+    	jQuery(document).bind("keydown", function(e){
+    		var selector = keyPress[e.which];
+    		
+    		if(selector !== undefined && jQuery(e.target).is(selector)){
+    			addNewSymptom($('participantSymptomInput').value);
+    			return false;
+    		}
+    		return true;
+    	});
+    });
+    
     var nextColumnIndex = 0;
     var tdCount = 0;
     function addNewSymptom(selectedChoice) {
