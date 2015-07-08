@@ -118,14 +118,6 @@
         <isfalse value="${run.review.reports}"/>
     </condition>
 
-    <!--Check for JDK version, we need to make sure that JDK 1.7 we use -->
-    <condition property="isJDK1.7">
-        <or>
-            <equals arg1="${ant.java.version}" arg2="1.7"/>
-        </or>
-    </condition>
-    <fail message="JDK 1.7 is currently required to build this project!" unless="isJDK1.7"/>
-
     <!-- This path will contain all the libraries required to compile
               the main application -->
     <path id="main.classpath">
