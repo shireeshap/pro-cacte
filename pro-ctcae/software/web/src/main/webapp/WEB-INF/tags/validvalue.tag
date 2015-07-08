@@ -10,10 +10,10 @@
 <c:set var="onmouseout" value="onmouseout=\"javascript:this.className='norm';\""/>
 <c:if test="${validValueId eq selectedId}">
     <c:set var="checked" value='checked="true"'/>
-    <c:set var="class" value="selected"/>
+    <c:set var="cssClass" value="selected"/>
     <c:set var="onmouseout" value=""/>
 </c:if>
-<td class="${class}"
+<td class="${cssClass}"
     onmouseover="javascript:this.className = getClassName('${validValueIndexForQuestion}_column_${questionIndexOnPage}_rad', 'selected' , 'over');"  ${onmouseout}
     onclick="selectValidValue(this,'${displayOrder}','${questionIndexOnPage}','${validValueIndexForQuestion}','${title}')"
     id="${validValueIndexForQuestion}_column_${questionIndexOnPage}" >
