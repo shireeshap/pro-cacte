@@ -31,9 +31,11 @@
             </c:if>
         }
         
-        function dateRangeCheck(){
+        function dateRangeCheck() {
         	 var stDateString = $('startDate').value;
              var endDateString = $('endDate').value;
+             var stDate;
+             var endDate;
              try {
 	             stDate = new Date(stDateString);
 	             endDate = new Date(endDateString);

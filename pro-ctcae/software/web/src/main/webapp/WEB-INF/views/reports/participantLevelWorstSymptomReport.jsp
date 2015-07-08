@@ -31,17 +31,19 @@
             </c:if>
         }
         
-        function dateRangeCheck(){
-       	 var stDateString = $('startDate').value;
+        function dateRangeCheck() {
+       	 	var stDateString = $('startDate').value;
             var endDateString = $('endDate').value;
+            var stDate;
+            var endDate;
             try {
-	             stDate = new Date(stDateString);
-	             endDate = new Date(endDateString);
+	            stDate = new Date(stDateString);
+	            endDate = new Date(endDateString);
             } catch(ex) {
-           	 return true;
+       	 		return true;
             }
             if(endDate.getTime() < stDate.getTime()){
-           	 return true;
+       	 		return true;
             }
             return false;
        }
