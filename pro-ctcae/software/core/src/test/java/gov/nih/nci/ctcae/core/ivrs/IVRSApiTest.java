@@ -61,7 +61,6 @@ public class IVRSApiTest extends TestDataManager{
     }
     
     private void deleteIVRSTestData() {
-        //delete existing participant
     	System.out.println("Starting deleteIVRSTestData");
         ParticipantQuery pq = new ParticipantQuery(false);
         pq.filterByUsername("ivrs.participant");
@@ -76,7 +75,6 @@ public class IVRSApiTest extends TestDataManager{
     }
     
     public void testIVRSApi(){
-//        saveIVRSParticipant();
         ParticipantQuery pq = new ParticipantQuery(true);
         pq.filterByUsername("ivrs.participant");
         participant = genericRepository.findSingle(pq);
