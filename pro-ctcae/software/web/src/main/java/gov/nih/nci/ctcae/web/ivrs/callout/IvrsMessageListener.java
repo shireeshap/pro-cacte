@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.repository.IvrsScheduleRepository;
+import gov.nih.nci.ctcae.web.ivrs.callout.CallAction;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -88,14 +89,16 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 			DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
 	        DataAuditInfo.setLocal(auditInfo);
 			
-	        logger.debug("*****NEW CALL STARTING****for user-->*" + callAction.getOriginateAction().getChannel());
+	        logger.error("*****NEW CALL STARTING****for user-->*" + callAction.getOriginateAction().getChannel());
+	        logger.error("Placing call for schedule Id: " + callAction.getIvrsScheduleId());
+	        
 			OriginateAction originateAction = callAction.getOriginateAction();
 			originateAction.setAsync(false);
 			//CallerId is mandatory for VOIP
 			originateAction.setCallerId(callerId);
 
 			final AsteriskChannel channel = defaultAsteriskServer.originate(originateAction);
-			logger.debug("*****channel created-->> " + channel);
+			logger.error("*****channel created-->> " + channel);
 			if(channel != null){
 				logger.debug("*****Channel hangup cause-->>>"+ channel.getHangupCauseText());
 				if(channel.wasInState(ChannelState.UP)){
@@ -123,7 +126,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 				logger.error("The channel returned by the Server was null.");
 				markScheduleAsFailed(ivrsSchedule);
 			}
-			logger.debug("*****CALL OVER*****" +  callAction.getOriginateAction().getChannel());
+			logger.error("*****CALL OVER*****" +  callAction.getOriginateAction().getChannel());
 		} catch (JMSException e) {
 			if(ivrsSchedule != null){
 				markScheduleAsFailed(ivrsSchedule);
@@ -182,7 +185,8 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
 		
 		cal.setTime(ivrsSchedule.getNextCallTime());
 		int scheduled = cal.get(Calendar.DAY_OF_MONTH);
-		if(scheduled != today){
+		
+		if(scheduled != today && (Math.abs(scheduled - today) > 1)){
 			logger.error("Aborting call for ivrsSchedule.id="+ ivrsSchedule.getId() + ". Reason: Call not originally scheduled for today.");
 			returnBool = true;
 		}
@@ -243,6 +247,7 @@ public class IvrsMessageListener implements MessageListener, ApplicationContextA
     		}
     	}
 		
+    	logger.error("IvrsMessageListener blackoutIndicator value: " + blackoutIndicator);
 		return blackoutIndicator;
 	}
 
