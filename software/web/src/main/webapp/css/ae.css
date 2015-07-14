@@ -1,0 +1,44 @@
+/* TODO: some of these may be moved up to common */
+div.row div.label {
+    width: 9em;
+}
+
+div.row div.value, div.row div.extra {
+    margin-left: 11em;
+}
+
+div.row div.extra {
+    padding-top: 0.3em;
+}
+
+.main-fields {
+    float: left;
+    width: 30em;
+    margin-bottom: 0.5em;
+}
+
+.ctc-details {
+    padding-right: 1.2em;
+    width: 45em;
+}
+
+/* summary panel */
+div.row div.summarylabel {
+    font-weight: bold;
+    float: left;
+    margin-left: 0.3em;
+    text-align: right;
+    width: 5em;
+}
+
+/* TODO : In case if summary other than AE is to be displayed using this,
+* we need to move this up to common location.
+*/
+div.row div.summaryvalue {
+    font-weight: normal;
+    margin-left: 6em;
+}
+
+input[type="button"].ae-list-editor-button {
+    background-color: #ed6003;
+}
