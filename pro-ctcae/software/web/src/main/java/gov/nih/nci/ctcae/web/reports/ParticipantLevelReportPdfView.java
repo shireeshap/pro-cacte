@@ -53,13 +53,14 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
         document.add(new Paragraph("Study: " + study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]"));
 
         //CRF can be null when no form is selected i.e. report is formless. In that case don't show the title
-        if(crf != null) {
-        	document.add(new Paragraph("Form: " + crf.getTitle()));
+        if (crf != null) {
+            document.add(new Paragraph("Form: " + crf.getTitle()));
         }
 
         //Study Site
-        document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
-
+        if (studySite != null) {
+            document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
+        }
         //Participant
         document.add(new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
 
@@ -119,8 +120,8 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
                     Object[] validValuesArr = validValues.toArray();
                     for (int k = 0; k < numOfColsInCurrentTable; k++) {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
-                        if (validValuesArr.length > absIndex && validValuesArr[absIndex]!=null) {
-                            table.addCell(((ValidValue)validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
+                        if (validValuesArr.length > absIndex && validValuesArr[absIndex] != null) {
+                            table.addCell(((ValidValue) validValuesArr[absIndex]).getValue(SupportedLanguageEnum.ENGLISH));
                         } else {
                             table.addCell("");
                         }

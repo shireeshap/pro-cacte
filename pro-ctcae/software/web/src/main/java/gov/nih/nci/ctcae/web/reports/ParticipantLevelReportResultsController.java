@@ -55,6 +55,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
         List<String> dates = new ArrayList<String>();
 
+
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
         TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results = getCareResults(dates, filteredSchedules, request);
         Map<String, TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>>> bundledResultMap = formatPageDataForDisplay(results, dates);
@@ -319,7 +320,8 @@ public class ParticipantLevelReportResultsController extends AbstractController 
     private StudyParticipantCrfScheduleQuery parseRequestParametersAndFormQuery(HttpServletRequest request, ModelAndView modelAndView) throws ParseException {
         StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
         Integer studyId = Integer.parseInt(request.getParameter("studyId"));
-        Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
+        String studyParam = request.getParameter("studySiteId");
+        Integer studySiteId = StringUtils.isNotBlank(studyParam) && StringUtils.isNumeric(studyParam) ? Integer.parseInt(studyParam): null;
         Integer participantId = Integer.parseInt(request.getParameter("participantId"));
         String visitRange = request.getParameter("visitRange");
 
@@ -348,7 +350,9 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         }
         query.filterByStudy(studyId);
         query.filterByParticipant(participantId);
-        query.filterByStudySite(studySiteId);
+        if(studySiteId != null) {
+            query.filterByStudySite(studySiteId);
+        }
         if ("dateRange".equals(visitRange)) {
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
@@ -360,6 +364,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         modelAndView.addObject("participant", participant);
         request.getSession().setAttribute("participant", participant);
         request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
+
         request.getSession().setAttribute("studySite", genericRepository.findById(StudySite.class, studySiteId));
 
         return query;

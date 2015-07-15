@@ -26,7 +26,7 @@
     <script type="text/javascript">
         displayParticipants = true;
         displaySymptom = false;
-        studySiteMandatory = true;
+        studySiteMandatory = false;
         window.onload = function() {
             initializeFields();
         }
@@ -326,10 +326,10 @@
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <div class="row">
                 <div class="label">
-                    <tags:requiredIndicator/><tags:message code='reports.label.site'/>
+                    <tags:message code='reports.label.site'/>
                 </div>
                 <div class="value">
-                    <input id="studySite" class="validate-NOTEMPTY" type="hidden" value="" title="Study site"
+                    <input id="studySite"  type="hidden" value="" title="Study site"
                            style="display:none;" name="studySite"/>
                     <tags:yuiAutocompleter inputName="studySiteInput" value="" required="false"
                                            hiddenInputName="studySite"/>
@@ -341,7 +341,7 @@
             <input id="studySite" name="studySite" type="hidden">
 
             <div class="row">
-                <div class="label"><tags:requiredIndicator/><tags:message code='reports.label.site'/></div>
+                <div class="label"><tags:message code='reports.label.site'/></div>
                 <div id="studySiteName" class="value"></div>
             </div>
         </div>
