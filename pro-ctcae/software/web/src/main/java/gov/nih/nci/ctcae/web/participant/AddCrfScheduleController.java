@@ -1,10 +1,25 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
+import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.service.ParticipantScheduleService;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -166,20 +181,21 @@ public class AddCrfScheduleController extends AbstractController {
                         }
                     }
                 } else {
-                		for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                			if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
+	            		for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+	            			if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.ONHOLD)) {
 							/* PKRC-1876: Survey cancellation criterion should be based on the due date and not on the start
 							 * date of the survey (similar change in ParticipantOffHoldController.java) 
 							 */
-                				if (studyParticipantCrfSchedule.getDueDate().getTime() >= DateUtils.parseDate(offHoldDate).getTime()) {
-                					studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
-                					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
-                				} else {
-                					studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
-                					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
-                				}
-                			}
-                		}
+	            				Date dateInParticipantTimeZone = DateUtils.getDateInTimeZone(DateUtils.parseDate(offHoldDate), studyParticipantAssignment.getCallTimeZone());
+	            				if (studyParticipantCrfSchedule.getDueDate().getTime() >= dateInParticipantTimeZone.getTime()) {
+	            					studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
+	            					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
+	            				} else {
+	            					studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+	            					studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.CANCELLED);
+	            				}
+	            			}
+	            		}
                   }
             }
             studyParticipantAssignment.setOnHoldTreatmentDate(null);

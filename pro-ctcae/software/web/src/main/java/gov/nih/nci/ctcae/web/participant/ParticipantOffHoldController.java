@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.IvrsCallStatus;
-import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
@@ -22,7 +21,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -211,7 +209,8 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
                     	/* PKRC-1876: Survey cancellation criterion should be based on the due date and not on the start
 						* date of the survey (similar change in AddCrfScheduleController.java) 
 						*/
-                        if (studyParticipantCrfSchedule.getDueDate().getTime() >= offHoldDate.getTime()) {
+        				Date dateInParticipantTimeZone = DateUtils.getDateInTimeZone(offHoldDate, studyParticipantAssignment.getCallTimeZone());
+                        if (studyParticipantCrfSchedule.getDueDate().getTime() >= dateInParticipantTimeZone.getTime()) {
                             studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
                             studyParticipantCrfSchedule.updateIvrsSchedulesStatus(IvrsCallStatus.PENDING);
                         } else {

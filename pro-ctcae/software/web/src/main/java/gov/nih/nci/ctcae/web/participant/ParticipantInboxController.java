@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
@@ -13,6 +14,7 @@ import gov.nih.nci.ctcae.web.form.FormSubmissionHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,7 +65,11 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     	String action = (String) request.getParameter("action");
     	if(!StringUtils.isEmpty(action) && GET_NEXT_AVAILABLE_SURVEY.equals(action)){
     		Participant command = (Participant) getCommand(request);
-    		Integer id = FormSubmissionHelper.getNextAvailableSurvey(command.getSortedStudyParticipantCrfSchedules());
+    		
+    		String timeZoneId = (command.getStudyParticipantAssignments() != null? 
+    				command.getStudyParticipantAssignments().get(0).getCallTimeZone() : "");
+    		Integer id = FormSubmissionHelper.getNextAvailableSurvey(command.getSortedStudyParticipantCrfSchedules(), timeZoneId);
+    		
     		if(id != null){
     			request.getSession().setAttribute("id", id);
     			modelAndView = new ModelAndView(new RedirectView("../form/submit"));
@@ -74,7 +80,13 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     	if(isSessionForm()){
     		setSessionForm(false);
     	}
-    	modelAndView.addObject("command", getCommand(request));
+    	
+    	Participant command = (Participant) getCommand(request);
+		String timeZoneId = (command.getStudyParticipantAssignments() != null? 
+				command.getStudyParticipantAssignments().get(0).getCallTimeZone() : "");
+		
+		modelAndView.addObject("today", DateUtils.getDateInTimeZone(new Date(), timeZoneId));
+    	modelAndView.addObject("command", command);
     	return modelAndView; 
     }
     

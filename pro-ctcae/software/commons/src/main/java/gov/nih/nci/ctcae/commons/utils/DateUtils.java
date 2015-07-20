@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -20,6 +21,7 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     protected static DateFormat dashedDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     protected static final Log logger = LogFactory.getLog(DateUtils.class);
+    private static final String DEFAULT_TIMEZONE_ID = "America/New_York";
 
     public static Date parseDate(String dateString) throws ParseException {
         return dateFormat.parse(dateString.trim());
@@ -145,10 +147,15 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     	return tmrw.getTime();
     }
     
-    public static Date getDateInTimeZone(Date currentDate, String timeZoneId)
-    {
-	    TimeZone tz = TimeZone.getTimeZone(timeZoneId);
-	    Calendar mbCal = new GregorianCalendar(TimeZone.getTimeZone(timeZoneId));
+    public static Date getDateInTimeZone(Date currentDate, String timeZoneId) {
+    	TimeZone tz;
+
+    	if(StringUtils.isEmpty(timeZoneId)) {
+    		tz = TimeZone.getTimeZone(DEFAULT_TIMEZONE_ID);
+    	} else {
+    		tz = TimeZone.getTimeZone(timeZoneId);
+    	}
+	    Calendar mbCal = new GregorianCalendar(tz);
 	    mbCal.setTimeInMillis(currentDate.getTime());
 	
 	    Calendar cal = Calendar.getInstance();
@@ -158,7 +165,7 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 	    cal.set(Calendar.HOUR_OF_DAY, mbCal.get(Calendar.HOUR_OF_DAY));
 	    cal.set(Calendar.MINUTE, mbCal.get(Calendar.MINUTE));
 	    cal.set(Calendar.SECOND, mbCal.get(Calendar.SECOND));
-	    cal.set(Calendar.MILLISECOND, mbCal.get(Calendar.MILLISECOND));
+	    cal.set(Calendar.MILLISECOND, mbCal.get(Calendar.MILLISECOND)) ;
 	
 	    return cal.getTime();
     }

@@ -168,7 +168,8 @@
 
 </head>
 <body>
-<c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/>
+<%-- <c:set var="todaysdate" value="<%= ProCtcAECalendar.getCalendarForDate(new Date()).getTime()%>"/> --%>
+<c:set var="todaysdate" value="${today}"/>
 <c:set var="missedFormsAvailable" value="false"/>
 <%
     Calendar calendar = new java.util.GregorianCalendar();
@@ -187,7 +188,8 @@
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
             <c:set scope="page" var="remainingDays"
                    value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
-            <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
+            <c:if test="${(studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && 
+            			   studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -200,7 +202,8 @@
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
             <c:set scope="page" var="remainingDays"
                    value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
-            <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate > todaysdate && remainingDays ge 0)}">
+            <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') &&
+            			  (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate > todaysdate && remainingDays ge 0)}">
                 <c:set var="futureNumberofCrfs" scope="page" value="${futureNumberofCrfs + 1}"/>
                 <c:if test="${futureNumberofCrfs == 1}">
                     <c:set var="futureSurveyAvailableDate" scope="page"
@@ -306,7 +309,8 @@
 		                        <c:set scope="page" var="remainingDays"
 		                               value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
 		                        <%--<c:if test="${studyParticipantCrfSchedule.status.displayName eq 'In-progress' || (studyParticipantCrfSchedule.status.displayName eq 'Scheduled' && studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">--%>
-		                        <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
+		                        <c:if test="${(studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && 
+		                        			   studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
 		                            <tr>
 		                                <td>
 		                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
@@ -319,7 +323,6 @@
 		                                       <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
 		                                   </td> --%>
 		                                <td>
-		
 		
 		                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time eq todaysdate.time)}">
 		                                        <tags:message code="participant.today"/>
@@ -335,6 +338,7 @@
 		                                            <tags:message code="participant.days"/>
 		                                        </c:if>
 		                                    </c:if>
+		                                    
 		                                    <c:set var="expiredFlag" value="true"/>
 		                                    <c:if test="${(studyParticipantCrfSchedule.dueDate.time lt todaysdate.time)}">
 		                                        <c:set var="expiredFlag" value="false"/>

@@ -225,7 +225,9 @@ public class ParticipantSchedule {
                             }
                             studyParticipantCrfSchedule.setDueDate(dueDateNew);
 
-                            if (today.after(dueDateNew) && !today.equals(dueDateNew)) {
+                            Date dateInParticipantTimeZone = DateUtils.getDateInTimeZone(today, spa.getCallTimeZone());
+
+                            if (dateInParticipantTimeZone.after(dueDateNew) && !dateInParticipantTimeZone.equals(dueDateNew)) {
                                 studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                             }
                             

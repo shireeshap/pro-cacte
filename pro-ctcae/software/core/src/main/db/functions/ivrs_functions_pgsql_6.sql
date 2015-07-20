@@ -74,9 +74,12 @@ $x$ LANGUAGE plpgsql;
 --Input parameters: userid: user id and formNum
 --Return value: formid: >0 is valid scheduled form id(sp_crf_schedules), -2 for invalid form id and -1 for any other DB issues
 
-CREATE OR REPLACE FUNCTION Ivrs_GetForm(userid integer,formNum integer) RETURNS integer AS $x$
+CREATE OR REPLACE FUNCTION Ivrs_GetForm(userId integer,formNum integer) RETURNS integer AS $x$
 DECLARE
     v_form_id integer :=0;
+    v_date_in_participant_timezone timestamp;
+    v_participant_timezone text;
+
 BEGIN
 
 	--SELECT spcs.id INTO v_form_id
@@ -88,14 +91,19 @@ BEGIN
 	--and p.user_id=userid
 	--order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 	  -- RK bug 1080
+	  
+    SELECT getParticipantTimeZone(userId) into v_participant_timezone;
+    
+    select getDateInParticipantTimeZone(v_participant_timezone) into v_date_in_participant_timezone;
+    
     SELECT spcs.id INTO v_form_id
 	from sp_crf_schedules spcs
 	JOIN study_participant_crfs spc ON spcs.study_participant_crf_id=spc.id
 	JOIN crfs c ON c.id=spc.crf_id
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
-	where spcs.start_date <=current_date  AND spcs.due_date >= current_date and (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS')
-	and p.user_id=userid and c.is_hidden='FALSE' and c.is_eq5d='FALSE'
+	where spcs.start_date <= v_date_in_participant_timezone  AND spcs.due_date >= v_date_in_participant_timezone and 
+	      p.user_id=userId and c.is_hidden='FALSE' and c.is_eq5d='FALSE'
 	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
 	IF NOT FOUND THEN
@@ -714,7 +722,11 @@ BEGIN
 		INSERT INTO sp_crf_schedule_notif(id, spc_schedule_id, status, creation_date)
 		VALUES (nextval('sp_crf_schedule_notif_id_seq'),formid,'SCHEDULED',now());
 
-		UPDATE sp_crf_schedules set status='COMPLETED',form_submission_mode='IVRS',form_completion_date=now(), version = version + 1 where id=formid and Status ='INPROGRESS';
+		UPDATE sp_crf_schedules set status='COMPLETED',
+								form_submission_mode='IVRS',
+								form_completion_date=now(), 
+								version = version + 1 
+		where id=formid and  (Status ='INPROGRESS' or Status ='PASTDUE');
 
 		IF found then
 			return 1;
@@ -1212,7 +1224,7 @@ CREATE OR REPLACE FUNCTION IVRS_Save_FilePath(userid integer, formid integer,fil
 DECLARE
 BEGIN
     -- update sp_crf_schedules with the given filepath.
-	UPDATE sp_crf_schedules SET file_path=filepath, version = version + 1 WHERE id=formid AND Status ='INPROGRESS';
+	UPDATE sp_crf_schedules SET file_path=filepath, version = version + 1 WHERE id=formid AND (Status ='INPROGRESS' or Status ='PASTDUE');
 	IF FOUND THEN
 		return 1;
 	ELSE
@@ -1388,7 +1400,7 @@ BEGIN
 		return -2;
 	END IF;
 	-- if form is inprogress return 1 and 0 otherwise.
-	IF v_form_stauts='INPROGRESS' THEN
+	IF v_form_stauts='INPROGRESS'OR v_form_stauts='PASTDUE' THEN
 		return 1;
 	ELSE
 		return 0;
@@ -1445,8 +1457,50 @@ $x$
   END;
   $x$
   LANGUAGE 'plpgsql' VOLATILE;
+    
+  
+  --Function: getDateInParticipantTimeZone(text)
+  -- Get current running date in specified timezone
+  -- e.g For servertime of 1Am 7/20 EST. 
+  -- A call of getDateInParticipantTimeZone('America/Los_Angeles') will return 10Pm 7/19.
+  CREATE OR REPLACE FUNCTION getDateInParticipantTimeZone(participantTimezone text) RETURNS TIMESTAMP AS $x$
+	DECLARE
+		v_participant_timestamp timestamp;
+	BEGIN
+		 SELECT now() AT TIME ZONE participantTimezone into v_participant_timestamp;
+	
+		return v_participant_timestamp;
+	EXCEPTION 
+		WHEN OTHERS THEN
+		  return now();
+  END;
+  $x$ LANGUAGE 'plpgsql';
+  
+  
+  --Function: getParticipantTimeZone(integer)
+  -- Fetch patients timezone from database.
+  -- Default the timezone to 'America/New_York' (Eastern timezone) if no timezone information is available for a patient
+  CREATE OR REPLACE FUNCTION getParticipantTimeZone(userId integer) RETURNS TEXT AS $x$
+	DECLARE
+		v_participant_timezone text := 'America/New_York';
+	BEGIN
+		Select spa.call_time_zone INTO v_participant_timezone
+		FROM study_participant_assignments spa
+		JOIN participants p ON p.id = spa.participant_id
+		WHERE p.user_id = userId;
 
+	
+	IF (length(v_participant_timezone) < 1 or v_participant_timezone IS NULL)   THEN
+	  return 'America/New_York';
+	END IF;	 		
 
+	return v_participant_timezone;
+   EXCEPTION 
+		WHEN OTHERS THEN
+	  	return 'America/New_York';
+   END;
+   $x$ LANGUAGE 'plpgsql';
+   
 
 --Function: unaccent(text)
 -- replaces accented chars ()ONLY a,e,i,o,u and n with tilde) with the corresponding non accented chars.

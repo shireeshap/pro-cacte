@@ -249,9 +249,11 @@ public StudyParticipantCrfSchedule updateSchedule(Calendar oldCalendar, Calendar
 	                }
 	                studyParticipantCrfSchedule.setDueDate(dueDateNew);
 
-	                if (today.after(dueDateNew) && !today.equals(dueDateNew)) {
-	                    studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
-	                }
+                    Date dateInParticipantTimeZone = DateUtils.getDateInTimeZone(today, spa.getCallTimeZone());
+
+                    if (dateInParticipantTimeZone.after(dueDateNew) && !dateInParticipantTimeZone.equals(dueDateNew)) {
+                        studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
+                    }
 	                
 	                if(spa.getStatus() != null && spa.getStatus().equals(RoleStatus.ONHOLD) &&
 	                		spa.getOnHoldTreatmentDate() != null && (DateUtils.compareDate(studyParticipantCrfSchedule.getStartDate(), spa.getOnHoldTreatmentDate()) >= 0)){
