@@ -57,18 +57,18 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			// MeddraQuestions to be displayed in Report's table header (ordered according to meddraQuestionMapping)
 			List<String> meddraTermHeaders = new ArrayList<String>();
 			// Save the start dates of the submitted surveys listed in 'list'
-			Map<String, LinkedHashMap<String, List<Date>>> proCrfDateMap = new TreeMap<String, LinkedHashMap<String, List<Date>>>();
+			Map<String, Map<String, LinkedHashMap<String, List<Date>>>> proCrfDateMap = new TreeMap<>();
 			// Save the survey_answering_mode of the submitted surveys listed in 'list'
 			Map<String, LinkedHashMap<String, List<String>>> proCrfModeMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			// Save the survey status of the submitted surveys listed in 'list'
 			Map<String, LinkedHashMap<String, List<CrfStatus>>> proCrfStatusMap = new TreeMap<String, LinkedHashMap<String, List<CrfStatus>>>();
-			
+
 			// Mapping a EQ-5D question to a column in Report.
 			Map<String, Map<ProCtcQuestionType, String>> eq5dQuestionMapping = new TreeMap<String, Map<ProCtcQuestionType, String>>();
 			// EQ-5D questions to be displayed in Report's table header (ordered according to eq5dQuestionMapping)
 			List<String> eq5dTermHeaders = new ArrayList<String>();
 			// Save the start dates of the submitted surveys listed in 'list'
-			Map<String, LinkedHashMap<String, List<Date>>> eq5dCrfDateMap = new TreeMap<String, LinkedHashMap<String, List<Date>>>();
+			Map<String, Map<String, LinkedHashMap<String, List<Date>>>> eq5dCrfDateMap = new TreeMap<>();
 			// Save the survey_answering_mode of the submitted surveys listed in 'list'
 			Map<String, LinkedHashMap<String, List<String>>> eq5dCrfModeMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			// Save the survey status of the submitted surveys listed in 'list'
@@ -76,18 +76,18 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			// Save the VAS Health score
 			Map<String, LinkedHashMap<String, List<String>>> eq5dCrfHealthScoreMap = new TreeMap<String, LinkedHashMap<String, List<String>>>();
 			Map<String, String> eq5dParticipantInfoMap = new HashMap<String, String>();
-		  
-			
+
+
 			int col = proReportHelper.generateQuestionMappingForTableHeader(proCtcQuestionMapping, proCtcTermHeaders);
-			
+
 			Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> overAllResults =
 				proReportHelper.getCareResults(proCrfDateMap, proCrfModeMap, proCrfStatusMap, proParticipantInfoMap, meddraQuestionMapping, meddraTermHeaders, col);
-			
+
 			eq5dReportHelper.generateQuestionMappingForTableHeader(eq5dQuestionMapping, eq5dTermHeaders);
-			Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> eq5dOverAllResults = 
-				eq5dReportHelper.getCareResults(eq5dCrfDateMap, eq5dCrfModeMap, eq5dCrfStatusMap, eq5dCrfHealthScoreMap, eq5dParticipantInfoMap);
-			
-	
+			Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> eq5dOverAllResults =
+				eq5dReportHelper.getCareResults(eq5dCrfDateMap, eq5dCrfModeMap, eq5dCrfStatusMap, eq5dCrfHealthScoreMap, eq5dParticipantInfoMap );
+
+
 			modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 			request.getSession().setAttribute("sessionResultsMap", overAllResults);
 			request.getSession().setAttribute("sessionCRFDatesMap", proCrfDateMap);
@@ -98,7 +98,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 			request.getSession().setAttribute("sessionProCtcTermHeaders", proCtcTermHeaders);
 			request.getSession().setAttribute("sessionMeddraTermHeaders", meddraTermHeaders);
 			request.getSession().setAttribute("participantInfoMap", proParticipantInfoMap);
-			
+
 			request.getSession().setAttribute("sessionEq5dResultsMap", eq5dOverAllResults);
 			request.getSession().setAttribute("sessionEq5dCRFDatesMap", eq5dCrfDateMap);
 			request.getSession().setAttribute("sessionEq5dCRFModeMap", eq5dCrfModeMap);
@@ -165,7 +165,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		proReportHelper.setFirstResponseDates(studyWideFormatReportData.getFirstResponseDate(studyId, crfIds, studySiteId, isEq5dReportData));
 		proReportHelper.setResponseModes(studyWideFormatReportData.getResponseModes(studyId, crfIds, studySiteId, isEq5dReportData));
 		proReportHelper.setCrfQuestionsTemplate(studyWideFormatReportData.getCrfQuestionsTemplate(studyId, crfIds));
-		
+
 		isEq5dReportData = true;
 		eq5dReportHelper.setSchedules(studyWideFormatReportData.getSchedulesOnly(studyId, crfIds, studySiteId, isEq5dReportData));
 		eq5dReportHelper.setResponses(studyWideFormatReportData.getResponsesOnly(studyId, crfIds, studySiteId, isEq5dReportData));
@@ -173,7 +173,7 @@ public class StudyLevelFullReportResultsController extends AbstractController {
 		eq5dReportHelper.setFirstResponseDates(studyWideFormatReportData.getFirstResponseDate(studyId, crfIds, studySiteId, isEq5dReportData));
 		eq5dReportHelper.setResponseModes(studyWideFormatReportData.getResponseModes(studyId, crfIds, studySiteId, isEq5dReportData));
 		eq5dReportHelper.setCrfQuestionsTemplate(studyWideFormatReportData.getCrfQuestionsTemplate(studyId, crfIds));
-		
+
 		request.getSession().setAttribute("study",
 				genericRepository.findById(Study.class, Integer.parseInt(studyParam)));
 	}

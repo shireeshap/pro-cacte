@@ -16,14 +16,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -110,25 +103,31 @@ public class ProOverallStudyReportHelper{
 	}
 	
 	public Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> getCareResults(
-			Map<String, LinkedHashMap<String, List<Date>>> crfDateMap, Map<String, LinkedHashMap<String, List<String>>> crfModeMap,
-			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap, Map<String, String> participantInfoMap, 
+
+			Map<String, Map<String, LinkedHashMap<String, List<Date>>>> crfDateMap,
+			Map<String, LinkedHashMap<String, List<String>>> crfModeMap,
+			Map<String, LinkedHashMap<String, List<CrfStatus>>> crfStatusMap,
+			Map<String, String> participantInfoMap,
 			Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping,
-			List<String> meddraTermHeaders, int col) throws ParseException {
+			List<String> meddraTermHeaders,
+			int col
+	) throws ParseException {
 
 		Map<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>> organizationMap = 
 			new TreeMap<String, Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>>>(); 
 		Map<String, Map<String, Map<String, LinkedHashMap<String, List<String>>>>> crfMap;
 		Map<String, Map<String, LinkedHashMap<String, List<String>>>> participantMap;
 		Map<String, LinkedHashMap<String, List<String>>> symptomMap;
-		
-		ArrayList<Date> dates;
+
+		LinkedHashMap<String, List<Date>> datesToListByType;
 		ArrayList<String> appModes;
 		ArrayList<CrfStatus> statusList;
 		boolean participantAddedQuestion;
 		
 		for(SpcrfsWrapper studyParticipantCrfSchedule : schedules){
+
 			String organization = participantsAndOrganizations.get(studyParticipantCrfSchedule.getId()).get(0).getOrganizationName();
-			
+
 			if(organizationMap.get(organization) != null){
 				crfMap = organizationMap.get(organization);
 			} else {
@@ -155,14 +154,14 @@ public class ProOverallStudyReportHelper{
 				participantMap.put(participant, symptomMap);
 			}
 			
-			LinkedHashMap<String, List<Date>> datesMap;
+			Map<String, LinkedHashMap<String, List<Date>>> datesMap;
 			LinkedHashMap<String,List<String>> modeMap;
 			LinkedHashMap<String,List<CrfStatus>> statusMap;
 			
 			if(crfDateMap.get(crf) != null){
 				datesMap = crfDateMap.get(crf);
 			} else {
-				datesMap = new LinkedHashMap<String, List<Date>>();
+				datesMap = new LinkedHashMap<>();
 				crfDateMap.put(crf, datesMap);
 			}
 			
@@ -179,12 +178,16 @@ public class ProOverallStudyReportHelper{
 				statusMap = new LinkedHashMap<String, List<CrfStatus>>();
 				crfStatusMap.put(crf, statusMap);
 			}
-			
+
 			if (datesMap.containsKey(participant)) {
-				dates = (ArrayList<Date>) datesMap.get(participant);
+				datesToListByType = datesMap.get(participant);
 			} else {
-				dates = new ArrayList<Date>();
-				datesMap.put(participant, dates);
+				//init the lists
+				datesToListByType = new LinkedHashMap<>();
+				datesToListByType.put("firstResponseDates", new ArrayList<Date>());
+				datesToListByType.put("scheduledStartDates", new ArrayList<Date>());
+				datesToListByType.put("scheduledEndDates", new ArrayList<Date>());
+				datesMap.put(participant, datesToListByType);
 			}
 
 			if (modeMap.containsKey(participant)) {
@@ -212,8 +215,11 @@ public class ProOverallStudyReportHelper{
 				}
 			}
 			appModes.add(mode);
-			
-			dates.add(firstResponseDates.get(studyParticipantCrfSchedule.getId()));
+			datesToListByType.get("firstResponseDates").add(firstResponseDates.get(studyParticipantCrfSchedule.getId()));
+			datesToListByType.get("scheduledStartDates").add(studyParticipantCrfSchedule.getStartDate());
+			datesToListByType.get("scheduledEndDates").add(studyParticipantCrfSchedule.getDueDate());
+
+
 			String participantGender = participantsAndOrganizations.get(studyParticipantCrfSchedule.getId()).get(0).getGender();
 			
 			String responseForFirstQuestion = null;
@@ -234,12 +240,11 @@ public class ProOverallStudyReportHelper{
 							String questionGender = studyParticipantCrfItem.getGender();
 							participantAddedQuestion = false;
 							boolean isMeddraQuestion = false;
-							
-							buildMap(questionType, symtom, value, symptomMap, responseForFirstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion, 
-									studyParticipantCrfSchedule.getStatus(), participantGender, questionGender , isMeddraQuestion, isFirstQuestion);
+
+							buildMap(questionType, symtom, value, symptomMap, responseForFirstQuestion, datesToListByType.get("firstResponseDates").size() - 1, participantAddedQuestion,
+									studyParticipantCrfSchedule.getStatus(), participantGender, questionGender, isMeddraQuestion, isFirstQuestion);
 						}catch(Exception e){
-							logger.debug(new String("Error in populating responses: " + e.getMessage()));
-							e.printStackTrace();
+							logger.error("Error in populating responses: ", e);
 						}
 					}
 				} else {
@@ -264,7 +269,7 @@ public class ProOverallStudyReportHelper{
 						participantAddedQuestion = true;
 						boolean isMeddraQuestion = false;
 							
-						buildMap(questionType, symtom, value, symptomMap, responseForFirstQuestion, datesMap.get(participant).size() - 1, participantAddedQuestion, 
+						buildMap(questionType, symtom, value, symptomMap, responseForFirstQuestion, datesToListByType.get("firstResponseDates").size() - 1, participantAddedQuestion,
 							studyParticipantCrfSchedule.getStatus(), participantGender, questionGender, isMeddraQuestion, isFirstQuestion);
 					}catch(Exception e){
 						e.getCause();
@@ -325,7 +330,7 @@ public class ProOverallStudyReportHelper{
 							
 							meddraTermHeaders.add(ctcTermEnglishTermText);
 						}
-						buildMap(questionType, symtom, value, symptomMap, null, datesMap.get(participant).size() - 1, participantAddedQuestion, 
+						buildMap(questionType, symtom, value, symptomMap, null, datesToListByType.get("firstResponseDates").size() - 1, participantAddedQuestion,
 								studyParticipantCrfSchedule.getStatus(), participantGender, questionGender, isMeddraQuestion, isFirstQuestion);
 					}catch(Exception e){
 						e.getCause();
@@ -336,7 +341,7 @@ public class ProOverallStudyReportHelper{
 			}
 			
 			
-		} 
+		}
 		return organizationMap;
 		
 		
