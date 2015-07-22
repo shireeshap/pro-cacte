@@ -14,11 +14,7 @@ import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.jdbc.StudyWideFormatReportDao;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -105,7 +101,7 @@ public class StudyLevelFullReportIntegrationTest extends AbstractWebTestCase {
         assertTrue(totalQuestions > 0);
         
         int noOfSchedules = 0;
-        TreeMap<String, LinkedHashMap<String, ArrayList<Date>>> crfDateMap = (TreeMap<String, LinkedHashMap<String, ArrayList<Date>>>) request.getSession().getAttribute("sessionCRFDatesMap");
+        TreeMap<String, LinkedHashMap<String, Map<String, List<Date>>>> crfDateMap = (TreeMap<String, LinkedHashMap<String, Map<String, List<Date>>>>) request.getSession().getAttribute("sessionCRFDatesMap");
         assertEquals(1, crfDateMap.size());
         for(String crf : crfDateMap.keySet()){
         	for(String participant : crfDateMap.get(crf).keySet()){
