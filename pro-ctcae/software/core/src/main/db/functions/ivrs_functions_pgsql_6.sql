@@ -102,7 +102,9 @@ BEGIN
 	JOIN crfs c ON c.id=spc.crf_id
 	JOIN study_participant_assignments sp ON spc.study_participant_id= sp.id
 	JOIN participants p ON sp.participant_id = p.id
-	where spcs.start_date <= v_date_in_participant_timezone  AND spcs.due_date >= v_date_in_participant_timezone and 
+	where spcs.start_date <= v_date_in_participant_timezone::DATE  and 
+		  spcs.due_date >= v_date_in_participant_timezone::DATE and 
+		  (spcs.status = 'SCHEDULED' OR spcs.status= 'INPROGRESS' OR spcs.status= 'PASTDUE') and 
 	      p.user_id=userId and c.is_hidden='FALSE' and c.is_eq5d='FALSE'
 	order by spcs.start_date,spcs.id LIMIT 1 OFFSET formNum-1;
 
