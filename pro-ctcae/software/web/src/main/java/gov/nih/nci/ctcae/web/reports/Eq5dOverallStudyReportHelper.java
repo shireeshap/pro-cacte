@@ -177,7 +177,8 @@ public class Eq5dOverallStudyReportHelper {
                 datesToListByType = new LinkedHashMap<>();
                 datesToListByType.put("firstResponseDates", new ArrayList<Date>());
                 datesToListByType.put("scheduledStartDates", new ArrayList<Date>());
-                datesToListByType.put("scheduledEndDates", new ArrayList<Date>());
+                datesToListByType.put("scheduledDueDates", new ArrayList<Date>());
+                datesToListByType.put("scheduledCompletionDates", new ArrayList<Date>());
                 datesMap.put(participant, datesToListByType);
             }
 
@@ -228,7 +229,9 @@ public class Eq5dOverallStudyReportHelper {
             appModes.add(mode);
             datesToListByType.get("firstResponseDates").add(firstResponseDates.get(studyParticipantCrfSchedule.getId()));
             datesToListByType.get("scheduledStartDates").add(studyParticipantCrfSchedule.getStartDate());
-            datesToListByType.get("scheduledEndDates").add(studyParticipantCrfSchedule.getDueDate());
+            datesToListByType.get("scheduledDueDates").add(studyParticipantCrfSchedule.getDueDate());
+            datesToListByType.get("scheduledCompletionDates").add(studyParticipantCrfSchedule.getCompletionDate());
+
 
 
 

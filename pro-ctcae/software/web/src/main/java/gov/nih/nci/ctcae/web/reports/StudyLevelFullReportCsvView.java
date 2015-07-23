@@ -199,8 +199,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
                         }
 
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        logger.debug("Error in writing EQ-5D responses: " + e.getStackTrace());
+                        logger.error("Error in writing EQ-5D responses: " , e);
                     }
                 }
             }
@@ -274,8 +273,8 @@ public class StudyLevelFullReportCsvView extends AbstractView {
     private void writeResponsesToCSV(Map<String, LinkedHashMap<String, List<String>>> symptomMap, List<List<String>> rowSet, Map<String, Map<ProCtcQuestionType, String>> proCtcQuestionMapping,
                                      Map<String, Map<ProCtcQuestionType, String>> meddraQuestionMapping, List<String> healthScoreList, boolean isEq5d) {
 
-        int startIndex = 9;
-        int cellNum = 9;
+        int startIndex = 10;
+        int cellNum = 10;
         List<String> proRow = new ArrayList<String>();
         for (String termEnglish : symptomMap.keySet()) {
             LinkedHashMap<String, List<String>> questionMap = symptomMap.get(termEnglish);
@@ -297,7 +296,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
                     	 cellNum = tempPos;
                     	 proRow.set(cellNum, validValue);
                      } else {
-                    	 logger.debug("No column found for Term: "+ termEnglish + " and question type: " +proCtcQuestionType);
+                    	 logger.debug("No column found for Term: " + termEnglish + " and question type: " + proCtcQuestionType);
                     	 continue;
                      }
                     index++;
@@ -311,7 +310,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
             List<String> row = new ArrayList<String>();
             for (int i = 0; i < rowSet.size(); i++) {
                 row = getRow(rowSet, i);
-                row.set(14, healthScoreList.get(i));
+                row.set(15, healthScoreList.get(i));
             }
         }
 
@@ -321,46 +320,60 @@ public class StudyLevelFullReportCsvView extends AbstractView {
                                            String studyShortTitle, String organization, String crf, List<String> proCtcTermHeaders, List<String> meddraTermHeaders,
                                            boolean isEq5d) {
         int rownum = 0;
+
         if (dates != null && appModes != null) {
             int index = 0;
 
             List<Date> firstResponseDates = dates.get("firstResponseDates");
             List<Date> scheduledStartDates = dates.get("scheduledStartDates");
-            List<Date> scheduledCompetionDates = dates.get("scheduledEndDates");
+            List<Date> scheduledDueDates = dates.get("scheduledDueDates");
+            List<Date> scheduledCompletionDates = dates.get("scheduledCompletionDates");
 
             for (; index < firstResponseDates.size(); ) {
-                Date date = firstResponseDates.get(index);
-                List<String> row = createRow(rowSet, rownum++);
-                createCurrentRowSubPrefix(row, participantIdentifier, studyShortTitle, organization, crf);
+                int column = 4;
                 Date startDate = scheduledStartDates.get(index);
-                if (startDate!= null) {
-                    row.add(4, DateUtils.format(startDate));
-                } else {
-                    row.add(4, NOT_AVAILABLE);
-                }
-                Date endDate = scheduledCompetionDates.get(index);
+                Date dueDate = scheduledDueDates.get(index);
 
-                if (endDate  != null) {
-                    row.add(5, DateUtils.format(endDate ));
+                Date firstResponseDate = firstResponseDates.get(index);
+                Date completionDate = scheduledCompletionDates.get(index);
+                List<String> row = createRow(rowSet, rownum++);
+
+                createCurrentRowSubPrefix(row, participantIdentifier, studyShortTitle, organization, crf);
+                if (startDate!= null) {
+                    row.add(column++, DateUtils.format(startDate));
                 } else {
-                    row.add(5, NOT_AVAILABLE);
+                    row.add(column++, NOT_AVAILABLE);
                 }
-                if (date != null) {
-                    row.add(6, DateUtils.format(date));
+
+                if (dueDate  != null) {
+                    row.add(column++, DateUtils.format(dueDate ));
                 } else {
-                    row.add(6, NOT_AVAILABLE);
+                    row.add(column++, NOT_AVAILABLE);
                 }
+
+                if (firstResponseDate != null) {
+                    row.add(column++, DateUtils.format(firstResponseDate));
+                } else {
+                    row.add(column++, NOT_AVAILABLE);
+                }
+
+                if (completionDate  != null) {
+                    row.add(column++, DateUtils.format(completionDate ));
+                } else {
+                    row.add(column++, NOT_AVAILABLE);
+                }
+
                 if (appModes.get(index) != null) {
-                    row.add(7, appModes.get(index));
+                    row.add(column++, appModes.get(index));
                 } else {
-                    row.add(7, NOT_AVAILABLE);
+                    row.add(column++, NOT_AVAILABLE);
                 }
-                row.add(8, statusList.get(index).getDisplayName());
+                row.add(column++, statusList.get(index).getDisplayName());
 
                 if (!isEq5d) {
-                    markDefaultNotAdministered(row, 9, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
+                    markDefaultNotAdministered(row, column++, (proCtcTermHeaders.size() + meddraTermHeaders.size()));
                 } else {
-                    markDefaultNotAdministered(row, 9, (proCtcTermHeaders.size() + meddraTermHeaders.size() + 1));
+                    markDefaultNotAdministered(row, column++, (proCtcTermHeaders.size() + meddraTermHeaders.size() + 1));
                 }
                 index++;
             }
@@ -596,16 +609,17 @@ public class StudyLevelFullReportCsvView extends AbstractView {
 
     private void createTableHeaders(List<String> proCtcTermHeaders, List<String> meddraTermHeaders, boolean isEq5d, CSVWriter writer) {
         List<String> proRow = new ArrayList<String>();
-        proRow.add(0, "Participant ID");
-        proRow.add(1, "Study");
-        proRow.add(2, "Study Site");
-        proRow.add(3, "Survey name");
-        proRow.add(4, "Scheduled Start Date");
-        proRow.add(5, "Scheduled End Date");
-        proRow.add(6, "First response date");
-        proRow.add(7, "Mode");
-        proRow.add(8, "Status");
-        int col = 9;
+        int col = 0;
+        proRow.add(col++, "Participant ID");
+        proRow.add(col++, "Study");
+        proRow.add(col++, "Study Site");
+        proRow.add(col++, "Survey name");
+        proRow.add(col++, "Scheduled Start Date");
+        proRow.add(col++, "Scheduled End Date");
+        proRow.add(col++, "First response date");
+        proRow.add(col++, "Completion date");
+        proRow.add(col++, "Mode");
+        proRow.add(col++, "Status");
         if (!proCtcTermHeaders.isEmpty()) {
             for (int i = 0; i < proCtcTermHeaders.size(); i++) {
                 proRow.add(col++, proCtcTermHeaders.get(i));
@@ -617,7 +631,7 @@ public class StudyLevelFullReportCsvView extends AbstractView {
             }
         }
         if (isEq5d) {
-            proRow.add(col++, "Health Score");
+            proRow.add(col, "Health Score");
         }
         writer.writeNext((String[]) proRow.toArray(new String[proRow.size()]));
     }

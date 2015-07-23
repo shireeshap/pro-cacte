@@ -186,7 +186,8 @@ public class ProOverallStudyReportHelper{
 				datesToListByType = new LinkedHashMap<>();
 				datesToListByType.put("firstResponseDates", new ArrayList<Date>());
 				datesToListByType.put("scheduledStartDates", new ArrayList<Date>());
-				datesToListByType.put("scheduledEndDates", new ArrayList<Date>());
+				datesToListByType.put("scheduledDueDates", new ArrayList<Date>());
+				datesToListByType.put("scheduledCompletionDates", new ArrayList<Date>());
 				datesMap.put(participant, datesToListByType);
 			}
 
@@ -217,7 +218,8 @@ public class ProOverallStudyReportHelper{
 			appModes.add(mode);
 			datesToListByType.get("firstResponseDates").add(firstResponseDates.get(studyParticipantCrfSchedule.getId()));
 			datesToListByType.get("scheduledStartDates").add(studyParticipantCrfSchedule.getStartDate());
-			datesToListByType.get("scheduledEndDates").add(studyParticipantCrfSchedule.getDueDate());
+			datesToListByType.get("scheduledDueDates").add(studyParticipantCrfSchedule.getDueDate());
+			datesToListByType.get("scheduledCompletionDates").add(studyParticipantCrfSchedule.getCompletionDate());
 
 
 			String participantGender = participantsAndOrganizations.get(studyParticipantCrfSchedule.getId()).get(0).getGender();
