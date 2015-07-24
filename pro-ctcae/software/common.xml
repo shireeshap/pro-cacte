@@ -296,7 +296,7 @@
         </copy>
 
         <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" 
-        	source="1.7" target="1.7" encoding="UTF-8">
+        	source="1.6" target="1.6" encoding="UTF-8">
         </javac>
     </target>
 
@@ -308,7 +308,7 @@
         <echo message="Executing in ${ant.project.name}"/>
         <copy-resources src="${test.src.resources}" dest="${test.classes.dir}" filter="false"/>
         <javac srcdir="${test.src}" destdir="${test.classes.dir}" classpathref="test.classpath"
-               debug="true" source="1.7" target="1.7" encoding="UTF-8"/>
+               debug="true" source="1.6" target="1.6" encoding="UTF-8"/>
         <property name="no.compile-test" value="true"/>
     </target>
 
