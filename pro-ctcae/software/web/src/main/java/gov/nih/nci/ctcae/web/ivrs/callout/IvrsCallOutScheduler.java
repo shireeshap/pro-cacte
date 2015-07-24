@@ -134,6 +134,7 @@ public class IvrsCallOutScheduler implements ApplicationContextAware{
 		Set<CrfStatus> spCrfStatuses = new HashSet<CrfStatus>(); 
 		spCrfStatuses.add(CrfStatus.INPROGRESS);
 		spCrfStatuses.add(CrfStatus.SCHEDULED);
+		spCrfStatuses.add(CrfStatus.PASTDUE);
 		
 		ivrsScheduleQuery.filterByStudyParticipantCrfScheduleStatus(spCrfStatuses);
 		
