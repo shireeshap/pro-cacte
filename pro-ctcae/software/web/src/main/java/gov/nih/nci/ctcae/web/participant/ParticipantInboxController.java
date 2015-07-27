@@ -85,7 +85,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
 		String timeZoneId = (command.getStudyParticipantAssignments() != null? 
 				command.getStudyParticipantAssignments().get(0).getCallTimeZone() : "");
 		
-		modelAndView.addObject("today", DateUtils.getDateInTimeZone(new Date(), timeZoneId));
+		modelAndView.addObject("today", DateUtils.getDateOnlyInTimeZone(new Date(), timeZoneId));
     	modelAndView.addObject("command", command);
     	return modelAndView; 
     }

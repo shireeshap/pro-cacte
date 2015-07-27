@@ -32,7 +32,7 @@ public class FormSubmissionHelper{
      }
     
      public static boolean isPastDueDate(StudyParticipantCrfSchedule spcrfs, String timeZoneId){
-    	Date today = DateUtils.getDateInTimeZone(new Date(), timeZoneId);
+    	Date today = DateUtils.getDateOnlyInTimeZone(new Date(), timeZoneId);
     	// Not of (today >= startDate && today <= dueDate)
     	return !((DateUtils.compareDate(today, spcrfs.getStartDate()) >= 0) && 
     			(DateUtils.compareDate(today, spcrfs.getDueDate()) <= 0));
