@@ -169,7 +169,30 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 	
 	    return cal.getTime();
     }
+    
+    public static Date getDateOnlyInTimeZone(Date currentDate, String timeZoneId) {
+    	TimeZone tz;
 
+    	if(StringUtils.isEmpty(timeZoneId)) {
+    		tz = TimeZone.getTimeZone(DEFAULT_TIMEZONE_ID);
+    	} else {
+    		tz = TimeZone.getTimeZone(timeZoneId);
+    	}
+	    Calendar mbCal = new GregorianCalendar(tz);
+	    mbCal.setTimeInMillis(currentDate.getTime());
+	
+	    Calendar cal = Calendar.getInstance();
+	    cal.set(Calendar.YEAR, mbCal.get(Calendar.YEAR));
+	    cal.set(Calendar.MONTH, mbCal.get(Calendar.MONTH));
+	    cal.set(Calendar.DAY_OF_MONTH, mbCal.get(Calendar.DAY_OF_MONTH));
+	    cal.set(Calendar.HOUR_OF_DAY, 0);
+	    cal.set(Calendar.MINUTE, 0);
+	    cal.set(Calendar.SECOND, 0);
+	    cal.set(Calendar.MILLISECOND, 0) ;
+	
+	    return cal.getTime();
+    }
+    
     // input timeString format 23:59
     public static String getFormattedTime(String timeString){
           String finalTimeString ="";
