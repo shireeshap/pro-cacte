@@ -312,7 +312,7 @@ public class ParticipantCommand {
         Integer callHour = ServletRequestUtils.getIntParameter(request, "call_hour_" + studySite.getId(), 1);
         Integer callMinute = ServletRequestUtils.getIntParameter(request, "call_minute_" + studySite.getId(), 5);
         String callAmPm = request.getParameter("call_ampm_" + studySite.getId());
-        String callTimeZone = request.getParameter("call_timeZone_" + studySite.getId());
+        String callTimeZone = request.getParameter("call_timeZone");
         String homePaperLanguage = request.getParameter("home_paper_lang_" + studySite.getId());
         String homeWebLanguage = request.getParameter("home_web_lang_" + studySite.getId());
         String ivrsLanguage = request.getParameter("ivrs_lang_" + studySite.getId());

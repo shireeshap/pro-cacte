@@ -183,7 +183,6 @@ CP_NS.addIVRSRemoveEmailClassName = function (id) {
     $('call_hour_' + id).addClassName("validate-NOTEMPTY");
     $('call_minute_' + id).addClassName("validate-NOTEMPTY");
     $('call_ampm_' + id).addClassName("validate-NOTEMPTY");
-    $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
     $('home_web_lang_' + id).removeClassName("validate-NOTEMPTY");
     $('home_web_lang_' + id).required = false;
@@ -196,7 +195,6 @@ CP_NS.showPhone = function (id, val) {
         $('call_hour_' + id).addClassName("validate-NOTEMPTY");
         $('call_minute_' + id).addClassName("validate-NOTEMPTY");
         $('call_ampm_' + id).addClassName("validate-NOTEMPTY");
-        $('call_timeZone_' + id).addClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).addClassName("validate-NOTEMPTY");
         $('participant.phoneNumber').disabled = false;
         $('declinePhNum').checked = false;
@@ -213,8 +211,6 @@ CP_NS.showPhone = function (id, val) {
         $('call_minute_' + id).required = false;
         $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
         $('call_ampm_' + id).required = false;
-        $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
-        $('call_timeZone_' + id).required = false;
         $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
         $('ivrs_lang_' + id).required = false;
         $('declinePhNum').disabled = false;
@@ -247,7 +243,6 @@ CP_NS.addEmailRemoveIVRSClassName = function (id) {
     $('call_hour_' + id).removeClassName("validate-NOTEMPTY");
     $('call_minute_' + id).removeClassName("validate-NOTEMPTY");
     $('call_ampm_' + id).removeClassName("validate-NOTEMPTY");
-    $('call_timeZone_' + id).removeClassName("validate-NOTEMPTY");
     $('ivrs_lang_' + id).removeClassName("validate-NOTEMPTY");
     $('declinePhNum').disabled = false;
 };
