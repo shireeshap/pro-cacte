@@ -2088,6 +2088,7 @@ pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/validation.
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window.js -text
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_effects.js -text
 pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_ext.js -text
+pro-ctcae/prkc_2447.patch -text
 pro-ctcae/software/.project -text
 pro-ctcae/software/all.bat -text
 pro-ctcae/software/build.properties -text

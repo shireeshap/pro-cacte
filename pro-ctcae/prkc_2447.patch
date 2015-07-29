@@ -1,0 +1,1054 @@
+Index: software/core/ivy.xml
+===================================================================
+--- software/core/ivy.xml	(revision 5776)
++++ software/core/ivy.xml	(revision 5780)
+@@ -120,11 +120,11 @@
+ 
+ 
+         <!-- CTMS commons dependencies -->
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"/>
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"/>
+ 
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="${ctms.version}" transitive="false"/>
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctms.version}"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="0.9.RELEASE" transitive="false"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="0.9.RELEASE"/>
+ 
+ 
+         <!-- Test/Runtime dependencies -->
+Index: software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/StudyWideFormatReportDao.java
+===================================================================
+--- software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/StudyWideFormatReportDao.java	(revision 5776)
++++ software/core/src/main/java/gov/nih/nci/ctcae/core/jdbc/StudyWideFormatReportDao.java	(revision 5780)
+@@ -76,10 +76,10 @@
+ 							    					(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 							    					" left join crfs crf on crf.id = spcrf.crf_id " +
+ 							    					" where " +
+-							    					(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++							    					(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 							    					(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 							    					(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "")  +
+-							    					" and crf.is_eq5d = '" + isEq5dReportData + "' " + 
++							    					" and crf.is_eq5d = '" + isEq5dReportData + "' " +
+ 							    					" and spcrfs.status != 'SCHEDULED' )" +
+     			" order by spci.id ";
+     	
+@@ -103,7 +103,7 @@
+ 									 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 									 			"  left join crfs crf on crf.id = spcrf.crf_id " +
+ 									 			" where " +
+-												(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++												(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 												(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 												(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 												" and crf.is_eq5d = 'false' " +
+@@ -130,7 +130,7 @@
+ 									 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 									 			" left join crfs crf on crf.id = spcrf.crf_id " +
+ 									 			" where " +
+-												(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++												(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 												(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 												(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 								    			" and crf.is_eq5d = 'false' " +
+@@ -157,7 +157,7 @@
+ 					 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 					 			" left join crfs crf on crf.id = spcrf.crf_id " +
+ 							 	" where " +
+-								(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++								(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 								(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 								(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 				    			" and crf.is_eq5d = '" + isEq5dReportData + "' " +
+@@ -177,7 +177,7 @@
+ 								 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 								 		" left join crfs crf on crf.id = spcrf.crf_id " +
+ 								 		" where " +
+-										(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++										(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 										(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 										(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 										" and crf.is_eq5d = '" + isEq5dReportData + "' " +
+@@ -198,7 +198,7 @@
+ 								 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
+ 								 		" left join crfs crf on crf.id = spcrf.crf_id " +
+ 								 		" where " +
+-										(studyId != null? " crf.study_id = " + studyId + " " : "") + 
++										(studyId != null? " crf.study_id = " + studyId + " " : "") +
+ 										(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
+ 										(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
+ 										" and crf.is_eq5d = '" + isEq5dReportData + "' " +
+Index: software/core/core.iml
+===================================================================
+--- software/core/core.iml	(revision 5776)
++++ software/core/core.iml	(revision 5780)
+@@ -1,27 +1,194 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module MavenProjectsManager.isMavenModule="true" relativePaths="true" type="JAVA_MODULE" version="4">
+-  <component name="FacetManager">
+-    <facet type="Spring" name="Spring">
+-      <configuration />
+-    </facet>
+-  </component>
+-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+-      <excludeFolder url="file://$MODULE_DIR$/.clover" />
+-      <excludeFolder url="file://$MODULE_DIR$/build" />
+-      <excludeFolder url="file://$MODULE_DIR$/reports" />
+-      <excludeFolder url="file://$MODULE_DIR$/repository" />
+-      <excludeFolder url="file://$MODULE_DIR$/target" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="module" module-name="commons" />
+-    <orderEntry type="library" name="AllJars" level="project" />
+-  </component>
+-</module>
+-
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="IvyIDEA" name="IvyIDEA">
++      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="true" useCustomIvySettings="true" ivySettingsFile="" onlyResolveSelectedConfigs="false">
++        <propertiesSettings>
++          <propertiesFiles includeProjectLevelPropertiesFiles="true">
++            <fileName>$MODULE_DIR$/../ivysettings-offline.xml</fileName>
++            <fileName>$MODULE_DIR$/../ivysettings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivysettings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivy/ivy-settings.xml</fileName>
++          </propertiesFiles>
++        </propertiesSettings>
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
++      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="module" module-name="commons" />
++    <orderEntry type="module-library">
++      <library name="IvyIDEA">
++        <CLASSES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.0-FINAL.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/jars/log4j-1.2.13.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring/jars/spring-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-aspects/jars/spring-aspects-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjrt/jars/aspectjrt-1.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-beans/jars/spring-beans-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-core/jars/spring-core-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-agent/jars/spring-agent-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-taglibs/jars/spring-security-taglibs-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-core/jars/spring-security-core-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-acl/jars/spring-security-acl-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.acegisecurity/acegi-security/jars/acegi-security-1.0.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-remoting/jars/spring-remoting-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-dao/jars/spring-dao-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-context/jars/spring-context-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-aop/jars/spring-aop-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-webmvc/jars/spring-webmvc-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-web/jars/spring-web-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-jdbc/jars/spring-jdbc-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-support/jars/spring-support-1.2.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/jars/commons-collections-3.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/jars/commons-io-1.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.collections/collections-generic/jars/collections-generic-4.01.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.7.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/jars/hibernate-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ehcache/ehcache/jars/ehcache-1.2.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/antlr/antlr/jars/antlr-2.7.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/jars/cglib-nodep-2.1_3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-annotations/jars/hibernate-annotations-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.persistence/persistence-api/jars/persistence-api-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jboss/javassist/jars/javassist-3.3.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jboss/jboss-archive-browsing/jars/jboss-archive-browsing-5.0.0alpha-200607201-119.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-dbcp/commons-dbcp/jars/commons-dbcp-1.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-pool/commons-pool/jars/commons-pool-1.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/postgresql/postgresql/jars/postgresql-8.2-504.jdbc3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/hsqldb/hsqldb/jars/hsqldb-1.8.0.7.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/groovy/groovy/jars/groovy-1.0-jsr-06.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/jars/asm-2.2.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/jars/mail-1.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.activation/activation/jars/activation-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.javacsv/javacsv/jars/javacsv-2.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dbunit/dbunit/jars/dbunit-2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/opensymphony/quartz-all/jars/quartz-all-1.6.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/jars/spring-test-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/jars/junit-3.8.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/jars/easymockclassextension-2.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/jars/easymock-2.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/jars/cobertura-2.0.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/jars/asm-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/jars/asm-tree-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/jars/asm-util-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/jars/asm-analysis-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/jars/jaxen-1.1-beta-8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/jars/jdom-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xmlParserAPIs/jars/xmlParserAPIs-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xom/xom/jars/xom-1.0b3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-2.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xalan/xalan/jars/xalan-2.6.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-0.9.7.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/jars/servlet-api-2.5-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/jars/jetty-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/jars/jetty-util-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/jars/asm-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm-tree/jars/asm-tree-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/jars/ant-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/core-commons/jars/core-commons-77.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/bering/jars/bering-0.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/core-commons-testing/jars/core-commons-testing-77.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-base/jars/ctms-commons-base-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-core/jars/ctms-commons-core-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-lang/jars/ctms-commons-lang-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-testing-uctrace/jars/ctms-commons-testing-uctrace-0.9.RELEASE.jar!/" />
++        </CLASSES>
++        <JAVADOC>
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/javadocs/commons-logging-1.1.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.acegisecurity/acegi-security/javadocs/acegi-security-1.0.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/javadocs/commons-codec-1.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/javadocs/commons-lang-2.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/javadocs/commons-io-1.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.collections/collections-generic/javadocs/collections-generic-4.01-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/javadocs/commons-beanutils-1.7.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/javadocs/hibernate-3.2.1.ga-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ehcache/ehcache/javadocs/ehcache-1.2.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-dbcp/commons-dbcp/javadocs/commons-dbcp-1.2.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-pool/commons-pool/javadocs/commons-pool-1.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/javadocs/easymockclassextension-2.2.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/javadocs/cobertura-2.0.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/javadocs/asm-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/javadocs/asm-tree-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/javadocs/asm-commons-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/javadocs/asm-util-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/javadocs/asm-analysis-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/javadocs/ant-1.9.2-javadoc.jar!/" />
++        </JAVADOC>
++        <SOURCES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/sources/poi-3.0-FINAL-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/sources/log4j-1.2.13-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.8.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring/sources/spring-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-aspects/sources/spring-aspects-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-beans/sources/spring-beans-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-core/sources/spring-core-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-agent/sources/spring-agent-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-taglibs/sources/spring-security-taglibs-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-core/sources/spring-security-core-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-acl/sources/spring-security-acl-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.acegisecurity/acegi-security/sources/acegi-security-1.0.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/sources/commons-codec-1.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/sources/oro-2.0.8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/sources/commons-collections-3.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/sources/commons-lang-2.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/sources/commons-io-1.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.collections/collections-generic/sources/collections-generic-4.01-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/sources/commons-beanutils-1.7.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/sources/hibernate-3.2.1.ga-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ehcache/ehcache/sources/ehcache-1.2.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/sources/dom4j-1.6.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/antlr/antlr/sources/antlr-2.7.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib/sources/cglib-2.1_3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/sources/cglib-nodep-2.1_3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-annotations/sources/hibernate-annotations-3.2.1.ga-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.persistence/persistence-api/sources/persistence-api-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-dbcp/commons-dbcp/sources/commons-dbcp-1.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-pool/commons-pool/sources/commons-pool-1.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/groovy/groovy/sources/groovy-1.0-jsr-06-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.mail/mail/sources/mail-1.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.activation/activation/sources/activation-1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dbunit/dbunit/sources/dbunit-2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/sources/spring-test-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/sources/junit-3.8.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/sources/easymockclassextension-2.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/sources/easymock-2.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/sources/cobertura-2.0.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/sources/asm-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/sources/asm-tree-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/sources/asm-commons-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/sources/asm-util-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/sources/asm-analysis-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/sources/jaxen-1.1-beta-8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/sources/jdom-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.6.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/sources/servlet-api-2.5-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/sources/jetty-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/sources/jetty-util-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/sources/asm-3.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/sources/ant-1.9.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/sources/ant-launcher-1.9.2-sources.jar!/" />
++        </SOURCES>
++      </library>
++    </orderEntry>
++  </component>
++</module>
+\ No newline at end of file
+Index: software/templates/datasource.properties
+===================================================================
+--- software/templates/datasource.properties	(revision 5776)
++++ software/templates/datasource.properties	(revision 5780)
+@@ -22,7 +22,7 @@
+ #1
+ ivrs.priority=1
+ #total number of phone lines available e.g: 5
+-ivrs.total.phonelines=@IVRSPHONELINES@
++ivrs.total.phonelines=@IVRSPHONELINES@Ï
+ #number of hours, after a patient access his form(by calling in or call-out), that should pass before reminder calls can be made
+ ivrs.live.access.reset.period=1
+ #prefix to the particpant's phone number used for out going calls. e.g: 1 OR 91
+Index: software/build/install.properties
+===================================================================
+--- software/build/install.properties	(revision 5776)
++++ software/build/install.properties	(revision 5780)
+@@ -59,7 +59,7 @@
+ ##############
+ # tomcat.home will be generated as ${application.base.path}/${tomcat.relateive.path}
+ tomcat.relative.path=${tomcat.binaries.relative.dir}
+-tomcat.hostname=localhost
++Ftomcat.hostname=localhost
+ tomcat.port.http=22080
+ tomcat.port.ajp=22009
+ tomcat.port.ssl=22443
+Index: software/ivy.xml
+===================================================================
+--- software/ivy.xml	(revision 5776)
++++ software/ivy.xml	(revision 5780)
+@@ -38,5 +38,15 @@
+         <dependency org="ant" name="ant" rev="1.6.5" conf="test->master(*)"/>
+         <dependency org="org.mvel" name="mvel" rev="1.2.22-java1.5" force="true"/>
+         <dependency org="log4j" name="log4j" rev="1.2.13" conf="test->default(*)"/>
++
++        <!-- CTMS commons dependencies -->
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"/>
++
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="0.9.RELEASE" transitive="false"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="0.9.RELEASE"/>
++
++
++
+     </dependencies>
+ </ivy-module>
+\ No newline at end of file
+Index: software/commons/ivy.xml
+===================================================================
+--- software/commons/ivy.xml	(revision 5776)
++++ software/commons/ivy.xml	(revision 5780)
+@@ -46,9 +46,9 @@
+         <dependency org="org.apache.ant" name="ant" rev="1.9.2" force="true" conf="build->master(*)"/>
+ 
+         <!-- CTMS commons dependencies -->
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false" changing="true"
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false" changing="true"
+                     conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" />
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"
+                     conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" force="true" changing="true"/>
+ 
+         <!-- CORE commons dependencies -->
+Index: software/commons/commons.iml
+===================================================================
+--- software/commons/commons.iml	(revision 5776)
++++ software/commons/commons.iml	(revision 5780)
+@@ -1,21 +1,108 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+-      <excludeFolder url="file://$MODULE_DIR$/.clover" />
+-      <excludeFolder url="file://$MODULE_DIR$/build" />
+-      <excludeFolder url="file://$MODULE_DIR$/reports" />
+-      <excludeFolder url="file://$MODULE_DIR$/repository" />
+-      <excludeFolder url="file://$MODULE_DIR$/target" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="AllJars" level="project" />
+-  </component>
+-</module>
+-
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="IvyIDEA" name="IvyIDEA">
++      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="true" useCustomIvySettings="true" ivySettingsFile="" onlyResolveSelectedConfigs="false">
++        <propertiesSettings>
++          <propertiesFiles includeProjectLevelPropertiesFiles="true">
++            <fileName>$MODULE_DIR$/../common/ivy/ivy-settings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivy/cbiit-ivy-settings.xml</fileName>
++          </propertiesFiles>
++        </propertiesSettings>
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
++      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="module-library">
++      <library name="IvyIDEA">
++        <CLASSES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/jars/log4j-1.2.12.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/logkit/logkit/jars/logkit-1.0.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/avalon-framework/avalon-framework/jars/avalon-framework-4.1.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/jars/servlet-api-2.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/jars/ant-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/jars/easymockclassextension-2.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/jars/easymock-2.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/jars/cglib-nodep-2.1_3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/jars/junit-3.8.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/jars/log4j-1.2.13.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/jars/cobertura-2.0.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/jars/asm-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/jars/asm-tree-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/jars/asm-util-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/jars/asm-analysis-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/jars/jaxen-1.1-beta-8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/jars/jdom-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xmlParserAPIs/jars/xmlParserAPIs-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xom/xom/jars/xom-1.0b3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-2.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xalan/xalan/jars/xalan-2.6.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-0.9.7.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/jars/servlet-api-2.5-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/jars/jetty-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/jars/jetty-util-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/jars/asm-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm-tree/jars/asm-tree-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/core-commons/jars/core-commons-77.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/core-commons-testing/jars/core-commons-testing-77.jar!/" />
++        </CLASSES>
++        <JAVADOC>
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/javadocs/commons-lang-2.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/javadocs/commons-codec-1.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/javadocs/ant-1.9.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/javadocs/easymockclassextension-2.2.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/javadocs/cobertura-2.0.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/javadocs/asm-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/javadocs/asm-tree-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/javadocs/asm-commons-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/javadocs/asm-util-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/javadocs/asm-analysis-4.1-javadoc.jar!/" />
++        </JAVADOC>
++        <SOURCES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/sources/commons-lang-2.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/sources/commons-codec-1.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/logkit/logkit/sources/logkit-1.0.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/sources/servlet-api-2.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/sources/ant-1.9.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/sources/easymockclassextension-2.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/sources/easymock-2.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/sources/cglib-nodep-2.1_3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/sources/junit-3.8.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/sources/log4j-1.2.13-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/sources/cobertura-2.0.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/sources/asm-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/sources/asm-tree-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/sources/asm-commons-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/sources/asm-util-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/sources/asm-analysis-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/sources/oro-2.0.8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/sources/jaxen-1.1-beta-8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/sources/dom4j-1.6.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/sources/jdom-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.6.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/sources/ant-launcher-1.9.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/sources/servlet-api-2.5-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/sources/jetty-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/sources/jetty-util-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/sources/asm-3.0-sources.jar!/" />
++        </SOURCES>
++      </library>
++    </orderEntry>
++  </component>
++</module>
+\ No newline at end of file
+Index: software/web/ivy-build.xml
+===================================================================
+--- software/web/ivy-build.xml	(revision 5776)
++++ software/web/ivy-build.xml	(revision 5780)
+@@ -99,8 +99,8 @@
+ 	        </fileset>
+ 	    </copy>
+ 
+-        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
+-            docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
++        <echo file="/Library/Tomcat/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
++            docBase="${main.src}/../webapp/" reloadable="true" debug="0" />
+         </echo>
+     </target>
+ 
+Index: software/web/ivy.xml
+===================================================================
+--- software/web/ivy.xml	(revision 5776)
++++ software/web/ivy.xml	(revision 5780)
+@@ -3,8 +3,14 @@
+ 
+     <info organisation="gov.nih.nci.ctcae"
+           module="proctcae-web"
+-          status="integration"/>
++          status="integration">
++             <extends extendType="all"
++             organisation="Semantic Bits"
++             module="proctcae"
++             location="../ivy.xml"/>
+ 
++    </info>
++
+     <configurations>
+         <conf name="default" visibility="public" extends="publish,runtime"
+               description="Dependencies needed for default setting"/>
+@@ -39,6 +45,18 @@
+         <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL" force="true"/>
+ 
+ 
++        <dependency org="org.hibernate" name="hibernate" rev="3.2.1.ga">
++            <exclude conf="*" name="cglib"/>
++            <exclude conf="*" name="asm"/>
++            <exclude conf="*" name="asm-attrs"/>
++        </dependency>
++        <dependency org="cglib" name="cglib-nodep" rev="2.1_3"/>
++        <dependency org="org.hibernate" name="hibernate-annotations" rev="3.2.1.ga"/>
++        <dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.2.1.ga"/>
++
++
++
++
+         <!--  caAERS other modules -->
+         <dependency org="gov.nih.nci.ctcae" name="proctcae-commons" rev="latest.integration"
+                     conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
+@@ -101,7 +119,7 @@
+         <dependency org="org.apache.tiles" name="tiles-jsp" rev="2.0.4"/>
+ 
+         <!--  CTMS commons dependencies -->
+-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-web" rev="${ctms.version}"/>
++        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-web" rev="0.9.RELEASE"/>
+ 
+ 
+         <!--  Build Only Dependencies -->
+Index: software/web/src/main/java/gov/nih/nci/ctcae/web/batch/UpdateOnHoldStatus.java
+===================================================================
+--- software/web/src/main/java/gov/nih/nci/ctcae/web/batch/UpdateOnHoldStatus.java	(revision 5776)
++++ software/web/src/main/java/gov/nih/nci/ctcae/web/batch/UpdateOnHoldStatus.java	(revision 5780)
+@@ -2,9 +2,7 @@
+ 
+ import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+ import gov.nih.nci.ctcae.core.domain.RoleStatus;
+-import gov.nih.nci.ctcae.core.domain.Study;
+ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+-import gov.nih.nci.ctcae.core.domain.StudySite;
+ import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
+ import gov.nih.nci.ctcae.core.repository.GenericRepository;
+ 
+Index: software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java
+===================================================================
+--- software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java	(revision 5776)
++++ software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java	(revision 5780)
+@@ -3,6 +3,7 @@
+ 
+ import javax.servlet.http.HttpServletRequest;
+ 
++import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
+ import org.apache.commons.lang.StringUtils;
+ 
+ //
+@@ -14,6 +15,9 @@
+  */
+ public class ParticipantControllerUtils {
+ 
++
++
++    private static ClinicalStaffNotificationPublisher clinicalStaffNotificationPublisher;
+     /**
+      * Gets the study participant command.
+      *
+@@ -29,21 +33,38 @@
+     public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
+ 
+ 
+-           ParticipantCommand participantCommand = (ParticipantCommand)
+-                    request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+-            if (participantCommand == null) {
++        ParticipantCommand participantCommand = (ParticipantCommand)
++                request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
++        if (participantCommand == null) {
+             participantCommand = (ParticipantCommand)
+                     request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+-            }
++        }
+         return participantCommand;
+     }
+ 
+     public static void clearParticipantCommand(HttpServletRequest request){
+-          request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+-          request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
++        request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
++        request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+     }
+ 
+     public static void clearStudyParticipantCommand(HttpServletRequest request){
+-          request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
++        request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
+     }
++
++
++    public static ClinicalStaffNotificationPublisher getClinicalStaffNotificationPublisher() {
++        return clinicalStaffNotificationPublisher;
++    }
++
++    public static void setClinicalStaffNotificationPublisher(ClinicalStaffNotificationPublisher publisher) {
++
++        if(clinicalStaffNotificationPublisher == null && publisher != null) {
++            ParticipantControllerUtils.clinicalStaffNotificationPublisher = publisher;
++
++        }
++    }
++
++
++
++
+ }
+\ No newline at end of file
+Index: software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java
+===================================================================
+--- software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java	(revision 5776)
++++ software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java	(revision 5780)
+@@ -10,11 +10,14 @@
+ import gov.nih.nci.ctcae.core.repository.secured.*;
+ import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
+ import gov.nih.nci.ctcae.web.ControllerTools;
++import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
+ import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
+ import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
++import gov.nih.nci.ctcae.web.participant.ParticipantControllerUtils;
+ import gov.nih.nci.ctcae.web.security.SecuredTab;
+ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
+ import org.apache.commons.lang.StringUtils;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.beans.factory.annotation.Required;
+ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+ import org.springframework.validation.BindException;
+@@ -41,6 +44,7 @@
+     protected ParticipantRepository participantRepository;
+     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
+     private StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
++    protected ClinicalStaffNotificationPublisher proctcaeEventPublisher;
+     protected Properties proCtcAEProperties;
+     /**
+      * The organization repository.
+@@ -93,6 +97,7 @@
+         RepositoryBasedEditor meddraValidValueEditor = new RepositoryBasedEditor(meddraValidValueRepository, MeddraValidValue.class);
+         binder.registerCustomEditor(MeddraValidValue.class, meddraValidValueEditor);
+ 
++
+     }
+ 
+     /* (non-Javadoc)
+@@ -288,8 +293,20 @@
+         this.meddraValidValueRepository = meddraValidValueRepository;
+     }
+ 
++    @Autowired(required=true)
++    public void setProctcaeEventPublisher(ClinicalStaffNotificationPublisher proctcaeEventPublisher) {
++        this.proctcaeEventPublisher = proctcaeEventPublisher;
++        //Storing this in a static location because it no longer is valid once a new Create/EditParticipantController is created
++        ParticipantControllerUtils.setClinicalStaffNotificationPublisher(proctcaeEventPublisher);
++    }
++
+     public void setProCtcAEProperties(Properties proCtcAEProperties) {
+         this.proCtcAEProperties = proCtcAEProperties;
+     }
++
++
++    public ClinicalStaffNotificationPublisher getProctcaeEventPublisher() {
++        return proctcaeEventPublisher;
++    }
+ }
+ 
+Index: software/web/src/main/webapp/WEB-INF/spring-servlet.xml
+===================================================================
+--- software/web/src/main/webapp/WEB-INF/spring-servlet.xml	(revision 5776)
++++ software/web/src/main/webapp/WEB-INF/spring-servlet.xml	(revision 5780)
+@@ -764,6 +764,7 @@
+         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+         <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
+         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
++        <property name="proctcaeEventPublisher" ref="proctcaeEventPublisher"/>
+         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+     </bean>
+ 
+Index: software/web/web.iml
+===================================================================
+--- software/web/web.iml	(revision 5776)
++++ software/web/web.iml	(revision 5780)
+@@ -1,52 +1,275 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module relativePaths="true" type="JAVA_MODULE" version="4">
+-  <component name="FacetManager">
+-    <facet type="Spring" name="Spring">
+-      <configuration />
+-    </facet>
+-    <facet type="web" name="Web">
+-      <configuration>
+-        <descriptors>
+-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.5" />
+-        </descriptors>
+-        <webroots>
+-          <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+-        </webroots>
+-        <sourceRoots>
+-          <root url="file://$MODULE_DIR$/src/main/java" />
+-          <root url="file://$MODULE_DIR$/src/test/java" />
+-        </sourceRoots>
+-        <building>
+-          <setting name="EXPLODED_URL" value="file://$MODULE_DIR$/../out/exploded/webWeb" />
+-          <setting name="EXPLODED_ENABLED" value="false" />
+-          <setting name="JAR_URL" value="file://" />
+-          <setting name="JAR_ENABLED" value="false" />
+-          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
+-        </building>
+-        <packaging>
+-          <containerElement type="module" name="web">
+-            <attribute name="method" value="1" />
+-            <attribute name="URI" value="/WEB-INF/classes" />
+-          </containerElement>
+-        </packaging>
+-      </configuration>
+-    </facet>
+-  </component>
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+-      <excludeFolder url="file://$MODULE_DIR$/build" />
+-      <excludeFolder url="file://$MODULE_DIR$/reports" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="AllJars" level="project" />
+-    <orderEntry type="module" module-name="commons" />
+-    <orderEntry type="module" module-name="core" />
+-  </component>
+-</module>
+-
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="IvyIDEA" name="IvyIDEA">
++      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="true" useCustomIvySettings="true" ivySettingsFile="" onlyResolveSelectedConfigs="false">
++        <propertiesSettings>
++          <propertiesFiles includeProjectLevelPropertiesFiles="true">
++            <fileName>$MODULE_DIR$/../ivysettings-offline.xml</fileName>
++            <fileName>$MODULE_DIR$/../ivysettings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivy/ivy-settings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivy/cbiit-ivy-settings.xml</fileName>
++            <fileName>$MODULE_DIR$/../common/ivysettings.xml</fileName>
++          </propertiesFiles>
++        </propertiesSettings>
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
++      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="module" module-name="commons" />
++    <orderEntry type="module" module-name="core" />
++    <orderEntry type="module-library">
++      <library name="IvyIDEA">
++        <CLASSES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.0-FINAL.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xml-apis/xml-apis/jars/xml-apis-1.3.03.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring/jars/spring-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-aspects/jars/spring-aspects-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjrt/jars/aspectjrt-1.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-agent/jars/spring-agent-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-web/jars/spring-web-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-webmvc/jars/spring-webmvc-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-context-support/jars/spring-context-support-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.binding/jars/org.springframework.binding-2.0.3.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.js/jars/org.springframework.js-2.0.3.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.webflow/jars/org.springframework.webflow-2.0.3.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/ognl/ognl/jars/ognl-2.6.7.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-taglibs/jars/spring-security-taglibs-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-core/jars/spring-security-core-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-acl/jars/spring-security-acl-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/jars/commons-collections-3.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-validator/commons-validator/jars/commons-validator-1.1.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/jars/commons-io-1.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.directwebremoting/dwr/jars/dwr-2.0.rc2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.extremecomponents/extremecomponents/jars/extremecomponents-1.0.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.7.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/jars/jdom-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/displaytag/displaytag/jars/displaytag-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/com.lowagie/itext/jars/itext-1.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/opensymphony/sitemesh/jars/sitemesh-2.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.tiles/tiles-api/jars/tiles-api-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging-api/jars/commons-logging-api-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.tiles/tiles-core/jars/tiles-core-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-digester/commons-digester/jars/commons-digester-1.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.tiles/tiles-jsp/jars/tiles-jsp-2.0.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/taglibs/standard/jars/standard-1.1.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/jstl/jars/jstl-1.1.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jfreechart/jars/jfreechart-1.0.9.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jcommon/jars/jcommon-1.0.12.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/opensymphony/quartz-all/jars/quartz-all-1.6.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mvel/mvel/jars/mvel-1.2.22-java1.5.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xbean/xbean-spring/bundles/xbean-spring-3.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.asteriskjava/asterisk-java/jars/asterisk-java-1.0.0-m2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/jars/log4j-1.2.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/activemq-core/bundles/activemq-core-5.3.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.geronimo.specs/geronimo-jms_1.1_spec/jars/geronimo-jms_1.1_spec-1.1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/kahadb/bundles/kahadb-5.3.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.osgi/org.osgi.core/jars/org.osgi.core-4.1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.osgi/spring-osgi-core/bundles/spring-osgi-core-1.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.osgi/spring-osgi-io/bundles/spring-osgi-io-1.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.geronimo.specs/geronimo-j2ee-management_1.0_spec/jars/geronimo-j2ee-management_1.0_spec-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-context/jars/spring-context-2.5.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-beans/jars/spring-beans-2.5.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-core/jars/spring-core-2.5.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-net/commons-net/jars/commons-net-2.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ehcache/ehcache/jars/ehcache-1.3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ezmorph/ezmorph/jars/ezmorph-1.0.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.json-lib/json-lib-ext-spring/jars/json-lib-ext-spring-1.0.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.json-lib/json-lib/jars/json-lib-2.2.2-jdk15.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/jars/servlet-api-2.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet.jsp/jsp-api/jars/jsp-api-2.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.jawr/jawr/jars/jawr-3.3.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/jars/servlet-api-2.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/jars/spring-test-2.5.4.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/jars/junit-3.8.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/jars/easymockclassextension-2.2.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/jars/easymock-2.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/jars/cglib-nodep-2.1_3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.client-drivers/selenium-java-client-driver/jars/selenium-java-client-driver-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.server/selenium-server-coreless/jars/selenium-server-coreless-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jetty/org.mortbay.jetty/jars/org.mortbay.jetty-5.1.12.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/bouncycastle/bcprov-jdk15/jars/bcprov-jdk15-135.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.core/selenium-core/jars/selenium-core-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/jars/cobertura-2.0.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/jars/asm-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/jars/asm-tree-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/jars/asm-util-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/jars/asm-analysis-4.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/jars/jaxen-1.1-beta-8.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xmlParserAPIs/jars/xmlParserAPIs-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.6.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xom/xom/jars/xom-1.0b3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-2.6.1.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xalan/xalan/jars/xalan-2.6.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-0.9.7.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/jars/servlet-api-2.5-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/jars/jetty-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/jars/jetty-util-6.1.14.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/jars/log4j-1.2.13.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/jars/asm-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm-tree/jars/asm-tree-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/jars/ant-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.9.2.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/edu.northwestern.bioinformatics/core-commons-testing/jars/core-commons-testing-77.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-web/jars/ctms-commons-web-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/jars/hibernate-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/antlr/antlr/jars/antlr-2.7.6.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/jars/asm-1.5.3.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-annotations/jars/hibernate-annotations-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.persistence/persistence-api/jars/persistence-api-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-3.2.1.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jboss/javassist/jars/javassist-3.3.ga.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jboss/jboss-archive-browsing/jars/jboss-archive-browsing-5.0.0alpha-200607201-119.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.jsr107cache/jsr107cache/jars/jsr107cache-1.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/backport-util-concurrent/backport-util-concurrent/jars/backport-util-concurrent-3.0.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-base/jars/ctms-commons-base-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-core/jars/ctms-commons-core-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-lang/jars/ctms-commons-lang-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/gov.nih.cabig.ctms/ctms-commons-testing-uctrace/jars/ctms-commons-testing-uctrace-0.9.RELEASE.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/ant/ant/jars/ant-1.6.5.jar!/" />
++        </CLASSES>
++        <JAVADOC>
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/javadocs/commons-logging-1.1.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/javadocs/commons-lang-2.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/javadocs/commons-codec-1.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-fileupload/commons-fileupload/javadocs/commons-fileupload-1.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-validator/commons-validator/javadocs/commons-validator-1.1.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/javadocs/commons-io-1.4-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.directwebremoting/dwr/javadocs/dwr-2.0.rc2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/javadocs/commons-beanutils-1.7.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jfreechart/javadocs/jfreechart-1.0.9-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jcommon/javadocs/jcommon-1.0.12-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xbean/xbean-spring/javadocs/xbean-spring-3.6-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.asteriskjava/asterisk-java/javadocs/asterisk-java-1.0.0-m2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/activemq-core/javadocs/activemq-core-5.3.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.geronimo.specs/geronimo-jms_1.1_spec/javadocs/geronimo-jms_1.1_spec-1.1.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/kahadb/javadocs/kahadb-5.3.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq.protobuf/activemq-protobuf/javadocs/activemq-protobuf-1.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-net/commons-net/javadocs/commons-net-2.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ezmorph/ezmorph/javadocs/ezmorph-1.0.6-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.json-lib/json-lib-ext-spring/javadocs/json-lib-ext-spring-1.0.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.opencsv/opencsv/javadocs/opencsv-2.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/javadocs/easymockclassextension-2.2.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.client-drivers/selenium-java-client-driver/javadocs/selenium-java-client-driver-1.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.server/selenium-server-coreless/javadocs/selenium-server-coreless-1.0-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/javadocs/cobertura-2.0.3-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/javadocs/asm-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/javadocs/asm-tree-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/javadocs/asm-commons-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/javadocs/asm-util-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/javadocs/asm-analysis-4.1-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/javadocs/ant-1.9.2-javadoc.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/javadocs/hibernate-3.2.1.ga-javadoc.jar!/" />
++        </JAVADOC>
++        <SOURCES>
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/sources/poi-3.0-FINAL-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.8.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring/sources/spring-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-aspects/sources/spring-aspects-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-agent/sources/spring-agent-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-web/sources/spring-web-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/aopalliance/aopalliance/sources/aopalliance-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-webmvc/sources/spring-webmvc-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-context-support/sources/spring-context-support-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.binding/sources/org.springframework.binding-2.0.3.RELEASE-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.js/sources/org.springframework.js-2.0.3.RELEASE-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.webflow/org.springframework.webflow/sources/org.springframework.webflow-2.0.3.RELEASE-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-taglibs/sources/spring-security-taglibs-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-core/sources/spring-security-core-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.security/spring-security-acl/sources/spring-security-acl-2.0.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/sources/commons-collections-3.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/sources/commons-lang-2.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/sources/commons-codec-1.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-fileupload/commons-fileupload/sources/commons-fileupload-1.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-validator/commons-validator/sources/commons-validator-1.1.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-io/commons-io/sources/commons-io-1.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.directwebremoting/dwr/sources/dwr-2.0.rc2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.extremecomponents/extremecomponents/sources/extremecomponents-1.0.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-beanutils/commons-beanutils/sources/commons-beanutils-1.7.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/sources/jdom-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/displaytag/displaytag/sources/displaytag-1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/com.lowagie/itext/sources/itext-1.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/opensymphony/sitemesh/sources/sitemesh-2.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-digester/commons-digester/sources/commons-digester-1.8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/taglibs/standard/sources/standard-1.1.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/jstl/sources/jstl-1.1.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jfreechart/sources/jfreechart-1.0.9-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jfree/jcommon/sources/jcommon-1.0.12-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xbean/xbean-spring/sources/xbean-spring-3.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.asteriskjava/asterisk-java/sources/asterisk-java-1.0.0-m2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/sources/log4j-1.2.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/activemq-core/sources/activemq-core-5.3.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.geronimo.specs/geronimo-jms_1.1_spec/sources/geronimo-jms_1.1_spec-1.1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq/kahadb/sources/kahadb-5.3.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.activemq.protobuf/activemq-protobuf/sources/activemq-protobuf-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.osgi/spring-osgi-core/sources/spring-osgi-core-1.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework.osgi/spring-osgi-io/sources/spring-osgi-io-1.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-context/sources/spring-context-2.5.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-beans/sources/spring-beans-2.5.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-core/sources/spring-core-2.5.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-net/commons-net/sources/commons-net-2.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.ezmorph/ezmorph/sources/ezmorph-1.0.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.json-lib/json-lib-ext-spring/sources/json-lib-ext-spring-1.0.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/sources/servlet-api-2.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet.jsp/jsp-api/sources/jsp-api-2.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.opencsv/opencsv/sources/opencsv-2.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.jawr/jawr/sources/jawr-3.3.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/sources/servlet-api-2.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.springframework/spring-test/sources/spring-test-2.5.4-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/junit/junit/sources/junit-3.8.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymockclassextension/sources/easymockclassextension-2.2.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/sources/easymock-2.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib-nodep/sources/cglib-nodep-2.1_3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.client-drivers/selenium-java-client-driver/sources/selenium-java-client-driver-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.seleniumhq.selenium.server/selenium-server-coreless/sources/selenium-server-coreless-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sourceforge.cobertura/cobertura/sources/cobertura-2.0.3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm/sources/asm-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-tree/sources/asm-tree-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/sources/asm-commons-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-util/sources/asm-util-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-analysis/sources/asm-analysis-4.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/sources/oro-2.0.8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/jaxen/jaxen/sources/jaxen-1.1-beta-8-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/sources/dom4j-1.6.1-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.6.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/servlet-api-2.5/sources/servlet-api-2.5-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty/sources/jetty-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.mortbay.jetty/jetty-util/sources/jetty-util-6.1.14-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/sources/log4j-1.2.13-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/asm/asm/sources/asm-3.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/sources/ant-1.9.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/sources/ant-launcher-1.9.2-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate/sources/hibernate-3.2.1.ga-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/antlr/antlr/sources/antlr-2.7.6-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/cglib/cglib/sources/cglib-2.1_3-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/org.hibernate/hibernate-annotations/sources/hibernate-annotations-3.2.1.ga-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/javax.persistence/persistence-api/sources/persistence-api-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/net.sf.jsr107cache/jsr107cache/sources/jsr107cache-1.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/backport-util-concurrent/backport-util-concurrent/sources/backport-util-concurrent-3.0-sources.jar!/" />
++          <root url="jar://$USER_HOME$/.ivy2/cache/ant/ant/sources/ant-1.6.5-sources.jar!/" />
++        </SOURCES>
++      </library>
++    </orderEntry>
++  </component>
++</module>
+\ No newline at end of file
