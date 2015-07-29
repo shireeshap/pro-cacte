@@ -38,5 +38,15 @@
         <dependency org="ant" name="ant" rev="1.6.5" conf="test->master(*)"/>
         <dependency org="org.mvel" name="mvel" rev="1.2.22-java1.5" force="true"/>
         <dependency org="log4j" name="log4j" rev="1.2.13" conf="test->default(*)"/>
+
+        <!-- CTMS commons dependencies -->
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"/>
+
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="0.9.RELEASE" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="0.9.RELEASE"/>
+
+
+
     </dependencies>
 </ivy-module>

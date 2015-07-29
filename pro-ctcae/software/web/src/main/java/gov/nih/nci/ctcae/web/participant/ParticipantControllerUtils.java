@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import javax.servlet.http.HttpServletRequest;
 
+import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
 import org.apache.commons.lang.StringUtils;
 
 //
@@ -14,6 +15,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ParticipantControllerUtils {
 
+
+
+    private static ClinicalStaffNotificationPublisher clinicalStaffNotificationPublisher;
     /**
      * Gets the study participant command.
      *
@@ -29,21 +33,38 @@ public class ParticipantControllerUtils {
     public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
 
 
-           ParticipantCommand participantCommand = (ParticipantCommand)
-                    request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
-            if (participantCommand == null) {
+        ParticipantCommand participantCommand = (ParticipantCommand)
+                request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+        if (participantCommand == null) {
             participantCommand = (ParticipantCommand)
                     request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
-            }
+        }
         return participantCommand;
     }
 
     public static void clearParticipantCommand(HttpServletRequest request){
-          request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
-          request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+        request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+        request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
     }
 
     public static void clearStudyParticipantCommand(HttpServletRequest request){
-          request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
+        request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
     }
+
+
+    public static ClinicalStaffNotificationPublisher getClinicalStaffNotificationPublisher() {
+        return clinicalStaffNotificationPublisher;
+    }
+
+    public static void setClinicalStaffNotificationPublisher(ClinicalStaffNotificationPublisher publisher) {
+
+        if(clinicalStaffNotificationPublisher == null && publisher != null) {
+            ParticipantControllerUtils.clinicalStaffNotificationPublisher = publisher;
+
+        }
+    }
+
+
+
+
 }

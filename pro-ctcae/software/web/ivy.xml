@@ -3,7 +3,13 @@
 
     <info organisation="gov.nih.nci.ctcae"
           module="proctcae-web"
-          status="integration"/>
+          status="integration">
+             <extends extendType="all"
+             organisation="Semantic Bits"
+             module="proctcae"
+             location="../ivy.xml"/>
+
+    </info>
 
     <configurations>
         <conf name="default" visibility="public" extends="publish,runtime"
@@ -37,6 +43,18 @@
 
         <!-- Apache POI dependencies -->
         <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL" force="true"/>
+
+
+        <dependency org="org.hibernate" name="hibernate" rev="3.2.1.ga">
+            <exclude conf="*" name="cglib"/>
+            <exclude conf="*" name="asm"/>
+            <exclude conf="*" name="asm-attrs"/>
+        </dependency>
+        <dependency org="cglib" name="cglib-nodep" rev="2.1_3"/>
+        <dependency org="org.hibernate" name="hibernate-annotations" rev="3.2.1.ga"/>
+        <dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.2.1.ga"/>
+
+
 
 
         <!--  caAERS other modules -->
@@ -101,7 +119,7 @@
         <dependency org="org.apache.tiles" name="tiles-jsp" rev="2.0.4"/>
 
         <!--  CTMS commons dependencies -->
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-web" rev="${ctms.version}"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-web" rev="0.9.RELEASE"/>
 
 
         <!--  Build Only Dependencies -->

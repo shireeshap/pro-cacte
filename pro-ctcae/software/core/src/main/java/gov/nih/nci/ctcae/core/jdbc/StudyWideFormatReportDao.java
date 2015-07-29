@@ -76,10 +76,10 @@ public class StudyWideFormatReportDao{
 							    					(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 							    					" left join crfs crf on crf.id = spcrf.crf_id " +
 							    					" where " +
-							    					(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+							    					(studyId != null? " crf.study_id = " + studyId + " " : "") +
 							    					(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 							    					(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "")  +
-							    					" and crf.is_eq5d = '" + isEq5dReportData + "' " + 
+							    					" and crf.is_eq5d = '" + isEq5dReportData + "' " +
 							    					" and spcrfs.status != 'SCHEDULED' )" +
     			" order by spci.id ";
     	
@@ -103,7 +103,7 @@ public class StudyWideFormatReportDao{
 									 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 									 			"  left join crfs crf on crf.id = spcrf.crf_id " +
 									 			" where " +
-												(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+												(studyId != null? " crf.study_id = " + studyId + " " : "") +
 												(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 												(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 												" and crf.is_eq5d = 'false' " +
@@ -130,7 +130,7 @@ public class StudyWideFormatReportDao{
 									 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 									 			" left join crfs crf on crf.id = spcrf.crf_id " +
 									 			" where " +
-												(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+												(studyId != null? " crf.study_id = " + studyId + " " : "") +
 												(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 												(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 								    			" and crf.is_eq5d = 'false' " +
@@ -157,7 +157,7 @@ public class StudyWideFormatReportDao{
 					 			(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 					 			" left join crfs crf on crf.id = spcrf.crf_id " +
 							 	" where " +
-								(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+								(studyId != null? " crf.study_id = " + studyId + " " : "") +
 								(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 								(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 				    			" and crf.is_eq5d = '" + isEq5dReportData + "' " +
@@ -177,7 +177,7 @@ public class StudyWideFormatReportDao{
 								 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 								 		" left join crfs crf on crf.id = spcrf.crf_id " +
 								 		" where " +
-										(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+										(studyId != null? " crf.study_id = " + studyId + " " : "") +
 										(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 										(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 										" and crf.is_eq5d = '" + isEq5dReportData + "' " +
@@ -198,7 +198,7 @@ public class StudyWideFormatReportDao{
 								 		(studySiteId != null?" left join study_participant_assignments spa on spa.id = spcrf.study_participant_id " : "") +
 								 		" left join crfs crf on crf.id = spcrf.crf_id " +
 								 		" where " +
-										(studyId != null? " crf.study_id = " + studyId + " " : "") + 
+										(studyId != null? " crf.study_id = " + studyId + " " : "") +
 										(crfIds != null? " and crf.id in (" + StringUtils.join(crfIds, ", ") + ") " : "") +
 										(studySiteId != null? " and spa.study_site_id = " + studySiteId + " " : "") +
 										" and crf.is_eq5d = '" + isEq5dReportData + "' " +

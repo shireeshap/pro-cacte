@@ -99,8 +99,8 @@
 	        </fileset>
 	    </copy>
 
-        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
-            docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
+        <echo file="/Library/Tomcat/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
+            docBase="${main.src}/../webapp/" reloadable="true" debug="0" />
         </echo>
     </target>
 

@@ -10,11 +10,14 @@ import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.secured.*;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.web.ControllerTools;
+import gov.nih.nci.ctcae.web.clinicalStaff.notifications.ClinicalStaffNotificationPublisher;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
+import gov.nih.nci.ctcae.web.participant.ParticipantControllerUtils;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
@@ -41,6 +44,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     protected ParticipantRepository participantRepository;
     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     private StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+    protected ClinicalStaffNotificationPublisher proctcaeEventPublisher;
     protected Properties proCtcAEProperties;
     /**
      * The organization repository.
@@ -92,6 +96,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         binder.registerCustomEditor(FormArmSchedule.class, new RepositoryBasedEditor(formArmScheduleRepository, FormArmSchedule.class));
         RepositoryBasedEditor meddraValidValueEditor = new RepositoryBasedEditor(meddraValidValueRepository, MeddraValidValue.class);
         binder.registerCustomEditor(MeddraValidValue.class, meddraValidValueEditor);
+
 
     }
 
@@ -288,8 +293,20 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         this.meddraValidValueRepository = meddraValidValueRepository;
     }
 
+    @Autowired(required=true)
+    public void setProctcaeEventPublisher(ClinicalStaffNotificationPublisher proctcaeEventPublisher) {
+        this.proctcaeEventPublisher = proctcaeEventPublisher;
+        //Storing this in a static location because it no longer is valid once a new Create/EditParticipantController is created
+        ParticipantControllerUtils.setClinicalStaffNotificationPublisher(proctcaeEventPublisher);
+    }
+
     public void setProCtcAEProperties(Properties proCtcAEProperties) {
         this.proCtcAEProperties = proCtcAEProperties;
+    }
+
+
+    public ClinicalStaffNotificationPublisher getProctcaeEventPublisher() {
+        return proctcaeEventPublisher;
     }
 }
 

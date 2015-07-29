@@ -46,9 +46,9 @@
         <dependency org="org.apache.ant" name="ant" rev="1.9.2" force="true" conf="build->master(*)"/>
 
         <!-- CTMS commons dependencies -->
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false" changing="true"
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false" changing="true"
                     conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" />
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"
                     conf="build->master(*);runtime->runtime(*),master(*);dist->default(*);distGrid->default(*)" force="true" changing="true"/>
 
         <!-- CORE commons dependencies -->

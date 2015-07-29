@@ -2,9 +2,7 @@ package gov.nih.nci.ctcae.web.batch;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.RoleStatus;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 

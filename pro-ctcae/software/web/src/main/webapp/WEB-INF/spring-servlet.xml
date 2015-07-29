@@ -764,6 +764,7 @@
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
         <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
         <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
+        <property name="proctcaeEventPublisher" ref="proctcaeEventPublisher"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 

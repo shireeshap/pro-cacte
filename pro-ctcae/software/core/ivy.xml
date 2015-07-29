@@ -120,11 +120,11 @@
 
 
         <!-- CTMS commons dependencies -->
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"/>
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-base" rev="0.9.RELEASE" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-core" rev="0.9.RELEASE" transitive="false"/>
 
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="${ctms.version}" transitive="false"/>
-        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctms.version}"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-lang" rev="0.9.RELEASE" transitive="false"/>
+        <dependency org="gov.nih.cabig.ctms" name="ctms-commons-testing-uctrace" rev="0.9.RELEASE"/>
 
 
         <!-- Test/Runtime dependencies -->
