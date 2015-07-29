@@ -42,6 +42,8 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 	public void onApplicationEvent(ApplicationEvent event) {
 		if(event instanceof NewStaffAccountNotificationEvent){
 			try {
+
+				//Reset Password link generation
 				NewStaffAccountNotificationEvent newStaffAccountNotification = (NewStaffAccountNotificationEvent) event;
 				ClinicalStaff clinicalStaff = newStaffAccountNotification.getClinicalStaff();
 				String link = newStaffAccountNotification.getLink();
@@ -58,9 +60,7 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 				content += getEmailFooter();
 				
 				sendEmail(content, clinicalStaff.getEmailAddress());
-			} catch (IOException e) {
-				logger.error("Error in sending account creation email for newly clinical staff. " + e.getMessage(), e);
-			} catch (MessagingException e) {
+			} catch (IOException | MessagingException e) {
 				logger.error("Error in sending account creation email for newly clinical staff. " + e.getMessage(), e);
 			}
 		} else if(event instanceof NewStaffAccountNotificationOnSetupEvent){
@@ -71,12 +71,34 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 			        content += getEmailFooter();
 					
 			        sendEmail(content, newStaffAccountNotificationOnSetup.getEmailAddress());
-				} catch (IOException e) {
-					logger.error("Error in sending email to added staff on system setup. " + e.getMessage(), e);
-				} catch (MessagingException e) {
+				} catch (IOException | MessagingException e) {
 					logger.error("Error in sending email to added staff on system setup. " + e.getMessage(), e);
 				}
+		} else if (event instanceof NewStudyParticipantNotification) {
+			try {
+				NewStudyParticipantNotification newParticipantNotification = (NewStudyParticipantNotification) event;
+				String content =  getNewParticipantEmailMessage(newParticipantNotification.getParticipantUsername(),
+						newParticipantNotification.getStudySite());
+				content += getEmailFooter();
+				sendEmail(content, newParticipantNotification.getCraEmail());
+
+			} catch (IOException | MessagingException e) {
+				logger.error("Error in sending email to added staff on system setup. " + e.getMessage(), e);
+			}
 		}
+	}
+
+	private String getNewParticipantEmailMessage(String username, String studySite) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("A new participant has been added to a study. See below information for details.");
+		sb.append("<br><br/>");
+		sb.append("Participant Username: ");
+		sb.append(username);
+		sb.append("<br><br/>");
+		sb.append("Study Site: ");
+		sb.append(studySite);
+
+		return sb.toString();
 	}
 	
 	private String getEmailMessage(String userName, String password){

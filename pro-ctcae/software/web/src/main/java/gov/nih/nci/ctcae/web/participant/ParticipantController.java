@@ -3,12 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.security.passwordpolicy.PasswordPolicyServiceImpl;
@@ -49,8 +44,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
 
     private Properties properties;
 
-    public static final String IVRS_BLACKOUT_START_TIME  = "ivrs.blackout.start";
-    public static final String IVRS_BLACKOUT_END_TIME  = "ivrs.blackout.end";
+    public static final String IVRS_BLACKOUT_START_TIME = "ivrs.blackout.start";
+    public static final String IVRS_BLACKOUT_END_TIME = "ivrs.blackout.end";
 
     /**
      * Instantiates a new participant controller.
@@ -78,6 +73,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     */
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        //TODO: this never gets executed
         ParticipantCommand participantCommand = (ParticipantCommand) command;
         participantCommand.assignStaff();
 
@@ -93,7 +89,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         ParticipantCommand command = new ParticipantCommand();
-        
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         command.setPasswordPolicy(passwordPolicyService.getPasswordPolicy(Role.PARTICIPANT));
         command.setAdmin(user.isAdmin());
@@ -102,12 +98,12 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         String mode = proCtcAEProperties.getProperty("mode.nonidentifying");
         command.setMode(mode);
 
-        if(command.getSelectedOrganization() == null && command.getOrganizationId() != 0){
+        if (command.getSelectedOrganization() == null && command.getOrganizationId() != 0) {
             command.setSelectedOrganization((Organization) organizationRepository.findById(command.getOrganizationId()));
         }
 
 
-        if(command.getSelectedStudyParticipantAssignment()!=null){
+        if (command.getSelectedStudyParticipantAssignment() != null) {
             command.setSelectedOrganization(command.getSelectedStudyParticipantAssignment().getStudySite().getOrganization());
         }
 
@@ -143,7 +139,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         String blackoutStartTime = properties.getProperty(IVRS_BLACKOUT_START_TIME);
         String blackoutEndTime = properties.getProperty(IVRS_BLACKOUT_END_TIME);
         // Assigning default value for blackout period
-        if(blackoutStartTime == null || blackoutStartTime.equals("") || blackoutEndTime ==null || blackoutEndTime.equals("") || !blackoutStartTime.contains(":") || !blackoutEndTime.contains(":")){
+        if (blackoutStartTime == null || blackoutStartTime.equals("") || blackoutEndTime == null || blackoutEndTime.equals("") || !blackoutStartTime.contains(":") || !blackoutEndTime.contains(":")) {
             blackoutStartTime = "21:00";
             blackoutEndTime = "04:59";
         }

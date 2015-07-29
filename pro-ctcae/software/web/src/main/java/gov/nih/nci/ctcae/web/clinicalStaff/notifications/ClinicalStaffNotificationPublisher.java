@@ -27,9 +27,22 @@ public class ClinicalStaffNotificationPublisher implements ApplicationEventPubli
 		NewStaffAccountNotificationOnSetupEvent event = new NewStaffAccountNotificationOnSetupEvent(this, userName, clearCasePassword, emailAddress);
 		applicationEventPublisher.publishEvent(event);
 	}
+
+	//send notification to lead CRA on new participant
+	public void publishNewStudyParticipantNotification(String craEmail, String participantUsername, String studySite) {
+		NewStudyParticipantNotification event = new NewStudyParticipantNotification(this, craEmail,  participantUsername, studySite);
+		applicationEventPublisher.publishEvent(event);
+	}
 	
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.applicationEventPublisher = applicationEventPublisher;
 	}
+
+
+
+
+
+
+
 }

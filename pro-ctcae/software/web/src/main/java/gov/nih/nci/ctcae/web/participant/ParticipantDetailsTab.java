@@ -1,21 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.AppMode;
-import gov.nih.nci.ctcae.core.domain.Arm;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyMode;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantMode;
-import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.UserRole;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
@@ -76,7 +62,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public ParticipantDetailsTab() {
         super("participant.tab.participant_details", "participant.tab.participant_details", "participant/createParticipant");
     }
-    
+
     public ParticipantDetailsTab(String viewName) {
         super("participant.tab.participant_details", "participant.tab.participant_details", "participant/"+ viewName);
     }
@@ -89,7 +75,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     	if(getViewName().indexOf("createParticipant") != -1 || Boolean.TRUE.equals(session.getAttribute("isCreateFlow"))) {
     		return privilege;
     	}
-    	
+
 		//only do this evaluation for the edit flow.
     	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	if(!user.isAdmin()){
@@ -143,22 +129,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             String userName = request.getParameter("participant.username_" + studySite.getId());
             if (!StringUtils.isBlank(userName)) {
                 try {
-                	command.getParticipant().getUser().setUsername(userName);
+                    command.getParticipant().getUser().setUsername(userName);
                 } catch (Exception e) {
-                	command.getParticipant().getUser().setUsername(null);
+                    command.getParticipant().getUser().setUsername(null);
                 }
             }
             String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId());
             if (!StringUtils.isBlank(newPasswordBeforeEncoding)) {
-            	newPasswordBeforeEncoding = newPasswordBeforeEncoding.trim();
-            	//Participant obj has the new pwd from UI and User object has the existing pwd. They are used to determine if there has been any change in pwd.
+                newPasswordBeforeEncoding = newPasswordBeforeEncoding.trim();
+                //Participant obj has the new pwd from UI and User object has the existing pwd. They are used to determine if there has been any change in pwd.
                 try {
-                	command.getParticipant().setPassword(newPasswordBeforeEncoding);
+                    command.getParticipant().setPassword(newPasswordBeforeEncoding);
                 } catch (Exception e) {
-                	command.getParticipant().setPassword(null);
+                    command.getParticipant().setPassword(null);
                 }
             }
-            
+
             String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
             if (!StringUtils.isBlank(userNumber)) {
                 try {
@@ -197,10 +183,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                     command.getParticipant().setPhoneNumber(phone);
                 } catch (Exception e) {
                     command.getParticipant().setPhoneNumber(null);
-                    logger.error("Invalid particpant phone number: setting phone number as null in exception flow.");		
+                    logger.error("Invalid particpant phone number: setting phone number as null in exception flow.");
                 }
             } else {
-            	command.getParticipant().setPhoneNumber(null);
+                command.getParticipant().setPhoneNumber(null);
             }
         } else {
             //Create flow (Participant is not saved yet)
@@ -224,20 +210,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 String userName = request.getParameter("participant.username_" + studySite.getId());
                 if (!StringUtils.isBlank(userName)) {
                     try {
-                    	command.getParticipant().getUser().setUsername(userName);
+                        command.getParticipant().getUser().setUsername(userName);
                     } catch (Exception e) {
-                    	command.getParticipant().getUser().setUsername(null);
+                        command.getParticipant().getUser().setUsername(null);
                     }
                 }
                 String newPasswordBeforeEncoding = request.getParameter("participant.password_" + studySite.getId());
                 if (!StringUtils.isBlank(newPasswordBeforeEncoding)) {
                     try {
-                    	command.getParticipant().setPassword(newPasswordBeforeEncoding);
+                        command.getParticipant().setPassword(newPasswordBeforeEncoding);
                     } catch (Exception e) {
-                    	command.getParticipant().setPassword(null);
+                        command.getParticipant().setPassword(null);
                     }
                 }
-             
+
                 String userNumber = request.getParameter("participantUserNumber_" + studySite.getId());
                 if (!StringUtils.isBlank(userNumber)) {
                     try {
@@ -279,13 +265,22 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         command.getParticipant().setPhoneNumber(null);
                     }
                 }
-            }
 
-            if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
-                command.getSelectedStudyParticipantAssignment();
+                for (StudyOrganizationClinicalStaff cra : studySite.getSiteCRAs()) {
+                String emailAddress = cra.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
+                if (StringUtils.isNotBlank(emailAddress)) {
+                    ParticipantControllerUtils.getClinicalStaffNotificationPublisher().publishNewStudyParticipantNotification(emailAddress, userName, studySite.getDisplayName());
+                } else {
+                    logger.error("No email address supplied for a Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "]");
+                }
             }
         }
-    }
+
+                if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
+                    command.getSelectedStudyParticipantAssignment();
+                }
+            }
+        }
 
 
     @Override

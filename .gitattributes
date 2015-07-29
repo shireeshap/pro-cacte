@@ -2855,6 +2855,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notific
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/ClinicalStaffNotificationPublisher.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotificationEvent.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStaffAccountNotificationOnSetupEvent.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/notifications/NewStudyParticipantNotification.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/CachingFilter.java -text
