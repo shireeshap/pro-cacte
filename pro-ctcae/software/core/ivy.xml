@@ -4,7 +4,13 @@
 
     <info organisation="gov.nih.nci.ctcae"
           module="proctcae-core"
-          status="integration" revision="${proctcae.version}"/>
+          status="integration" revision="${proctcae.version}">
+        <extends extendType="all"
+                 organisation="Semantic Bits"
+                 module="proctcae"
+                 location="../ivy.xml"/>
+    </info>
+
 
     <configurations>
         <conf name="default" visibility="public" extends="publish,runtime"

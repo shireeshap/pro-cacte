@@ -3,7 +3,12 @@
 
     <info organisation="gov.nih.nci.ctcae"
           module="proctcae-commons"
-          status="integration"/>
+          status="integration">
+    <extends extendType="all"
+             organisation="Semantic Bits"
+             module="proctcae"
+             location="../ivy.xml"/>
+    </info>
 
     <configurations>
         <conf name="default" visibility="public" extends="publish,runtime"
