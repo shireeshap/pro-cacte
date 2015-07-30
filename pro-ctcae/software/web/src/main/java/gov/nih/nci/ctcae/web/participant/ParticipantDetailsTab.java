@@ -271,8 +271,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         String emailAddress = cra.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
                         if (StringUtils.isBlank(emailAddress)) {
                             logger.warn("No email address supplied for a Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "]");
+                        } else {
+                            ParticipantControllerUtils.getClinicalStaffNotificationPublisher().publishNewStudyParticipantNotification(emailAddress, userName, studySite.getDisplayName());
                         }
-                        ParticipantControllerUtils.getClinicalStaffNotificationPublisher().publishNewStudyParticipantNotification(emailAddress, userName, studySite.getDisplayName());
                     } catch (Exception e) {
                         logger.error("Unable to notify Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "] due to [" + e.getMessage() + "]");
                     }
