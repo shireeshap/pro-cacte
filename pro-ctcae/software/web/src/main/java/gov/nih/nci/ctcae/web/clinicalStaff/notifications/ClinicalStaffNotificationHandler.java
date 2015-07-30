@@ -89,7 +89,7 @@ public class ClinicalStaffNotificationHandler implements ApplicationListener{
 	}
 
 	private String getNewParticipantEmailMessage(String username, String studySite) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("A new participant has been added to a study. See below information for details.");
 		sb.append("<br><br/>");
 		sb.append("Participant Username: ");

@@ -52,10 +52,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private UniqueStudyIdentifierForParticipantValidator uniqueStudyIdentifierForParticipantValidator;
     private OrganizationRepository organizationRepository;
     private UserRepository userRepository;
-    
-	protected static final Log logger = LogFactory.getLog(ParticipantDetailsTab.class);
 
-	
+    protected static final Log logger = LogFactory.getLog(ParticipantDetailsTab.class);
+
+
     /**
      * Instantiates a new participant details tab.
      */
@@ -64,31 +64,31 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     }
 
     public ParticipantDetailsTab(String viewName) {
-        super("participant.tab.participant_details", "participant.tab.participant_details", "participant/"+ viewName);
+        super("participant.tab.participant_details", "participant.tab.participant_details", "participant/" + viewName);
     }
 
     public String getRequiredPrivilege() {
-    	String privilege = Privilege.PRIVILEGE_CREATE_PARTICIPANT;
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
+        String privilege = Privilege.PRIVILEGE_CREATE_PARTICIPANT;
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(false);
 
-    	if(getViewName().indexOf("createParticipant") != -1 || Boolean.TRUE.equals(session.getAttribute("isCreateFlow"))) {
-    		return privilege;
-    	}
+        if (getViewName().indexOf("createParticipant") != -1 || Boolean.TRUE.equals(session.getAttribute("isCreateFlow"))) {
+            return privilege;
+        }
 
-		//only do this evaluation for the edit flow.
-    	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	if(!user.isAdmin()){
-    		String participantId = attr.getRequest().getParameter("id");
-        	if(!StringUtils.isEmpty(participantId)){
-        		privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
-        	} else {
-        		participantId = (String) attr.getRequest().getSession().getAttribute("id");
-        		if(!StringUtils.isEmpty(participantId)){
-        			privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
-        		}
-        	}
-    	}
+        //only do this evaluation for the edit flow.
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.isAdmin()) {
+            String participantId = attr.getRequest().getParameter("id");
+            if (!StringUtils.isEmpty(participantId)) {
+                privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
+            } else {
+                participantId = (String) attr.getRequest().getSession().getAttribute("id");
+                if (!StringUtils.isEmpty(participantId)) {
+                    privilege = privilege + AuthorizationServiceImpl.getParticipantInstanceSpecificPrivilege(Integer.parseInt(participantId));
+                }
+            }
+        }
         return privilege;
     }
 
@@ -267,20 +267,23 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 }
 
                 for (StudyOrganizationClinicalStaff cra : studySite.getSiteCRAs()) {
-                String emailAddress = cra.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
-                if (StringUtils.isNotBlank(emailAddress)) {
-                    ParticipantControllerUtils.getClinicalStaffNotificationPublisher().publishNewStudyParticipantNotification(emailAddress, userName, studySite.getDisplayName());
-                } else {
-                    logger.error("No email address supplied for a Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "]");
+                    try {
+                        String emailAddress = cra.getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress();
+                        if (StringUtils.isBlank(emailAddress)) {
+                            logger.warn("No email address supplied for a Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "]");
+                        }
+                        ParticipantControllerUtils.getClinicalStaffNotificationPublisher().publishNewStudyParticipantNotification(emailAddress, userName, studySite.getDisplayName());
+                    } catch (Exception e) {
+                        logger.error("Unable to notify Lead CRA [" + cra.getId() + "] for study at site [" + studySite.getDisplayName() + "] due to [" + e.getMessage() + "]");
+                    }
                 }
             }
         }
 
-                if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
-                    command.getSelectedStudyParticipantAssignment();
-                }
-            }
+        if (CollectionUtils.isNotEmpty(command.getParticipant().getStudyParticipantAssignments())) {
+            command.getSelectedStudyParticipantAssignment();
         }
+    }
 
 
     @Override
@@ -295,7 +298,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         } else {
             //check for response modes. 
             Study study = command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getStudy();
-            if(study.getStudyModes().size() > 0){
+            if (study.getStudyModes().size() > 0) {
                 if (command.getResponseModes() == null || command.getResponseModes().length == 0) {
                     errors.reject("participant.missing_response_mode");
                 }
@@ -345,8 +348,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         //check for password policy if there is a change in password
-        if(command.getParticipant().getPassword() != null && !command.getParticipant().getPassword().equals(command.getParticipant().getUser().getPassword())){
-        	User cloneUserWithNewPassword = buildUserForPasswordValidation(command);
+        if (command.getParticipant().getPassword() != null && !command.getParticipant().getPassword().equals(command.getParticipant().getUser().getPassword())) {
+            User cloneUserWithNewPassword = buildUserForPasswordValidation(command);
             if (cloneUserWithNewPassword.getPassword() != null) {
                 try {
                     userNameAndPasswordValidator.validatePasswordPolicy(cloneUserWithNewPassword);
@@ -378,16 +381,16 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     private User buildUserForPasswordValidation(ParticipantCommand command) {
         User origUser = command.getParticipant().getUser();
         User cloneUser = new User();
-        
+
         cloneUser.setUsername(origUser.getUsername());
         cloneUser.setUserPasswordHistory(origUser.getUserPasswordHistory());
         cloneUser.setPassword(command.getParticipant().getPassword());
         cloneUser.addUserRole(new UserRole(Role.PARTICIPANT));
-        
-        return cloneUser;
-	}
 
-	public Map<String, Object> referenceData(ParticipantCommand command) {
+        return cloneUser;
+    }
+
+    public Map<String, Object> referenceData(ParticipantCommand command) {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByStudySiteAndLeadSiteOnly();
@@ -400,7 +403,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                 organizationsHavingStudySite.add(o);
             }
         }
-        
+
         // Initializing studyOrganization and studyModes
         boolean showTime = false;
         boolean showWeb = false;
@@ -498,13 +501,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         }
                         if (!doNotCreate && uiMode.getMode().equals(AppMode.IVRS)) {
                             for (StudyParticipantCrf spCrf : command.getSelectedStudyParticipantAssignment().getStudyParticipantCrfs()) {
-                            	if(!spCrf.getCrf().isEq5d()){
+                                if (!spCrf.getCrf().isEq5d()) {
                                     for (StudyParticipantCrfSchedule spcSchedule : spCrf.getStudyParticipantCrfSchedules()) {
                                         if (spcSchedule.getIvrsSchedules() == null || spcSchedule.getIvrsSchedules().size() == 0) {
                                             spCrf.createIvrsSchedules(spcSchedule);
                                         }
                                     }
-                            	}
+                                }
                             }
                         }
                     }
@@ -548,7 +551,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.organizationRepository = organizationRepository;
     }
 
-	public void setUserRepository(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }
