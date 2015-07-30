@@ -83,6 +83,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
     	spcrf.addStudyParticipantCrfSchedule(spcrfs);
     	StudyParticipantAssignment spa = new StudyParticipantAssignment();
     	spa.addStudyParticipantCrf(spcrf);
+        spa.setCallTimeZone("America/Chicago");
     	participantCommand.setResponseModes(new String[]{"IVRS"});
     	
     	request.getSession().setAttribute("email_" + studySite.getId(), false);
