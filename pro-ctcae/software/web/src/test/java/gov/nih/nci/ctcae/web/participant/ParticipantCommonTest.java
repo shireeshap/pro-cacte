@@ -92,7 +92,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
     	request.getSession().setAttribute("call_hour_" + studySite.getId(), 1);
     	request.getSession().setAttribute("call_hour_" + studySite.getId(), 1);
     	request.setParameter("call_ampm_" + studySite.getId(), "am");
-    	request.setParameter("call_timeZone_" + studySite.getId(), "America/Chicago");
+    	request.setParameter("call_timeZone", "America/Chicago");
     	request.setParameter("home_paper_lang_" + studySite.getId(), "ENGLISH");
     	request.setParameter("home_web_lang_" + studySite.getId(), "ENGLISH");
     	request.setParameter("ivrs_lang_" + studySite.getId(), "ENGLISH");
