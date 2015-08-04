@@ -93,7 +93,9 @@ public class AddCrfScheduleController extends AbstractController {
             cNewDate.setTime(newDate);
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
-            participantScheduleService.moveAllSchedules(DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds, participantSchedule.getStudyParticipantCrfs());
+            participantScheduleService.moveAllSchedules(DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), 
+														formIds, participantSchedule.getStudyParticipantCrfs());
+            participantCommand.lazyInitializeAssignment(genericRepository, true);
         }
 
         if (MOVE_ALL_FUTURE.equals(action)) {
@@ -105,7 +107,9 @@ public class AddCrfScheduleController extends AbstractController {
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
             c.set(Calendar.DATE, olddate);
             
-            participantScheduleService.moveFutureSchedules(c, DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), formIds, participantSchedule.getStudyParticipantCrfs());
+            participantScheduleService.moveFutureSchedules(c, DateUtils.daysBetweenDatesWithRoundOff(cNewDate, c), 
+    													   formIds, participantSchedule.getStudyParticipantCrfs());
+            participantCommand.lazyInitializeAssignment(genericRepository, true);
         }
         
         if (DELETE_ALL_FUTURE.equals(action)) {
