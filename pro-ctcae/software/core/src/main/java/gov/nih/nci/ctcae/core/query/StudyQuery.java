@@ -172,7 +172,7 @@ public class StudyQuery extends SecuredQuery<Study> {
         andWhere("p.id =:" + PARTICIPANT_ID);
         setParameter(PARTICIPANT_ID, participantId);
     }
-    
+
     public void filterByAll(String text, String key){
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
         andWhere(String.format("(lower(study.shortTitle) LIKE :%s " +

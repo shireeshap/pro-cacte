@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The Class ParticipantQuery.
@@ -21,25 +23,24 @@ import org.apache.commons.lang.StringUtils;
 
 public class ParticipantQuery extends SecuredQuery<Organization> {
 	
-    private static String FIRST_NAME = "firstName";
-    private static String LAST_NAME = "lastName";
-    private static String IDENTIFIER = "assignedIdentifier";
+    private static final String FIRST_NAME = "firstName";
+    private static final String LAST_NAME = "lastName";
+    private static final String IDENTIFIER = "assignedIdentifier";
     private static final String STUDY_ID = "studyId";
     private static final String STUDY_IDS = "studyIds";
     private static final String STUDY_SITE_ID = "studySiteId";
     private static final String ORGANIZATION_ID = "siteId";
     private static final String USERNAME = "username";
     private static final String STUDY_PARTICIPANT_IDENTIFIER = "studyParticipantIdentifier";
-    private static String EMAIL = "emailAddress";
-    private static String USERNUMBER = "userNumber";
+    private static final String EMAIL = "emailAddress";
+    private static final String USERNUMBER = "userNumber";
     private static final String STUDY_SITE = "studySite";
     private static final String LEAD_SITE = "leadSite";
     private static final String SHORT_TITLE = "shortTitle";
     private static final String NAME = "name";
     private static final String ORGANIZATION_NAME = "sortByOrganizationName";
     private boolean isStudySiteLevel = false;
-    private static String ROLE = "role";
-    
+    private static final String ROLE = "role";
 
     /** Instantiates a new participant query.
      */
@@ -179,27 +180,55 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
 
     }
-    
+
     public void filterByAll(String text, String key) {
-        String searchString = text != null && StringUtils.isNotBlank(text) ? "%" + StringUtils.trim(StringUtils.lowerCase(text)) + "%" : null;
+        text =StringUtils.lowerCase(text);
+        String cleanPrefixSearchString = StringUtils.trimToNull(text).concat("%");
+//        String cleanPostfixSearchString = "%".concat(StringUtils.trimToNull(text));
+        String wildcardSearchString = "%".concat(StringUtils.trimToNull(text).concat("%"));
+
 
         andWhere(String.format("(lower(p.firstName) LIKE :%s " +
-                "or lower(p.lastName) LIKE :%s " +
-                "or lower(p.assignedIdentifier) LIKE :%s " +
-                "or lower(p.emailAddress) LIKE :%s " +
-                "or p.userNumber LIKE :%s " +
-                "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s " +
-                "or lower(study.shortTitle) LIKE :%s " +
-                "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, EMAIL+key, USERNUMBER+key, 
+                        "or lower(p.lastName) LIKE :%s " +
+                        "or lower(p.assignedIdentifier) LIKE :%s " +
+                        "or lower(p.emailAddress) LIKE :%s " +
+                        "or p.userNumber LIKE :%s " +
+                        "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s " +
+                        "or lower(study.shortTitle) LIKE :%s " +
+                        "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME+key, LAST_NAME+key, IDENTIFIER+key, EMAIL+key, USERNUMBER+key,
                 STUDY_PARTICIPANT_IDENTIFIER+key, SHORT_TITLE+key, NAME+key));
-        setParameter(IDENTIFIER+key, searchString);
-        setParameter(FIRST_NAME+key, searchString);
-        setParameter(LAST_NAME+key, searchString);
-        setParameter(EMAIL+key, searchString);
-        setParameter(USERNUMBER+key, searchString);
-        setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, searchString);
-        setParameter(SHORT_TITLE+key, searchString);
-        setParameter(NAME+key, searchString);
+        setParameter(IDENTIFIER+key, wildcardSearchString);
+        setParameter(FIRST_NAME+key, cleanPrefixSearchString);
+        setParameter(LAST_NAME+key, cleanPrefixSearchString);
+        setParameter(EMAIL+key, cleanPrefixSearchString);
+        setParameter(USERNUMBER+key, wildcardSearchString);
+        setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, wildcardSearchString);
+        setParameter(SHORT_TITLE+key, cleanPrefixSearchString);
+        setParameter(NAME+key, cleanPrefixSearchString);
+    }
+
+    public void filterByMultiwordWildcard(String [] searchTerms, String key) {
+
+        String searchTerm = StringUtils.lowerCase("%".concat(StringUtils.join(searchTerms, "%")).concat("%"));
+        orWhere(String.format("(lower(p.firstName) LIKE :%s " +
+                        "or lower(p.lastName) LIKE :%s " +
+                        "or lower(p.assignedIdentifier) LIKE :%s " +
+                        "or lower(p.emailAddress) LIKE :%s " +
+                        "or p.userNumber LIKE :%s " +
+                        "or lower(p.studyParticipantAssignments.studyParticipantIdentifier) LIKE :%s " +
+                        "or lower(study.shortTitle) LIKE :%s " +
+                        "or lower(ss.organization.name) LIKE :%s )", FIRST_NAME + key, LAST_NAME + key, IDENTIFIER + key, EMAIL + key, USERNUMBER + key,
+                STUDY_PARTICIPANT_IDENTIFIER + key, SHORT_TITLE + key, NAME + key));
+        setParameter(IDENTIFIER+key, searchTerm);
+        setParameter(FIRST_NAME+key, searchTerm);
+        setParameter(LAST_NAME+key, searchTerm);
+        setParameter(EMAIL+key, searchTerm);
+        setParameter(USERNUMBER+key, searchTerm);
+        setParameter(STUDY_PARTICIPANT_IDENTIFIER+key, searchTerm);
+        setParameter(SHORT_TITLE+key, searchTerm);
+        setParameter(NAME+key, searchTerm);
+
+
     }
 
     /**
@@ -219,7 +248,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
     /**
      * Filter by studys.
      *
-     * @param studyId the study id
+     * @param studies the list of study IDs
      */
     public void filterByStudyIds(List<Integer> studies) {
         if (studies != null && !studies.isEmpty()) {

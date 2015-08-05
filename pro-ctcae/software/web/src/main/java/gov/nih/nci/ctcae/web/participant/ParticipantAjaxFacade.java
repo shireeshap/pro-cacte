@@ -12,6 +12,8 @@ import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -29,6 +31,7 @@ public class ParticipantAjaxFacade {
     private static final String ORGANIZATION_NAME = "sortByOrganizationName";
 
     private ParticipantRepository participantRepository;
+    private Log logger = LogFactory.getLog(ParticipantAjaxFacade.class);
 
 
     public List<Participant> searchParticipants(String[] searchStrings, Integer startIndex, Integer resultsCount, String sortField, String direction) {
@@ -66,6 +69,9 @@ public class ParticipantAjaxFacade {
                 if (!StringUtils.isBlank(searchText)) {
                     participantQuery.filterByAll(searchText, "" + index);
                     index++;
+                }
+                if (index > 1) {
+                    participantQuery.filterByMultiwordWildcard(searchTexts, ""+index);
                 }
             }
         }
@@ -136,6 +142,9 @@ public class ParticipantAjaxFacade {
                     participantQuery.filterByAll(searchText, "" + index);
                     index++;
                 }
+            }
+            if (index > 1) {
+                participantQuery.filterByMultiwordWildcard(searchTexts, ""+index);
             }
         }
 

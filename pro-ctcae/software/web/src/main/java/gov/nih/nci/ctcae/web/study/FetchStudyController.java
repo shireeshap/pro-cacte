@@ -81,6 +81,7 @@ public class FetchStudyController extends AbstractController {
 		            studyCommand.setAssignedIdentifier(study.getAssignedIdentifier());
 		            studyCommand.setFundingSponsorDisplayName(study.getFundingSponsor().getOrganization().getDisplayName());
 		            studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
+
 		            
 		            boolean odcOnStudy = false;
 		            if (user.isCCA() || user.isAdmin()) {

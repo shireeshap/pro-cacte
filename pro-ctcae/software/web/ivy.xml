@@ -2,13 +2,16 @@
 <ivy-module version="1.4">
 
     <info organisation="gov.nih.nci.ctcae"
-          module="proctcae-web"
-          status="integration">
-             <extends extendType="all"
-             organisation="Semantic Bits"
-             module="proctcae"
-             location="../ivy.xml"/>
-
+        module="proctcae-web"
+        status="integration">
+        <extends extendType="dependencies"
+            organisation="Semantic Bits"
+            module="proctcae"
+            location="../ivy.xml"/>
+        <extends extendType="dependencies"
+            organisation="gov.nih.nci.ctcae"
+            module="proctcae-core"
+            location="../core/ivy.xml"/>
     </info>
 
     <configurations>

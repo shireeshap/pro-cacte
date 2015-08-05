@@ -36,7 +36,7 @@ public class FetchParticipantController extends AbstractController {
     private AuthorizationServiceImpl authorizationServiceImpl;
     private String PRIVILEGE_EDIT_PARTICIPANT = "PRIVILEGE_EDIT_PARTICIPANT";
     
-    List<Participant> completeParticipantsList = new ArrayList<Participant>();
+    List<Participant> completeParticipantsList;
     public static final int rowsPerPageInt = 25;
 
     /* (non-Javadoc)
@@ -64,8 +64,7 @@ public class FetchParticipantController extends AbstractController {
         }
         modelAndView.addObject("searchString", searchString);
         if (!StringUtils.isEmpty(searchString)) {
-             searchString.trim();
-             searchStrings = searchString.split("\\s+");
+             searchStrings = searchString.trim().split("\\s+");
         }
         Integer resultsCount = Integer.valueOf(results);
         Integer totalRecords = 0;
