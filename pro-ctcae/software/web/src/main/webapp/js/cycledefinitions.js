@@ -1,5 +1,5 @@
-function applyCalendar(index, direction) {
-    getCalendar(index, "dir=" + direction);
+function applyCalendar(index, direction, participantId) {
+    getCalendar(index, "dir=" + direction, participantId);
 }
 var calendarArr = new Array();
 var scheduleArr = new Array();
@@ -42,7 +42,7 @@ function isEqual(d1,d2){
 	return false;
 }
 
-function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege) {
+function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId) {
     initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
@@ -286,7 +286,7 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                             '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
                             '</div>';
                     item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege);
+                    showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId);
                     if (isEnableDrag) {
                         myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
                     }
@@ -305,7 +305,7 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                 //show dropdown menu for participants not put off-study 
                 if(!postOffTreatmentDate) {
                 	item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day,  month, year, index, null, true, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege);
+                    showPopUpMenuSchedule(day,  month, year, index, null, true, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId);
 //                    Event.observe(div_id, "click", function() {
 //                        showAddWindow(getDate(this), getIndex(this));
 //                    })
