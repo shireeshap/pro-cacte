@@ -3,16 +3,17 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.service.UserRoleService;
-import gov.nih.nci.ctcae.core.service.UserRoleServiceImpl;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
     protected UserRoleService userRoleService;
+    public static String STUDY_ID = "studyId";
     
     public StudyController() {
         super();
@@ -47,10 +49,8 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         flow.addTab(new StudyClinicalStaffTab());
         flow.addTab(new StudySiteClinicalStaffTab());
         flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_confirmation"));
-
     }
-
-
+    
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
      */
@@ -75,6 +75,11 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     }
     
     protected String getFormSessionAttributeName() {
+    	ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    	String studyId = attr.getRequest().getParameter(STUDY_ID);
+    	if(StringUtils.isNotEmpty(studyId)) {
+    		return StudyController.class.getName() + ".FORM." + getCommandName() + "." + Integer.parseInt(studyId);
+    	}
         return StudyController.class.getName() + ".FORM." + getCommandName();
     }
 
