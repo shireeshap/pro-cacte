@@ -13,6 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -70,7 +71,11 @@ public class MoveFormScheduleValidateController extends AbstractController {
         mv.addObject("action", action);
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("participant", participantCommand.getParticipant());
-        mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
+        
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        if(StringUtils.isNotEmpty(participantId)) {
+        	mv.addObject("pid", participantId);
+        }
         return mv;
     }
 

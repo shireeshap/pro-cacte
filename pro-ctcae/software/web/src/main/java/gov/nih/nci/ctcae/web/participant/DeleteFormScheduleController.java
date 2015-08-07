@@ -29,7 +29,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
  */
 public class DeleteFormScheduleController extends AbstractController {
 
-
     GenericRepository genericRepository;
 
     /* (non-Javadoc)
@@ -60,6 +59,11 @@ public class DeleteFormScheduleController extends AbstractController {
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));
         mv.addObject("participant", participantCommand.getParticipant());
+        
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        if(StringUtils.isNotEmpty(participantId)) {
+        	mv.addObject("pid", participantId);
+        }
         return mv;
     }
 

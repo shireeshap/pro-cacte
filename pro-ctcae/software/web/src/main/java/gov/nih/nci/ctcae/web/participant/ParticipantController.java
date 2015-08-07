@@ -19,10 +19,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 //
@@ -46,6 +49,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
 
     public static final String IVRS_BLACKOUT_START_TIME = "ivrs.blackout.start";
     public static final String IVRS_BLACKOUT_END_TIME = "ivrs.blackout.end";
+    public static final String PARTICIPANT_ID = "id";
 
     /**
      * Instantiates a new participant controller.
@@ -108,6 +112,16 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         }
 
         return command;
+    }
+    
+    @Override
+    protected String getFormSessionAttributeName() {
+    	ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    	String participantId = attr.getRequest().getParameter(PARTICIPANT_ID);
+    	if(StringUtils.isNotEmpty(participantId)) {
+    		return EditParticipantController.class.getName() + ".FORM.command" + "." + Integer.parseInt(participantId);
+    	}
+        return EditParticipantController.class.getName() + ".FORM.command";
     }
 
     @Override

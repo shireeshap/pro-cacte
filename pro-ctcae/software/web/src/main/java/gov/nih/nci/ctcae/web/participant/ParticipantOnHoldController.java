@@ -34,7 +34,12 @@ public class ParticipantOnHoldController extends AbstractController {
         Calendar c = new GregorianCalendar();
          mv.addObject("newdate", DateUtils.format(c.getTime()));
         mv.addObject("index", request.getParameter("index"));
-        mv.addObject("pid", command.getSelectedStudyParticipantAssignmentId());
+        
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        if(StringUtils.isNotEmpty(participantId)) {
+        	mv.addObject("pid", participantId);
+        };
+        
         return mv;
     }
 }

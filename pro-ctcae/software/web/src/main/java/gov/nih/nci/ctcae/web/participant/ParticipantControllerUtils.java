@@ -14,10 +14,8 @@ import org.apache.commons.lang.StringUtils;
  * @since Oct 21, 2008
  */
 public class ParticipantControllerUtils {
-
-
-
     private static ClinicalStaffNotificationPublisher clinicalStaffNotificationPublisher;
+    
     /**
      * Gets the study participant command.
      *
@@ -29,19 +27,27 @@ public class ParticipantControllerUtils {
                 request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
         return studyParticipantCommand;
     }
-
+    
     public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
-
-
         ParticipantCommand participantCommand = (ParticipantCommand)
                 request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
+        
         if (participantCommand == null) {
-            participantCommand = (ParticipantCommand)
-                    request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+        	String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        	if(StringUtils.isNotEmpty(participantId)) {
+        		participantCommand = (ParticipantCommand) 
+        				request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command" + "." + Integer.parseInt(participantId));
+        		
+        	} else {
+        		participantCommand = (ParticipantCommand)
+        				request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
+        		
+        	}
         }
+        
         return participantCommand;
     }
-
+    
     public static void clearParticipantCommand(HttpServletRequest request){
         request.getSession().getAttribute(CreateParticipantController.class.getName() + ".FORM." + "command");
         request.getSession().getAttribute(EditParticipantController.class.getName() + ".FORM." + "command");
@@ -63,8 +69,5 @@ public class ParticipantControllerUtils {
 
         }
     }
-
-
-
 
 }

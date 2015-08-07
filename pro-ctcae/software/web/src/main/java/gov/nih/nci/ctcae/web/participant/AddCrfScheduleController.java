@@ -65,6 +65,7 @@ public class AddCrfScheduleController extends AbstractController {
         String offHoldDate = request.getParameter("offHoldDate");
         Date today = new Date();
         String fids = request.getParameter("fids");
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
         String[] strings;
         boolean isSave = false;
         List formIds = new ArrayList();
@@ -133,11 +134,11 @@ public class AddCrfScheduleController extends AbstractController {
             newCalendar.setTime(newDate);
             //using service layer object to save moved schedules
             participantScheduleService.updateAndSaveSchedule(c, newCalendar, formIds, resultMap, participantSchedule);
-//            participantSchedule.updateSchedule(c, newCalendar, formIds, resultMap);
             participantCommand.lazyInitializeAssignment(genericRepository, true);
             mv.addObject("day", request.getParameter("date"));
             mv.addObject("index", request.getParameter("index"));
             mv.addObject("resultMap", resultMap);
+            mv.addObject("pid", participantId);
             return mv;
         }
 

@@ -58,7 +58,11 @@ public class DetailsFormScheduleController extends AbstractController {
         mv.addObject("index", request.getParameter("index"));
         mv.addObject("date", DateUtils.format(c.getTime()));
         mv.addObject("participant", participantCommand.getParticipant());
-        mv.addObject("pid", participantCommand.getSelectedStudyParticipantAssignmentId());
+        
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        if(StringUtils.isNotEmpty(participantId)) {
+        	mv.addObject("pid", participantId);
+        }
         return mv;
     }
 

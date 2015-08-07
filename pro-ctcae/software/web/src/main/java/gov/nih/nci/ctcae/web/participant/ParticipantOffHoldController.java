@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -231,7 +232,12 @@ public class ParticipantOffHoldController extends CtcAeSimpleFormController {
         }
 
         ModelAndView mv = new ModelAndView("participant/confirmMove");
-//        mv.addObject("pId", studyParticipantAssignment.getParticipant().getId());
+        
+        String participantId = request.getParameter(ParticipantController.PARTICIPANT_ID);
+        if(StringUtils.isNotEmpty(participantId)) {
+        	mv.addObject("pid", participantId);
+        }
+        
         return mv;
 
     }
