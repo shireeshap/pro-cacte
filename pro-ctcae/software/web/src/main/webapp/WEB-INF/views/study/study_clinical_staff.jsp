@@ -110,10 +110,11 @@
 	        new Insertion.Before("hiddenOdcDiv", responseStr[0]);
         }
         
-        function addODC() {
+        function addODC(studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:addOdcDiv,
-                parameters:<tags:ajaxstandardparams/>+"&action=addODC",
+                parameters:<tags:ajaxstandardparams/> + "&action=addODC" + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
@@ -127,10 +128,11 @@
 	        new Insertion.Before("hiddenDiv", responseStr[0]);
         }
         
-        function addLeadCra() {
+        function addLeadCra(studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:addLeadCraDiv,
-                parameters:<tags:ajaxstandardparams/>+"&action=addLeadCRA",
+                parameters:<tags:ajaxstandardparams/> + "&action=addLeadCRA" +
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
@@ -144,10 +146,11 @@
 	        new Insertion.Before("hiddenPiDiv", responseStr[0]);
         }
         
-        function addPI() {
+        function addPI(studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:addPiDiv,
-                parameters:<tags:ajaxstandardparams/>+"&action=addPI",
+                parameters:<tags:ajaxstandardparams/> + "&action=addPI" +
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
@@ -163,32 +166,38 @@
 
         }
         
-        function deleteODC(index) {
+        function deleteODC(index, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:function(transport) {
                 	jQuery("#odcTable #row-" + index).remove();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&action=deleteODC&odcIndexToRemove=" + index,
+                parameters:<tags:ajaxstandardparams/> + "&action=deleteODC" +
+                										"&odcIndexToRemove=" + index + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
         
-        function deleteLeadCra(index) {
+        function deleteLeadCra(index, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:function(transport) {
                 	jQuery("#leadCraTable #row-" + index).remove();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&action=deleteLCRA&lcraIndexToRemove=" + index,
+                parameters:<tags:ajaxstandardparams/> + "&action=deleteLCRA" +
+                										"&lcraIndexToRemove=" + index + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
         
-        function deletePI(index) {
+        function deletePI(index, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyOrganizationalClinicalStaff"/>", {
                 onComplete:function(transport) {
                 	jQuery("#pITable #row-" + index).remove();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&action=deletePI&piIndexToRemove=" + index,
+                parameters:<tags:ajaxstandardparams/> + "&action=deletePI" + 
+                										"&piIndexToRemove=" + index + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
@@ -248,7 +257,7 @@
 		           </table>
 	            </div>
 	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
-		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addODC()"
+		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addODC('${param.studyId}')"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
 			    <div id="hiddenOdcDiv"></div>
@@ -286,7 +295,7 @@
 		            </table>
 	            </div>
 	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
-		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addLeadCra()"
+		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addLeadCra('${param.studyId}')"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
 			    <div id="hiddenDiv"></div>
@@ -326,7 +335,7 @@
 		           </table>
 	            </div>
 	            <div style="margin-left:150px;margin-top:10px;margin-bottom:10px; width: 60px;">
-		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addPI()"
+		        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addPI('${param.studyId}')"
 		            	         value="study.button.add_study_site" icon="add" size="small"/>
 				</div>
 			    <div id="hiddenPiDiv"></div>

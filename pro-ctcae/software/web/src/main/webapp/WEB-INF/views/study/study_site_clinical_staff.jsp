@@ -35,7 +35,7 @@
 
         }
 
-        function addClinicalStaff(studySiteId, role) {
+        function addClinicalStaff(studySiteId, role, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
@@ -46,17 +46,23 @@
                     
                     AE.registerCalendarPopups();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
+                parameters:<tags:ajaxstandardparams/> + "&componentType=studyOrganizationClinicalStaff" +
+                										"&studySiteId=" + studySiteId + 
+							                			"&role=" + role + 
+							                			"&studyId=" + studyId,
                 method:'get'
             })
         }
 
-        function deleteSiteRole(studyOrganizationClinicalStaffIndex) {
+        function deleteSiteRole(studyOrganizationClinicalStaffIndex, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
                 onComplete:function(transport) {
                     $('row-' + studyOrganizationClinicalStaffIndex).remove();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studyOrganizationClinicalStaffIndex=" + studyOrganizationClinicalStaffIndex + "&action=delete",
+                parameters:<tags:ajaxstandardparams/> + "&componentType=studyOrganizationClinicalStaff" +
+                										"&studyOrganizationClinicalStaffIndex=" + studyOrganizationClinicalStaffIndex +
+                										"&action=delete" +
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }

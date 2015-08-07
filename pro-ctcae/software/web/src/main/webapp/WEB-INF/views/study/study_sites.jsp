@@ -25,20 +25,22 @@
 	        new Insertion.Before("hiddenDiv", responseStr[0]);
         }
         
-        function addStudySite() {
+        function addStudySite(studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:addStudySiteDiv,
-                parameters:<tags:ajaxstandardparams/>,
+                parameters:<tags:ajaxstandardparams/> + "&studyId=" + studyId,
                 method:'get'
             })
         }
         
-        function deleteStudySite(index) {
+        function deleteStudySite(index, studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:function(transport) {
                     $('row-' + index).remove();
                 },
-                parameters:<tags:ajaxstandardparams/>+"&action=delete&siteIndexToRemove=" + index,
+                parameters:<tags:ajaxstandardparams/> + "&action=delete" + 
+                										"&siteIndexToRemove=" + index + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
@@ -98,7 +100,7 @@
             </table>
             </div>
             <div style="margin-left:50px;margin-top:10px;margin-bottom:10px;">
-	        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
+	        	<tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite('${param.studyId}')"
 	            	         value="study.button.add_study_site" icon="add" size="small"/>
 			</div>
 		    <div id="hiddenDiv"></div>

@@ -32,15 +32,16 @@
             new Insertion.Before("hiddenDiv", response);
         }
 
-        function addStudyArm() {
+        function addStudyArm(studyId) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyArm"/>", {
                 onComplete:addStudyArmDiv,
-                parameters:<tags:ajaxstandardparams/>+"&componentType=site",
+                parameters:<tags:ajaxstandardparams/> + "&componentType=site" +
+                										"&studyId=" + studyId,
                 method:'get'
             })
         }
 
-        function deleteArm(armIndex) {
+        function deleteArm(armIndex, studyId) {
             //$('armIndexToRemove').value = armIndex;
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyArm"/>", {
                 onComplete:function(){
@@ -50,7 +51,9 @@
 	                //}
 	                $(armIndex+'-row').remove();
             	},
-                parameters:<tags:ajaxstandardparams/>+"&action=deleteArm&armIndex="+armIndex,
+                parameters:<tags:ajaxstandardparams/> + "&action=deleteArm" +
+                										"&armIndex=" + armIndex + 
+                										"&studyId=" + studyId,
                 method:'get'
             })
 
@@ -354,7 +357,7 @@
            </div>
        </chrome:division>
        <div align="left" style="padding-top:1em;padding-left:4em">
-           <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
+           <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm('${param.studyId}')" size="small"
                         value="study.button.add_study_arm"/>
        </div>
 
