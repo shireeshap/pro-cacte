@@ -21,7 +21,7 @@
 
 
 <script type="text/javascript">
-function addRemoveSchedule(index, date, action, pid) {
+function addRemoveSchedule(index, date, action, participantId) {
     var forms = document.getElementsByName("selectedForms")
     var fids = '';
     if (forms.length == 1) {
@@ -39,7 +39,7 @@ function addRemoveSchedule(index, date, action, pid) {
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", participantId);
     } else {
         //jQuery('#ajaxLoadingImgDiv').show();
         var startTime = new Date().getTime();
@@ -80,12 +80,16 @@ function addRemoveSchedule(index, date, action, pid) {
         	    	}
         	    	
                 if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh", pid);
+                    getCalendar(index, "dir=refresh", participantId);
                 } else {
                     showConfirmationWindow(transport, 650, 210);
                 }
             },
-            parameters:<tags:ajaxstandardparams/>+"&id=" +pid +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids,
+            parameters:<tags:ajaxstandardparams/> + "&id=" + participantId 
+            										+"&index=" + index + 
+            										"&date=" + date + 
+            										"&action=" + action + 
+            										"&fids=" + fids,
             method:'get'
         })
     }
@@ -139,9 +143,14 @@ function getReadableActionString(action) {
 	}
 }
 
-function closeAndRefresh(){
+function closeAndRefresh(participantId){
 	closeWindow();
-	getCalendar(index, "dir=refresh");
+	
+    <c:if test="(typeof(participantId) == 'undefined' || participantId == null) && ${param.id != null}">
+		participantId = ${param.id};
+	</c:if>
+	
+	getCalendar(index, "dir=refresh", participantId);
 }
 
 function beginHoldOnSchedules(index, date, action, pid) {
@@ -152,19 +161,22 @@ function beginHoldOnSchedules(index, date, action, pid) {
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", pid);
     } else {
         //jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
                 //jQuery('#ajaxLoadingImgDiv').hide();
                 if (transport.responseText == "getCalendar") {
-                    getCalendar(index, "dir=refresh");
+                    getCalendar(index, "dir=refresh", pid);
                 } else {
                     showConfirmationWindow(transport, 650, 210);
                 }
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&id=" + pid,
+            parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+            										"&date=" + date + 
+            										"&action=" + action + 
+            										"&id=" + pid,
             method:'get'
         })
     }
@@ -200,19 +212,32 @@ function addRemoveValidationSchedule(index, date, action, pid) {
                     showConfirmationWindow(transport, 650, 210);
                 }
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&fids=" + fids + "&id=" + pid,
+            parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+            										"&date=" + date + 
+           											"&action=" + action + 
+           											"&fids=" + fids + 
+           											"&id=" + pid,
             method:'get'
         })
     }
 }
 
-function showMoveWindow(olddate, newdate, index, sids, pid) {
+function showMoveWindow(olddate, newdate, index, sids, participantId) {
     if (typeof(sids) == 'undefined') {
         sids = getScheduleIdsForDay(index, olddate);
     }
+    
+     <c:if test="(typeof(participantId) == 'undefined' || participantId == null) && ${param.id != null}">
+		participantId = ${param.id};
+	 </c:if>
+    
     //jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate + "&sids=" + sids + "&id=" + pid,
+        parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+        										"&olddate=" + olddate + 
+        										"&newdate=" + newdate + 
+        										"&sids=" + sids + 
+        										"&id=" + participantId,
         onComplete:function(transport) {
         		showConfirmationWindow(transport, 650, 210);
                 AE.registerCalendarPopups();
@@ -222,37 +247,46 @@ function showMoveWindow(olddate, newdate, index, sids, pid) {
 
 }
 
-function showDeleteWindow(date, index, sids, pid) {
+function showDeleteWindow(date, index, sids, participantId) {
     //$('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/deleteFormSchedule"/>", {
         onComplete:function(transport) {
             //$('ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 180);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
+        parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+        										"&date=" + date + 
+        										"&sids=" + sids + 
+        										"&id=" + participantId,
         method:'get'
     })
 }
-function showDetailsWindow(date, index, sids, pid) {
+function showDetailsWindow(date, index, sids, participantId) {
     //jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/detailsFormSchedule"/>", {
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 300);
         },
-        parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&sids=" + sids + "&id=" + pid,
+        parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+        										"&date=" + date + 
+        										"&sids=" + sids + 
+        										"&id=" + participantId,
         method:'get'
     })
 }
 
-function showAddWindow(id, date, index, sids) {
+function showAddWindow(participantId, date, index, sids) {
     //$('ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/addFormSchedule"/>", {
         onComplete:function(transport) {
             //$('ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 210);
         },
-        parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&index=" + index + "&date=" + date + "&sids=" + sids,
+        parameters:<tags:ajaxstandardparams/>+ "&id=" + participantId + 
+        										"&index=" + index + 
+        										"&date=" + date + 
+        										"&sids=" + sids,
         method:'get'
     })
 }
@@ -271,14 +305,19 @@ function showUpdateStartDateWindow(spcrfid) {
 
 }
 
-function getCalendar(index, parameters, pid) {
-    //jQuery('#ajaxLoadingImgDiv').show();
+function getCalendar(index, parameters, participantId) {
+	 <c:if test="(typeof(participantId) == 'undefined' || participantId == null) && ${param.id != null}">
+		participantId = ${param.id};
+	 </c:if>
+	
     var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
             showCalendar(index, transport);
         },
-        parameters:<tags:ajaxstandardparams/>+"&id=" + pid +"&index=" + index + "&" + parameters,
+        parameters:<tags:ajaxstandardparams/ >+ "&id=" + participantId + 
+        										"&index=" + index + 
+        										"&" + parameters,
         method:'get'
     })
 }
@@ -294,11 +333,14 @@ function showCalendar(index, transport) {
     new Insertion.After('calendar_' + index + '_inner', transport.responseText);
 }
 
-function participantOnHold(id, date, index) {
+function participantOnHold(participantId, date, index) {
     //jQuery('#ajaxLoadingImgDiv').show();
     var startTime = new Date().getTime();
     var request = new Ajax.Request("<c:url value="/pages/participant/participantOnHold"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&flow=schedulecrf&id=" + id + "&date=" + date + "&index=" + index,
+        parameters:<tags:ajaxstandardparams/> + "&flow=schedulecrf" + 
+        										"&id=" + participantId + 
+        										"&date=" + date + 
+        										"&index=" + index,
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
             try{
@@ -347,12 +389,14 @@ function participantOffHold(id, date, index) {
         onComplete:function(transport) {
             //jQuery('#ajaxLoadingImgDiv').hide();
             if (transport.responseText == "getCalendar") {
-                getCalendar(index, "dir=refresh");
+                getCalendar(index, "dir=refresh", id);
             } else {
                 showConfirmationWindow(transport, 650, 250);
             }
         },
-        parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" + index,
+        parameters:<tags:ajaxstandardparams/> + "&id=" + id + 
+        										"&date=" + date + 
+        										"&index=" + index,
         method:'get'
     })
 }
@@ -374,7 +418,7 @@ function validateAndSubmit(date, form) {
     form.submit();
 }
 
-function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege) {
+function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId) {
     var html = '';
     var menuindex = date;
     var holdDate = date;
@@ -394,12 +438,12 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
         	if(hasShowCalendarActionsPrivilege){
         		   if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                       html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
-                       html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                       html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                       html += '<li><a href="#" onclick="javascript:participantOnHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                    } else if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
-                   	html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                   	html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
                    } else {
-                       html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                       html += '<li><a href="#" onclick="javascript:participantOffHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
                    }
         	}
          
@@ -409,20 +453,20 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         //TODO:Suneel A needs to clean up commented line after issue resolved
         //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
-        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Show details</a></li>';
+        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Show details</a></li>';
         /* commenting off-study check, as dropdown arrow is prevented from showing up in 
         the first place, for dates greater than off-study date */
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 if(hasShowCalendarActionsPrivilege){
                 	if (${crfsSize>1}) {
-                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }
                     if (showDeleteOption) {
-                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\');">Delete form</a></li>';
-                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\');">Move form to other date</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Delete form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Move form to other date</a></li>';
                     }
-                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 }
             	if(hasEnterResponsePrivilege){
             	     var split = sid.split('_');
@@ -455,13 +499,13 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
                 if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
                    	if(hasShowCalendarActionsPrivilege){
                     	if (${crfsSize>1}) {
-                            html += '<li><a href="#" onclick="javascript:showAddWindow(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                            html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                         }
                         if (showDeleteOption) {
-                            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Delete form</a></li>';
-                            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + ${command.selectedStudyParticipantAssignment.id} + ');">Move form to other date</a></li>';
+                            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Delete form</a></li>';
+                            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Move form to other date</a></li>';
                         }
-                        html += '<li><a href="#" onclick="javascript:participantOffHold(' + ${command.selectedStudyParticipantAssignment.id} + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                        html += '<li><a href="#" onclick="javascript:participantOffHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
                    	}
                    	if(hasEnterResponsePrivilege){
                         var split = sid.split('_');
@@ -500,14 +544,14 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
 }
 
 
-participantOffHoldPost = function(index, date, cycle, day, action) {
+participantOffHoldPost = function(index, date, cycle, day, action, participantId) {
     if (date == null || date == '') {
         alert('Please enter a date');
         return;
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", participantId);
     } else {
         //jQuery('#ajaxLoadingImgDiv').show();
 	    var startTime = new Date().getTime();
@@ -547,12 +591,17 @@ participantOffHoldPost = function(index, date, cycle, day, action) {
 	    	    		console.log('Google analytics: Exception in timing event on participant calendar.');               		               		
 	    	   	  }
 	            if (transport.responseText == "getCalendar") {
-	                getCalendar(index, "dir=refresh");
+	                getCalendar(index, "dir=refresh", participantId);
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
 	         },
-	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+	         parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
+	         										"&offHoldDate=" + date + 
+	         										"&cycle=" + cycle  + 
+	         										"&day=" + day + 
+	         										"&action=" + action + 
+	         										"&id=" + participantId,
 	         method:'get'
          })
     }

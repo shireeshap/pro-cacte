@@ -41,7 +41,7 @@
     </tr>
     <tr align="center">
     <td style="padding-left:20px">
-    <input type="button" value="Ok" onclick="parent.addRemoveSchedule('${index}','${day}','cancel')"/>
+    <input type="button" value="Ok" onclick="parent.addRemoveSchedule('${index}','${day}','cancel', '${pid}')"/>
 
     </td>
     </tr>

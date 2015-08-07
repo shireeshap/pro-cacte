@@ -37,14 +37,14 @@
     <tr>
         <td style="padding-left:20px">
             <input type="button" value="Only this event"
-                   onclick="parent.addRemoveSchedule('${index}','${day}','del' )"/>
+                   onclick="parent.addRemoveSchedule('${index}','${day}','del', '${pid}')"/>
             &nbsp;&nbsp;&nbsp;
             <input type="button" value="This and all following events"
-                   onclick="parent.addRemoveSchedule('${index}','${day}','delallfuture')"/>
+                   onclick="parent.addRemoveSchedule('${index}','${day}','delallfuture', '${pid}' )"/>
             &nbsp;&nbsp;&nbsp;
-            <input type="button" value="All events" onclick="parent.addRemoveSchedule('${index}','${day}','delall' )"/>
+            <input type="button" value="All events" onclick="parent.addRemoveSchedule('${index}','${day}','delall', '${pid}')"/>
             &nbsp;&nbsp;&nbsp;
-            <input type="button" value="Cancel" onclick="parent.addRemoveSchedule('${index}','${day}','cancel')"/>
+            <input type="button" value="Cancel" onclick="parent.addRemoveSchedule('${index}','${day}','cancel', '${pid}')"/>
         </td>
     </tr>
 </table>

@@ -448,26 +448,31 @@ CP.checkParticipantMrn = function() {
      }
 }
 
-participantOffHoldPost = function(index, date, cycle, day, action) {
+participantOffHoldPost = function(index, date, cycle, day, action, participantId) {
     if (date == null || date == '') {
         alert('Please enter a date');
         return;
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", participantId);
     } else {
     	jQuery('#ajaxLoadingImgDiv').show();
     	var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
 	        onComplete:function(transport) {
 	            jQuery('#ajaxLoadingImgDiv').hide();
 	            if (transport.responseText == "getCalendar") {
-	            	reloadStudyDetailsSection();
+	            	reloadStudyDetailsSection(participantId);
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
 	         },
-	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&offHoldDate=" + date + "&cycle=" + cycle  + "&day=" + day + "&action=" + action,
+	         parameters:<tags:ajaxstandardparams/> +"&index=" + index + 
+	         										"&offHoldDate=" + date + 
+         											"&cycle=" + cycle  + 
+         											"&day=" + day + 
+         											"&action=" + action +
+         											"&id=" + participantId,
 	         method:'get'
          })
     }
@@ -533,14 +538,14 @@ CP.participantOffStudy = function(id) {
     })
 }
 
-function reloadStudyDetailsSection(){
+function reloadStudyDetailsSection(participantId){
 	 var request = new Ajax.Request("<c:url value='/pages/participant/reloadSectionController'/>", {
          onComplete:function(transport) {
         	 jQuery("#studysitestablecontentmarker").empty();
         	 jQuery("#studysitestablecontentmarker").append(transport.responseText);
-			 getCalendar(index, "dir=refresh");
+			 getCalendar(index, "dir=refresh", participantId);
          },
-         parameters:<tags:ajaxstandardparams/>,
+         parameters:<tags:ajaxstandardparams/> + "&id=" + participantId,
          method:'get'
      })
 }
@@ -552,19 +557,22 @@ beginHoldOnSchedules = function(index, date, action, pid) {
     }
     closeWindow();
     if (action == 'cancel') {
-        getCalendar(index, "dir=refresh");
+        getCalendar(index, "dir=refresh", pid);
     } else {
     	jQuery('#ajaxLoadingImgDiv').show();
         var request = new Ajax.Request("<c:url value='/pages/participant/addCrfSchedule'/>", {
             onComplete:function(transport) {
 				 jQuery('#ajaxLoadingImgDiv').hide();
             	 if (transport.responseText == "getCalendar") {
-	            	reloadStudyDetailsSection();
+	            	reloadStudyDetailsSection(pid);
 	            } else {
 	                showConfirmationWindow(transport, 650, 210);
 	            }
             },
-            parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action + "&id=" + pid,
+            parameters:<tags:ajaxstandardparams/> +"&index=" + index + 
+            										"&date=" + date + 
+            										"&action=" + action + 
+            										"&id=" + pid,
             method:'get'
         })
     }
@@ -576,7 +584,9 @@ CP.participantOffHold = function(id, date, index) {
         onComplete:function(transport) {
                 showConfirmationWindow(transport, 600, 200);
         },
-        parameters:<tags:ajaxstandardparams/>+"&sid=" + id + "&date=" + date + "&index=" +0,
+        parameters:<tags:ajaxstandardparams/> + "&id=" + id + 
+        										"&date=" + date + 
+        										"&index=" + 0,
         method:'get'
     })
 }

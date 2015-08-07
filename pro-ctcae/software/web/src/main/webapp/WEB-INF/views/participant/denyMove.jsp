@@ -33,7 +33,7 @@
 			 	<td>
 			 	   <tags:button type="button" id="flow-cancel"
                              cssClass="previous ibutton" value="Ok" icon="x" color="red" size="large"
-                             onclick="closeAndRefresh()"/>
+                             onclick="closeAndRefresh('${param.id}')"/>
 			 	</td>
 			 </table>
 		</div>
