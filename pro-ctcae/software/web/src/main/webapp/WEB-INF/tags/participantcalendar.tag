@@ -77,12 +77,12 @@
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
             <img height="17" width="29"
-                 onmousedown="applyCalendar('${index}','prev');return false;"
+                 onmousedown="applyCalendar('${index}','prev', '${param.id}');return false;"
                  alt="Earlier"
                  src="/proctcae/images/blank.gif"
                  class="navbutton navBack"/>
             <img height="17" width="29"
-                 onmousedown="applyCalendar('${index}','next');return false;" alt="Later"
+                 onmousedown="applyCalendar('${index}','next', '${param.id}');return false;" alt="Later"
                  src="/proctcae/images/blank.gif"
                  class="navbutton navForward"/>
             <b> <fmt:formatDate value="${schedule.proCtcAECalendar.time}" pattern="MMM"/> - <fmt:formatDate
@@ -121,5 +121,5 @@
     </c:forEach>
 </table>
 <script type="text/javascript">
-    initializeCalendar('${index}', '${schedule.proCtcAECalendar.month}', '${schedule.proCtcAECalendar.year}',${hasShowCalendarActionsPrivilege}, ${hasEnterResponsePrivilege});
+    initializeCalendar('${index}', '${schedule.proCtcAECalendar.month}', '${schedule.proCtcAECalendar.year}',${hasShowCalendarActionsPrivilege}, ${hasEnterResponsePrivilege}, '${param.id}');
 </script>

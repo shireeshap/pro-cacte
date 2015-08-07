@@ -73,13 +73,13 @@
                     <a href="javascript:CP.participantOffStudy(${studyParticipantAssignment.id})">Off study date...</a>
                     <br>
                     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate eq null}">
-                        <a id="putOnHold" href="javascript:CP.participantOnHold('${studyParticipantAssignment.id}', null)">Treatment on
+                        <a id="putOnHold" href="javascript:CP.participantOnHold('${param.id}', null)">Treatment on
                             hold</a> <br>
                     </c:if>
                     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
                         Treatment on-hold from <tags:formatDate
                             value="${studyParticipantAssignment.onHoldTreatmentDate}"/><br>
-                        <a id="putOffHold" href="javascript:CP.participantOffHold('${studyParticipantAssignment.id}', null,0)"> Put
+                        <a id="putOffHold" href="javascript:CP.participantOffHold('${param.id}', null,0)"> Put
                             participant
                             on
                             treatment </a>
