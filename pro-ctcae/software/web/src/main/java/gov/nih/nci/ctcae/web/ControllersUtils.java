@@ -33,9 +33,13 @@ public class ControllersUtils {
      * @return the form command
      */
     public static CreateFormCommand getFormCommand(final HttpServletRequest request) {
+    	String crfId = request.getParameter(FormController.CRF_ID);
+    	if(StringUtils.isNotEmpty(crfId)) {
+    		return (CreateFormCommand) request.getSession().getAttribute(FormController.class.getName() + ".FORM." + "command" + "." + Integer.parseInt(crfId));
+    	}
+    	
         return (CreateFormCommand) request.getSession().getAttribute(FormController.class.getName() + ".FORM." + "command");
-
-
+        
     }
 
 
