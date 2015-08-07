@@ -283,7 +283,7 @@ function showAddWindow(participantId, date, index, sids) {
             //$('ajaxLoadingImgDiv').hide();
             showConfirmationWindow(transport, 650, 210);
         },
-        parameters:<tags:ajaxstandardparams/>+ "&id=" + participantId + 
+        parameters:<tags:ajaxstandardparams/> + "&id=" + participantId + 
         										"&index=" + index + 
         										"&date=" + date + 
         										"&sids=" + sids,
@@ -315,7 +315,7 @@ function getCalendar(index, parameters, participantId) {
             //jQuery('#ajaxLoadingImgDiv').hide();
             showCalendar(index, transport);
         },
-        parameters:<tags:ajaxstandardparams/ >+ "&id=" + participantId + 
+        parameters:<tags:ajaxstandardparams/>+ "&id=" + participantId + 
         										"&index=" + index + 
         										"&" + parameters,
         method:'get'
