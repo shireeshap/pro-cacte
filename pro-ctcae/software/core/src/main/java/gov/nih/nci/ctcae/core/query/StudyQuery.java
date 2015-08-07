@@ -135,7 +135,7 @@ public class StudyQuery extends SecuredQuery<Study> {
 
     public void setLeftJoinForUserName() {
         leftJoin("study.studyOrganizations as so " +
-                "left outer join sso.studyOrganizationClinicalStaffs as socs " +
+                "left outer join sso.studyOrganizationClinicalStaffs as sso " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");
