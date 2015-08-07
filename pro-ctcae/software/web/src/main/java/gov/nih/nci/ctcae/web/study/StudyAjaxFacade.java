@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -34,6 +36,7 @@ public class StudyAjaxFacade {
     private StudyRepository studyRepository;
     private AuthorizationServiceImpl authorizationServiceImpl;
 
+    private Log logger = LogFactory.getLog(StudyAjaxFacade.class);
     /**
      * The participant repository.
      */
@@ -105,7 +108,7 @@ public class StudyAjaxFacade {
              studyQuery.setSortDirection(dir);
         	 
     	}else{
-    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC, true);
+    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS, true);
   		     studyQuery.setFirstResult(startIndex);
 	         studyQuery.setMaximumResults(results);
 	         studyQuery.setSortBy("study." + sort);
@@ -159,7 +162,7 @@ public class StudyAjaxFacade {
 	                int index = 0;
 	                for (String searchText : searchTexts) {
 	                    if (!StringUtils.isBlank(searchText)) {
-	                        studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
+                            studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
 	                        index++;
 	                    }
 	                }

@@ -15,9 +15,9 @@ public enum  QueryStrings implements CodedEnum<String>{
 	PARTICIPANT_QUERY_WITH_JOINS("SELECT p from Participant p"),
 	
 	STUDY_QUERY_BASIC("Select distinct study from Study study order by study.shortTitle "),
-	STUDY_QUERY_COUNT("SELECT count(distinct study) from Study study left outer join study.studyOrganizations as so "),
+	STUDY_QUERY_COUNT("SELECT count(distinct study) from Study study "),
 	STUDY_QUERY_SORTBY_FIELDS("SELECT distinct study from Study study "),
-	STUDY_QUERY_SORTBY_FSP_DCC("SELECT study from Study study left outer join study.studyOrganizations as so "),
+	STUDY_QUERY_SORTBY_FSP_DCC("SELECT study from Study study left outer join study.studyOrganizations as sso "),
 	
 	CRF_QUERY_BASIC("SELECT o from CRF o order by o.id "),
 	CRF_QUERY_COUNT("SELECT count(distinct o) from CRF o"),

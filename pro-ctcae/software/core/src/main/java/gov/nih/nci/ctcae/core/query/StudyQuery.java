@@ -135,7 +135,7 @@ public class StudyQuery extends SecuredQuery<Study> {
 
     public void setLeftJoinForUserName() {
         leftJoin("study.studyOrganizations as so " +
-                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join sso.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");
@@ -155,11 +155,11 @@ public class StudyQuery extends SecuredQuery<Study> {
     }
     
     public void filterByFundingSponsor(){
-    	andWhere("so.class='FSP'");
+    	andWhere("sso.class='FSP'");
     }
 
     public void filterByCoordinatingCenter(){
-    	andWhere("so.class='DCC'");
+    	andWhere("sso.class='DCC'");
     }
 
     /**
@@ -175,15 +175,15 @@ public class StudyQuery extends SecuredQuery<Study> {
 
     public void filterByAll(String text, String key, Boolean filterOnlyByStudySites){
 
+        setLeftJoin();
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
 
         String format = "(lower(study.shortTitle) LIKE :%s " +
                 "or lower(study.assignedIdentifier) LIKE :%s " +
-                "or lower(so.organization.name) like :%s) "
-                + (filterOnlyByStudySites ? "and so.class NOT IN ('SSP', 'FSP', 'DCC')" : "")
- ;
+                "or lower(sso.organization.name) like :%s) "
+                + (filterOnlyByStudySites ? "and sso.class NOT IN ('SSP', 'FSP', 'DCC')" : "");
         andWhere(String.format(format
-                , SHORT_TITLE + key, ASSIGNED_IDENTIFIER + key, STUDY_SITE_NAME + key)
+                        , SHORT_TITLE + key, ASSIGNED_IDENTIFIER + key, STUDY_SITE_NAME + key)
 
         );
 
