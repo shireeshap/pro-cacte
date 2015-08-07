@@ -8,6 +8,7 @@
 <%@ attribute name="questionTypes" type="java.util.List" required="false" %>
 <%@ attribute name="operators" type="java.util.List" required="false" %>
 <%@ attribute name="condition" type="gov.nih.nci.ctcae.core.domain.rules.NotificationRuleCondition" required="true" %>
+<%@ attribute name="crfId" type="java.lang.Integer" required="true" %>
 
 <tr id="tr_condition_${ruleIndex}_${ruleConditionIndex}">
     <td align="left">
@@ -38,6 +39,6 @@
     </td>
     <td>
         <tags:button icon="x" color="red" size="small" markupWithTag="a" value=""
-                     onclick="deleteCondition('${ruleIndex}','${ruleConditionIndex}');"/>
+                     onclick="deleteCondition('${ruleIndex}','${ruleConditionIndex}', '${crfId}');"/>
     </td>
 </tr>

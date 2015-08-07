@@ -6,6 +6,8 @@
 <%@ attribute name="ruleIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="readOnly" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="isSite" type="java.lang.Boolean" required="false" %>
+<%@ attribute name="crfId" type="java.lang.Integer" required="true" %>
+
 
 <c:set var="readOnly" value="${(isSite && !rule.siteOverRide) || readOnly}"/>
 <c:set var="notificationRule" value="${rule}"/>
@@ -56,7 +58,7 @@
                                                     condition="${condition}"
                                                     operators="${operators}"
                                                     questionTypes="${questionTypes}"
-                                    />
+                                                    crfId="${crfId}"/>
 
                         </c:forEach>
                         <tr id="hiddenDivCondition_${ruleIndex}"></tr>
@@ -65,7 +67,7 @@
                             <td colspan="3">
                                 <c:if test="${!empty questionTypes }">
                                 <tags:button icon="add" color="blue" value="Add" size="small"
-                                                         onclick="addCondition('${ruleIndex}')"
+                                                         onclick="addCondition('${ruleIndex}', '${crfId}')"
                                                          markupWithTag="a"/>
                                 </c:if>
                             </td>
