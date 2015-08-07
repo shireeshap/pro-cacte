@@ -33,7 +33,7 @@
 	</td>
 	<td>
 	     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-	       href="javascript:deleteStudySite('${index}');">
+	       href="javascript:deleteStudySite('${index}', '${param.studyId}');">
 	        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
 	             style="vertical-align:middle;text-align:left">
 	    </a>

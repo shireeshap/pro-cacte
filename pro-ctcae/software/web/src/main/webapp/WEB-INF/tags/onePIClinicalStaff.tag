@@ -48,7 +48,7 @@
      <c:choose>
     	<c:when test="${not readOnly}">
 		    <td width="5%">
-				     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deletePI('${index}');">
+				     <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}" href="javascript:deletePI('${index}', '${param.studyId}');">
 				        <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle;text-align:left">
 				    </a>
 			</td>

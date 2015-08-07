@@ -14,14 +14,12 @@
      	&nbsp;<b>Description&nbsp;&nbsp;</b>
     	<input name="nonDefaultArms[${index}].description" type="text" size="45"  value="${arm.description}" />
     </td>
-    <c:if test="${param['studyId'] eq null}">
-        <td style="border-left:none;">
-            <a id="del" href="javascript:deleteArm('${index}');">
-                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                     style="vertical-align:middle">
-            </a>
-        </td>
-    </c:if>
+    <td style="border-left:none;">
+        <a id="del" href="javascript:deleteArm('${index}', '${param['studyId']}');">
+            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                 style="vertical-align:middle">
+        </a>
+    </td>
 </tr>
 
 
