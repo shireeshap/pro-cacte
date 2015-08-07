@@ -20,13 +20,13 @@ public class StudyQuery extends SecuredQuery<Study> {
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
     private static final String PARTICIPANT_ID = "participantId";
     private static final String ROLE = "role";
-    private static String ORGANIZATION_ID = "organizationId";
+    private static final String ORGANIZATION_ID = "organizationId";
     private static final String LEAD_SITE = "leadSite";
     private static final String DCC_SITE = "dataCordinatingCenter";
     private static final String FSP_SITE = "fundingSponsorer";
     private static final String SSP_SITE = "studySponsorer";
     private static final String USERNAME = "username";
-    
+    private static final String STUDY_SITE_NAME = "studySiteName";
 
     /**
      * TODO: Horrible overloading. Fix ASAP.
@@ -173,13 +173,23 @@ public class StudyQuery extends SecuredQuery<Study> {
         setParameter(PARTICIPANT_ID, participantId);
     }
 
-    public void filterByAll(String text, String key){
+    public void filterByAll(String text, String key, Boolean filterOnlyByStudySites){
+
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
-        andWhere(String.format("(lower(study.shortTitle) LIKE :%s " +
-                "or lower(study.assignedIdentifier) LIKE :%s ) ", SHORT_TITLE+key, ASSIGNED_IDENTIFIER+key));
+
+        String format = "(lower(study.shortTitle) LIKE :%s " +
+                "or lower(study.assignedIdentifier) LIKE :%s " +
+                "or lower(so.organization.name) like :%s) "
+                + (filterOnlyByStudySites ? "and so.class NOT IN ('SSP', 'FSP', 'DCC')" : "")
+ ;
+        andWhere(String.format(format
+                , SHORT_TITLE + key, ASSIGNED_IDENTIFIER + key, STUDY_SITE_NAME + key)
+
+        );
 
         setParameter(SHORT_TITLE+key, searchString);
         setParameter(ASSIGNED_IDENTIFIER+key, searchString);
+        setParameter(STUDY_SITE_NAME+key, searchString);
     }
 
     public Class<Study> getPersistableClass() {

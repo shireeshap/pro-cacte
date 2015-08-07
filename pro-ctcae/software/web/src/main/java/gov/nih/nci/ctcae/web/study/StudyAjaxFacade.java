@@ -105,7 +105,7 @@ public class StudyAjaxFacade {
              studyQuery.setSortDirection(dir);
         	 
     	}else{
-    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS, true);
+    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC, true);
   		     studyQuery.setFirstResult(startIndex);
 	         studyQuery.setMaximumResults(results);
 	         studyQuery.setSortBy("study." + sort);
@@ -117,7 +117,7 @@ public class StudyAjaxFacade {
             int index = 0;
             for (String searchText : searchStrings) {
                 if (!StringUtils.isBlank(searchText)) {
-                    studyQuery.filterByAll(searchText, "" + index);
+                    studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
                     index++;
                 }
             }
@@ -159,7 +159,7 @@ public class StudyAjaxFacade {
 	                int index = 0;
 	                for (String searchText : searchTexts) {
 	                    if (!StringUtils.isBlank(searchText)) {
-	                        studyQuery.filterByAll(searchText, "" + index);
+	                        studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
 	                        index++;
 	                    }
 	                }
@@ -167,7 +167,7 @@ public class StudyAjaxFacade {
 	        return studyRepository.findWithCount(studyQuery);
     	}
     	
-    		return (long) 0;
+    		return 0L;
     }    	
     
     /**

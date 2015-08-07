@@ -55,8 +55,8 @@ public class FetchStudyController extends AbstractController {
         searchText = (String) request.getSession().getAttribute("searchText");
         modelAndView.addObject("searchText", searchText);
         if(!StringUtils.isBlank(searchText)){
-        	searchText.trim();
-            searchStrings = searchText.split("\\s+");
+
+            searchStrings = searchText.trim().split("\\s+");
         }
 
         Long totalRecords = studyAjaxFacade.resultCount(searchStrings);
