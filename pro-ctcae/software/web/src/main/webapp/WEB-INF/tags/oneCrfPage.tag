@@ -36,15 +36,15 @@
                              border="0"
                              height="16"/></a>
                 <c:if test="${!isEq5d}">
-	                <a href="javascript:moveCrfPageUp('${crfPageNumber}');" id="crfPageUpLink_${crfPageNumber}">
+	                <a href="javascript:moveCrfPageUp('${crfPageNumber}', '${param.crfId}');" id="crfPageUpLink_${crfPageNumber}">
 	                    <img src="<tags:imageUrl name="blue/up.png"/>" alt="Up"/>
 	                </a>
 	
-	                <a href="javascript:moveCrfPageDown('${crfPageNumber}');"
+	                <a href="javascript:moveCrfPageDown('${crfPageNumber}', '${param.crfId}');"
 	                   id="crfPagDownLink_${crfPageNumber}">
 	                    <img src="<tags:imageUrl name="blue/down.png"/>" alt="Down"/>
 	                </a>
-	                <a href="javascript:deleteCrfPage('${crfPageNumber}','${crfPage.proCtcTerm.id}');">
+	                <a href="javascript:deleteCrfPage('${crfPageNumber}','${crfPage.proCtcTerm.id}', '${param.crfId}');">
 	                    <img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
 	                </a>
                 </c:if>
