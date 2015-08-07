@@ -56,7 +56,11 @@ public class ConfirmationCheckController extends AbstractController {
             
             map.put("selectedCrfPageNumber", request.getParameter("selectedCrfPageNumber"));
             map.put("crfPageDescription", description);
+            if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+            	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+            }
             modelAndView.addAllObjects(map);
+            
         } else if(StringUtils.equals(confirmationType, DELETE_CRF_POST_CONFIRM)){
         	modelAndView = new ModelAndView("form/ajax/reloadFormBuilderDiv");
         	String crfPageNumberToRemove = request.getParameter("pageNumberToRemove");
@@ -69,16 +73,27 @@ public class ConfirmationCheckController extends AbstractController {
             	command.updateCrfItems(proCtcQuestionRepository);
         	}
         	
+        	if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+            	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+            }        	
         	modelAndView.addObject("command", command);
+        	
         } else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteQuestionConfirmationCheck");
             map.put("questionId", request.getParameter("questionId"));
             map.put("proCtcTermId", request.getParameter("proCtcTermId"));
+            if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+            	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+            }
             modelAndView.addAllObjects(map);
         } else if (StringUtils.equals(confirmationType, DELETE_CRF_CYCLE)) {
             modelAndView = new ModelAndView("form/ajax/deleteCrfCycleConfirmationCheck");
             map.put("crfCycleIndex", request.getParameter("crfCycleIndex"));
+            if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+            	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+            }
             modelAndView.addAllObjects(map);
+            
         } else if (StringUtils.equals(confirmationType, DELETE_CRF_CYCLE_POST_CONFIRM)) {
                 Integer crfCycleDefinitionIndex = Integer.valueOf(request.getParameter("crfCycleIndex"));
                 CreateFormCommand command = FormController.getCreateFormCommand(request);
