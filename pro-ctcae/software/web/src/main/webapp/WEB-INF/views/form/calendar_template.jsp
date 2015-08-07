@@ -160,10 +160,10 @@ Event.observe(window, "load", function () {
     }
 })
 
-function addCycle() {
+function addCycle(crfId) {
     var request = new Ajax.Request("<c:url value="/pages/form/addFormScheduleCycle"/>", {
         onComplete:addCycleDiv,
-        parameters:<tags:ajaxstandardparams/>,
+        parameters:<tags:ajaxstandardparams/> + "&crfId=" + crfId,
         method:'get'
     })
 }
@@ -474,9 +474,11 @@ function sortfunction(val1, val2) {
     return(parseInt(val1) - parseInt(val2));
 }
 
-function deleteCycleDefinition(cycleIndex) {
+function deleteCycleDefinition(cycleIndex, crfId) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfCycle&crfCycleIndex=" + cycleIndex,
+        parameters:<tags:ajaxstandardparams/> + "&confirmationType=deleteCrfCycle" + 
+        										"&crfCycleIndex=" + cycleIndex + 
+        										"&crfId=" + crfId,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 530, 150);
         } ,
@@ -484,11 +486,13 @@ function deleteCycleDefinition(cycleIndex) {
     });
 }
 
-function deleteCycleConfirm(crfCycleIndex) {
+function deleteCycleConfirm(crfCycleIndex, crfId) {
     closeWindow();
 
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfCyclePostConfirm&crfCycleIndex=" + crfCycleIndex,
+        parameters:<tags:ajaxstandardparams/> + "&confirmationType=deleteCrfCyclePostConfirm" + 
+        										"&crfCycleIndex=" + crfCycleIndex +
+        										"&crfId=" + crfId,
         onComplete:function(transport) {
             $('cycle_definition_' + crfCycleIndex).remove();
             if(jQuery("#hidden_inputs_div_" + crfCycleIndex).next().is("script") == true){
@@ -497,7 +501,7 @@ function deleteCycleConfirm(crfCycleIndex) {
             $('hidden_inputs_div_'+ crfCycleIndex).remove();
             $('crfCycleIndexToRemove').value = "";
             deleteCycleDefinitionsAfter(crfCycleIndex);
-            reloadCycleDefinitions(crfCycleIndex);
+            reloadCycleDefinitions(crfCycleIndex, crfId);
             
         } ,
         method:'get'
@@ -512,23 +516,26 @@ function addHiddenInputDiv(transport,id){
 	
 }
 
-function reloadHiddenInputs(id){
+function reloadHiddenInputs(id, crfId){
 	 var request = new Ajax.Request("<c:url value="/pages/form/reloadFormScheduleCycle"/>", {
 	        onComplete:function(transport){
 	        	addHiddenInputDiv(transport,id);
 	        	},
-	        parameters:<tags:ajaxstandardparams/>+"&indexToRelod="+id+"&reloadHiddenInputs=true",
+	        parameters:<tags:ajaxstandardparams/> + "&indexToRelod=" + id + 
+	        										"&reloadHiddenInputs=true" + 
+	        										"&crfId=" + crfId,
 	        method:'get'
 	    })
 }
 
-function reloadCycleDefinitions(id){
+function reloadCycleDefinitions(id, crfId){
 	 var request = new Ajax.Request("<c:url value="/pages/form/reloadFormScheduleCycle"/>", {
 	        onComplete:function(transport){
 	        	addCycleDiv(transport);
-	        	reloadHiddenInputs(id);
+	        	reloadHiddenInputs(id, crfId);
 	        	},
-	        parameters:<tags:ajaxstandardparams/>+"&indexToRelod="+id ,
+	        parameters:<tags:ajaxstandardparams/> + "&indexToRelod="+id +
+	        										"&crfId=" + crfId,
 	        method:'get'
 	    })
 }
@@ -669,7 +676,7 @@ function isNumeric(fieldName) {
 
 jQuery(document).ready(function() {
     if ($('cycle_definition_0') == null) {
-        addCycle();
+        addCycle('${param.crfId}');
     }
 });
 
@@ -844,12 +851,13 @@ jQuery(document).ready(function() {
                                varStatus="status">
                         <tags:formScheduleCycleDefinition cycleDefinitionIndex="${status.index}"
                                                           crfCycleDefinition="${crfCycleDefinition}"
-                                                          repeatOptions="${cycleplannedrepetitions}"/>
+                                                          repeatOptions="${cycleplannedrepetitions}"
+                                                          crfId="${param.crfId}"/>
                     </c:forEach>
                     <div id="hiddenDiv"></div>
                     <div style="width:4.5em;">
                         <br/>
-                        <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
+                        <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle('${param.crfId}')"
                                      value="form.schedule.add_cycle" icon="add"/>
                     </div>
                 </td>

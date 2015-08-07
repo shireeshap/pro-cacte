@@ -9,10 +9,12 @@
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
     <script type="text/javascript">
-        function addRule() {
+        function addRule(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
                 onComplete:addRuleDiv,
-                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&action=addRule",
+                parameters:<tags:ajaxstandardparams/> + "&isSite=${isSite}" + 
+                										"&action=addRule" +
+                										"&crfId=" + crfId,
                 method:'get'
             })
         }
@@ -34,12 +36,16 @@
             $('tr_condition_' + ruleIndex + '_' + conditionIndex).remove();
             $('delete_conditions_' + ruleIndex).value += conditionIndex + ",";
         }
-        function addCondition(ruleIndex) {
+        function addCondition(ruleIndex, crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
                 onComplete:function(transport) {
                     addRuleConditionDiv(ruleIndex, transport);
                 },
-                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}&dcStr="+ $('delete_conditions_' + ruleIndex).value +"&action=addCondition&ruleIndex=" + ruleIndex,
+                parameters:<tags:ajaxstandardparams/> + "&isSite=${isSite}" + 
+                										"&dcStr="+ $('delete_conditions_' + ruleIndex).value + 
+                										"&action=addCondition" + 
+                										"&ruleIndex=" + ruleIndex + 
+                										"&crfId=" + crfId,
                 method:'get'
             })
 
@@ -91,13 +97,13 @@
 
         <input type="hidden" name="rulesToDelete" id="rulesToDelete" value="">
         <c:forEach items="${notificationRules}" var="notificationRule" varStatus="status">
-            <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}"/>
+            <tags:formRule rule="${notificationRule}" ruleIndex="${status.index}" crfId="${param.crfId}"/>
         </c:forEach>
         <div id="hiddenDiv"></div>
         <table>
 		    <tr>
 		    	<td width="25%"></td>
-		        <td><tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule" icon="add"/></td>
+		        <td><tags:button color="blue" markupWithTag="a" onclick="javascript:addRule('${param.crfId}')" value="form.rules.add_rule" icon="add"/></td>
 		    </tr>
     	</table>
     </jsp:attribute>

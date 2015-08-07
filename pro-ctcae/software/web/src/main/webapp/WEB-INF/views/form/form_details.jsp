@@ -227,7 +227,7 @@ function addCrfPageItemDiv(response, crfPageNumber) {
     updateCrfPageNumberAndShowHideUpDownLink();
 
 }
-function addProctcTerm(proCtcTermId, categoryName) {
+function addProctcTerm(proCtcTermId, categoryName, crfId) {
     var crfPageNumber = ''
     var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
     for (var i = 0; i < obj.length; i++) {
@@ -237,7 +237,7 @@ function addProctcTerm(proCtcTermId, categoryName) {
         crfPageNumber = item;
     })
 
-    addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName);
+    addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName, crfId);
     if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
         updateEq5dSettings(categoryName);
     }
@@ -272,9 +272,14 @@ function updateQuestionsId() {
 
 }
 
-function updateConditions() {
+function updateConditions(crfId) {
+	<c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+		crfId = ${param.crfId};
+	</c:if>
+	
     var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&questionsIds=" + $('questionsIds').value,
+        parameters:<tags:ajaxstandardparams/> + "&questionsIds=" + $('questionsIds').value +
+        										"&crfId=" + crfId,
         onComplete:function(transport) {
             $$('select.selectedCrfPageItems').each(function (item) {
                 item.innerHTML = transport.responseText
@@ -330,7 +335,10 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
     $('crfPageNumbers').value = crfPageNumbers;
 }
 
-function moveCrfPageUp(selectedCrfPageNumber) {
+function moveCrfPageUp(selectedCrfPageNumber, crfId) {
+	<c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+		crfId = ${param.crfId};
+	</c:if>
 
     var formPages = $$('div.formpages');
     var sortableDivs = [];
@@ -346,14 +354,16 @@ function moveCrfPageUp(selectedCrfPageNumber) {
         Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
         updateCrfPageNumberAndShowHideUpDownLink();
         postProcessFormChanges()
-        updateConditions();
+        updateConditions(crfId);
     }
 }
 
-function moveCrfPageDown(selectedCrfPageNumber) {
+function moveCrfPageDown(selectedCrfPageNumber, crfId) {
+	<c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+		crfId = ${param.crfId};
+	</c:if>
 
     var formPages = $$('div.formpages');
-
     var sortableDivs = [];
     var i = 0;
     var nextCrfPage = '';
@@ -367,7 +377,7 @@ function moveCrfPageDown(selectedCrfPageNumber) {
         Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
         updateCrfPageNumberAndShowHideUpDownLink();
         postProcessFormChanges();
-        updateConditions();
+        updateConditions(crfId);
     }
 }
 
@@ -423,9 +433,16 @@ function showCrfItemProperties(selectedQuestionId) {
 }
 
 
-function deleteCrfPage(selectedCrfPageNumber, proTermId) {
+function deleteCrfPage(selectedCrfPageNumber, proTermId, crfId) {
+	<c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+		crfId = ${param.crfId};
+	</c:if>
+	
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber + "&proTermId=" + proTermId,
+        parameters:<tags:ajaxstandardparams/> + "&confirmationType=deleteCrf" + 
+        										"&selectedCrfPageNumber=" + selectedCrfPageNumber + 
+        										"&proTermId=" + proTermId +
+        										"&crfId=" + crfId,
         onComplete:function(transport) {
             var isAnyConditionalTriggeringQuestion = false;
             var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
@@ -470,10 +487,12 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     refreshPage();
 }
 
-function refreshQuestionDiv(questionId){
+function refreshQuestionDiv(questionId, crfId){
 	 var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-	        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfPostConfirm" + "&pageNumberToRemove="+questionId +
-	         "&crfPageNumbers="+$('crfPageNumbers').value, 
+	        parameters:<tags:ajaxstandardparams/> + "&confirmationType=deleteCrfPostConfirm" + 
+	        										"&pageNumberToRemove="+questionId +
+	         										"&crfPageNumbers="+$('crfPageNumbers').value + 
+	         										"&crfId=" + crfId, 
 	        onComplete:function(transport) {
 	           closeWindow();
 	           jQuery("#formBuildersDiv").empty();
@@ -513,8 +532,8 @@ function refreshQuestionDiv(questionId){
         return crfPageNumbers;
 
     }
-    function deleteCrfPageConfirm(selectedCrfPageNumber) {
-       refreshQuestionDiv(selectedCrfPageNumber);
+    function deleteCrfPageConfirm(selectedCrfPageNumber, proCtcTermId, crfId) {
+       refreshQuestionDiv(selectedCrfPageNumber, crfId);
     }
 
     function addCrfPageItemDiv(response, crfPageNumber) {
@@ -540,12 +559,17 @@ function refreshQuestionDiv(questionId){
         hideQuestionsFromForm();
 
         postProcessFormChanges();
-        updateConditions();
+        updateConditions(crfId);
     }
 	
-	function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName) {
+	function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber, categoryName, crfId) {
 	    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-	        parameters:<tags:ajaxstandardparams/>+"&isConfirmation=true&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm" + "&categoryName=" + categoryName,
+	        parameters:<tags:ajaxstandardparams/> + "&isConfirmation=true" + 
+	        										"&proCtcTermId=" + proCtcTermId + 
+	        										"&crfPageNumber=" + crfPageNumber + 
+	        										"&componentType=proCtcTerm" + 
+	        										"&categoryName=" + categoryName +
+	        										"&crfId=" + crfId,
 	        onComplete:function(transport) {
 	            var response = transport.responseText;
 	            
@@ -558,7 +582,7 @@ function refreshQuestionDiv(questionId){
                         addCrfPageItemDiv(response, crfPageNumber)
                         hideQuestionsFromForm();
                         postProcessFormChanges();
-                        updateConditions();
+                        updateConditions(crfId);
                     }
                 }
 	        },
@@ -567,11 +591,20 @@ function refreshQuestionDiv(questionId){
 	    hideProCtcTermLinkFromForm(proCtcTermId);
 	}
 	
-	function deleteExistingAndAddItemsForQuestion(crfPageNumber,proCtcTermId, componentType, categoryName){
+	function deleteExistingAndAddItemsForQuestion(crfPageNumber,proCtcTermId, componentType, categoryName, crfId){
 	    closeWindow();
+	    
+	    <c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+			crfId = ${param.crfId};
+		</c:if>
 	    var crfPageNumbers = jQuery("#crfPageNumbers").val();
 	    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-	        parameters:<tags:ajaxstandardparams/>+"&isConfirmation=false&proCtcTermId=" + proCtcTermId + "&componentType=proCtcTerm" + "&crfPageNumbers=" + crfPageNumbers + "&categoryName=" + categoryName,
+	        parameters:<tags:ajaxstandardparams/> + "&isConfirmation=false" +
+	        										"&proCtcTermId=" + proCtcTermId + 
+	        										"&componentType=proCtcTerm" + 
+	        										"&crfPageNumbers=" + crfPageNumbers + 
+	        										"&categoryName=" + categoryName + 
+	        										"&crfId=" + crfId,
 	        onComplete:function(transport) {
 	            var response = transport.responseText;
 	            crfPageNumber = 0;
@@ -584,7 +617,7 @@ function refreshQuestionDiv(questionId){
                     addCrfPageItemDiv(response, crfPageNumber)
                     hideQuestionsFromForm();
                     postProcessFormChanges();
-                    updateConditions();
+                    updateConditions(crfId);
                 }
 	            if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
 	                updateEq5dSettings(categoryName);
@@ -594,10 +627,15 @@ function refreshQuestionDiv(questionId){
 	    })
 	}
 
-    function addCtcCategory(ctcCategoryId, categoryName) {
+    function addCtcCategory(ctcCategoryId, categoryName, crfId) {
         var crfPageNumbers = jQuery("#crfPageNumbers").val();
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&isConfirmation=true&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory" + "&crfPageNumbers=" + crfPageNumbers,
+            parameters:<tags:ajaxstandardparams/>+ "&isConfirmation=true" + 
+            										"&ctcCategoryId=" + ctcCategoryId + 
+            										"&categoryName=" + categoryName + 
+            										"&componentType=ctcCategory" + 
+            										"&crfPageNumbers=" + crfPageNumbers +
+            										"&crfId=" + crfId,
             onComplete:function(transport) {
                 var response = transport.responseText;
                 if(response.indexOf("isConfirm") != -1){
@@ -614,11 +652,20 @@ function refreshQuestionDiv(questionId){
         })
     }
 
-    function deleteExistingAndAddItemsForCategory(componentType, ctcCategoryId, categoryName, crfPageNumbers){
+    function deleteExistingAndAddItemsForCategory(componentType, ctcCategoryId, categoryName, crfPageNumbers, crfId){
         closeWindow();
+        
+        <c:if test="(typeof(crfId) == 'undefined' || crfId == null) && ${param.crfId != null}">
+			crfId = ${param.crfId};
+		</c:if>
         var crfPageNumbers = jQuery("#crfPageNumbers").val();
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&isConfirmation=false&ctcCategoryId=" + ctcCategoryId + "&categoryName=" + categoryName + "&componentType=ctcCategory" + "&crfPageNumbers=" + crfPageNumbers,
+            parameters:<tags:ajaxstandardparams/> + "&isConfirmation=false" + 
+            										"&ctcCategoryId=" + ctcCategoryId + 
+            										"&categoryName=" + categoryName + 
+            										"&componentType=ctcCategory" + 
+            										"&crfPageNumbers=" + crfPageNumbers +
+            										"&crfId=" + crfId,
             onComplete:function(transport) {
                 addResponseToQuestionsSection(transport, ctcCategoryId);
                 if(categoryName === 'EQ5D-3L' || categoryName === 'EQ5D-5L'){
@@ -1095,7 +1142,7 @@ function refreshQuestionDiv(questionId){
                         <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
                             <li id="${ctcCategory.key.name}">${ctcCategory.key.name}<a
-                                    href="javascript:addCtcCategory('${ctcCategory.key.id}', '${ctcCategory.key.name}')"
+                                    href="javascript:addCtcCategory('${ctcCategory.key.id}', '${ctcCategory.key.name}', '${param.crfId}')"
                                     id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
                                 <img src="/proctcae/images/blue/select_question_btn.png"
                                      alt="Add" onclick=""/></a>
@@ -1112,7 +1159,7 @@ function refreshQuestionDiv(questionId){
                                             <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
                                             <c:if test="${!fn:startsWith(ctcCategory.key.name, 'EQ5D')}">
-	                                            <a href="javascript:addProctcTerm('${proCtcTerm.id}', '${ctcCategory.key.name}')"
+	                                            <a href="javascript:addProctcTerm('${proCtcTerm.id}', '${ctcCategory.key.name}', '${param.crfId}')"
 	                                               id="proCtcTerm_${proCtcTerm.id}"
 	                                               class="addallbtn ctcCategory_${ctcCategory.key.id}">
 	                                                <img src="/proctcae/images/blue/select_question_btn.png"
