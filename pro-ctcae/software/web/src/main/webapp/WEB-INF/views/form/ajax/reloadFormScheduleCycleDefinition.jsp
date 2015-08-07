@@ -9,6 +9,7 @@
      <c:set var ="i" value="${status.index}" />
 	 <tags:reloadFormScheduleCycleDefinition cycleDefinitionIndex="${indices[i]}"
                                  	  crfCycleDefinition="${crfCycleDefinition}"
-                                  	 repeatOptions="${cycleplannedrepetitions}"/>
+                                  	  repeatOptions="${cycleplannedrepetitions}" 
+                                  	  crfId="${crfId}"/>
 </c:forEach>
 

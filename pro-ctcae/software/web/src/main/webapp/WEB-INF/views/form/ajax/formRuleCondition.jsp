@@ -3,6 +3,7 @@
 
 <tags:formRuleCondition ruleIndex="${ruleIndex}" ruleConditionIndex="${ruleConditionIndex}"
                         condition="${condition}" operators="${operators}"
-                        questionTypes="${questionTypes}" />
+                        questionTypes="${questionTypes}" 
+                        crfId="${crfId}"/>
 
 

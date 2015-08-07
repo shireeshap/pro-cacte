@@ -27,7 +27,7 @@
 		</c:set>
 		<div class="flow-buttons flow_button_style">
 		    <tags:button type="button" id="flow-update" cssClass="next" value="${delete}"
-		           icon="x" color="red" onclick="deleteCycleConfirm('${crfCycleIndex}')" overRideStyle=" position:relative; top:0px;"/>
+		           icon="x" color="red" onclick="deleteCycleConfirm('${crfCycleIndex}', '${crfId}')" overRideStyle=" position:relative; top:0px;"/>
 		    <tags:button type="button" id="flow-cancel" cssClass="previous ibutton" value="${cancel}"
 		           color="blue" onclick="closeWindow()"/>
 		</div>

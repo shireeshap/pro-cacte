@@ -43,7 +43,7 @@
 		  	</span>
 		    <span class="next" style="position:relative; top:-30px;">
 		        <tags:button id="flow-update" color="red" icon="check" value="Delete"
-		                     onclick="deleteCrfPageConfirm('${selectedCrfPageNumber}','${proCtcTermId}')"/>
+		                     onclick="deleteCrfPageConfirm('${selectedCrfPageNumber}','${proCtcTermId}', '${crfId}')"/>
 		    </span>
 		</div>
     </chrome:box>

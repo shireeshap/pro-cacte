@@ -24,12 +24,12 @@
 	    <span class="next" style="position:relative; top:-30px;">
 	    <c:if test="${componentType == 'proCtcTerm'}">
                 <tags:button id="flow-update" color="red" icon="check" value="Delete"
-                     onclick="deleteExistingAndAddItemsForQuestion('${crfPageNumber}','${proCtcTermId}', '${componentType}', '${categoryName}')"/>
+                     onclick="deleteExistingAndAddItemsForQuestion('${crfPageNumber}','${proCtcTermId}', '${componentType}', '${categoryName}', '${crfId}')"/>
 	    </c:if>
 	    
 	    <c:if test="${componentType == 'ctcCategory'}">
                <tags:button id="flow-update" color="red" icon="check" value="Delete"
-                     onclick="deleteExistingAndAddItemsForCategory('${componentType}', '${ctcCategoryId }', '${categoryName}', '${crfPageNumbers}')"/>
+                     onclick="deleteExistingAndAddItemsForCategory('${componentType}', '${ctcCategoryId }', '${categoryName}', '${crfPageNumbers}', '${crfId}')"/>
 	    </c:if>
 
 	    </span>
