@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     protected NotEmptyValidator notEmptyValidator;
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
+    public static String CRF_ID = "crfId"; 
 
     /**
      * /**
@@ -83,7 +86,11 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     }
     
     public static CreateFormCommand getCreateFormCommand(HttpServletRequest request) {
-    	//gov.nih.nci.ctcae.web.form.FormController.FORM.command
+    	String crfId = request.getParameter(CRF_ID);
+    	if(StringUtils.isNotEmpty(crfId)) {
+    		return (CreateFormCommand) 
+						request.getSession().getAttribute(FormController.class.getName() + ".FORM." + "command" + "." + Integer.parseInt(crfId)) ;
+    	}
     	return (CreateFormCommand)
                  request.getSession().getAttribute(FormController.class.getName() + ".FORM." + "command");
          
@@ -92,9 +99,15 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractFormController#getFormSessionAttributeName()
      */
-
+    @Override
     protected String getFormSessionAttributeName() {
-        return FormController.class.getName() + ".FORM." + getCommandName();
+    	ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    	String crfId = attr.getRequest().getParameter(CRF_ID);
+    	if(StringUtils.isNotEmpty(crfId)) {
+    		return FormController.class.getName() + ".FORM." + getCommandName() + "." + Integer.parseInt(crfId);
+    	}
+    	
+    	return FormController.class.getName() + ".FORM." + getCommandName();
     }
 
     /* (non-Javadoc)
@@ -104,8 +117,6 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Override
     protected String getPageSessionAttributeName() {
         return FormController.class.getName() + ".PAGE." + getCommandName();
-
-
     }
 
     /* (non-Javadoc)

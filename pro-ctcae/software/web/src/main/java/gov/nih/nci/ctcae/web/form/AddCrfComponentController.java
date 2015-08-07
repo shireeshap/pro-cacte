@@ -57,6 +57,9 @@ public class AddCrfComponentController extends AbstractCrfController {
                 }
                 map.put("categoryName", request.getParameter("categoryName"));
                 map.put("componentType", componentType);
+                if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+                	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+                }
                 modelAndView.addAllObjects(map);
                 return modelAndView;
         	}

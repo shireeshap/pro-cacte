@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
 import gov.nih.nci.ctcae.core.domain.FormArmSchedule;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.ListValues;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +51,9 @@ public class ReloadFormScheduleCycleController extends AbstractController {
         modelAndView.addObject("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
         modelAndView.addObject("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
         modelAndView.addObject("cycleplannedrepetitions", ListValues.getCyclePlannedRepetitions());
+        if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+        	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+        }
         return modelAndView;
     }
 }

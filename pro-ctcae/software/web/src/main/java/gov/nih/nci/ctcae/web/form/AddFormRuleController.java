@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.ListValues;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -89,7 +91,7 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("condition", notificationRuleCondition);
         modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
         if(notificationRuleCondition.getProCtcQuestionType()!=null){
-        modelAndView.addObject("thresholds", Arrays.asList(notificationRuleCondition.getProCtcQuestionType().getValidValues()));
+        	modelAndView.addObject("thresholds", Arrays.asList(notificationRuleCondition.getProCtcQuestionType().getValidValues()));
         }
         return modelAndView;
     }
@@ -118,7 +120,9 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("isSite", isSite);
         modelAndView.addObject("questionTypes", new ArrayList<ProCtcQuestionType>(command.getCrf().getAllQuestionTypes()));
         modelAndView.addObject("operators", Arrays.asList(NotificationRuleOperator.values()));
-
+        if(StringUtils.isNotEmpty(request.getParameter(FormController.CRF_ID))) {
+        	modelAndView.addObject(FormController.CRF_ID, request.getParameter(FormController.CRF_ID));
+        }
 
         return modelAndView;
     }
