@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.web.form.FormController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -50,8 +52,20 @@ public class ControllersUtils {
      * @return the study command
      */
     public static StudyCommand getStudyCommand(HttpServletRequest request) {
-        StudyCommand studyCommand = (StudyCommand)
-                request.getSession().getAttribute(StudyController.class.getName() + ".FORM.command");
+        String formSessionAttributeName;
+        
+        //edit study flow will have a study specific formSessionAttribute (name appended with studyId); create flow has a generic name
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    	String studyId = attr.getRequest().getParameter(StudyController.STUDY_ID);
+    	if(StringUtils.isNotEmpty(studyId)) {
+    		formSessionAttributeName = StudyController.class.getName() + ".FORM.command" + "." + Integer.parseInt(studyId);
+    	} else {
+    		formSessionAttributeName = StudyController.class.getName() + ".FORM.command" ;
+    	}
+        
+        StudyCommand studyCommand = (StudyCommand) request
+        										   .getSession()
+        										   .getAttribute(formSessionAttributeName);
         return studyCommand;
     }
 
