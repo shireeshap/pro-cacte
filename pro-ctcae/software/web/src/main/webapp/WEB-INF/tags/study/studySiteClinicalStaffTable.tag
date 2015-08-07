@@ -48,7 +48,7 @@
         <td valign="top" width="10%" >
             <div align="left" style="margin-left: 13px">
                 <tags:button value="Add" color="blue" type="button" size="small"
-                             onclick="javascript:addClinicalStaff(${studySiteId},'${role}');return false;" icon="add"/>
+                             onclick="javascript:addClinicalStaff(${studySiteId},'${role}', '${param.studyId}');return false;" icon="add"/>
             </div>
         </td>
         <td colspan="3"></td>
