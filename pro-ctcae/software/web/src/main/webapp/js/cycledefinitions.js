@@ -288,7 +288,7 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                     item.innerHTML = delIcon + item.innerHTML;
                     showPopUpMenuSchedule(day, month, year, index, scheduleid, showDeleteOption, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId);
                     if (isEnableDrag) {
-                        myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date');
+                        myCalendar[day] = new YAHOO.example.DDPlayer(div_id, 'date', 'undefined', participantId);
                     }
                 }
                 
@@ -316,13 +316,13 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
 }
 
 function initialize() {
-    YAHOO.example.DDPlayer = function(id, sGroup, config) {
+    YAHOO.example.DDPlayer = function(id, sGroup, config, participantId) {
         YAHOO.example.DDPlayer.superclass.constructor.apply(this, arguments);
-        this.initPlayer(id, sGroup, config);
+        this.initPlayer(id, sGroup, config, participantId);
     };
     YAHOO.extend(YAHOO.example.DDPlayer, YAHOO.util.DDProxy, {
         TYPE: "DDPlayer",
-        initPlayer: function(id, sGroup, config) {
+        initPlayer: function(id, sGroup, config, participantId) {
             if (!id) {
                 return;
             }
@@ -335,6 +335,7 @@ function initialize() {
             this.type = YAHOO.example.DDPlayer.TYPE;
             this.slot = null;
             this.startPos = YAHOO.util.Dom.getXY(this.getEl());
+            this.saveParticipantId(participantId);
         },
 
         startDrag: function(x, y) {
@@ -368,13 +369,20 @@ function initialize() {
                 var newdate = getDate(oDD);
                 var index = getIndex(this);
                 YAHOO.util.DDM.moveToEl(el, oDD.getEl());
-                showMoveWindow(olddate, newdate, index);
+                showMoveWindow(olddate, newdate, index, undefined, this.getParticipantId());
             }
         },
         onDragOver: function(e, id) {
         },
         onDrag: function(e, id) {
+        },
+        saveParticipantId: function(participantId) {
+        	this.participantId = participantId;
+        },
+        getParticipantId: function() {
+        	return this.participantId;
         }
+        
     });
 }
 
