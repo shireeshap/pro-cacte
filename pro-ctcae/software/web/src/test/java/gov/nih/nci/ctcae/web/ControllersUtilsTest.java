@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.web;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -16,7 +19,7 @@ import gov.nih.nci.ctcae.web.study.StudyController;
  * @author Vinay Kumar
  * @since Oct 24, 2008
  */
-public class ControllersUtilsTest extends WebTestCase {
+public class ControllersUtilsTest extends AbstractWebIntegrationTestCase {
 
     private BasicFormController basicFormController;
     private EditFormController editFormController;
@@ -29,8 +32,8 @@ public class ControllersUtilsTest extends WebTestCase {
     private TabConfigurer tabConfigurer;
 
     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void onSetUpInTransaction() throws Exception {
+    	super.onSetUpInTransaction();
         basicFormController = new BasicFormController();
         crfRepository = registerMockFor(CRFRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
@@ -55,10 +58,9 @@ public class ControllersUtilsTest extends WebTestCase {
         basicFormController.setCrfRepository(crfRepository);
         basicFormController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         basicFormController.setStudyRepository(studyRepository);
-
-
+        
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
-
 
     public void testNoCommandInCreateForm() {
         replayMocks();
