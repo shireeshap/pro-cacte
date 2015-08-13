@@ -66,4 +66,30 @@ public class SearchCrfDTO {
         this.actions = actions;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchCrfDTO that = (SearchCrfDTO) o;
+
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (version != null ? !version.equals(that.version) : that.version != null) return false;
+        if (effectiveStartDate != null ? !effectiveStartDate.equals(that.effectiveStartDate) : that.effectiveStartDate != null)
+            return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        return !(studyShortTitle != null ? !studyShortTitle.equals(that.studyShortTitle) : that.studyShortTitle != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        result = 31 * result + (effectiveStartDate != null ? effectiveStartDate.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (studyShortTitle != null ? studyShortTitle.hashCode() : 0);
+        return result;
+    }
 }

@@ -128,8 +128,8 @@ public class StudyParticipantCrfScheduleQuery extends AbstractQuery {
         leftJoin("spcs.studyParticipantCrf as spc " +
                 "left outer join spc.crf as crf " +
                 "left outer join crf.study as study " +
-                "left outer join study.studyOrganizations as so " +
-                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join study.studyOrganizations as sso " +
+                "left outer join sso.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");

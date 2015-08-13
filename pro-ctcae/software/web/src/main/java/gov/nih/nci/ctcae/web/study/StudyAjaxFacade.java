@@ -77,68 +77,76 @@ public class StudyAjaxFacade {
     }
     
     public List<Study> searchStudies(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords) {
-    	List<Study> studies = null;
-    	
-    	// Fetch the records only if totalRecords are determined to be greater than zero
-    	if(totalRecords != 0){
-    	studies = getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
-    	}
-        return studies;
+
+        // Fetch the records only if totalRecords are determined to be greater than zero
+        if (totalRecords != 0) {
+            return getObjects(searchStrings, startIndex, results, sort, dir, totalRecords);
+        }
+        return null;
     }
 
-    private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir,  Integer totalRecords) {
-       
-    	 StudyQuery studyQuery=null;
-        
-        
-        if(sort.compareToIgnoreCase("fundingSponsorDisplayName")==0){
-       	 	 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true);
-        	 studyQuery.setFirstResult(startIndex);
-             studyQuery.setMaximumResults(results);
-             studyQuery.filterByFundingSponsor();
-             studyQuery.setSortBy("so.organization.name" );
-             studyQuery.setSortDirection(dir);
-             
-        }else if(sort.compareToIgnoreCase("coordinatingCenterDisplayName")==0){
-        	 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true);
- 		     studyQuery.setFirstResult(startIndex);
-	         studyQuery.setMaximumResults(results);
-	         studyQuery.filterByCoordinatingCenter();
-             studyQuery.setSortBy("so.organization.name" );
-             studyQuery.setSortDirection(dir);
-        	 
-    	}else{
-    		 studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS, true);
-  		     studyQuery.setFirstResult(startIndex);
-	         studyQuery.setMaximumResults(results);
-	         studyQuery.setSortBy("study." + sort);
-	         studyQuery.setSortDirection(dir); 
-	         }
+    private StudyQuery buildCountQuery(String sort) {
+        return buildStudyQuery(null, null, sort, null, Boolean.FALSE);
+    }
+
+    private StudyQuery buildStudyQuery(Integer startIndex, Integer results, String sort, String dir,  Boolean searchQuery) {
+
+        StudyQuery studyQuery;
+        if(StringUtils.equalsIgnoreCase(sort, "fundingSponsorDisplayName")) {
+            studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
+            studyQuery.filterByFundingSponsor();
+            studyQuery.setLeftJoin();
+            if(searchQuery){
+                studyQuery.setSortBy("sso.organization.name");
+            }
+        } else if(StringUtils.equalsIgnoreCase(sort, "coordinatingCenterDisplayName")) {
+            studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
+            studyQuery.filterByCoordinatingCenter();
+            studyQuery.setLeftJoin();
+            if(searchQuery) {
+                studyQuery.setSortBy("sso.organization.name");
+            }
+        } else {
+            studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
+            if(searchQuery) {
+                studyQuery.setSortBy("study." + sort);
+            }
+        }
+
+        if (searchQuery) {
+            studyQuery.setFirstResult(startIndex);
+            studyQuery.setMaximumResults(results);
+            studyQuery.setSortDirection(dir);
+        }
+
+        return studyQuery;
+    }
+
+    private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords ) {
+        StudyQuery studyQuery = buildStudyQuery(startIndex, results, sort, dir, Boolean.TRUE);
     
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (searchStrings != null) {
             int index = 0;
             for (String searchText : searchStrings) {
                 if (!StringUtils.isBlank(searchText)) {
-                    studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
+                    studyQuery.filterByAll(searchText, "" + index);
                     index++;
                 }
             }
         }
+
+
         List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
         if (!user.isAdmin() && !user.isCCA()) {
             if (studies.size() == results) {
                 return studies;
             } else {
-                int index = startIndex;
+                int index;
                 while (studies.size() < results && studies.size() < totalRecords-startIndex) {
                     index = startIndex + results;
                     studyQuery.setFirstResult(index);
-                    List<Study> l = (List<Study>) studyRepository.find(studyQuery);
-                    for (Study study : l) {
-                        studies.add(study);
-                    }
-                    l.clear();
+                    studies.addAll( studyRepository.find(studyQuery));
                 }
                 return studies;
             }
@@ -148,21 +156,21 @@ public class StudyAjaxFacade {
         return studies;
     }
 
-    public Long resultCount(String[] searchTexts) {
+    public Long resultCount(String[] searchTexts, String sort) {
     	
     	User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	List<Integer> objectIds = user.findAccessibleObjectIds(Study.class);
     	/* If user privileges are such that he has an empty list of AccessibleObjectIds associated with him, then return 0 as resultCount
     	 * else get the actual resutCount from the database. 
     	*/
+        StudyQuery studyQuery = buildCountQuery(sort);
     	boolean groupPrivilege = user.checkGroupPrivilege(Study.class);
     	if((objectIds != null && objectIds.size() > 0) || groupPrivilege){
-    		StudyQuery studyQuery = new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
 	          if (searchTexts != null) {
 	                int index = 0;
 	                for (String searchText : searchTexts) {
 	                    if (!StringUtils.isBlank(searchText)) {
-                            studyQuery.filterByAll(searchText, "" + index, Boolean.TRUE);
+                            studyQuery.filterByAll(StringUtils.trimToNull(searchText), "" + index);
 	                        index++;
 	                    }
 	                }

@@ -35,7 +35,7 @@ public class StudyAjaxFacadeTest extends AbstractWebIntegrationTestCase {
 	public void testResultCount_validSearchString() {
 		String searchStrings[] = {"collection"};
 		
-		Long resultCount = facade.resultCount(searchStrings);
+		Long resultCount = facade.resultCount(searchStrings, "shortTitle");
 		
 		assertEquals("1", resultCount.toString());
 	}
@@ -43,7 +43,7 @@ public class StudyAjaxFacadeTest extends AbstractWebIntegrationTestCase {
 	public void testResultCount_blankSearchString() {
 		String searchStrings[] = {""};
 		
-		Long resultCount = facade.resultCount(searchStrings);
+		Long resultCount = facade.resultCount(searchStrings, "shortTitle");
 		
 		assertEquals("2", resultCount.toString());
 	}

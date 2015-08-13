@@ -7,6 +7,9 @@ import gov.nih.nci.ctcae.core.domain.User;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Class StudyQuery.
  *
@@ -134,8 +137,8 @@ public class StudyQuery extends SecuredQuery<Study> {
     }
 
     public void setLeftJoinForUserName() {
-        leftJoin("study.studyOrganizations as so " +
-                "left outer join sso.studyOrganizationClinicalStaffs as sso " +
+        leftJoin("study.studyOrganizations as sso " +
+                "left outer join sso.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user");
@@ -173,19 +176,17 @@ public class StudyQuery extends SecuredQuery<Study> {
         setParameter(PARTICIPANT_ID, participantId);
     }
 
-    public void filterByAll(String text, String key, Boolean filterOnlyByStudySites){
+    public void filterByAll(String text, String key){
 
         setLeftJoin();
         String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
 
         String format = "(lower(study.shortTitle) LIKE :%s " +
                 "or lower(study.assignedIdentifier) LIKE :%s " +
-                "or lower(sso.organization.name) like :%s) "
-                + (filterOnlyByStudySites ? "and sso.class NOT IN ('SSP', 'FSP', 'DCC')" : "");
-        andWhere(String.format(format
-                        , SHORT_TITLE + key, ASSIGNED_IDENTIFIER + key, STUDY_SITE_NAME + key)
+                "or lower(sso.organization.name) like :%s) ";
 
-        );
+        andWhere(String.format(format, SHORT_TITLE + key, ASSIGNED_IDENTIFIER + key, STUDY_SITE_NAME + key));
+
 
         setParameter(SHORT_TITLE+key, searchString);
         setParameter(ASSIGNED_IDENTIFIER+key, searchString);

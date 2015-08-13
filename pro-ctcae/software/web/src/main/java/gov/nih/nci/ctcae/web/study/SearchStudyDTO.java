@@ -48,5 +48,28 @@ public class SearchStudyDTO {
 	public void setAssignedIdentifier(String assignedIdentifier) {
 		this.assignedIdentifier = assignedIdentifier;
 	}
-	
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchStudyDTO that = (SearchStudyDTO) o;
+
+        if (!shortTitle.equals(that.shortTitle)) return false;
+        if (!assignedIdentifier.equals(that.assignedIdentifier)) return false;
+        if (!fundingSponsorDisplayName.equals(that.fundingSponsorDisplayName)) return false;
+        return coordinatingCenterDisplayName.equals(that.coordinatingCenterDisplayName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = shortTitle.hashCode();
+        result = 31 * result + assignedIdentifier.hashCode();
+        result = 31 * result + fundingSponsorDisplayName.hashCode();
+        result = 31 * result + coordinatingCenterDisplayName.hashCode();
+        return result;
+    }
 }

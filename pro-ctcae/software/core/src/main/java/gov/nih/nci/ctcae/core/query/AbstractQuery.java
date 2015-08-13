@@ -44,7 +44,7 @@ public abstract class AbstractQuery implements Query {
     /**
      * Instantiates a new abstract query. This is a new method and should completely replace used instances of above method.
      *
-     * @param queryString the query string
+     * @param query the query string
      */
     public AbstractQuery(QueryStrings query) {
         this.queryString = query.getCode();

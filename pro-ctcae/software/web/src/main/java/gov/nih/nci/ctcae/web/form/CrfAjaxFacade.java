@@ -67,6 +67,7 @@ public class CrfAjaxFacade {
         }
 
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
+
         if (!user.isAdmin()) {
             if (crfs.size() == results) {
                 return crfs;

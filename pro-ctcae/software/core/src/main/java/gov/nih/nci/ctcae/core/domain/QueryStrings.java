@@ -18,10 +18,10 @@ public enum  QueryStrings implements CodedEnum<String>{
 	STUDY_QUERY_COUNT("SELECT count(distinct study) from Study study "),
 	STUDY_QUERY_SORTBY_FIELDS("SELECT distinct study from Study study "),
 	STUDY_QUERY_SORTBY_FSP_DCC("SELECT study from Study study left outer join study.studyOrganizations as sso "),
-	
+
 	CRF_QUERY_BASIC("SELECT o from CRF o order by o.id "),
 	CRF_QUERY_COUNT("SELECT count(distinct o) from CRF o"),
-	CRF_QUERY_SORTBY_FIELDS("SELECT distinct o from CRF o "),
+	CRF_QUERY_SORTBY_FIELDS("SELECT o from CRF o "),
 	
 	STAFF_QUERY_BASIC("SELECT distinct cs from ClinicalStaff cs order by cs.id "),
 	STAFF_QUERY_COUNT("SELECT count(distinct cs) from ClinicalStaff cs "),

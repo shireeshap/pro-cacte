@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,52 +60,62 @@ public class FetchStudyController extends AbstractController {
             searchStrings = searchText.trim().split("\\s+");
         }
 
-        Long totalRecords = studyAjaxFacade.resultCount(searchStrings);
+        Long totalRecords = studyAjaxFacade.resultCount(searchStrings, sort);
         List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords.intValue());
-        
-	        Study study;
-	        SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();
-	        if(studies!=null){
-		        searchStudyWrapper.setTotalRecords(totalRecords.intValue());
-		        searchStudyWrapper.setRecordsReturned(studies.size());
-		        searchStudyWrapper.setStartIndex(Integer.parseInt(startIndex));
-		        searchStudyWrapper.setPageSize(rowsPerPageInt);
-		        searchStudyWrapper.setDir(dir);
-		        searchStudyWrapper.setSort(sort);
-		        searchStudyWrapper.setSearchStudyDTO(new SearchStudyDTO[studies.size()]);
-		        SearchStudyDTO studyCommand;
-		        for (int index = 0; index < studies.size(); index++) {
-		            study = studies.get(index);
-		            
-		            studyCommand = new SearchStudyDTO();
-		            studyCommand.setShortTitle(study.getShortTitle());
-		            studyCommand.setAssignedIdentifier(study.getAssignedIdentifier());
-		            studyCommand.setFundingSponsorDisplayName(study.getFundingSponsor().getOrganization().getDisplayName());
-		            studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
 
-		            
-		            boolean odcOnStudy = false;
-		            if (user.isCCA() || user.isAdmin()) {
-		                odcOnStudy = false;
-		            } else {
-		                if (user.isODCOnStudy(study)) {
-		                    odcOnStudy = true;
-		                }
-		            }
-		            String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
-		                    + study.getId() + "'"
-		                    + " onmouseover=\"javascript:showPopUpMenuStudy('"
-		                    + study.getId()
-		                    + "','"
-		                    + odcOnStudy
-		                    + "');\">"
-		                    + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
-		
-		            studyCommand.setActions(actions);
-		            
-		            searchStudyWrapper.getSearchStudyDTO()[index] = studyCommand;
-		        }
-	        }
+        Study study;
+        SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();
+        if(studies!=null) {
+            searchStudyWrapper.setTotalRecords(totalRecords.intValue());
+            searchStudyWrapper.setRecordsReturned(studies.size());
+            searchStudyWrapper.setStartIndex(Integer.parseInt(startIndex));
+            searchStudyWrapper.setPageSize(rowsPerPageInt);
+            searchStudyWrapper.setDir(dir);
+            searchStudyWrapper.setSort(sort);
+
+
+            List<SearchStudyDTO> uniqueStudies = new ArrayList<>();
+            for (int index = 0; index < studies.size(); index++) {
+                study = studies.get(index);
+
+                SearchStudyDTO studyCommand = new SearchStudyDTO();
+                studyCommand.setShortTitle(study.getShortTitle());
+                studyCommand.setAssignedIdentifier(study.getAssignedIdentifier());
+                studyCommand.setFundingSponsorDisplayName(study.getFundingSponsor().getOrganization().getDisplayName());
+                studyCommand.setCoordinatingCenterDisplayName(study.getDataCoordinatingCenter().getOrganization().getDisplayName());
+
+
+                boolean odcOnStudy = false;
+                if (user.isCCA() || user.isAdmin()) {
+                    odcOnStudy = false;
+                } else {
+                    if (user.isODCOnStudy(study)) {
+                        odcOnStudy = true;
+                    }
+                }
+                String actions = "<a class='fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all' id='studyActions"
+                        + study.getId() + "'"
+                        + " onmouseover=\"javascript:showPopUpMenuStudy('"
+                        + study.getId()
+                        + "','"
+                        + odcOnStudy
+                        + "');\">"
+                        + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
+
+                studyCommand.setActions(actions);
+
+                if(!uniqueStudies.contains(studyCommand) ) {
+                    uniqueStudies.add(studyCommand);
+                }
+
+            }
+
+            searchStudyWrapper.setSearchStudyDTO(new SearchStudyDTO[uniqueStudies.size()]);
+            for (int index = 0; index < uniqueStudies.size(); index++) {
+                searchStudyWrapper.getSearchStudyDTO()[index] = uniqueStudies.get(index);
+            }
+
+        }
         JSONObject jsonObject = JSONObject.fromObject(searchStudyWrapper);  
         Map<String,Object> modelMap = new HashMap<String,Object>();
         modelMap.put("shippedRecordSet", jsonObject);

@@ -381,8 +381,8 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         leftJoin("p.studyParticipantAssignments as spa " +
                 "left outer join spa.studySite as ss " +
                 "left outer join ss.study as study " +
-                "left outer join study.studyOrganizations as so " +
-                "left outer join so.studyOrganizationClinicalStaffs as socs " +
+                "left outer join study.studyOrganizations as sso " +
+                "left outer join sso.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +
                 "left outer join cs.user as user ");
@@ -392,7 +392,7 @@ public class ParticipantQuery extends SecuredQuery<Organization> {
         leftJoin("p.studyParticipantAssignments as spa " +
                 "left outer join spa.studySite as ss " +
                 "left outer join ss.study as study " +
-                "left outer join study.studyOrganizations as so " +
+                "left outer join study.studyOrganizations as sso " +
                 "left outer join ss.studyOrganizationClinicalStaffs as socs " +
                 "left outer join socs.organizationClinicalStaff as oc " +
                 "left outer join oc.clinicalStaff as cs " +

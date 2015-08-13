@@ -54,7 +54,7 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
     }
     
     public void leftJoinStudy() {
-    	leftJoin(" o.studyOrganizations as so left outer join so.study as study ");
+    	leftJoin(" o.studyOrganizations as sso left outer join sso.study as study ");
     }
     
     /**
@@ -63,12 +63,12 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
      * @param studyId the study id
      */
     public void whereToFilterDuplicateSites(String studyId) {
-    	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"') ");
+    	andWhere(" o.id not in ( select sso.organization.id from StudyOrganization sso where sso.study.id='"+studyId+"') ");
     	
     }
     
     public void filterStudySiteIfParticipantPresent(String studyId){
-    	andWhere(" o.id not in ( select so.organization.id from StudyOrganization so where so.study.id='"+studyId+"' and so.class = 'SST' and so.studyParticipantAssignments IS NOT EMPTY) ");
+    	andWhere(" o.id not in ( select sso.organization.id from StudyOrganization sso where sso.study.id='"+studyId+"' and sso.class = 'SST' and sso.studyParticipantAssignments IS NOT EMPTY) ");
     }
     
     /**

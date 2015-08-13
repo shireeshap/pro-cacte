@@ -52,7 +52,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
        is not made available as the join produces duplicate results. 
      */
     public void leftJoinForsortByStudy(){
-    	leftJoin("cs.organizationClinicalStaffs ocs left join ocs.studyOrganizationClinicalStaff socs left join  socs.studyOrganization so ");
+    	leftJoin("cs.organizationClinicalStaffs ocs left join ocs.studyOrganizationClinicalStaff socs left join  socs.studyOrganization sso ");
     }
     
      

@@ -64,8 +64,7 @@ public class FetchCrfController extends AbstractController {
         searchCRFWrapper.setStartIndex(Integer.parseInt(startIndex));
         searchCRFWrapper.setPageSize(rowsPerPageInt);
         searchCRFWrapper.setDir(dir);
-        searchCRFWrapper.setSearchCrfDTOs(new SearchCrfDTO[crfs.size()]);
-        int index = 0;
+        List<SearchCrfDTO> uniqueForms = new ArrayList<>();
         for (CRF crf: crfs) {
 
             SearchCrfDTO dto = new SearchCrfDTO();
@@ -109,9 +108,16 @@ public class FetchCrfController extends AbstractController {
                     +"');\">"
                     + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
 
+
             dto.setActions(actions);
-            searchCRFWrapper.getSearchCrfDTOs()[index] = dto;
-            index++;
+
+            if(!uniqueForms.contains(dto)) {
+                uniqueForms.add(dto);
+            }
+        }
+        searchCRFWrapper.setSearchCrfDTOs(new SearchCrfDTO[uniqueForms.size()]);
+        for(int i = 0; i < uniqueForms.size(); i++) {
+            searchCRFWrapper.getSearchCrfDTOs()[i] = uniqueForms.get(i);
         }
 
         JSONObject jsonObject = JSONObject.fromObject(searchCRFWrapper);
@@ -138,13 +144,13 @@ public class FetchCrfController extends AbstractController {
          crfInstancePrivilegeMap.put(PRIVILEGE_VERSION_FORM, hasVersionFormPrivilege);
          
          hasViewFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_VIEW_FORM);
-         crfInstancePrivilegeMap.put(PRIVILEGE_VIEW_FORM, hasViewFormPrivilege);
+        crfInstancePrivilegeMap.put(PRIVILEGE_VIEW_FORM, hasViewFormPrivilege);
          
          hasCopyFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_COPY_FORM);
-         crfInstancePrivilegeMap.put(PRIVILEGE_COPY_FORM, hasCopyFormPrivilege);
+        crfInstancePrivilegeMap.put(PRIVILEGE_COPY_FORM, hasCopyFormPrivilege);
          
          hasReleaseFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_RELEASE_FORM);
-         crfInstancePrivilegeMap.put(PRIVILEGE_RELEASE_FORM, hasReleaseFormPrivilege);
+        crfInstancePrivilegeMap.put(PRIVILEGE_RELEASE_FORM, hasReleaseFormPrivilege);
          
          hasDeleteFormPrivilege = authorizationServiceImpl.hasAccessForStudyInstance(user, study, PRIVILEGE_DELETE_FORM);
          crfInstancePrivilegeMap.put(PRIVILEGE_DELETE_FORM, hasDeleteFormPrivilege);

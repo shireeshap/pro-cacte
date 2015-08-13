@@ -1,11 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,18 +91,18 @@ public class Study extends BasePersistable {
      */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Arm> arms = new LinkedList<Arm>();
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @OrderBy("mode asc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    @org.hibernate.annotations.Fetch(value = org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<StudyMode> studyModes = new ArrayList();
 
 
