@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.validation.BeanValidator;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -197,7 +199,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
     public void flush() {
         getHibernateTemplate().flush();
     }
-    
+
     public void refresh(Persistable persistable){
     	getHibernateTemplate().refresh(persistable);
     }

@@ -56,12 +56,13 @@ public class FetchStudyController extends AbstractController {
         searchText = (String) request.getSession().getAttribute("searchText");
         modelAndView.addObject("searchText", searchText);
         if(!StringUtils.isBlank(searchText)){
-
             searchStrings = searchText.trim().split("\\s+");
         }
 
         Long totalRecords = studyAjaxFacade.resultCount(searchStrings, sort);
+        logger.error("total records: " + totalRecords); //0 ?????
         List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords.intValue());
+        logger.error("studies: " + studies.size());
 
         Study study;
         SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();

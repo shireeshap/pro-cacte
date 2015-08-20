@@ -123,37 +123,38 @@ public class StudyAjaxFacade {
     }
 
     private List<Study> getObjects(String[] searchStrings, Integer startIndex, Integer results, String sort, String dir, Integer totalRecords ) {
-        StudyQuery studyQuery = buildStudyQuery(startIndex, results, sort, dir, Boolean.TRUE);
-    
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (searchStrings != null) {
-            int index = 0;
-            for (String searchText : searchStrings) {
-                if (!StringUtils.isBlank(searchText)) {
-                    studyQuery.filterByAll(searchText, "" + index);
-                    index++;
-                }
-            }
-        }
+//        StudyQuery studyQuery = buildStudyQuery(startIndex, results, sort, dir, Boolean.TRUE);
+//
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (searchStrings != null) {
+//            int index = 0;
+//            for (String searchText : searchStrings) {
+//                if (!StringUtils.isBlank(searchText)) {
+//                    studyQuery.filterByAll(searchText, "" + index);
+//                    index++;
+//                }
+//            }
+//        }
 
 
-        List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
-        if (!user.isAdmin() && !user.isCCA()) {
-            if (studies.size() == results) {
-                return studies;
-            } else {
-                int index;
-                while (studies.size() < results && studies.size() < totalRecords-startIndex) {
-                    index = startIndex + results;
-                    studyQuery.setFirstResult(index);
-                    studies.addAll( studyRepository.find(studyQuery));
-                }
-                return studies;
-            }
-        }
+//        List<Study> studies = (List<Study>) studyRepository.find(studyQuery);
+        return studyRepository.x(searchStrings[0], sort, "'FSP'");
+//        if (!user.isAdmin() && !user.isCCA()) {x/
+//            if (studies.size() == results) {
+//                return studies;
+//            } else {
+//                int index;
+//                while (studies.size() < results && studies.size() < totalRecords-startIndex) {
+//                    index = startIndex + results;
+//                    studyQuery.setFirstResult(index);
+//                    studies.addAll( studyRepository.find(studyQuery));
+//                }
+//                return studies;
+//            }
+//        }
         
         
-        return studies;
+//        return studies;
     }
 
     public Long resultCount(String[] searchTexts, String sort) {

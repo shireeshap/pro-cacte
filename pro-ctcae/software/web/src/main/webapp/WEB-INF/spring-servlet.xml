@@ -12,6 +12,23 @@
    	    http://activemq.apache.org/schema/core/activemq-core-5.3.2.xsd ">
 
 
+    <!--Spring Startup Bean-->
+    <bean id="meddraTermsLoader" class="gov.nih.nci.ctcae.web.startup.MeddtraTermsLoader">
+        <property name="meddraRepository" ref="meddraRepository"/>
+    </bean>
+
+
+    <bean id="soundexTermMatcher" class="gov.nih.nci.ctcae.web.meddra.matcher.impl.SoundexMatcher">
+        <property name="threshold" value="3"/>
+    </bean>
+
+    <bean id="levenshteinTermMatcher" class="gov.nih.nci.ctcae.web.meddra.matcher.impl.LevenshteinMatcher">
+        <property name="threshold" value="6"/>
+        <property name="multipleWordMultiplier" value="1.2"/>
+    </bean>
+
+
+
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
 

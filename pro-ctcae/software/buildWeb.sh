@@ -3,10 +3,11 @@
 export CATALINA_HOME=/Library/Tomcat
 export JPDA_ADDRESS=9000
 echo [refreshDEV]: $CATALINA_HOME
-ant publish-all -Dskip.test=true -Doffline=true
-cd web
-ant -f ivy-build.xml deploy-proctcae -Doffline=true
-echo [refreshDEV]:  'sleeping 5 seconds'
-sleep 5
-cd ..
+echo "shutting down tomcat"
+$CATALINA_HOME/bin/shutdown.sh
+ant clean publish-all -Dskip.test=true -Doffline=true
+ant -f web/ivy-build.xml deploy-proctcae -Doffline=true
+echo "starting tomcat"
+$CATALINA_HOME/bin/startup.sh
+
 
