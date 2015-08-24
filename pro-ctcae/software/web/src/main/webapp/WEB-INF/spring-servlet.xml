@@ -257,6 +257,7 @@
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="meddraRepository" ref="meddraRepository"/>
+        <property name="addedSymptomVerbatimRepository" ref="addedSymptomVerbatimRepository"></property>
     </bean>
 
     <bean name="/admin/passwordConfiguration" id="passwordPolicyConfigurationController"
