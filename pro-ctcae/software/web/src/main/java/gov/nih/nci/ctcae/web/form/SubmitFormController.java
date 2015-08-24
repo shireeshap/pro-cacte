@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleNotification;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
+import gov.nih.nci.ctcae.core.repository.AddedSymptomVerbatimRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -35,7 +36,8 @@ public class SubmitFormController extends SimpleFormController {
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
-    public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
+    private AddedSymptomVerbatimRepository addedSymptomVerbatimRepository;
+	public static final String GET_NEXT_AVAILABLE_SURVEY = "GET_NEXT_AVAILABLE_SURVEY";
     private static String TRUE = "true";
     private static String IS_BEGIN = "isBegin";
 
@@ -129,7 +131,7 @@ public class SubmitFormController extends SimpleFormController {
             command.lazyInitializeSchedule();
             return command;
         }
-        command = new SubmitFormCommand(crfScheduleId, genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
+        command = new SubmitFormCommand(crfScheduleId, genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository, addedSymptomVerbatimRepository);
         return command;
     }
 
@@ -190,6 +192,11 @@ public class SubmitFormController extends SimpleFormController {
     public void setMeddraRepository(MeddraRepository meddraRepository) {
         this.meddraRepository = meddraRepository;
     }
+    
+    @Required
+    public void setAddedSymptomVerbatimRepository(AddedSymptomVerbatimRepository addedSymptomVerbatimRepository) {
+		this.addedSymptomVerbatimRepository = addedSymptomVerbatimRepository;
+	}
 
     private String getReviewView() {
         return "form/reviewFormSubmission";

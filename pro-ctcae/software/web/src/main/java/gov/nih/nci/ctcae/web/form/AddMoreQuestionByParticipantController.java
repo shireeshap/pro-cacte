@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +12,9 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.RequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.util.WebUtils;
+
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,11 +26,13 @@ import org.springframework.web.util.WebUtils;
 public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormController {
 
     private GenericRepository genericRepository;
+    private static final String VERBATIM_BOX_SUFFIX = "_verbatimBox";
 
     public AddMoreQuestionByParticipantController() {
         super();
         setFormView("form/addMoreQuestionForParticipant");
     }
+    
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
@@ -37,9 +41,10 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
     	
     	int pageNumber = sCommand.getNewPageIndex();
     	String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
+    	Map<String, String> verbatimMapping = getVerbatimMapping(request);
 
         if ("continue".equals(direction) && selectedSymptoms != null) {
-            sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true);
+            sCommand.addMoreParticipantAddedQuestions(selectedSymptoms, true, verbatimMapping);
         }
         
         if(sCommand.getIsEq5dCrf()){
@@ -62,18 +67,35 @@ public class AddMoreQuestionByParticipantController extends CtcAeSimpleFormContr
         mv.setView(new RedirectView("submit"));
         return mv;
     }
+    
+    private Map<String, String> getVerbatimMapping(HttpServletRequest request) {
+    	Map<String, String> verbatimMapping = new HashMap<String, String>();
+    	Map<String, Object[]> requestMap = request.getParameterMap();
+    	
+    	for(String name: requestMap.keySet()) {
+    		if(name.indexOf(VERBATIM_BOX_SUFFIX) != -1) {
+    			String value = (String) requestMap.get(name)[0];
+    			verbatimMapping.put(name.substring(0, name.indexOf(VERBATIM_BOX_SUFFIX)),  value);
+    		}
+    	}
+    	
+    	return verbatimMapping;
+    }
 
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        SubmitFormCommand submitFormCommand = (SubmitFormCommand)
-                request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand) request
+    										  	.getSession()
+        										.getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
         return submitFormCommand;
     }
 
     @Override
-    protected void onBindAndValidate(HttpServletRequest request, Object command,
-    		BindException e) throws Exception {
+    protected void onBindAndValidate(HttpServletRequest request, 
+    								 Object command, 
+    								 BindException e) throws Exception {
+    	
     	super.onBindAndValidate(request, command, e);
     	SubmitFormCommand sCommand = (SubmitFormCommand) command;
     	if(sCommand.getIsEq5dCrf()){

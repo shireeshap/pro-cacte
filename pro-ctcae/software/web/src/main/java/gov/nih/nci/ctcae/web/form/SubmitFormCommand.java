@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.constants.SupportedLanguageEnum;
+import gov.nih.nci.ctcae.core.domain.AddedSymptomVerbatim;
 import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.LowLevelTermVocab;
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
@@ -19,6 +20,7 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
+import gov.nih.nci.ctcae.core.repository.AddedSymptomVerbatimRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -63,12 +65,18 @@ public class SubmitFormCommand implements Serializable {
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+    private AddedSymptomVerbatimRepository addedSymptomVerbatimRepository;
 
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository, ProCtcTermRepository proCtcTermRepository, MeddraRepository meddraRepository) {
+	public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, 
+							 StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository, 
+							 ProCtcTermRepository proCtcTermRepository, MeddraRepository meddraRepository,
+							 AddedSymptomVerbatimRepository addedSymptomVerbatimRepository) {
+		
         this.genericRepository = genericRepository;
         this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
         this.proCtcTermRepository = proCtcTermRepository;
         this.meddraRepository = meddraRepository;
+        this.addedSymptomVerbatimRepository = addedSymptomVerbatimRepository;
         schedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(crfScheduleId));
         lazyInitializeSchedule();
         schedule.addParticipantAddedQuestions();
@@ -347,15 +355,15 @@ public class SubmitFormCommand implements Serializable {
                     participantAddedLlt.setMeddraTerm(symptom, SupportedLanguageEnum.ENGLISH);
                     participantAddedLlt.setParticipantAdded(true);
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
-                    addMeddraQuestion(term, firstTime, newlyAddedQuestions);
+                    addMeddraQuestion(term, firstTime, newlyAddedQuestions, null);
                 } else {
                     List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH));
                     if (ctcTerms == null || ctcTerms.size() == 0) {
-                        addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                        addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, null);
                     } else {
                         List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
                         if (proCtcTerms.size() == 0) {
-                            addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                            addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, null);
                         } else {
                             addProCtcQuestion(proCtcTerms.get(0), newlyAddedQuestions);
                         }
@@ -377,15 +385,19 @@ public class SubmitFormCommand implements Serializable {
     }
 
 
-    public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
+    public void addMoreParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime, Map<String, String> verbatimMapping) {
         lazyInitializeSchedule();
         int position = totalQuestionPages + 2;
 
         for (String symptom : selectedSymptoms) {
+        	String verbatim = "";
             List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
             ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
             if (proCtcTerm != null) {
-                addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+            	addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+            	AddedSymptomVerbatim addedVerbatim = createAddedSymptomVerbatim(proCtcTerm, null, getSchedule(), verbatimMapping.get(symptom));
+            	addedSymptomVerbatimRepository.save(addedVerbatim);
+            	
             } else {
                 LowLevelTerm lowLevelTerm = findMeddraTermBySymptom(symptom);
                 if (lowLevelTerm == null) {
@@ -398,21 +410,32 @@ public class SubmitFormCommand implements Serializable {
                     participantAddedLltVocab.setMeddraTermSpanish(symptom);
                     participantAddedLlt.setLowLevelTermVocab(participantAddedLltVocab);
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
-                    addMeddraQuestion(term, firstTime, newlyAddedQuestions);
+                   	addMeddraQuestion(term, firstTime, newlyAddedQuestions, null);
                 } else {
                     List<CtcTerm> ctcTerms = meddraRepository.findCtcTermForMeddraTerm(lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH));
                     if (ctcTerms == null || ctcTerms.size() == 0) {
-                        addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                    	
+                    	AddedSymptomVerbatim addedVerbatim = addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, verbatimMapping.get(symptom));
+                    	addedSymptomVerbatimRepository.save(addedVerbatim);
+                    	
                     } else {
                         List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
                         if (proCtcTerms.size() > 0 && "Y".equalsIgnoreCase(ctcTerms.get(0).getProCtcTerms().get(0).getCurrency())) {
                             addProCtcQuestion(proCtcTerms.get(0), newlyAddedQuestions);
-                            } else {
-                            addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                        	
+                        	AddedSymptomVerbatim addedVerbatim = createAddedSymptomVerbatim(proCtcTerms.get(0), lowLevelTerm, getSchedule(), verbatimMapping.get(symptom));
+                        	addedSymptomVerbatimRepository.save(addedVerbatim);
+                        	
+                        } else {
+                        	
+                        	AddedSymptomVerbatim addedVerbatim =  addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, verbatimMapping.get(symptom));
+                        	addedSymptomVerbatimRepository.save(addedVerbatim);
+                        	
                         }
                     }
                 }
             }
+            
             for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
                 addParticipantAddedQuestionToSymptomMap(spcsaq);
             }
@@ -424,6 +447,18 @@ public class SubmitFormCommand implements Serializable {
         totalPages = totalQuestionPages + 1;
         reviewPageIndex = totalQuestionPages + 2;
 
+    }
+    
+    
+    private AddedSymptomVerbatim createAddedSymptomVerbatim(ProCtcTerm proCtcTerm, LowLevelTerm lowLevelTerm, 
+    														StudyParticipantCrfSchedule studyParticipantCrfSchedule, String verbatim) {
+    	AddedSymptomVerbatim addedVerbatim = new AddedSymptomVerbatim();
+        addedVerbatim.setProctcTerm(proCtcTerm);
+        addedVerbatim.setLowLevelTerm(lowLevelTerm);
+        addedVerbatim.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+        addedVerbatim.setVerbatim(verbatim);
+        
+        return addedVerbatim;
     }
 
 
@@ -486,19 +521,27 @@ public class SubmitFormCommand implements Serializable {
         return true;
     }
 
-    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, boolean firstTime, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+    private AddedSymptomVerbatim addMeddraQuestion(LowLevelTerm lowLevelTerm, 
+    											   boolean firstTime, 
+												   List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions,
+												   String verbatim) {
+    	AddedSymptomVerbatim addedVerbatim = null;
         if (symptomDoesNotExistInForm(lowLevelTerm.getMeddraTerm(SupportedLanguageEnum.ENGLISH))) {
             List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
             MeddraQuestion meddraQuestion;
             if (meddraQuestions.size() > 0) {
                 meddraQuestion = meddraQuestions.get(0);
+               addedVerbatim = createAddedSymptomVerbatim(null, lowLevelTerm, getSchedule(), verbatim);
             } else {
                 meddraQuestion = createMeddraQuestion(lowLevelTerm);
             }
+            
             StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(meddraQuestion, firstTime);
             newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
             totalQuestionPages++;
+            
         }
+        return addedVerbatim;
     }
 
     private StudyParticipantCrfScheduleAddedQuestion AddParticipantSelectedQuestion(Question question, boolean firstTime) {
