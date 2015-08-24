@@ -2339,6 +2339,7 @@ pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/004_add_create_org
 pro-ctcae/software/core/src/main/db/migrate/008_elaboration_1/005_alter_seq_organizations.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/009_elaboration_1/001_create_system_alerts.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/009_elaboration_1/002_add_alert_privileges.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/009_elaboration_1/003_create_table_addedSymptomVerbatimMapping.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ItemBank.java -text svneol=unset#text/plain
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/constants/ProctcTermTypeBasedCategoryEnum.java -text
