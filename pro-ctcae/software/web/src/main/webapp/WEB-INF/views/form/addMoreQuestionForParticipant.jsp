@@ -197,6 +197,7 @@
 <script type="text/javascript">
     var oAC;
     var greeting = "Begin typing here";
+    var verbatim = "";
     <c:if test="${pageContext.response.locale == 'es'}">
          greeting = "Comenzar a escribir aquí";
     </c:if>
@@ -210,6 +211,7 @@
 	            fieldDelim: "\t"
 	        };
 	        oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
+	        var requestedQuery;
 	
 	        oAC.maxResultsDisplayed = 100;
 	        $('participantSymptomInput').className+=" pending-search";
@@ -218,6 +220,7 @@
 	        Event.observe($('participantSymptomInput'), 'click', function() {
 	            if ($('participantSymptomInput').value == greeting) {
 	                $('participantSymptomInput').value = '';
+	                
 	            }
 	            //$('participantSymptomInput').removeClassName('pending-search');
 	            removeCssClass($('participantSymptomInput'), 'pending-search');
@@ -229,6 +232,20 @@
 	                $('participantSymptomInput').className+=" pending-search";
 	            }
 	        })
+	        
+	        var dataReturnHandler = function(sType, aArgs) {
+	        	requestedQuery = aArgs[1];
+	        };
+	        
+	        var selectEventHandler = function(sType, aArgs){
+	        	verbatim = unescape(requestedQuery);
+	        };
+	        
+	        // capture input querystring sent to autocompleter
+	        oAC.dataReturnEvent.subscribe(dataReturnHandler);
+	        
+	        // lock the typed-in verbatim, after user selects a match from the returned list
+	        oAC.itemSelectEvent.subscribe(selectEventHandler);
 	    }
     </c:if>
     
@@ -247,6 +264,7 @@
     		}
     		return true;
     	});
+    	
     });
     
     var nextColumnIndex = 0;
@@ -271,7 +289,7 @@
                     })
                 } else {
                     checkMapping(selectedChoice);
-                    addSymptom(selectedChoice);
+                    addSymptom(selectedChoice, verbatim);
                 }
 
             })
@@ -303,13 +321,13 @@
     function alertForAdd() {
         var request = new Ajax.Request("<c:url value="/pages/participant/alertForAdd"/>", {
             onComplete:function(transport) {
-        	if(isIe7()){
-        		myWindow = window.open('','','width=650,height=180');
-        		myWindow.document.write(transport.responseText);
-        		myWindow.focus();
-        	} else {
-        		showConfirmationWindow(transport, 650, 180);
-        	}
+	        	if(isIe7()){
+	        		myWindow = window.open('','','width=650,height=180');
+	        		myWindow.document.write(transport.responseText);
+	        		myWindow.focus();
+	        	} else {
+	        		showConfirmationWindow(transport, 650, 180);
+	        	}
             },
             parameters:<tags:ajaxstandardparams/> +"&index=ind",
             method:'get'
@@ -317,7 +335,7 @@
     }
 
 
-    function addSymptom(escapedSelectedChoice) {
+    function addSymptom(escapedSelectedChoice, verbatim) {
         var selectedChoice = unescape(escapedSelectedChoice);
         var checkboxitems = document.getElementsByName('symptomsByParticipants');
         var itemfound = false;
@@ -330,7 +348,7 @@
             }
         }
         if (!itemfound) {
-            addCheckbox(selectedChoice);
+            addCheckbox(selectedChoice, verbatim);
         }
         clearInput();
         initSearchField();
@@ -340,8 +358,9 @@
         $('participantSymptomInput').clear();
         $('participantSymptomInput').value = greeting;
         $('participantSymptomInput').className = "yui-ac-input pending-search";
+        verbatim = "";
     }
-    function addCheckbox(selectedChoice) {
+    function addCheckbox(selectedChoice, verbatim) {
         clearInput();
 
         if (selectedChoice == '') {
@@ -386,6 +405,15 @@
         chkbox.onchange = function() {
             changeClass(chkbox, chkbox.id);
         }
+        
+        var vbox;
+        if(verbatim != "") {
+			vbox = document.createElement('input');
+        	vbox.type = "text";
+        	vbox.name = selectedChoice + "_verbatimBox";
+        	vbox.value = verbatim;
+        	vbox.hidden = true;
+        }
 
         var divTag = document.createElement("div");
         divTag.id = "div1_" + nextColumnIndex;
@@ -397,6 +425,9 @@
             tdb.className+=" buttonLook";
         }
         tdb.appendChild(chkbox);
+		if(verbatim != "") {
+			tdb.appendChild(vbox);
+		}
         tdb.appendChild(divTag);
         selectCheckBox(nextColumnIndex);
 
@@ -503,7 +534,7 @@
         closeWindow();
     }
 
-	function removeCssClass(element, classToRemove){
+	function removeCssClass(element, classToRemove) {
 		var origCss = element.className;
 		var origCssParts = origCss.split(" ");
 		var finalCss = "";
@@ -518,7 +549,7 @@
 
 	String.prototype.trim=function(){return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');};
 
-	function isIe7(){
+	function isIe7() {
 		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ //test for MSIE x.x;
 			 var ieversion=new Number(RegExp.$1) // capture x.x portion and store as a number
 			 if (ieversion>=9)
