@@ -2,10 +2,13 @@ package gov.nih.nci.ctcae.web.form;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+
+import gov.nih.nci.ctcae.core.domain.AddedSymptomVerbatim;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.repository.AddedSymptomVerbatimRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -29,6 +32,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
+    private AddedSymptomVerbatimRepository addedSymptomVerbatimRepository;
     private static String CONTINUE = "continue";
     private static String crfTitle = "Test CRF";
     private static String BACK = "back";
@@ -45,6 +49,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         studyParticipantCrfScheduleRepository = registerMockFor(StudyParticipantCrfScheduleRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         meddraRepository = registerMockFor(MeddraRepository.class);
+        addedSymptomVerbatimRepository = registerMockFor(AddedSymptomVerbatimRepository.class);
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
         studyParticipantCrf = new StudyParticipantCrf();
@@ -63,7 +68,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         expect(genericRepository.save(isA(StudyParticipantCrfSchedule.class))).andReturn(studyParticipantCrfSchedule).anyTimes();
         
     	replayMocks();
-    	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
+    	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository, addedSymptomVerbatimRepository);
     	command.setCurrentPageIndex(5);
     	command.setReviewPageIndex(7);
     	command.setDirection(CONTINUE);
@@ -83,7 +88,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
         expect(genericRepository.save(isA(StudyParticipantCrfSchedule.class))).andReturn(studyParticipantCrfSchedule).anyTimes();
         
     	replayMocks();
-    	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
+    	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository, addedSymptomVerbatimRepository);
     	command.setCurrentPageIndex(5);
     	command.setReviewPageIndex(7);
     	command.setDirection(BACK);
@@ -106,7 +111,7 @@ public class AddMoreQuestionByParticipantControllerTest extends WebTestCase {
 		verifyMocks();
 		assertNull("expect formBackingObject to be null", command);
 	      
-	  	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository);
+	  	command = new SubmitFormCommand("1", genericRepository, studyParticipantCrfScheduleRepository, proCtcTermRepository, meddraRepository, addedSymptomVerbatimRepository);
 	    request.getSession().setAttribute(SubmitFormController.class.getName()+".FORM."+"command", command);
 	    SubmitFormCommand formBackingObject = (SubmitFormCommand)controller.formBackingObject(request);
 		verifyMocks();

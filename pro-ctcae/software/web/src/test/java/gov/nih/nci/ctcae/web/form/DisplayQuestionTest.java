@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.ValidValue;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.repository.AddedSymptomVerbatimRepository;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -26,6 +27,7 @@ public class DisplayQuestionTest extends AbstractWebTestCase{
 	private Question question;
 	private StudyParticipantCrfAddedQuestion  studyParticipantCrfAddedQuestion;
 	private StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion;
+    private AddedSymptomVerbatimRepository addedSymptomVerbatimRepository;
 	
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
@@ -33,7 +35,7 @@ public class DisplayQuestionTest extends AbstractWebTestCase{
 		study = StudyTestHelper.getDefaultStudy();
 		crf = study.getCrfs().get(0);
 		String scheduleId = crf.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0).getId().toString();
-		command = new SubmitFormCommand(scheduleId, genericRepository, studyParticipantCrfScheduleRepository, null, null);
+		command = new SubmitFormCommand(scheduleId, genericRepository, studyParticipantCrfScheduleRepository, null, null, null);
 		displayQuestion = new DisplayQuestion(genericRepository, command);
 		question = (ProCtcQuestion) getProCtcQuestion();
 		studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
