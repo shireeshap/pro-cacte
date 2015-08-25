@@ -416,7 +416,9 @@ public class SubmitFormCommand implements Serializable {
                     if (ctcTerms == null || ctcTerms.size() == 0) {
                     	
                     	AddedSymptomVerbatim addedVerbatim = addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, verbatimMapping.get(symptom));
-                    	addedSymptomVerbatimRepository.save(addedVerbatim);
+                    	if(addedVerbatim != null) {
+                    		addedSymptomVerbatimRepository.save(addedVerbatim);
+                    	}
                     	
                     } else {
                         List<ProCtcTerm> proCtcTerms = ctcTerms.get(0).getProCtcTerms();
@@ -429,7 +431,9 @@ public class SubmitFormCommand implements Serializable {
                         } else {
                         	
                         	AddedSymptomVerbatim addedVerbatim =  addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions, verbatimMapping.get(symptom));
-                        	addedSymptomVerbatimRepository.save(addedVerbatim);
+                        	if(addedVerbatim != null) {
+                        		addedSymptomVerbatimRepository.save(addedVerbatim);
+                        	}
                         	
                         }
                     }
