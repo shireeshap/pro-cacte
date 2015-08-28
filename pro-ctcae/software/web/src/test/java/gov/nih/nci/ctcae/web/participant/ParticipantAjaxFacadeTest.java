@@ -14,7 +14,6 @@ import java.util.List;
  *         Date: Oct 23, 2008
  */
 public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
-
    
     public void testMatchParticipantByStudySiteId() {
         Study study = StudyTestHelper.getDefaultStudy();
@@ -24,12 +23,11 @@ public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
 
         List<Participant> pl = facade.matchParticipantByStudySiteId("s", null, study.getId());
         assertNotNull(pl);
-        assertEquals(15, pl.size());
+        assertEquals(5, pl.size());
 
         pl = facade.matchParticipantByStudySiteId("s", studySite.getId(), study.getId());
         assertNotNull(pl);
-        assertEquals(8, pl.size());
-
+        assertEquals(4, pl.size());
     }
 
 }
