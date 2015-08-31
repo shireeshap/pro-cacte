@@ -835,22 +835,22 @@ function doPostProcessing() {
 									<select id="call_timeZone" name="call_timeZone"
 											title="Time zone" class="validate-NOTEMPTY" required="true">
 									
-									    <option value="America/New_York" ${studyParticipantAssignment.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
+									    <option value="America/New_York" ${command.callTimeZone eq "America/New_York" ? "selected='selected'" : " "} >
 									        Eastern Time
 									    </option>
-									    <option value="America/Chicago" ${studyParticipantAssignment.callTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
+									    <option value="America/Chicago" ${command.callTimeZone eq "America/Chicago" ? "selected='selected'" : " "} >
 									        Central Time
 									    </option>
-									    <option value="America/Denver" ${studyParticipantAssignment.callTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
+									    <option value="America/Denver" ${command.callTimeZone eq "America/Denver" ? "selected='selected'" : " "} >
 									        Mountain Time
 									    </option>
-									    <option value="America/Los_Angeles" ${studyParticipantAssignment.callTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
+									    <option value="America/Los_Angeles" ${command.callTimeZone eq "America/Los_Angeles" ? "selected='selected'" : " "} >
 									        Pacific Time
 									    </option>
-									    <option value="America/Anchorage" ${studyParticipantAssignment.callTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
+									    <option value="America/Anchorage" ${command.callTimeZone eq "America/Anchorage" ? "selected='selected'" : " "} >
 									        Alaska Time
 									    </option>
-									    <option value="America/Adak" ${studyParticipantAssignment.callTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
+									    <option value="America/Adak" ${command.callTimeZone eq "America/Adak" ? "selected='selected'" : " "} >
 									        Hawaii-Aleutian Time
 									    </option>
 									</select>
