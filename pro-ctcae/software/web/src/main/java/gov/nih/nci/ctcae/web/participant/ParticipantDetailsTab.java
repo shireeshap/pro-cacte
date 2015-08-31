@@ -405,6 +405,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
 
+        if(command.getParticipant() != null) {
+        	if(!command.getParticipant().getStudyParticipantAssignments().isEmpty()) {
+        		command.setCallTimeZone(command.getParticipant().getStudyParticipantAssignments().get(0).getCallTimeZone());
+        	}
+        }
         // Initializing studyOrganization and studyModes
         boolean showTime = false;
         boolean showWeb = false;
