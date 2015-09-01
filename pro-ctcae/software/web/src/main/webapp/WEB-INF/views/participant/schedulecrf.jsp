@@ -230,7 +230,7 @@ function showMoveWindow(olddate, newdate, index, sids, participantId) {
      <c:if test="(typeof(participantId) == 'undefined' || participantId == null) && ${param.id != null}">
 		participantId = ${param.id};
 	 </c:if>
-    
+	 
     //jQuery('#ajaxLoadingImgDiv').show();
     var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
         parameters:<tags:ajaxstandardparams/> + "&index=" + index + 
@@ -438,12 +438,12 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
         	if(hasShowCalendarActionsPrivilege){
         		   if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
-                       html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
-                       html += '<li><a href="#" onclick="javascript:participantOnHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                       html += '<li><a href="#" onclick="javascript:showAddWindow(\'' + participantId + '\', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                       html += '<li><a href="#" onclick="javascript:participantOnHold(\'' + participantId + '\', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                    } else if(isHoldDateAfterCurrentDate(newHoldYear, currentYear, newHoldMonth, currentMonth, newHoldDate, holdDate)){
-                   	html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ');">Schedule form</a></li>';
+                   	html += '<li><a href="#" onclick="javascript:showAddWindow(\'' + participantId + '\', ' + date + ', ' + index + ');">Schedule form</a></li>';
                    } else {
-                       html += '<li><a href="#" onclick="javascript:participantOffHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
+                       html += '<li><a href="#" onclick="javascript:participantOffHold(\'' + participantId + '\', ' + holdDate + ', ' + index + ');">Remove hold</a></li>';
                    }
         	}
          
@@ -453,20 +453,20 @@ function showPopUpMenuSchedule(date, currentMonth, currentYear, index, sid, show
         //TODO:Suneel A needs to clean up commented line after issue resolved
         //menuindex = sid;
         var html = '<div id="search-engines"><ul>';
-        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Show details</a></li>';
+        html += '<li><a href="#" onclick="javascript:showDetailsWindow(' + date + ', ' + index + ', \'' + sid + '\', \'' + participantId + '\');">Show details</a></li>';
         /* commenting off-study check, as dropdown arrow is prevented from showing up in 
         the first place, for dates greater than off-study date */
         //if (${command.selectedStudyParticipantAssignment.status.displayName ne 'OffStudy'}) {
             if (${command.selectedStudyParticipantAssignment.onHoldTreatmentDate eq null}) {
                 if(hasShowCalendarActionsPrivilege){
                 	if (${crfsSize>1}) {
-                        html += '<li><a href="#" onclick="javascript:showAddWindow(' + participantId + ', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showAddWindow(\'' + participantId + '\', ' + date + ', ' + index + ', \'' + sid + '\');">Schedule form</a></li>';
                     }
                     if (showDeleteOption) {
-                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Delete form</a></li>';
-                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', ' + participantId + ');">Move form to other date</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ', \'' + sid + '\', \'' + participantId + '\');">Delete form</a></li>';
+                        html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ', \'' + sid + '\', \'' + participantId + '\');">Move form to other date</a></li>';
                     }
-                    html += '<li><a href="#" onclick="javascript:participantOnHold(' + participantId + ', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
+                    html += '<li><a href="#" onclick="javascript:participantOnHold(\'' + participantId + '\', ' + holdDate + ', ' + index + ');">Treatment on hold</a></li>';
                 }
             	if(hasEnterResponsePrivilege){
             	     var split = sid.split('_');
@@ -693,7 +693,7 @@ function isSelectedAfterCurrentDate(selectedYear, selectedMonth, selectedDay){
 
                 </chrome:division>
             </c:forEach>
-</jsp:attribute>
+	</jsp:attribute>
 </tags:tabForm>
 </body>
 </html>
