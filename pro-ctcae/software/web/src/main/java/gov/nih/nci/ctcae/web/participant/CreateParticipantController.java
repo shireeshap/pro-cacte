@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import javax.servlet.http.HttpServletRequest;
+
 //
 /**
  * The Class ParticipantController.
@@ -9,4 +11,9 @@ package gov.nih.nci.ctcae.web.participant;
  */
 
 public class CreateParticipantController extends ParticipantController {
+	
+	@Override
+	protected String getFormSessionAttributeName(HttpServletRequest request) {
+		return CreateParticipantController.class.getName() + ".FORM." + "command";
+	}
 }
