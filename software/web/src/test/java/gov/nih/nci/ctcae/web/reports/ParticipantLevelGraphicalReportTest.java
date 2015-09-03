@@ -1,0 +1,105 @@
+package gov.nih.nci.ctcae.web.reports;
+
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.Question;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.ValidValue;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
+import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeMap;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * @author Harsh Agarwal
+ * @since Mar 18, 2009
+ */
+public class ParticipantLevelGraphicalReportTest extends AbstractWebTestCase {
+
+	private ParticipantLevelGraphicalReportController controller;
+	private static Integer symptomId;
+	TreeMap<String[], HashMap<Question, ArrayList<ValidValue>>> results;
+	HashMap<Question, ArrayList<ValidValue>> questions;
+    Study study ;
+    static CRF crf ;
+	
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
+        study = StudyTestHelper.getDefaultStudy();
+        crf = study.getCrfs().get(0);
+		controller = new ParticipantLevelGraphicalReportController();
+		controller.setGenericRepository(genericRepository);
+        controller.setProCtcTermRepository(proCtcTermRepository);
+        buildResult();
+        request.getSession().setAttribute("sessionResultsMap", results);
+        request.getSession().setAttribute("sessionDates", new ArrayList<String>());
+        request.getSession().setAttribute("baselineDate", "");
+	}
+	
+    public void testQuery() {
+        SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
+        query.filterByCrf(StudyTestHelper.getDefaultStudy().getCrfs().get(0).getId());
+        List<Persistable> l = genericRepository.find(query);
+        assertTrue(l.size() > 0);
+    }
+    
+    public void testHandleRequestInternal() throws Exception {
+        int size = crf.getAllCrfPageItems().size();
+        if(size > 0){
+        	symptomId = crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getProCtcTerm().getId();
+        	request.setParameter("symptomId", "P_"+symptomId.toString());
+
+        	ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        	
+        	assertEquals("reports/participantreportcharts", modelAndView.getViewName());
+            HashSet<String> allAttributes = (HashSet<String>) modelAndView.getModelMap().get("allAttributes");
+            assertTrue(allAttributes.contains(crf.getAllCrfPageItems().get(size - 1).getProCtcQuestion().getQuestionType().getDisplayName()));
+            assertEquals("P_"+symptomId.toString(), modelAndView.getModelMap().get("symptom"));
+        } else {
+        	fail("Insufficient data in DB while running this test");
+        }
+    }
+    
+    
+    private void buildResult(){
+    	results = new TreeMap<String[], HashMap<Question,ArrayList<ValidValue>>>(new MyArraySorter());
+    	questions = new HashMap<Question, ArrayList<ValidValue>>();
+    	List<ValidValue> values = new ArrayList<ValidValue>();
+    	values.add(new ProCtcValidValue());
+    	ProCtcTerm proCtcTerm = crf.getAllCrfPageItems().get(0).getProCtcQuestion().getProCtcTerm();
+    	for(ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()){
+    		questions.put(proCtcQuestion, (ArrayList<ValidValue>) values);
+    	}
+    	String[] terms = new String[2];
+    	terms[0] = proCtcTerm.getProCtcTermVocab().getTermEnglish();
+    	terms[1] = proCtcTerm.getProCtcTermVocab().getTermEnglish();
+    	
+    	results.put(terms, questions);
+    }
+    
+    private class MyArraySorter implements Comparator<String[]> {
+        public int compare(String[] o1, String[] o2) {
+            if (o1 != null && o2 != null) {
+                return o1[1].compareTo(o2[1]);
+            }
+            if(o1 == null){
+            	return 1;
+            }
+            if(o2 == null){
+            	return -1;
+            }
+            return 0;
+        }
+    }
+}
