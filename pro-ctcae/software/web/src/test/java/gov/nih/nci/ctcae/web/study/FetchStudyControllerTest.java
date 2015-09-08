@@ -41,4 +41,13 @@ public class FetchStudyControllerTest extends AbstractWebIntegrationTestCase {
 		JSONObject obj = ((JSONObject) modelAndView.getModel().get("shippedRecordSet"));
 		assertEquals("2", obj.get("totalRecords").toString());
 	}
+	
+	public void testHandleRequestInternal_NonExistingStudySearchString() throws Exception {
+		request.getSession().setAttribute(SEARCH_TEXT, "wrongStudy");
+		
+		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+		
+		JSONObject obj = ((JSONObject) modelAndView.getModel().get("shippedRecordSet"));
+		assertEquals("0", obj.get("totalRecords").toString());
+	}
 }
