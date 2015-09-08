@@ -60,9 +60,7 @@ public class FetchStudyController extends AbstractController {
         }
 
         Long totalRecords = studyAjaxFacade.resultCount(searchStrings, sort);
-        logger.error("total records: " + totalRecords); //0 ?????
         List<Study> studies = studyAjaxFacade.searchStudies(searchStrings, Integer.parseInt(startIndex), Integer.parseInt(results), sort, dir, totalRecords.intValue());
-        logger.error("studies: " + studies.size());
 
         Study study;
         SearchStudyWrapper searchStudyWrapper = new SearchStudyWrapper();
@@ -105,10 +103,7 @@ public class FetchStudyController extends AbstractController {
 
                 studyCommand.setActions(actions);
 
-                if(!uniqueStudies.contains(studyCommand) ) {
                     uniqueStudies.add(studyCommand);
-                }
-
             }
 
             searchStudyWrapper.setSearchStudyDTO(new SearchStudyDTO[uniqueStudies.size()]);

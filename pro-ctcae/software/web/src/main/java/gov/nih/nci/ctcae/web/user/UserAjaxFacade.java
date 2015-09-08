@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.UserNotification;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.domain.QueryStrings;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class UserAjaxFacade {
         UserQuery userQuery = new UserQuery(QueryStrings.UN_QUERY_BASIC);
         userQuery.setFirstResult(startIndex);
         userQuery.setMaximumResults(results);
-        userQuery.setSortBy("un.notification." + sortField);
+        if(StringUtils.equals("studyTitle", sortField)) {
+            userQuery.setSortBy("un.study.shortTitle");
+        } else {
+            userQuery.setSortBy("un.notification." + sortField);
+        }
         userQuery.setSortDirection(direction);
         userQuery.filterNotificationByUserName(userName);
         List<UserNotification> notifications = (List<UserNotification>) userRepository.findNotificationForUser(userQuery);

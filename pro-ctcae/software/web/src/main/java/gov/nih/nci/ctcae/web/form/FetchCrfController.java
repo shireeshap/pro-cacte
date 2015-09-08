@@ -108,7 +108,6 @@ public class FetchCrfController extends AbstractController {
                     +"');\">"
                     + "<span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a>";
 
-
             dto.setActions(actions);
 
             if(!uniqueForms.contains(dto)) {

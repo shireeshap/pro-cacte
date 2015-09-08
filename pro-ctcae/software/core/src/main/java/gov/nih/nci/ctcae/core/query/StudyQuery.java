@@ -176,6 +176,19 @@ public class StudyQuery extends SecuredQuery<Study> {
         setParameter(PARTICIPANT_ID, participantId);
     }
 
+    public void filterByOrgNameOnly(String text, String key){
+
+        setLeftJoin();
+        String searchString = StringUtils.isBlank(text) ? "%" : "%" + text.toLowerCase() + "%";
+
+        String format = "lower(sso.organization.name) like :%s ";
+
+        andWhere(String.format(format, SHORT_TITLE + key));
+
+        setParameter(SHORT_TITLE + key, searchString);
+    }
+
+
     public void filterByAll(String text, String key){
 
         setLeftJoin();

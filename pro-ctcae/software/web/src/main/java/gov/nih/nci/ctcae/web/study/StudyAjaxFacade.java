@@ -96,16 +96,16 @@ public class StudyAjaxFacade {
             studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
             studyQuery.filterByFundingSponsor();
             studyQuery.setLeftJoin();
-            if(searchQuery){
-                studyQuery.setSortBy("sso.organization.name");
-            }
+//            if(searchQuery){
+//                studyQuery.setSortBy("sso.organization.name");
+//            }
         } else if(StringUtils.equalsIgnoreCase(sort, "coordinatingCenterDisplayName")) {
             studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FSP_DCC,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
             studyQuery.filterByCoordinatingCenter();
             studyQuery.setLeftJoin();
-            if(searchQuery) {
-                studyQuery.setSortBy("sso.organization.name");
-            }
+//            if(searchQuery) {
+//                studyQuery.setSortBy("sso.organization.name");
+//            }
         } else {
             studyQuery = searchQuery ? new StudyQuery(QueryStrings.STUDY_QUERY_SORTBY_FIELDS,true) : new StudyQuery(QueryStrings.STUDY_QUERY_COUNT,true);
             if(searchQuery) {
@@ -130,7 +130,11 @@ public class StudyAjaxFacade {
             int index = 0;
             for (String searchText : searchStrings) {
                 if (!StringUtils.isBlank(searchText)) {
-                    studyQuery.filterByAll(searchText, "" + index);
+                    if( StringUtils.equalsIgnoreCase(sort, "fundingSponsorDisplayName") ||  StringUtils.equalsIgnoreCase(sort, "coordinatingCenterDisplayName")) {
+                        studyQuery.filterByOrgNameOnly(searchText, "" + index);
+                    } else {
+                        studyQuery.filterByAll(searchText, "" + index);
+                    }
                     index++;
                 }
             }
