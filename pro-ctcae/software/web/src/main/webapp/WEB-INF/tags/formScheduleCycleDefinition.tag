@@ -8,7 +8,7 @@
 <%@attribute name="readonly" type="java.lang.Boolean" required="false" %>
 <%@attribute name="crfIndex" required="false" %>
 <%@attribute name="repeatOptions" type="java.util.List" required="false" %>
-<%@attribute name="crfId" type="java.lang.Integer" required="true"%>
+<%@attribute name="crfId" type="java.lang.String" required="true"%>
 
 
 <div id="cycle_definition_${cycleDefinitionIndex}">

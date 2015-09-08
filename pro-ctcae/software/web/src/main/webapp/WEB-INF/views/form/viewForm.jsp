@@ -96,7 +96,9 @@
                                     cycleDefinitionIndex="${statuscycledefinition.index}"
                                     crfCycleDefinition="${crfCycleDefinition}"
                                     readonly="true"
-                                    crfIndex="${status.index}"/>
+                                    crfIndex="${status.index}" 
+                                    crfId="${crfId}"/>
+                                    
                             <script type="text/javascript">
                                 showCyclesForDefinition('${status.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
                             </script>
@@ -109,7 +111,10 @@
 </div>
 <div id="notifications" style="display:none;" class="formpages">
     <c:forEach items="${crf.crfNotificationRules}" var="crfNotificationRule" varStatus="status">
-        <tags:formRule rule="${crfNotificationRule.notificationRule}" ruleIndex="${status.index}" readOnly="true"/>
+        <tags:formRule rule="${crfNotificationRule.notificationRule}" 
+        			   ruleIndex="${status.index}" 
+        			   readOnly="true"
+        			   crfId="${crfId}"/>
     </c:forEach>
 </div>
 

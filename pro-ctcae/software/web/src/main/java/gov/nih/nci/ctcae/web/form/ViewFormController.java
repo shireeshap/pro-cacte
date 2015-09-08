@@ -24,6 +24,7 @@ public class ViewFormController extends AbstractController {
         command.setCrf(crf);
         ModelAndView modelAndView = new ModelAndView("form/viewForm");
         modelAndView.addObject("crf", crf);
+        modelAndView.addObject("crfId", crfId);
         return modelAndView;
     }
 
