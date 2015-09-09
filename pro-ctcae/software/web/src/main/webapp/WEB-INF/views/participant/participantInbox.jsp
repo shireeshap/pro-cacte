@@ -182,13 +182,15 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:set var="spaStatus" value="${studyParticipantAssignment.status}"/>
     <c:if test="${studyParticipantAssignment.onHoldTreatmentDate le todaysdate}">
-    <c:set var="spaStatusDate" value="true"/>
+	    <c:set var="spaStatusDate" value="true"/>
     </c:if>
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
             <c:set scope="page" var="remainingDays"
                    value="${(studyParticipantCrfSchedule.dueDate.time - todaysdate.time) / (1000 * 60 * 60 * 24)}"/>
-            <c:if test="${(studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && 
+            <c:if test="${(studyParticipantCrfSchedule.status.displayName eq 'In-progress' || 
+						   studyParticipantCrfSchedule.status.displayName eq 'Scheduled') && 
+						   (studyParticipantCrfSchedule.studyParticipantCrf.crf.hidden eq 'false' && 
             			   studyParticipantCrfSchedule.startDate <= todaysdate && remainingDays ge 0)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
