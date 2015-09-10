@@ -1,3 +1,7 @@
+.break-word {
+	word-wrap: break-word;
+}
+
 table.widget {
     border: 1px solid #eaeaea;
     border-collapse: collapse;
@@ -10,7 +14,7 @@ table.widget col {
 td.data {
     border: 1px solid #eaeaea;
     background-color: #D5D5D5;
-    white-space: nowrap;
+    white-space: normal;
     text-align: center;
 
 }
