@@ -1,11 +1,28 @@
 AE.clickSrc;
 AE.tabbedFlowUpdateTarget = function(evt) {
-    var a = Event.element(evt)
-    var tabclass = Element.classNames(a).detect(function(cls) {
-        return cls.slice(0, 3) == "tab"
-    })
+    var a = Event.element(evt);
+    var eleClassNames = "";
+	var tabclass = "";
+	//Save & Back button has table and image tags
+	//In Chrome if user clicks on button, the click event may trigger on table, tr, td, img elements(in firefox the click event trigger on button)
+	//So if element is not button then we have to get button element and get the class names
+	if(Prototype.Browser.WebKit && jQuery.inArray(a.nodeName.toLowerCase(), ["table", "tr", "td", "img"]) > 0) {
+		eleClassNames = jQuery(a).parent().closest('button').attr('class');		
+	}	
+	else {
+		eleClassNames = jQuery(a).attr('class');		
+	}    
+	if(eleClassNames != "" && eleClassNames.length > 1) {
+		jQuery.each(eleClassNames.split(" ") , function(index, value) {      
+		        if(value.slice(0, 3) == "tab") {
+		        	tabclass = value;
+		        }
+		});
+	}
     var targetPage = tabclass.slice(3)
-    $('_target').name = "_target" + targetPage
+    if(targetPage != "") {
+    	$('_target').name = "_target" + targetPage
+    }
     if (Prototype.Browser.IE) {
         if ($('command')._finish) $('_finish').disable()
     } else {
