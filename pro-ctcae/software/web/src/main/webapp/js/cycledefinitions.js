@@ -79,7 +79,7 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
             var div_id = index + '_schedule_' + day;
             var myschedule = mySchedules[day];
             var showdropdown = true;
-            var showDeleteOption = true;
+            var showDeleteOption = false;
             var isEnableDrag = true;
             var item = $(div_id);
             if (isdefined(myschedule)&& !postOffTreatmentDate) {
@@ -129,6 +129,8 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                                         hasCompleted = false;
                                         hasInprogress = false;
                                         hasOther = true;
+                                        // PRKC-2511- If a survey is in scheduled status, it can be deleted
+                                        showDeleteOption = true;
                                     }
                                 }
                                 if (status == 'In-progress') {
@@ -144,6 +146,8 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                                     hasCompleted = false;
                                     hasInprogress = false;
                                     hasOther = true;
+                                    // PRKC-2511- If a survey is in scheduled status, it can be deleted
+                                    showDeleteOption = true;
                                 }                            	
                             }
                             
@@ -194,18 +198,17 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
 	                    if (hasCompleted) {
 	                        item.style.background = 'green';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(Completed)';
-	                        showDeleteOption = true;
 	                        isEnableDrag = false;
 	                    }
 	                    if (hasInprogress) {
 	                        item.style.background = '#ff9900';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(In-progress)';
-	                        showDeleteOption = true;
 	                        isEnableDrag = false;
 	                    }
 	                    if (hasScheduled) {
 	                        item.style.background = 'blue';
 	                        item.innerHTML = '<br/>Multiple forms<br/>(Scheduled)';
+	                        // PRKC-2511- If a survey is in scheduled status, it can be deleted
 	                        showDeleteOption = true;
 	                        isEnableDrag = true;
 	                    }
@@ -305,7 +308,7 @@ function initializeCalendar(index, month, year, hasShowCalendarActionsPrivilege,
                 //show dropdown menu for participants not put off-study 
                 if(!postOffTreatmentDate) {
                 	item.innerHTML = delIcon + item.innerHTML;
-                    showPopUpMenuSchedule(day,  month, year, index, null, true, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId);
+                    showPopUpMenuSchedule(day,  month, year, index, null, false, hasShowCalendarActionsPrivilege, hasEnterResponsePrivilege, participantId);
 //                    Event.observe(div_id, "click", function() {
 //                        showAddWindow(getDate(this), getIndex(this));
 //                    })
