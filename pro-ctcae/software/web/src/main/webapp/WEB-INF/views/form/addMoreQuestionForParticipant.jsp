@@ -212,8 +212,10 @@
 	        };
 	        oAC = new YAHOO.widget.AutoComplete("participantSymptomInput", "participantSymptomContainer", oDS);
 	        var requestedQuery;
-	
-	        oAC.maxResultsDisplayed = 100;
+	        
+	        oAC.queryDelay = 0.6;
+	        oAC.minQueryLength = 3;
+	        oAC.maxResultsDisplayed = 7;
 	        $('participantSymptomInput').className+=" pending-search";
 	        $('participantSymptomInput').value = greeting;
 	
