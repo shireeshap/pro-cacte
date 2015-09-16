@@ -67,11 +67,11 @@ function confirmSelection(isCreateFlow){
 	}
 }
 
-function confirmDateselection(siteId){
+function confirmDateselection(siteId, isCreateFlow){
 	var modifiedValue = jQuery('#'+siteId)[0].value.trim();
 	var originalValue = jQuery('#'+siteId)[0].defaultValue.trim();
 	 if (originalValue !== modifiedValue){
-		confirmSelection();
+		confirmSelection(isCreateFlow);
 	 }
 }
 

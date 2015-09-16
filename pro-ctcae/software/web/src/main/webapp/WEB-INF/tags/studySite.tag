@@ -2,7 +2,7 @@
 <%@ attribute name="participant" type="gov.nih.nci.ctcae.core.domain.Participant" %>
 <%@ attribute name="isEdit" %>
 <%@ attribute name="selected" %>
-<%@ attribute name="isCreateFlow"%>
+<%@ attribute name="isCreateFlow" type="java.lang.Boolean"%>
 <%@ tag import="java.util.Date" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -221,7 +221,7 @@
             <c:when test="${selected}">
                 <tags:renderDate
                         propertyName="study_date_${studysite.id}"
-                        doNotshowLabel="true" required="true" onchange="confirmDateselection('study_date_${studysite.id}')"
+                        doNotshowLabel="true" required="true" onchange="confirmDateselection('study_date_${studysite.id}', ${isCreateFlow})"
                         noForm="true" dateValue="${studyParticipantAssignment.studyStartDate}"/>
             </c:when>
             <c:otherwise>
