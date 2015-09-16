@@ -18,8 +18,7 @@
 	<standard:head/>
 	<title>PRO-CTCAE</title>
 	<link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
-	<tags:stylesheetLink name="tabbedflow"/>
-	<tags:javascriptLink name="tabbedflow"/>
+	<tags:javascriptLink name="tabbedflow"/> 
 	<decorator:head/>
 </head>
 

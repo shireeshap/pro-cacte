@@ -1,4 +1,5 @@
 <%@tag %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<tags:javascriptLink name="keyboard/keyboard"/>
-<tags:stylesheetLink name="keyboard/keyboard"/>
+<jwr:script src="/bundles/virtualKeyboard.zjs"/> 
+<jwr:style src="/bundles/virtualKeyboard.zcss" /> 
+ 

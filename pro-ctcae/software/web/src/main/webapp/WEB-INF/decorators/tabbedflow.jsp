@@ -16,8 +16,7 @@
     <title>PRO-CTCAE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="shortcut icon" href="<chrome:imageUrl name='../favicon.ico'/>"/>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:javascriptLink name="tabbedflow"/>
+    <tags:javascriptLink name="tabbedflow"/> 
 
     <%--<link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>--%>
 
