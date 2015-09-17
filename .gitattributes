@@ -2933,9 +2933,6 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordCo
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/ResetPasswordController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/matcher/Matcher.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/matcher/impl/LevenshteinMatcher.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/meddra/matcher/impl/SoundexMatcher.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/CreateOrganizationCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/CreateOrganizationController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/organization/FetchOrganizationController.java -text
@@ -3043,9 +3040,6 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/RemoveOve
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleDTO.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/SearchScheduleWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/spcSchedule/StudyParticipantCrfScheduleAjaxFacade.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/startup/MeddtraTermsLoader.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/storage/InMemoryStorage.java -text
-pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/storage/InMemoryStorageKey.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyOrganizationalClinicalStaffController.java -text
