@@ -13,20 +13,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class MeddraAutoCompleterDao {
     JdbcTemplate jdbcTemplate;
     private final static String ENGLISH = "en";
-    
+
     @SuppressWarnings("unchecked")
-	public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language, Integer maxDistance, Integer soundexRank ){
-    	String fetchMatchingMeddraTerms;
-    	if(ENGLISH.equals(language)){
-                fetchMatchingMeddraTerms= "\n" +
+    public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language, Integer maxDistance, Integer soundexRank) {
+        Boolean includeFuzzy = maxDistance >= 3;
+        String fetchMatchingMeddraTerms;
+        if (ENGLISH.equals(language)) {
+            fetchMatchingMeddraTerms = "\n" +
                     "SELECT mlltv.meddra_term_english " +
-                     ",  difference(lower(mlltv.meddra_term_english), '" + searchString + "') as soundex_rank, levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') as distance\n" +
+                    ",  difference(lower(mlltv.meddra_term_english), '" + searchString + "') as soundex_rank, levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') as distance\n" +
                     " FROM meddra_llt_vocab mlltv \n" +
                     " inner join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id \n" +
                     "where ( \n" +
-                    " lower(mlltv.meddra_term_english) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(mlltv.meddra_term_english), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(meddra_term_english) <256  AND levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') <= " + maxDistance + " ))\n" +
+                    " lower( mlltv.meddra_term_english ) ilike '%" + searchString + "%' \n" +
+                    (includeFuzzy ? " or difference(lower(mlltv.meddra_term_english), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(meddra_term_english) <256  AND levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') <= " + maxDistance + " ) " : "") +
+                    ")\n" +
                     " AND mllt.participant_added IS NOT TRUE\n" +
 
                     "UNION\n" +
@@ -36,8 +38,8 @@ public class MeddraAutoCompleterDao {
                     " FROM ctc_terms_vocab ctcv \n" +
                     "where \n" +
                     " lower(ctcv.term_english) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(ctcv.term_english), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(term_english) <256  AND levenshtein(lower(ctcv.term_english), '" + searchString + "') <= " + maxDistance + " )   \n" +
+                    (includeFuzzy ? " or difference(lower(ctcv.term_english), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(ctcv.term_english) <256  AND levenshtein(lower(ctcv.term_english), '" + searchString + "') <= " + maxDistance + " )" : "") +
 
                     "UNION\n" +
 
@@ -50,22 +52,23 @@ public class MeddraAutoCompleterDao {
                     " left join CATEGORY_TERM_SET categoryTerm on categoryTerm.category_id = ctct.id\n" +
                     "where ( \n" +
                     " lower(ptctv.term_english) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(ptctv.term_english), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(term_english) <256  AND levenshtein(lower(ptctv.term_english), '" + searchString + "') <= " + maxDistance + " )\n" +
+                    (includeFuzzy ? " or difference(lower(ptctv.term_english), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(term_english) <256  AND levenshtein(lower(ptctv.term_english), '" + searchString + "') <= " + maxDistance + " )" : "") +
                     " ) " +
 //                " --and ctct.name = :categoryName     \n" +
                     "order by distance asc, soundex_rank desc ;";
 
         } else {
-            fetchMatchingMeddraTerms= "\n" +
+            fetchMatchingMeddraTerms = "\n" +
                     "SELECT mlltv.meddra_term_spanish " +
                     ",  difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') as soundex_rank, levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') as distance\n" +
                     " FROM meddra_llt_vocab mlltv \n" +
                     " inner join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id \n" +
                     "where ( \n" +
-                    " lower(mlltv.meddra_term_spanish) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(meddra_term_spanish) <256  AND levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') <= " + maxDistance + " ))\n" +
+                    " lower( mlltv.meddra_term_spanish ) ilike '%" + searchString + "%' \n" +
+                    (includeFuzzy ? " or difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(meddra_term_spanish) <256  AND levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') <= " + maxDistance + " ) " : "") +
+                    ")\n" +
                     " AND mllt.participant_added IS NOT TRUE\n" +
 
                     "UNION\n" +
@@ -75,8 +78,8 @@ public class MeddraAutoCompleterDao {
                     " FROM ctc_terms_vocab ctcv \n" +
                     "where \n" +
                     " lower(ctcv.term_spanish) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(ctcv.term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(term_spanish) <256  AND levenshtein(lower(ctcv.term_spanish), '" + searchString + "') <= " + maxDistance + " )   \n" +
+                    (includeFuzzy ? " or difference(lower(ctcv.term_spanish), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(ctcv.term_spanish) <256  AND levenshtein(lower(ctcv.term_spanish), '" + searchString + "') <= " + maxDistance + " )" : "") +
 
                     "UNION\n" +
 
@@ -89,20 +92,20 @@ public class MeddraAutoCompleterDao {
                     " left join CATEGORY_TERM_SET categoryTerm on categoryTerm.category_id = ctct.id\n" +
                     "where ( \n" +
                     " lower(ptctv.term_spanish) ilike '%" + searchString + "%' \n" +
-                    " or difference(lower(ptctv.term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
-                    " or ( length(term_spanish) <256  AND levenshtein(lower(ptctv.term_spanish), '" + searchString + "') <= " + maxDistance + " )\n" +
+                    (includeFuzzy ? " or difference(lower(ptctv.term_spanish), '" + searchString + "') >= " + soundexRank + " " : "") +
+                    (includeFuzzy ? " or ( length(term_spanish) <256  AND levenshtein(lower(ptctv.term_spanish), '" + searchString + "') <= " + maxDistance + " )" : "") +
                     " ) " +
 //                " --and ctct.name = :categoryName     \n" +
                     "order by distance asc, soundex_rank desc ;";
-    	}
+        }
 
         List<MeddraAutoCompleterWrapper> result = new ArrayList<MeddraAutoCompleterWrapper>();
-   	 jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsCallBackHandler(language, result));
-   	 return result;
+        jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsCallBackHandler(language, result));
+        return result;
     }
-    
+
     @Required
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
-    	this.jdbcTemplate = jdbcTemplate;
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 }

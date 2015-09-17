@@ -145,10 +145,16 @@ public class ScheduleCrfAjaxFacade {
     private Integer determineLevenshteinDistance(String input) {
 
         double distance = 4;
+
+        if(StringUtils.length(input) < distance) {
+            return 2; // only when input is of length 3.
+        }
+
         String[] split = StringUtils.split(input);
 
         for(String string : split)
-            distance*=1.2;
+            distance *= 1.5;
+
 
         return (int) Math.floor(distance);
     }
@@ -199,16 +205,15 @@ public class ScheduleCrfAjaxFacade {
             	 }
             }
         }
-        
+
 
         text = preprocessText(text);
+
         Integer distance = determineLevenshteinDistance(text);
 
-        if (StringUtils.length(text) > 3) {
-            List<MeddraAutoCompleterWrapper> en = meddraAutoCompleterDao.getMatchingMeddraTerms(text, language, distance, 4);
-            for(MeddraAutoCompleterWrapper wrapper : en ) {
-                results.add(wrapper.getMeddraTerm());
-            }
+        List<MeddraAutoCompleterWrapper> en = meddraAutoCompleterDao.getMatchingMeddraTerms(text, language, distance, 4);
+        for(MeddraAutoCompleterWrapper wrapper : en ) {
+            results.add(wrapper.getMeddraTerm());
         }
         return results;
     }
