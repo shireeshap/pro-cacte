@@ -9,10 +9,9 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.core.query.MeddraQuery;
-import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.jdbc.MeddraAutoCompleterDao;
+import gov.nih.nci.ctcae.core.jdbc.support.MeddraAutoCompleterWrapper;
+import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.MeddraRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -28,10 +27,14 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -59,6 +62,9 @@ public class ScheduleCrfAjaxFacade {
     private GenericRepository genericRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private MeddraRepository meddraRepository;
+    private MeddraAutoCompleterDao meddraAutoCompleterDao;
+
+    private Log logger = LogFactory.getLog(ScheduleCrfAjaxFacade.class);
     private static final String ENGLISH = "en";
     private static final String SPANISH = "es";
 
@@ -135,6 +141,33 @@ public class ScheduleCrfAjaxFacade {
         return pattern.matcher(nfdNormalizedString).replaceAll("");
 	}
     
+
+    private Integer determineLevenshteinDistance(String input) {
+
+        double distance = 4;
+        String[] split = StringUtils.split(input);
+
+        for(String string : split)
+            distance*=1.2;
+
+        return (int) Math.floor(distance);
+    }
+
+    private String preprocessText(String text) {
+
+        text = StringUtils.lowerCase(text);
+        text = StringUtils.replace(text, "in the", "");
+        text = StringUtils.replace(text, "in my", "");
+        text = StringUtils.replace(text, "on the", "");
+        text = StringUtils.replace(text, "on my", "");
+        text = StringUtils.replace(text, "of my", "");
+        text = StringUtils.replace(text, "of the", "");
+        text = StringUtils.replace(text, "around me", "");
+        text = StringUtils.replace(text, "around the", "");
+        return text;
+
+    }
+
     /**
      * Match Symptoms.
      *
@@ -146,9 +179,11 @@ public class ScheduleCrfAjaxFacade {
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
         Locale l = (Locale) WebUtils.getSessionAttribute(request, org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         String language = l.getLanguage();
-        if (language == null || language == "") {
+        if (language == null || Objects.equals(language, "")) {
             language = "en";
         }
+
+
         List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
         for (ProCtcTerm symptom : symptoms) {
@@ -165,42 +200,16 @@ public class ScheduleCrfAjaxFacade {
             }
         }
         
-        ProCtcTermQuery proCtcTermQuery;
-        if(ENGLISH.equals(language)){
-        	proCtcTermQuery = new ProCtcTermQuery(ENGLISH);
-        	proCtcTermQuery.filterWithMatchingEnglishText(text);
-        } else {
-        	proCtcTermQuery = new ProCtcTermQuery(true);
-        	proCtcTermQuery.filterWithMatchingSpanishText(text);
-        }
-        
-        MeddraQuery meddraQuery;
-        if (language.equals("en")) {
-            meddraQuery = new MeddraQuery(true);
-        } else {
-            meddraQuery = new MeddraQuery(language);
-        }
-        
-        if (text != null) {
-            if (language.equals("en")) {
-                meddraQuery.filterMeddraWithMatchingText(text);
-            } else {
-            	String unaccentedText = removeDiacritics(text);
-                meddraQuery.filterMeddraWithSpanishText(unaccentedText);
+
+        text = preprocessText(text);
+        Integer distance = determineLevenshteinDistance(text);
+
+        if (StringUtils.length(text) > 3) {
+            List<MeddraAutoCompleterWrapper> en = meddraAutoCompleterDao.getMatchingMeddraTerms(text, language, distance, 4);
+            for(MeddraAutoCompleterWrapper wrapper : en ) {
+                results.add(wrapper.getMeddraTerm());
             }
-            List meddraTermsObj = genericRepository.find(meddraQuery);
-            List<String> meddraTerms = (List<String>) meddraTermsObj;
-            results.addAll(meddraTerms);
-            
-        	List proCtcTermsObj = genericRepository.find(proCtcTermQuery);
-        	List<String> proCtcTerms = (List<String>) proCtcTermsObj;
-            results.addAll(proCtcTerms);
         }
-        results = RankBasedSorterUtils.sort(results, text, new Serializer<String>() {
-            public String serialize(String object) {
-                return object;
-            }
-        });
         return results;
     }
 
@@ -344,5 +353,10 @@ public class ScheduleCrfAjaxFacade {
     @Required
     public void setMeddraRepository(MeddraRepository meddraRepository) {
         this.meddraRepository = meddraRepository;
+    }
+
+    @Required
+    public void setMeddraAutoCompleterDao(MeddraAutoCompleterDao meddraAutoCompleterDao) {
+        this.meddraAutoCompleterDao = meddraAutoCompleterDao;
     }
 }

@@ -54,6 +54,8 @@
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="meddraRepository" ref="meddraRepository"/>
+        <property name="meddraAutoCompleterDao" ref="meddraAutoCompleterDao"/>
+
     </bean>
     <bean id="crfAjaxFacade"
           class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">
@@ -66,5 +68,6 @@
         <property name="meddraDao" ref="meddraDao"/>
         <property name="meddraVersionDao" ref="meddraVersionDao"/>
         <property name="transactionManager" ref="transactionManager"/>
+
     </bean>
 </beans>

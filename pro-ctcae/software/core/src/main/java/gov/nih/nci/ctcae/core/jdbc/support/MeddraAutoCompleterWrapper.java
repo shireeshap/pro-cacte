@@ -8,28 +8,33 @@ package gov.nih.nci.ctcae.core.jdbc.support;
 public class MeddraAutoCompleterWrapper {
 	private String meddraTerm;
 	private String soundexRank;
-	private String dMetaphoneRank;
-	
-	public String getMeddraTerm() {
-		return meddraTerm;
-	}
-	public void setMeddraTerm(String meddraTerm) {
-		this.meddraTerm = meddraTerm;
-	}
-	public String getSoundexRank() {
-		return soundexRank;
-	}
-	public void setSoundexRank(String soundexRank) {
-		this.soundexRank = soundexRank;
-	}
-	public String getdMetaphoneRank() {
-		return dMetaphoneRank;
-	}
-	public void setdMetaphoneRank(String dMetaphoneRank) {
-		this.dMetaphoneRank = dMetaphoneRank;
-	}
-	
-	@Override
+	private String distance;
+
+    public String getMeddraTerm() {
+        return meddraTerm;
+    }
+
+    public void setMeddraTerm(String meddraTerm) {
+        this.meddraTerm = meddraTerm;
+    }
+
+    public String getSoundexRank() {
+        return soundexRank;
+    }
+
+    public void setSoundexRank(String soundexRank) {
+        this.soundexRank = soundexRank;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    @Override
 	public String toString() {
 		return meddraTerm;
 	}

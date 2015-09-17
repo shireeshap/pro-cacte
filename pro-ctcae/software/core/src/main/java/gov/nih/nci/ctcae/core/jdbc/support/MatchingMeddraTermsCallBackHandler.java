@@ -17,7 +17,7 @@ public class MatchingMeddraTermsCallBackHandler implements RowCallbackHandler {
 	private static String MEDDRA_TERM_ENGLISH = "meddra_term_english";
 	private static String MEDDRA_TERM_SPANISH = "meddra_term_spanish";
 	private static String SOUNDEX_RANK = "soundex_rank";
-	private static String DMETAPHONE_RANK = "dmetaphone_rank"; 
+	private static String DISTANCE = "distance";
 	private static String ENGLIGH = "en";
 	private static String NOS_ENGLISH = "NOS";
 	private static String NOS_SPANISH = "NEOM";
@@ -38,19 +38,10 @@ public class MatchingMeddraTermsCallBackHandler implements RowCallbackHandler {
 
 	@Override
 	public void processRow(ResultSet rs) throws SQLException {
-	/*	// need to omit the results fetched by dmetaphone as a result of trailing NOS
-    	// meddraTerm = meddraTerm.trim();
-        // meddraTerm = StringUtils.chompLast(meddraTerm, NOS);
-		if(term.contains(NOS_ENGLISH)){
-			if(ENGLIGH.equals(language)){
-				
-			}
-			
-		}*/
 		wrapper = new MeddraAutoCompleterWrapper();
 		wrapper.setMeddraTerm(rs.getString(term));
 		wrapper.setSoundexRank(rs.getString(SOUNDEX_RANK));
-		wrapper.setdMetaphoneRank(rs.getString(DMETAPHONE_RANK));
+		wrapper.setDistance(rs.getString(DISTANCE));
 		result.add(wrapper);
 	}
 }

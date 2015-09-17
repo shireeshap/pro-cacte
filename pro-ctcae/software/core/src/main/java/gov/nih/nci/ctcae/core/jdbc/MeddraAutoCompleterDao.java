@@ -15,31 +15,88 @@ public class MeddraAutoCompleterDao {
     private final static String ENGLISH = "en";
     
     @SuppressWarnings("unchecked")
-	public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language){
+	public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language, Integer maxDistance, Integer soundexRank ){
     	String fetchMatchingMeddraTerms;
     	if(ENGLISH.equals(language)){
-    		fetchMatchingMeddraTerms = " SELECT mlltv.meddra_term_english, " +
-    			" difference(lower(mlltv.meddra_term_english), '" + searchString + "') as soundex_rank, " +
-    			" hasSimilarDmetaphoneTokens('"+ searchString +"', mlltv.meddra_term_english) as dmetaphone_rank " +
-    			" FROM meddra_llt_vocab mlltv " +
-    			" left join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id " +
-    			" where " +
-    			" ((mllt.participant_added is NULL or mllt.participant_added = FALSE) and mllt.currency = 'Y') and " +
-    			" (mlltv.meddra_term_english ilike '%" + searchString + "%' or difference(lower(mlltv.meddra_term_english), '" + searchString + "') >= 3 " +
-    			" or hasSimilarDmetaphoneTokens('"+ searchString +"', mlltv.meddra_term_english) = true ) ";
-    	} else {
-    		fetchMatchingMeddraTerms = " SELECT mlltv.meddra_term_spanish, " +
-    		" difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') as soundex_rank, " +
-			" hasSimilarDmetaphoneTokens('"+ searchString +"', mlltv.meddra_term_spanish) as dmetaphone_rank " +
-    		" FROM meddra_llt_vocab mlltv " +
-    		" left join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id " +
-    		" where " +
-    		" ((mllt.participant_added is NULL or mllt.participant_added = FALSE) and mllt.currency = 'Y') and " +
-    		" (unaccent(mlltv.meddra_term_spanish) ilike '%" + searchString + "%' or difference(lower(unaccent(mlltv.meddra_term_spanish)), '" + searchString + "') >= 3 " +
-    		" or hasSimilarDmetaphoneTokens('"+ searchString +"', mlltv.meddra_term_spanish) = true ) ";
+                fetchMatchingMeddraTerms= "\n" +
+                    "SELECT mlltv.meddra_term_english " +
+                     ",  difference(lower(mlltv.meddra_term_english), '" + searchString + "') as soundex_rank, levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') as distance\n" +
+                    " FROM meddra_llt_vocab mlltv \n" +
+                    " inner join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id \n" +
+                    "where ( \n" +
+                    " lower(mlltv.meddra_term_english) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(mlltv.meddra_term_english), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(meddra_term_english) <256  AND levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') <= " + maxDistance + " ))\n" +
+                    " AND mllt.participant_added IS NOT TRUE\n" +
+
+                    "UNION\n" +
+
+                    "SELECT ctcv.term_english as meddra_term_english" +
+                    ", difference(lower(ctcv.term_english), '" + searchString + "') as soundex_rank, levenshtein(lower(ctcv.term_english), '" + searchString + "') as distance\n" +
+                    " FROM ctc_terms_vocab ctcv \n" +
+                    "where \n" +
+                    " lower(ctcv.term_english) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(ctcv.term_english), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(term_english) <256  AND levenshtein(lower(ctcv.term_english), '" + searchString + "') <= " + maxDistance + " )   \n" +
+
+                    "UNION\n" +
+
+                    "SELECT ptctv.term_english  as meddra_term_english" +
+                    ", difference(lower(ptctv.term_english), '" + searchString + "') as soundex_rank, levenshtein(lower(ptctv.term_english), '" + searchString + "') as distance\n" +
+                    "FROM PRO_CTC_TERMS_VOCAB ptctv \n" +
+                    " left join pro_ctc_terms pctc on pctc.id = ptctv.pro_ctc_terms_id\n" +
+                    " left join ctc_terms ctc on pctc.ctc_term_id = ctc.id  \n" +
+                    " left join CTC_CATEGORIES ctct on ctc.category_id = ctct.id\n" +
+                    " left join CATEGORY_TERM_SET categoryTerm on categoryTerm.category_id = ctct.id\n" +
+                    "where ( \n" +
+                    " lower(ptctv.term_english) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(ptctv.term_english), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(term_english) <256  AND levenshtein(lower(ptctv.term_english), '" + searchString + "') <= " + maxDistance + " )\n" +
+                    " ) " +
+//                " --and ctct.name = :categoryName     \n" +
+                    "order by distance asc, soundex_rank desc ;";
+
+        } else {
+            fetchMatchingMeddraTerms= "\n" +
+                    "SELECT mlltv.meddra_term_spanish " +
+                    ",  difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') as soundex_rank, levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') as distance\n" +
+                    " FROM meddra_llt_vocab mlltv \n" +
+                    " inner join meddra_llt mllt on mllt.id = mlltv.meddra_llt_id \n" +
+                    "where ( \n" +
+                    " lower(mlltv.meddra_term_spanish) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(meddra_term_spanish) <256  AND levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') <= " + maxDistance + " ))\n" +
+                    " AND mllt.participant_added IS NOT TRUE\n" +
+
+                    "UNION\n" +
+
+                    "SELECT ctcv.term_spanish as meddra_term_spanish" +
+                    ", difference(lower(ctcv.term_spanish), '" + searchString + "') as soundex_rank, levenshtein(lower(ctcv.term_spanish), '" + searchString + "') as distance\n" +
+                    " FROM ctc_terms_vocab ctcv \n" +
+                    "where \n" +
+                    " lower(ctcv.term_spanish) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(ctcv.term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(term_spanish) <256  AND levenshtein(lower(ctcv.term_spanish), '" + searchString + "') <= " + maxDistance + " )   \n" +
+
+                    "UNION\n" +
+
+                    "SELECT ptctv.term_spanish  as meddra_term_spanish" +
+                    ", difference(lower(ptctv.term_spanish), '" + searchString + "') as soundex_rank, levenshtein(lower(ptctv.term_spanish), '" + searchString + "') as distance\n" +
+                    "FROM PRO_CTC_TERMS_VOCAB ptctv \n" +
+                    " left join pro_ctc_terms pctc on pctc.id = ptctv.pro_ctc_terms_id\n" +
+                    " left join ctc_terms ctc on pctc.ctc_term_id = ctc.id  \n" +
+                    " left join CTC_CATEGORIES ctct on ctc.category_id = ctct.id\n" +
+                    " left join CATEGORY_TERM_SET categoryTerm on categoryTerm.category_id = ctct.id\n" +
+                    "where ( \n" +
+                    " lower(ptctv.term_spanish) ilike '%" + searchString + "%' \n" +
+                    " or difference(lower(ptctv.term_spanish), '" + searchString + "') >= " + soundexRank + " \n" +
+                    " or ( length(term_spanish) <256  AND levenshtein(lower(ptctv.term_spanish), '" + searchString + "') <= " + maxDistance + " )\n" +
+                    " ) " +
+//                " --and ctct.name = :categoryName     \n" +
+                    "order by distance asc, soundex_rank desc ;";
     	}
 
-    	List<MeddraAutoCompleterWrapper> result = new ArrayList<MeddraAutoCompleterWrapper>();
+        List<MeddraAutoCompleterWrapper> result = new ArrayList<MeddraAutoCompleterWrapper>();
    	 jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsCallBackHandler(language, result));
    	 return result;
     }
