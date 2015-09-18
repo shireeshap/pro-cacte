@@ -2992,8 +2992,11 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/GetParticipan
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/GradeValueWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/MyPdfPageEvent.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/OverallStudyData.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsCsvController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportCsvView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportDetailsController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportResultsController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedSymptomVerbatimWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantGradeWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelAccruTDMOneReportPdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelAccruTDMOneReportResultsController.java -text
