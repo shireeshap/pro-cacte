@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.core.query;
 
 import java.util.List;
 
+import gov.nih.nci.ctcae.core.domain.QueryStrings;
+
 //
 /**
  * The Class ProCtcQuestionQuery.
@@ -30,6 +32,10 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     public ParticipantAddedQuestionsReportQuery(boolean isMeddraAddedQuestion){
         this(meddraQueryString);
     }
+    
+    public ParticipantAddedQuestionsReportQuery(QueryStrings query) {
+		super(query);
+	}
 
     public void filterByCrf(Integer crfId) {
         andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.crf.id=:crfId");

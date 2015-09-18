@@ -47,7 +47,10 @@ public enum  QueryStrings implements CodedEnum<String>{
 	ALERT_QUERY_COUNT(" SELECT count(distinct alert) from Alert alert "),
 	ALERT_QUERY_SORTBY_FIELDS(" SELECT distinct alert from Alert alert "),
 	
-	ADDED_SYMPTOM_VERBATIM_QUERY_BASIC(" SELECT distinct addedVerbatim from AddedSymptomVerbatim addedVerbatim order by addedVerbatim.id ");
+	ADDED_SYMPTOM_VERBATIM_QUERY_BASIC(" SELECT distinct addedVerbatim from AddedSymptomVerbatim addedVerbatim order by addedVerbatim.id "),
+	
+	STUDY_PARTICIPANT_CRF_SCHEDULED_ADDED_QUESTION_BASIC(" SELECT distinct spcsaq from StudyParticipantCrfScheduleAddedQuestion spcsaq order by spcsaq.id ");
+	
 	
 	private String queryString;
 	
