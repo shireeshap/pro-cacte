@@ -21,6 +21,16 @@
 		
 		<c:otherwise>
 			<br/>
+			
+			<div id="addedSymptomsExportDivs" align="right">
+				<br>
+				<a href="<c:url value='/pages/reports/participantAddedQuestionsCsvController'/>" target="_blank">
+	                <tags:message code="reports.participantAddedQuestionReport.download"/> <img src="/proctcae/images/table/xls.gif" alt="xls"/>
+	    		</a>
+	    		<br>
+	    		<br>
+			</div>
+		
 		    <table class="widget" cellspacing="0" align="center">
 		        <tr>
 		            <td class="header-top"></td>
