@@ -75,9 +75,9 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
         String studyParam = request.getParameter("study");
         
         if(StringUtils.isBlank(studyParam)){
-        	studyParam = (String) request.getSession().getAttribute("study");
+        	studyParam = (String) request.getSession().getAttribute("ddStudy");
         } else {
-        	request.getSession().setAttribute("study", studyParam);
+        	request.getSession().setAttribute("ddStudy", studyParam);
         }
         
         if(!StringUtils.isBlank(crfParam)){
@@ -305,9 +305,9 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
         String studyParam = request.getParameter("study");
         
         if(StringUtils.isBlank(studyParam)){
-        	studyParam = (String) request.getSession().getAttribute("study");
+        	studyParam = (String) request.getSession().getAttribute("ddStudy");
         } else {
-        	request.getSession().setAttribute("study", studyParam);
+        	request.getSession().setAttribute("ddStudy", studyParam);
         }
         
         if(!StringUtils.isBlank(crfParam)){
