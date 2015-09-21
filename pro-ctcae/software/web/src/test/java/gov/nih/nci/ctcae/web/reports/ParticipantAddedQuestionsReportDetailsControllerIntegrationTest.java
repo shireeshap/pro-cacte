@@ -36,6 +36,9 @@ public class ParticipantAddedQuestionsReportDetailsControllerIntegrationTest ext
 		participant = ParticipantTestHelper.getDefaultParticipant();
 		studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
 		
+		controller.setAddedSymptomVerbatimRepository(addedSymptomVerbatimRepository);
+		detailsController.setAddedSymptomVerbatimRepository(addedSymptomVerbatimRepository);
+		
 		StudyParticipantCrfAddedQuestion spcrf_addedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(getProCtcQuestionFromRepository().get(11), studyParticipantCrf.getCrf().getCrfPages().size());
     	genericRepository.save(spcrf_addedQuestion);
     	StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(0);

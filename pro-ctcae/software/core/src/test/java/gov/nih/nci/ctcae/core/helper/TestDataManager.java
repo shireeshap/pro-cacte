@@ -19,6 +19,7 @@ import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.ProctcaeGradeMappingVersionQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
+import gov.nih.nci.ctcae.core.repository.AddedSymptomVerbatimRepository;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.IvrsCallHistoryRepository;
@@ -85,7 +86,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 	public static StudyParticipantCrfRepository studyParticipantCrfRepository;
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
-    public static UserNameAndPasswordValidator userNameAndPasswordValidator;
+    public static AddedSymptomVerbatimRepository addedSymptomVerbatimRepository;
+	public static UserNameAndPasswordValidator userNameAndPasswordValidator;
     public static PasswordPolicyService passwordPolicyService;
     public static LoginPolicyValidator loginPolicyValidator;
     public static PasswordCreationPolicyValidator passwordCreationPolicyValidator;
@@ -502,7 +504,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public void setGenericRepository(GenericRepository genericRepository) {
         TestDataManager.genericRepository = genericRepository;
     }
-
+    
+    @Required
+    public void setAddedSymptomVerbatimRepository(AddedSymptomVerbatimRepository addedSymptomVerbatimRepository) {
+		TestDataManager.addedSymptomVerbatimRepository = addedSymptomVerbatimRepository;
+	}
+    
     @Required
     public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
         TestDataManager.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
@@ -559,7 +566,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 			ProCtcQuestionRepository proCtcQuestionRepository) {
 		TestDataManager.proCtcQuestionRepository = proCtcQuestionRepository;
 	}
-
+    
     private void deleteUsingJdbcTemplate() {
     	jdbcTemplate.execute("delete from proctcae_grade_mapping");
     	jdbcTemplate.execute("delete from study_participant_crf_grades");
