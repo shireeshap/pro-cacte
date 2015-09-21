@@ -36,6 +36,14 @@
 </c:forEach>
 
 <tags:instructions code="schedulecrf.instructions"/>
+
+ <div align="right">
+                <a href="<c:url value='/pages/participant/printCompleteSurveySchedule?id=${studyParticipantAssignment.participant.id}'/>" target="_blank">
+                   <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>
+                </a> 
+ </div>
+ 
+ 
 <c:if test="${studyParticipantAssignment.onHoldTreatmentDate ne null}">
 	<div style="margin-left:15px">
 	<font color="red" size="2"><b>Surveys for the participant <i>"${studyParticipantAssignment.participant.displayName}"</i> have been put on hold beginning <tags:formatDate value="${studyParticipantAssignment.onHoldTreatmentDate}"/></b></font>

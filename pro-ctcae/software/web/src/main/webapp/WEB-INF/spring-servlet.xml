@@ -500,6 +500,10 @@
           class="gov.nih.nci.ctcae.web.participant.PrintParticipantScheduleController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
+    <bean name="/participant/printCompleteSurveySchedule" id="printParticipantCompleteSurveyScheduleController"
+          class="gov.nih.nci.ctcae.web.participant.PrintParticipantCompleteSurveyScheduleController">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
     <bean name="/participant/enterResponses" id="enterParticipantResponsesController"
           class="gov.nih.nci.ctcae.web.participant.EnterParticipantResponsesController"
           parent="ctcaeSimpleFormController">

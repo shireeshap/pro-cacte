@@ -2971,6 +2971,8 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/Participa
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReportingModeHistoryController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSearchResultsComparator.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintParticipantCompleteSurveyScheduleController.java -text svneol=unset#text/plain
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintParticipantCompleteSurveySchedulePdfView.java -text svneol=unset#text/plain
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintParticipantScheduleController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintSchedulePdfView.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/participant/ReloadSectionController.java -text
