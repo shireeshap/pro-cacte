@@ -37,9 +37,9 @@
 
 <tags:instructions code="schedulecrf.instructions"/>
 
- <div align="right">
+ <div align="right" style="padding-right:20px;">
                 <a href="<c:url value='/pages/participant/printCompleteSurveySchedule?id=${studyParticipantAssignment.participant.id}'/>" target="_blank">
-                   <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>
+                   <img src="/proctcae/images/table/pdf.jpg" alt="pdf"/>
                 </a> 
  </div>
  

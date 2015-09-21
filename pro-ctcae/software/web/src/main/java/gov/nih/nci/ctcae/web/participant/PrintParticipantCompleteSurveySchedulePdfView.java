@@ -98,7 +98,7 @@ public class PrintParticipantCompleteSurveySchedulePdfView extends AbstractPdfVi
 				@Override
 				public int compare(StudyParticipantCrfSchedule spCrfSchedule1,
 						StudyParticipantCrfSchedule spCrfSchedule2) {
-					return -DateUtils.compareDate(spCrfSchedule1.getStartDate(), spCrfSchedule2.getStartDate());
+					return DateUtils.compareDate(spCrfSchedule1.getStartDate(), spCrfSchedule2.getStartDate());
 				}
 			});
 	        
@@ -205,10 +205,6 @@ public class PrintParticipantCompleteSurveySchedulePdfView extends AbstractPdfVi
         	tableCell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         	table.addCell(tableCell);
         	
-        	
-            /* table.addCell(DateUtils.format(participantCrfSchedule.getStartDate()));
-             table.addCell(DateUtils.format(participantCrfSchedule.getDueDate()));
-             table.addCell(participantCrfSchedule.getStatus().getCode());*/
         }
 
          document.add(table);
