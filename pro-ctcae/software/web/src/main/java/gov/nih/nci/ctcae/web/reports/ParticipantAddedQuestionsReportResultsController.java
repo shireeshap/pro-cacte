@@ -132,7 +132,8 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     	
     	Map<Integer, Map<ProCtcTerm, String>> proVerbatimMap = new HashMap<Integer, Map<ProCtcTerm, String>>();
 		Map<Integer, Map<LowLevelTerm, String>> meddraVerbatimMap = new HashMap<Integer, Map<LowLevelTerm, String>>();
-		buildAddedSymptomVerbatimMap(request, proVerbatimMap, meddraVerbatimMap);
+		Map<Integer, Map<ProCtcTerm, LowLevelTerm>> proMeddraMap = new HashMap<Integer, Map<ProCtcTerm, LowLevelTerm>>();
+		buildAddedSymptomVerbatimMap(request, proVerbatimMap, proMeddraMap, meddraVerbatimMap);
 		
     	for(StudyParticipantCrfScheduleAddedQuestion addedQuestion: spcrfsAddedQuestions) {
     		ParticipantAddedSymptomVerbatimWrapper verbatimWrapper = new ParticipantAddedSymptomVerbatimWrapper();
@@ -154,6 +155,13 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     					// if verbatim is recorded for pro term set pro_term and verbatim
     					verbatimWrapper.setProCtcTerm(proCtcTerm);
     					verbatimWrapper.setVerbatim(proVerbatimMap.get(studyParticipantCrfSchedule.getId()).get(proCtcTerm));
+    					
+    					// check if verbatim has a associated low level term too
+    					if(proMeddraMap.get(studyParticipantCrfSchedule.getId()) != null) {
+    						if(proMeddraMap.get(studyParticipantCrfSchedule.getId()).get(proCtcTerm) != null) {
+    							verbatimWrapper.setLowLevelTerm(proMeddraMap.get(studyParticipantCrfSchedule.getId()).get(proCtcTerm));
+    						}
+    					}
     					
     				} else {
     					// if verbatim is not recorded for this pro term for some reason, just set the pro_term
@@ -203,6 +211,7 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     
     protected void buildAddedSymptomVerbatimMap(HttpServletRequest request,
     		 									Map<Integer, Map<ProCtcTerm, String>> proVerbatimMap,
+    		 									Map<Integer, Map<ProCtcTerm, LowLevelTerm>> proMeddraMap,
     		 									Map<Integer, Map<LowLevelTerm, String>> meddraVerbatimMap) throws ParseException {
     	
     	AddedSymptomVerbatimQuery query = new AddedSymptomVerbatimQuery(QueryStrings.ADDED_SYMPTOM_VERBATIM_QUERY_BASIC);
@@ -213,6 +222,7 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     	for(AddedSymptomVerbatim verbatim: addedSymptomVerbatims) {
     		Map<ProCtcTerm, String> proVerbatimSubMap;
     		Map<LowLevelTerm, String> meddraVerbatimSubMap;
+    		Map<ProCtcTerm, LowLevelTerm> proMeddraSubMap;
     		
 			if(verbatim.getProctcTerm() != null) {
 				if(proVerbatimMap.get(verbatim.getStudyParticipantCrfSchedule().getId()) != null) {
@@ -223,6 +233,18 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
 				}
 				
 				proVerbatimSubMap.put(verbatim.getProctcTerm(), verbatim.getVerbatim());
+				
+				//check if this verbatim entry also has a associated low level term
+				if(verbatim.getLowLevelTerm() != null) {
+					if(proMeddraMap.get(verbatim.getStudyParticipantCrfSchedule().getId()) != null) {
+						proMeddraSubMap = proMeddraMap.get(verbatim.getStudyParticipantCrfSchedule().getId()) ;
+					} else {
+						proMeddraSubMap =  new HashMap<ProCtcTerm, LowLevelTerm>();
+						proMeddraMap.put(verbatim.getStudyParticipantCrfSchedule().getId(), proMeddraSubMap);
+					}
+					
+					proMeddraSubMap.put(verbatim.getProctcTerm(), verbatim.getLowLevelTerm());
+				}
 				
 			} else {
 				if(meddraVerbatimMap.get(verbatim.getStudyParticipantCrfSchedule().getId()) != null) {
