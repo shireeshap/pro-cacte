@@ -40,7 +40,7 @@
 		.alert-message {
 			font-weight: normal;
    			margin-left: 4em;
-   			text-align: left;
+   			text-align: center;
 		}
 		
         .box {
@@ -140,17 +140,9 @@
 		    <div id="upCommingAlertsDiv">
 		    	<c:if test="${not empty alerts}">
 			    	<div class="solid-box">
-					    <div class="row">
-			            	<div class="alert-heading">Attention:</div>
-			            	<br/>
-				    		<div>
-						    	<c:forEach items="${alerts}" var="alert">
-					                <div class="alert-message">
-					                	<span><img src="/proctcae/images/arrow_icon.gif"/></span> ${alert.alertMessage}
-					                </div>
-						    	</c:forEach>
-				    		</div>
-		            	</div>
+					    	<c:forEach items="${alerts}" var="alert">
+					    		<div class="row" align="middle">${alert.alertMessage}</div>
+					    	</c:forEach>
 			    	</div>
 		    	</c:if>
 		    </div>
