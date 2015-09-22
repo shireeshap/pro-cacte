@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -48,8 +49,7 @@
 				                   id="menuActions${status.index}"><span
 				                        class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
 				                <script>
-					                var escapedSymptom = escapeUnSafeHtml("${lineitem[0]}");
-				                    showPopUpMenu('${status.index}', '${participant.id}', '${status.index}', getLinksHtml(escapedSymptom));
+				                    showPopUpMenu('${status.index}', '${participant.id}', '${status.index}', getLinksHtml('${proctcae:escapeJS(lineitem[0])}'));
 				                </script>
 				            </td>
 				            <td class="data">

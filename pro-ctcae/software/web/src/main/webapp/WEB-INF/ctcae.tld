@@ -222,4 +222,9 @@
             <description>Common Optional Attribute</description>
         </attribute>
     </tag>
+    <function>
+          <name>escapeJS</name>
+          <function-class>org.apache.commons.lang.StringEscapeUtils</function-class>
+          <function-signature>java.lang.String escapeJavaScript(java.lang.String)</function-signature>
+      </function>  
 </taglib>
