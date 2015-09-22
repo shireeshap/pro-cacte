@@ -144,7 +144,7 @@ public class ScheduleCrfAjaxFacade {
 
     private Integer determineLevenshteinDistance(String input) {
 
-        double distance = 4;
+        double distance = 3;
 
         if(StringUtils.length(input) < distance) {
             return 2; // only when input is of length 3.
@@ -153,7 +153,7 @@ public class ScheduleCrfAjaxFacade {
         String[] split = StringUtils.split(input);
 
         for(String string : split)
-            distance *= 1.5;
+            distance *= 1.3;
 
 
         return (int) Math.floor(distance);
