@@ -23,7 +23,6 @@ public class ProCtcQuestionQuery extends AbstractQuery {
      * Instantiates a new pro ctc question query.
      */
     public ProCtcQuestionQuery() {
-
         super(queryString);
     }
 

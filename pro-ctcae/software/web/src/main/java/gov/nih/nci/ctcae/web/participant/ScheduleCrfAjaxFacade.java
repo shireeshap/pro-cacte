@@ -147,12 +147,12 @@ public class ScheduleCrfAjaxFacade {
         double distance = 3;
 
         if(StringUtils.length(input) < distance) {
-            return 2; // only when input is of length 3.
+            return 2; // only when input is of length 3 or less.
         }
 
         String[] split = StringUtils.split(input);
 
-        for(String string : split)
+        for (String string : split)
             distance *= 1.3;
 
 

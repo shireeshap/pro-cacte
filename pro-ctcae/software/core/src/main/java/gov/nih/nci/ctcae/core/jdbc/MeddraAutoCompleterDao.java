@@ -16,7 +16,7 @@ public class MeddraAutoCompleterDao {
 
     @SuppressWarnings("unchecked")
     public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language, Integer maxDistance, Integer soundexRank) {
-        Boolean includeFuzzy = maxDistance >= 3;
+        Boolean includeFuzzy = maxDistance > 3;
         String fetchMatchingMeddraTerms;
         if (ENGLISH.equals(language)) {
             fetchMatchingMeddraTerms = "\n" +

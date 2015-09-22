@@ -56,6 +56,7 @@ public class ParticipantAjaxFacade {
         if (leadStaff) {
             participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_COUNT, Role.LEAD_CRA, true, OTHER);
         } else {
+
             participantQuery = new ParticipantQuery(QueryStrings.PARTICIPANT_QUERY_COUNT, Role.SITE_CRA, true, OTHER);
         }
         participantQuery.setFirstResult(startIndex);
