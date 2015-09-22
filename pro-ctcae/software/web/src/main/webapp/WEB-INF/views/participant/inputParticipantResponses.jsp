@@ -18,7 +18,7 @@
     <script type="text/javascript">
         function saveAndBack(type, id, prevTab) {
             if (type == 'back') {
-                window.location = "../participant/edit?id=" + id + "&tab=" + prevTab;
+                javascript:history.back();
             } else {
                 document.forms[0].submitType.value = type;
                 document.forms[0].submit();
