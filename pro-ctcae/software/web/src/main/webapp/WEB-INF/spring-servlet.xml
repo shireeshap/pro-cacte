@@ -712,15 +712,15 @@
     <bean name="/reports/participantAddedQuestions" id="participantAddedQuestionsResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
-        <property name="addedSymptomVerbatimRepository" ref="addedSymptomVerbatimRepository"/>
     </bean>
     <bean name="/reports/participantAddedQuestionsDetails" id="participantAddedQuestionsDetailsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
-        <property name="addedSymptomVerbatimRepository" ref="addedSymptomVerbatimRepository"/>
     </bean>
     <bean name="/reports/participantAddedQuestionsCsvController" id="participantAddedQuestionsCsvController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsCsvController">
+        <property name="genericRepository" ref="genericRepository"/>
+        <property name="addedSymptomVerbatimRepository" ref="addedSymptomVerbatimRepository"/>
     </bean>
     
     <bean name="/participant/confirmSymptom" id="confirmSymptomController"
