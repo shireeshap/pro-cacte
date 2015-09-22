@@ -48,7 +48,8 @@
 				                   id="menuActions${status.index}"><span
 				                        class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
 				                <script>
-				                    showPopUpMenu('${status.index}', '${participant.id}', '${status.index}', getLinksHtml('${lineitem[0]}'));
+					                var escapedSymptom = escapeUnSafeHtml("${lineitem[0]}");
+				                    showPopUpMenu('${status.index}', '${participant.id}', '${status.index}', getLinksHtml(escapedSymptom));
 				                </script>
 				            </td>
 				            <td class="data">

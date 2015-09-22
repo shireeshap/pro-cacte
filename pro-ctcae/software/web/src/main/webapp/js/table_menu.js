@@ -86,3 +86,17 @@ function findPosY(obj) {
 function getLinksHtml(symptom) {
     return '<li><a href="#" onclick="javascript:showResponseDetails(\'' + symptom + '\')">View participant responses</a></li>';
 }
+
+function escapeUnSafeHtml(unsafe) {
+	if(unsafe == null || unsafe == undefined) {
+		return "";
+	} 
+	
+	return unsafe
+	.replace(/&/g, "&amp;")
+	.replace(/</g, "&lt;")
+	.replace(/>/g, "&gt;")
+	.replace(/"/g, "&quot;")
+	.replace(/'/g, "&#039;");
+    
+ }
