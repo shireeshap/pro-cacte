@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import java.io.Serializable;
+
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 
@@ -9,7 +11,7 @@ import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
  * Wrapper class for export link on Participant added symptom report
  *
  */
-public class ParticipantAddedSymptomVerbatimWrapper {
+public class ParticipantAddedSymptomVerbatimWrapper implements Serializable {
 	String studyParticipantIdentifier;
 	String verbatim;
 	LowLevelTerm lowLevelTerm;

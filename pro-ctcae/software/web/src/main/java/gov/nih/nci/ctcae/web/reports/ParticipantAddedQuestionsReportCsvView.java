@@ -45,7 +45,7 @@ public class ParticipantAddedQuestionsReportCsvView extends AbstractView {
 
     @Override
     protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	verbatimWrappers = (List<ParticipantAddedSymptomVerbatimWrapper>) request.getSession().getAttribute(ParticipantAddedQuestionsReportResultsController.RESULTANT_VERBATIM_WRAPPER);
+    	verbatimWrappers = (List<ParticipantAddedSymptomVerbatimWrapper>) request.getSession().getAttribute(ParticipantAddedQuestionsCsvController.RESULTANT_VERBATIM_WRAPPER);
     	
         //parseRequestAndRetrieveReportData(request);
         Study study = (Study) request.getSession().getAttribute("selectedStudy");
