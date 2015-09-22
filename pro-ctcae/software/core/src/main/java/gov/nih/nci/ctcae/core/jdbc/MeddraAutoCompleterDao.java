@@ -29,7 +29,7 @@ public class MeddraAutoCompleterDao {
                     (includeFuzzy ? " or difference(lower(mlltv.meddra_term_english), '" + searchString + "') >= " + soundexRank + " " : "") +
                     (includeFuzzy ? " or ( length(meddra_term_english) <256  AND levenshtein(lower(mlltv.meddra_term_english), '" + searchString + "') <= " + maxDistance + " ) " : "") +
                     ")\n" +
-                    " AND mllt.participant_added IS NOT TRUE\n" +
+                    " AND mllt.currency = 'Y' \n" +
 
                     "UNION\n" +
 
