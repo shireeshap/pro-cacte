@@ -338,7 +338,7 @@
             <tr>
                 <td align="left">
                     <tags:button type="submit" color="blue" id="flow-prev"
-                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id}, ${prevTab});"
+                                 onclick="javascript:history.back();"
                                  value="Back" icon="Back"/>
                 </td>
                 <td align="left">
@@ -359,7 +359,7 @@
             <tr>
                 <td align="left">
                     <tags:button type="submit" color="blue" id="flow-prev"
-                                 onclick="saveAndBack('back', ${command.studyParticipantCrf.studyParticipantAssignment.id}, ${prevTab});"
+                                 onclick="javascript:history.back();"
                                  value="Back" icon="Back"/>
                 </td>
             </tr>
