@@ -251,7 +251,7 @@
 	                        <tags:message code="eq5d.instructions.1"/><b><u><tags:message code="eq5d.instructions.2"/></u></b><tags:message code="fp.message.3"/>
 	                    </c:when>
 	                    <c:otherwise>
-                            <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/> 
+                            <tags:recallPeriodFormatter desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
 	                    </c:otherwise>
                     </c:choose>
                 </div>
