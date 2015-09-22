@@ -55,9 +55,26 @@
                     }
                 }
             }
+            
         }
         
-
+        function validate(){
+			var name=jQuery('[name=alert.alertMessage]').val();
+			if(name != null || name != ''){
+					var reg=/[^a-zA-Z0-9\!\@\%\*\_;,:.'<>\?\-\[\]\s\/()]+/; 
+				
+					if(reg.test(name)){  
+						jQuery("#alertValidationErrorDiv").show();            
+						return false;
+					}               
+				jQuery("#alertValidationErrorDiv").hide();
+				return true;
+				
+				}
+			jQuery("#alertValidationErrorDiv").hide();
+			return true;
+		}
+        
     </script>
     <!--[if IE]>
     <style>
@@ -120,9 +137,8 @@
 											 displayName="alert.label.endDate"
 											 required="true"/>
 							<ul id="alert.endDate.error" style="display:none; padding-left:12em " class="errors">
-			                    <li><spring:message code='endDate_validation' text='endDate_validation'/>
-			                    </li>
-			              		</ul>
+			                    <li><spring:message code='endDate_validation' text='endDate_validation'/></li>
+			              	</ul>
 						</td>
 					</tr>
 					<tr>	
@@ -131,16 +147,20 @@
 												 displayName="alert.label.alertMessage"
 												 required="true" />
 							<ul id="alert.alertMessage.error" style="display:none; padding-left:12em " class="errors">
-			                    <li><spring:message code='alertMessage_validation' text='alertMessage_validation'/>
-			                    </li>
-			              		</ul>
+			                    <li><spring:message code='alertMessage_validation' text='alertMessage_validation'/></li>
+			              	</ul>
+			              	<div id="alertValidationErrorDiv" style="display:none;">
+				              	<ul id="alertValidationError" style="padding-left:12em" class="errors">
+				                    <li>Invalid character(s). The message can't have anything other than a-z A-Z 0-9 () - _ % = [] ; : ' < > , . ? / @ ! *</li>
+				              	</ul>
+				            </div>
 						</td>
 					</tr>
 				</table>
 			</chrome:division>
 			<br/>
 		</chrome:box>
-			<div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
+			<div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save" onclick="return validate();"/></div>
 	</ctcae:form>
 
 </body>

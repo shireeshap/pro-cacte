@@ -100,7 +100,7 @@ import org.apache.commons.lang.StringUtils;
      */
     private boolean isAllowedParameter(String param){
     	
-    	return allowedParams.contains(param) || param.contains("email") || param.contains("password") || param.contains("username") || param.contains("confirmPassword");
+    	return allowedParams.contains(param) || param.contains("email") || param.contains("password") || param.contains("username") || param.contains("confirmPassword") || param.contains("alert.alertMessage");
     }
 
     private void disableCaching(HttpServletRequest request, HttpServletResponse response) {
