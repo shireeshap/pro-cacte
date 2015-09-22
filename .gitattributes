@@ -2641,6 +2641,7 @@ pro-ctcae/software/core/src/main/resources/META-INF/log4j.properties -text
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_EN_prelim_updated_08.04.2011.csv -text
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_EN_prelim_updated_09.22.2015.csv -text
 pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_ES_prelim_updated_08.04.2011.csv -text
+pro-ctcae/software/core/src/main/resources/MedDRA12_symtoms_ES_prelim_updated_09.22.2015.csv -text
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE-GradeMapping_v1.1_08.29.13.csv -text
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE-GradeMapping_v1.2_02.20.14.csv -text
 pro-ctcae/software/core/src/main/resources/PRO-CTCAE-GradeMapping_v1.3_03.11.14.csv -text
