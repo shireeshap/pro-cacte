@@ -794,7 +794,7 @@ function refreshQuestionDiv(questionId, crfId){
     }
 
     function isSpclCharForTitle(fieldName) {
-        var iChars = "!@#$^&*+=[]\\\';/{}|\"<>?";
+        var iChars = "`~!@#$^&*+=[]\\\';/{}|\"<>?";
         var fieldValue = $(fieldName).value;
         jQuery('#' + fieldName + '.error').hide();
         $(fieldName + '.error').hide();
@@ -802,7 +802,7 @@ function refreshQuestionDiv(questionId, crfId){
             if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
                 jQuery('#' + fieldName + '.error').show();
                 $(fieldName + '.error').show();
-                //$(fieldName).value = "";
+                $(fieldName).value = "";
                 return true;
             }
         }
