@@ -68,7 +68,7 @@
     	
     	jQuery(document).bind("keydown", function(e){
     		var selector = keyPress[e.which];
-    		
+
     		if(selector !== undefined && jQuery(e.target).is(selector)){
     			if(isSpclChar('searchString')) {
 	    			e.preventDefault();

@@ -477,7 +477,7 @@ function resetInputs(propertyName){
 }
 
    function isSpclChar(fieldName) {
-        var iChars = "!@#$^&*+=[]\\\';,./{}|\":<>?";
+        var iChars = "`~!@#$^&*+=[]\\\';,./{}|\":<>?";
         var fieldValue = $(fieldName).value;
         jQuery('#' + fieldName + '.error').hide();
         $(fieldName + '.error').hide();
