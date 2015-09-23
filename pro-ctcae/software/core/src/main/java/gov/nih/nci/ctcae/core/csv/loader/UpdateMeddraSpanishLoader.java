@@ -36,7 +36,7 @@ public class UpdateMeddraSpanishLoader {
         File f = new File(resource1.getFile().getCanonicalPath());
         System.out.println(f.getCanonicalPath());
         reader = new CsvReader(new FileInputStream(f), Charset.forName("ISO-8859-1"));*/
-        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_ES_prelim_updated_09.22.2015.csv");
+        ClassPathResource classPathResource = new ClassPathResource("MedDRA12_symtoms_ES_prelim_updated_09.23.2015.csv");
         reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("UTF-8"));
         reader.readHeaders();
 
