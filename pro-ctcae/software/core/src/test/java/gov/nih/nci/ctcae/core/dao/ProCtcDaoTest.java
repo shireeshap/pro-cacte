@@ -42,7 +42,7 @@ public class ProCtcDaoTest extends TestDataManager{
 		assertEquals(1, lowLevelTerm.size());
 		
 		lowLevelTerm = lowLevelTermDao.findBySubname(new String[]{"1000302"}, Arrays.asList("meddraCode"), null);
-		assertEquals(3, lowLevelTerm.size());
+		assertEquals(2, lowLevelTerm.size());
 	}
 	
 	public void testGetByMeddraCode() throws Exception{
