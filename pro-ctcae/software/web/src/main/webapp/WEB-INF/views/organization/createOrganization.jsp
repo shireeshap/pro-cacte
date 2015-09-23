@@ -82,7 +82,7 @@
 	  			jQuery("#org\\.name\\.specChar\\.error").show();
 	  			hasSpecialCharacter = true;
 	  		} 
- 			if(isSpclCharEntered("#organization\\.nciInstituteCode")) { 
+ 			if(jQuery("#organization\\.nciInstituteCode").length > 0 && isSpclCharEntered("#organization\\.nciInstituteCode")) { 
  				jQuery("ul#org\\.nciInsti\\.specChar\\.error li").text("Special characters are not allowed here.");
 	  			jQuery("#org\\.nciInsti\\.specChar\\.error").show();
 	  			hasSpecialCharacter = true;
@@ -168,6 +168,9 @@
 			                <ul id="organizationName.error" style="display:none; padding-left:12em " class="errors">
 			                    <li><spring:message code='organizationName_validation' text='organizationName_validation'/>
 			                    </li>
+			                </ul>
+			                <ul id="org.name.specChar.error" style="display:none;" class="errors">
+			                    <li></li>
 			                </ul>
 			            </td>
 			        </tr>
