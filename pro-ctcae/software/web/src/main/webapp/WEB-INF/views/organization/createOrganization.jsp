@@ -57,22 +57,58 @@
 	  		
 	  		var organizationIdentifier = jQuery("#organization\\.nciInstituteCode").val();
 	  		jQuery("#organization\\.nciInstituteCode\\.error").hide();
-	  		
-			if(organizationIdentifier != '') {
+	  		if(organizationIdentifier != '') {
 				uniqueOrgIdValidator.validate(organizationId, organizationIdentifier, validationCallBackHandler);
 				return
-			} else {
+			} else {				    
 		  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
 		  		}
   		}
  		
- 		function validationCallBackHandler(result){
+ 		function validationCallBackHandler(result){ 						
 			if(result) {
 	  			jQuery("#organization\\.nciInstituteCode\\.error").show();
 	  		} else {
 	  			jQuery("#organization\\.nciInstituteCode\\.error").hide();
-	  		}
+	  		}			
 		}
+ 		
+ 		function checkSpecialCharacters() {
+ 			var hasSpecialCharacter = false;
+ 			jQuery("#org\\.name\\.specChar\\.error").hide();
+ 			jQuery("#org\\.nciInsti\\.specChar\\.error").hide();
+ 			if(isSpclCharEntered("#organization\\.name")) { 				
+	  			jQuery("ul#org\\.name\\.specChar\\.error li").text("Special characters are not allowed here.");
+	  			jQuery("#org\\.name\\.specChar\\.error").show();
+	  			hasSpecialCharacter = true;
+	  		} 
+ 			if(isSpclCharEntered("#organization\\.nciInstituteCode")) { 
+ 				jQuery("ul#org\\.nciInsti\\.specChar\\.error li").text("Special characters are not allowed here.");
+	  			jQuery("#org\\.nciInsti\\.specChar\\.error").show();
+	  			hasSpecialCharacter = true;
+	  		} 			
+ 			if(hasSpecialCharacter) {
+ 				return false;
+ 			}
+ 			else { 				
+	  			jQuery("#org\\.name\\.specChar\\.error").hide();
+	  			jQuery("#org\\.nciInsti\\.specChar\\.error").hide();
+	  			return true;
+	  		}			
+ 		}
+ 		
+ 		function isSpclCharEntered(fieldName) {
+ 	        var iChars = "`~!@#$^&*+=[]\\\';,./{}|\":<>?";
+ 	        var fieldValue = jQuery(fieldName).val();
+ 	        jQuery('#' + fieldName + '.error').hide();
+ 	        jQuery(fieldName + '.error').hide();
+ 	        for (var i = 0; i < fieldValue.length; i++) {
+ 	            if (iChars.indexOf(fieldValue.charAt(i)) != -1) { 	               
+ 	                return true;
+ 	            }
+ 	        }
+ 	        return false;
+ 	    }
  	</script>
 </head>
 <body>
@@ -98,6 +134,9 @@
 			                    <li><spring:message code='organizationName_validation' text='organizationName_validation'/>
 			                    </li>
 			                </ul>
+			               <ul id="org.name.specChar.error" style="display:none;" class="errors">
+			                    <li></li>
+			                </ul>
 			            </td>
 			        </tr>
 			        <tr>
@@ -110,6 +149,9 @@
 			                <ul id="organization.nciInstituteCode.error" style="display:none;" class="errors">
 		                            <li><spring:message code='nciInstituteCode_validation' text='nciInstituteCode_validation'/>
 				                    </li>
+			                </ul>
+			                <ul id="org.nciInsti.specChar.error" style="display:none;" class="errors">
+			                    <li></li>
 			                </ul>
 			        	</td>
 			        </tr>
@@ -142,7 +184,7 @@
 		</c:choose>
     </chrome:box>
     <div style="float: right;">
-        <tags:button type="submit" value="Save" color="green" icon="save"/>
+        <tags:button type="submit" value="Save" color="green" icon="save" onclick="JavaScript:return checkSpecialCharacters();"/>
     </div>
 </ctcae:form>
 </body>

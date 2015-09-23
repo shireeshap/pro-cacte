@@ -84,16 +84,23 @@
             }
             else {
                 jQuery('#error1').hide();
+                jQuery('#study\\.identifier\\.specChar\\.error').hide();
             }
         }
         function postCommentHandler(returnvalue) {
             if (returnvalue) {
                 errorCount++;
                 jQuery('#error1').show();
+            } 
+            else if(isSpclCharEntered("#study\\.assignedIdentifier")) {
+            	jQuery("#study\\.assignedIdentifier").val("");
+            	jQuery("ul#study\\.identifier\\.specChar\\.error li").text("Special characters are not allowed here.");
+            	jQuery('#study\\.identifier\\.specChar\\.error').show();
             }
             else {
                 errorCount = 0;
                 jQuery('#error1').hide();
+                jQuery('#study\\.identifier\\.specChar\\.error').hide();
             }
         }
 
@@ -202,6 +209,19 @@
             $(inputId + 'Input').focus();
             $(inputId + 'Input').blur();
         }
+        
+    	function isSpclCharEntered(fieldName) {
+ 	        var iChars = "`~!@#$^&*+=[]\\\';,./{}|\":<>?";
+ 	        var fieldValue = jQuery(fieldName).val();
+ 	        jQuery('#' + fieldName + '.error').hide();
+ 	        jQuery(fieldName + '.error').hide();
+ 	        for (var i = 0; i < fieldValue.length; i++) {
+ 	            if (iChars.indexOf(fieldValue.charAt(i)) != -1) { 	               
+ 	                return true;
+ 	            }
+ 	        }
+ 	        return false;
+ 	    }
 
     </script>
 </head>
@@ -224,6 +244,9 @@
         <ul id="error1" style="display:none; padding-left:12em " class="errors">
             <li><spring:message code='study.unique_assignedIdentifier' text='study.unique_assignedIdentifier'/></li>
         </ul>
+         <ul id="study.identifier.specChar.error" style="display:none; padding-left:12em " class="errors">
+             <li></li>
+         </ul>
         <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title" onblur="isSpclChar('study.shortTitle');"
                          required="true" size="50"/>
          <ul id="study.shortTitle.error" style="display:none;left-padding:8em;" class="errors">
