@@ -1,0 +1,800 @@
+llt_code,llt_name,pt_code,llt_whoart_code,llt_harts_code,llt_costart_sym,llt_icd9_code,llt_icd9cm_code,llt_icd10_code,llt_currency,llt_jart_code
+10000045,Abdomen agrandado,10000060,711001,5,ABDO ENLARGE,,,,Y,814
+10000055,Cólico abdominal,10000081,,,,,,,Y,
+10000056,Calambre abdominal,10000081,,,PAIN ABDO,,,,Y,
+10000060,Distensión abdominal,10000060,711005,,ABDO ENLARGE,,,,Y,
+10000065,Plenitud abdominal,10000060,,,,,,,Y,
+10000081,Dolor abdominal,10000081,268001,3880,PAIN ABDO,789,789,,Y,812
+10000424,Dolor,10033371,,,PAIN,,,,Y,
+10000425,Dolor a través del pecho,10008479,,,,,,,Y,
+10000426,Dolor de mama,10006298,,,PAIN BREAST,,,,Y,
+10000430,Dolor de muñecas,10003239,,,,,,,Y,
+10000431,Dolores en piernas,10033425,,,,,,,Y,
+10000447,Rodillas doloridas,10003239,,,,,,,Y,
+10000450,"Dolor en manos, antebrazos y codos",10033425,,,,,,,Y,
+10000464,Indigestión ácida,10013946,279003,,DYSPEPSIA,,,,Y,38403
+10000496,Acné,10000496,1001,80,ACNE,,,,Y,299
+10001464,Persistencia del sabor,10013911,,,TASTE PERVERS,,,,Y,
+10001495,Agitado,10001497,,,,,,,Y,
+10001497,Agitación,10001497,163001,140,AGITATION,,,,Y,189
+10001529,Disnea de Kussmaul,10013968,517004,,HYPERVENTIL,,,,Y,7803
+10001718,Reacción alérgica,10020751,712001,195,ALLERG REACT,,,,Y,19
+10001738,Alergia,10020751,1058001,,ALLERG REACT,,,,Y,2226
+10001760,Alopecia,10001760,2001,200,ALOPECIA,704,704,,Y,594
+10001854,Estado de conciencia alterado,10001854,151011,,,,,,Y,
+10002507,Angustia,10002855,,,,,,,Y,80405
+10002542,Edema de tobillo,10030124,,,EDEMA PERIPH,,,,Y,
+10002646,Anorexia,10061428,165001,395,ANOREXIA,783,783,,Y,402
+10002652,Anorgasmia,10002652,1220001,397,ANORGASMIA,,,,Y,2470
+10002856,Crisis de ansiedad,10002855,166015,,ANXIETY,,,,Y,80406
+10002875,Estado de ánimo ansioso,10002855,,,,,,,Y,
+10003017,Falta de apetito,10061428,165005,,ANOREXIA,,,,Y,40203
+10003025,Apetito alterado,10061428,165006,,ANOREXIA,,,,Y,40202
+10003028,Apetito perdido,10061428,165003,,ANOREXIA,,,,Y,40205
+10003031,Supresión del apetito,10061428,165007,,,,,,Y,
+10003061,Aprensión,10002855,166007,,ANXIETY,,,,Y,80408
+10003104,Despertar dificil,10012373,151005,,STUPOR,,,,Y,28806
+10003239,Artralgia,10003239,63001,505,ARTHRALGIA,,,,Y,116
+10003244,Dolores artríticos,10003239,,,,,,,Y,
+10003246,Artritis,10003246,64001,510,ARTHRITIS,,,,Y,114
+10003729,Dificultad para la atención y la concentración,10013496,,,,,,,Y,33414
+10003738,Atención alterada,10013496,,,,,,,Y,
+10003740,Atención disminuida,10013496,,,,,,,Y,33415
+10003744,Actitud modificada,10034719,,,PERSON DIS,,,,Y,
+10003978,Dolor de espalda,10003988,717004,,PAIN BACK,,,,Y,74405
+10003988,Dolor de espalda,10003988,717001,3885,PAIN BACK,,,,Y,744
+10003993,Dolor de espalda,10003988,,,,,,,Y,
+10004082,Calvicie,10001760,2006,,ALOPECIA,,,,Y,59403
+10004981,Espinillas,10000496,,,ACNE,,,,Y,
+10005032,Calambres en la vejiga,10005063,,,,,,,Y,83403
+10005045,Incapacidad para vaciar la vejiga,10046555,157006,,URIN RETENT,,,,Y,71001
+10005046,Incontinencia vesical,10046543,156007,,INCONTIN URIN,,,,Y,70905
+10005063,Dolor de vejiga urinaria,10005063,,,PAIN,,,,Y,
+10005071,Retención vesical,10046555,157005,,URIN RETENT,,,,Y,71003
+10005124,Nariz sangrante,10015090,,,EPISTAXIS,,,,Y,
+10005169,Ceguera,10005169,232001,725,BLIND,,,,Y,866
+10005181,Ceguera nocturna,10029404,234001,,BLIND NIGHT,,,,Y,887
+10005264,Sensación de estar hinchado,10000060,,,,,,,Y,
+10005265,Abultamiento,10000060,285008,,FLATUL,,,,Y,84104
+10005886,Visión borrosa,10047513,,205,AMBLYOPIA,,,,Y,
+10005887,Borrosidad de ojos,10047513,,,,,,,Y,
+10005888,Visión borrosa,10047513,,,,,,,Y,
+10005902,Olor corporal,10040904,1392001,,,,,,Y,2482
+10005905,Olor corporal alterado,10040904,,,,,,,Y,78401
+10006002,Dolor óseo,10006002,1347004,3895,PAIN BONE,,,,Y,228302
+10006298,Dolor de mama,10006298,1839001,3900,PAIN BREAST,,,,Y,68320
+10006332,Falta de aliento,10013968,514003,,DYSPNEA,,,,Y,26902
+10006338,Dificultad de la respiración,10013968,514008,,DYSPNEA,,,,Y,26905
+10006345,Dificultad al respirar,10013968,,,,,,,Y,
+10006373,Uñas frágiles,10048886,20008,,,,,,Y,65708
+10006464,Broncoconstricción,10006482,,,,,,,Y,
+10006482,Broncoespamo,10006482,511001,812,ASTHMA,,,,Y,132
+10006502,Cardenal,10050584,459004,,ECCHYMOSIS,,,,Y,34905
+10006504,Cardenales,10050584,,,,,,,Y,
+10006634,Quemadura,10053615,1809001,,,,,,Y,
+10007031,Dolor de pantorrilla,10033425,1439003,,,,,,Y,259401
+10008296,Dolor cervical,10028836,717011,,,,,,Y,74409
+10008406,Cambio de carácter,10034719,192003,,,,,,Y,41204
+10008417,Queilitis,10008417,270001,980,CHEILITIS,,,,Y,252
+10008461,Dolor pectoral,10008479,718009,,PAIN CHEST,,,,Y,15201
+10008465,Ardor de pecho,10008479,,,,,,,Y,
+10008469,Malestar torácico,10008469,718003,,PAIN CHEST,,,,Y,15214
+10008479,Dolor torácico,10008479,718001,,PAIN CHEST,,,,Y,
+10008531,Escalofrío,10008531,731004,990,CHILLS,,,,Y,6402
+10009165,Estómago revuelto,10028813,,,,,,,Y,
+10009850,Penetración dolorosa,10013941,,,DYSPAREUNIA,,,,Y,
+10009881,Cólico,10000081,,,PAIN,,,,Y,
+10010101,Comedón,10000496,,,,,,,Y,29902
+10010249,Concentración alterada,10013496,1127001,,THINKING ABNORM,,,,Y,2110
+10010250,Deterioro de la concentración,10013496,,,,,,,Y,
+10010251,Pérdida de concentración,10013496,,,,,,,Y,211001
+10010300,Confusión,10010305,92001,1180,CONFUS,,,,Y,296
+10010305,Estado confusional,10010305,92005,,,,,,Y,29603
+10010765,Conciencia anormal,10012373,,,,,,,Y,28802
+10010768,Disminución del nivel de conciencia,10012373,151009,,,,,,Y,28814
+10011286,Calambre abdominal,10000081,268012,,PAIN ABDO,,,,Y,81219
+10011293,Calambres,10028334,73008,,,,,,Y,
+10011974,Visión nocturna disminuida,10029404,,,,,,,Y,
+10012174,Deshidratación,10012174,370001,1365,DEHYDRAT,,,,Y,593
+10012377,Estado depresivo,10012378,172006,,DEPRESSION,,,,Y,89705
+10012378,Depresión,10012378,172001,1390,DEPRESSION,,,,Y,897
+10012399,Trastorno depresivo,10012378,,,,,,,Y,
+10012432,Dermatitis acneiforme,10012432,,,,,,,Y,
+10012485,Dermatitis fotosensible,10034972,,,,,,,Y,25302
+10012703,Diaforesis,10020642,43003,,SWEAT,,,,Y,74905
+10012727,Diarrea,10012735,,1435,DIARRHEA,,787.91,,Y,
+10012735,Diarrea,10012735,205001,,DIARRHEA,,,,Y,222
+10012790,Digestión dificultosa,10013946,,,,,,,Y,
+10012791,Dificultad para respirar,10013968,,,,,,,Y,
+10012792,Dificultad para el enfoque de los ojos,10047513,,,VISION ABNORM,,,,Y,
+10012804,Dificultad para dormir,10022437,,,,,,,Y,
+10012980,Digestión alterada,10013946,279004,,DYSPEPSIA,,,,Y,38409
+10013036,Diplopía,10013036,241001,1450,DIPLOPIA,368.2,368.2,,Y,807
+10013069,Secreción vaginal,10046901,,,LEUKORRHEA,,,,Y,
+10013075,Cambio de color de las uñas,10028692,,,NAIL DIS,,,,Y,
+10013080,Cambio de color de la orina,10008796,,,URIN ABNORM,,,,Y,
+10013239,Trastorno de las uñas,10028694,,,NAIL DIS,,,,Y,
+10013269,Trastorno del habla,10041466,,,SPEECH DIS,,,,Y,
+10013276,Trastorno dental,10044034,,,TOOTH DIS,,,,Y,
+10013480,Abdomen distendido,10000060,,,,,,,Y,
+10013483,Voz distorsionada,10013952,,,,,,,Y,
+10013580,Mareado,10013573,,,,,,,Y,
+10013582,Mareos,10013573,,,,,,,Y,
+10013614,Visión doble,10013036,,,,,,,Y,
+10013635,Sudores copiosos,10020642,,,,,,,Y,
+10013639,Goteo de orina,10046543,,,,,,,Y,
+10013774,Ojo seco,10013774,,1488,,,,,Y,
+10013778,Ojos secos,10013774,943003,,DRY EYE,,,,Y,94502
+10013794,Sequedad de boca,10013781,,,DRY MOUTH,,,,Y,
+10013796,Sequedad vaginal,10047791,,,VAGINITIS,,,,Y,
+10013911,Disgeusia,10013911,267009,,,,,,Y,85513
+10013941,Dispareunia,10013941,848001,1530,DYSPAREUNIA,625,625,,Y,511
+10013944,Dispareunia NEOM,10013941,,,,,,,Y,
+10013946,Dispepsia,10013946,279001,1535,DYSPEPSIA,,,,Y,384
+10013950,Disfagia,10013950,280001,1540,DYSPHAGIA,787.2,787.2,,Y,59
+10013952,Disfonía,10013952,103001,,VOICE ALTERAT,,,,Y,66
+10013963,Disnea,10013968,,1545,DYSPNEA,786,,,Y,
+10013968,Disnea,10013968,514001,,DYSPNEA,,,,Y,269
+10013992,Dolor de oído,10014020,260001,,,,,,Y,2523
+10013996,Zumbido en oídos,10043882,264006,,TINNITUS,,,,Y,35607
+10014001,Chasquidos en el oído,10043882,,,TINNITUS,,,,Y,
+10014018,Ruidos en oídos,10043882,264003,,TINNITUS,,,,Y,35604
+10014020,Dolor de oídos,10014020,260003,3915,PAIN EAR,,,,Y,252301
+10014023,Pitido en oídos,10043882,264004,,TINNITUS,,,,Y,35605
+10014024,Ruido en oídos,10043882,264005,,TINNITUS,,,,Y,35606
+10014037,Dolor de oídos,10014020,,,PAIN EAR,,,,Y,342
+10014214,Edema de brazos,10030124,,,,,,,Y,
+10014230,Edema de piernas,10030124,,,EDEMA PERIPH,,,,Y,
+10014236,Edema de extremidades,10030124,,,EDEMA PERIPH,,,,Y,
+10014239,Edema de piernas,10030124,,,,,,,Y,
+10014251,Edema periférico,10030124,,,EDEMA PERIPH,,,,Y,
+10014263,Pies edematosos,10030124,,,,,,,Y,
+10014323,Eyaculación anormal,10014326,,,EJACULAT ABNORM,,,,Y,
+10014326,Trastorno de la eyaculación,10014326,1271001,,EJACULAT ABNORM,,,,Y,2302
+10014542,Emesis,10047700,228003,,VOMIT,,,,Y,6301
+10014842,Aumento de tamaño del abdomen,10000060,,,ABDO ENLARGE,,,,Y,
+10015015,Ardor epigástrico,10013946,,,DYSPEPSIA,,,,Y,
+10015016,Molestia epigástrica,10013946,,,DYSPEPSIA,,,,Y,
+10015018,Plenitud epigástrica,10000060,,,,,,,Y,38411
+10015090,Epistaxis,10015090,515001,1820,EPISTAXIS,784.7,784.7,,Y,769
+10015117,Erección disminuida,10061461,182004,,IMPOTENCE,,,,Y,82103
+10015118,Insuficiencia eréctil,10061461,,,,,,,Y,
+10015590,Sudoración excesiva,10020642,,,,,,,Y,
+10015591,Exceso de lágrimas,10023644,,,,,,,Y,
+10015667,Agotamiento,10016256,716008,,ASTHENIA,,,,Y,86405
+10015886,Sensación de picor en las extremidades,10037087,,,,,,,Y,56410
+10015906,Dolor de ojo,10015958,,,,,,,Y,
+10015921,Sequedad del ojo,10013774,,,,,,,Y,
+10015924,Moscas volantes,10028623,,,VITREOUS DIS,,,,Y,
+10015958,Dolor ocular,10015958,244001,3920,PAIN EYE,,,,Y,123
+10015959,Ojo rojo doloroso,10015958,,,,,,,Y,
+10015968,Dolor a la palpación del ojo,10015958,,,,,,,Y,
+10015974,Dolor en el globo ocular,10015958,,,,,,,Y,
+10016011,Ojos sensibles a la luz solar,10034960,,,,,,,Y,
+10016012,Pinchazos en los ojos,10015958,,,,,,,Y,
+10016015,Ojos acuosos,10023644,,,LACRIMATION DIS,,,,Y,
+10016046,Congestión facial,10016825,,,,,,,Y,
+10016059,Dolor facial,10016059,,,,,,,Y,
+10016092,Incontinencia fecal,10016092,107001,,INCONTIN FECAL,,,,Y,827
+10016252,Fatigabilidad,10016256,,,ASTHENIA,,,,Y,80007
+10016256,Fatiga,10016256,724001,,ASTHENIA,,,,Y,800
+10016296,Incontinencia fecal,10016092,,2890,INCONTIN FECAL,,,,Y,
+10016310,Incontinencia de heces,10016092,,,INCONTIN FECAL,,,,Y,
+10016323,Sensación de ansiedad,10002855,,,,,,,Y,
+10016326,Sensación de frío,10016326,1705007,,,,,,Y,
+10016334,Sensación de calor,10016334,,,,,,,Y,
+10016348,Sensación de plenitud en abdomen,10000060,,,,,,,Y,
+10016349,Sensación de plenitud gastrointestinal,10000060,,,,,,,Y,
+10016350,Sensación de sofoco,10060800,,,,,,,Y,84315
+10016361,Sentirse mareado,10028813,728006,,NAUSEA,,,,Y,80511
+10016379,Sensación de mareo,10013573,,,,,,,Y,
+10016558,Fiebre,10037660,725001,1945,FEVER,,,,Y,754
+10016752,Sofoco,10060800,,,VASODILAT,,,,Y,
+10016758,Visión relampagueante,10034962,,,,,,,Y,
+10016766,Flatulencia,10016766,285001,2030,FLATUL,,,,Y,841
+10016769,Flato,10016766,285005,,FLATUL,,,,Y,84109
+10016778,Moscas volantes,10028623,,,,,,,Y,
+10016779,Moscas volantes,10028623,,,VITREOUS DIS,,,,Y,
+10016820,Sofoco,10060800,,,VASODILAT,,,,Y,
+10016821,Enrojecido,10016825,,,,,,,Y,
+10016824,Piel enrojecida,10016825,,,,,,,Y,
+10016825,Rubefacción,10016825,207001,,VASODILAT,,782.62,,Y,648
+10016826,Rubefacción de la cara,10016825,,,,,,,Y,
+10016968,Edema de pie,10030124,,,,,,,Y,
+10016974,Dolor de pie,10033425,,,,,,,Y,
+10016980,Úlcera en el pie,10040943,,,,,,,Y,
+10017060,Tendencia al olvido,10027175,164005,,AMNESIA,,,,Y,22605
+10017366,Orina frecuente,10036018,,,URIN FREQUENCY,,,,Y,
+10017367,Movimientos intestinales frecuentes,10017367,,,,,,,Y,
+10017467,Plenitud abdominal,10000060,285006,,FLATUL,,,,Y,84105
+10017638,Dolor de la vesícula biliar,10017638,,,PAIN BIL,,,,Y,
+10017735,Gas,10016766,,,,,,,Y,
+10017738,Gas en estómago,10016766,,,ERUCTAT,,,,Y,
+10017739,Dolor por gases intestinales,10016766,,,PAIN ABDO,,,,Y,
+10017743,Gases abdominales,10016766,,,,,,,Y,
+10017745,Jadeo,10013968,514004,,DYSPNEA,,,,Y,26901
+10017953,Plenitud gastrointestinal,10000060,,2047,,,,,Y,
+10017999,Dolor gastrointestinal,10017999,,3921,,,,,Y,
+10018241,Dolor GI,10017999,,,PAIN ABDO,,,,Y,
+10018286,Dolor gingival,10018286,,,,,,,Y,1320
+10018787,Dolor de encías,10018286,,,,,,,Y,
+10018796,Dolor de barriga,10017999,,,,,,,Y,
+10018800,Ginecomastia,10018800,346001,,GYNECOMASTIA,,,,Y,405
+10018801,Ginecomastia,10018800,,2270,GYNECOMASTIA,,,,Y,
+10019050,Adelgazamiento del pelo,10001760,2003,,ALOPECIA,,,,Y,59407
+10019111,Síndrome de mano y pie,10033553,,,,,,,Y,1324
+10019116,Dolor de mano,10033425,,,,,,,Y,
+10019121,Hinchazón de mano,10030124,,,,,,,Y,
+10019195,Sensación de plenitud cefálica,10019211,109007,,HEADACHE,,,,Y,50810
+10019198,Dolor de cabeza,10019211,109008,,HEADACHE,,,,Y,50807
+10019200,Tensión de cabeza,10019211,109009,,HEADACHE,,,,Y,50809
+10019204,Palpitaciones en la cabeza,10019211,,,,,,,Y,50814
+10019297,Latidos fuertes,10033557,221004,,PALPITAT,,,,Y,41304
+10019313,Palpitaciones cardiacas,10033557,221005,,PALPITAT,,,,Y,41305
+10019362,Sudoración copiosa,10020642,,,,,,,Y,
+10019561,Hemorragia nasal,10015090,,,EPISTAXIS,,,,Y,
+10020037,Hipo,10020039,300003,,HICCUP,786.8,786.8,,Y,36101
+10020197,Habón urticarial,10046735,44005,,URTICARIA,,,,Y,49501
+10020201,Ronquera,10013952,103004,,VOICE ALTERAT,,,,Y,6603
+10020468,Hambre de aire,10013968,,,HYPERVENTIL,,,,Y,
+10020613,Hiperemesis,10047700,228004,,VOMIT,,,,Y,6303
+10020625,Hiperexcitabilidad,10001497,,,,,,,Y,
+10020642,Hiperhidrosis,10020642,43004,,SWEAT,780.8,780.8,,Y,74903
+10020715,Hiperpigmentación de piel,10040865,36004,,SKIN DISCOLOR,,,,Y,78703
+10021013,Hipohidrosis,10021013,1298003,,,,,,Y,236601
+10021525,Perturbación de la atención,10013496,,,,,,,Y,
+10021527,Sensación de muerte inminente,10002855,,,,,,,Y,
+10021550,Impotencia,10061461,182001,2885,IMPOTENCE,,,,Y,821
+10021552,Impotente,10061461,,,,,,,Y,
+10021573,Incapacidad para mantener la erección,10061461,,,,,,,Y,
+10021574,Incapacidad para alcanzar el orgasmo,10002652,,,,,,,Y,
+10021640,Incontinencia fecal,10016092,,,INCONTIN FECAL,,,,Y,
+10021641,Incontinencia de heces,10016092,,,,787.6,787.6,,Y,
+10021642,Incontinencia urinaria,10046543,,,,788.3,788.3,,Y,
+10021643,Incontinencia urinaria,10046543,,,INCONTIN URIN,,,,Y,
+10021706,Indigestión,10013946,279011,,DYSPEPSIA,,,,Y,38408
+10021777,Uña de pie encarnada e infectada,10034016,,,,,,,Y,
+10021926,Infertilidad,10021926,,,,,,,Y,
+10022077,Infiltración en la zona de inyección,10022062,,,,,,,Y,
+10022095,Reacción en la zona de inyección,10022095,58001,2950,INJECT SITE REACT,,,,Y,634
+10022437,Insomnio,10022437,183001,2955,INSOMNIA,,,,Y,822
+10022992,Menstruación irregular,10027339,,,,,,,Y,
+10022993,Periodos irregulares,10027339,,,,,,,Y,
+10022998,Irritabilidad,10022998,188006,,NERVOUSNESS,,,,Y,42106
+10023000,Irritable,10022998,,,,,,,Y,
+10023082,Picor,10037087,,,,,,,Y,
+10023083,Picor quemante,10037087,,,,,,,Y,56403
+10023084,Picazón,10037087,24003,,,,,,Y,56401
+10023087,Picor en ambas manos,10037087,,,,,,,Y,
+10023089,Comezón,10037087,,,,,,,Y,
+10023091,Picor en piernas,10037087,,,,,,,Y,
+10023093,Picor en cuero cabelludo,10037087,,,,,,,Y,
+10023145,Calambre mandibular,10044684,,,,,,,Y,16603
+10023158,Espasmo mandibular,10044684,,,,,,,Y,16602
+10023197,Dolor articular,10003239,63004,,ARTHRALGIA,,,,Y,11604
+10023217,Inflamación articular,10003246,64004,,ARTHRITIS,,,,Y,11402
+10023222,Dolor articular,10003239,63005,,ARTHRALGIA,,,,Y,11603
+10023477,Dolor de rodilla,10003239,,,PAIN,,,,Y,
+10023552,Respiración costosa,10013968,,,,,,,Y,
+10023848,Dolor laríngeo,10068319,,,,,,,Y,25402
+10023874,Laringitis,10023874,521001,3100,LARYNGITIS,,,,Y,254
+10023922,Dolor de laringe,10068319,1648001,,,,,,Y,2592
+10024125,Calambres en la pierna,10028334,,,CRAMPS LEG,,,,Y,
+10024127,Edema de pierna,10030124,,,,,,,Y,
+10024129,Edema de piernas,10030124,,,,,,,Y,
+10024130,Dolor de pierna,10033425,1439001,,,,,,Y,2594
+10024419,Libido disminuida,10024419,184001,3210,LIBIDO DEC,,,,Y,901
+10024461,Mareo,10013573,,,,,,,Y,
+10024490,Mareado,10013573,,,DIZZINESS,,,,Y,86901
+10024492,Vahído,10013573,,,,,,,Y,
+10024561,Dolor de labio,10024561,,,,,,,Y,25206
+10024564,Enrojecimiento labial,10008417,,,,,,,Y,25204
+10024568,Úlcera de labio,10024561,,,,,,,Y,25202
+10024569,Dolor labial,10024561,270003,,,,,,Y,
+10024798,Dolor en fosa renal,10003988,621003,,PAIN BACK,,,,Y,47803
+10024838,Intestinos sueltos,10012735,,,,,,,Y,
+10024890,Dolor de la parte baja de la espalda,10003988,,,,,,,Y,
+10024891,Dolor de la parte baja de la espalda,10003988,,,,,,,Y,
+10024946,Úlceras de las extremidades inferiores,10040943,,,,,,,Y,105101
+10024988,Lumbago,10003988,,,PAIN BACK,724.2,724.2,,Y,
+10024998,Dolor lumbar,10003988,717010,,,,,,Y,74408
+10025423,Erupción maculopapular,10037868,,,,,,,Y,
+10025424,Erupción maculopapular,10037868,,4425,RASH MAC PAP,,,,Y,
+10025503,Trastorno eréctil masculino,10061461,,,,,,,Y,
+10027171,Déficit de memoria,10027175,,,,,,,Y,
+10027172,Trastorno de la memoria,10027175,164006,,AMNESIA,,,,Y,22602
+10027174,Memoria alterada,10027175,,,AMNESIA,,,,Y,
+10027175,Alteración de la memoria,10027175,164003,,,,,,Y,22603
+10027317,Menstruación irregular,10027339,,,METRORRHAGIA,,,,Y,
+10027333,Irregularidad menstrual,10027339,657004,,METRORRHAGIA,,,,Y,20107
+10027339,Menstruación irregular,10027339,,,,,,,Y,
+10027346,Concentración mental disminuida,10013496,,,,,,,Y,211002
+10027347,Dificultad para la concentración mental,10013496,,,,,,,Y,
+10027349,Concentración mental alterada,10013496,,,,,,,Y,
+10028021,Boca seca,10013781,218001,,DRY MOUTH,,,,Y,258
+10028022,Sensación de sequedad en la boca,10013781,,,,,,,Y,25804
+10028026,Irritación de boca,10042128,327003,,STOMATITIS,,,,Y,25709
+10028030,Boca dolorosa,10031009,,,,,,,Y,25710
+10028130,Mucositis oral,10042128,,,STOMATITIS,,,,Y,
+10028287,Dolorimiento de masa muscular,10028411,73006,,MYALGIA,,,,Y,17404
+10028313,Inflamación muscular,10028653,,,,,,,Y,
+10028322,Dolor de masa muscular,10028411,73004,,MYALGIA,,,,Y,17405
+10028332,Dolorimiento muscular,10028411,,,MYALGIA,,,,Y,
+10028334,Espasmos musculares,10028334,,,,,,,Y,
+10028350,Debilidad muscular,10028372,,,,,,,Y,
+10028361,Dolor muscular,10028411,,,,,,,Y,
+10028372,Pérdida de fuerza muscular,10028372,,,MYASTHENIA,,,,Y,
+10028391,Dolor musculoesquelético,10028391,,,,,,,Y,
+10028399,Heces pastosas,10012735,,,,,,,Y,22204
+10028411,Mialgia,10028411,73001,3470,MYALGIA,,,,Y,174
+10028653,Miositis,10028653,748001,3525,MYOSITIS,,,,Y,165
+10028689,Cambios en las uñas,10028694,20007,,,,,,Y,65709
+10028690,Deformación de las uñas,10028694,,,,,,,Y,65704
+10028691,Discoloración ungueal,10028692,,,NAIL DIS,,,,Y,
+10028692,Cambio de color de las uñas,10028692,1634001,,,,,,Y,2620
+10028694,Trastorno de las uñas,10028694,20001,3530,NAIL DIS,,,,Y,657
+10028723,Sangrado nasal,10015090,515005,,,,,,Y,76903
+10028735,Congestión nasal,10028735,539011,,RHINITIS,,,,Y,76719
+10028746,Moco nasal salpicado de sangre,10015090,,,,,,,Y,
+10028748,Obstrucción nasal,10067775,,,,,,,Y,76713
+10028771,Nariz tapada,10028735,,,RHINITIS,,,,Y,
+10028822,Nauseoso,10028813,,,,,,,Y,
+10028823,Nauseoso,10028813,,,,,,,Y,
+10028828,Calambres en el cuello,10028334,,,,,,,Y,1028
+10028836,Dolor de cuello,10028836,,3935,PAIN NECK,,,,Y,
+10029181,Dolor de nervio,10029223,124003,,NEURALGIA,,,,Y,42401
+10029216,Nerviosismo,10029216,188001,3665,NERVOUSNESS,799.2,799.2,,Y,421
+10029223,Neuralgia,10029223,124001,3670,NEURALGIA,,,,Y,424
+10029224,Neuralgia que afecta a la punta de los dedos,10029223,,,,,,,Y,
+10029404,Ceguera nocturna,10029404,,735,BLIND NIGHT,368.6,368.6,,Y,
+10029792,Sangrado de nariz,10015090,,,,,,,Y,
+10029793,Sangrados de nariz,10015090,,,,,,,Y,
+10029794,Congestión de nariz,10028735,539004,,RHINITIS,,,,Y,76708
+10029864,Nistagmus,10029864,131001,3735,NYSTAGMUS,,,,Y,112
+10029986,Embotamiento mental,10012373,,,THINKING ABNORM,,,,Y,
+10030065,Pinchazos oculares,10015958,,,,,,,Y,
+10030092,Olor corporal,10040904,,,BODY ODOR,,,,Y,
+10030096,Edema de brazos,10030124,,,,,,,Y,
+10030105,Edema de piernas,10030124,401004,,EDEMA PERIPH,,,,Y,2030
+10030115,Edema de extremidades,10030124,401003,,,,,,Y,84904
+10030117,Edema de piernas,10030124,,,,,,,Y,
+10030121,Edema palmar,10030124,,,,,,,Y,84905
+10030124,Edema periférico,10030124,401001,,EDEMA PERIPH,,,,Y,849
+10030134,Pies edematosos,10030124,,,,,,,Y,
+10030974,Sequedad de boca,10013781,218004,,DRY MOUTH,,,,Y,25803
+10030990,Dolor de la mucosa oral,10031009,,,,,,,Y,25705
+10030991,Enrojecimiento de la mucosa oral,10042128,,,,,,,Y,25706
+10031009,Dolor bucal,10031009,,,,,,,Y,
+10031011,Enrojecimiento oral,10042128,,,,,,,Y,25704
+10031053,Dolor orbital,10015958,,,,,,,Y,12301
+10031304,Otalgia,10014020,,,,388.7,388.7,,Y,
+10033374,Dolor abdominal,10000081,,,PAIN ABDO,,,,Y,
+10033379,Dolor en tobillo,10003239,,,PAIN,,,,Y,
+10033380,Dolor de espalda,10003988,,,PAIN BACK,,,,Y,
+10033381,Dolor detrás de los ojos,10015958,,,,,,,Y,
+10033383,Dolor vesicourinario,10005063,,,PAIN,,,,Y,
+10033385,Dolor de mama,10006298,,,PAIN BREAST,,,,Y,
+10033387,Dolor de pecho,10008479,,,PAIN CHEST,,,,Y,
+10033393,Dolor de oídos,10014020,,,PAIN EAR,,,,Y,
+10033397,Dolor de ojo,10015958,,,PAIN EYE,,,,Y,
+10033400,Dolor de pie,10033425,,,PAIN,,,,Y,
+10033401,Dolor por gas,10016766,,,PAIN ABDO,,,,Y,
+10033404,Dolor de encías,10018286,,,GINGIVITIS,,,,Y,
+10033405,Dolor de cabeza,10019211,,,HEADACHE,,,,Y,
+10033420,Dolor en tobillo,10003239,,,,,,,Y,
+10033421,Dolor en brazo,10033425,,,,,,,Y,
+10033422,Dolor en pantorrilla,10033425,,,,,,,Y,
+10033423,Dolor en oído,10014020,,,,,,,Y,
+10033424,Dolor en codo,10003239,,,,,,,Y,
+10033425,Dolor en una extremidad,10033425,,3918,,,,,Y,
+10033426,Dolor en los ojos,10015958,,,,,,,Y,
+10033427,Dolor en cara,10016059,730006,,,,,,Y,68322
+10033428,Dolor en los dedos de la mano,10033425,,,,,,,Y,
+10033429,Dolor en pie,10033425,,,,,,,Y,
+10033430,Dolor en mano,10033425,,,,,,,Y,
+10033431,Dolor en talón,10033425,,,,,,,Y,
+10033432,Dolor en cadera,10003239,,,,,,,Y,
+10033434,Dolor en articulación,10003239,,,,719.4,719.4,,Y,
+10033445,Dolor en rodilla,10003239,,,,,,,Y,
+10033446,Dolor en pierna,10033425,,,,,,,Y,
+10033447,Dolor en extremidad,10033425,1439005,,,729.5,729.5,,Y,
+10033449,Dolor en testículos,10043345,,,,,,,Y,
+10033451,Dolor en el pulgar,10033425,,,,,,,Y,
+10033452,Dolor en dedo de pie,10033425,,,,,,,Y,
+10033456,Dolor articular,10003239,,,ARTHRALGIA,,,,Y,
+10033458,Dolor de rodilla,10003239,,,PAIN,,,,Y,
+10033459,Dolor de piernas,10033425,1439004,,,,,,Y,259402
+10033460,Lumbalgia,10003988,,,PAIN BACK,,,,Y,
+10033464,Dolor de boca,10031009,,,STOMATITIS,,,,Y,
+10033465,Dolor en la mucosa,10033371,,,,,,,Y,68310
+10033466,Dolor en músculo,10028411,,,MYALGIA,,,,Y,
+10033467,Dolor de cuello,10028836,,,PAIN NECK,,,,Y,
+10033469,Dolor en nervio,10029223,,,NEURALGIA,,,,Y,
+10033471,Dolor de extremidades,10033425,,,,,,,Y,
+10033474,Dolor en la piel,10033474,,,,,,,Y,68313
+10033476,Dolor oral,10031009,,,,,,,Y,
+10033478,Dolor extenso de espalda,10003988,,,,,,,Y,
+10033479,Dolor pélvico,10034263,,,PAIN PELVIC,,,,Y,
+10033482,Dolor pleural,10035623,,,PAIN,,,,Y,
+10033485,Dolor prostático,10036968,,,PAIN,,,,Y,
+10033494,Dolor de garganta,10068319,,,PHARYNGITIS,,,,Y,
+10033498,Dolor uretral,10046461,,,PAIN URETHRA,,,,Y,
+10033499,Agravamiento del dolor,10033371,,,,,,,Y,
+10033501,Dolor de tobillo,10003239,,,,,,,Y,
+10033503,Brazo adolorido,10033425,,,,,,,Y,
+10033504,Mamas adoloridas,10006298,,,,,,,Y,
+10033506,Pie adolorido,10033425,,,,,,,Y,
+10033508,Mano adolorida,10033425,,,,,,,Y,
+10033509,Caderas dolorosas,10003239,,,,,,,Y,
+10033510,Coito doloroso,10013941,,,,,,,Y,
+10033511,Articulaciones dolorosas,10003239,,,,,,,Y,
+10033512,Rodilla dolorosas,10003239,,,,,,,Y,
+10033516,Ojo rojo adolorido,10015958,,,,,,,Y,
+10033522,Dolores en piernas,10033425,,,,,,,Y,
+10033553,Síndrome de eritrodisestesia palmoplantar,10033553,,,,,,,Y,
+10033557,Palpitaciones,10033557,,,,785.1,785.1,,Y,
+10033775,Parestesia,10033775,137001,,PARESTHESIA,,,,Y,295
+10034009,Temblor de tipo parkinsoniano,10044565,,,,,,,Y,
+10034016,Paroniquia,10034016,1424001,,NAIL DIS,,,,Y,2429
+10034206,Edema de pie,10030124,,,,,,,Y,
+10034263,Dolor pélvico,10034263,730004,3940,PAIN PELVIC,,,,Y,68321
+10034310,Dolor de pene,10034310,,,,,,,Y,
+10034546,Dolor periorbitario,10015958,,,,,,,Y,
+10034570,Edema periférico,10030124,,1630,EDEMA PERIPH,,,,Y,
+10034611,Edema periférico,10030124,,,,,,,Y,
+10034620,Neuropatía periférica sensitiva,10034620,1313003,,,,,,Y,237402
+10034734,Transpiración excesiva,10020642,43005,,SWEAT,,,,Y,74907
+10034835,Faringitis,10034835,523001,4115,PHARYNGITIS,,,,Y,36
+10034924,Dificultad para la fonación,10013952,,,,,,,Y,6605
+10034960,Fotofobia,10034960,250001,4140,PHOTOPHOBIA,,,,Y,366
+10034963,Dermatitis fotosensible,10034972,,1417,,,,,Y,
+10034964,Eritema fotosensible,10034972,,,,,,,Y,
+10034965,Reacción fotosensible,10034972,,,,,,,Y,
+10034966,Fotosensibilidad,10034972,,,,,,,Y,25301
+10034972,Reacción de fotosensibilidad,10034972,22001,3919,PHOTOSENSITIVITY,,,,Y,253
+10034975,Fotosensibilizado,10034972,,,,,,,Y,
+10034977,Fototoxicidad,10034972,,,,,,,Y,
+10035049,Granos,10000496,,,ACNE,,,,Y,
+10035613,Dolor pleural,10035623,526001,,PAIN,,,,Y,159
+10035623,Dolor pleurítico,10035623,,,,,,,Y,
+10036149,Concentración deficiente,10013496,,,,,,,Y,
+10036464,Martilleo en la cabeza,10019211,,,,,,,Y,
+10036774,Proctitis,10036774,321001,4290,PROCTITIS,,,,Y,652
+10036968,Dolor prostático,10036968,,,,,,,Y,
+10037086,Prurito,10037087,,,,,,,Y,
+10037087,Prurito,10037087,24001,,,,,,Y,
+10037660,Pirexia,10037660,725004,,FEVER,,,,Y,75402
+10037730,Bascoso,10028813,,,NAUSEA,,,,Y,
+10037769,Sensibilidad cutánea por radiación,10063562,,,,,,,Y,
+10037847,Erupción acneiforme,10012432,1004,,,,,,Y,29909
+10037868,Erupción maculopapular,10037868,30001,,RASH MAC PAP,,,,Y,759
+10037883,Erupción por fotosensibilidad,10034972,,,PHOTOSENSITIVITY,,,,Y,
+10037895,Erupción similar a la urticaria,10046735,,,,,,,Y,49503
+10037896,Erupción urticarial,10046735,,,URTICARIA,,,,Y,
+10038035,Sangrado rectal,10038063,1014003,2415,HEM RECTAL,,,,Y,216001
+10038063,Hemorragia rectal,10038063,,,,,,,Y,
+10038197,Orina roja,10008796,,,,,,,Y,21805
+10038652,Irregularidad en la respiración,10038683,,,,,,,Y,104301
+10038653,Respiración costosa,10013968,514005,,DYSPNEA,,,,Y,26907
+10038654,Respiración costosa,10013968,,,,,,,Y,
+10038683,Trastorno respiratorio,10038683,536001,4490,RESPIRAT DIS,,,,Y,270
+10038743,Inquietud,10038743,,,NERVOUSNESS,,,,Y,
+10038784,Retención de orina,10046555,,,,,,,Y,
+10039071,Reumatismo (solo articulaciones),10003239,,,ARTHRITIS RHEUMAT,,,,Y,
+10039101,Rinorrea,10039101,539006,,,,,,Y,76715
+10039176,Escalofrío,10008531,,,,,,,Y,
+10039177,Escalofríos,10008531,731001,,CHILLS,,,,Y,64
+10039183,Pitido en oídos,10043882,264009,,TINNITUS,,,,Y,35608
+10039235,Aspereza de la piel de la cara,10013786,,,,,,,Y,
+10039296,Moqueo,10039101,,,,,,,Y,
+10039354,Dolor sacroilíaco,10003239,717009,,PAIN BACK,,,,Y,74401
+10039521,Dolor a la presión en el cuero cabelludo,10033474,113007,,,,,,Y,61807
+10039757,Dolor de escroto,10039757,1500003,,PAIN,,,,Y,269901
+10039950,Semicoma,10012373,151003,,STUPOR,,,,Y,28801
+10039951,Semiconsciente,10012373,,,,,,,Y,
+10040011,Sensibilidad de las encías,10018286,,,,,,,Y,
+10040019,Sensorio disminuido,10012373,,,STUPOR,,,,Y,
+10040039,Neuropatía periférica sensitiva,10034620,,,,,,,Y,
+10040481,Apetito sexual disminuido,10024419,,,,,,,Y,51101
+10040527,Temblores,10044565,,,NERVOUSNESS,,,,Y,
+10040528,Temblorina,10044565,154010,,TREMOR,,,,Y,47501
+10040530,Manos temblorosas,10044565,,,,,,,Y,
+10040558,Tiritona,10008531,731003,,CHILLS,,,,Y,6403
+10040559,Tiritona,10008531,731005,,,,,,Y,6404
+10040596,Respiración dificil,10013968,,,,,,,Y,
+10040618,Dolor de hombro (debido a trastorno articular),10003239,,,,,,,Y,
+10040777,Dolor del esqueleto,10006002,1347001,,PAIN,,,,Y,2283
+10040835,Piel seca,10013786,1123001,,SKIN DRY,,,,Y,1100
+10040850,Piel enrojecida,10016825,207006,,VASODILAT,,,,Y,64808
+10040865,Hiperpigmentación de la piel,10040865,36003,,SKIN DISCOLOR,,,,Y,78704
+10040903,Olor anormal de la piel,10040904,39001,,BODY ODOR,,,,Y,784
+10040904,Olor anormal de la piel,10040904,,,,,,,Y,
+10040917,Piel áspera,10013786,,,,,,,Y,78512
+10040918,Aspereza de la piel,10013786,,,,,,,Y,78508
+10040925,Estrías en la piel,10040925,40001,4670,SKIN STRIAE,,,,Y,783
+10040943,Úlcera de la piel,10040943,,5215,ULCER SKIN,,,,Y,
+10040947,Ulceración de la piel,10040943,41001,,ULCER SKIN,,,,Y,779
+10040982,Sueño disminuido,10022437,183006,,INSOMNIA,,,,Y,82203
+10040983,Sueño dificil,10022437,183007,,INSOMNIA,,,,Y,82204
+10041001,Pérdida del sueño,10022437,,,,,,,Y,
+10041017,Falta de sueño,10022437,183004,,INSOMNIA,,,,Y,82209
+10041219,Mal olor corporal,10040904,,,BODY ODOR,,,,Y,
+10041221,Pies malolientes,10040904,,,,,,,Y,
+10041353,Espalda dolorida,10003988,,,,,,,Y,
+10041354,Mamas dolorosas,10006298,,,,,,,Y,
+10041356,Dolor de ojo,10015958,,,,,,,Y,
+10041357,Dolor de ojos,10015958,,,,,,,Y,
+10041358,Pie dolorido,10033425,,,,,,,Y,
+10041359,Encías dolorosas,10018286,,,,,,,Y,
+10041362,Dolorimiento bucal,10031009,,3937,,,,,Y,
+10041367,Garganta dolorosa,10068319,,3944,PHARYNGITIS,,,,Y,
+10041371,Encías doloridas,10018286,,,GINGIVITIS,,,,Y,
+10041372,Dolorimiento ocular,10015958,,,,,,,Y,
+10041466,Trastorno del habla,10041466,150001,4685,SPEECH DIS,,,,Y,225
+10042012,Esterilidad,10021926,,,FERTIL DEC FEM,,,,Y,
+10042023,Acné esteroideo,10000496,,,,,,,Y,29905
+10042066,Punzada,10033371,,,PARESTHESIA,,,,Y,
+10042068,Sensación de pinchazos en los ojos,10015958,,,,,,,Y,
+10042079,Sensación de ardor en el estómago,10013946,,,,,,,Y,81202
+10042106,Plenitud en el estómago,10000060,,,,,,,Y,38401
+10042128,Estomatitis,10042128,327001,4800,STOMATITIS,528,528,,Y,257
+10042156,Heces sueltas,10012735,205004,,DIARRHEA,,,,Y,22202
+10042157,Heces acuosas,10012735,205003,,DIARRHEA,,,,Y,22201
+10042209,Estrés,10042209,,,,,,,Y,
+10042223,Estrías,10040925,,,SKIN STRIAE,,,,Y,78302
+10042227,Estrías en la piel,10040925,,,SKIN STRIAE,,,,Y,
+10042493,Ampolla por el sol,10034972,,,,,,,Y,
+10042494,Sensibilidad al sol,10034972,,,,,,,Y,
+10042504,Quemadura superficial,10053615,,,,,,,Y,
+10042645,Deglución dificultosa,10013950,280005,,DYSPHAGIA,,,,Y,5901
+10042646,Trastorno al tragar,10013950,,,DYSPHAGIA,,,,Y,
+10042647,Deglución alterada,10013950,280007,,DYSPHAGIA,,,,Y,5903
+10042649,Espasmo durante la deglución,10013950,280006,,DYSPHAGIA,,,,Y,5902
+10042651,Sensación de vaivén,10013573,,,,,,,Y,
+10042661,Sudoración,10020642,,,SWEAT,,,,Y,
+10042663,Crisis sudoral,10020642,,,,,,,Y,
+10042664,Sudoración disminuida,10021013,1298001,4840,SWEAT DEC,,,,Y,2366
+10042665,Sudoración fácil,10020642,,,,,,,Y,74901
+10042667,Sudoración aumentada,10020642,43001,4835,SWEAT,,,,Y,749
+10042670,Sudoroso,10020642,,,,,,,Y,
+10042679,Hinchazón de abdomen,10000060,,,ABDO ENLARGE,,,,Y,
+10042680,Hinchazón de brazo,10030124,,,,,,,Y,
+10042693,Hinchazón de pies,10030124,,,,,,,Y,
+10042694,Hinchazón de los dedos de la mano,10030124,,,,,,,Y,
+10042695,Hinchazón de manos,10030124,,,,,,,Y,
+10042700,Hinchazón de piernas,10030124,,,,,,,Y,
+10042701,Hinchazón de miembro,10030124,,,,,729.81,,Y,
+10042702,Hinchazón de miembros,10030124,,,,,,,Y,84903
+10042714,Abdomen hinchado,10000060,711003,,ABDO ENLARGE,,,,Y,81401
+10042716,Brazo hinchado,10030124,,,,,,,Y,
+10042726,Pulgar hinchado,10030124,,,,,,,Y,
+10043123,Anormalidad del gusto,10013911,,,,,,,Y,85509
+10043126,Gusto alterado,10013911,,,,,,,Y,
+10043127,Sabor amargo,10013911,267003,,TASTE PERVERS,,,,Y,85503
+10043129,Gusto cambiado,10013911,,,,,,,Y,
+10043132,Alteración del gusto,10013911,,,,,,,Y,
+10043133,Sabor a ajo,10013911,267004,,TASTE PERVERS,,,,Y,85508
+10043135,Sabor metálico,10013911,267005,,TASTE PERVERS,,,,Y,85502
+10043136,Sabor extraño,10013911,267006,,TASTE PERVERS,,,,Y,85501
+10043139,Gusto salado,10013911,,,,,,,Y,85506
+10043140,Gusto agrio,10013911,,,,,,,Y,85512
+10043141,Gusto dulce,10013911,,,,,,,Y,85511
+10043171,Ojos acuosos,10023644,,,LACRIMATION DIS,,,,Y,
+10043172,Ojos llorosos,10023644,,,,,,,Y,
+10043174,Castañeteo de dientes,10008531,,,,,,,Y,
+10043208,Cefalea temporal,10019211,,,HEADACHE,,,,Y,
+10043215,Artralgia temporomandibular,10003239,,,,,,,Y,
+10043228,Dolor de ojo a la palpación,10015958,,,PAIN EYE,,,,Y,
+10043230,Dolor muscular a la palpación,10028411,,,MYALGIA,,,,Y,
+10043345,Dolor testicular,10043345,1500001,,,,,,Y,2699
+10043520,Infección de garganta,10034835,543003,,,,,,Y,38501
+10043524,Anginas,10068319,523004,,PHARYNGITIS,,,,Y,3607
+10043858,Tirantez en el pecho,10008469,,,PAIN CHEST,,,,Y,
+10043876,Cosquilleo,10033775,,,PARESTHESIA,,,,Y,
+10043882,Acúfenos,10043882,264001,5050,TINNITUS,388.3,388.3,,Y,356
+10043885,Cansado todo el tiempo,10016256,,,,,,,Y,
+10043889,Cansado,10016256,,,,,,,Y,
+10043890,Cansancio,10016256,724005,,ASTHENIA,,,,Y,80005
+10043990,Temblor de la lengua,10044565,330003,,,,,,Y,53101
+10044017,Dolor de dientes,10044055,1376001,,,,,,Y,1053
+10044034,Trastorno de diente,10044034,336001,5065,TOOTH DIS,,,,Y,307
+10044055,Dolor dental,10044055,,,PAIN,,,,Y,
+10044562,Temblequear,10044565,,,,,,,Y,
+10044563,Tembloroso,10044565,,,TREMOR,,,,Y,
+10044565,Temblor,10044565,154001,5080,TREMOR,,,,Y,475
+10044580,Tembloroso,10044565,,,TREMOR,,,,Y,
+10045303,Úlcera de pie,10040943,,,,,,,Y,
+10045334,Úlcera de piel,10040943,,,ULCER SKIN,,,,Y,
+10045373,Úlceras de las extremidades,10040943,,,,,,,Y,1051
+10045473,Incapaz de enfocar,10047513,,,,,,,Y,
+10046461,Dolor uretral,10046461,625003,3945,PAIN URETHRA,,,,Y,71502
+10046497,Micción urgente,10027566,,,URIN URGENCY,,,,Y,
+10046539,Micciones frecuentes,10036018,606003,,URIN FREQUENCY,,788.41,,Y,261002
+10046543,Incontinencia urinaria,10046543,156001,2895,INCONTIN URIN,,,,Y,709
+10046555,Retención urinaria,10046555,157001,5285,URIN RETENT,,,,Y,710
+10046593,Urgencia urinaria,10027566,606004,5295,URIN URGENCY,,,,Y,261003
+10046602,Micción involuntaria,10046543,156006,,INCONTIN URIN,,,,Y,70904
+10046604,Urgencia urinaria,10027566,,,URIN URGENCY,,,,Y,
+10046628,Cambio de color de la orina,10008796,,,URIN ABNORM,,,,Y,
+10046629,Cambio de color de la orina,10008796,629003,,,,,,Y,70709
+10046645,Incontinencia de orina,10046543,156005,,INCONTIN URIN,,,,Y,70907
+10046735,Urticaria,10046735,44001,5305,URTICARIA,708,708,,Y,495
+10046737,Urticaria aguda,10046735,45001,,URTICARIA,,,,Y,143
+10046758,Erupción urticaria,10046735,,,,,,,Y,
+10046759,Síntoma de urticaria,10046735,,,,,,,Y,49505
+10046809,Dolor uterino,10046809,,,,,,,Y,
+10046883,Sangrado vaginal,10046910,,,,,,,Y,
+10046901,Secreción vaginal,10046901,654005,,LEUKORRHEA,,,,Y,74505
+10046910,Hemorragia vaginal,10046910,668001,,HEM VAGINAL,,,,Y,623
+10046937,Dolor vaginal,10069055,1505004,,,,,,Y,271604
+10047260,Ulceración venosa,10040943,,,,,,,Y,
+10047513,Visión borrosa,10047513,257004,,AMBLYOPIA,,,,Y,40808
+10047519,Visión doble,10013036,241003,,DIPLOPIA,,,,Y,80701
+10047523,Pérdida de visión nocturna,10029404,,,BLIND NIGHT,,,,Y,
+10047569,Destellos visuales,10034962,,,,,,,Y,
+10047681,Alteración de la voz,10013952,103005,5435,VOICE ALTERAT,,,,Y,6602
+10047682,Trastorno de la voz,10013952,,,,784.4,784.4,,Y,
+10047699,Vómitos,10047700,,,,,,,Y,
+10047791,Sequedad vulvovaginal,10047791,,,,,,,Y,
+10047836,Pérdida excesiva de agua,10012174,,,DEHYDRAT,,,,Y,
+10047844,Pirosis,10013946,,,,,,,Y,
+10047848,Ojos húmedos,10023644,,,,,,,Y,
+10047849,Diarrea acuosa,10012735,,,,,,,Y,
+10047862,Debilidad,10003549,,,,,,,Y,86407
+10047871,Abatimiento,10016256,724006,,ASTHENIA,,,,Y,80006
+10047906,Habones,10046735,,,URTICARIA,,,,Y,
+10047918,Ronchas,10046735,44004,,URTICARIA,,,,Y,49504
+10047921,Sibilancia,10047924,,,,,,,Y,
+10047923,Pitidos,10047924,511006,,,,,,Y,13209
+10047924,Sibilancia,10047924,,,ASTHMA,,,,Y,
+10047927,Sibilante,10047924,,,,,,,Y,
+10048018,Aturdimiento,10013573,101006,,DIZZINESS,,,,Y,86906
+10048019,Aturdido,10013573,,,,,,,Y,
+10048024,Rendido,10016256,,,,,,,Y,
+10048025,Preocupación,10002855,,,,,,,Y,
+10048294,Cambios en el nivel de conciencia,10048294,,,,,,,Y,
+10048677,Dolor en la nalga,10028391,,,,,,,Y,
+10048692,Dolor de muñeca,10003239,,,,,,,Y,
+10048746,Sensación de repleción abdominal,10000060,,,,,,,Y,
+10048838,Heces blandas,10012735,,,,,,,Y,
+10048913,Articulación sensible a la palpación,10003239,,,,,,,Y,
+10048922,Úlcera en el tobillo,10040943,,,,,,,Y,
+10048959,Hinchazón periférico,10030124,,,,,,,Y,
+10048968,Dolor de cabeza occipital,10019211,,,,,,,Y,
+10048969,Dolor de cabeza parietal,10019211,,,,,,,Y,
+10048971,Dolor general en el cuerpo,10033371,,,,,,,Y,
+10048973,Dolor en el muslo,10033425,,,,,,,Y,
+10049034,Úlcera en el talón,10040943,,,,,,,Y,
+10049120,Dolor del cuero cabelludo,10033474,,,,,,,Y,
+10049122,Dolor de cabeza premenstrual,10019211,,,,,,,Y,
+10049136,Espasmos gastrointestinales,10017999,,,,,,,Y,
+10049200,Sibilancias asmáticas,10047924,,,,,,,Y,
+10049281,Pérdida de uñas,10049274,,,,,,,Y,
+10049308,Sensibilidad en la boca,10031009,,,,,,,Y,
+10049309,Dolor en la boca,10031009,,,,,,,Y,
+10049310,Ardor en la boca,10031009,,,,,,,Y,
+10049311,Boca quemada,10053615,,,,,,,Y,
+10049318,Ulceraciones bucales,10042128,,,,,,,Y,
+10049320,Ulceraciones en el paladar,10042128,,,,,,,Y,
+10049321,Enrojecimiento de la boca,10042128,,,,,,,Y,
+10049322,Heridas abiertas en la boca,10042128,,,,,,,Y,
+10049323,Irritación del paladar,10042128,,,,,,,Y,
+10049324,Boca agrietada,10042128,,,,,,,Y,
+10049325,Inflamación de la boca,10042128,,,,,,,Y,
+10049328,Ampollas en la boca,10042128,,,,,,,Y,
+10049329,Inflamación debajo de la boca,10042128,,,,,,,Y,
+10049332,Boca fruncida,10013781,,,,,,,Y,
+10049340,Erupción en labios,10008417,,,,,,,Y,
+10049342,Labios irritados,10008417,,,,,,,Y,
+10049343,Labios cortados,10008417,,,,,,,Y,
+10049344,Enrojecimiento en la comisura de los labios,10008417,,,,,,,Y,
+10049345,Inflamación de los labios,10008417,,,,,,,Y,
+10049348,Dolor en la comisura de los labios,10042128,,,,,,,Y,
+10049351,Llaga labial,10008417,,,,,,,Y,
+10049353,Adormecimiento de los labios,10057371,,,,,,,Y,
+10049358,Labios adoloridos,10024561,,,,,,,Y,
+10049359,Ardor en los labios,10024561,,,,,,,Y,
+10049360,Labios sensibles,10024561,,,,,,,Y,
+10049400,Ador en las encías,10018286,,,,,,,Y,
+10049401,Picor en las encías,10018286,,,,,,,Y,
+10049402,Dolor punzante en las encías,10018286,,,,,,,Y,
+10049403,Dolor en las encías,10018286,,,,,,,Y,
+10049405,Irritación de las encías,10018286,,,,,,,Y,
+10049503,Problema para dar el pecho (materno),10061261,,,,,,,Y,
+10049602,Mala digestión,10013946,,,,,,,Y,
+10049875,Estado de vigilancia disminuido,10012373,,,,,,,Y,
+10049898,Cólicos intestinales,10017999,,,,,,,Y,
+10049900,Calambres intestinales,10017999,,,,,,,Y,
+10049922,Cambio de color de la uña del dedo,10028692,,,,,,,Y,
+10050007,Dolor fulgurante,10033371,,,,,,,Y,
+10050064,Edema de dedos,10030124,,,,,,,Y,
+10050065,Edema de manos,10030124,,,,,,,Y,
+10050068,Edema de miembros,10030124,,,,,,,Y,
+10050492,Incontinencia fecal,10016092,,,,,,,Y,
+10050574,Hipermelanosis,10040865,,,,,,,Y,
+10050584,Contusión,10050584,,,,,,,Y,
+10050800,Dolor neurogénico,10029223,,,,,,,Y,
+10051797,Dolor cutáneo a la palpación,10033474,,,,,,,Y,
+10052060,Dolor en la columna vertebral,10006002,,,,,,,Y,
+10052102,Cecear,10041466,,,,,,,Y,
+10052411,Dolor que irradia,10033371,,,,,,,Y,
+10052625,Anoréxico,10061428,,,,,,,Y,
+10054095,Dolor neuropático,10029223,,,,,,,Y,
+10054500,Edema palmar,10030124,,,,,,,Y,
+10054524,Síndrome de eritrodisestesia palmar-plantar,10033553,,,,,,,Y,
+10054868,Sequedad gingival,10013781,,,,,,,Y,
+10055422,Diarrea acuosa,10012735,,,,,,,Y,
+10055543,Orina color negro,10008796,,,,,,,Y,
+10055544,Orina color amarillo,10008796,,,,,,,Y,
+10055564,Respiración forzada o costosa,10013968,,,,,,,Y,
+10055917,Edema de extremidades,10030124,,,,,,,Y,
+10055920,Edema de dedos,10030124,,,,,,,Y,
+10055950,Edema de pies,10030124,,,,,,,Y,
+10056121,Cambio de color de uñas,10028692,,,,,,,Y,
+10056126,Cambio de color de la orina,10008796,,,,,,,Y,
+10056127,Cambio de color de uñas de la mano,10028692,,,,,,,Y,
+10056238,Dolor fantasma,10056238,,,,,,,Y,
+10057057,Dermatitis por fotocontacto,10034972,,,,,,,Y,
+10057066,Orgasmo demorado,10031085,,,,,,,Y,
+10057094,Anomalía de la secreción vaginal,10046901,,,,,,,Y,
+10057289,Orofaringitis,10034835,,,,,,,Y,
+10058058,Sensación de escozor perineal,10061339,,,,,,,Y,
+10058129,Orina parda,10008796,,,,,,,Y,
+10058204,Edema de mano,10030124,,,,,,,Y,
+10058474,Irritación de la mucosa oral,10042128,,,,,,,Y,
+10059004,Flema,10062717,,,,,,,Y,
+10059050,Dolor intratable,10033371,,,,,,,Y,
+10059080,Reacción en el lugar de inyección de una vacuna,10059080,,,,,,,Y,
+10059272,Deseo sexual disminuido,10024419,,,,,,,Y,
+10059295,Sequedad de cuero cabelludo,10013786,,,,,,,Y,
+10059404,Orgasmo doloroso,10031085,,,,,,,Y,
+10059488,Discurso alterado,10041466,,,,,,,Y,
+10059639,Obstrucción laríngea,10059639,,,,,,,Y,
+10059666,Tos de fumador,10011224,,,,,,,Y,
+10059723,Dolor de muelas,10044055,,,,,,,Y,
+10060442,Edema de las extremidades,10030124,,,,,,,Y,
+10060800,Acaloramiento,10060800,,,,,,,Y,
+10060817,Visión ensombrecida,10047513,,,,,,,Y,
+10060818,Visión nebulosa,10047513,,,,,,,Y,
+10060901,Adelgazamiento ungueal,10028694,,,,,,,Y,
+10061103,Dermatitis por radiación,10063562,,,,,,,Y,
+10061339,Dolor perineal,10061339,,,,,,,Y,
+10061461,Disfunción eréctil,10061461,,,,,,,Y,
+10062225,Dolor en tracto urinario,10062225,,,,,,,Y,
+10062283,Estriación ungueal,10048886,,,,,,,Y,
+10062428,Sensación de dolor generalizada,10033371,,,,,,,Y,
+10062441,Dolores musculares generalizados,10028411,,,,,,,Y,
+10062661,Manos sudorosas,10020642,,,,,,,Y,
+10062717,Secreción aumentada de vías aéreas superiores,10062717,,,,,,,Y,
+10062975,Neuropatía sensorial,10034620,,,,,,,Y,
+10063069,Eritema palmo-plantar,10033553,,,,,,,Y,
+10063190,Mucositis rectal,10036774,,,,,,,Y,
+10063455,Ingurgitación de la mucosa nasal,10028735,,,,,,,Y,
+10063467,Insomnio transitorio,10022437,,,,,,,Y,
+10063562,Lesión cutánea por radiación,10063562,,,,,,,Y,
+10063640,Quemadura por radiación,10063562,,,,,,,Y,
+10063962,Olor del sudor anormal,10040904,,,,,,,Y,
+10063964,Olor del sudor anormal,10040904,,,,,,,Y,
+10064130,Xerosis cutánea,10013786,,,,,,,Y,
+10064731,Pérdida de pelo corporal,10001760,,,,,,,Y,
+10065017,Dolor óseo a la presión,10006002,,,,,,,Y,
+10065061,Picazón cutánea,10033474,,,,,,,Y,
+10065260,Uñas quebradizas,10048886,,,,,,,Y,
+10065309,Calambre premenstrual,10000081,,,,,,,Y,
+10065347,Dolor premenstrual,10033371,,,,,,,Y,
+10065601,Defecación involuntaria,10016092,,,,,,,Y,
+10065946,Fotosensibilidad ocular,10034960,,,,,,,Y,
+10066097,Hipo intratable,10020039,,,,,,,Y,
+10066197,Anorexia postquimioterapia,10061428,,,,,,,Y,
+10066222,Tos paroxística,10011224,,,,,,,Y,
+10066996,Corazón acelerado,10033557,,,,,,,Y,
+10066998,Pirosis gastroseofágica,10013946,,,,,,,Y,
+10067031,Dolor postcoito,10013941,,,,,,,Y,
+10067036,Disminución en la frequencia de erecciones,10061461,,,,,,,Y,
+10067054,Diarrea pastosa,10012735,,,,,,,Y,
+10067561,Hiposexualidad,10024419,,,,,,,Y,
+10067775,Obstrucción de vía aérea superior,10067775,,,,,,,Y,
+10068211,Alteración del color de las uñas de los pies,10028692,,,,,,,Y,
+10068310,Ulcera en miembro inferior,10040943,,,,,,,Y,
+10068319,Dolor orofaríngeo,10068319,,,,,,,Y,
+10069055,Dolor vulvovaginal,10069055,,,,,,,Y,
