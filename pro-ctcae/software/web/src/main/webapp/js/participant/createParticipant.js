@@ -341,7 +341,7 @@ CP_NS.showOrHideEmail = function (value1, value2, id) {
 
 CP_NS.isSpclChar = function (fieldName) {
     var iChars, fieldValue, i;
-    iChars = "!@#$%^&*+=[]\\\';,./{}|\":<>?";
+    iChars = "`~!@#$^&*+=[]\\\';,./{}|\":<>?";
     fieldValue = $(fieldName).value;
     jQuery('#' + fieldName + '.error').hide();
     $(fieldName + '.error').hide();
@@ -357,7 +357,7 @@ CP_NS.isSpclChar = function (fieldName) {
 };
 
 CP_NS.isSpclCharForPassword = function (fieldName) {
-	 var iChars = "&><\"";
+	 var iChars = "~`&<>\"";
      var fieldValue = $(fieldName).value;
     for (var i = 0; i < fieldValue.length; i++) {
         if (iChars.indexOf(fieldValue.charAt(i)) != -1) {
