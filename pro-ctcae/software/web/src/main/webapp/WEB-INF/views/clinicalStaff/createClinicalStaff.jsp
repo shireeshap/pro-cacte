@@ -199,6 +199,38 @@
                 }
             }
         }
+        
+        function checkSpecialCharacters() {
+ 			var hasSpecialCharacter = false;
+ 			jQuery("#staff\\.username\\.specChar\\.error").hide();
+ 			if(jQuery("#username").length > 0 && isSpclCharEntered("#username")) { 
+ 				jQuery("ul#staff\\.username\\.specChar\\.error li").text("Special characters are not allowed here.");
+	  			jQuery("#staff\\.username\\.specChar\\.error").show();
+	  			hasSpecialCharacter = true;
+	  		} 			
+ 			if(hasSpecialCharacter) {
+ 				return false;
+ 			}
+ 			else { 				
+	  			jQuery("#staff\\.username\\.specChar\\.error").hide();
+	  			return true;
+	  		}			
+ 		}
+        
+        function isSpclCharEntered(fieldName) {
+ 	        var iChars = "`~!@#$^&*+=[]\\\';,/{}|\":<>?";
+ 	        var fieldValue = jQuery(fieldName).val();
+ 	        jQuery('#' + fieldName + '.error').hide();
+ 	        jQuery(fieldName + '.error').hide();
+ 	        for (var i = 0; i < fieldValue.length; i++) {
+ 	            if (iChars.indexOf(fieldValue.charAt(i)) != -1) { 	               
+ 	                return true;
+ 	            }
+ 	        }
+ 	        return false;
+ 	    }
+        
+        
         function checkUniqueUserName() {
 
             var userName = $('username').value;
@@ -425,6 +457,9 @@
                                 <li><spring:message code='clinicalStaff.username_length'
                                                     text='clinicalStaff.username_length'/></li>
                             </ul>
+                            <ul id="staff.username.specChar.error" style="display:none;" class="errors">
+			                    <li></li>
+			                </ul>			                
                         </c:when>
                         <c:otherwise>
                             <div class="row">
@@ -560,7 +595,7 @@
     <br/>
 </chrome:division>
 </chrome:box>
-<div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
+<div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save" onclick="return checkSpecialCharacters();"/></div>
 </ctcae:form>
 <c:if test="${hasUserAccount && isEdit}">
     <script type="text/javascript">
