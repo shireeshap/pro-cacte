@@ -108,7 +108,7 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <c:set var="url" value="/proctcae/images/quickstart_guide_v5.pdf"/>
+                                                <c:set var="url" value="/proctcae/images/quickstart_guide_v6.pdf"/>
                                                 <c:if test="${param.lang eq 'es'}">
                                                     <c:set var="url" value="/proctcae/images/quickstart_guide_spanish_v2.pdf"/>
                                                 </c:if>
