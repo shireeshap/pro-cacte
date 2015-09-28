@@ -495,7 +495,7 @@ function resetInputs(propertyName){
     }
    
    function isSpclCharForPassword(fieldName) {
-       var iChars = "&><\"";
+       var iChars = "`~&><\"";
        var fieldValue = $(fieldName).value;
        $(fieldName + '.error').hide();
        for (var i = 0; i < fieldValue.length; i++) {

@@ -88,21 +88,34 @@ CP.checkParticipantUserName = function(siteId) {
     jQuery('#userNameError_'+siteId).hide();
     CP.isUserNameError = false;
     if (userName != "") {
+
+        var iChars = "`~!@#$^&*+=[]\\\';,./{}|\":<>?";
+        for (var i = 0; i < userName.length; i++) {
+            if (iChars.indexOf(userName.charAt(i)) != -1) {
+               $('userNameError_'+siteId).show();
+               document.getElementById('userNameError_'+siteId).innerHTML = "Use of special character such as '&', '<', '>', ' \" ' is not allowed for usernames.";
+               CP.isUserNameError = true;
+               return;
+            }
+        }
+
         if (userName.length < 6) {
             jQuery('#userNameError_'+siteId).hide();
             jQuery('#userNameLengthError_'+siteId).show();
             CP.isUserNameError = true;
         }
         else {
+
+
             userNameValidation.validateDwrUniqueName(userName, userId, {callback: function(returnValue) {
-                                                                                      if (returnValue) {
-                                                                                          jQuery('#userNameError_' + siteId).show();
-                                                                                          CP.isUserNameError = true;
-                                                                                      }
-                                                                                      else {
-                                                                                          CP.isUserNameError = false;
-                                                                                      }
-                                                                                  }});
+                                                                                  if (returnValue) {
+                                                                                      jQuery('#userNameError_' + siteId).show();
+                                                                                      CP.isUserNameError = true;
+                                                                                  }
+                                                                                  else {
+                                                                                      CP.isUserNameError = false;
+                                                                                  }
+                                                                              }});
             jQuery('#userNameLengthError_'+siteId).hide();
             return;
         }
