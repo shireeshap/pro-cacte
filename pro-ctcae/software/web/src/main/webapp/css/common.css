@@ -519,7 +519,7 @@ a#firstlevelnav_manageFormController {
     padding: 45px 0px 0px 0px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     width: 148px;
 }
 
@@ -546,7 +546,7 @@ a#firstlevelnav_searchStudyController {
     width: 148px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -573,7 +573,7 @@ a#firstlevelnav_searchParticipantController {
     width: 148px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -600,7 +600,7 @@ a#firstlevelnav_monitorFormController {
     width: 148px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -627,7 +627,7 @@ a#firstlevelnav_createRuleController {
     padding: 45px 0px 0px 0px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -654,7 +654,7 @@ a#firstlevelnav_searchClinicalStaffController {
     padding: 45px 0px 0px 0px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -681,7 +681,7 @@ a#firstlevelnav_reportSearchCriteriaController {
     padding: 45px 0px 0px 0px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -708,7 +708,7 @@ a#firstlevelnav_participantCareMonitorController {
     padding: 45px 0px 0px 0px;
     display: block;
     float: left;
-    margin-right: 1px;
+    margin-right: 0px;
     margin-left: 1px;
 }
 
@@ -752,6 +752,7 @@ ul.tabs {
 ul.tabs li {
     display: block;
     list-style-type: none;
+    font-size: 85%;
     float: left;
     padding: 0;
 }
