@@ -89,26 +89,66 @@ public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
         super.postProcess(request, command, errors);
 
         try {
+        	List<StudyOrganizationClinicalStaff> odcsToBeRemoved = new ArrayList<StudyOrganizationClinicalStaff>();
             for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getOverallDataCoordinators()){
-            	command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+            	command.getStudy().getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff, odcsToBeRemoved);
         	}
+            
+            if(!odcsToBeRemoved.isEmpty()) {
+            	StringBuffer errorMessage = new StringBuffer();
+            	for(StudyOrganizationClinicalStaff odc: odcsToBeRemoved) {
+            		errorMessage.append(String.format(odc.getDisplayName() + " does not belong to %s", command.getStudy().getDataCoordinatingCenter().getDisplayName()));
+            		errorMessage.append("<br/>");
+            		command.getStudy().getDataCoordinatingCenter().getStudyOrganizationClinicalStaffs().remove(odc);
+            		command.getOverallDataCoordinators().remove(odc);
+            	}
+            	throw new CtcAeSystemException(errorMessage.toString());
+            }
+            
             if(command.getStudy().getOverallDataCoordinators().isEmpty()){
             	errors.reject("error", "Please enter at least one Overall Data Coordinator.");
             }
             
+            
+            List<StudyOrganizationClinicalStaff> lcrasToBeRemoved = new ArrayList<StudyOrganizationClinicalStaff>();
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getLeadCRAs()){
-        		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff, lcrasToBeRemoved);
         	}
+        	 
         	if(command.getStudy().getLeadCRAs().isEmpty()){
         		errors.reject("error", "Please enter at least one Lead CRA.");
         	}
         	
+        	
+        	List<StudyOrganizationClinicalStaff> pisToBeRemoved = new ArrayList<StudyOrganizationClinicalStaff>();
         	for(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getPrincipalInvestigators()){
-        		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        		command.getStudy().getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff, pisToBeRemoved);
         	}
+        	
+        	if(!lcrasToBeRemoved.isEmpty() || !pisToBeRemoved.isEmpty()) {
+			 	StringBuffer errorMessage = new StringBuffer();
+			 	
+			 	for(StudyOrganizationClinicalStaff lcra: lcrasToBeRemoved) {
+			 		errorMessage.append(String.format(lcra.getDisplayName() + " does not belong to %s", command.getStudy().getDataCoordinatingCenter().getDisplayName()));
+			 		errorMessage.append("<br/>");
+			 		command.getStudy().getLeadStudySite().getStudyOrganizationClinicalStaffs().remove(lcra);
+			 		command.getLeadCRAs().remove(lcra);
+			 	}
+			 	
+			 	for(StudyOrganizationClinicalStaff pi: pisToBeRemoved) {
+			 		errorMessage.append(String.format(pi.getDisplayName() + " does not belong to %s", command.getStudy().getDataCoordinatingCenter().getDisplayName()));
+					errorMessage.append("<br/>");
+					command.getStudy().getLeadStudySite().getStudyOrganizationClinicalStaffs().remove(pi);
+					command.getPrincipalInvestigators().remove(pi);
+			 	}
+			 	
+			 	throw new CtcAeSystemException(errorMessage.toString());
+			}
+        	
         	if(command.getStudy().getPrincipalInvestigators().isEmpty()){
         		errors.reject("error", "Please enter at least one Overall PI.");
         	}
+        	
         } catch (CtcAeSystemException ex) {
             errors.reject("error", ex.getMessage());
         }

@@ -165,25 +165,61 @@ public abstract class StudyOrganization extends BasePersistable {
     public void addOrUpdateStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         if (studyOrganizationClinicalStaff != null && studyOrganizationClinicalStaff.getOrganizationClinicalStaff() != null) {
 
-            Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
-            if (!expectedOrganization.equals(this.getOrganization())) {
+            if (!isValidStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff)) {
                 String errorMessage = String.format(studyOrganizationClinicalStaff.getDisplayName() + " does not belong to %s", this.getOrganization().getDisplayName());
                 logger.error(errorMessage);
                 getStudyOrganizationClinicalStaffs().remove(studyOrganizationClinicalStaff);
                 throw new CtcAeSystemException(errorMessage);
 
+            } else {
+            	studyOrganizationClinicalStaff.setStudyOrganization(this);
+            	if (!studyOrganizationClinicalStaff.isPersisted()) {
+            		getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+            		logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
+            	} else {
+            		logger.debug(String.format("skipping adding of %s because it is already persisted", studyOrganizationClinicalStaff.toString()));
+            	}
+            	
             }
 
-            studyOrganizationClinicalStaff.setStudyOrganization(this);
-            if (!studyOrganizationClinicalStaff.isPersisted()) {
-                getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
-                logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
-            } else {
-                logger.debug(String.format("skipping adding of %s because it is already persisted", studyOrganizationClinicalStaff.toString()));
-            }
         }
 
     }
+    
+    public void addOrUpdateStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff, 
+														  List<StudyOrganizationClinicalStaff> socsTobeRemoved) {
+        if (studyOrganizationClinicalStaff != null && studyOrganizationClinicalStaff.getOrganizationClinicalStaff() != null) {
+
+            if (!isValidStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff)) {
+            	String errorMessage = String.format(studyOrganizationClinicalStaff.getDisplayName() + " does not belong to %s", this.getOrganization().getDisplayName());
+            	logger.error(errorMessage);
+                socsTobeRemoved.add(studyOrganizationClinicalStaff);
+
+            } else {
+            	studyOrganizationClinicalStaff.setStudyOrganization(this);
+            	if (!studyOrganizationClinicalStaff.isPersisted()) {
+            		getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+            		logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
+            	} else {
+            		logger.debug(String.format("skipping adding of %s because it is already persisted", studyOrganizationClinicalStaff.toString()));
+            	}
+            	
+            }
+
+        }
+
+    }
+    
+    public boolean isValidStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+	     Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
+	     if (!expectedOrganization.equals(this.getOrganization())) {
+	        return false;
+	
+	     } else {
+	    	 return true;
+	     }
+    }
+    
 
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         return studyOrganizationClinicalStaffs;
