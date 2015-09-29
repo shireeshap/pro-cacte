@@ -16,7 +16,7 @@ public class MeddraAutoCompleterDao {
 
     @SuppressWarnings("unchecked")
     public List<MeddraAutoCompleterWrapper> getMatchingMeddraTerms(String searchString, String language, Integer maxDistance, Integer soundexRank) {
-        Boolean includeFuzzy = maxDistance > 3;
+        Boolean includeFuzzy = maxDistance >= 3;
         String fetchMatchingMeddraTerms;
         if (ENGLISH.equals(language)) {
             fetchMatchingMeddraTerms = "\n" +
@@ -69,7 +69,7 @@ public class MeddraAutoCompleterDao {
                     (includeFuzzy ? " or difference(lower(mlltv.meddra_term_spanish), '" + searchString + "') >= " + soundexRank + " " : "") +
                     (includeFuzzy ? " or ( length(meddra_term_spanish) <256  AND levenshtein(lower(mlltv.meddra_term_spanish), '" + searchString + "') <= " + maxDistance + " ) " : "") +
                     ")\n" +
-                    " AND mllt.participant_added IS NOT TRUE\n" +
+                    " AND mllt.currency = 'Y' \n" +
 
                     "UNION\n" +
 
@@ -99,7 +99,7 @@ public class MeddraAutoCompleterDao {
                     "order by distance asc, soundex_rank desc ;";
         }
 
-        List<MeddraAutoCompleterWrapper> result = new ArrayList<MeddraAutoCompleterWrapper>();
+        List<MeddraAutoCompleterWrapper> result = new ArrayList<>();
         jdbcTemplate.query(fetchMatchingMeddraTerms, new MatchingMeddraTermsCallBackHandler(language, result));
         return result;
     }

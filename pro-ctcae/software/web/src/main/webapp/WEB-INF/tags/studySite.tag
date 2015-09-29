@@ -298,7 +298,7 @@
                                             <li><spring:message code='participant.unique_userName'
                                                                 text='participant.unique_userName'/></li>
                                         </ul>
-                                        <ul id="userNameLengthError_${studySite.id}"
+                                        <ul id="userNameLengthError_${studysite.id}"
                                             style="display:none; padding-left:12em "
                                             class="errors">
                                             <li><spring:message code='participant.username_length'
@@ -323,7 +323,8 @@
 		                                       value="${participant.user.password}"
 		                                       id="participant.password_${studysite.id}"
 		                                       onblur="CP.checkPasswordPolicy(${studysite.id});" title="Password"
-		                                       class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
+
+		                                             class="${showWeb and selected ? "validate-NOTEMPTY":""}"/>
 		                                <ul id="passwordError_${studysite.id}" style="display:none; padding-left:12em " class="errors">
 		                                    <li id="passwordError1_${studysite.id}"></li>
 		                                </ul>
